@@ -1,2 +1,2 @@
 # makerdao-mips
-This project handles the 
+This project is a MIPs Tracker for MakerDAO Improvement Proposals. 
