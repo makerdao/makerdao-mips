@@ -4,6 +4,8 @@
 **/tmp
 **/out-tsc
 
+/backend/mips_repository/*
+
 
 # Logs
 logs
