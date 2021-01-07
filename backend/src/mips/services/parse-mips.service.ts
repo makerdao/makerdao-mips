@@ -30,14 +30,11 @@ export class ParseMIPsService {
       this.simpleGitService.pull();
       const files: GitFile[] = await this.simpleGitService.getFiles();
 
+
       const mips: MIP[] = [];
 
       for (const file of files) {
-        const dir = `${this.baseDir}/${file.filePath}`;
-
-        if (file.filePath.includes("placeholder.md")) {
-          continue;
-        }
+        const dir = `${this.baseDir}/${file.filename}`;
 
         const fileString = await readFile(dir, "utf-8");
 
@@ -45,9 +42,9 @@ export class ParseMIPsService {
 
         if (preamble) {
           mips.push({
-            hash: file.fileHash,
+            hash: file.hash,
             file: fileString,
-            filename: file.filePath,
+            filename: file.filename,
             author: preamble.author,
             contributors: preamble.contributors,
             dateProposed: preamble.dateProposed,
@@ -63,9 +60,8 @@ export class ParseMIPsService {
         }
       }
 
-      const data = await this.mipsService.insertMany(mips);
+      await this.mipsService.insertMany(mips);
     } catch (err) {
-
       console.log(err);
 
       return false;

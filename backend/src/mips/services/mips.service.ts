@@ -25,22 +25,33 @@ export class MIPsService {
     order = "",
     search = ""
   ): Promise<MIPs[]> {
+    let text = {};
+
+    if (search) {
+      text = { $text: { $search: search } };
+    }
+
     if (paginationQuery) {
       const { limit, offset } = paginationQuery;
 
       return this.mipsDoc
-        .find()
+        .find(text)
         .sort(order)
         .skip(offset * limit)
         .limit(limit)
         .exec();
     }
 
-    return this.mipsDoc.find().exec();
+    return this.mipsDoc.find(text).sort(order).exec();
   }
 
-  count(): Promise<number> {
-    return this.mipsDoc.countDocuments().exec();
+  count(search = ""): Promise<number> {
+    let text = {};
+
+    if (search) {
+      text = { $text: { $search: search } };
+    }
+    return this.mipsDoc.countDocuments(text).exec();
   }
 
   async findOne(id: string): Promise<MIP> {

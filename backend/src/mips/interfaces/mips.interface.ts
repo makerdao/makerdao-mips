@@ -17,8 +17,8 @@ export interface MIPs {
 }
 
 export interface GitFile {
-  filePath: string;
-  fileHash: string;
+  filename: string;
+  hash: string;
 }
 
 export const enum Status {

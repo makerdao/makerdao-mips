@@ -17,6 +17,9 @@ import { MarkedService } from "./services/marked.service";
         collection: MIP.name,
         useFactory: () => {
           const schema = MIPsSchema;
+
+          schema.index({ filename: 1, hash: 1 }, { unique: true });
+
           return schema;
         },
       },

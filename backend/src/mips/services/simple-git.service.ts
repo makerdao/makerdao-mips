@@ -53,12 +53,12 @@ export class SimpleGitService {
       ]);
       return info
         .split("\n")
-        .filter((data) => data.length > 3)
+        .filter((data) => data.length > 3 && !data.includes("placeholder.md"))
         .map((data) => {
           const newData = data.replace("\t", " ").split(" ");
           return {
-            filePath: newData[3],
-            fileHash: newData[1],
+            filename: newData[3],
+            hash: newData[1],
           };
         });
     } catch (error) {

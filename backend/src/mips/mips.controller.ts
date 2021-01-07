@@ -53,7 +53,7 @@ export class MIPsController {
       order,
       search
     );
-    const total = await this.mipsService.count();
+    const total = await this.mipsService.count(search);
 
     return { items, total };
   }
