@@ -10,13 +10,13 @@ import { Model, isValidObjectId } from "mongoose";
 
 import { PaginationQueryDto } from "@app/common/dto/pagination-query.dto";
 
-import { MIPsDoc } from "../entities/mips.entity";
+import { MIP, MIPsDoc } from "../entities/mips.entity";
 import { MIPs } from "../interfaces/mips.interface";
 
 @Injectable()
 export class MIPsService {
   constructor(
-    @InjectModel(MIPsDoc.name)
+    @InjectModel(MIP.name)
     private readonly mipsDoc: Model<MIPsDoc>
   ) {}
 
@@ -43,7 +43,7 @@ export class MIPsService {
     return this.mipsDoc.countDocuments().exec();
   }
 
-  async findOne(id: string): Promise<MIPs> {
+  async findOne(id: string): Promise<MIP> {
     if (!isValidObjectId(id)) {
       throw new HttpException(
         {
@@ -61,11 +61,15 @@ export class MIPsService {
     return MIPs;
   }
 
-  create(mIPs: MIPs): Promise<MIPs> {
+  create(mIPs: MIPs): Promise<MIP> {
     return this.mipsDoc.create(mIPs);
   }
 
-  async update(id: string, mIPs: MIPs): Promise<MIPs> {
+  insertMany(mips: MIP[] | any): Promise<MIPsDoc> {
+    return this.mipsDoc.insertMany(mips);
+  }
+
+  async update(id: string, mIPs: MIP): Promise<MIP> {
     if (!isValidObjectId(id)) {
       throw new HttpException(
         {

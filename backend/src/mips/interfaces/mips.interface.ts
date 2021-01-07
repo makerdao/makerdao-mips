@@ -5,6 +5,7 @@ export interface MIPs {
   hash?: string;
   mip?: number;
   title?: string;
+  preambleTitle?: string;
   author?: string[];
   contributors?: string[];
   status?: string;
@@ -39,6 +40,7 @@ export const enum Status {
 export interface Preamble {
   mip?: number;
   title?: string;
+  preambleTitle?: string;
   author?: string[];
   contributors?: string[];
   status?: string;

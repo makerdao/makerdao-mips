@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 
-import { MIPsDoc, MIPsSchema } from "./entities/mips.entity";
+import { MIP, MIPsSchema } from "./entities/mips.entity";
 import { MIPsController } from "./mips.controller";
 
 import { MIPsService } from "./services/mips.service";
@@ -13,8 +13,8 @@ import { MarkedService } from "./services/marked.service";
   imports: [
     MongooseModule.forFeatureAsync([
       {
-        name: MIPsDoc.name,
-        collection: MIPsDoc.name,
+        name: MIP.name,
+        collection: MIP.name,
         useFactory: () => {
           const schema = MIPsSchema;
           return schema;

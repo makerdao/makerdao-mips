@@ -9,6 +9,7 @@ import { SimpleGitService } from "./simple-git.service";
 
 import { Env } from "@app/env";
 import { MarkedService } from "./marked.service";
+import { MIP } from "../entities/mips.entity";
 
 @Injectable()
 export class ParseMIPsService {
@@ -29,14 +30,44 @@ export class ParseMIPsService {
       this.simpleGitService.pull();
       const files: GitFile[] = await this.simpleGitService.getFiles();
 
+      const mips: MIP[] = [];
+
       for (const file of files) {
         const dir = `${this.baseDir}/${file.filePath}`;
+
+        if (file.filePath.includes("placeholder.md")) {
+          continue;
+        }
+
         const fileString = await readFile(dir, "utf-8");
 
-        console.log("Preamble ==>", this.parseLexerData(fileString));
+        const preamble = this.parseLexerData(fileString);
 
+        if (preamble) {
+          mips.push({
+            hash: file.fileHash,
+            file: fileString,
+            filename: file.filePath,
+            author: preamble.author,
+            contributors: preamble.contributors,
+            dateProposed: preamble.dateProposed,
+            dateRatified: preamble.dateRatified,
+            dependencies: preamble.dependencies,
+            mip: preamble.mip,
+            replaces: preamble.replaces,
+            status: preamble.status,
+            title: preamble.title,
+            preambleTitle: preamble.preambleTitle,
+            types: preamble.types,
+          });
+        }
       }
+
+      const data = await this.mipsService.insertMany(mips);
     } catch (err) {
+
+      console.log(err);
+
       return false;
     }
     return true;
@@ -47,6 +78,10 @@ export class ParseMIPsService {
     let preamble: Preamble = {};
 
     for (let i = 0; i < list.length; i++) {
+      if (list[i]?.type === "heading" && list[i]?.depth === 1) {
+        preamble.title = list[i]?.text;
+      }
+
       if (
         list[i]?.type === "heading" &&
         list[i]?.depth === 2 &&
@@ -88,10 +123,14 @@ export class ParseMIPsService {
 
       switch (keyValue[0]) {
         case "MIP#":
+          if (isNaN(+keyValue[1])) {
+            preamble.mip = -1;
+            break;
+          }
           preamble.mip = +keyValue[1];
           break;
         case "Title":
-          preamble.title = keyValue[1];
+          preamble.preambleTitle = keyValue[1];
           break;
         case "Contributors":
           preamble.contributors = keyValue[1].split(", ");

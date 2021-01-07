@@ -1,27 +1,25 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
+export type MIPsDoc = MIP & Document;
+
 @Schema()
-export class MIPsDoc extends Document {
+export class MIP {
   @Prop({
     index: { type: "text" },
   })
   file: string;
   @Prop()
   filename: string;
-  @Prop({
-    unique: true,
-  })
+  @Prop()
   hash: string;
 
-  @Prop({
-    unique: true,
-  })
+  @Prop()
   mip?: number;
-  @Prop({
-    unique: true,
-  })
+  @Prop()
   title?: string;
+  @Prop()
+  preambleTitle?: string;
   @Prop({
     type: [String],
   })
@@ -46,4 +44,4 @@ export class MIPsDoc extends Document {
   replaces?: string;
 }
 
-export const MIPsSchema = SchemaFactory.createForClass(MIPsDoc);
+export const MIPsSchema = SchemaFactory.createForClass(MIP);
