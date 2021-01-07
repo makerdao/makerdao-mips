@@ -30,7 +30,7 @@ jobs:
     - name: install and test 
       run: |
         npm install    
-        npm test        
+        npm build        
       working-directory: backend
       
   deploy:
