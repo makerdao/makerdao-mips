@@ -1,9 +1,13 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { MIPsDoc, MIPsSchema } from './entities/mips.entity';
-import { MIPsController } from './mips.controller';
-import { MIPsService } from './services/mips.service';
-import { SimpleGitService } from './services/simple-git.service';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+
+import { MIPsDoc, MIPsSchema } from "./entities/mips.entity";
+import { MIPsController } from "./mips.controller";
+
+import { MIPsService } from "./services/mips.service";
+import { ParseMIPsService } from "./services/parse-mips.service";
+import { SimpleGitService } from "./services/simple-git.service";
+import { MarkedService } from "./services/marked.service";
 
 @Module({
   imports: [
@@ -19,6 +23,12 @@ import { SimpleGitService } from './services/simple-git.service';
     ]),
   ],
   controllers: [MIPsController],
-  providers: [MIPsService, SimpleGitService],
+  providers: [
+    MIPsService,
+    SimpleGitService,
+    ParseMIPsService,
+    SimpleGitService,
+    MarkedService,
+  ],
 })
 export class MIPsModule {}

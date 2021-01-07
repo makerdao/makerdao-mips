@@ -1,43 +1,47 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
-import { ApiQuery } from '@nestjs/swagger';
+import { Controller, Get, Param, Post, Query } from "@nestjs/common";
+import { ApiQuery } from "@nestjs/swagger";
 
-import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto';
-import { MIPsService } from './services/mips.service';
+import { PaginationQueryDto } from "@app/common/dto/pagination-query.dto";
+import { MIPsService } from "./services/mips.service";
+import { ParseMIPsService } from "./services/parse-mips.service";
 
-@Controller('mips')
+@Controller("mips")
 export class MIPsController {
-  constructor(private readonly mipsService: MIPsService) {}
+  constructor(
+    private readonly mipsService: MIPsService,
+    private readonly parseMIPsService: ParseMIPsService
+  ) {}
 
   @Get()
   @ApiQuery({
-    name: 'limit',
-    description: 'Default value 10',
+    name: "limit",
+    description: "Default value 10",
     type: Number,
     required: false,
   })
   @ApiQuery({
-    name: 'offset',
-    description: 'Default value 0',
+    name: "offset",
+    description: "Default value 0",
     type: Number,
     required: false,
   })
   @ApiQuery({
-    name: 'order',
+    name: "order",
     description: `'name -email', means: order property name ASC and email DESC`,
     type: String,
     required: false,
   })
   @ApiQuery({
-    name: 'search',
+    name: "search",
     description: `search`,
     type: String,
     required: false,
   })
   async findAll(
-    @Query('limit') limit?: string,
-    @Query('offset') offset?: string,
-    @Query('order') order?: string,
-    @Query('search') search?: string,
+    @Query("limit") limit?: string,
+    @Query("offset") offset?: string,
+    @Query("order") order?: string,
+    @Query("search") search?: string
   ) {
     const paginationQueryDto: PaginationQueryDto = {
       limit: +limit,
@@ -47,15 +51,20 @@ export class MIPsController {
     const items = await this.mipsService.findAll(
       paginationQueryDto,
       order,
-      search,
+      search
     );
     const total = await this.mipsService.count();
 
     return { items, total };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.mipsService.findOne(id);
+  }
+
+  @Post("apiWebHooks")
+  apiWebHooks() {
+    return this.parseMIPsService.parse();
   }
 }

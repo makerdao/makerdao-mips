@@ -3,27 +3,27 @@ import {
   NotFoundException,
   HttpStatus,
   HttpException,
-} from '@nestjs/common';
+} from "@nestjs/common";
 
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, isValidObjectId } from 'mongoose';
+import { InjectModel } from "@nestjs/mongoose";
+import { Model, isValidObjectId } from "mongoose";
 
-import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from "@app/common/dto/pagination-query.dto";
 
-import { MIPsDoc } from '../entities/mips.entity';
-import { MIPs } from '../interfaces/mips.interface';
+import { MIPsDoc } from "../entities/mips.entity";
+import { MIPs } from "../interfaces/mips.interface";
 
 @Injectable()
 export class MIPsService {
   constructor(
     @InjectModel(MIPsDoc.name)
-    private readonly mipsDoc: Model<MIPsDoc>,
+    private readonly mipsDoc: Model<MIPsDoc>
   ) {}
 
   findAll(
     paginationQuery?: PaginationQueryDto,
-    order = '',
-    search = '',
+    order = "",
+    search = ""
   ): Promise<MIPs[]> {
     if (paginationQuery) {
       const { limit, offset } = paginationQuery;
@@ -50,7 +50,7 @@ export class MIPsService {
           status: HttpStatus.BAD_REQUEST,
           error: `Invalid decoding Object ID ${id}`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
 
@@ -72,7 +72,7 @@ export class MIPsService {
           status: HttpStatus.BAD_REQUEST,
           error: `Invalid decoding Object ID ${id}`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
 
@@ -80,7 +80,7 @@ export class MIPsService {
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
-        { new: true, useFindAndModify: false },
+        { new: true, useFindAndModify: false }
       )
       .lean(true);
 
@@ -90,14 +90,14 @@ export class MIPsService {
           status: HttpStatus.NOT_FOUND,
           error: `MIPs #${id} not found`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
     return existingMIPs;
   }
 
   async remove(
-    id: string,
+    id: string
   ): Promise<{
     n: number;
     ok: number;
@@ -109,7 +109,7 @@ export class MIPsService {
           status: HttpStatus.BAD_REQUEST,
           error: `Invalid decoding Object ID ${id}`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
 

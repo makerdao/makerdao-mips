@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
-import { Env } from './env';
-import { MIPsModule } from './mips/mips.module';
+import { Env } from "./env";
+import { MIPsModule } from "./mips/mips.module";
 
 @Module({
   imports: [
