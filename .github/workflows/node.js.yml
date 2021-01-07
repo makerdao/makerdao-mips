@@ -8,8 +8,8 @@ on:
     branches: [ develop ] 
   pull_request:   
     branches: [ develop ]
-    paths:
-        - "backend/**"  
+    #paths:
+        #- "backend/**"  
 
 jobs:
   build:
@@ -31,4 +31,32 @@ jobs:
       run: |
         npm install    
         npm test
+        npm run build
       working-directory: backend
+      
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      env:
+        HOST: 159.203.86.45
+        USERNAME: root
+        PORT: 22
+        PASSWORD: IxRg14zeJEJcEpeuxhEL
+      with:
+        source: "."
+        target: "/var/warehouse/test"
+
+#     - name: Executing remote  command
+#       uses: appleboy/ssh-action@master
+#       with:
+#         host: ${{ secrets.HOST }}
+#         USERNAME: ${{ secrets.USERNAME }}
+#         PORT: ${{ secrets.PORT }}
+#         KEY: ${{ secrets.SSHKEY }}
+#         script: cat /opt/app/README.md
