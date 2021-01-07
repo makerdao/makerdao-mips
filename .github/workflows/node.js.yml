@@ -32,3 +32,35 @@ jobs:
         npm install    
         npm test
       working-directory: backend
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      env:
+        HOST: 159.203.86.45
+        USERNAME: root
+        PORT: 22
+        PASSWORD: IxRg14zeJEJcEpeuxhEL
+      with:
+        source: "./backend"
+        target: "/var/warehouse/makerdao-mips"
+
+    - name: Executing remote  command
+      uses: appleboy/ssh-action@master
+      with:
+        host: 159.203.86.45
+        USERNAME: root
+        PORT: 22
+        PASSWORD: IxRg14zeJEJcEpeuxhEL
+        script: | 
+          cd /var/warehouse/makerdao-mips/backend
+          pm2 stop all
+          npm install
+          npm run build
+          pm2 start all    
