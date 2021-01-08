@@ -5,9 +5,11 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ develop ] 
+    branches: [ main ] 
+    paths:
+        - "backend/**" 
   pull_request:   
-    branches: [ develop ]
+    branches: [ main ]
     paths:
         - "backend/**"  
 
@@ -64,6 +66,5 @@ jobs:
           npm install
           npm run build
           pm2 start all    
-        source: "."
-        target: "/var/warehouse/test"
+        
 
