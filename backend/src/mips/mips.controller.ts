@@ -27,13 +27,13 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "order",
-    description: `'name -email', means: order property name ASC and email DESC`,
+    description: `'title -name', means: order property title ASC and name DESC`,
     type: String,
     required: false,
   })
   @ApiQuery({
     name: "search",
-    description: `search`,
+    description: 'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (\\ ") that specifies a phrase',
     type: String,
     required: false,
   })
@@ -44,7 +44,7 @@ export class MIPsController {
     @Query("search") search?: string
   ) {
     const paginationQueryDto: PaginationQueryDto = {
-      limit: +limit,
+      limit: +limit || 10,
       offset: +offset,
     };
 
@@ -63,8 +63,8 @@ export class MIPsController {
     return this.mipsService.findOne(id);
   }
 
-  @Post("apiWebHooks")
-  apiWebHooks() {
+  @Post("callback")
+  callback() {
     return this.parseMIPsService.parse();
   }
 }

@@ -30,7 +30,6 @@ export class ParseMIPsService {
       this.simpleGitService.pull();
       const files: GitFile[] = await this.simpleGitService.getFiles();
 
-
       const mips: MIP[] = [];
 
       for (const file of files) {

@@ -25,10 +25,10 @@ export class MIPsService {
     order = "",
     search = ""
   ): Promise<MIPs[]> {
-    let text = {};
+    let text;
 
     if (search) {
-      text = { $text: { $search: search } };
+      text = { $text: { $search: JSON.parse(`"${search}"`) } };
     }
 
     if (paginationQuery) {
@@ -49,7 +49,7 @@ export class MIPsService {
     let text = {};
 
     if (search) {
-      text = { $text: { $search: search } };
+      text = { $text: { $search: JSON.parse(`"${search}"`) } };
     }
     return this.mipsDoc.countDocuments(text).exec();
   }
