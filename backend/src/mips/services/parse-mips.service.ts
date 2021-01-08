@@ -59,6 +59,8 @@ export class ParseMIPsService {
         }
       }
 
+      await this.mipsService.deleteMany();
+
       await this.mipsService.insertMany(mips);
     } catch (err) {
       console.log(err);

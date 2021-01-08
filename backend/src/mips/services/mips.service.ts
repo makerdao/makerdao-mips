@@ -36,13 +36,14 @@ export class MIPsService {
 
       return this.mipsDoc
         .find(text)
+        .select(['-file'])
         .sort(order)
         .skip(offset * limit)
         .limit(limit)
         .exec();
     }
 
-    return this.mipsDoc.find(text).sort(order).exec();
+    return this.mipsDoc.find(text).select(['-file']).sort(order).exec();
   }
 
   count(search = ""): Promise<number> {
@@ -78,6 +79,12 @@ export class MIPsService {
 
   insertMany(mips: MIP[] | any): Promise<MIPsDoc> {
     return this.mipsDoc.insertMany(mips);
+  }
+
+  async deleteMany(): Promise<void> {
+    await this.mipsDoc.collection.dropIndex('file_text');
+    await this.mipsDoc.deleteMany();
+    await this.mipsDoc.collection.createIndex({ file: "text" });
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {
