@@ -3,54 +3,66 @@ import {
   NotFoundException,
   HttpStatus,
   HttpException,
-} from '@nestjs/common';
+} from "@nestjs/common";
 
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, isValidObjectId } from 'mongoose';
+import { InjectModel } from "@nestjs/mongoose";
+import { Model, isValidObjectId } from "mongoose";
 
-import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from "@app/common/dto/pagination-query.dto";
 
-import { MIPsDoc } from '../entities/mips.entity';
-import { MIPs } from '../interfaces/mips.interface';
+import { MIP, MIPsDoc } from "../entities/mips.entity";
+import { MIPs } from "../interfaces/mips.interface";
 
 @Injectable()
 export class MIPsService {
   constructor(
-    @InjectModel(MIPsDoc.name)
-    private readonly mipsDoc: Model<MIPsDoc>,
+    @InjectModel(MIP.name)
+    private readonly mipsDoc: Model<MIPsDoc>
   ) {}
 
   findAll(
     paginationQuery?: PaginationQueryDto,
-    order = '',
-    search = '',
+    order = "",
+    search = ""
   ): Promise<MIPs[]> {
+    let text;
+
+    if (search) {
+      text = { $text: { $search: JSON.parse(`"${search}"`) } };
+    }
+
     if (paginationQuery) {
       const { limit, offset } = paginationQuery;
 
       return this.mipsDoc
-        .find()
+        .find(text)
+        .select(['-file'])
         .sort(order)
         .skip(offset * limit)
         .limit(limit)
         .exec();
     }
 
-    return this.mipsDoc.find().exec();
+    return this.mipsDoc.find(text).select(['-file']).sort(order).exec();
   }
 
-  count(): Promise<number> {
-    return this.mipsDoc.countDocuments().exec();
+  count(search = ""): Promise<number> {
+    let text = {};
+
+    if (search) {
+      text = { $text: { $search: JSON.parse(`"${search}"`) } };
+    }
+    return this.mipsDoc.countDocuments(text).exec();
   }
 
-  async findOne(id: string): Promise<MIPs> {
+  async findOne(id: string): Promise<MIP> {
     if (!isValidObjectId(id)) {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
           error: `Invalid decoding Object ID ${id}`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
 
@@ -61,18 +73,28 @@ export class MIPsService {
     return MIPs;
   }
 
-  create(mIPs: MIPs): Promise<MIPs> {
+  create(mIPs: MIPs): Promise<MIP> {
     return this.mipsDoc.create(mIPs);
   }
 
-  async update(id: string, mIPs: MIPs): Promise<MIPs> {
+  insertMany(mips: MIP[] | any): Promise<MIPsDoc> {
+    return this.mipsDoc.insertMany(mips);
+  }
+
+  async deleteMany(): Promise<void> {
+    await this.mipsDoc.collection.dropIndex('file_text');
+    await this.mipsDoc.deleteMany();
+    await this.mipsDoc.collection.createIndex({ file: "text" });
+  }
+
+  async update(id: string, mIPs: MIP): Promise<MIP> {
     if (!isValidObjectId(id)) {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
           error: `Invalid decoding Object ID ${id}`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
 
@@ -80,7 +102,7 @@ export class MIPsService {
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
-        { new: true, useFindAndModify: false },
+        { new: true, useFindAndModify: false }
       )
       .lean(true);
 
@@ -90,14 +112,14 @@ export class MIPsService {
           status: HttpStatus.NOT_FOUND,
           error: `MIPs #${id} not found`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
     return existingMIPs;
   }
 
   async remove(
-    id: string,
+    id: string
   ): Promise<{
     n: number;
     ok: number;
@@ -109,7 +131,7 @@ export class MIPsService {
           status: HttpStatus.BAD_REQUEST,
           error: `Invalid decoding Object ID ${id}`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
 

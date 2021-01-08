@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 import simpleGit, {
   PullResult,
   Response,
   SimpleGit,
   SimpleGitOptions,
-} from 'simple-git';
+} from "simple-git";
 
-import { Env } from '@app/env';
+import { Env } from "@app/env";
 
-import { GitFile } from '../interfaces/mips.interface';
+import { GitFile } from "../interfaces/mips.interface";
 
 @Injectable()
 export class SimpleGitService {
@@ -19,9 +19,9 @@ export class SimpleGitService {
   constructor(private configService: ConfigService) {
     const options: SimpleGitOptions = {
       baseDir: `${process.cwd()}/${this.configService.get<string>(
-        Env.FolderRepositoryName,
+        Env.FolderRepositoryName
       )}`,
-      binary: 'git',
+      binary: "git",
       maxConcurrentProcesses: 6,
     };
 
@@ -30,28 +30,37 @@ export class SimpleGitService {
 
   cloneRepository(): Response<string> {
     const localPath = `${process.cwd()}/${this.configService.get<string>(
-      Env.FolderRepositoryName,
+      Env.FolderRepositoryName
     )}`;
     return this.git.clone(
       this.configService.get<string>(Env.RepoPath),
-      localPath,
+      localPath
     );
   }
 
-  pull(remote = 'origin', branch = 'master'): Response<PullResult> {
+  pull(remote = "origin", branch = "master"): Response<PullResult> {
     return this.git.pull(remote, branch);
   }
 
   async getFiles(): Promise<GitFile[]> {
+    const folderPattern = this.configService.get<string>(Env.FolderPattern);
+
     try {
-      const info: string = await this.git.raw(['ls-files', '-s', 'MIP*']);
-      return info.split('\n').map((data) => {
-        const newData = data.replace('\t', ' ').split(' ');
-        return {
-          filePath: newData[3],
-          fileHash: newData[1],
-        };
-      });
+      const info: string = await this.git.raw([
+        "ls-files",
+        "-s",
+        folderPattern,
+      ]);
+      return info
+        .split("\n")
+        .filter((data) => data.length > 3 && !data.includes("placeholder.md"))
+        .map((data) => {
+          const newData = data.replace("\t", " ").split(" ");
+          return {
+            filename: newData[3],
+            hash: newData[1],
+          };
+        });
     } catch (error) {
       return error;
     }
