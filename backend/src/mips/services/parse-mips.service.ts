@@ -34,7 +34,7 @@ export class ParseMIPsService {
 
   async parse(): Promise<boolean> {
     try {
-      // this.simpleGitService.pull();
+      this.simpleGitService.pull();
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
