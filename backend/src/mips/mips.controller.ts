@@ -67,7 +67,7 @@ export class MIPsController {
   @Post("callback")
   async callback(): Promise<boolean> {
 
-    await this.mipsService.deleteMany();
+    //await this.mipsService.deleteMany();
 
     return this.parseMIPsService.parse();
   }
