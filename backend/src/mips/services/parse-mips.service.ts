@@ -1,8 +1,12 @@
 import { readFile } from "fs/promises";
 
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { GitFile, Preamble } from "../interfaces/mips.interface";
+import {
+  IGitFile,
+  ISyncronizeData,
+  IPreamble,
+} from "../interfaces/mips.interface";
 import { MIPsService } from "./mips.service";
 
 import { SimpleGitService } from "./simple-git.service";
@@ -14,6 +18,9 @@ import { MIP } from "../entities/mips.entity";
 @Injectable()
 export class ParseMIPsService {
   baseDir: string;
+
+  private readonly logger = new Logger(ParseMIPsService.name);
+
   constructor(
     private simpleGitService: SimpleGitService,
     private mipsService: MIPsService,
@@ -28,55 +35,87 @@ export class ParseMIPsService {
   async parse(): Promise<boolean> {
     try {
       this.simpleGitService.pull();
-      const files: GitFile[] = await this.simpleGitService.getFiles();
+      const result: any = await Promise.all([
+        this.simpleGitService.getFiles(),
+        this.mipsService.getAll(),
+      ]);
+      const syncronizeData: ISyncronizeData = await this.syncronizeData(
+        result[0],
+        result[1]
+      );
 
-      const mips: MIP[] = [];
-
-      for (const file of files) {
-        const dir = `${this.baseDir}/${file.filename}`;
-
-        const fileString = await readFile(dir, "utf-8");
-
-        const preamble = this.parseLexerData(fileString);
-
-        if (preamble) {
-          mips.push({
-            hash: file.hash,
-            file: fileString,
-            filename: file.filename,
-            author: preamble.author,
-            contributors: preamble.contributors,
-            dateProposed: preamble.dateProposed,
-            dateRatified: preamble.dateRatified,
-            dependencies: preamble.dependencies,
-            mip: preamble.mip,
-            replaces: preamble.replaces,
-            status: preamble.status,
-            title: preamble.title,
-            preambleTitle: preamble.preambleTitle,
-            types: preamble.types,
-          });
-        }
-      }
-
-      await this.mipsService.deleteMany();
-
-      await this.mipsService.insertMany(mips);
-    } catch (err) {
-      console.log(err);
-
+      this.logger.log(`Syncronize Data ===> ${JSON.stringify(syncronizeData)}`);
+      return true;
+    } catch (error) {
+      this.logger.error(error);
       return false;
     }
-    return true;
   }
 
-  parseLexerData(fileString: string): Preamble {
+  async syncronizeData(
+    filesGit: IGitFile[],
+    filesDB: Map<string, IGitFile>
+  ): Promise<ISyncronizeData> {
+    const syncronizeData: ISyncronizeData = {
+      creates: 0,
+      deletes: 0,
+      updates: 0,
+    };
+    const createItems = [];
+
+    for (const item of filesGit) {
+      if (!filesDB.has(item.filename)) {
+        const dir = `${this.baseDir}/${item.filename}`;
+        const fileString = await readFile(dir, "utf-8");
+        const mip = this.parseLexerData(fileString, item);
+
+        if (mip) {
+          createItems.push(mip);
+        }
+      } else {
+        const fileDB = filesDB.get(item.filename);
+
+        if (fileDB.hash !== item.hash) {
+          const dir = `${this.baseDir}/${item.filename}`;
+          const fileString = await readFile(dir, "utf-8");
+          const mip = this.parseLexerData(fileString, item);
+
+          if (mip) {
+            try {
+              await this.mipsService.update(fileDB._id, mip);
+            } catch (error) {
+              this.logger.error(error);
+            }
+          }
+          syncronizeData.updates++;
+        }
+        filesDB.delete(item.filename);
+      }
+    }
+
+    // Remove remaining items
+    const deleteItems: string[] = [];
+    for (const [_, value] of filesDB.entries()) {
+      deleteItems.push(value._id);
+    }
+    syncronizeData.deletes = deleteItems.length;
+    syncronizeData.creates = createItems.length;
+
+    await Promise.all([
+      this.mipsService.insertMany(createItems),
+      this.mipsService.deleteManyByIds(deleteItems),
+    ]);
+    return syncronizeData;
+  }
+
+  parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
-    let preamble: Preamble = {};
+    let preamble: IPreamble = {};
+    let title: string;
 
     for (let i = 0; i < list.length; i++) {
       if (list[i]?.type === "heading" && list[i]?.depth === 1) {
-        preamble.title = list[i]?.text;
+        title = list[i]?.text;
       }
 
       if (
@@ -92,7 +131,26 @@ export class ParseMIPsService {
       }
     }
 
-    return preamble;
+    if (!preamble) {
+      this.logger.log(`Preamble empty ==> ${JSON.stringify(item)}`);
+      return;
+    }
+
+    return {
+      hash: item.hash,
+      file: fileString,
+      filename: item.filename,
+      author: preamble.author,
+      contributors: preamble.contributors,
+      dateProposed: preamble.dateProposed,
+      dateRatified: preamble.dateRatified,
+      dependencies: preamble.dependencies,
+      mip: preamble.mip,
+      replaces: preamble.replaces,
+      status: preamble.status,
+      title: preamble.preambleTitle || title,
+      types: preamble.types,
+    };
   }
 
   // MIP#: 0
@@ -105,8 +163,8 @@ export class ParseMIPsService {
   // Date Ratified: 2020-05-02
   // Dependencies: n/a
   // Replaces: n/a
-  parsePreamble(data: string): Preamble {
-    const preamble: Preamble = {};
+  parsePreamble(data: string): IPreamble {
+    const preamble: IPreamble = {};
 
     data.split("\n").filter((data: string) => {
       if (!data.includes(":")) {

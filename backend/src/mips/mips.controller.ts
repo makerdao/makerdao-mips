@@ -33,7 +33,8 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "search",
-    description: 'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (\\ ") that specifies a phrase',
+    description:
+      'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (\\ ") that specifies a phrase',
     type: String,
     required: false,
   })

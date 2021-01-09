@@ -20,5 +20,6 @@ import { MIPsModule } from "./mips/mips.module";
     }),
     MIPsModule,
   ],
+  providers: [],
 })
 export class AppModule {}

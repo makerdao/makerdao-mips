@@ -18,8 +18,7 @@ export class MIP {
   mip?: number;
   @Prop()
   title?: string;
-  @Prop()
-  preambleTitle?: string;
+
   @Prop({
     type: [String],
   })

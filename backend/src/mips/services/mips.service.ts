@@ -11,7 +11,7 @@ import { Model, isValidObjectId } from "mongoose";
 import { PaginationQueryDto } from "@app/common/dto/pagination-query.dto";
 
 import { MIP, MIPsDoc } from "../entities/mips.entity";
-import { MIPs } from "../interfaces/mips.interface";
+import { IGitFile, IMIPs } from "../interfaces/mips.interface";
 
 @Injectable()
 export class MIPsService {
@@ -24,7 +24,7 @@ export class MIPsService {
     paginationQuery?: PaginationQueryDto,
     order = "",
     search = ""
-  ): Promise<MIPs[]> {
+  ): Promise<IMIPs[]> {
     let text;
 
     if (search) {
@@ -36,14 +36,14 @@ export class MIPsService {
 
       return this.mipsDoc
         .find(text)
-        .select(['-file'])
+        .select(["-file", "-__v"])
         .sort(order)
         .skip(offset * limit)
         .limit(limit)
         .exec();
     }
 
-    return this.mipsDoc.find(text).select(['-file']).sort(order).exec();
+    return this.mipsDoc.find(text).select(["-file", "-__v"]).sort(order).exec();
   }
 
   count(search = ""): Promise<number> {
@@ -66,14 +66,14 @@ export class MIPsService {
       );
     }
 
-    const MIPs = await this.mipsDoc.findOne({ _id: id }).exec();
-    if (!MIPs) {
-      throw new NotFoundException(`MIPs #${id} not found`);
+    const IMIPs = await this.mipsDoc.findOne({ _id: id }).exec();
+    if (!IMIPs) {
+      throw new NotFoundException(`IMIPs #${id} not found`);
     }
-    return MIPs;
+    return IMIPs;
   }
 
-  create(mIPs: MIPs): Promise<MIP> {
+  create(mIPs: IMIPs): Promise<MIP> {
     return this.mipsDoc.create(mIPs);
   }
 
@@ -81,10 +81,21 @@ export class MIPsService {
     return this.mipsDoc.insertMany(mips);
   }
 
-  async deleteMany(): Promise<void> {
-    await this.mipsDoc.collection.dropIndex('file_text');
-    await this.mipsDoc.deleteMany();
-    await this.mipsDoc.collection.createIndex({ file: "text" });
+  async getAll(): Promise<Map<string, IGitFile>> {
+    const files = new Map();
+
+    for await (const doc of this.mipsDoc
+      .find([{ $sort: { filename: 1 } }])
+      .select(["hash", "filename"])
+      .cursor()) {
+      files.set(doc.filename, doc);
+    }
+
+    return files;
+  }
+
+  async deleteManyByIds(ids: string[]): Promise<void> {
+    await this.mipsDoc.deleteMany({ _id: { $in: ids } });
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {
@@ -110,7 +121,7 @@ export class MIPsService {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: `MIPs #${id} not found`,
+          error: `IMIPs #${id} not found`,
         },
         HttpStatus.BAD_REQUEST
       );
