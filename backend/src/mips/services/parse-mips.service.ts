@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { IGitFile, ISyncronizeData, IPreamble } from "../interfaces/mips.interface";
 import { MIPsService } from "./mips.service";
@@ -14,6 +14,9 @@ import { MIP } from "../entities/mips.entity";
 @Injectable()
 export class ParseMIPsService {
   baseDir: string;
+
+  private readonly logger = new Logger(ParseMIPsService.name);
+
   constructor(
     private simpleGitService: SimpleGitService,
     private mipsService: MIPsService,
@@ -31,13 +34,11 @@ export class ParseMIPsService {
       const result: any = await Promise.all([this.simpleGitService.getFiles(), this.mipsService.getAll()]);
       const syncronizeData: ISyncronizeData = await this.syncronizeData(result[0], result[1]);
 
-      console.log("Syncronize Data ===> ", syncronizeData);
-
+      this.logger.log(`Syncronize Data ===> ${JSON.stringify(syncronizeData)}`);
       return true;
 
-    } catch (err) {
-      console.log(err);
-
+    } catch (error) {
+      this.logger.error(error);
       return false;
     }
   }
@@ -75,7 +76,7 @@ export class ParseMIPsService {
             try {
               await this.mipsService.update(fileDB._id, mip);              
             } catch (error) {
-              console.log(error);
+              this.logger.error(error);
             }
           }
           syncronizeData.updates++;
@@ -122,6 +123,7 @@ export class ParseMIPsService {
     }
 
     if (!preamble) {
+      this.logger.log(`Preamble empty ==> ${JSON.stringify(item)}`);
       return;
     }
 

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
 import simpleGit, {
@@ -15,6 +15,7 @@ import { IGitFile } from "../interfaces/mips.interface";
 @Injectable()
 export class SimpleGitService {
   git: SimpleGit;
+  private readonly logger = new Logger(SimpleGitService.name);
 
   constructor(private configService: ConfigService) {
     const options: SimpleGitOptions = {
@@ -62,6 +63,7 @@ export class SimpleGitService {
           };
         });
     } catch (error) {
+      this.logger.error(error);      
       return error;
     }
   }
