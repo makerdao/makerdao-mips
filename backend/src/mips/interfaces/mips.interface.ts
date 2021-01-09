@@ -1,4 +1,4 @@
-export interface MIPs {
+export interface IMIPs {
   id?: string;
   file?: string;
   filename?: string;
@@ -16,7 +16,8 @@ export interface MIPs {
   replaces?: string;
 }
 
-export interface GitFile {
+export interface IGitFile {
+  _id?: string;
   filename: string;
   hash: string;
 }
@@ -25,6 +26,12 @@ export const enum Status {
   Accepted = "Accepted",
   RFC = "RFC",
   FormalSubmision = "Formal Submission",
+}
+
+export interface ISyncronizeData {
+  creates: number;
+  updates: number;
+  deletes: number;
 }
 
 // MIP#: 0
@@ -37,7 +44,7 @@ export const enum Status {
 // Date Ratified: 2020-05-02
 // Dependencies: n/a
 // Replaces: n/a
-export interface Preamble {
+export interface IPreamble {
   mip?: number;
   title?: string;
   preambleTitle?: string;

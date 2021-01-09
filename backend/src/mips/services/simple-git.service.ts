@@ -10,7 +10,7 @@ import simpleGit, {
 
 import { Env } from "@app/env";
 
-import { GitFile } from "../interfaces/mips.interface";
+import { IGitFile } from "../interfaces/mips.interface";
 
 @Injectable()
 export class SimpleGitService {
@@ -42,7 +42,7 @@ export class SimpleGitService {
     return this.git.pull(remote, branch);
   }
 
-  async getFiles(): Promise<GitFile[]> {
+  async getFiles(): Promise<IGitFile[]> {
     const folderPattern = this.configService.get<string>(Env.FolderPattern);
 
     try {
@@ -57,8 +57,8 @@ export class SimpleGitService {
         .map((data) => {
           const newData = data.replace("\t", " ").split(" ");
           return {
-            filename: newData[3],
-            hash: newData[1],
+            filename: newData[3].trim(),
+            hash: newData[1].trim(),
           };
         });
     } catch (error) {
