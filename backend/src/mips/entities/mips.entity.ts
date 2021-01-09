@@ -18,7 +18,7 @@ export class MIP {
   mip?: number;
   @Prop()
   title?: string;
-  
+
   @Prop({
     type: [String],
   })

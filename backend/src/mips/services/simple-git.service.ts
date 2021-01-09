@@ -63,7 +63,7 @@ export class SimpleGitService {
           };
         });
     } catch (error) {
-      this.logger.error(error);      
+      this.logger.error(error);
       return error;
     }
   }

@@ -36,14 +36,14 @@ export class MIPsService {
 
       return this.mipsDoc
         .find(text)
-        .select(['-file', '-__v'])
+        .select(["-file", "-__v"])
         .sort(order)
         .skip(offset * limit)
         .limit(limit)
         .exec();
     }
 
-    return this.mipsDoc.find(text).select(['-file', '-__v']).sort(order).exec();
+    return this.mipsDoc.find(text).select(["-file", "-__v"]).sort(order).exec();
   }
 
   count(search = ""): Promise<number> {
@@ -84,7 +84,10 @@ export class MIPsService {
   async getAll(): Promise<Map<string, IGitFile>> {
     const files = new Map();
 
-    for await (const doc of this.mipsDoc.find([{ $sort: { filename: 1 } }]).select(['hash', 'filename']).cursor()) {
+    for await (const doc of this.mipsDoc
+      .find([{ $sort: { filename: 1 } }])
+      .select(["hash", "filename"])
+      .cursor()) {
       files.set(doc.filename, doc);
     }
 
@@ -92,7 +95,7 @@ export class MIPsService {
   }
 
   async deleteManyByIds(ids: string[]): Promise<void> {
-    await this.mipsDoc.deleteMany({_id: {$in: ids}});
+    await this.mipsDoc.deleteMany({ _id: { $in: ids } });
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {
