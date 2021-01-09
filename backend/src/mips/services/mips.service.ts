@@ -98,6 +98,10 @@ export class MIPsService {
     await this.mipsDoc.deleteMany({ _id: { $in: ids } });
   }
 
+  async deleteMany(): Promise<void> {
+    await this.mipsDoc.deleteMany();
+  }
+
   async update(id: string, mIPs: MIP): Promise<MIP> {
     if (!isValidObjectId(id)) {
       throw new HttpException(
