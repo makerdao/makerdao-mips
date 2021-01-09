@@ -99,10 +99,13 @@ export class ParseMIPsService {
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
     let preamble: IPreamble = {};
+    let title: string;
+
+
     
     for (let i = 0; i < list.length; i++) {
       if (list[i]?.type === "heading" && list[i]?.depth === 1) {
-        preamble.title = list[i]?.text;
+        title = list[i]?.text;
       }
 
       if (
@@ -134,7 +137,7 @@ export class ParseMIPsService {
       mip: preamble.mip,
       replaces: preamble.replaces,
       status: preamble.status,
-      title: preamble.preambleTitle || preamble.title,
+      title: preamble.preambleTitle || title,
       types: preamble.types,
     }
   }
