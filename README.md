@@ -18,3 +18,10 @@ https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 ## High Level Diagram
 
 ![MakerDAO_HLD_1](https://user-images.githubusercontent.com/17706489/104136890-037a0f80-5367-11eb-9208-fe83f6f0f1e5.png)
+
+
+## Creating a personal access token
+![creating-a-personal-access-token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+
+## Webhooks documentation
+![Webhooks-documentation](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)

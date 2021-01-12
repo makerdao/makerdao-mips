@@ -112,7 +112,7 @@ export class MIPsController {
   @Post("callback")
   async callback(@Req() { headers, body }: any): Promise<boolean> {
     try {
-      const secretToken = this.configService.get<string>(Env.SecretToken);
+      const secretToken = this.configService.get<string>(Env.WebhooksSecretToken);
 
       const hmac = crypto.createHmac('sha1', secretToken);
       const selfSignature = hmac.update(JSON.stringify(body)).digest('hex');
