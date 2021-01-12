@@ -9,3 +9,12 @@ export class PaginationQueryDto {
   @IsPositive()
   offset: number;
 }
+
+export class Filters {
+  contains?: BinaryOperator[];
+}
+
+export class BinaryOperator {
+  field: string;
+  value: string;
+}

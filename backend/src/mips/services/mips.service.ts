@@ -1,6 +1,5 @@
 import {
   Injectable,
-  NotFoundException,
   HttpStatus,
   HttpException,
 } from "@nestjs/common";
@@ -8,7 +7,7 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, isValidObjectId } from "mongoose";
 
-import { PaginationQueryDto } from "@app/common/dto/pagination-query.dto";
+import { Filters, PaginationQueryDto } from "@app/common/dto/query.dto";
 
 import { MIP, MIPsDoc } from "../entities/mips.entity";
 import { IGitFile, IMIPs } from "../interfaces/mips.interface";
@@ -22,20 +21,17 @@ export class MIPsService {
 
   findAll(
     paginationQuery?: PaginationQueryDto,
-    order = "",
-    search = ""
+    order?: string,
+    search?: string,
+    filter?: Filters 
   ): Promise<IMIPs[]> {
-    let text;
-
-    if (search) {
-      text = { $text: { $search: JSON.parse(`"${search}"`) } };
-    }
+    const buildFilter = this.buildFilter(search, filter);
 
     if (paginationQuery) {
       const { limit, offset } = paginationQuery;
 
       return this.mipsDoc
-        .find(text)
+        .find(buildFilter)
         .select(["-file", "-__v"])
         .sort(order)
         .skip(offset * limit)
@@ -43,34 +39,69 @@ export class MIPsService {
         .exec();
     }
 
-    return this.mipsDoc.find(text).select(["-file", "-__v"]).sort(order).exec();
+    return this.mipsDoc.find(buildFilter).select(["-file", "-__v"]).sort(order).exec();
   }
 
-  count(search = ""): Promise<number> {
-    let text = {};
+  count(search: string, filter?: Filters): Promise<number> {    
+    const buildFilter = this.buildFilter(search, filter);    
+    return this.mipsDoc.countDocuments(buildFilter).exec();
+  }
+
+  buildFilter(search: string, filter?: Filters): any {
+    const source = {};
 
     if (search) {
-      text = { $text: { $search: JSON.parse(`"${search}"`) } };
+      source["$text"] = { $search: JSON.parse(`"${search}"`) } ;
     }
-    return this.mipsDoc.countDocuments(text).exec();
+
+    if (filter?.contains) {      
+      const field = filter.contains['field'];
+      const value = filter.contains['value'];
+
+      if (Array.isArray(field) && Array.isArray(value)) {
+        for (let i = 0; i < field.length; i++) {
+          this.validField(field[i].toString());
+          source[`${field[i].toString()}`] = { $regex: new RegExp(`${value[i]}`), $options: 'i' };                   
+        }
+      } else {
+        this.validField(field.toString());        
+        source[`${field.toString()}`] = { $regex: new RegExp(`${value}`), $options: 'i' };
+      }
+    }
+
+    return source;
+  }
+
+  isValidObjectId(id: string): boolean {
+    if (isValidObjectId(id)) {
+      return true;      
+    }
+    return false;
+  }
+
+  validField(field: string): boolean {
+    let flag = false;
+
+    switch (field) {
+      case 'title':
+        flag = true;        
+        break;
+      case 'filename':
+        flag = true;        
+        break;
+      case 'status':
+        flag = true;        
+        break;
+    }
+
+    if (!flag) {
+      throw new Error(`Invalid filter field (${field})`);
+    }
+    return flag;
   }
 
   async findOne(id: string): Promise<MIP> {
-    if (!isValidObjectId(id)) {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: `Invalid decoding Object ID ${id}`,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
-
-    const IMIPs = await this.mipsDoc.findOne({ _id: id }).exec();
-    if (!IMIPs) {
-      throw new NotFoundException(`IMIPs #${id} not found`);
-    }
-    return IMIPs;
+    return  await this.mipsDoc.findOne({ _id: id }).select(["-__v"]).exec();
   }
 
   create(mIPs: IMIPs): Promise<MIP> {
@@ -103,16 +134,6 @@ export class MIPsService {
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {
-    if (!isValidObjectId(id)) {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: `Invalid decoding Object ID ${id}`,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
-
     const existingMIPs = await this.mipsDoc
       .findOneAndUpdate(
         { _id: id },
@@ -121,15 +142,6 @@ export class MIPsService {
       )
       .lean(true);
 
-    if (!existingMIPs) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: `IMIPs #${id} not found`,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
     return existingMIPs;
   }
 
@@ -140,16 +152,6 @@ export class MIPsService {
     ok: number;
     deletedCount: number;
   }> {
-    if (!isValidObjectId(id)) {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: `Invalid decoding Object ID ${id}`,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
-
     return await this.mipsDoc.deleteOne({ _id: id }).lean(true);
   }
 }
