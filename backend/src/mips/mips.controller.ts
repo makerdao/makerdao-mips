@@ -1,15 +1,22 @@
-import { Controller, Get, HttpException, HttpStatus, NotFoundException, Param, Post, Query } from "@nestjs/common";
+import { Controller, Get, HttpException, HttpStatus, NotFoundException, Param, Post, Query, Req } from "@nestjs/common";
 import { ApiQuery } from "@nestjs/swagger";
+import { ConfigService } from "@nestjs/config";
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const crypto = require("crypto"); 
 
 import { Filters, PaginationQueryDto } from "@app/common/dto/query.dto";
 import { MIPsService } from "./services/mips.service";
 import { ParseMIPsService } from "./services/parse-mips.service";
 
+import { Env } from "@app/env";
+
 @Controller("mips")
 export class MIPsController {
   constructor(
     private readonly mipsService: MIPsService,
-    private readonly parseMIPsService: ParseMIPsService
+    private readonly parseMIPsService: ParseMIPsService,
+    private configService: ConfigService
   ) { }
 
   @Get()
@@ -43,9 +50,9 @@ export class MIPsController {
     name: "filter",
     required: false,
     type: "object",
-    schema: {     
+    schema: {
       type: "object",
-      example: {"filter": {contains: [{"field": "title", "value": "Proposal"}]}},
+      example: { "filter": { contains: [{ "field": "title", "value": "Proposal" }] } },
     }
   })
   async findAll(
@@ -61,16 +68,16 @@ export class MIPsController {
         limit: +limit || 10,
         offset: +offset,
       };
-  
+
       const items = await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
         filter
       );
-      const total = await this.mipsService.count(search, filter);  
+      const total = await this.mipsService.count(search, filter);
       return { items, total };
-      
+
     } catch (error) {
       throw new HttpException(
         {
@@ -78,7 +85,7 @@ export class MIPsController {
           error: error.message,
         },
         HttpStatus.BAD_REQUEST
-      );      
+      );
     }
   }
 
@@ -93,7 +100,7 @@ export class MIPsController {
         HttpStatus.BAD_REQUEST
       );
     }
-    const mips = await this.mipsService.findOne(id);    
+    const mips = await this.mipsService.findOne(id);
 
     if (!mips) {
       throw new NotFoundException(`MIPs with ${id} not found`);
@@ -103,10 +110,26 @@ export class MIPsController {
   }
 
   @Post("callback")
-  async callback(): Promise<boolean> {
-    try {      
-      return this.parseMIPsService.parse();      
+  async callback(@Req() { headers, body }: any): Promise<boolean> {
+    try {
+      const secretToken = this.configService.get<string>(Env.SecretToken);
+
+      const hmac = crypto.createHmac('sha1', secretToken);
+      const selfSignature = hmac.update(JSON.stringify(body)).digest('hex');
+      const comparisonSignature = `sha1=${selfSignature}`; // shape in GitHub header
+
+      const signature = headers['x-hub-signature'];
+
+      const source = Buffer.from(signature);
+      const comparison = Buffer.from(comparisonSignature);
+
+      if (!crypto.timingSafeEqual(source, comparison)) {
+        return false;
+      }
+
+      return this.parseMIPsService.parse();
     } catch (error) {
+
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,

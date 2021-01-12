@@ -1,7 +1,5 @@
 import {
   Injectable,
-  HttpStatus,
-  HttpException,
 } from "@nestjs/common";
 
 import { InjectModel } from "@nestjs/mongoose";

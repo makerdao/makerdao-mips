@@ -4,4 +4,5 @@ export enum Env {
   FolderRepositoryName = "FOLDER_REPOSITORY_NAME",
   RepoPath = "REPO_PATH",
   FolderPattern = "FOLDER_PATTERN",
+  SecretToken = "SECRET_TOKEN"
 }
