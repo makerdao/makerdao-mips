@@ -2,24 +2,25 @@ import { Controller, Get, HttpException, HttpStatus, NotFoundException, Param, P
 import { ApiQuery } from "@nestjs/swagger";
 import { ConfigService } from "@nestjs/config";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const crypto = require("crypto"); 
+import * as crypto from "crypto"; 
 
 import { Filters, PaginationQueryDto } from "@app/common/dto/query.dto";
 import { MIPsService } from "./services/mips.service";
 import { ParseMIPsService } from "./services/parse-mips.service";
+import { PullRequestService } from "./services/pull-requests.service";
 
 import { Env } from "@app/env";
 
 @Controller("mips")
 export class MIPsController {
   constructor(
-    private readonly mipsService: MIPsService,
-    private readonly parseMIPsService: ParseMIPsService,
+    private mipsService: MIPsService,
+    private parseMIPsService: ParseMIPsService,
+    private pullRequestService: PullRequestService,
     private configService: ConfigService
   ) { }
 
-  @Get()
+  @Get("findall")
   @ApiQuery({
     name: "limit",
     description: "Default value 10",
@@ -48,6 +49,7 @@ export class MIPsController {
 
   @ApiQuery({
     name: "filter",
+    description: "Object filter",
     required: false,
     type: "object",
     schema: {
@@ -89,7 +91,7 @@ export class MIPsController {
     }
   }
 
-  @Get(":id")
+  @Get("findone/:id")
   async findOne(@Param("id") id: string) {
     if (!this.mipsService.isValidObjectId(id)) {
       throw new HttpException(
@@ -107,6 +109,11 @@ export class MIPsController {
     }
 
     return mips;
+  }
+
+  @Get("pullrequests")
+  findPullRequests() {
+    return this.pullRequestService.findOne();
   }
 
   @Post("callback")

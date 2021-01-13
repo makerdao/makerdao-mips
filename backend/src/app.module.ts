@@ -15,6 +15,7 @@ import { MIPsModule } from "./mips/mips.module";
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>(Env.MongoDBUri),
         useCreateIndex: true,
+        useFindAndModify: false
       }),
       inject: [ConfigService],
     }),
