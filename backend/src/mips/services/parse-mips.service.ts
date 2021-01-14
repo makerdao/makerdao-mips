@@ -29,7 +29,7 @@ export class ParseMIPsService {
     private configService: ConfigService,
     private githubService: GithubService,
     private markedService: MarkedService,
-    private pullRequestService: PullRequestService,
+    private pullRequestService: PullRequestService
   ) {
     this.baseDir = `${process.cwd()}/${this.configService.get<string>(
       Env.FolderRepositoryName
@@ -42,18 +42,30 @@ export class ParseMIPsService {
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
-        this.githubService.pullRequests(), 
+        this.githubService.pullRequests(),
         this.githubService.pullRequestsOpen(),
-        this.githubService.pullRequestsClosed()
+        this.githubService.pullRequestsClosed(),
       ]);
       const syncronizeData: ISyncronizeData = await this.syncronizeData(
         result[0],
         result[1]
       );
 
-      this.logger.log(`Pull request totals ===> ${JSON.stringify(result[2]?.repository?.pullRequests?.totalCount)}}`);
-      this.logger.log(`Open ===>  ${JSON.stringify(result[3]?.repository?.pullRequests?.totalCount)}`);
-      this.logger.log(`Closed ===> ${JSON.stringify(result[4]?.repository?.pullRequests?.totalCount)}`);
+      this.logger.log(
+        `Pull request totals ===> ${JSON.stringify(
+          result[2]?.repository?.pullRequests?.totalCount
+        )}}`
+      );
+      this.logger.log(
+        `Open ===>  ${JSON.stringify(
+          result[3]?.repository?.pullRequests?.totalCount
+        )}`
+      );
+      this.logger.log(
+        `Closed ===> ${JSON.stringify(
+          result[4]?.repository?.pullRequests?.totalCount
+        )}`
+      );
 
       await this.pullRequestService.create({
         totalClosed: result[4]?.repository?.pullRequests?.totalCount || 0,
@@ -75,6 +87,7 @@ export class ParseMIPsService {
     filesGit: IGitFile[],
     filesDB: Map<string, IGitFile>
   ): Promise<ISyncronizeData> {
+
     const syncronizeData: ISyncronizeData = {
       creates: 0,
       deletes: 0,
@@ -130,6 +143,13 @@ export class ParseMIPsService {
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
     let preamble: IPreamble = {};
+
+    const mip: MIP = {
+      hash: item.hash,
+      file: fileString,
+      filename: item.filename,
+    };
+
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
@@ -145,9 +165,28 @@ export class ParseMIPsService {
       ) {
         if (list[i + 1]?.type === "code") {
           preamble = this.parsePreamble(list[i + 1]?.text);
-          break;
         }
       }
+
+      if (
+        list[i]?.type === "heading" &&
+        list[i]?.depth === 2 &&
+        list[i]?.text === "Sentence Summary" &&
+        i + 1 < list.length
+      ) {        
+        mip.sentenceSummary = list[i + 1]?.raw;
+      }
+
+      if (
+        list[i]?.type === "heading" &&
+        list[i]?.depth === 2 &&
+        list[i]?.text === "Paragraph Summary" &&
+        i + 1 < list.length
+      ) {
+        mip.paragraphSummary = list[i + 1]?.raw;
+        break;
+      }
+      
     }
 
     if (!preamble) {
@@ -155,21 +194,18 @@ export class ParseMIPsService {
       return;
     }
 
-    return {
-      hash: item.hash,
-      file: fileString,
-      filename: item.filename,
-      author: preamble.author,
-      contributors: preamble.contributors,
-      dateProposed: preamble.dateProposed,
-      dateRatified: preamble.dateRatified,
-      dependencies: preamble.dependencies,
-      mip: preamble.mip,
-      replaces: preamble.replaces,
-      status: preamble.status,
-      title: preamble.preambleTitle || title,
-      types: preamble.types,
-    };
+    mip.author = preamble.author;
+    mip.contributors = preamble.contributors;
+    mip.dateProposed = preamble.dateProposed;
+    mip.dateRatified = preamble.dateRatified;
+    mip.dependencies = preamble.dependencies;
+    mip.mip = preamble.mip;
+    mip.replaces = preamble.replaces;
+    mip.status = preamble.status;
+    mip.title = preamble.preambleTitle || title;
+    mip.types = preamble.types;
+
+    return mip;
   }
 
   // MIP#: 0

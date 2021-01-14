@@ -41,6 +41,11 @@ export class MIP {
   dependencies?: string[];
   @Prop()
   replaces?: string;
+
+  @Prop()
+  sentenceSummary?: string;
+  @Prop()
+  paragraphSummary?: string;  
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

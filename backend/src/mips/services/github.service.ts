@@ -27,7 +27,7 @@ export class GithubService {
             headers: {
                 authorization: `Bearer ${token}`,
             },
-        })
+        });
     }
 
     async pullRequests(): Promise<any> {
