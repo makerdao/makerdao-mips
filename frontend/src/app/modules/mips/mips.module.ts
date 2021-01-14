@@ -9,10 +9,21 @@ import { StatusComponent } from './components/status/status.component';
 import { SocialComponent } from './components/social/social.component';
 import { SearchComponent } from './components/search/search.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { ListPageComponent } from './pages/list-page/list-page.component';
+import { MipsPaginationComponent } from './components/mips-pagination/mips-pagination.component';
+
 
 
 @NgModule({
-  declarations: [ListComponent, StatusComponent, SocialComponent, SearchComponent, FilterComponent],
+  declarations: [
+    ListComponent,
+    StatusComponent,
+    SocialComponent,
+    SearchComponent,
+    FilterComponent,
+    ListPageComponent,
+    MipsPaginationComponent
+  ],
   imports: [
     CommonModule,
     MipsRoutingModule,

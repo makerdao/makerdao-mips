@@ -136,179 +136,7 @@
             "hostListeners": []
         }
     ],
-    "directives": [
-        {
-            "name": "CdkDetailRowDirective",
-            "id": "directive-CdkDetailRowDirective-c88642048bf62ee021c876556d8a5fb9",
-            "file": "src/app/modules/mips/components/list/cdk-detail-row.directive.ts",
-            "type": "directive",
-            "description": "",
-            "sourceCode": "import {Directive, HostBinding, HostListener, Input, TemplateRef, ViewContainerRef} from '@angular/core';\r\n\r\n@Directive({\r\n  selector: '[cdkDetailRow]'\r\n})\r\nexport class CdkDetailRowDirective {\r\n  private row: any;\r\n  private tRef: TemplateRef<any>;\r\n  private opened: boolean;\r\n\r\n  @HostBinding('class.expanded')\r\n  get expended(): boolean {\r\n    return this.opened;\r\n  }\r\n\r\n  @Input()\r\n  set cdkDetailRow(value: any) {\r\n    if (value !== this.row) {\r\n      this.row = value;\r\n      // this.render();\r\n    }\r\n  }\r\n\r\n  @Input('cdkDetailRowTpl')\r\n  set template(value: TemplateRef<any>) {\r\n    if (value !== this.tRef) {\r\n      this.tRef = value;\r\n      // this.render();\r\n    }\r\n  }\r\n\r\n  constructor(public vcRef: ViewContainerRef) { }\r\n\r\n  @HostListener('click')\r\n  onClick(): void {\r\n    this.toggle();\r\n  }\r\n\r\n  toggle(): void {\r\n    if (this.opened) {\r\n      this.vcRef.clear();\r\n    } else {\r\n      this.render();\r\n    }\r\n    this.opened = this.vcRef.length > 0;\r\n  }\r\n\r\n  private render(): void {\r\n    this.vcRef.clear();\r\n    if (this.tRef && this.row) {\r\n      this.vcRef.createEmbeddedView(this.tRef, { $implicit: this.row });\r\n    }\r\n  }\r\n}\r\n",
-            "selector": "[cdkDetailRow]",
-            "providers": [],
-            "inputsClass": [
-                {
-                    "name": "cdkDetailRow",
-                    "line": 17,
-                    "type": "any"
-                },
-                {
-                    "name": "cdkDetailRowTpl",
-                    "line": 25,
-                    "type": ""
-                }
-            ],
-            "outputsClass": [],
-            "hostBindings": [
-                {
-                    "name": "class.expanded",
-                    "line": 12,
-                    "type": "boolean"
-                }
-            ],
-            "hostListeners": [
-                {
-                    "name": "click",
-                    "args": [],
-                    "argsDecorator": [],
-                    "line": 35
-                }
-            ],
-            "propertiesClass": [
-                {
-                    "name": "opened",
-                    "type": "boolean",
-                    "optional": false,
-                    "description": "",
-                    "line": 9,
-                    "modifierKind": [
-                        112
-                    ]
-                },
-                {
-                    "name": "row",
-                    "type": "any",
-                    "optional": false,
-                    "description": "",
-                    "line": 7,
-                    "modifierKind": [
-                        112
-                    ]
-                },
-                {
-                    "name": "tRef",
-                    "type": "TemplateRef<any>",
-                    "optional": false,
-                    "description": "",
-                    "line": 8,
-                    "modifierKind": [
-                        112
-                    ]
-                },
-                {
-                    "name": "vcRef",
-                    "type": "ViewContainerRef",
-                    "optional": false,
-                    "description": "",
-                    "line": 32,
-                    "modifierKind": [
-                        114
-                    ]
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "render",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 48,
-                    "modifierKind": [
-                        112
-                    ]
-                },
-                {
-                    "name": "toggle",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 39
-                }
-            ],
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "args": [
-                    {
-                        "name": "vcRef",
-                        "type": "ViewContainerRef"
-                    }
-                ],
-                "line": 30,
-                "jsdoctags": [
-                    {
-                        "name": "vcRef",
-                        "type": "ViewContainerRef",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            },
-            "accessors": {
-                "cdkDetailRow": {
-                    "name": "cdkDetailRow",
-                    "setSignature": {
-                        "name": "cdkDetailRow",
-                        "type": "void",
-                        "args": [
-                            {
-                                "name": "value",
-                                "type": "any"
-                            }
-                        ],
-                        "returnType": "void",
-                        "line": 17,
-                        "jsdoctags": [
-                            {
-                                "name": "value",
-                                "type": "any",
-                                "tagName": {
-                                    "text": "param"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "template": {
-                    "name": "template",
-                    "setSignature": {
-                        "name": "template",
-                        "type": "void",
-                        "args": [
-                            {
-                                "name": "value",
-                                "type": ""
-                            }
-                        ],
-                        "returnType": "void",
-                        "line": 25,
-                        "jsdoctags": [
-                            {
-                                "name": "value",
-                                "type": "",
-                                "tagName": {
-                                    "text": "param"
-                                }
-                            }
-                        ]
-                    }
-                }
-            }
-        }
-    ],
+    "directives": [],
     "components": [
         {
             "name": "AppComponent",
@@ -350,7 +178,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".container {\r\n  margin: 40px 210px;\r\n}\r\n",
+                    "data": ".container {  \r\n  margin: 40px 210px;\r\n}\r\n",
                     "styleUrl": "./app.component.scss"
                 }
             ],
@@ -628,7 +456,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host {\r\n  color: #748AA1;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n\r\n.button {\r\n  width: 40px;\r\n  height: 40px;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  text-align: center;\r\n  transform: translateX(282px);\r\n  cursor: pointer;\r\n  img {\r\n    margin-top: 10px;\r\n  }\r\n}\r\n\r\n.frame {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 30px 60px #E5E9F2;\r\n  border-radius: 5px;\r\n  position: absolute;\r\n}\r\n\r\n.content {\r\n  height: 265px;\r\n  width: 264px;\r\n  padding: 30px 30px 20px;\r\n  .title {    \r\n    font-weight: 700;\r\n  }\r\n\r\n  .data {\r\n    display: flex;\r\n    flex-direction: row;\r\n    margin: 26px 0;\r\n    .label {\r\n      width: 55px;\r\n      margin-right: 30px;\r\n    }\r\n    input {\r\n      width: 120px;\r\n      height: 18px;\r\n      border: 1px solid #D2D3D9;\r\n      border-radius: 5px;\r\n      text-align: center;\r\n      &::placeholder {\r\n        color: #BCBEC7;\r\n        font-size: 12px;\r\n      }\r\n      &.status-accepted {\r\n        border: 1px solid #27AE60;\r\n        color: #27AE60;        \r\n      }\r\n      &.status-rejected {\r\n        border: 1px solid #EB5757;\r\n        color: #EB5757;        \r\n      }\r\n      &.status-archive {\r\n        border: 1px solid #748AA1;\r\n        color: #748AA1;        \r\n      }\r\n      &.status-rfc {\r\n        border: 1px solid #F2994A;\r\n        color: #F2994A;        \r\n      }\r\n      &.status-none {\r\n        border: 1px solid #E5E9F2;\r\n        color: #E5E9F2;        \r\n      }\r\n      &.type {\r\n        font-weight: bold;\r\n      }\r\n    }\r\n    .arrow {\r\n      margin-left: 5px;\r\n      cursor: pointer;\r\n      // -webkit-transform: rotate(-45deg);\r\n      // -moz-transform: rotate(-45deg);\r\n      // -ms-transform: rotate(-45deg);\r\n      // -o-transform: rotate(-45deg);\r\n      // transform: rotate(-45deg);\r\n    }\r\n    .status-options, .type-options {\r\n      width: 120px;      \r\n      transform: translate(83px, 27px);\r\n      padding: 10px;\r\n\r\n      .status-option, .type-option {\r\n        margin-top: 5px;\r\n        cursor: pointer;\r\n      }\r\n    }\r\n  }\r\n  .buttons {\r\n    margin-top: 63px;\r\n    display: flex;\r\n    justify-content: flex-end;\r\n\r\n    .btn {\r\n      background-color: #FFFFFF;\r\n      padding: 8px 15px;\r\n      border-radius: 5px;\r\n      border: none;\r\n      margin-left: 15px;\r\n      font-weight: bold;\r\n\r\n      &.reset {\r\n        box-shadow: 0px 30px 60px #E5E9F2;\r\n        color: #31394D;\r\n        border: 1px solid #31394D;\r\n        \r\n      }\r\n\r\n      &.apply  {\r\n        background-color: #2F80ED;\r\n        border: 1px solid #2F80ED;\r\n        box-sizing: border-box;\r\n        color: #FFFFFF;\r\n      }\r\n    }\r\n  } \r\n}\r\n\r\n",
+                    "data": ":host {\r\n  color: #748AA1;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n\r\n.button {\r\n  width: 40px;\r\n  height: 40px;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  text-align: center;\r\n  background: #FFFFFF;\r\n  cursor: pointer;\r\n  img {\r\n    margin-top: 10px;\r\n  }\r\n}\r\n\r\n.frame {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 30px 60px #E5E9F2;\r\n  border-radius: 5px;\r\n  position: absolute;\r\n}\r\n\r\n.content {\r\n  height: 265px;\r\n  width: 264px;\r\n  padding: 30px 30px 20px;\r\n  transform: translate(-282px, 10px);\r\n  .title {    \r\n    font-weight: 700;\r\n  }\r\n\r\n  .data {\r\n    display: flex;\r\n    flex-direction: row;\r\n    margin: 26px 0;\r\n    .label {\r\n      width: 55px;\r\n      margin-right: 30px;\r\n    }\r\n    input {\r\n      width: 120px;\r\n      height: 18px;\r\n      border: 1px solid #D2D3D9;\r\n      border-radius: 5px;\r\n      text-align: center;\r\n      &::placeholder {\r\n        color: #BCBEC7;\r\n        font-size: 12px;\r\n      }\r\n      &.status-accepted {\r\n        border: 1px solid #27AE60;\r\n        color: #27AE60;        \r\n      }\r\n      &.status-rejected {\r\n        border: 1px solid #EB5757;\r\n        color: #EB5757;        \r\n      }\r\n      &.status-archive {\r\n        border: 1px solid #748AA1;\r\n        color: #748AA1;        \r\n      }\r\n      &.status-rfc {\r\n        border: 1px solid #F2994A;\r\n        color: #F2994A;        \r\n      }\r\n      &.status-none {\r\n        border: 1px solid #E5E9F2;\r\n        color: #E5E9F2;        \r\n      }\r\n      &.type {\r\n        font-weight: bold;\r\n      }\r\n    }\r\n    .arrow {\r\n      margin-left: 5px;\r\n      cursor: pointer;\r\n      // -webkit-transform: rotate(-45deg);\r\n      // -moz-transform: rotate(-45deg);\r\n      // -ms-transform: rotate(-45deg);\r\n      // -o-transform: rotate(-45deg);\r\n      // transform: rotate(-45deg);\r\n    }\r\n    .status-options, .type-options {\r\n      width: 120px;      \r\n      transform: translate(83px, 27px);\r\n      padding: 10px;\r\n\r\n      .status-option, .type-option {\r\n        margin-top: 5px;\r\n        cursor: pointer;\r\n      }\r\n    }\r\n  }\r\n  .buttons {\r\n    margin-top: 63px;\r\n    display: flex;\r\n    justify-content: flex-end;\r\n\r\n    .btn {\r\n      background-color: #FFFFFF;\r\n      padding: 8px 15px;\r\n      border-radius: 5px;\r\n      border: none;\r\n      margin-left: 15px;\r\n      font-weight: bold;\r\n\r\n      &.reset {\r\n        box-shadow: 0px 30px 60px #E5E9F2;\r\n        color: #31394D;\r\n        border: 1px solid #31394D;\r\n        \r\n      }\r\n\r\n      &.apply  {\r\n        background-color: #2F80ED;\r\n        border: 1px solid #2F80ED;\r\n        box-sizing: border-box;\r\n        color: #FFFFFF;\r\n      }\r\n    }\r\n  } \r\n}\r\n\r\n",
                     "styleUrl": "./filter.component.scss"
                 }
             ],
@@ -876,12 +704,124 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "table {\r\n  width: 100%;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n\r\n//---------------Expand oficial\r\ntr.example-detail-row {\r\n  height: 0;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):hover {\r\n  background: whitesmoke;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):active {\r\n  background: #efefef;\r\n}\r\n\r\n.example-element-row td {\r\n  border-bottom-width: 0;\r\n  font-style: normal;\r\n  font-weight: 500;\r\n  font-size: 14px;\r\n  color: #31394D;\r\n}\r\n\r\n.example-element-detail {\r\n  overflow: hidden;\r\n  display: flex;\r\n}\r\n\r\n.example-element-diagram {\r\n  min-width: 80px;\r\n  border: 2px solid black;\r\n  padding: 8px;\r\n  font-weight: lighter;\r\n  margin: 8px 0;\r\n  height: 104px;\r\n}\r\n\r\n.example-element-symbol {\r\n  font-weight: bold;\r\n  font-size: 40px;\r\n  line-height: normal;\r\n}\r\n\r\n.example-element-description {\r\n  padding: 16px;\r\n}\r\n\r\n.example-element-description-attribution {\r\n  opacity: 0.5;\r\n}\r\n\r\nth {\r\n  text-transform: uppercase;\r\n  font-style: normal;\r\n  // font-weight: bold;\r\n  font-size: 12px;\r\n  color: #748AA1;\r\n}\r\n\r\n.up {\r\n  transform: translate(4px, -5px);\r\n}\r\n\r\n.down {\r\n  transform: translate(-3px, 2px);\r\n}\r\n\r\n.arrow {\r\n  cursor: pointer;\r\n}\r\n\r\n.title {\r\n  font-weight: bold;\r\n  font-size: 20px;\r\n  color: #31394D;\r\n}\r\n\r\n\r\n\r\n//---------------End Expand oficial\r\n\r\n\r\n",
+                    "data": "table {\r\n  width: 100%;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n\r\n//---------------Expand oficial\r\ntr.example-detail-row {\r\n  height: 0;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):hover {\r\n  background: whitesmoke;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):active {\r\n  background: #efefef;\r\n}\r\n\r\n.example-element-row td {\r\n  border-bottom-width: 0;\r\n  font-style: normal;\r\n  font-weight: 500;\r\n  font-size: 14px;\r\n  color: #31394D;\r\n}\r\n\r\n.example-element-detail {\r\n  overflow: hidden;\r\n  display: flex;\r\n}\r\n\r\n.example-element-diagram {\r\n  min-width: 80px;\r\n  border: 2px solid black;\r\n  padding: 8px;\r\n  font-weight: lighter;\r\n  margin: 8px 0;\r\n  height: 104px;\r\n}\r\n\r\n.example-element-symbol {\r\n  font-weight: bold;\r\n  font-size: 40px;\r\n  line-height: normal;\r\n}\r\n\r\n.example-element-description {\r\n  padding: 16px;\r\n}\r\n\r\n.example-element-description-attribution {\r\n  opacity: 0.5;\r\n}\r\n\r\nth {\r\n  text-transform: uppercase;\r\n  font-style: normal;\r\n  // font-weight: bold;\r\n  font-size: 12px;\r\n  color: #748AA1;\r\n}\r\n\r\n.up {\r\n  transform: translate(4px, -5px);\r\n}\r\n\r\n.down {\r\n  transform: translate(-3px, 2px);\r\n}\r\n\r\n.arrow {\r\n  cursor: pointer;\r\n}\r\n\r\n\r\n\r\n//---------------End Expand oficial\r\n\r\n\r\n",
                     "styleUrl": "./list.component.scss"
                 }
             ],
             "stylesData": "",
-            "templateData": "<p class=\"title\">MIPs List</p>\r\n<table mat-table\r\n       [dataSource]=\"dataSource\" multiTemplateDataRows\r\n       class=\"mat-elevation-z8\">\r\n  <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\r\n    <span *ngIf=\"column != 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef > {{column}} <img class=\"arrow up\" src=\"../../../../../assets/images/up.svg\"/><img class=\"arrow down\" src=\"../../../../../assets/images/down.svg\"/> </th>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef> {{column}}</th>\r\n    </span>\r\n    <span *ngIf=\"column != 'status' && column != 'link' && column != '#'\">\r\n      <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\r\n    </span>\r\n    <span *ngIf=\"column == 'status'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-status [type]=\"element.status\"></app-status></td>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-social [forumLink]=\"element.forum\" [githubLink]=\"element.github\"></app-social></td>\r\n    </span>\r\n    <span *ngIf=\"column == '#'\">\r\n      <td mat-cell *matCellDef=\"let element\" >{{element.position}}</td>\r\n    </span>\r\n  </ng-container>\r\n\r\n  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->\r\n  <ng-container matColumnDef=\"expandedDetail\">\r\n    <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\r\n      <div class=\"example-element-detail\"\r\n           [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">        \r\n        <div class=\"example-element-description\">\r\n          {{element.paragraph}}          \r\n        </div>\r\n      </div>\r\n    </td>\r\n  </ng-container>\r\n\r\n  <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\r\n  <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\"\r\n      class=\"example-element-row\"\r\n      [class.example-expanded-row]=\"expandedElement === element\"\r\n      (click)=\"expandedElement = expandedElement === element ? null : element\">\r\n  </tr>\r\n  <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\r\n</table>\r\n"
+            "templateData": "\r\n<table mat-table\r\n       [dataSource]=\"dataSource\" multiTemplateDataRows\r\n       class=\"mat-elevation-z8\">\r\n  <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\r\n    <span *ngIf=\"column != 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef > {{column}} <img class=\"arrow up\" src=\"../../../../../assets/images/up.svg\"/><img class=\"arrow down\" src=\"../../../../../assets/images/down.svg\"/> </th>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef> {{column}}</th>\r\n    </span>\r\n    <span *ngIf=\"column != 'status' && column != 'link' && column != '#'\">\r\n      <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\r\n    </span>\r\n    <span *ngIf=\"column == 'status'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-status [type]=\"element.status\"></app-status></td>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-social [forumLink]=\"element.forum\" [githubLink]=\"element.github\"></app-social></td>\r\n    </span>\r\n    <span *ngIf=\"column == '#'\">\r\n      <td mat-cell *matCellDef=\"let element\" >{{element.position}}</td>\r\n    </span>\r\n  </ng-container>\r\n\r\n  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->\r\n  <ng-container matColumnDef=\"expandedDetail\">\r\n    <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\r\n      <div class=\"example-element-detail\"\r\n           [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">        \r\n        <div class=\"example-element-description\">\r\n          {{element.paragraph}}          \r\n        </div>\r\n      </div>\r\n    </td>\r\n  </ng-container>\r\n\r\n  <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\r\n  <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\"\r\n      class=\"example-element-row\"\r\n      [class.example-expanded-row]=\"expandedElement === element\"\r\n      (click)=\"expandedElement = expandedElement === element ? null : element\">\r\n  </tr>\r\n  <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\r\n</table>\r\n"
+        },
+        {
+            "name": "ListPageComponent",
+            "id": "component-ListPageComponent-564d62f84caaba70a742a70cd4c34ec3",
+            "file": "src/app/modules/mips/pages/list-page/list-page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-list-page",
+            "styleUrls": [
+                "./list-page.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./list-page.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-list-page',\n  templateUrl: './list-page.component.html',\n  styleUrls: ['./list-page.component.scss']\n})\nexport class ListPageComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".title {\r\n  font-weight: bold;\r\n  font-size: 20px;\r\n  color: #31394D;\r\n}\r\n\r\n.row {\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: space-between;\r\n}\r\n\r\napp-search {\r\n  margin-right: 12px;\r\n}\r\n\r\napp-filter {\r\n  margin-top: 3px;\r\n  z-index: 5;\r\n}",
+                    "styleUrl": "./list-page.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"row\">\n  <p class=\"title\">MIPs List</p>\n  <div class=\"row filtering\">\n    <app-search></app-search>\n    <app-filter></app-filter>\n  </div>\n</div>\n<app-list></app-list>"
+        },
+        {
+            "name": "MipsPaginationComponent",
+            "id": "component-MipsPaginationComponent-4243d01d6a2853182716c9402aaae4c5",
+            "file": "src/app/modules/mips/components/mips-pagination/mips-pagination.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-mips-pagination",
+            "styleUrls": [
+                "./mips-pagination.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./mips-pagination.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-mips-pagination',\n  templateUrl: './mips-pagination.component.html',\n  styleUrls: ['./mips-pagination.component.scss']\n})\nexport class MipsPaginationComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".container {\r\n  height: 46px;\r\n  background: #FFFFFF;\r\n  opacity: 0.5;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  transform: matrix(-1, 0, 0, 1, 0, 0);\r\n}",
+                    "styleUrl": "./mips-pagination.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"links\">\n\n    </div>\n    <div class=\"items\">\n      <span>2 of</span>\n      <span>30 items</span>\n      <img src=\"../../../../../assets/images/left.svg\" />\n      <img src=\"../../../../../assets/images/right.svg\" />\n    </div>\n  </div>\n</div>\n"
         },
         {
             "name": "PageComponent",
@@ -1186,7 +1126,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".status-container {\r\n  padding: 2px;\r\n  font-size: 12px;\r\n  text-align: center;\r\n  display: inline-block;\r\n}\r\n\r\n.type--ACCEPTED {\r\n  border: 1px solid #27AE60;\r\n  color: #27AE60;\r\n}\r\n\r\n.type--REJECTED {\r\n  border: 1px solid #EB5757;\r\n  color: #EB5757;\r\n}\r\n\r\n.type--ARCHIVE {\r\n  border: 1px solid #748AA1;\r\n  color: #748AA1;\r\n}\r\n\r\n.type--RFC {\r\n  border: 1px solid #F2994A;\r\n  color: #F2994A;\r\n}\r\n\r\n.type--NONE {\r\n  border: 1px solid #E5E9F2;\r\n  color: #E5E9F2;\r\n}\r\n",
+                    "data": ".status-container {\r\n  padding: 2px 5px;\r\n  font-size: 12px;\r\n  text-align: center;\r\n  display: inline-block;\r\n}\r\n\r\n.type--ACCEPTED {\r\n  border: 1px solid #27AE60;\r\n  color: #27AE60;\r\n}\r\n\r\n.type--REJECTED {\r\n  border: 1px solid #EB5757;\r\n  color: #EB5757;\r\n}\r\n\r\n.type--ARCHIVE {\r\n  border: 1px solid #748AA1;\r\n  color: #748AA1;\r\n}\r\n\r\n.type--RFC {\r\n  border: 1px solid #F2994A;\r\n  color: #F2994A;\r\n}\r\n\r\n.type--NONE {\r\n  border: 1px solid #E5E9F2;\r\n  color: #E5E9F2;\r\n}\r\n",
                     "styleUrl": "./status.component.scss"
                 }
             ],
@@ -1230,9 +1170,6 @@
                         },
                         {
                             "name": "FooterComponent"
-                        },
-                        {
-                            "name": "HeaderComponent"
                         }
                     ]
                 },
@@ -1306,6 +1243,12 @@
                         },
                         {
                             "name": "ListComponent"
+                        },
+                        {
+                            "name": "ListPageComponent"
+                        },
+                        {
+                            "name": "MipsPaginationComponent"
                         },
                         {
                             "name": "SearchComponent"
@@ -1424,6 +1367,14 @@
                 "name": "Default",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/shared/header/Header.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
@@ -1433,6 +1384,14 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -1584,8 +1543,16 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/shared/footer/Footer.stories.ts",
-                "type": "Story<ListComponent>",
-                "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+                "type": "Story<FooterComponent>",
+                "defaultValue": "(args: FooterComponent) => ({\r\n  component: FooterComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/shared/header/Header.stories.ts",
+                "type": "Story<HeaderComponent>",
+                "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -1602,6 +1569,14 @@
                 "file": "src/app/modules/mips/components/list/List.stories.ts",
                 "type": "Story<ListComponent>",
                 "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                "type": "Story<MipsPaginationComponent>",
+                "defaultValue": "(args: MipsPaginationComponent) => ({\r\n  component: MipsPaginationComponent,\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -1749,8 +1724,26 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/app/shared/footer/Footer.stories.ts",
-                    "type": "Story<ListComponent>",
-                    "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+                    "type": "Story<FooterComponent>",
+                    "defaultValue": "(args: FooterComponent) => ({\r\n  component: FooterComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/shared/header/Header.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/header/Header.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/header/Header.stories.ts",
+                    "type": "Story<HeaderComponent>",
+                    "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  props: args,\r\n})"
                 }
             ],
             "src/app/modules/mips/components/filter/Filter.stories.ts": [
@@ -1787,6 +1780,24 @@
                     "file": "src/app/modules/mips/components/list/List.stories.ts",
                     "type": "Story<ListComponent>",
                     "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                    "type": "Story<MipsPaginationComponent>",
+                    "defaultValue": "(args: MipsPaginationComponent) => ({\r\n  component: MipsPaginationComponent,\r\n  props: args,\r\n})"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -1942,7 +1953,7 @@
                                         "children": [
                                             {
                                                 "path": "list",
-                                                "component": "ListComponent"
+                                                "component": "ListPageComponent"
                                             }
                                         ],
                                         "kind": "module"
@@ -2038,15 +2049,6 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/modules/mips/components/list/cdk-detail-row.directive.ts",
-                "type": "directive",
-                "linktype": "directive",
-                "name": "CdkDetailRowDirective",
-                "coveragePercent": 0,
-                "coverageCount": "0/12",
-                "status": "low"
-            },
-            {
                 "filePath": "src/app/modules/mips/components/list/list.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -2072,6 +2074,35 @@
                 "name": "sampleData",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mips-pagination/mips-pagination.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "MipsPaginationComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {
@@ -2202,6 +2233,15 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/modules/mips/pages/list-page/list-page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ListPageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/shared/footer/Footer.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
@@ -2228,6 +2268,26 @@
                 "name": "FooterComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/header/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/header/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {

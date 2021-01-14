@@ -1,0 +1,20 @@
+.title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #31394D;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+app-search {
+  margin-right: 12px;
+}
+
+app-filter {
+  margin-top: 3px;
+  z-index: 5;
+}
