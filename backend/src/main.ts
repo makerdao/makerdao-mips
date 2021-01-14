@@ -15,7 +15,7 @@ async function bootstrap() {
   app.enableCors();
 
   const options = new DocumentBuilder()
-    .setTitle("mips")
+    .setTitle("MakerDao parse project")
     .setDescription("MIPs projects.")
     .setVersion("1.0")
     .build();

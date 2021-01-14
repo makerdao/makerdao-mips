@@ -27,7 +27,8 @@ jobs:
       run: |
         npm install
         npm test    
-        npm build        
+        npm build
+        npm run pre-start        
       working-directory: backend  
 
   deploy:
