@@ -134,6 +134,8 @@ export class MIPsController {
         return false;
       }
 
+      this.mipsService.deleteMany();
+
       return this.parseMIPsService.parse();
     } catch (error) {
 
