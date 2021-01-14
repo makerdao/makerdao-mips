@@ -4,10 +4,6 @@
 name: Node.js develop CI
 
 on:
-  push:
-    branches: [ develop ] 
-    paths:
-        - "backend/**" 
   pull_request:   
     branches: [ develop ]
     paths:
@@ -20,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -31,7 +27,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: install and test 
       run: |
-        npm install    
+        npm install
+        npm run test    
         npm build        
       working-directory: backend  
 
