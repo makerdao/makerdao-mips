@@ -4,8 +4,7 @@ import {
 
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, isValidObjectId } from "mongoose";
-
-import { Filters, PaginationQueryDto } from "@app/common/dto/query.dto";
+import { Filters, PaginationQueryDto } from "../dto/query.dto";
 
 import { MIP, MIPsDoc } from "../entities/mips.entity";
 import { IGitFile, IMIPs } from "../interfaces/mips.interface";
