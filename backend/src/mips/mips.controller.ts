@@ -4,12 +4,12 @@ import { ConfigService } from "@nestjs/config";
 
 import * as crypto from "crypto"; 
 
-import { Filters, PaginationQueryDto } from "@app/common/dto/query.dto";
 import { MIPsService } from "./services/mips.service";
 import { ParseMIPsService } from "./services/parse-mips.service";
 import { PullRequestService } from "./services/pull-requests.service";
 
 import { Env } from "@app/env";
+import { Filters, PaginationQueryDto } from "./dto/query.dto";
 
 @Controller("mips")
 export class MIPsController {
