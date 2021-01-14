@@ -78,7 +78,7 @@ describe('Parse MIPs service', () => {
   
   describe('Parse Preamble', () => {
     it('should return the empty preamble', async () => {
-      const data = ``;
+      const data = "";
 
       const preamble = service.parsePreamble(data);
       expect(preamble).toMatchObject({});  
