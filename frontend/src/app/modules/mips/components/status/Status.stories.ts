@@ -2,7 +2,7 @@ import { Story, Meta } from '@storybook/angular/types-6-0';
 import { StatusComponent } from './status.component';
 
 export default {
-  title: 'DEVELOP/Status',
+  title: 'DEVELOP/Components/Status',
   component: StatusComponent,
 } as Meta;
 

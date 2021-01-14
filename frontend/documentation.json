@@ -1,6 +1,101 @@
 {
     "pipes": [],
-    "interfaces": [],
+    "interfaces": [
+        {
+            "name": "DataElement",
+            "id": "interface-DataElement-294408045ca7483f66369709c73f51c2",
+            "file": "src/app/modules/mips/components/list/list.component.ts",
+            "type": "interface",
+            "sourceCode": "import {Component} from '@angular/core';\r\nimport {animate, state, style, transition, trigger} from '@angular/animations';\r\n\r\nconst sampleData: DataElement[] = [\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'app-list',\r\n  templateUrl: './list.component.html',\r\n  styleUrls: ['./list.component.scss'],\r\n  animations: [\r\n    trigger('detailExpand', [\r\n      state('collapsed', style({height: '0px', minHeight: '0'})),\r\n      state('expanded', style({height: '*'})),\r\n      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),\r\n    ]),\r\n  ],\r\n})\r\nexport class ListComponent {\r\n\r\n\r\n  columnsToDisplay = ['#', 'title', 'summary', 'status', 'link'];\r\n  dataSource = sampleData;\r\n  expandedElement: DataElement | null;\r\n\r\n}\r\n\r\nexport interface DataElement {\r\n  position: number;\r\n  title: string;\r\n  summary: string;\r\n  paragraph: string;\r\n  status: string;\r\n  github: string;\r\n  forum: string;\r\n}\r\n\r\n",
+            "properties": [
+                {
+                    "name": "forum",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 83
+                },
+                {
+                    "name": "github",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 82
+                },
+                {
+                    "name": "paragraph",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 80
+                },
+                {
+                    "name": "position",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 77
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 81
+                },
+                {
+                    "name": "summary",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 79
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 78
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "FilterData",
+            "id": "interface-FilterData-9266c868737e1788d1ba12356b22d8fa",
+            "file": "src/app/modules/mips/components/filter/filter.data.ts",
+            "type": "interface",
+            "sourceCode": "export default interface FilterData {\r\n  title: string;\r\n  status: string;\r\n  type: string;\r\n}",
+            "properties": [
+                {
+                    "name": "status",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        }
+    ],
     "injectables": [],
     "classes": [
         {
@@ -41,7 +136,179 @@
             "hostListeners": []
         }
     ],
-    "directives": [],
+    "directives": [
+        {
+            "name": "CdkDetailRowDirective",
+            "id": "directive-CdkDetailRowDirective-c88642048bf62ee021c876556d8a5fb9",
+            "file": "src/app/modules/mips/components/list/cdk-detail-row.directive.ts",
+            "type": "directive",
+            "description": "",
+            "sourceCode": "import {Directive, HostBinding, HostListener, Input, TemplateRef, ViewContainerRef} from '@angular/core';\r\n\r\n@Directive({\r\n  selector: '[cdkDetailRow]'\r\n})\r\nexport class CdkDetailRowDirective {\r\n  private row: any;\r\n  private tRef: TemplateRef<any>;\r\n  private opened: boolean;\r\n\r\n  @HostBinding('class.expanded')\r\n  get expended(): boolean {\r\n    return this.opened;\r\n  }\r\n\r\n  @Input()\r\n  set cdkDetailRow(value: any) {\r\n    if (value !== this.row) {\r\n      this.row = value;\r\n      // this.render();\r\n    }\r\n  }\r\n\r\n  @Input('cdkDetailRowTpl')\r\n  set template(value: TemplateRef<any>) {\r\n    if (value !== this.tRef) {\r\n      this.tRef = value;\r\n      // this.render();\r\n    }\r\n  }\r\n\r\n  constructor(public vcRef: ViewContainerRef) { }\r\n\r\n  @HostListener('click')\r\n  onClick(): void {\r\n    this.toggle();\r\n  }\r\n\r\n  toggle(): void {\r\n    if (this.opened) {\r\n      this.vcRef.clear();\r\n    } else {\r\n      this.render();\r\n    }\r\n    this.opened = this.vcRef.length > 0;\r\n  }\r\n\r\n  private render(): void {\r\n    this.vcRef.clear();\r\n    if (this.tRef && this.row) {\r\n      this.vcRef.createEmbeddedView(this.tRef, { $implicit: this.row });\r\n    }\r\n  }\r\n}\r\n",
+            "selector": "[cdkDetailRow]",
+            "providers": [],
+            "inputsClass": [
+                {
+                    "name": "cdkDetailRow",
+                    "line": 17,
+                    "type": "any"
+                },
+                {
+                    "name": "cdkDetailRowTpl",
+                    "line": 25,
+                    "type": ""
+                }
+            ],
+            "outputsClass": [],
+            "hostBindings": [
+                {
+                    "name": "class.expanded",
+                    "line": 12,
+                    "type": "boolean"
+                }
+            ],
+            "hostListeners": [
+                {
+                    "name": "click",
+                    "args": [],
+                    "argsDecorator": [],
+                    "line": 35
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "opened",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 9,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "row",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 7,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "tRef",
+                    "type": "TemplateRef<any>",
+                    "optional": false,
+                    "description": "",
+                    "line": 8,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "vcRef",
+                    "type": "ViewContainerRef",
+                    "optional": false,
+                    "description": "",
+                    "line": 32,
+                    "modifierKind": [
+                        114
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "render",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 48,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "toggle",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39
+                }
+            ],
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "vcRef",
+                        "type": "ViewContainerRef"
+                    }
+                ],
+                "line": 30,
+                "jsdoctags": [
+                    {
+                        "name": "vcRef",
+                        "type": "ViewContainerRef",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "accessors": {
+                "cdkDetailRow": {
+                    "name": "cdkDetailRow",
+                    "setSignature": {
+                        "name": "cdkDetailRow",
+                        "type": "void",
+                        "args": [
+                            {
+                                "name": "value",
+                                "type": "any"
+                            }
+                        ],
+                        "returnType": "void",
+                        "line": 17,
+                        "jsdoctags": [
+                            {
+                                "name": "value",
+                                "type": "any",
+                                "tagName": {
+                                    "text": "param"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "template": {
+                    "name": "template",
+                    "setSignature": {
+                        "name": "template",
+                        "type": "void",
+                        "args": [
+                            {
+                                "name": "value",
+                                "type": ""
+                            }
+                        ],
+                        "returnType": "void",
+                        "line": 25,
+                        "jsdoctags": [
+                            {
+                                "name": "value",
+                                "type": "",
+                                "tagName": {
+                                    "text": "param"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ],
     "components": [
         {
             "name": "AppComponent",
@@ -173,7 +440,7 @@
         },
         {
             "name": "FilterComponent",
-            "id": "component-FilterComponent-dd58442eb0eb5d4c7214ca84dfd0e28b",
+            "id": "component-FilterComponent-04f0fcc8d650480dc7a00d529a8a9d0f",
             "file": "src/app/modules/mips/components/filter/filter.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -190,7 +457,14 @@
             ],
             "viewProviders": [],
             "inputsClass": [],
-            "outputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "send",
+                    "defaultValue": "new EventEmitter<FilterData>()",
+                    "line": 20,
+                    "type": "EventEmitter"
+                }
+            ],
             "propertiesClass": [
                 {
                     "name": "contentOptionsShow",
@@ -198,14 +472,34 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 17
+                },
+                {
+                    "name": "filterData",
+                    "type": "FilterData",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "inputTitle",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "decorators": [
+                        {
+                            "name": "ViewChild",
+                            "stringifiedArguments": "'title'"
+                        }
+                    ]
                 },
                 {
                     "name": "statusCLass",
                     "type": "\"status-accepted\" | \"status-rejected\" | \"status-archive\" | \"status-rfc\" | \"status-none\"",
                     "optional": false,
                     "description": "",
-                    "line": 10
+                    "line": 12
                 },
                 {
                     "name": "statusInputText",
@@ -213,7 +507,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 11
+                    "line": 13
                 },
                 {
                     "name": "statusOptionsShow",
@@ -221,7 +515,14 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 14
+                },
+                {
+                    "name": "titleText",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
                 },
                 {
                     "name": "typeInputText",
@@ -229,7 +530,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 15
                 },
                 {
                     "name": "typeOptionsShow",
@@ -237,17 +538,25 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 16
                 }
             ],
             "methodsClass": [
+                {
+                    "name": "apply",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 57
+                },
                 {
                     "name": "containerShowStatus",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 41
+                    "line": 47
                 },
                 {
                     "name": "ngOnInit",
@@ -255,7 +564,15 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 19
+                    "line": 25
+                },
+                {
+                    "name": "reset",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 51
                 },
                 {
                     "name": "setStatusClassAndText",
@@ -268,7 +585,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 23,
+                    "line": 29,
                     "jsdoctags": [
                         {
                             "name": "pos",
@@ -290,7 +607,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 33,
+                    "line": 39,
                     "jsdoctags": [
                         {
                             "name": "pos",
@@ -307,7 +624,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-filter',\n  templateUrl: './filter.component.html',\n  styleUrls: ['./filter.component.scss']\n})\nexport class FilterComponent implements OnInit {\n\n  statusCLass: 'status-accepted' | 'status-rejected' | 'status-archive' | 'status-rfc' | 'status-none';\n  statusInputText  = 'Select status';\n  statusOptionsShow = false;\n  typeInputText  = 'Select status';\n  typeOptionsShow = false;\n  contentOptionsShow = false;\n\n  constructor() { }\n\n  ngOnInit(): void {\n    this.statusCLass = 'status-none';\n  }\n\n  setStatusClassAndText(pos: number): void {\n    switch (pos) {\n      case 0: { this.statusCLass = 'status-accepted'; this.statusInputText = 'ACCEPTED'; this.statusOptionsShow = false; break; }\n      case 1: { this.statusCLass = 'status-rejected'; this.statusInputText = 'REJECTED'; this.statusOptionsShow = false; break; }\n      case 2: { this.statusCLass = 'status-archive'; this.statusInputText = 'ARCHIVE'; this.statusOptionsShow = false; break; }\n      case 3: { this.statusCLass = 'status-rfc'; this.statusInputText = 'RFC'; this.statusOptionsShow = false; break; }\n      case 4: { this.statusCLass = 'status-none'; this.statusInputText = 'Select status'; this.statusOptionsShow = false; break; }\n    }\n  }\n\n  setTyepClassAndText(pos: number): void {\n    switch (pos) {\n      case 0: { this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }\n      case 1: { this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }\n      case 2: { this.typeInputText = 'Select Type'; this.typeOptionsShow = false; break; }\n    }\n  }\n\n  containerShowStatus(): void {\n    this.contentOptionsShow = !this.contentOptionsShow;\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit, Output, ViewChild } from '@angular/core';\nimport { EventEmitter } from '@angular/core';\nimport FilterData from './filter.data';\n\n@Component({\n  selector: 'app-filter',\n  templateUrl: './filter.component.html',\n  styleUrls: ['./filter.component.scss']\n})\nexport class FilterComponent implements OnInit {\n\n  statusCLass: 'status-accepted' | 'status-rejected' | 'status-archive' | 'status-rfc' | 'status-none';\n  statusInputText  = 'Select status';\n  statusOptionsShow = false;\n  typeInputText  = 'Select status';\n  typeOptionsShow = false;\n  contentOptionsShow = false;\n  titleText: string;\n  @ViewChild('title') inputTitle;\n  @Output() send = new EventEmitter<FilterData>();\n  filterData: FilterData;\n\n  constructor() { }\n\n  ngOnInit(): void {\n    this.statusCLass = 'status-none';\n  }\n\n  setStatusClassAndText(pos: number): void {\n    switch (pos) {\n      case 0: { this.statusCLass = 'status-accepted'; this.statusInputText = 'ACCEPTED'; this.statusOptionsShow = false; break; }\n      case 1: { this.statusCLass = 'status-rejected'; this.statusInputText = 'REJECTED'; this.statusOptionsShow = false; break; }\n      case 2: { this.statusCLass = 'status-archive'; this.statusInputText = 'ARCHIVE'; this.statusOptionsShow = false; break; }\n      case 3: { this.statusCLass = 'status-rfc'; this.statusInputText = 'RFC'; this.statusOptionsShow = false; break; }\n      case 4: { this.statusCLass = 'status-none'; this.statusInputText = 'Select status'; this.statusOptionsShow = false; break; }\n    }\n  }\n\n  setTyepClassAndText(pos: number): void {\n    switch (pos) {\n      case 0: { this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }\n      case 1: { this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }\n      case 2: { this.typeInputText = 'Select Type'; this.typeOptionsShow = false; break; }\n    }\n  }\n\n  containerShowStatus(): void {\n    this.contentOptionsShow = !this.contentOptionsShow;\n  }\n\n  reset(): void {\n    this.setStatusClassAndText(4);\n    this.setTyepClassAndText(2);\n    this.inputTitle.nativeElement.value = ' ';\n  }\n\n  apply(): void {\n    this.filterData.title = this.inputTitle.nativeElement.value;\n    this.filterData.status = this.statusInputText;\n    this.filterData.type = this.typeInputText;\n    this.send.emit(this.filterData);\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -320,12 +637,12 @@
                 "name": "constructor",
                 "description": "",
                 "args": [],
-                "line": 15
+                "line": 21
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"container\">\n  <div class=\"button\" (click)=\"this.contentOptionsShow = !this.contentOptionsShow\">\n      <img src=\"../../../../../assets/images/icon_filter.svg\" />\n  </div>\n  <div class=\"content frame\" *ngIf=\"contentOptionsShow\">\n    <p class=\"title\">FILTER BY</p>\n    <div class=\"data\">\n      <div class=\"label\">Title:</div>\n      <input type=\"text\" placeholder=\"Title name\">\n    </div>\n    <div class=\"data\">\n      <div class=\"label\">Status:</div>\n      <input type=\"text\" class=\"status\" [ngClass]=\"statusCLass\" value=\"{{statusInputText}}\" disabled>\n      <img class=\"arrow\" (click)=\"statusOptionsShow = !statusOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\n      <div class=\"status-options frame\" *ngIf=\"statusOptionsShow\" (onmouseout)=\"statusOptionsShow = false\">\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(4)\"><app-status type=\"NONE\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(0)\"><app-status type=\"ACCEPTED\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(1)\"><app-status type=\"REJECTED\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(2)\"><app-status type=\"ARCHIVE\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(3)\"><app-status type=\"RFC\"></app-status></div>\n      </div>\n    </div>\n    <div class=\"data\">\n      <div class=\"label\">MIP Type:</div>\n      <input type=\"text\" class=\"type\" value=\"{{typeInputText}}\" disabled>\n      <img class=\"arrow\" (click)=\"typeOptionsShow = !typeOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\n      <div class=\"type-options frame\" *ngIf=\"typeOptionsShow\">\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(2)\">NONE</div>\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(0)\">PROPOSAL</div>\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(1)\">SUB-PROPOSAL</div>        \n      </div>\n    </div>\n    <div class=\"buttons\">\n      <button class=\"reset btn\">Reset</button>    \n      <button class=\"apply btn\">Apply</button>\n    </div>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"container\">\n  <div class=\"button\" (click)=\"this.contentOptionsShow = !this.contentOptionsShow\">\n      <img src=\"../../../../../assets/images/icon_filter.svg\" />\n  </div>\n  <div class=\"content frame\" *ngIf=\"contentOptionsShow\">\n    <p class=\"title\">FILTER BY</p>\n    <div class=\"data\">\n      <div class=\"label\">Title:</div>\n      <input type=\"text\" #title placeholder=\"Title name\">\n    </div>\n    <div class=\"data\">\n      <div class=\"label\">Status:</div>\n      <input type=\"text\" class=\"status\" [ngClass]=\"statusCLass\" value=\"{{statusInputText}}\" disabled>\n      <img class=\"arrow\" (click)=\"statusOptionsShow = !statusOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\n      <div class=\"status-options frame\" *ngIf=\"statusOptionsShow\" (onmouseout)=\"statusOptionsShow = false\">\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(4)\"><app-status type=\"NONE\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(0)\"><app-status type=\"ACCEPTED\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(1)\"><app-status type=\"REJECTED\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(2)\"><app-status type=\"ARCHIVE\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(3)\"><app-status type=\"RFC\"></app-status></div>\n      </div>\n    </div>\n    <div class=\"data\">\n      <div class=\"label\">MIP Type:</div>\n      <input type=\"text\" class=\"type\" value=\"{{typeInputText}}\" disabled>\n      <img class=\"arrow\" (click)=\"typeOptionsShow = !typeOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\n      <div class=\"type-options frame\" *ngIf=\"typeOptionsShow\">\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(2)\">NONE</div>\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(0)\">PROPOSAL</div>\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(1)\">SUB-PROPOSAL</div>        \n      </div>\n    </div>\n    <div class=\"buttons\">\n      <button class=\"reset btn\" (click)=\"reset()\">Reset</button>    \n      <button class=\"apply btn\">Apply</button>\n    </div>\n  </div>\n</div>\n"
         },
         {
             "name": "FooterComponent",
@@ -506,7 +823,7 @@
         },
         {
             "name": "ListComponent",
-            "id": "component-ListComponent-7dcb8ad8036a41e8b06e61176485b05f",
+            "id": "component-ListComponent-294408045ca7483f66369709c73f51c2",
             "file": "src/app/modules/mips/components/list/list.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -526,72 +843,45 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "columnsToDisplay",
+                    "defaultValue": "['#', 'title', 'summary', 'status', 'link']",
+                    "type": "[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 70
+                },
+                {
                     "name": "dataSource",
                     "defaultValue": "sampleData",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 54
+                    "line": 71
                 },
                 {
-                    "name": "displayedColumns",
-                    "defaultValue": "['TITLE', 'SUMMARY', 'STATUS', 'LINK']",
-                    "type": "string[]",
+                    "name": "expandedElement",
+                    "type": "DataElement | null",
                     "optional": false,
                     "description": "",
-                    "line": 53
+                    "line": 72
                 }
             ],
-            "methodsClass": [
-                {
-                    "name": "getData",
-                    "args": [
-                        {
-                            "name": "data",
-                            "type": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 62,
-                    "jsdoctags": [
-                        {
-                            "name": "data",
-                            "type": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 58
-                }
-            ],
+            "methodsClass": [],
             "hostBindings": [],
             "hostListeners": [],
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { AfterViewInit, Component, ViewChild } from '@angular/core';\r\nimport {MatTableDataSource } from '@angular/material/table';\r\nimport {MatSort} from '@angular/material/sort';\r\n\r\n\r\nconst sampleData = [\r\n  {\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    status: 'ACCEPTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'app-list',\r\n  templateUrl: './list.component.html',\r\n  styleUrls: ['./list.component.scss']\r\n})\r\nexport class ListComponent implements AfterViewInit {\r\n\r\n\r\n\r\n  displayedColumns: string[] = ['TITLE', 'SUMMARY', 'STATUS', 'LINK'];\r\n  dataSource = sampleData;\r\n\r\n  // @ViewChild(MatSort) sort: MatSort;\r\n\r\n  ngAfterViewInit(): void {\r\n    // this.dataSource.sort = this.sort;\r\n  }\r\n\r\n  getData(data) {\r\n    console.log('data ' + data);\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {Component} from '@angular/core';\r\nimport {animate, state, style, transition, trigger} from '@angular/animations';\r\n\r\nconst sampleData: DataElement[] = [\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'app-list',\r\n  templateUrl: './list.component.html',\r\n  styleUrls: ['./list.component.scss'],\r\n  animations: [\r\n    trigger('detailExpand', [\r\n      state('collapsed', style({height: '0px', minHeight: '0'})),\r\n      state('expanded', style({height: '*'})),\r\n      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),\r\n    ]),\r\n  ],\r\n})\r\nexport class ListComponent {\r\n\r\n\r\n  columnsToDisplay = ['#', 'title', 'summary', 'status', 'link'];\r\n  dataSource = sampleData;\r\n  expandedElement: DataElement | null;\r\n\r\n}\r\n\r\nexport interface DataElement {\r\n  position: number;\r\n  title: string;\r\n  summary: string;\r\n  paragraph: string;\r\n  status: string;\r\n  github: string;\r\n  forum: string;\r\n}\r\n\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "table {\r\n  width: 100%;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n",
+                    "data": "table {\r\n  width: 100%;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n\r\n//---------------Expand oficial\r\ntr.example-detail-row {\r\n  height: 0;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):hover {\r\n  background: whitesmoke;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):active {\r\n  background: #efefef;\r\n}\r\n\r\n.example-element-row td {\r\n  border-bottom-width: 0;\r\n  font-style: normal;\r\n  font-weight: 500;\r\n  font-size: 14px;\r\n  color: #31394D;\r\n}\r\n\r\n.example-element-detail {\r\n  overflow: hidden;\r\n  display: flex;\r\n}\r\n\r\n.example-element-diagram {\r\n  min-width: 80px;\r\n  border: 2px solid black;\r\n  padding: 8px;\r\n  font-weight: lighter;\r\n  margin: 8px 0;\r\n  height: 104px;\r\n}\r\n\r\n.example-element-symbol {\r\n  font-weight: bold;\r\n  font-size: 40px;\r\n  line-height: normal;\r\n}\r\n\r\n.example-element-description {\r\n  padding: 16px;\r\n}\r\n\r\n.example-element-description-attribution {\r\n  opacity: 0.5;\r\n}\r\n\r\nth {\r\n  text-transform: uppercase;\r\n  font-style: normal;\r\n  // font-weight: bold;\r\n  font-size: 12px;\r\n  color: #748AA1;\r\n}\r\n\r\n.up {\r\n  transform: translate(4px, -5px);\r\n}\r\n\r\n.down {\r\n  transform: translate(-3px, 2px);\r\n}\r\n\r\n.arrow {\r\n  cursor: pointer;\r\n}\r\n\r\n.title {\r\n  font-weight: bold;\r\n  font-size: 20px;\r\n  color: #31394D;\r\n}\r\n\r\n\r\n\r\n//---------------End Expand oficial\r\n\r\n\r\n",
                     "styleUrl": "./list.component.scss"
                 }
             ],
             "stylesData": "",
-            "implements": [
-                "AfterViewInit"
-            ],
-            "templateData": "<app-search (send)=getData($event)></app-search>\r\n<app-filter></app-filter>\r\n<table mat-table [dataSource]=\"dataSource\" matSort  class=\"mat-elevation-z8\">\r\n\r\n\r\n  <ng-container matColumnDef=\"TITLE\">\r\n    <th mat-header-cell *matHeaderCellDef> TITLE</th>\r\n    <td mat-cell *matCellDef=\"let element\"> {{element.title}} </td>\r\n  </ng-container>\r\n\r\n\r\n  <ng-container matColumnDef=\"SUMMARY\">\r\n    <th mat-header-cell *matHeaderCellDef> SUMMARY </th>\r\n    <td mat-cell *matCellDef=\"let element\"> {{element.summary}} </td>\r\n  </ng-container>\r\n\r\n\r\n  <ng-container matColumnDef=\"STATUS\">\r\n    <th mat-header-cell *matHeaderCellDef> STATUS </th>\r\n    <td mat-cell *matCellDef=\"let element\"><app-status [type]=\"element.status\"></app-status> </td>\r\n  </ng-container>\r\n\r\n\r\n  <ng-container matColumnDef=\"LINK\">\r\n    <th mat-header-cell *matHeaderCellDef> LINK </th>\r\n    <td mat-cell *matCellDef=\"let element\"> <app-social [forumLink]=\"element.forum\" [githubLink]=\"element.github\"></app-social></td>\r\n  </ng-container>\r\n\r\n\r\n  <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n  <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n</table>\r\n"
+            "templateData": "<p class=\"title\">MIPs List</p>\r\n<table mat-table\r\n       [dataSource]=\"dataSource\" multiTemplateDataRows\r\n       class=\"mat-elevation-z8\">\r\n  <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay\">\r\n    <span *ngIf=\"column != 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef > {{column}} <img class=\"arrow up\" src=\"../../../../../assets/images/up.svg\"/><img class=\"arrow down\" src=\"../../../../../assets/images/down.svg\"/> </th>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef> {{column}}</th>\r\n    </span>\r\n    <span *ngIf=\"column != 'status' && column != 'link' && column != '#'\">\r\n      <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\r\n    </span>\r\n    <span *ngIf=\"column == 'status'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-status [type]=\"element.status\"></app-status></td>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-social [forumLink]=\"element.forum\" [githubLink]=\"element.github\"></app-social></td>\r\n    </span>\r\n    <span *ngIf=\"column == '#'\">\r\n      <td mat-cell *matCellDef=\"let element\" >{{element.position}}</td>\r\n    </span>\r\n  </ng-container>\r\n\r\n  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->\r\n  <ng-container matColumnDef=\"expandedDetail\">\r\n    <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\r\n      <div class=\"example-element-detail\"\r\n           [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">        \r\n        <div class=\"example-element-description\">\r\n          {{element.paragraph}}          \r\n        </div>\r\n      </div>\r\n    </td>\r\n  </ng-container>\r\n\r\n  <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\r\n  <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\"\r\n      class=\"example-element-row\"\r\n      [class.example-expanded-row]=\"expandedElement === element\"\r\n      (click)=\"expandedElement = expandedElement === element ? null : element\">\r\n  </tr>\r\n  <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\r\n</table>\r\n"
         },
         {
             "name": "PageComponent",
@@ -896,7 +1186,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".status-container {\r\n  padding: 2px;\r\n  font-size: 12px;\r\n  text-align: center;\r\n  width: auto !important;\r\n}\r\n\r\n.type--ACCEPTED {\r\n  border: 1px solid #27AE60;\r\n  color: #27AE60;\r\n}\r\n\r\n.type--REJECTED {\r\n  border: 1px solid #EB5757;\r\n  color: #EB5757;\r\n}\r\n\r\n.type--ARCHIVE {\r\n  border: 1px solid #748AA1;\r\n  color: #748AA1;\r\n}\r\n\r\n.type--RFC {\r\n  border: 1px solid #F2994A;\r\n  color: #F2994A;\r\n}\r\n\r\n.type--NONE {\r\n  border: 1px solid #E5E9F2;\r\n  color: #E5E9F2;\r\n}\r\n",
+                    "data": ".status-container {\r\n  padding: 2px;\r\n  font-size: 12px;\r\n  text-align: center;\r\n  display: inline-block;\r\n}\r\n\r\n.type--ACCEPTED {\r\n  border: 1px solid #27AE60;\r\n  color: #27AE60;\r\n}\r\n\r\n.type--REJECTED {\r\n  border: 1px solid #EB5757;\r\n  color: #EB5757;\r\n}\r\n\r\n.type--ARCHIVE {\r\n  border: 1px solid #748AA1;\r\n  color: #748AA1;\r\n}\r\n\r\n.type--RFC {\r\n  border: 1px solid #F2994A;\r\n  color: #F2994A;\r\n}\r\n\r\n.type--NONE {\r\n  border: 1px solid #E5E9F2;\r\n  color: #E5E9F2;\r\n}\r\n",
                     "styleUrl": "./status.component.scss"
                 }
             ],
@@ -921,7 +1211,7 @@
                     }
                 }
             },
-            "templateData": "<div [ngClass]=\"classes\">\n  {{ type }}\n</div>\n\n"
+            "templateData": "<div [ngClass]=\"classes\">\n  {{ type }}\n</div>\n\n\n"
         }
     ],
     "modules": [
@@ -940,6 +1230,9 @@
                         },
                         {
                             "name": "FooterComponent"
+                        },
+                        {
+                            "name": "HeaderComponent"
                         }
                     ]
                 },
@@ -1123,7 +1416,23 @@
                 "name": "Default",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/shared/footer/Footer.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/list/List.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -1227,8 +1536,8 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/modules/mips/components/list/list.component.ts",
-                "type": "[]",
-                "defaultValue": "[\r\n  {\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    status: 'ACCEPTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
+                "type": "DataElement[]",
+                "defaultValue": "[\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
             },
             {
                 "name": "Secondary",
@@ -1274,9 +1583,25 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/shared/footer/Footer.stories.ts",
+                "type": "Story<ListComponent>",
+                "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
                 "type": "Story<FilterComponent>",
                 "defaultValue": "(args: FilterComponent) => ({\r\n  component: FilterComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "Story<ListComponent>",
+                "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -1410,6 +1735,24 @@
                     "defaultValue": "(args: SearchComponent) => ({\r\n  component: SearchComponent,\r\n  props: args,\r\n})"
                 }
             ],
+            "src/app/shared/footer/Footer.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/footer/Footer.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/footer/Footer.stories.ts",
+                    "type": "Story<ListComponent>",
+                    "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+                }
+            ],
             "src/app/modules/mips/components/filter/Filter.stories.ts": [
                 {
                     "name": "Default",
@@ -1426,6 +1769,24 @@
                     "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
                     "type": "Story<FilterComponent>",
                     "defaultValue": "(args: FilterComponent) => ({\r\n  component: FilterComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/list/List.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/list/List.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/list/List.stories.ts",
+                    "type": "Story<ListComponent>",
+                    "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -1548,8 +1909,8 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/app/modules/mips/components/list/list.component.ts",
-                    "type": "[]",
-                    "defaultValue": "[\r\n  {\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    status: 'ACCEPTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
+                    "type": "DataElement[]",
+                    "defaultValue": "[\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
                 }
             ]
         },
@@ -1597,7 +1958,7 @@
         ]
     },
     "coverage": {
-        "count": 2,
+        "count": 1,
         "status": "low",
         "files": [
             {
@@ -1644,6 +2005,44 @@
                 "linktype": "component",
                 "name": "FilterComponent",
                 "coveragePercent": 0,
+                "coverageCount": "0/18",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/filter/filter.data.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "FilterData",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/cdk-detail-row.directive.ts",
+                "type": "directive",
+                "linktype": "directive",
+                "name": "CdkDetailRowDirective",
+                "coveragePercent": 0,
                 "coverageCount": "0/12",
                 "status": "low"
             },
@@ -1653,7 +2052,16 @@
                 "linktype": "component",
                 "name": "ListComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/list.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "DataElement",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
                 "status": "low"
             },
             {
@@ -1791,6 +2199,26 @@
                 "name": "StatusComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/footer/Footer.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/footer/Footer.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {

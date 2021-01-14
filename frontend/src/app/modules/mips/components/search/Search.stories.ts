@@ -2,7 +2,7 @@ import { Story, Meta } from '@storybook/angular/types-6-0';
 import { SearchComponent } from './search.component';
 
 export default {
-  title: 'DEVELOP/Search',
+  title: 'DEVELOP/Components/Search',
   component: SearchComponent,
 } as Meta;
 

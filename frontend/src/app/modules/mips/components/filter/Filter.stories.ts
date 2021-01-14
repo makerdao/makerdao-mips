@@ -5,7 +5,7 @@ import { FilterComponent } from './filter.component';
 import { StatusComponent } from '../status/status.component';
 
 export default {
-  title: 'DEVELOP/Filter',
+  title: 'DEVELOP/Components/Filter',
   component: FilterComponent,
   decorators: [
     moduleMetadata({

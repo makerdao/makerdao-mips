@@ -2,7 +2,7 @@ import { Story, Meta } from '@storybook/angular/types-6-0';
 import { SocialComponent } from './social.component';
 
 export default {
-  title: 'DEVELOP/Social',
+  title: 'DEVELOP/Components/Social',
   component: SocialComponent,
 } as Meta;
 
