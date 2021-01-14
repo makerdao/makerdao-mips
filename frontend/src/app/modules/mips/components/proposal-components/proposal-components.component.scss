@@ -1,0 +1,36 @@
+:host {
+  font-style: normal;
+  font-weight: 500;
+}
+
+.container {
+  background: #FFFFFF;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  border-radius: 5px;
+  .content {
+    padding: 30px 0 30px 30px;
+    p {
+      &.header {
+        font-size: 16px;
+        line-height: 19px;
+        color: #000000;
+      }
+      &.title {
+        color: #748AA1;
+        font-size: 14px;
+      }
+      &.sub-title {
+        font-size: 12px;
+        color: #748AA1;
+        font-weight: normal;
+      }
+    }
+  }
+
+
+  .marker {
+    width: 5px;
+    height: 14px;
+    background: #31394D;
+  }
+}

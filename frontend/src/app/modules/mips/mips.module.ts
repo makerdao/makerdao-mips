@@ -11,6 +11,7 @@ import { SearchComponent } from './components/search/search.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { ListPageComponent } from './pages/list-page/list-page.component';
 import { MipsPaginationComponent } from './components/mips-pagination/mips-pagination.component';
+import { ProposalComponentsComponent } from './components/proposal-components/proposal-components.component';
 
 
 
@@ -22,7 +23,8 @@ import { MipsPaginationComponent } from './components/mips-pagination/mips-pagin
     SearchComponent,
     FilterComponent,
     ListPageComponent,
-    MipsPaginationComponent
+    MipsPaginationComponent,
+    ProposalComponentsComponent
   ],
   imports: [
     CommonModule,
