@@ -15,9 +15,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [14.x]
@@ -42,7 +40,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-
     - name: Copy file via scp
       uses: appleboy/scp-action@master
       env:
