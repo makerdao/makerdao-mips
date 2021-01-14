@@ -8,6 +8,9 @@ import { MIPsService } from "./services/mips.service";
 import { ParseMIPsService } from "./services/parse-mips.service";
 import { SimpleGitService } from "./services/simple-git.service";
 import { MarkedService } from "./services/marked.service";
+import { GithubService } from "./services/github.service";
+import { PullRequest, PullRequestSchema } from "./entities/pull-request.entity";
+import { PullRequestService } from "./services/pull-requests.service";
 
 @Module({
   imports: [
@@ -21,6 +24,14 @@ import { MarkedService } from "./services/marked.service";
           return schema;
         },
       },
+      {
+        name: PullRequest.name,
+        collection: PullRequest.name,
+        useFactory: () => {
+          const schema = PullRequestSchema;
+          return schema;
+        },
+      },
     ]),
   ],
   controllers: [MIPsController],
@@ -30,6 +41,8 @@ import { MarkedService } from "./services/marked.service";
     ParseMIPsService,
     SimpleGitService,
     MarkedService,
+    GithubService,
+    PullRequestService,
   ],
 })
 export class MIPsModule {}

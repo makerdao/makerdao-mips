@@ -14,6 +14,8 @@ import { SimpleGitService } from "./simple-git.service";
 import { Env } from "@app/env";
 import { MarkedService } from "./marked.service";
 import { MIP } from "../entities/mips.entity";
+import { GithubService } from "./github.service";
+import { PullRequestService } from "./pull-requests.service";
 
 @Injectable()
 export class ParseMIPsService {
@@ -25,7 +27,9 @@ export class ParseMIPsService {
     private simpleGitService: SimpleGitService,
     private mipsService: MIPsService,
     private configService: ConfigService,
-    private markedService: MarkedService
+    private githubService: GithubService,
+    private markedService: MarkedService,
+    private pullRequestService: PullRequestService,
   ) {
     this.baseDir = `${process.cwd()}/${this.configService.get<string>(
       Env.FolderRepositoryName
@@ -38,11 +42,26 @@ export class ParseMIPsService {
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
+        this.githubService.pullRequests(), 
+        this.githubService.pullRequestsOpen(),
+        this.githubService.pullRequestsClosed()
       ]);
       const syncronizeData: ISyncronizeData = await this.syncronizeData(
         result[0],
         result[1]
       );
+
+      this.logger.log(`Pull request totals ===> ${JSON.stringify(result[2]?.repository?.pullRequests?.totalCount)}}`);
+      this.logger.log(`Open ===>  ${JSON.stringify(result[3]?.repository?.pullRequests?.totalCount)}`);
+      this.logger.log(`Closed ===> ${JSON.stringify(result[4]?.repository?.pullRequests?.totalCount)}`);
+
+      await this.pullRequestService.create({
+        totalClosed: result[4]?.repository?.pullRequests?.totalCount || 0,
+        totalOpen: result[3]?.repository?.pullRequests?.totalCount || 0,
+        url: result[2]?.repository?.url,
+        totalCount: result[2]?.repository?.pullRequests?.totalCount || 0,
+        items: result[2]?.repository?.pullRequests?.nodes || [],
+      });
 
       this.logger.log(`Syncronize Data ===> ${JSON.stringify(syncronizeData)}`);
       return true;
