@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="button" (click)="this.contentOptionsShow = !this.contentOptionsShow">
+      <img src="../../../../../assets/images/icon_filter.svg" />
+  </div>
+  <div class="content frame" *ngIf="contentOptionsShow">
+    <p class="title">FILTER BY</p>
+    <div class="data">
+      <div class="label">Title:</div>
+      <input type="text" #title placeholder="Title name">
+    </div>
+    <div class="data">
+      <div class="label">Status:</div>
+      <input type="text" class="status" [ngClass]="statusCLass" value="{{statusInputText}}" disabled>
+      <img class="arrow" (click)="statusOptionsShow = !statusOptionsShow" src="../../../../../assets/images/arrow.svg" />
+      <div class="status-options frame" *ngIf="statusOptionsShow" (onmouseout)="statusOptionsShow = false">
+        <div class="status-option" (click)="setStatusClassAndText(4)"><app-status type="NONE"></app-status></div>
+        <div class="status-option" (click)="setStatusClassAndText(0)"><app-status type="ACCEPTED"></app-status></div>
+        <div class="status-option" (click)="setStatusClassAndText(1)"><app-status type="REJECTED"></app-status></div>
+        <div class="status-option" (click)="setStatusClassAndText(2)"><app-status type="ARCHIVE"></app-status></div>
+        <div class="status-option" (click)="setStatusClassAndText(3)"><app-status type="RFC"></app-status></div>
+      </div>
+    </div>
+    <div class="data">
+      <div class="label">MIP Type:</div>
+      <input type="text" class="type" value="{{typeInputText}}" disabled>
+      <img class="arrow" (click)="typeOptionsShow = !typeOptionsShow" src="../../../../../assets/images/arrow.svg" />
+      <div class="type-options frame" *ngIf="typeOptionsShow">
+        <div class="type-option" (click)="setTyepClassAndText(2)">NONE</div>
+        <div class="type-option" (click)="setTyepClassAndText(0)">PROPOSAL</div>
+        <div class="type-option" (click)="setTyepClassAndText(1)">SUB-PROPOSAL</div>        
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="reset btn" (click)="reset()">Reset</button>    
+      <button class="apply btn">Apply</button>
+    </div>
+  </div>
+</div>
