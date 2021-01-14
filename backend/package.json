@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "0.0.1",
-  "description": "Backend of MakerDao mips",
+  "description": "Backend of MakerDao",
   "author": "Dspot Inc",
   "scripts": {
     "prebuild": "rimraf dist",
