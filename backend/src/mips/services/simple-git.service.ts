@@ -26,8 +26,6 @@ export class SimpleGitService {
       maxConcurrentProcesses: 6,
     };
 
-    console.log("options ==>", options, Env.FolderRepositoryName);
-
     this.git = simpleGit(options);
   }
 
