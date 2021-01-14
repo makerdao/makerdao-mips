@@ -4,10 +4,6 @@
 name: Node.js develop CI
 
 on:
-  push:
-    branches: [ develop ] 
-    paths:
-        - "backend/**" 
   pull_request:   
     branches: [ develop ]
     paths:
@@ -39,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Copy file via scp
       uses: appleboy/scp-action@master
       env:
@@ -51,7 +47,7 @@ jobs:
         source: "./backend"
         target: "/var/warehouse/makerdao-mips"
 
-    - name: Executing remote  command
+    - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:
         HOST: 159.203.86.45
@@ -63,6 +59,4 @@ jobs:
           pm2 stop all
           npm install
           npm run build
-          pm2 start all  
-  
-
+          pm2 start all
