@@ -10,7 +10,6 @@ import { MarkedService } from './marked.service';
 import { MIPsService } from './mips.service';
 import { ParseMIPsService } from './parse-mips.service';
 import { PullRequestService } from './pull-requests.service';
-import { SimpleGitService } from './simple-git.service';
 
 
 describe('Parse MIPs service', () => {
@@ -76,5 +75,16 @@ describe('Parse MIPs service', () => {
     jest.clearAllMocks();
   });
 
+  
+  describe('Parse Preamble', () => {
+    it('should return the empty preamble', async () => {
+      const data = ``;
+
+      const preamble = service.parsePreamble(data);
+      expect(preamble).toMatchObject({});  
+      
+    });
+
+  });
   
 });
