@@ -18,7 +18,7 @@ export class GithubService {
         private configService: ConfigService
     ) {
         const endpoint = this.configService.get<string>(Env.GithubUrlApiEndpoint);
-        const token = this.configService.get<string>(Env.GithubAccessApiToken);
+        const token = this.configService.get<string>(Env.GitAccessApiToken);
 
         this.githubRepository = this.configService.get<string>(Env.GithubRepository);
         this.githubRepositoryOwner = this.configService.get<string>(Env.GithubRepositoryOwner);
