@@ -45,10 +45,10 @@ jobs:
     - name: Copy file via scp
       uses: appleboy/scp-action@master
       env:
-        HOST: ${{ SSH_HOST }}
-        USERNAME: ${{ SSH_USER }}
-        PORT: ${{ SSH_PORT }}
-        PASSWORD: ${{ SSH_PASS }}
+        HOST: 159.203.86.45
+        USERNAME: root
+        PORT: 22
+        PASSWORD: IxRg14zeJEJcEpeuxhEL
       with:
         source: "./backend"
         target: "/var/warehouse/makerdao-mips"
@@ -56,10 +56,10 @@ jobs:
     - name: Executing remote  command
       uses: appleboy/ssh-action@master
       with:
-        HOST: ${{ SSH_HOST }}
-        USERNAME: ${{ SSH_USER }}
-        PORT: ${{ SSH_PORT }}
-        PASSWORD: ${{ SSH_PASS }}
+        HOST: 159.203.86.45
+        USERNAME: root
+        PORT: 22
+        PASSWORD: IxRg14zeJEJcEpeuxhEL
         script: | 
           cd /var/warehouse/makerdao-mips/backend
           pm2 stop all

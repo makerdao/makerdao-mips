@@ -2,8 +2,8 @@
   <div class="marker" [ngStyle]="{'transform': 'translateY(' + marketPosition + 'px)'}"></div>
   <div class="content">
     <p class="header">Proposal Components</p>
-    <div *ngFor="let element of sourceData">
-      <p class="title" >{{element.title}}</p>
+    <div *ngFor="let element of sourceData; let index = index">
+      <p class="title" (click)="updatePos(index)">{{element.title}}</p>
       <p class="sub-title" *ngFor="let subelement of element.subtitles">{{subelement.title}}</p>
     </div>
   </div>

@@ -41,10 +41,14 @@ const sampleData = [
 export class ProposalComponentsComponent implements OnInit {
 
   sourceData = sampleData;
-  marketPosition = 0;
+  marketPosition = 98;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  updatePos(index): void {
+    this.marketPosition = (index) * 29.5 + 95;
   }
 
 }

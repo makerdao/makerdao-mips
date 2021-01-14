@@ -18,6 +18,7 @@
       &.title {
         color: #748AA1;
         font-size: 14px;
+        cursor: pointer;
       }
       &.sub-title {
         font-size: 12px;
@@ -32,5 +33,9 @@
     width: 5px;
     height: 14px;
     background: #31394D;
+    -webkit-transition: 300ms ease all;
+    -moz-transition: 300ms ease all;
+    -o-transition: 300ms ease all;
+    transition: 300ms ease all;
   }
 }

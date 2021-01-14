@@ -268,7 +268,7 @@
         },
         {
             "name": "FilterComponent",
-            "id": "component-FilterComponent-04f0fcc8d650480dc7a00d529a8a9d0f",
+            "id": "component-FilterComponent-1321aa56f23bd232e0d4b0f8746d17ff",
             "file": "src/app/modules/mips/components/filter/filter.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -452,7 +452,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit, Output, ViewChild } from '@angular/core';\nimport { EventEmitter } from '@angular/core';\nimport FilterData from './filter.data';\n\n@Component({\n  selector: 'app-filter',\n  templateUrl: './filter.component.html',\n  styleUrls: ['./filter.component.scss']\n})\nexport class FilterComponent implements OnInit {\n\n  statusCLass: 'status-accepted' | 'status-rejected' | 'status-archive' | 'status-rfc' | 'status-none';\n  statusInputText  = 'Select status';\n  statusOptionsShow = false;\n  typeInputText  = 'Select status';\n  typeOptionsShow = false;\n  contentOptionsShow = false;\n  titleText: string;\n  @ViewChild('title') inputTitle;\n  @Output() send = new EventEmitter<FilterData>();\n  filterData: FilterData;\n\n  constructor() { }\n\n  ngOnInit(): void {\n    this.statusCLass = 'status-none';\n  }\n\n  setStatusClassAndText(pos: number): void {\n    switch (pos) {\n      case 0: { this.statusCLass = 'status-accepted'; this.statusInputText = 'ACCEPTED'; this.statusOptionsShow = false; break; }\n      case 1: { this.statusCLass = 'status-rejected'; this.statusInputText = 'REJECTED'; this.statusOptionsShow = false; break; }\n      case 2: { this.statusCLass = 'status-archive'; this.statusInputText = 'ARCHIVE'; this.statusOptionsShow = false; break; }\n      case 3: { this.statusCLass = 'status-rfc'; this.statusInputText = 'RFC'; this.statusOptionsShow = false; break; }\n      case 4: { this.statusCLass = 'status-none'; this.statusInputText = 'Select status'; this.statusOptionsShow = false; break; }\n    }\n  }\n\n  setTyepClassAndText(pos: number): void {\n    switch (pos) {\n      case 0: { this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }\n      case 1: { this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }\n      case 2: { this.typeInputText = 'Select Type'; this.typeOptionsShow = false; break; }\n    }\n  }\n\n  containerShowStatus(): void {\n    this.contentOptionsShow = !this.contentOptionsShow;\n  }\n\n  reset(): void {\n    this.setStatusClassAndText(4);\n    this.setTyepClassAndText(2);\n    this.inputTitle.nativeElement.value = ' ';\n  }\n\n  apply(): void {\n    this.filterData.title = this.inputTitle.nativeElement.value;\n    this.filterData.status = this.statusInputText;\n    this.filterData.type = this.typeInputText;\n    this.send.emit(this.filterData);\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit, Output, ViewChild } from '@angular/core';\r\nimport { EventEmitter } from '@angular/core';\r\nimport FilterData from './filter.data';\r\n\r\n@Component({\r\n  selector: 'app-filter',\r\n  templateUrl: './filter.component.html',\r\n  styleUrls: ['./filter.component.scss']\r\n})\r\nexport class FilterComponent implements OnInit {\r\n\r\n  statusCLass: 'status-accepted' | 'status-rejected' | 'status-archive' | 'status-rfc' | 'status-none';\r\n  statusInputText  = 'Select status';\r\n  statusOptionsShow = false;\r\n  typeInputText  = 'Select status';\r\n  typeOptionsShow = false;\r\n  contentOptionsShow = false;\r\n  titleText: string;\r\n  @ViewChild('title') inputTitle;\r\n  @Output() send = new EventEmitter<FilterData>();\r\n  filterData: FilterData;\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n    this.statusCLass = 'status-none';\r\n  }\r\n\r\n  setStatusClassAndText(pos: number): void {\r\n    switch (pos) {\r\n      case 0: { this.statusCLass = 'status-accepted'; this.statusInputText = 'ACCEPTED'; this.statusOptionsShow = false; break; }\r\n      case 1: { this.statusCLass = 'status-rejected'; this.statusInputText = 'REJECTED'; this.statusOptionsShow = false; break; }\r\n      case 2: { this.statusCLass = 'status-archive'; this.statusInputText = 'ARCHIVE'; this.statusOptionsShow = false; break; }\r\n      case 3: { this.statusCLass = 'status-rfc'; this.statusInputText = 'RFC'; this.statusOptionsShow = false; break; }\r\n      case 4: { this.statusCLass = 'status-none'; this.statusInputText = 'Select status'; this.statusOptionsShow = false; break; }\r\n    }\r\n  }\r\n\r\n  setTyepClassAndText(pos: number): void {\r\n    switch (pos) {\r\n      case 0: { this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }\r\n      case 1: { this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }\r\n      case 2: { this.typeInputText = 'Select Type'; this.typeOptionsShow = false; break; }\r\n    }\r\n  }\r\n\r\n  containerShowStatus(): void {\r\n    this.contentOptionsShow = !this.contentOptionsShow;\r\n  }\r\n\r\n  reset(): void {\r\n    this.setStatusClassAndText(4);\r\n    this.setTyepClassAndText(2);\r\n    this.inputTitle.nativeElement.value = ' ';\r\n  }\r\n\r\n  apply(): void {\r\n    this.filterData.title = this.inputTitle.nativeElement.value;\r\n    this.filterData.status = this.statusInputText;\r\n    this.filterData.type = this.typeInputText;\r\n    this.send.emit(this.filterData);\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -470,11 +470,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"container\">\n  <div class=\"button\" (click)=\"this.contentOptionsShow = !this.contentOptionsShow\">\n      <img src=\"../../../../../assets/images/icon_filter.svg\" />\n  </div>\n  <div class=\"content frame\" *ngIf=\"contentOptionsShow\">\n    <p class=\"title\">FILTER BY</p>\n    <div class=\"data\">\n      <div class=\"label\">Title:</div>\n      <input type=\"text\" #title placeholder=\"Title name\">\n    </div>\n    <div class=\"data\">\n      <div class=\"label\">Status:</div>\n      <input type=\"text\" class=\"status\" [ngClass]=\"statusCLass\" value=\"{{statusInputText}}\" disabled>\n      <img class=\"arrow\" (click)=\"statusOptionsShow = !statusOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\n      <div class=\"status-options frame\" *ngIf=\"statusOptionsShow\" (onmouseout)=\"statusOptionsShow = false\">\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(4)\"><app-status type=\"NONE\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(0)\"><app-status type=\"ACCEPTED\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(1)\"><app-status type=\"REJECTED\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(2)\"><app-status type=\"ARCHIVE\"></app-status></div>\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(3)\"><app-status type=\"RFC\"></app-status></div>\n      </div>\n    </div>\n    <div class=\"data\">\n      <div class=\"label\">MIP Type:</div>\n      <input type=\"text\" class=\"type\" value=\"{{typeInputText}}\" disabled>\n      <img class=\"arrow\" (click)=\"typeOptionsShow = !typeOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\n      <div class=\"type-options frame\" *ngIf=\"typeOptionsShow\">\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(2)\">NONE</div>\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(0)\">PROPOSAL</div>\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(1)\">SUB-PROPOSAL</div>        \n      </div>\n    </div>\n    <div class=\"buttons\">\n      <button class=\"reset btn\" (click)=\"reset()\">Reset</button>    \n      <button class=\"apply btn\">Apply</button>\n    </div>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"container\">\r\n  <div class=\"button\" (click)=\"this.contentOptionsShow = !this.contentOptionsShow\">\r\n      <img src=\"../../../../../assets/images/icon_filter.svg\" />\r\n  </div>\r\n  <div class=\"content frame\" *ngIf=\"contentOptionsShow\">\r\n    <p class=\"title\">FILTER BY</p>\r\n    <div class=\"data\">\r\n      <div class=\"label\">Title:</div>\r\n      <input type=\"text\" #title placeholder=\"Title name\">\r\n    </div>\r\n    <div class=\"data\">\r\n      <div class=\"label\">Status:</div>\r\n      <input type=\"text\" class=\"status\" [ngClass]=\"statusCLass\" value=\"{{statusInputText}}\" disabled>\r\n      <img class=\"arrow\" (click)=\"statusOptionsShow = !statusOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\r\n      <div class=\"status-options frame\" *ngIf=\"statusOptionsShow\" (onmouseout)=\"statusOptionsShow = false\">\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(4)\"><app-status type=\"NONE\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(0)\"><app-status type=\"ACCEPTED\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(1)\"><app-status type=\"REJECTED\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(2)\"><app-status type=\"ARCHIVE\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(3)\"><app-status type=\"RFC\"></app-status></div>\r\n      </div>\r\n    </div>\r\n    <div class=\"data\">\r\n      <div class=\"label\">MIP Type:</div>\r\n      <input type=\"text\" class=\"type\" value=\"{{typeInputText}}\" disabled>\r\n      <img class=\"arrow\" (click)=\"typeOptionsShow = !typeOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\r\n      <div class=\"type-options frame\" *ngIf=\"typeOptionsShow\">\r\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(2)\">NONE</div>\r\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(0)\">PROPOSAL</div>\r\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(1)\">SUB-PROPOSAL</div>        \r\n      </div>\r\n    </div>\r\n    <div class=\"buttons\">\r\n      <button class=\"reset btn\" (click)=\"reset()\">Reset</button>    \r\n      <button class=\"apply btn\">Apply</button>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
         },
         {
             "name": "FooterComponent",
-            "id": "component-FooterComponent-868f3962f21c76b835aad91a76be5501",
+            "id": "component-FooterComponent-eb3f87f27433f2596d9b9240c9cb1c36",
             "file": "src/app/shared/footer/footer.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -508,7 +508,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-footer',\n  templateUrl: './footer.component.html',\n  styleUrls: ['./footer.component.scss']\n})\nexport class FooterComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-footer',\r\n  templateUrl: './footer.component.html',\r\n  styleUrls: ['./footer.component.scss']\r\n})\r\nexport class FooterComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -526,7 +526,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"footer\">\n  <div class=\"logo\">\n    <img src=\"../../../assets/images/logo_l.svg\" />\n    <img src=\"../../../assets/images/logo_r.svg\" />\n  </div>\n  <span>This is site is part of <a href=\"#\">MakerDAO</a> ecosystem</span>\n  <div class=\"icons\">\n    <span>\n      <img src=\"../../../assets/images/github.svg\" />\n      Github\n    </span>\n    <span>\n      <img src=\"../../../assets/images/forum.svg\" />\n      Forum\n    </span>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"footer\">\r\n  <div class=\"logo\">\r\n    <img src=\"../../../assets/images/logo_l.svg\" />\r\n    <img src=\"../../../assets/images/logo_r.svg\" />\r\n  </div>\r\n  <span>This is site is part of <a href=\"#\">MakerDAO</a> ecosystem</span>\r\n  <div class=\"icons\">\r\n    <span>\r\n      <img src=\"../../../assets/images/github.svg\" />\r\n      Github\r\n    </span>\r\n    <span>\r\n      <img src=\"../../../assets/images/forum.svg\" />\r\n      Forum\r\n    </span>\r\n  </div>\r\n</div>\r\n"
         },
         {
             "name": "HeaderComponent",
@@ -713,7 +713,7 @@
         },
         {
             "name": "ListPageComponent",
-            "id": "component-ListPageComponent-564d62f84caaba70a742a70cd4c34ec3",
+            "id": "component-ListPageComponent-6e23e572b4f2f6bc2b6c299c412602d1",
             "file": "src/app/modules/mips/pages/list-page/list-page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -747,7 +747,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-list-page',\n  templateUrl: './list-page.component.html',\n  styleUrls: ['./list-page.component.scss']\n})\nexport class ListPageComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-list-page',\r\n  templateUrl: './list-page.component.html',\r\n  styleUrls: ['./list-page.component.scss']\r\n})\r\nexport class ListPageComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -765,11 +765,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"row\">\n  <p class=\"title\">MIPs List</p>\n  <div class=\"row filtering\">\n    <app-search></app-search>\n    <app-filter></app-filter>\n  </div>\n</div>\n<app-list></app-list>"
+            "templateData": "<div class=\"row\">\r\n  <p class=\"title\">MIPs List</p>\r\n  <div class=\"row filtering\">\r\n    <app-search></app-search>\r\n    <app-filter></app-filter>\r\n  </div>\r\n</div>\r\n<app-list></app-list>\r\n\r\n"
         },
         {
             "name": "MipsPaginationComponent",
-            "id": "component-MipsPaginationComponent-4243d01d6a2853182716c9402aaae4c5",
+            "id": "component-MipsPaginationComponent-98e01450002fcb990d53423b977b7f12",
             "file": "src/app/modules/mips/components/mips-pagination/mips-pagination.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -803,11 +803,11 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-mips-pagination',\n  templateUrl: './mips-pagination.component.html',\n  styleUrls: ['./mips-pagination.component.scss']\n})\nexport class MipsPaginationComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-mips-pagination',\r\n  templateUrl: './mips-pagination.component.html',\r\n  styleUrls: ['./mips-pagination.component.scss']\r\n})\r\nexport class MipsPaginationComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".container {\r\n  height: 46px;\r\n  background: #FFFFFF;\r\n  opacity: 0.5;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  transform: matrix(-1, 0, 0, 1, 0, 0);\r\n}",
+                    "data": ".container {\r\n  height: 46px;\r\n  background: #FFFFFF;\r\n  opacity: 0.5;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  color: #748AA1;  \r\n  padding: 0 30px;\r\n\r\n  .row {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n    strong {\r\n      color: #31394D;\r\n    }   \r\n    .links {\r\n      font-size: 14px;  \r\n      a {\r\n        text-decoration: none;\r\n        color: #748AA1; \r\n      } \r\n    }\r\n    .items {\r\n      font-style: normal;\r\n      font-weight: bold;\r\n      font-size: 12px;\r\n      img {\r\n        margin: 0 10px;       \r\n        transform: translateY(2px);    \r\n        cursor: pointer;     \r\n      }\r\n    }\r\n  }\r\n\r\n  .space {\r\n    padding-top: 14px;\r\n  }\r\n}",
                     "styleUrl": "./mips-pagination.component.scss"
                 }
             ],
@@ -821,7 +821,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"links\">\n\n    </div>\n    <div class=\"items\">\n      <span>2 of</span>\n      <span>30 items</span>\n      <img src=\"../../../../../assets/images/left.svg\" />\n      <img src=\"../../../../../assets/images/right.svg\" />\n    </div>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"container\">\r\n  <div class=\"row space\">\r\n    <div class=\"links\">\r\n      <a href=\"#\">ALL MIPs </a>\r\n      <strong > / MIP 2 </strong>\r\n    </div>\r\n    <div class=\"items\">\r\n      <strong>2  </strong>\r\n      <span> of 30 items </span>\r\n      <img src=\"../../../../../assets/images/left.svg\" />\r\n      <img src=\"../../../../../assets/images/right.svg\" />\r\n    </div>\r\n  </div>\r\n</div>\r\n"
         },
         {
             "name": "PageComponent",
@@ -886,8 +886,81 @@
             "stylesData": ""
         },
         {
+            "name": "ProposalComponentsComponent",
+            "id": "component-ProposalComponentsComponent-11438cc65f80eb2f4122288c5311277d",
+            "file": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-proposal-components",
+            "styleUrls": [
+                "./proposal-components.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./proposal-components.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "marketPosition",
+                    "defaultValue": "0",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 44
+                },
+                {
+                    "name": "sourceData",
+                    "defaultValue": "sampleData",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 43
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 47
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\nconst sampleData = [\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]\r\n\r\n@Component({\r\n  selector: 'app-proposal-components',\r\n  templateUrl: './proposal-components.component.html',\r\n  styleUrls: ['./proposal-components.component.scss']\r\n})\r\nexport class ProposalComponentsComponent implements OnInit {\r\n\r\n  sourceData = sampleData;\r\n  marketPosition = 0;\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  font-style: normal;\r\n  font-weight: 500;\r\n}\r\n\r\n.container {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  .content {\r\n    padding: 30px 0 30px 30px;\r\n    p {\r\n      &.header {\r\n        font-size: 16px;\r\n        line-height: 19px;\r\n        color: #000000;\r\n      }\r\n      &.title {\r\n        color: #748AA1;\r\n        font-size: 14px;\r\n      }\r\n      &.sub-title {\r\n        font-size: 12px;\r\n        color: #748AA1;\r\n        font-weight: normal;\r\n      }\r\n    }\r\n  }\r\n\r\n\r\n  .marker {\r\n    width: 5px;\r\n    height: 14px;\r\n    background: #31394D;\r\n  }\r\n}",
+                    "styleUrl": "./proposal-components.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 44
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\r\n  <div class=\"marker\" [ngStyle]=\"{'transform': 'translateY(' + marketPosition + 'px)'}\"></div>\r\n  <div class=\"content\">\r\n    <p class=\"header\">Proposal Components</p>\r\n    <div *ngFor=\"let element of sourceData\">\r\n      <p class=\"title\" >{{element.title}}</p>\r\n      <p class=\"sub-title\" *ngFor=\"let subelement of element.subtitles\">{{subelement.title}}</p>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+        },
+        {
             "name": "SearchComponent",
-            "id": "component-SearchComponent-7e1456c84c065f974c9e1f65384778b9",
+            "id": "component-SearchComponent-08c612a2eb7f11c9b93927c2e134f745",
             "file": "src/app/modules/mips/components/search/search.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -993,7 +1066,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';\nimport { EventEmitter } from '@angular/core';\n\n\n@Component({\n  selector: 'app-search',\n  templateUrl: './search.component.html',\n  styleUrls: ['./search.component.scss'],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class SearchComponent implements OnInit {\n\n@Input() placeHolder ? = 'Search on the list';\n@Input() imageDir ? = '../../../../../assets/images/magnifier.png';\n@Output() send = new EventEmitter();\ntimeout: any = null;\n\n  constructor() { }\n\n  ngOnInit(): void {}\n\n  onKeySearch(event: any): void {\n    clearTimeout(this.timeout);\n    const $this = this;\n    this.timeout = setTimeout(() => {\n        $this.onChange(event.target.vlue);\n    }, 1000);\n  }\n\n  onChange(value: string): void {\n    this.send.emit(value);\n  }\n}\n",
+            "sourceCode": "import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';\r\nimport { EventEmitter } from '@angular/core';\r\n\r\n\r\n@Component({\r\n  selector: 'app-search',\r\n  templateUrl: './search.component.html',\r\n  styleUrls: ['./search.component.scss'],\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class SearchComponent implements OnInit {\r\n\r\n@Input() placeHolder ? = 'Search on the list';\r\n@Input() imageDir ? = '../../../../../assets/images/magnifier.png';\r\n@Output() send = new EventEmitter();\r\ntimeout: any = null;\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {}\r\n\r\n  onKeySearch(event: any): void {\r\n    clearTimeout(this.timeout);\r\n    const $this = this;\r\n    this.timeout = setTimeout(() => {\r\n        $this.onChange(event.target.vlue);\r\n    }, 1000);\r\n  }\r\n\r\n  onChange(value: string): void {\r\n    this.send.emit(value);\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1011,11 +1084,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<img src=\"{{imageDir}}\" />\n<input type=\"text\" placeholder=\"{{placeHolder}}\" (keyup)=\"onKeySearch($event)\">\n"
+            "templateData": "<img src=\"{{imageDir}}\" />\r\n<input type=\"text\" placeholder=\"{{placeHolder}}\" (keyup)=\"onKeySearch($event)\">\r\n"
         },
         {
             "name": "SocialComponent",
-            "id": "component-SocialComponent-4ecef89826a4e4644e2690528a45734b",
+            "id": "component-SocialComponent-1f4d56d0b012c44c3b30c8af06c14cd6",
             "file": "src/app/modules/mips/components/social/social.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1060,7 +1133,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-social',\n  templateUrl: './social.component.html',\n  styleUrls: ['./social.component.scss']\n})\nexport class SocialComponent implements OnInit {\n\n  @Input() githubLink: 'OK';\n  @Input() forumLink: 'OK';\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-social',\r\n  templateUrl: './social.component.html',\r\n  styleUrls: ['./social.component.scss']\r\n})\r\nexport class SocialComponent implements OnInit {\r\n\r\n  @Input() githubLink: 'OK';\r\n  @Input() forumLink: 'OK';\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1078,11 +1151,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<a href=\"{{githubLink}}\"><img src=\"../../../../../assets/images/social_github.svg\" /></a>\n<a href=\"{{forumLink}}\"><img src=\"../../../../../assets/images/social_forum.svg\" /></a>\n\n"
+            "templateData": "<a href=\"{{githubLink}}\"><img src=\"../../../../../assets/images/social_github.svg\" /></a>\r\n<a href=\"{{forumLink}}\"><img src=\"../../../../../assets/images/social_forum.svg\" /></a>\r\n\r\n"
         },
         {
             "name": "StatusComponent",
-            "id": "component-StatusComponent-ec0c5914f62d83b3ad5f883b49ec37e9",
+            "id": "component-StatusComponent-8b41c9915f83ca29986d9311652b2e50",
             "file": "src/app/modules/mips/components/status/status.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1122,7 +1195,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-status',\n  templateUrl: './status.component.html',\n  styleUrls: ['./status.component.scss']\n})\nexport class StatusComponent implements OnInit {\n\n  @Input() type: 'ACCEPTED' | 'REJECTED' | 'ARCHIVE' | 'RFC' | 'NONE';\n\n  constructor() { }\n\n  public get classes(): string[] {\n    return ['status-container', `type--${this.type}`];\n  }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-status',\r\n  templateUrl: './status.component.html',\r\n  styleUrls: ['./status.component.scss']\r\n})\r\nexport class StatusComponent implements OnInit {\r\n\r\n  @Input() type: 'ACCEPTED' | 'REJECTED' | 'ARCHIVE' | 'RFC' | 'NONE';\r\n\r\n  constructor() { }\r\n\r\n  public get classes(): string[] {\r\n    return ['status-container', `type--${this.type}`];\r\n  }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1151,7 +1224,7 @@
                     }
                 }
             },
-            "templateData": "<div [ngClass]=\"classes\">\n  {{ type }}\n</div>\n\n\n"
+            "templateData": "<div [ngClass]=\"classes\">\r\n  {{ type }}\r\n</div>\r\n\r\n\r\n"
         }
     ],
     "modules": [
@@ -1249,6 +1322,9 @@
                         },
                         {
                             "name": "MipsPaginationComponent"
+                        },
+                        {
+                            "name": "ProposalComponentsComponent"
                         },
                         {
                             "name": "SearchComponent"
@@ -1399,6 +1475,14 @@
                 "name": "Default",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/modules/mips/components/search/Search.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
@@ -1499,6 +1583,14 @@
                 "defaultValue": "[\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
             },
             {
+                "name": "sampleData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                "type": "[]",
+                "defaultValue": "[\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]"
+            },
+            {
                 "name": "Secondary",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1577,6 +1669,14 @@
                 "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
                 "type": "Story<MipsPaginationComponent>",
                 "defaultValue": "(args: MipsPaginationComponent) => ({\r\n  component: MipsPaginationComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "Story<ProposalComponentsComponent>",
+                "defaultValue": "(args: ProposalComponentsComponent) => ({\r\n  component: ProposalComponentsComponent,\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
@@ -1800,6 +1900,24 @@
                     "defaultValue": "(args: MipsPaginationComponent) => ({\r\n  component: MipsPaginationComponent,\r\n  props: args,\r\n})"
                 }
             ],
+            "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                    "type": "Story<ProposalComponentsComponent>",
+                    "defaultValue": "(args: ProposalComponentsComponent) => ({\r\n  component: ProposalComponentsComponent,\r\n  props: args,\r\n})"
+                }
+            ],
             "src/environments/environment.prod.ts": [
                 {
                     "name": "environment",
@@ -1922,6 +2040,16 @@
                     "file": "src/app/modules/mips/components/list/list.component.ts",
                     "type": "DataElement[]",
                     "defaultValue": "[\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
+                }
+            ],
+            "src/app/modules/mips/components/proposal-components/proposal-components.component.ts": [
+                {
+                    "name": "sampleData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                    "type": "[]",
+                    "defaultValue": "[\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]"
                 }
             ]
         },
@@ -2103,6 +2231,45 @@
                 "name": "MipsPaginationComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ProposalComponentsComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "sampleData",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
