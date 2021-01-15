@@ -47,9 +47,12 @@ GITHUB_REPOSITORY_OWNER=makerdao
 You should create a personal access token to use in place of a password with the command line or with the API. Personal access tokens (PATs) are an alternative to using passwords for authentication to when using the [GitHub API](/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens) or the [command line](#using-a-token-on-the-command-line). 
 
 ### Creating a token
-1. ![In the upper-right corner of any page, click your profile photo, then click Settings.](https://docs.github.com/assets/images/help/settings/userbar-account-settings.png)
-2. ![In the left sidebar, click **Developer settings.**](https://docs.github.com/assets/images/help/settings/developer-settings.png)
-3. ![n the left sidebar, click **Personal access tokens.**](https://docs.github.com/assets/images/help/settings/personal_access_tokens_tab.png)
+1. In the upper-right corner of any page, click your profile photo, then click Settings.
+   ![](https://docs.github.com/assets/images/help/settings/userbar-account-settings.png)
+2. In the left sidebar, click **Developer settings.**
+   ![](https://docs.github.com/assets/images/help/settings/developer-settings.png)
+3. In the left sidebar, click **Personal access tokens.**
+   ![](https://docs.github.com/assets/images/help/settings/personal_access_tokens_tab.png)
 4. Click **Generate new token**.
    ![Generate new token button](https://docs.github.com/assets/images/help/settings/generate_new_token.png)
 5. Give your token a descriptive name.
