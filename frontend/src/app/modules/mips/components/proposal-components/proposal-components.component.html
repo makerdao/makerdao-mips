@@ -3,7 +3,7 @@
   <div class="content">
     <p class="header">Proposal Components</p>
     <div *ngFor="let element of sourceData; let index = index">
-      <p class="title" (click)="updatePos(index)">{{element.title}}</p>
+      <p class="title" [ngClass]="{'selected' : selectedItem == index}" (click)="updatePos(index)">{{element.title}}</p>
       <p class="sub-title" *ngFor="let subelement of element.subtitles">{{subelement.title}}</p>
     </div>
   </div>

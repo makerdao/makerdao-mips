@@ -42,6 +42,7 @@ export class ProposalComponentsComponent implements OnInit {
 
   sourceData = sampleData;
   marketPosition = 98;
+  selectedItem = 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -49,6 +50,7 @@ export class ProposalComponentsComponent implements OnInit {
 
   updatePos(index): void {
     this.marketPosition = (index) * 29.5 + 95;
+    this.selectedItem = index;
   }
 
 }

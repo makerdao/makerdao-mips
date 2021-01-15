@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div>
+      <span class="title-bold">{{mipId}}:</span><span class="title"> {{mipName}}</span>
+    </div>
+    <div>
+      <img src="../../../../../assets/images/github_dark.svg" /> <a href="#">Github</a>
+      <img class="forum" src="../../../../../assets/images/forum.svg" /> <a href="#">Forum</a>
+    </div>
+  </div>
+  <hr>
+  <p class="sub-title space-3">Preamble</p>
+  <div class="preamble">
+    <div *ngFor="let pre of preamble">
+      <span class="label">{{pre.key}}:</span><span class="info"> {{pre.value}}</span>
+    </div>
+  </div> 
+  <p class="sub-title space-4">References</p>
+  <a href="#">{{file}}</a>
+  <p class="sub-title space-4">Sentence Summary</p>
+  <p class="summary">{{sentenceSummary}}</p>
+  <p class="sub-title space-4">Paragraph Summary</p>
+  <p class="summary">{{paragraphSummary}}</p>
+</div>
+

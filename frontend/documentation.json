@@ -887,7 +887,7 @@
         },
         {
             "name": "ProposalComponentsComponent",
-            "id": "component-ProposalComponentsComponent-11438cc65f80eb2f4122288c5311277d",
+            "id": "component-ProposalComponentsComponent-90bdd507561ec3cae899f4f9f80e1063",
             "file": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -908,7 +908,7 @@
             "propertiesClass": [
                 {
                     "name": "marketPosition",
-                    "defaultValue": "0",
+                    "defaultValue": "98",
                     "type": "number",
                     "optional": false,
                     "description": "",
@@ -931,6 +931,28 @@
                     "returnType": "void",
                     "typeParameters": [],
                     "line": 47
+                },
+                {
+                    "name": "updatePos",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 50,
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 }
             ],
             "hostBindings": [],
@@ -938,11 +960,11 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\nconst sampleData = [\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]\r\n\r\n@Component({\r\n  selector: 'app-proposal-components',\r\n  templateUrl: './proposal-components.component.html',\r\n  styleUrls: ['./proposal-components.component.scss']\r\n})\r\nexport class ProposalComponentsComponent implements OnInit {\r\n\r\n  sourceData = sampleData;\r\n  marketPosition = 0;\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\nconst sampleData = [\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]\r\n\r\n@Component({\r\n  selector: 'app-proposal-components',\r\n  templateUrl: './proposal-components.component.html',\r\n  styleUrls: ['./proposal-components.component.scss']\r\n})\r\nexport class ProposalComponentsComponent implements OnInit {\r\n\r\n  sourceData = sampleData;\r\n  marketPosition = 98;\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n  updatePos(index): void {\r\n    this.marketPosition = (index) * 29.5 + 95;\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host {\r\n  font-style: normal;\r\n  font-weight: 500;\r\n}\r\n\r\n.container {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  .content {\r\n    padding: 30px 0 30px 30px;\r\n    p {\r\n      &.header {\r\n        font-size: 16px;\r\n        line-height: 19px;\r\n        color: #000000;\r\n      }\r\n      &.title {\r\n        color: #748AA1;\r\n        font-size: 14px;\r\n      }\r\n      &.sub-title {\r\n        font-size: 12px;\r\n        color: #748AA1;\r\n        font-weight: normal;\r\n      }\r\n    }\r\n  }\r\n\r\n\r\n  .marker {\r\n    width: 5px;\r\n    height: 14px;\r\n    background: #31394D;\r\n  }\r\n}",
+                    "data": ":host {\r\n  font-style: normal;\r\n  font-weight: 500;\r\n}\r\n\r\n.container {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  .content {\r\n    padding: 30px 0 30px 30px;\r\n    p {\r\n      &.header {\r\n        font-size: 16px;\r\n        line-height: 19px;\r\n        color: #000000;\r\n      }\r\n      &.title {\r\n        color: #748AA1;\r\n        font-size: 14px;\r\n        cursor: pointer;\r\n      }\r\n      &.sub-title {\r\n        font-size: 12px;\r\n        color: #748AA1;\r\n        font-weight: normal;\r\n      }\r\n    }\r\n  }\r\n\r\n\r\n  .marker {\r\n    width: 5px;\r\n    height: 14px;\r\n    background: #31394D;\r\n    -webkit-transition: 300ms ease all;\r\n    -moz-transition: 300ms ease all;\r\n    -o-transition: 300ms ease all;\r\n    transition: 300ms ease all;\r\n  }\r\n}",
                     "styleUrl": "./proposal-components.component.scss"
                 }
             ],
@@ -956,7 +978,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"container\">\r\n  <div class=\"marker\" [ngStyle]=\"{'transform': 'translateY(' + marketPosition + 'px)'}\"></div>\r\n  <div class=\"content\">\r\n    <p class=\"header\">Proposal Components</p>\r\n    <div *ngFor=\"let element of sourceData\">\r\n      <p class=\"title\" >{{element.title}}</p>\r\n      <p class=\"sub-title\" *ngFor=\"let subelement of element.subtitles\">{{subelement.title}}</p>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+            "templateData": "<div class=\"container\">\r\n  <div class=\"marker\" [ngStyle]=\"{'transform': 'translateY(' + marketPosition + 'px)'}\"></div>\r\n  <div class=\"content\">\r\n    <p class=\"header\">Proposal Components</p>\r\n    <div *ngFor=\"let element of sourceData; let index = index\">\r\n      <p class=\"title\" (click)=\"updatePos(index)\">{{element.title}}</p>\r\n      <p class=\"sub-title\" *ngFor=\"let subelement of element.subtitles\">{{subelement.title}}</p>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
         },
         {
             "name": "SearchComponent",
@@ -2259,7 +2281,7 @@
                 "linktype": "component",
                 "name": "ProposalComponentsComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/6",
                 "status": "low"
             },
             {

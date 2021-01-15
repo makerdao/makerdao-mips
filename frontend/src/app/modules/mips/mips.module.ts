@@ -12,6 +12,9 @@ import { FilterComponent } from './components/filter/filter.component';
 import { ListPageComponent } from './pages/list-page/list-page.component';
 import { MipsPaginationComponent } from './components/mips-pagination/mips-pagination.component';
 import { ProposalComponentsComponent } from './components/proposal-components/proposal-components.component';
+import { MipDetailsComponent } from './components/mip-details/mip-details.component';
+import { PullRequestHistoryComponent } from './components/pull-request-history/pull-request-history.component';
+import { DetailContentComponent } from './components/detail-content/detail-content.component';
 
 
 
@@ -24,7 +27,10 @@ import { ProposalComponentsComponent } from './components/proposal-components/pr
     FilterComponent,
     ListPageComponent,
     MipsPaginationComponent,
-    ProposalComponentsComponent
+    ProposalComponentsComponent,
+    MipDetailsComponent,
+    PullRequestHistoryComponent,
+    DetailContentComponent
   ],
   imports: [
     CommonModule,
