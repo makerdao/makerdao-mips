@@ -23,10 +23,8 @@ https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 ## Webhooks documentation
 ![Webhooks-documentation](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)
 
-## Command to parse MakerDAO mips repository manualy
+## Command to parse MakerDAO mips repository manually
 $ npx nestjs-command parse:mips
-
-**bold**
 
 
 ## Environment vars .env file
@@ -38,8 +36,8 @@ FOLDER_REPOSITORY_NAME=mips_repository
 REPO_PATH=https://github.com/makerdao/mips.git
 FOLDER_PATTERN='MIP*'
 
-WEBHOOKS_SECRET_TOKEN=ffgghhjj
-GIT_ACCESS_API_TOKEN=ddfffggg
+WEBHOOKS_SECRET_TOKEN=AANBM78GGfffGGGKOI
+GIT_ACCESS_API_TOKEN=AANBM78GGfffGGGKOI
 GITHUB_URL_ENDPOINT=https://api.github.com/graphql
 
 GITHUB_REPOSITORY=mips
@@ -47,14 +45,13 @@ GITHUB_REPOSITORY_OWNER=makerdao
 ```
 
 ---
-## Creating a personal access token
+## Creating a personal access token (GIT_ACCESS_API_TOKEN)
 
-### Creating a personal access token
 You should create a personal access token to use in place of a password with the command line or with the API. Personal access tokens (PATs) are an alternative to using passwords for authentication to when using the [GitHub API](/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens) or the [command line](#using-a-token-on-the-command-line). 
 
 ### Creating a token
 4. Click **Generate new token**.
-   ![Generate new token button](/assets/images/help/settings/generate_new_token.png)
+   ![Generate new token button](https://docs.github.com/assets/images/help/settings/generate_new_token.png)
 5. Give your token a descriptive name.
    ![Token description field](https://docs.github.com/assets/images/help/settings/token_description.png)
 6. Select the scopes, or permissions, you'd like to grant this token. To use your token to access repositories from the command line, select **repo**.
