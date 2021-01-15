@@ -233,14 +233,14 @@ export class ParseMIPsService {
 
       switch (keyValue[0]) {
         case "MIP#":
-          if (isNaN(+keyValue[1].trimStart())) {
+          if (isNaN(+keyValue[1].trim())) {
             preamble.mip = -1;
             break;
           }
-          preamble.mip = +keyValue[1].trimStart();
+          preamble.mip = +keyValue[1].trim();
           break;
         case "Title":
-          preamble.preambleTitle = keyValue[1];
+          preamble.preambleTitle = keyValue[1].trim();
           break;
         case "Contributors":
           preamble.contributors = keyValue[1].split(", ");
@@ -252,19 +252,19 @@ export class ParseMIPsService {
           preamble.author = keyValue[1].split(", ");
           break;
         case "Replaces":
-          preamble.replaces = keyValue[1];
+          preamble.replaces = keyValue[1].trim();
           break;
         case "Type":
-          preamble.types = keyValue[1];
+          preamble.types = keyValue[1].trim();
           break;
         case "Status":
-          preamble.status = keyValue[1];
+          preamble.status = keyValue[1].trim();
           break;
         case "Date Proposed":
-          preamble.dateProposed = keyValue[1];
+          preamble.dateProposed = keyValue[1].trim();
           break;
         case "Date Ratified":
-          preamble.dateRatified = keyValue[1];
+          preamble.dateRatified = keyValue[1].trim();
           break;
         default:
           return false;
