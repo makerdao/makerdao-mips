@@ -13,6 +13,8 @@ export class PaginationQueryDto {
 export class Filters {
   contains?: BinaryOperator[];
   notcontains?: BinaryOperator[];
+  equals?: BinaryOperator[];
+  notequals?: BinaryOperator[];
 }
 
 export class BinaryOperator {

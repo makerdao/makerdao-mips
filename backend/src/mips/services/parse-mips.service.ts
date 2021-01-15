@@ -225,7 +225,7 @@ export class ParseMIPsService {
       if (!data.includes(":")) {
         return false;
       }
-      const keyValue = data.split(": ");
+      const keyValue = data.split(":");
 
       if (!(keyValue.length > 1)) {
         return false;
@@ -233,11 +233,11 @@ export class ParseMIPsService {
 
       switch (keyValue[0]) {
         case "MIP#":
-          if (isNaN(+keyValue[1])) {
+          if (isNaN(+keyValue[1].trimStart())) {
             preamble.mip = -1;
             break;
           }
-          preamble.mip = +keyValue[1];
+          preamble.mip = +keyValue[1].trimStart();
           break;
         case "Title":
           preamble.preambleTitle = keyValue[1];
