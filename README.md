@@ -4,11 +4,6 @@ This project is a MIPs Tracker for MakerDAO Improvement Proposals.
 ## Dependencies
 Requires git to be installed and that it can be called using the command git.
 
-## Api search
-In the search field, specify a string of words that the text operator parses and uses to query the text index. The text operator treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes \" that specifies a phrase.
-https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
-
-
 # Diagrams
 ## Entity Relationship Diagram
 
@@ -88,7 +83,7 @@ You should create a personal access token to use in place of a password with the
   
 ---
 
-## Webhooks documentation
+## Webhooks documentation (WEBHOOKS_SECRET_TOKEN equal to secret)
 Webhooks allow you to build or set up integrations, such as GitHub Apps or OAuth Apps, which subscribe to certain events on GitHub.com. When one of those events is triggered, we'll send a HTTP POST payload to the webhook's configured URL. Webhooks can be used to update an external issue tracker, trigger CI builds, update a backup mirror, or even deploy to your production server. You're only limited by your imagination.
 
 ![image](https://github.com/DSpotDevelopers/makerdao-mips/blob/feature/19-create-unit-test/docs/img/Configure-webhook.png)
@@ -96,4 +91,65 @@ Webhooks allow you to build or set up integrations, such as GitHub Apps or OAuth
 ### Further reading
 - [Webhooks-documentation](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)
 
+---
+
+## Api URL. Documented with Swagger. 
+- [API URL](http://159.203.86.45:3000/doc/)
+
+### Findall endpoint
+Function that lists all mips.
+
+#### findall endpoint, search parameter
+In the search parameter, specify a string of words that the text operator parses and uses to query the text index. The text operator treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes \" that specifies a phrase.
+https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
+
+##### Examples of search (Ignore parenthesis)
+
+- Specifies a phrase (\"General MIP Templat\")
+- Negate term (-MIP)
+
+#### findall endpoint, filter parameter
+Filter field with various filter patterns. (contains, notcontains, equals, notequals)
+
+##### Examples
+```json
+{
+  "filter": {
+    "contains": [
+      {
+        "field": "title",
+        "value": "Proposal"
+      }
+    ],
+    "notcontains": [
+      {
+        "field": "title",
+        "value": "subproposal"
+      }
+    ],
+    "equals": [
+      {
+        "field": "mip",
+        "value": -1
+      }
+    ],
+    "notequals": [
+      {
+        "field": "mip",
+        "value": -1
+      }
+    ]
+  }
+}
+```
+
+#### findall endpoint, sort parameter
+- Order 'mip -title', means: order parameter (mip ASC and title DESC)
+
+#### findall endpoint, limit parameter
+- Limit per page, default value 10
+
+#### findall endpoint, page parameter
+- Page, default value equal to zero
+  
 ---

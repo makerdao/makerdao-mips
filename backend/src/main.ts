@@ -15,8 +15,8 @@ async function bootstrap() {
   app.enableCors();
 
   const options = new DocumentBuilder()
-    .setTitle("MakerDao parse project")
-    .setDescription("MIPs projects.")
+    .setTitle("Parse mips project")
+    .setDescription("This project is a MIPs Tracker for MakerDAO Improvement Proposals. MIPs projects.")
     .setVersion("1.0")
     .build();
   const document = SwaggerModule.createDocument(app, options);

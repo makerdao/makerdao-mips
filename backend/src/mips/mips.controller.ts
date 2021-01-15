@@ -33,19 +33,19 @@ export class MIPsController {
   @Get("findall")
   @ApiQuery({
     name: "limit",
-    description: "Default value 10",
+    description: "Limit per page, default value 10",
     type: Number,
     required: false,
   })
   @ApiQuery({
-    name: "offset",
-    description: "Default value 0",
+    name: "page",
+    description: "Page, default value equal to zero",
     type: Number,
     required: false,
   })
   @ApiQuery({
     name: "order",
-    description: `'title -name', means: order property title ASC and name DESC`,
+    description: `'title -mip', means: order property title ASC and mip DESC`,
     type: String,
     required: false,
   })
@@ -58,7 +58,7 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "filter",
-    description: "Object filter",
+    description: "Filter field with various filter patterns. (contains, notcontains, equals, notequals)",
     required: false,
     type: "object",
     schema: {
@@ -75,7 +75,7 @@ export class MIPsController {
   })
   async findAll(
     @Query("limit") limit?: string,
-    @Query("offset") offset?: string,
+    @Query("page") page?: string,
     @Query("order") order?: string,
     @Query("search") search?: string,
     @Query("filter") filter?: Filters
@@ -83,7 +83,7 @@ export class MIPsController {
     try {
       const paginationQueryDto: PaginationQueryDto = {
         limit: +limit || 10,
-        offset: +offset,
+        page: +page,
       };
 
       const items = await this.mipsService.findAll(

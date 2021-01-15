@@ -22,21 +22,16 @@ export class MIPsService {
     search?: string,
     filter?: Filters 
   ): Promise<IMIPs[]> {
-    const buildFilter = this.buildFilter(search, filter);
+    const buildFilter = this.buildFilter(search, filter);    
+    const { limit, page } = paginationQuery;
 
-    if (paginationQuery) {
-      const { limit, offset } = paginationQuery;
-
-      return this.mipsDoc
-        .find(buildFilter)
-        .select(["-file", "-__v"])
-        .sort(order)
-        .skip(offset * limit)
-        .limit(limit)
-        .exec();
-    }
-
-    return this.mipsDoc.find(buildFilter).select(["-file", "-__v"]).sort(order).exec();
+    return this.mipsDoc
+      .find(buildFilter)
+      .select(["-file", "-__v"])
+      .sort(order)
+      .skip(page * limit)
+      .limit(limit)
+      .exec();    
   }
 
   count(search: string, filter?: Filters): Promise<number> {    
