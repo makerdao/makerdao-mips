@@ -88,11 +88,11 @@ export class MIPsService {
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
           const newValue = this.validField(field.toString(), value[i]); 
-          source[`${field[i].toString()}`] = { $ne: { $regex: new RegExp(`${newValue}`), $options: 'i' }};                   
+          source[`${field[i].toString()}`] = { $not: { $regex: new RegExp(`${newValue}`), $options: 'i' }};                   
         }
       } else {
         const newValue = this.validField(field.toString(), value);        
-        source[`${field.toString()}`] = { $ne: { $regex: new RegExp(`${newValue}`), $options: 'i' }};
+        source[`${field.toString()}`] = { $not: { $regex: new RegExp(`${newValue}`), $options: 'i' }};
       }
     }
 
