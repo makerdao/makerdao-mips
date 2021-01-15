@@ -79,20 +79,22 @@ describe("Parse MIPs service", () => {
 
   describe("Syncronize data", () => {
     it("should return the empty mip parse", async () => {
-
       service.baseDir = `${process.cwd()}/src/mips/services/data-test`;
       const files = new Map();
 
-      const sincronizeData = await service.syncronizeData([
-        {
-          hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-          filename: "MIP1/mip1.md"
-        }
-      ], files);
+      const sincronizeData = await service.syncronizeData(
+        [
+          {
+            hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+            filename: "MIP1/mip1.md",
+          },
+        ],
+        files
+      );
 
       const result = { creates: 1, deletes: 0, updates: 0 };
       expect(sincronizeData).toMatchObject(result);
-    });    
+    });
   });
 
   describe("Parse Lexer data", () => {
@@ -147,5 +149,4 @@ describe("Parse MIPs service", () => {
       expect(preamble).toMatchObject(result);
     });
   });
-
 });
