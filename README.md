@@ -48,17 +48,29 @@ You should create a personal access token to use in place of a password with the
 
 ### Creating a token
 1. In the upper-right corner of any page, click your profile photo, then click Settings.
-   ![](https://docs.github.com/assets/images/help/settings/userbar-account-settings.png)
+   
+   ![image](https://docs.github.com/assets/images/help/settings/userbar-account-settings.png)
+
 2. In the left sidebar, click **Developer settings.**
+   
    ![](https://docs.github.com/assets/images/help/settings/developer-settings.png)
+
 3. In the left sidebar, click **Personal access tokens.**
-   ![](https://docs.github.com/assets/images/help/settings/personal_access_tokens_tab.png)
+   
+   (https://docs.github.com/assets/images/help/settings/personal_access_tokens_tab.png)
+
 4. Click **Generate new token**.
+   
    ![Generate new token button](https://docs.github.com/assets/images/help/settings/generate_new_token.png)
+
 5. Give your token a descriptive name.
+   
    ![Token description field](https://docs.github.com/assets/images/help/settings/token_description.png)
+
 6. Select the scopes, or permissions, you'd like to grant this token. To use your token to access repositories from the command line, select **repo**.
+   
    ![Selecting token scopes](https://docs.github.com/assets/images/help/settings/token_scopes.gif)
+   
 7. Click **Generate token**.
    ![Generate token button](https://docs.github.com/assets/images/help/settings/generate_token.png)
 8. Click to copy the token to your clipboard. For security reasons, after you navigate off the page, you will not be able to see the token again.
