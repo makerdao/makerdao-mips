@@ -44,6 +44,8 @@ describe("Parse MIPs service", () => {
             findOneAndUpdate: jest.fn(),
             create: jest.fn(),
             deleteOne: jest.fn(),
+            insertMany: jest.fn().mockResolvedValue({}),
+            deleteMany: jest.fn().mockResolvedValue({}),
             exec: jest.fn(),
           },
         },
@@ -75,6 +77,48 @@ describe("Parse MIPs service", () => {
     jest.clearAllMocks();
   });
 
+  describe("Syncronize data", () => {
+    it("should return the empty mip parse", async () => {
+
+      service.baseDir = `${process.cwd()}/src/mips/services/data-test`;
+      const files = new Map();
+
+      const sincronizeData = await service.syncronizeData([
+        {
+          hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+          filename: "MIP1/mip1.md"
+        }
+      ], files);
+
+      const result = { creates: 1, deletes: 0, updates: 0 };
+      expect(sincronizeData).toMatchObject(result);
+    });    
+  });
+
+  describe("Parse Lexer data", () => {
+    it("should return the empty mip parse", async () => {
+      const mip = service.parseLexerData("", {
+        filename: "MIP0/mip0.md",
+        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+      });
+
+      expect(mip).toMatchObject({
+        filename: "MIP0/mip0.md",
+        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+        file: "",
+      });
+    });
+
+    it("should return the full mip parse", async () => {
+      const mip = service.parseLexerData(mipFile, {
+        filename: "MIP0/mip0.md",
+        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+      });
+
+      expect(mip).toMatchObject(mipData);
+    });
+  });
+
   describe("Parse Preamble", () => {
     it("should return the empty preamble", async () => {
       const data = "";
@@ -104,27 +148,4 @@ describe("Parse MIPs service", () => {
     });
   });
 
-  describe("Parse Lexer data", () => {
-    it("should return the empty mip parse", async () => {
-      const mip = service.parseLexerData("", {
-        filename: "MIP0/mip0.md",
-        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-      });
-
-      expect(mip).toMatchObject({
-        filename: "MIP0/mip0.md",
-        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-        file: "",
-      });
-    });
-
-    it("should return the full mip parse", async () => {
-      const mip = service.parseLexerData(mipFile, {
-        filename: "MIP0/mip0.md",
-        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-      });
-
-      expect(mip).toMatchObject(mipData);
-    });
-  });
 });
