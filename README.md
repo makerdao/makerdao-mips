@@ -28,3 +28,23 @@ https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 
 ## Command to parse MakerDAO mips repository manualy
 $ npx nestjs-command parse:mips
+
+**bold**
+
+
+## Environment vars .env file
+```.env
+MONGODB_URI=mongodb://localhost:27017/dao
+PORT=3000
+
+FOLDER_REPOSITORY_NAME=mips_repository
+REPO_PATH=https://github.com/makerdao/mips.git
+FOLDER_PATTERN='MIP*'
+
+WEBHOOKS_SECRET_TOKEN=ffgghhjj
+GIT_ACCESS_API_TOKEN=ddfffggg
+GITHUB_URL_ENDPOINT=https://api.github.com/graphql
+
+GITHUB_REPOSITORY=mips
+GITHUB_REPOSITORY_OWNER=makerdao
+```
