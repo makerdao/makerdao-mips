@@ -12,12 +12,12 @@ https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 # Diagrams
 ## Entity Relationship Diagram
 
-![Maker Dao ERM_1](https://user-images.githubusercontent.com/17706489/104136852-c3b32800-5366-11eb-88a2-d9feb803b0ae.png)
+![Maker Dao ERM_1](https://github.com/DSpotDevelopers/makerdao-mips/blob/feature/19-create-unit-test/docs/img/Maker%20Dao%20ERM_1.png)
 
 
 ## High Level Diagram
 
-![MakerDAO_HLD_1](https://user-images.githubusercontent.com/17706489/104136890-037a0f80-5367-11eb-9208-fe83f6f0f1e5.png)
+![MakerDAO_HLD_1](https://github.com/DSpotDevelopers/makerdao-mips/blob/feature/19-create-unit-test/docs/img/MakerDAO_HLD_1.png)
 
 
 ## Command to parse MakerDAO mips repository manually
@@ -91,7 +91,7 @@ You should create a personal access token to use in place of a password with the
 ## Webhooks documentation
 Webhooks allow you to build or set up integrations, such as GitHub Apps or OAuth Apps, which subscribe to certain events on GitHub.com. When one of those events is triggered, we'll send a HTTP POST payload to the webhook's configured URL. Webhooks can be used to update an external issue tracker, trigger CI builds, update a backup mirror, or even deploy to your production server. You're only limited by your imagination.
 
-![image]()
+![image](https://github.com/DSpotDevelopers/makerdao-mips/blob/feature/19-create-unit-test/docs/img/Configure-webhook.png)
 
 ### Further reading
 - [Webhooks-documentation](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)
