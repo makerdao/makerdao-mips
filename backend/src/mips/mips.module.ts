@@ -11,6 +11,7 @@ import { MarkedService } from "./services/marked.service";
 import { GithubService } from "./services/github.service";
 import { PullRequest, PullRequestSchema } from "./entities/pull-request.entity";
 import { PullRequestService } from "./services/pull-requests.service";
+import { ParseMIPsCommand } from "./mips.command";
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { PullRequestService } from "./services/pull-requests.service";
     MarkedService,
     GithubService,
     PullRequestService,
+    ParseMIPsCommand
   ],
 })
 export class MIPsModule {}

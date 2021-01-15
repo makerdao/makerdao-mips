@@ -60,4 +60,5 @@ jobs:
           npm install
           npm run build
           npm run pre-start
+          npx nestjs-command parse:mips
           pm2 start all
