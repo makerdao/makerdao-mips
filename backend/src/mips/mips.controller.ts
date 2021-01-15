@@ -54,7 +54,7 @@ export class MIPsController {
     type: "object",
     schema: {
       type: "object",
-      example: { "filter": { contains: [{ "field": "title", "value": "Proposal" }] } },
+      example: { "filter": { contains: [{ "field": "title", "value": "Proposal" }], notcontains: [{ "field": "title", "value": "subproposal" }] } },
     }
   })
   async findAll(

@@ -66,6 +66,21 @@ export class MIPsService {
       }
     }
 
+    if (filter?.notcontains) {      
+      const field = filter.contains['field'];
+      const value = filter.contains['value'];
+
+      if (Array.isArray(field) && Array.isArray(value)) {
+        for (let i = 0; i < field.length; i++) {
+          this.validField(field[i].toString());
+          source[`${field[i].toString()}`] = { $not: { $regex: new RegExp(`${value[i]}`), $options: 'i' }};                   
+        }
+      } else {
+        this.validField(field.toString());        
+        source[`${field.toString()}`] = { $not: { $regex: new RegExp(`${value}`), $options: 'i' }};
+      }
+    }
+
     return source;
   }
 

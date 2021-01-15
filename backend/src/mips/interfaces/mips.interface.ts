@@ -14,6 +14,8 @@ export interface IMIPs {
   dateRatified?: string;
   dependencies?: string[];
   replaces?: string;
+  sentenceSummary?: string;
+  paragraphSummary?: string;  
 }
 
 export interface IGitFile {
@@ -21,13 +23,6 @@ export interface IGitFile {
   filename: string;
   hash: string;
 }
-
-export const enum Status {
-  Accepted = "Accepted",
-  RFC = "RFC",
-  FormalSubmision = "Formal Submission",
-}
-
 export interface ISyncronizeData {
   creates: number;
   updates: number;

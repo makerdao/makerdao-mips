@@ -12,9 +12,10 @@ export class PaginationQueryDto {
 
 export class Filters {
   contains?: BinaryOperator[];
+  notcontains?: BinaryOperator[];
 }
 
 export class BinaryOperator {
   field: string;
-  value: string;
+  value: any;
 }
