@@ -49,7 +49,7 @@ You should create a personal access token to use in place of a password with the
 ### Creating a token
 1. In the upper-right corner of any page, click your profile photo, then click Settings.
    
-   ![image](https://docs.github.com/assets/images/help/settings/userbar-account-settings.png){:height="90px" width="36px"}
+   ![image](https://docs.github.com/assets/images/help/settings/userbar-account-settings.png {:height="90px" width="36px"})
 
 2. In the left sidebar, click **Developer settings.**
    
