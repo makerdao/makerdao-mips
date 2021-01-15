@@ -4,7 +4,7 @@ This project is a MIPs Tracker for MakerDAO Improvement Proposals.
 ## Dependencies
 Requires git to be installed and that it can be called using the command git.
 
-### Api search
+## Api search
 In the search field, specify a string of words that the text operator parses and uses to query the text index. The text operator treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes \" that specifies a phrase.
 https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 
@@ -19,9 +19,6 @@ https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 
 ![MakerDAO_HLD_1](https://user-images.githubusercontent.com/17706489/104136890-037a0f80-5367-11eb-9208-fe83f6f0f1e5.png)
 
-
-## Webhooks documentation
-![Webhooks-documentation](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)
 
 ## Command to parse MakerDAO mips repository manually
 $ npx nestjs-command parse:mips
@@ -50,6 +47,9 @@ GITHUB_REPOSITORY_OWNER=makerdao
 You should create a personal access token to use in place of a password with the command line or with the API. Personal access tokens (PATs) are an alternative to using passwords for authentication to when using the [GitHub API](/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens) or the [command line](#using-a-token-on-the-command-line). 
 
 ### Creating a token
+1. ![In the upper-right corner of any page, click your profile photo, then click Settings.](https://docs.github.com/assets/images/help/settings/userbar-account-settings.png)
+2. ![In the left sidebar, click **Developer settings.**](https://docs.github.com/assets/images/help/settings/developer-settings.png)
+3. ![n the left sidebar, click **Personal access tokens.**](https://docs.github.com/assets/images/help/settings/personal_access_tokens_tab.png)
 4. Click **Generate new token**.
    ![Generate new token button](https://docs.github.com/assets/images/help/settings/generate_new_token.png)
 5. Give your token a descriptive name.
@@ -68,3 +68,6 @@ You should create a personal access token to use in place of a password with the
 - [Github documentation](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
   
 ---
+
+## Webhooks documentation
+- [Webhooks-documentation] (https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)
