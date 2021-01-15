@@ -39,7 +39,7 @@ jobs:
     - name: Copy file via scp
       uses: appleboy/scp-action@master
       env:
-        HOST: 159.203.86.45
+        HOST: ${{ secrets.SSH_HOST }}
         USERNAME: root
         PORT: 22
         PASSWORD: IxRg14zeJEJcEpeuxhEL
@@ -50,7 +50,7 @@ jobs:
     - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:
-        HOST: 159.203.86.45
+        HOST: ${{ secrets.SSH_HOST }}
         USERNAME: root
         PORT: 22
         PASSWORD: IxRg14zeJEJcEpeuxhEL
