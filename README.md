@@ -20,9 +20,6 @@ https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 ![MakerDAO_HLD_1](https://user-images.githubusercontent.com/17706489/104136890-037a0f80-5367-11eb-9208-fe83f6f0f1e5.png)
 
 
-## Creating a personal access token
-![creating-a-personal-access-token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
-
 ## Webhooks documentation
 ![Webhooks-documentation](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)
 
@@ -48,3 +45,29 @@ GITHUB_URL_ENDPOINT=https://api.github.com/graphql
 GITHUB_REPOSITORY=mips
 GITHUB_REPOSITORY_OWNER=makerdao
 ```
+
+---
+## Creating a personal access token
+
+### Creating a personal access token
+You should create a personal access token to use in place of a password with the command line or with the API. Personal access tokens (PATs) are an alternative to using passwords for authentication to when using the [GitHub API](/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens) or the [command line](#using-a-token-on-the-command-line). 
+
+### Creating a token
+4. Click **Generate new token**.
+   ![Generate new token button](/assets/images/help/settings/generate_new_token.png)
+5. Give your token a descriptive name.
+   ![Token description field](https://docs.github.com/assets/images/help/settings/token_description.png)
+6. Select the scopes, or permissions, you'd like to grant this token. To use your token to access repositories from the command line, select **repo**.
+   ![Selecting token scopes](https://docs.github.com/assets/images/help/settings/token_scopes.gif)
+7. Click **Generate token**.
+   ![Generate token button](https://docs.github.com/assets/images/help/settings/generate_token.png)
+8. Click to copy the token to your clipboard. For security reasons, after you navigate off the page, you will not be able to see the token again.
+   ![Newly created token](https://docs.github.com/assets/images/help/settings/personal_access_tokens.png)
+   ![Newly created token](https://docs.github.com/assets/images/help/settings/personal_access_tokens_ghe.png)
+
+   **Warning:** Treat your tokens like passwords and keep them secret. When working with the API, use tokens as environment variables instead of hardcoding them into your programs.
+
+### Further reading
+- [Github documentation](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+  
+---
