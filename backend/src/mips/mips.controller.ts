@@ -134,9 +134,6 @@ export class MIPsController {
         return false;
       }
 
-      // Provicional
-      // await this.mipsService.deleteMany();
-
       return this.parseMIPsService.parse();
     } catch (error) {
 

@@ -4,7 +4,7 @@
 **/tmp
 **/out-tsc
 
-/backend/mips_repository/*
+/backend/mips_repository
 /backend/.env
 
 # Logs
