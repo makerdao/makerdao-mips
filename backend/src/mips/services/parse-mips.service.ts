@@ -87,7 +87,6 @@ export class ParseMIPsService {
     filesGit: IGitFile[],
     filesDB: Map<string, IGitFile>
   ): Promise<ISyncronizeData> {
-
     const syncronizeData: ISyncronizeData = {
       creates: 0,
       deletes: 0,
@@ -173,7 +172,7 @@ export class ParseMIPsService {
         list[i]?.depth === 2 &&
         list[i]?.text === "Sentence Summary" &&
         i + 1 < list.length
-      ) {        
+      ) {
         mip.sentenceSummary = list[i + 1]?.raw;
       }
 
@@ -186,7 +185,6 @@ export class ParseMIPsService {
         mip.paragraphSummary = list[i + 1]?.raw;
         break;
       }
-      
     }
 
     if (!preamble) {
@@ -243,13 +241,17 @@ export class ParseMIPsService {
           preamble.preambleTitle = keyValue[1].trim();
           break;
         case "Contributors":
-          preamble.contributors = keyValue[1].split(", ");
+          preamble.contributors = keyValue[1]
+            .split(",")
+            .map((data) => data.trim());
           break;
         case "Dependencies":
-          preamble.dependencies = keyValue[1].split(", ");
+          preamble.dependencies = keyValue[1]
+            .split(",")
+            .map((data) => data.trim());
           break;
         case "Author(s)":
-          preamble.author = keyValue[1].split(", ");
+          preamble.author = keyValue[1].split(",").map((data) => data.trim());
           break;
         case "Replaces":
           preamble.replaces = keyValue[1].trim();
@@ -271,6 +273,7 @@ export class ParseMIPsService {
       }
       return true;
     });
+
     return preamble;
   }
 }

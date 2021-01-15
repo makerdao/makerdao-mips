@@ -16,7 +16,7 @@ export class MIP {
 
   @Prop({
     default: -1,
-    type: Number
+    type: Number,
   })
   mip?: number;
   @Prop()
@@ -48,7 +48,7 @@ export class MIP {
   @Prop()
   sentenceSummary?: string;
   @Prop()
-  paragraphSummary?: string;  
+  paragraphSummary?: string;
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

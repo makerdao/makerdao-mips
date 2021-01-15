@@ -1,6 +1,4 @@
-import {
-  Injectable,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
@@ -13,7 +11,6 @@ export class PullRequestService {
     @InjectModel(PullRequest.name)
     private readonly pullRequestDoc: Model<PullRequestDoc>
   ) {}
-
 
   async create(pullRequest: PullRequest): Promise<any> {
     const updated = await this.pullRequestDoc.findOneAndUpdate({}, pullRequest);

@@ -44,7 +44,7 @@ import { ParseMIPsCommand } from "./mips.command";
     MarkedService,
     GithubService,
     PullRequestService,
-    ParseMIPsCommand
+    ParseMIPsCommand,
   ],
 })
 export class MIPsModule {}

@@ -58,7 +58,8 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "filter",
-    description: "Filter field with various filter patterns. (contains, notcontains, equals, notequals)",
+    description:
+      "Filter field with various filter patterns. (contains, notcontains, equals, notequals)",
     required: false,
     type: "object",
     schema: {
@@ -95,7 +96,6 @@ export class MIPsController {
       const total = await this.mipsService.count(search, filter);
       return { items, total };
     } catch (error) {
-
       console.log(error);
       throw new HttpException(
         {

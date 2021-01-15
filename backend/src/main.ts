@@ -16,7 +16,9 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle("Parse mips project")
-    .setDescription("This project is a MIPs Tracker for MakerDAO Improvement Proposals. MIPs projects.")
+    .setDescription(
+      "This project is a MIPs Tracker for MakerDAO Improvement Proposals. MIPs projects."
+    )
     .setVersion("1.0")
     .build();
   const document = SwaggerModule.createDocument(app, options);

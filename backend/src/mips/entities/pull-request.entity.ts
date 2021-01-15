@@ -1,6 +1,5 @@
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-
 
 export type PullRequestDoc = PullRequest & mongoose.Document;
 
@@ -17,19 +16,19 @@ export class Item {
 }
 
 @Schema()
-export class PullRequest {  
+export class PullRequest {
   @Prop()
   url: string;
   @Prop({
-    type: Number
+    type: Number,
   })
   totalOpen: number;
   @Prop({
-    type: Number
+    type: Number,
   })
   totalClosed: number;
   @Prop({
-    type: Number
+    type: Number,
   })
   totalCount: number;
 
