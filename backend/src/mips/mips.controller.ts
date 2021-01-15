@@ -1,8 +1,18 @@
-import { Controller, Get, HttpException, HttpStatus, NotFoundException, Param, Post, Query, Req } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+  Req,
+} from "@nestjs/common";
 import { ApiQuery } from "@nestjs/swagger";
 import { ConfigService } from "@nestjs/config";
 
-import * as crypto from "crypto"; 
+import * as crypto from "crypto";
 
 import { MIPsService } from "./services/mips.service";
 import { ParseMIPsService } from "./services/parse-mips.service";
@@ -18,7 +28,7 @@ export class MIPsController {
     private parseMIPsService: ParseMIPsService,
     private pullRequestService: PullRequestService,
     private configService: ConfigService
-  ) { }
+  ) {}
 
   @Get("findall")
   @ApiQuery({
@@ -46,7 +56,6 @@ export class MIPsController {
     type: String,
     required: false,
   })
-
   @ApiQuery({
     name: "filter",
     description: "Object filter",
@@ -54,17 +63,23 @@ export class MIPsController {
     type: "object",
     schema: {
       type: "object",
-      example: { "filter": { contains: [{ "field": "title", "value": "Proposal" }], notcontains: [{ "field": "title", "value": "subproposal" }] } },
-    }
+      example: {
+        filter: {
+          contains: [{ field: "title", value: "Proposal" }],
+          notcontains: [{ field: "title", value: "subproposal" }],
+          equals: [{ field: "mip", value: -1 }],
+          notequals: [{ field: "mip", value: -1 }],
+        },
+      },
+    },
   })
   async findAll(
     @Query("limit") limit?: string,
     @Query("offset") offset?: string,
     @Query("order") order?: string,
     @Query("search") search?: string,
-    @Query("filter") filter?: Filters,
+    @Query("filter") filter?: Filters
   ) {
-
     try {
       const paginationQueryDto: PaginationQueryDto = {
         limit: +limit || 10,
@@ -79,8 +94,9 @@ export class MIPsController {
       );
       const total = await this.mipsService.count(search, filter);
       return { items, total };
-
     } catch (error) {
+
+      console.log(error);
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
@@ -119,13 +135,15 @@ export class MIPsController {
   @Post("callback")
   async callback(@Req() { headers, body }: any): Promise<boolean> {
     try {
-      const secretToken = this.configService.get<string>(Env.WebhooksSecretToken);
+      const secretToken = this.configService.get<string>(
+        Env.WebhooksSecretToken
+      );
 
-      const hmac = crypto.createHmac('sha1', secretToken);
-      const selfSignature = hmac.update(JSON.stringify(body)).digest('hex');
+      const hmac = crypto.createHmac("sha1", secretToken);
+      const selfSignature = hmac.update(JSON.stringify(body)).digest("hex");
       const comparisonSignature = `sha1=${selfSignature}`; // shape in GitHub header
 
-      const signature = headers['x-hub-signature'];
+      const signature = headers["x-hub-signature"];
 
       const source = Buffer.from(signature);
       const comparison = Buffer.from(comparisonSignature);
@@ -136,7 +154,6 @@ export class MIPsController {
 
       return this.parseMIPsService.parse();
     } catch (error) {
-
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,

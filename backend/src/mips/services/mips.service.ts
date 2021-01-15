@@ -51,33 +51,63 @@ export class MIPsService {
       source["$text"] = { $search: JSON.parse(`"${search}"`) } ;
     }
 
-    if (filter?.contains) {      
+    if (filter?.contains) {
       const field = filter.contains['field'];
       const value = filter.contains['value'];
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          this.validField(field[i].toString());
-          source[`${field[i].toString()}`] = { $regex: new RegExp(`${value[i]}`), $options: 'i' };                   
+          const newValue = this.validField(field.toString(), value[i]); 
+          source[`${field[i].toString()}`] = { $regex: new RegExp(`${newValue}`), $options: 'i' };                   
         }
       } else {
-        this.validField(field.toString());        
-        source[`${field.toString()}`] = { $regex: new RegExp(`${value}`), $options: 'i' };
+        const newValue = this.validField(field.toString(), value);        
+        source[`${field.toString()}`] = { $regex: new RegExp(`${newValue}`), $options: 'i' };
+      }
+    }
+
+    if (filter?.equals) {
+      const field = filter.equals['field'];
+      const value = filter.equals['value'];      
+
+      if (Array.isArray(field) && Array.isArray(value)) {
+        for (let i = 0; i < field.length; i++) {
+          const newValue = this.validField(field.toString(), value[i]); 
+          source[`${field[i].toString()}`] = newValue;                   
+        }
+      } else {
+        const newValue = this.validField(field.toString(), value);       
+        source[`${field.toString()}`] = newValue;
       }
     }
 
     if (filter?.notcontains) {      
-      const field = filter.contains['field'];
-      const value = filter.contains['value'];
+      const field = filter.notcontains['field'];
+      const value = filter.notcontains['value'];
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          this.validField(field[i].toString());
-          source[`${field[i].toString()}`] = { $not: { $regex: new RegExp(`${value[i]}`), $options: 'i' }};                   
+          const newValue = this.validField(field.toString(), value[i]); 
+          source[`${field[i].toString()}`] = { $ne: { $regex: new RegExp(`${newValue}`), $options: 'i' }};                   
         }
       } else {
-        this.validField(field.toString());        
-        source[`${field.toString()}`] = { $not: { $regex: new RegExp(`${value}`), $options: 'i' }};
+        const newValue = this.validField(field.toString(), value);        
+        source[`${field.toString()}`] = { $ne: { $regex: new RegExp(`${newValue}`), $options: 'i' }};
+      }
+    }
+
+    if (filter?.notequals) {
+      const field = filter.notequals['field'];
+      const value = filter.notequals['value'];
+
+      if (Array.isArray(field) && Array.isArray(value)) {
+        for (let i = 0; i < field.length; i++) {
+          const newValue = this.validField(field[i].toString(), value[i]);
+          source[`${field[i].toString()}`] = { $ne: newValue};                   
+        }
+      } else {
+        const newValue = this.validField(field.toString(), value);        
+        source[`${field.toString()}`] = { $ne: newValue };
       }
     }
 
@@ -91,7 +121,7 @@ export class MIPsService {
     return false;
   }
 
-  validField(field: string): boolean {
+  validField(field: string, value: any): any {
     let flag = false;
 
     switch (field) {
@@ -104,12 +134,15 @@ export class MIPsService {
       case 'status':
         flag = true;        
         break;
+      case 'mip':
+        flag = true;
+        break;
     }
 
     if (!flag) {
       throw new Error(`Invalid filter field (${field})`);
     }
-    return flag;
+    return value;
   }
 
   async findOne(id: string): Promise<MIP> {

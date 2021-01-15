@@ -14,7 +14,10 @@ export class MIP {
   @Prop()
   hash: string;
 
-  @Prop()
+  @Prop({
+    default: -1,
+    type: Number
+  })
   mip?: number;
   @Prop()
   title?: string;

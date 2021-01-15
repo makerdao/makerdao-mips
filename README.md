@@ -25,3 +25,6 @@ https://docs.mongodb.com/manual/reference/operator/query/text/#search-field
 
 ## Webhooks documentation
 ![Webhooks-documentation](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhooks)
+
+## Command to parse MakerDAO mips repository manualy
+$ npx nestjs-command parse:mips
