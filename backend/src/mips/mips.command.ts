@@ -16,7 +16,7 @@ export class ParseMIPsCommand {
     autoExit: true, // defaults to `true`, but you can use `false` if you need more control
   })
   async parse() {
-    await this.mipsService.deleteMany();
+    // await this.mipsService.deleteMany();
     await this.parseMIPsService.parse();
   }
 }
