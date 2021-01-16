@@ -145,6 +145,10 @@ export class MIPsController {
 
       const signature = headers["x-hub-signature"];
 
+      if (!signature) {
+        return false;
+      }
+
       const source = Buffer.from(signature);
       const comparison = Buffer.from(comparisonSignature);
 
