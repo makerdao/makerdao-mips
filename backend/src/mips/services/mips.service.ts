@@ -1,6 +1,4 @@
-import {
-  Injectable,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, isValidObjectId } from "mongoose";
@@ -20,27 +18,22 @@ export class MIPsService {
     paginationQuery?: PaginationQueryDto,
     order?: string,
     search?: string,
-    filter?: Filters 
+    filter?: Filters
   ): Promise<IMIPs[]> {
     const buildFilter = this.buildFilter(search, filter);
+    const { limit, page } = paginationQuery;
 
-    if (paginationQuery) {
-      const { limit, offset } = paginationQuery;
-
-      return this.mipsDoc
-        .find(buildFilter)
-        .select(["-file", "-__v"])
-        .sort(order)
-        .skip(offset * limit)
-        .limit(limit)
-        .exec();
-    }
-
-    return this.mipsDoc.find(buildFilter).select(["-file", "-__v"]).sort(order).exec();
+    return this.mipsDoc
+      .find(buildFilter)
+      .select(["-file", "-__v"])
+      .sort(order)
+      .skip(page * limit)
+      .limit(limit)
+      .exec();
   }
 
-  count(search: string, filter?: Filters): Promise<number> {    
-    const buildFilter = this.buildFilter(search, filter);    
+  count(search: string, filter?: Filters): Promise<number> {
+    const buildFilter = this.buildFilter(search, filter);
     return this.mipsDoc.countDocuments(buildFilter).exec();
   }
 
@@ -48,65 +41,75 @@ export class MIPsService {
     const source = {};
 
     if (search) {
-      source["$text"] = { $search: JSON.parse(`"${search}"`) } ;
+      source["$text"] = { $search: JSON.parse(`"${search}"`) };
     }
 
     if (filter?.contains) {
-      const field = filter.contains['field'];
-      const value = filter.contains['value'];
+      const field = filter.contains["field"];
+      const value = filter.contains["value"];
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field.toString(), value[i]); 
-          source[`${field[i].toString()}`] = { $regex: new RegExp(`${newValue}`), $options: 'i' };                   
+          const newValue = this.validField(field.toString(), value[i]);
+          source[`${field[i].toString()}`] = {
+            $regex: new RegExp(`${newValue}`),
+            $options: "i",
+          };
         }
       } else {
-        const newValue = this.validField(field.toString(), value);        
-        source[`${field.toString()}`] = { $regex: new RegExp(`${newValue}`), $options: 'i' };
+        const newValue = this.validField(field.toString(), value);
+        source[`${field.toString()}`] = {
+          $regex: new RegExp(`${newValue}`),
+          $options: "i",
+        };
       }
     }
 
     if (filter?.equals) {
-      const field = filter.equals['field'];
-      const value = filter.equals['value'];      
+      const field = filter.equals["field"];
+      const value = filter.equals["value"];
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field.toString(), value[i]); 
-          source[`${field[i].toString()}`] = newValue;                   
+          const newValue = this.validField(field.toString(), value[i]);
+          source[`${field[i].toString()}`] = newValue;
         }
       } else {
-        const newValue = this.validField(field.toString(), value);       
+        const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = newValue;
       }
     }
 
-    if (filter?.notcontains) {      
-      const field = filter.notcontains['field'];
-      const value = filter.notcontains['value'];
+    if (filter?.notcontains) {
+      const field = filter.notcontains["field"];
+      const value = filter.notcontains["value"];
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field.toString(), value[i]); 
-          source[`${field[i].toString()}`] = { $not: { $regex: new RegExp(`${newValue}`), $options: 'i' }};                   
+          const newValue = this.validField(field.toString(), value[i]);
+          source[`${field[i].toString()}`] = {
+            $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
+          };
         }
       } else {
-        const newValue = this.validField(field.toString(), value);        
-        source[`${field.toString()}`] = { $not: { $regex: new RegExp(`${newValue}`), $options: 'i' }};
+        const newValue = this.validField(field.toString(), value);
+        source[`${field.toString()}`] = {
+          $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
+        };
       }
     }
 
     if (filter?.notequals) {
-      const field = filter.notequals['field'];
-      const value = filter.notequals['value'];
+      const field = filter.notequals["field"];
+      const value = filter.notequals["value"];
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
           const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = { $ne: newValue};                   
+          source[`${field[i].toString()}`] = { $ne: newValue };
         }
       } else {
-        const newValue = this.validField(field.toString(), value);        
+        const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = { $ne: newValue };
       }
     }
@@ -116,7 +119,7 @@ export class MIPsService {
 
   isValidObjectId(id: string): boolean {
     if (isValidObjectId(id)) {
-      return true;      
+      return true;
     }
     return false;
   }
@@ -125,16 +128,16 @@ export class MIPsService {
     let flag = false;
 
     switch (field) {
-      case 'title':
-        flag = true;        
+      case "title":
+        flag = true;
         break;
-      case 'filename':
-        flag = true;        
+      case "filename":
+        flag = true;
         break;
-      case 'status':
-        flag = true;        
+      case "status":
+        flag = true;
         break;
-      case 'mip':
+      case "mip":
         flag = true;
         break;
     }
@@ -146,7 +149,7 @@ export class MIPsService {
   }
 
   async findOne(id: string): Promise<MIP> {
-    return  await this.mipsDoc.findOne({ _id: id }).select(["-__v"]).exec();
+    return await this.mipsDoc.findOne({ _id: id }).select(["-__v"]).exec();
   }
 
   create(mIPs: IMIPs): Promise<MIP> {

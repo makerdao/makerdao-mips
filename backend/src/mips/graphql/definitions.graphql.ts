@@ -1,10 +1,10 @@
 import { gql } from "graphql-request";
 
 export const pullRequests = gql`
- query repository($name: String!, $owner: String!) {
-  repository(name: $name, owner: $owner) {
+  query repository($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
       url
-      pullRequests(orderBy: {field: CREATED_AT, direction: DESC}, first: 10) {
+      pullRequests(orderBy: { field: CREATED_AT, direction: DESC }, first: 10) {
         totalCount
         nodes {
           url
@@ -14,33 +14,33 @@ export const pullRequests = gql`
         }
       }
     }
- }
+  }
 `;
 
 export const pullRequestsTotalOpen = gql`
- query repository($name: String!, $owner: String!) {
-  repository(name: $name, owner: $owner) {
-    pullRequests(
-      orderBy: { field: CREATED_AT, direction: DESC }
-      first: 10
-      states: OPEN
-    ) {
-      totalCount
+  query repository($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+      pullRequests(
+        orderBy: { field: CREATED_AT, direction: DESC }
+        first: 10
+        states: OPEN
+      ) {
+        totalCount
+      }
     }
   }
- }
 `;
 
 export const pullRequestsTotalClosed = gql`
- query repository($name: String!, $owner: String!) {
-  repository(name: $name, owner: $owner) {
-    pullRequests(
-      orderBy: { field: CREATED_AT, direction: ASC }
-      first: 10
-      states: CLOSED
-    ) {
-      totalCount
+  query repository($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+      pullRequests(
+        orderBy: { field: CREATED_AT, direction: ASC }
+        first: 10
+        states: CLOSED
+      ) {
+        totalCount
+      }
     }
   }
- }
 `;

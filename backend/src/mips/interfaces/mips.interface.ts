@@ -15,7 +15,7 @@ export interface IMIPs {
   dependencies?: string[];
   replaces?: string;
   sentenceSummary?: string;
-  paragraphSummary?: string;  
+  paragraphSummary?: string;
 }
 
 export interface IGitFile {
