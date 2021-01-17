@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { MipsRoutingModule } from './mips-routing.module';
 import { ListComponent } from './components/list/list.component';
 import { MatTableModule } from '@angular/material/table';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { StatusComponent } from './components/status/status.component';
 import { SocialComponent } from './components/social/social.component';
@@ -15,6 +17,8 @@ import { ProposalComponentsComponent } from './components/proposal-components/pr
 import { MipDetailsComponent } from './components/mip-details/mip-details.component';
 import { PullRequestHistoryComponent } from './components/pull-request-history/pull-request-history.component';
 import { DetailContentComponent } from './components/detail-content/detail-content.component';
+import { DetailsPageComponent } from './pages/details-page/details-page.component';
+
 
 
 
@@ -30,13 +34,16 @@ import { DetailContentComponent } from './components/detail-content/detail-conte
     ProposalComponentsComponent,
     MipDetailsComponent,
     PullRequestHistoryComponent,
-    DetailContentComponent
+    DetailContentComponent,
+    DetailsPageComponent
   ],
   imports: [
     CommonModule,
     MipsRoutingModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule
   ]
 })
 export class MipsModule { }

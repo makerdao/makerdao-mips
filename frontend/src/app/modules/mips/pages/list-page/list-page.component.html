@@ -1,9 +1,15 @@
 <div class="row">
   <p class="title">MIPs List</p>
   <div class="row filtering">
-    <app-search></app-search>
-    <app-filter></app-filter>
+    <app-search (send)="onSendSearch($event)"></app-search>
+    <app-filter (send)="onSendFilters($event)"></app-filter>
   </div>
 </div>
-<app-list></app-list>
+<app-list 
+[loading]="loading" 
+[dataSource]="mips" 
+[paginationTotal]="total" 
+(send)="onSendPagination($event)" 
+(sendOrder)="onSendOrder($event)"
+></app-list>
 

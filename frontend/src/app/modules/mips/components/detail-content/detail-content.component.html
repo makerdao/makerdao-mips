@@ -1,25 +1,35 @@
 <div class="container">
   <div class="row">
     <div>
-      <span class="title-bold">{{mipId}}:</span><span class="title"> {{mipName}}</span>
+      <span class="title-bold">MIP {{mip.mip}}: </span><span class="title"> {{mip.title}}</span>
     </div>
     <div>
-      <img src="../../../../../assets/images/github_dark.svg" /> <a href="#">Github</a>
+      <img src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">Github</a>
       <img class="forum" src="../../../../../assets/images/forum.svg" /> <a href="#">Forum</a>
     </div>
   </div>
   <hr>
   <p class="sub-title space-3">Preamble</p>
   <div class="preamble">
-    <div *ngFor="let pre of preamble">
-      <span class="label">{{pre.key}}:</span><span class="info"> {{pre.value}}</span>
-    </div>
+    <span class="label">MIP#:</span><span class="info"> {{mip.mip}}</span> <br>
+    <span class="label">Title:</span><span class="info"> {{mip.title}}</span> <br>
+    <span class="label">Authors:</span><span class="info" *ngFor="let author of mip.author"> {{author}}</span> <br>
+    <span class="label">Contributors:</span><span class="info" *ngFor="let contributor of mip.contributors"> {{contributor}}</span><br>
+    <span class="label">Type:</span><span class="info"> {{mip.types}}</span><br>
+    <span class="label">Status:</span><span class="info"> {{mip.status}}</span><br>
+    <span class="label">Date Proposed:</span><span class="info"> {{mip.dateProposed}}</span><br>
+    <span class="label">Date Ratified:</span><span class="info"> {{mip.dateRatified}}</span><br>
+    <span class="label">Dependencies:</span><span class="info" *ngFor="let dependency of mip.dependencies"> {{dependency}}</span><br>
+    <span class="label">Replaces:</span><span class="info"> {{mip.replaces}}</span><br>
+    
+    
+    
   </div> 
   <p class="sub-title space-4">References</p>
-  <a href="#">{{file}}</a>
+  <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blamck">{{mip.filename}}</a>
   <p class="sub-title space-4">Sentence Summary</p>
-  <p class="summary">{{sentenceSummary}}</p>
+  <p class="summary">{{mip.sentenceSummary}}</p>
   <p class="sub-title space-4">Paragraph Summary</p>
-  <p class="summary">{{paragraphSummary}}</p>
+  <p class="summary">{{mip.paragraphSummary}}</p>
 </div>
 

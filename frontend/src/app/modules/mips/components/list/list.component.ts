@@ -1,8 +1,8 @@
-// import { AfterViewInit, Component, ViewChild } from '@angular/core';
-// import {animate, state, style, transition, trigger} from '@angular/animations';
-
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, Output, ViewChild, EventEmitter} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatPaginator} from '@angular/material/paginator';
+import {PageEvent} from '@angular/material/paginator';
+
 
 const sampleData: DataElement[] = [
   {
@@ -56,6 +56,7 @@ const sampleData: DataElement[] = [
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -66,10 +67,67 @@ const sampleData: DataElement[] = [
 })
 export class ListComponent {
 
-
-  columnsToDisplay = ['#', 'title', 'summary', 'status', 'link'];
-  dataSource = sampleData;
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  @Input() dataSource: any;
+  @Input() loading = true;
+  @Input() paginationTotal;
   expandedElement: DataElement | null;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  selected = '-1';
+  @Input() paginatorLength;
+  pageEvent: PageEvent;
+  @Output() send = new EventEmitter<number>();
+  @Output() sendOrder = new EventEmitter<string>();
+  timeout: any = null;
+
+  getStatusValue(data: string): string {
+    if (data !== undefined) {
+      if (data.toLocaleLowerCase().includes('accepted')) {
+          return 'ACCEPTED';
+      }
+      if (data.toLocaleLowerCase().includes('rfc')) {
+        return 'RFC';
+      }
+      if (data.toLocaleLowerCase().includes('rejected')) {
+        return 'REJECTED';
+      }
+      if (data.toLocaleLowerCase().includes('archived')) {
+        return 'ARCHIVED';
+      }
+    }
+
+    // return data;
+  }
+
+  updateSelected(index: string): void {
+    if (this.selected === index) {
+      this.selected = '-1';
+    } else {
+      this.selected = index;
+    }
+  }
+
+  handlePageEvent(event: PageEvent): void {
+    clearTimeout(this.timeout);
+    const $this = this;
+    this.timeout = setTimeout(() => {
+        $this.send.emit(event.pageIndex);
+    }, 1000);
+  }
+
+  onSendOrderASC(value: string): void {
+    this.sendOrder.emit(this.transforValue(value));
+  }
+  onSendOrderDES(value: string): void {
+    this.sendOrder.emit('-' + this.transforValue(value));
+  }
+
+  transforValue(value: string): string {
+    if (value === 'pos') { return 'mip'; }
+    if (value === 'title') { return 'title'; }
+    if (value === 'summary') { return 'sentenceSummary'; }
+    if (value === 'status') { return 'status'; }
+  }
 
 }
 

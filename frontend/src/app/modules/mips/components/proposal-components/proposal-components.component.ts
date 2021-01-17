@@ -49,7 +49,7 @@ export class ProposalComponentsComponent implements OnInit {
   }
 
   updatePos(index): void {
-    this.marketPosition = (index) * 29.5 + 95;
+    this.marketPosition = (index) * 31 + 95;
     this.selectedItem = index;
   }
 

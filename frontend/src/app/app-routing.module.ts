@@ -4,6 +4,11 @@ import { HeaderComponent } from './shared/header/header.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/mips/list',
+    pathMatch: 'full'
+  },
+  {
     path: 'mips',
     loadChildren: () => import('./modules/mips/mips.module').then(m => m.MipsModule)
   }

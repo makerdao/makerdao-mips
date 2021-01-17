@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
-import { EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { MipsService } from '../../services/mips.service';
 import FilterData from './filter.data';
 
 @Component({
@@ -10,23 +10,41 @@ import FilterData from './filter.data';
 export class FilterComponent implements OnInit {
 
   statusCLass: 'status-accepted' | 'status-rejected' | 'status-archive' | 'status-rfc' | 'status-none';
+  typeCLass: 'type-selected' | 'type-none';
   statusInputText  = 'Select status';
   statusOptionsShow = false;
-  typeInputText  = 'Select status';
+  typeInputText  = 'Select type';
   typeOptionsShow = false;
   contentOptionsShow = false;
-  titleText: string;
+  titleText = '';
   @ViewChild('title') inputTitle;
-  @Output() send = new EventEmitter<FilterData>();
+  @Output() send = new EventEmitter();
   filterData: FilterData;
+  filterDataSaved: FilterData;
+  posStatus: number;
+  posType: number;
 
-  constructor() { }
+  constructor(
+    private mipsService: MipsService
+  ) { }
 
   ngOnInit(): void {
     this.statusCLass = 'status-none';
+    this.typeCLass = 'type-none';
+  }
+
+  showFilter(): void {
+    this.contentOptionsShow = !this.contentOptionsShow;
+    if (this.contentOptionsShow) {
+      this.filterDataSaved = this.mipsService.getFilter();
+      this.titleText = this.filterDataSaved.title;
+      this.setStatusClassAndText(this.filterDataSaved.posStatus);
+      this.setTyepClassAndText(this.filterDataSaved.posType);
+    }
   }
 
   setStatusClassAndText(pos: number): void {
+    this.posStatus = pos;
     switch (pos) {
       case 0: { this.statusCLass = 'status-accepted'; this.statusInputText = 'ACCEPTED'; this.statusOptionsShow = false; break; }
       case 1: { this.statusCLass = 'status-rejected'; this.statusInputText = 'REJECTED'; this.statusOptionsShow = false; break; }
@@ -37,10 +55,11 @@ export class FilterComponent implements OnInit {
   }
 
   setTyepClassAndText(pos: number): void {
+    this.posType = pos;
     switch (pos) {
-      case 0: { this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }
-      case 1: { this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }
-      case 2: { this.typeInputText = 'Select Type'; this.typeOptionsShow = false; break; }
+      case 0: { this.typeCLass = 'type-selected'; this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }
+      case 1: { this.typeCLass = 'type-selected'; this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }
+      case 2: { this.typeCLass = 'type-none'; this.typeInputText = 'Select Type'; this.typeOptionsShow = false; break; }
     }
   }
 
@@ -51,14 +70,20 @@ export class FilterComponent implements OnInit {
   reset(): void {
     this.setStatusClassAndText(4);
     this.setTyepClassAndText(2);
-    this.inputTitle.nativeElement.value = ' ';
+    this.inputTitle.nativeElement.value = '';
   }
 
   apply(): void {
-    this.filterData.title = this.inputTitle.nativeElement.value;
-    this.filterData.status = this.statusInputText;
-    this.filterData.type = this.typeInputText;
-    this.send.emit(this.filterData);
+    this.filterData = {
+      title: this.inputTitle.nativeElement.value,
+      status: this.statusInputText,
+      type: this.typeInputText,
+      posStatus: this.posStatus,
+      posType: this.posType
+    };
+    this.mipsService.setFilter(this.filterData);
+    this.contentOptionsShow = false;
+    this.send.emit();
   }
 
 }

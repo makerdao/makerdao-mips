@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-mip-details',
@@ -7,9 +7,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MipDetailsComponent implements OnInit {
 
+  @Input() status: string;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  getStatusValue(data: string): string {
+    if (data !== undefined) {
+      if (data.toLocaleLowerCase().includes('accepted')) {
+          return 'ACCEPTED';
+      }
+      if (data.toLocaleLowerCase().includes('rfc')) {
+        return 'RFC';
+      }
+      if (data.toLocaleLowerCase().includes('rejected')) {
+        return 'REJECTED';
+      }
+      if (data.toLocaleLowerCase().includes('archived')) {
+        return 'ARCHIVED';
+      }
+    }
+
+    // return data;
   }
 
 }
