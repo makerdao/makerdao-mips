@@ -4,10 +4,12 @@
 name: Node.js develop CI
 
 on:
-  pull_request:   
-    branches: [ develop ]
+  push:
+    branches:
+      - master
+      - develop
     paths:
-        - "backend/**"  
+        - "backend/**"   
 
 jobs:
   build:
