@@ -2,7 +2,7 @@
   <p class="title">MIPs List</p>
   <div class="row filtering">
     <app-search (send)="onSendSearch($event)"></app-search>
-    <app-filter (send)="onSendFilters($event)"></app-filter>
+    <app-filter (send)="onSendFilters()"></app-filter>
   </div>
 </div>
 <app-list 
