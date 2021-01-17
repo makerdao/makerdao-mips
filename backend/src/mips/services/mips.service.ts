@@ -37,6 +37,7 @@ export class MIPsService {
     return this.mipsDoc.countDocuments(buildFilter).exec();
   }
 
+  // Function to build filter
   buildFilter(search: string, filter?: Filters): any {
     const source = {};
 
