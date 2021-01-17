@@ -50,7 +50,7 @@ export class MIPsService {
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field.toString(), value[i]);
+          const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = {
             $regex: new RegExp(`${newValue}`),
             $options: "i",
@@ -71,7 +71,7 @@ export class MIPsService {
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field.toString(), value[i]);
+          const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = newValue;
         }
       } else {
@@ -86,7 +86,7 @@ export class MIPsService {
 
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field.toString(), value[i]);
+          const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = {
             $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
           };
