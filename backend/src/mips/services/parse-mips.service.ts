@@ -4,7 +4,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import {
   IGitFile,
-  ISyncronizeData,
+  ISynchronizeData,
   IPreamble,
 } from "../interfaces/mips.interface";
 import { MIPsService } from "./mips.service";
@@ -46,7 +46,7 @@ export class ParseMIPsService {
         this.githubService.pullRequestsOpen(),
         this.githubService.pullRequestsClosed(),
       ]);
-      const syncronizeData: ISyncronizeData = await this.syncronizeData(
+      const synchronizeData: ISynchronizeData = await this.synchronizeData(
         result[0],
         result[1]
       );
@@ -75,7 +75,7 @@ export class ParseMIPsService {
         items: result[2]?.repository?.pullRequests?.nodes || [],
       });
 
-      this.logger.log(`Syncronize Data ===> ${JSON.stringify(syncronizeData)}`);
+      this.logger.log(`Synchronize Data ===> ${JSON.stringify(synchronizeData)}`);
       return true;
     } catch (error) {
       this.logger.error(error);
@@ -83,11 +83,11 @@ export class ParseMIPsService {
     }
   }
 
-  async syncronizeData(
+  async synchronizeData(
     filesGit: IGitFile[],
     filesDB: Map<string, IGitFile>
-  ): Promise<ISyncronizeData> {
-    const syncronizeData: ISyncronizeData = {
+  ): Promise<ISynchronizeData> {
+    const synchronizeData: ISynchronizeData = {
       creates: 0,
       deletes: 0,
       updates: 0,
@@ -118,7 +118,7 @@ export class ParseMIPsService {
               this.logger.error(error);
             }
           }
-          syncronizeData.updates++;
+          synchronizeData.updates++;
         }
         filesDB.delete(item.filename);
       }
@@ -129,14 +129,14 @@ export class ParseMIPsService {
     for (const [_, value] of filesDB.entries()) {
       deleteItems.push(value._id);
     }
-    syncronizeData.deletes = deleteItems.length;
-    syncronizeData.creates = createItems.length;
+    synchronizeData.deletes = deleteItems.length;
+    synchronizeData.creates = createItems.length;
 
     await Promise.all([
       this.mipsService.insertMany(createItems),
       this.mipsService.deleteManyByIds(deleteItems),
     ]);
-    return syncronizeData;
+    return synchronizeData;
   }
 
   parseLexerData(fileString: string, item: IGitFile): MIP {
@@ -206,6 +206,7 @@ export class ParseMIPsService {
     return mip;
   }
 
+  // Preamble example
   // MIP#: 0
   // Title: The Maker Improvement Proposal Framework
   // Author(s): Charles St.Louis (@CPSTL), Rune Christensen (@Rune23)

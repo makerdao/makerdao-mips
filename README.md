@@ -4,6 +4,9 @@ This project is a MIPs Tracker for MakerDAO Improvement Proposals.
 ## Dependencies
 Requires git to be installed and that it can be called using the command git.
 
+## Requirements
+Node version 14.x.x LTS or above
+
 # Diagrams
 ## Entity Relationship Diagram
 
@@ -16,8 +19,9 @@ Requires git to be installed and that it can be called using the command git.
 
 
 ## Command to parse MakerDAO mips repository manually
+```bash
 $ npx nestjs-command parse:mips
-
+```
 
 ## Environment vars .env file
 ```.env

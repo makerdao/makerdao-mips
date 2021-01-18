@@ -82,7 +82,7 @@ describe("Parse MIPs service", () => {
       service.baseDir = `${process.cwd()}/src/mips/services/data-test`;
       const files = new Map();
 
-      const sincronizeData = await service.syncronizeData(
+      const sinchronizeData = await service.synchronizeData(
         [
           {
             hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
@@ -93,7 +93,7 @@ describe("Parse MIPs service", () => {
       );
 
       const result = { creates: 1, deletes: 0, updates: 0 };
-      expect(sincronizeData).toMatchObject(result);
+      expect(sinchronizeData).toMatchObject(result);
     });
   });
 
