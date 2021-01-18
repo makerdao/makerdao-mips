@@ -1,0 +1,212 @@
+:host {
+  color: #748AA1;
+  font-size: 12px;
+}
+
+
+
+.button {
+  width: 40px;
+  height: 40px;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  border-radius: 5px;
+  text-align: center;
+  background: #FFFFFF;
+  cursor: pointer;
+  img {
+    margin-top: 10px;
+  }
+}
+
+.frame {
+  background: #FFFFFF;
+  box-shadow: 0px 30px 60px #E5E9F2;
+  border-radius: 5px;
+  position: absolute;
+}
+
+.content {
+  height: 258px;
+  width: 228px;
+  padding: 30px 30px 20px;
+  transform: translate(-247px, 10px);
+  .title {    
+    font-weight: 700;
+  }
+
+  .data {
+    display: flex;
+    flex-direction: row;
+    margin: 26px 0;
+    .label {
+      width: 55px;
+      margin-right: 17px;
+      font-weight: 400;
+      line-height: 22px;
+    }
+    input {
+      width: 120px;
+      height: 20px;
+      border: 1px solid #D2D3D9;
+      border-radius: 5px;
+      text-align: center;
+      color: #BCBEC7;
+      background: #FFFFFF;
+      &.title {
+        text-align: left;
+        text-indent:6px;
+      }
+      &.status {
+        width: 80px;
+      }
+      &::placeholder {
+        color: #BCBEC7;
+        font-size: 12px;
+      }
+      &.status-accepted {
+        border: 1px solid #27AE60;
+        color: #27AE60;        
+      }
+      &.status-rejected {
+        border: 1px solid #EB5757;
+        color: #EB5757;        
+      }
+      &.status-archive {
+        border: 1px solid #748AA1;
+        color: #748AA1;        
+      }
+      &.status-rfc {
+        border: 1px solid #F2994A;
+        color: #F2994A;        
+      }
+      &.status-none {
+        border: 1px solid #BCBEC7;
+        // color: #E5E9F2;        
+      }
+      &.type {
+        font-weight: bold;
+        color: #31394D;
+        font-size: 12px;
+        width: 100px;
+        // text-align: left;
+        // text-indent:6px;
+        &.type-none {
+          color: #BCBEC7;
+        }
+
+      }
+      
+    }
+    .arrow {
+      margin-left: 8px;
+      cursor: pointer;   
+      -webkit-transition: 300ms ease all;
+      -moz-transition: 300ms ease all;
+      -o-transition: 300ms ease all;
+      transition: 300ms ease all;  
+    }
+    .status-options {
+      width: 86px;      
+      text-align: center;
+      transform: translate(59px, 28px);
+      padding: 15px;
+
+      .status-option  {
+        margin-top: 5px;
+        cursor: pointer;
+      }
+    }
+    .type-options {
+      width: 120px;
+      text-align: left;
+      transform: translate(59px, 28px);
+      padding: 15px;
+
+      .type-option {
+        margin-top: 5px;
+        cursor: pointer;
+      }
+
+      .selected {
+        color: #31394D;
+        margin-top: 8px;
+        font-weight: bold;
+      }
+    }
+    .square {
+      width: 23px;
+      height: 20px;
+      cursor: pointer;
+      img {
+        margin-top: 8px;
+      }      
+    }
+  }
+  .buttons {
+    margin-top: 45px;
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+      background-color: #FFFFFF;
+      padding: 8px 15px;
+      border-radius: 5px;
+      border: none;
+      margin-left: 15px;
+      font-weight: bold;
+      cursor: pointer;
+
+      &.reset {
+        box-shadow: 0px 30px 60px #E5E9F2;
+        color: #31394D;
+        border: 1px solid #31394D;
+        
+      }
+
+      &.apply  {
+        background-color: #2F80ED;
+        border: 1px solid #2F80ED;
+        box-sizing: border-box;
+        color: #FFFFFF;
+      }
+    }
+  } 
+}
+
+*:focus {
+  outline: none;
+}
+
+.status-accepted {
+  border: 1px solid #27AE60;
+  color: #27AE60; 
+}
+.status-rejected {
+  border: 1px solid #EB5757;
+  color: #EB5757;
+}
+.status-archive {
+  border: 1px solid #748AA1;
+  color: #748AA1;
+}
+.status-rfc {
+  border: 1px solid #F2994A;
+  color: #F2994A;          
+}
+.status-none {
+  border: 1px solid #BCBEC7;
+  color: #BCBEC7;          
+}
+
+.option {
+  border-radius: 4px;
+  padding: 2px 0;
+}
+
+.rotate {
+   -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}

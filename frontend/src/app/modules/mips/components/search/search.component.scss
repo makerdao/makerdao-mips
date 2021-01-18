@@ -1,0 +1,41 @@
+
+img {
+  transform: translate(33px, 7px); 
+}
+
+
+input {
+  text-indent:36px;
+  border: none;
+  width: 300px;
+  height: 38px;
+  border-radius: 5px;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  color: #D2D3D9;
+  font-size: 14px;
+  font-weight: 400;  
+  &::placeholder {
+    color: #D2D3D9;
+    font-size: 14px;
+    font-weight: 400;
+  } 
+}
+.close-container { 
+  width: 10px;
+  height: 10px;  
+  .imageClose {
+    transform: translate(-25px, 13px);
+    cursor: pointer;
+  }
+  
+}
+
+.row {
+  display: flex;
+  flex: row;
+}
+
+*:focus {
+  outline: none;
+}
+

@@ -1,0 +1,41 @@
+.container {
+  height: 46px;
+  background: #FFFFFF;
+  opacity: 0.5;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  border-radius: 5px;
+  color: #748AA1;  
+  padding: 0 30px;
+  margin-bottom: 10px;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    strong {
+      color: #31394D;
+    }   
+    .links {
+      font-size: 14px;  
+      a {
+        text-decoration: none;
+        color: #748AA1; 
+      } 
+    }
+    .items {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      img {
+        margin: 0 10px;       
+        transform: translateY(2px);    
+        cursor: pointer;     
+      }
+    }
+  }
+
+  .space {
+    padding-top: 14px;
+  }
+}

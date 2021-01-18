@@ -1,0 +1,20 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+app-proposal-components {
+  width: 20%;
+}
+
+app-detail-content {
+  width: 58%;
+}
+
