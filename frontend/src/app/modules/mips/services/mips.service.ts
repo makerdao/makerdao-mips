@@ -47,6 +47,10 @@ export class MipsService {
     return this.http.get(`${environment.apiUrl}/mips/findone/${id}`);
   }
 
+  getPullRequestHistory(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/pullrequests`);
+  }
+
   getFilter(): FilterData {
     return this.filter;
   }

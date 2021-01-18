@@ -63,6 +63,9 @@ export class ListPageComponent implements OnInit {
     if (this.filterSaved.title !== '') {
       this.filter.contains.push({field: 'title', value: this.filterSaved.title });
     }
+    if (this.filterSaved.status !== 'Select status') {
+      this.filter.contains.push({field: 'status', value: this.filterSaved.status });
+    }
     this.searchMips();
   }
 

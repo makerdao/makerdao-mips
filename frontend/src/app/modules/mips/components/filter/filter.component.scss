@@ -116,7 +116,6 @@
         cursor: pointer;
       }
     }
-
     .type-options {
       width: 120px;
       text-align: left;
@@ -133,6 +132,14 @@
         margin-top: 8px;
         font-weight: bold;
       }
+    }
+    .square {
+      width: 23px;
+      height: 20px;
+      cursor: pointer;
+      img {
+        margin-top: 8px;
+      }      
     }
   }
   .buttons {

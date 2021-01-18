@@ -10,6 +10,7 @@ import { MipsService } from '../../services/mips.service';
 export class DetailsPageComponent implements OnInit {
 
   mip: any;
+  pullrequest: any;
 
   constructor(
     private mipsService: MipsService,
@@ -22,6 +23,10 @@ export class DetailsPageComponent implements OnInit {
         this.mipsService.getMip(paramMap.get('id'))
         .subscribe(data => {
           this.mip = data;
+        });
+        this.mipsService.getPullRequestHistory()
+        .subscribe(response => {
+          this.pullrequest = response;
         });
       }
     });

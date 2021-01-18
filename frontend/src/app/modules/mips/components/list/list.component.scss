@@ -8,19 +8,19 @@ mat-paginator {
 
 
 //---------------Expand oficial
-tr.example-detail-row {
+tr.maker-detail-row {
   height: 0;
 }
 
-tr.example-element-row:not(.example-expanded-row):hover {
+tr.maker-element-row:not(.maker-expanded-row):hover {
   background: whitesmoke;
 }
 
-tr.example-element-row:not(.example-expanded-row):active {
+tr.maker-element-row:not(.maker-expanded-row):active {
   background: #efefef;
 }
 
-.example-element-row td {
+.maker-element-row td {
   border-bottom-width: 0;
   font-style: normal;
   font-weight: 500;
@@ -28,12 +28,12 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: #31394D;
 }
 
-.example-element-detail {
+.maker-element-detail {
   overflow: hidden;
   display: flex;
 }
 
-.example-element-diagram {
+.maker-element-diagram {
   min-width: 80px;
   border: 2px solid black;
   padding: 8px;
@@ -42,17 +42,17 @@ tr.example-element-row:not(.example-expanded-row):active {
   height: 104px;
 }
 
-.example-element-symbol {
+.maker-element-symbol {
   font-weight: bold;
   font-size: 40px;
   line-height: normal;
 }
 
-.example-element-description {
+.maker-element-description {
   padding: 16px;
 }
 
-.example-element-description-attribution {
+.maker-element-description-attribution {
   opacity: 0.5;
 }
 
@@ -149,12 +149,13 @@ th {
 //----- test
 
 /* Structure */
-.example-container {
+.maker-container {
   position: relative;
   min-height: 200px;
+  box-shadow: 0px 1px 4px #E5E9F2;
 }
 
-.example-table-container {
+.maker-table-container {
   position: relative;
   max-height: 400px;
   overflow: auto;
@@ -164,7 +165,7 @@ table {
   width: 100%;
 }
 
-.example-loading-shade {
+.maker-loading-shade {
   position: absolute;
   top: 0;
   left: 0;
@@ -177,7 +178,7 @@ table {
   justify-content: center;
 }
 
-.example-rate-limit-reached {
+.maker-rate-limit-reached {
   color: #980000;
   max-width: 360px;
   text-align: center;

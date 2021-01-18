@@ -14,7 +14,7 @@
     <div class="data">
       <div class="label">Status:</div>
       <input type="text" class="status" [ngClass]="statusCLass" value="{{statusInputText}}" disabled>
-      <img class="arrow" [ngClass]="{'rotate': statusOptionsShow}" (click)="statusOptionsShow = !statusOptionsShow; typeOptionsShow = false" src="../../../../../assets/images/arrow.svg" />
+      <div class="square" (click)="statusOptionsShow = !statusOptionsShow; typeOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': statusOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
       <div class="status-options frame" *ngIf="statusOptionsShow" (onmouseout)="statusOptionsShow = false">
         <div class="status-option" (click)="setStatusClassAndText(4)"><div class="option status-none">NONE</div></div>
         <div class="status-option" (click)="setStatusClassAndText(0)"><div class="option status-accepted">ACCEPTED</div></div>
@@ -26,7 +26,7 @@
     <div class="data">
       <div class="label">MIP Type:</div>
       <input type="text" class="type" [ngClass]="typeCLass" value="{{typeInputText}}" disabled>
-      <img class="arrow" [ngClass]="{'rotate': typeOptionsShow}" (click)="typeOptionsShow = !typeOptionsShow; statusOptionsShow = false" src="../../../../../assets/images/arrow.svg" />
+      <div class="square" (click)="typeOptionsShow = !typeOptionsShow; statusOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': typeOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
       <div class="type-options frame" *ngIf="typeOptionsShow">
         <div class="type-option" (click)="setTyepClassAndText(2)">NONE</div>
         <div class="type-option selected" (click)="setTyepClassAndText(0)">PROPOSAL</div>
