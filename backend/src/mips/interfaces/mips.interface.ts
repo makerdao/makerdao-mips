@@ -23,7 +23,7 @@ export interface IGitFile {
   filename: string;
   hash: string;
 }
-export interface ISyncronizeData {
+export interface ISynchronizeData {
   creates: number;
   updates: number;
   deletes: number;
