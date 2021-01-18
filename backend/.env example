@@ -4,3 +4,11 @@ PORT=3000
 
 FOLDER_REPOSITORY_NAME=mips_repository
 REPO_PATH=https://github.com/makerdao/mips.git
+FOLDER_PATTERN='MIP*'
+
+WEBHOOKS_SECRET_TOKEN=ffgghhjj
+GIT_ACCESS_API_TOKEN=ddfffggg
+GITHUB_URL_ENDPOINT=https://api.github.com/graphql
+
+GITHUB_REPOSITORY=mips
+GITHUB_REPOSITORY_OWNER=makerdao

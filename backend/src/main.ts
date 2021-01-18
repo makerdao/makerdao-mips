@@ -1,10 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app.module';
-import { Env } from './env';
-import { ValidationPipe } from '@nestjs/common';
-import { MongoExceptionFilter } from './exceptions/mongodb-exception.filter';
+import { NestFactory } from "@nestjs/core";
+import { ConfigService } from "@nestjs/config";
+import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+import { AppModule } from "./app.module";
+import { Env } from "./env";
+import { ValidationPipe } from "@nestjs/common";
+import { MongoExceptionFilter } from "./exceptions/mongodb-exception.filter";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,12 +15,14 @@ async function bootstrap() {
   app.enableCors();
 
   const options = new DocumentBuilder()
-    .setTitle('mips')
-    .setDescription('MIPs projects.')
-    .setVersion('1.0')
+    .setTitle("Parse mips project")
+    .setDescription(
+      "This project is a MIPs Tracker for MakerDAO Improvement Proposals. MIPs projects."
+    )
+    .setVersion("1.0")
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('doc', app, document);
+  SwaggerModule.setup("doc", app, document);
 
   const port = configService.get<number>(Env.Port) || 3000;
 

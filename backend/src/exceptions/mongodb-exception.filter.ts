@@ -3,9 +3,9 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
-} from '@nestjs/common';
-import { Request, Response } from 'express';
-import { MongoError } from 'mongodb';
+} from "@nestjs/common";
+import { Request, Response } from "express";
+import { MongoError } from "mongodb";
 
 @Catch(MongoError)
 export class MongoExceptionFilter implements ExceptionFilter {
@@ -16,7 +16,7 @@ export class MongoExceptionFilter implements ExceptionFilter {
 
     switch (exception.code) {
       case 11000:
-        const errors: string[] = exception.message.split(':');
+        const errors: string[] = exception.message.split(":");
         const message = `Duplicate unique field: ${errors[2].trim()}`;
 
         response.status(HttpStatus.BAD_REQUEST).json({
