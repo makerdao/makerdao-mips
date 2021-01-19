@@ -1,10 +1,16 @@
-<app-mips-pagination [mipId]="mip.mip"></app-mips-pagination>
-<div class="row">
-  <app-proposal-components></app-proposal-components>
-  <app-detail-content [mip]="mip"></app-detail-content>
-  <div class="column">
-    <app-mip-details [status]="mip.status"></app-mip-details>
-    <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
-  </div>
+<div class="container">
+  <app-mips-pagination [mipId]="mip.mip"></app-mips-pagination>
+  <div class="row">
+    <app-proposal-components></app-proposal-components>
+    <app-detail-content [mip]="mip"></app-detail-content>
+    <div class="column">      
+      <app-mip-details 
+      [status]="mip.status" 
+      [dateProposed]="mip.dateProposed"
+      [dateRatified]="mip.dateRatified"
+      ></app-mip-details>
+      <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history> 
+    </div>
+  </div> 
 </div>
 

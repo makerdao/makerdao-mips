@@ -1,20 +1,48 @@
-.row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.container {
+  width: 100%;
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    app-proposal-components {
+      display: block;
+      width: 19%;
+    }
+
+    app-detail-content {      
+      width: 60%;
+    }
+
+    .column {
+      app-mip-details {
+        display: block;
+      }
+      width: 19%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-}
 
-app-proposal-components {
-  width: 20%;
-}
 
-app-detail-content {
-  width: 58%;
-}
+// .row {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+// }
+
+// .column {
+//   display: flex;
+//   flex-direction: column;  
+// }
+
+// app-proposal-components {
+//   // width: 20%;
+// }
+
+// app-detail-content {
+//   // width: 58%;
+// }
 

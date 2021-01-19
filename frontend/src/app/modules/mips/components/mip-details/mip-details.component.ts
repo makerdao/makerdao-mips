@@ -8,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class MipDetailsComponent implements OnInit {
 
   @Input() status: string;
+  @Input() dateProposed: string;
+  @Input() dateRatified: string;
 
   constructor() { }
 

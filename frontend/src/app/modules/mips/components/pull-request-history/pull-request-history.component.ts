@@ -24,4 +24,8 @@ export class PullRequestHistoryComponent implements OnInit {
   //   return diffInMs / (1000 * 60 * 60 * 24);
   // }
 
+  goToMipsPullHistory(): void {
+    window.location.href = this.pullrequest.url;
+  }
+
 }
