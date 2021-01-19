@@ -10,6 +10,7 @@ mat-paginator {
 //---------------Expand oficial
 tr.maker-detail-row {
   height: 0;
+  margin-top: 120px;
 }
 
 tr.maker-element-row:not(.maker-expanded-row):hover {
@@ -27,6 +28,8 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   font-size: 14px;
   color: #31394D;
   margin-left: 15px;  
+  vertical-align: top;
+  margin-top: 120px;
 }
 
 .maker-element-detail {
@@ -59,8 +62,7 @@ tr.maker-element-row:not(.maker-expanded-row):active {
 
 th {
   text-transform: uppercase;
-  font-style: normal;
-  // font-weight: bold;
+  font-style: normal;  
   font-size: 12px;
   color: #748AA1;
 }
@@ -85,16 +87,14 @@ th {
 
 .rotate {
   -webkit-transform: rotate(180deg);
-      -moz-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      -o-transform: rotate(180deg);
-      transform: rotate(180deg);
-      margin-top: 4px !important;      
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);           
 }
 
 .arrow {
-  cursor: pointer;
-  margin-top: -15px;  
+  cursor: pointer;  
 }
 
 .mat-column-title {
@@ -103,7 +103,7 @@ th {
   width: 30%;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;  
 }
 
 .summary {
@@ -193,13 +193,6 @@ table {
   max-width: 124px;
 }
 
-
-// .tooltip {
-//   position: relative;
-//   display: inline-block;
-//   border-bottom: 1px dotted black;
-// }
-
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 149px;
@@ -252,6 +245,60 @@ a {
   float: left;
   padding-bottom: 10px;
   margin-bottom: 10px;
+}
+
+.mobile-container {  
+  padding: 15px;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  border-radius: 5px;
+  height: auto;
+  margin-bottom: 15px;
+
+  .title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #31394D;    
+  }
+  .status {
+    margin-top: 5px;
+  }
+  .content {
+    font-weight: normal;
+    font-size: 12px;    
+    color: #31394D;
+    margin-top: 20px;    
+  }
+  .more  {
+    cursor: pointer;
+    margin-top: 14px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #748AA1;
+    float: left;
+    img {
+      margin-right: 8px;
+    }
+  }
+
+  app-social {
+    float: right;    
+    margin-top: 14px;
+  }
+}
+
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile {
+    display: block;
+
+  }
+  .no-mobile {
+    display: none;
+  }
 }
 
 

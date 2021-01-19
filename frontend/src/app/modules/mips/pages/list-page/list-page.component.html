@@ -1,7 +1,9 @@
 <div class="row">
   <p class="title">MIPs List</p>
   <div class="row filtering">
-    <app-search (send)="onSendSearch($event)"></app-search>
+    <app-search-mobile class="mobile" (send)="onSendSearch($event)"></app-search-mobile>
+    <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)"></app-order-mobile>
+    <app-search class="no-mobile" (send)="onSendSearch($event)"></app-search>
     <app-filter (send)="onSendFilters()"></app-filter>
   </div>
 </div>

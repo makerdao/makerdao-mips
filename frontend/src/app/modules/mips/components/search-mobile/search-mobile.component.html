@@ -1,0 +1,7 @@
+<!-- <div class="container">  -->
+  <img (click)="showInput = !showInput" src="../../../../../assets/images/magnifier_frame.svg" />
+  <input *ngIf="showInput" type="text" #search placeholder="Search on the list" (keyup)="onKeySearch($event)" value="{{text}}">
+  <div class="close-container" *ngIf="showClose && showInput">
+    <img (click)="clear()" src="../../../../../assets/images/close.png" class="imageClose" />
+  </div>
+<!-- </div> -->

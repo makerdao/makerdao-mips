@@ -71,6 +71,11 @@ export class FilterComponent implements OnInit {
     this.setStatusClassAndText(4);
     this.setTyepClassAndText(2);
     this.inputTitle.nativeElement.value = '';
+    this.typeInputText = 'NONE';
+    this.statusInputText = 'Select status';
+    this.posStatus = 4;
+    this.posType = 2;
+    this.apply();
   }
 
   apply(): void {

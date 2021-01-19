@@ -1,0 +1,19 @@
+<img (click)="showFrame = !showFrame" src="../../../../../assets/images/oder_frame.svg" />
+<!-- <div class="frame">
+  <div class="up"><img src="../../../../../assets/images/up.svg" /></div>
+  <div class="down"><img src="../../../../../assets/images/down.svg" /></div>
+</div> -->
+<div  class="content" *ngIf="showFrame">
+  <img (click)="up = !up" [ngClass]="{'rotate': up == false}" src="../../../../../assets/images/up.svg" />
+  <hr>
+  <div class="option" (click)="updatePos(0)" [ngClass]="{'selected': pos == 0}">NONE</div>
+  <div class="option" (click)="updatePos(1)" [ngClass]="{'selected': pos == 1}">#</div>
+  <div class="option" (click)="updatePos(2)" [ngClass]="{'selected': pos == 2}">TITLE</div>
+  <div class="option" (click)="updatePos(3)" [ngClass]="{'selected': pos == 3}">SUMMARY</div>
+  <div class="option" (click)="updatePos(4)" [ngClass]="{'selected': pos == 4}">STATUS</div>
+  <div class="buttons">
+    <button class="reset btn" (click)="reset()">Reset</button>    
+    <button class="apply btn" (click)="apply()">Apply</button>
+  </div>
+</div>
+

@@ -19,6 +19,8 @@ import { PullRequestHistoryComponent } from './components/pull-request-history/p
 import { DetailContentComponent } from './components/detail-content/detail-content.component';
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { SearchMobileComponent } from './components/search-mobile/search-mobile.component';
+import { OrderMobileComponent } from './components/order-mobile/order-mobile.component';
 
 
 
@@ -36,7 +38,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MipDetailsComponent,
     PullRequestHistoryComponent,
     DetailContentComponent,
-    DetailsPageComponent
+    DetailsPageComponent,
+    SearchMobileComponent,
+    OrderMobileComponent
   ],
   imports: [
     CommonModule,

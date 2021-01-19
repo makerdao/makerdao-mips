@@ -18,3 +18,22 @@ app-filter {
   margin-top: 3px;
   z-index: 5;
 }
+
+app-search-mobile, app-order-mobile {
+  margin-top: 17px;
+  margin-right: 4px;
+}
+
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile {
+    display: block;
+  }
+
+  .no-mobile {
+    display: none;
+  }
+}

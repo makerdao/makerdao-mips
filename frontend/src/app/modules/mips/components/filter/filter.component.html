@@ -1,10 +1,11 @@
 <div class="container">
-  <div class="button" (click)="showFilter()">
+  <div class="button no-mobile" (click)="showFilter()">
       <img *ngIf="!contentOptionsShow else blue" src="../../../../../assets/images/icon_filter.svg" />
       <ng-template #blue>
         <img src="../../../../../assets/images/icon_filter_blue.svg" />
       </ng-template>
   </div>
+  <img class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter.svg" />
   <div class="content frame" *ngIf="contentOptionsShow">
     <p class="title">FILTER BY</p>
     <div class="data">

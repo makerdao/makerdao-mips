@@ -31,7 +31,7 @@ export class ListPageComponent implements OnInit {
     this.searchMips();
   }
 
-  searchMips(): void {      
+  searchMips(): void {
       this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter)
       .subscribe(data => {
         this.mipsAux = data.items;
