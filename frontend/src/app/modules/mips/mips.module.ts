@@ -18,6 +18,7 @@ import { MipDetailsComponent } from './components/mip-details/mip-details.compon
 import { PullRequestHistoryComponent } from './components/pull-request-history/pull-request-history.component';
 import { DetailContentComponent } from './components/detail-content/detail-content.component';
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -43,7 +44,8 @@ import { DetailsPageComponent } from './pages/details-page/details-page.componen
     MatTableModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    InfiniteScrollModule
   ]
 })
 export class MipsModule { }

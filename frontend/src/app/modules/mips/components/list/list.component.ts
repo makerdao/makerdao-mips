@@ -70,13 +70,15 @@ export class ListComponent {
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
   @Input() dataSource: any;
   @Input() loading = true;
+  @Input() loadingPlus = false;
+  @Input() moreToLoad = true;
   @Input() paginationTotal;
   expandedElement: DataElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selected = '-1';
   @Input() paginatorLength;
   pageEvent: PageEvent;
-  @Output() send = new EventEmitter<number>();
+  @Output() send = new EventEmitter();
   @Output() sendOrder = new EventEmitter<string>();
   timeout: any = null;
 
@@ -107,13 +109,13 @@ export class ListComponent {
     }
   }
 
-  handlePageEvent(event: PageEvent): void {
-    clearTimeout(this.timeout);
-    const $this = this;
-    this.timeout = setTimeout(() => {
-        $this.send.emit(event.pageIndex);
-    }, 1000);
-  }
+  // handlePageEvent(event: PageEvent): void {
+  //   clearTimeout(this.timeout);
+  //   const $this = this;
+  //   this.timeout = setTimeout(() => {
+  //       $this.send.emit(event.pageIndex);
+  //   }, 1000);
+  // }
 
   onSendOrderASC(value: string): void {
     this.sendOrder.emit(this.transforValue(value));
@@ -127,6 +129,12 @@ export class ListComponent {
     if (value === 'title') { return 'title'; }
     if (value === 'summary') { return 'sentenceSummary'; }
     if (value === 'status') { return 'status'; }
+  }
+
+  onScroll(): void {
+    if (!this.loading && this.moreToLoad) {
+      this.send.emit();
+    }
   }
 
 }
