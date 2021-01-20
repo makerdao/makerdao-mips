@@ -1,12 +1,23 @@
 .content {
   position: absolute;
+  width: 159px;
   z-index: 2;
-  padding: 15px 20px;
+  padding: 30px 20px;
   background: #FFFFFF;
   box-shadow: 0px 30px 60px #E5E9F2;
   border-radius: 5px;
-  transform: translate(-129px, 6px);
-  text-align: center;
+  transform: translate(-167px, -2px);
+  text-align: left;
+  p {
+    font-weight: bold;
+    font-size: 12px;
+    color: #748AA1;
+    margin-bottom: 30px;
+  }
+  hr {
+    border: 1px solid #B8C5D3;
+    margin-bottom: 20px;
+  }
   img {
     width: 20px;
     height: 20px;
@@ -18,26 +29,26 @@
 
   }
   .option {
-    margin-top: 5px;
+    // margin-top: 5px;
+    font-style: normal;
     cursor: pointer;
     font-size: 12px;
-    color: #BCBEC7;
+    color: #748AA1;
+    margin-bottom: 20px;
     &.selected {
-      color: #31394D;      
-    } 
+      color: #31394D;
+    }
   }
   .buttons {
-    margin-top: 20px;
+    margin-top: 40px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 
     .btn {
-      font-size: 12px;
       background-color: #FFFFFF;
-      padding: 4px 8px;
+      padding: 8px 15px;
       border-radius: 5px;
       border: none;
-      margin-left: 10px;
       font-weight: bold;
       cursor: pointer;
 
@@ -45,7 +56,7 @@
         box-shadow: 0px 30px 60px #E5E9F2;
         color: #31394D;
         border: 1px solid #31394D;
-        
+
       }
 
       &.apply  {
@@ -55,13 +66,31 @@
         color: #FFFFFF;
       }
     }
-  } 
+  }
 }
 
-.rotate {
-  -webkit-transform: rotate(180deg);
-   -moz-transform: rotate(180deg);
-   -ms-transform: rotate(180deg);
-   -o-transform: rotate(180deg);
-   transform: rotate(180deg);
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #B8C5D3;
+  position: absolute;
+  transform: translate(22px, 5px);
+  &.selected-arrow {
+    border-top: 5px solid #31394D;
+  }
+}
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #B8C5D3;;
+  position: absolute;
+  transform: translate(16px, 5px);
+  &.selected-arrow {
+    border-bottom: 5px solid #31394D;
+  }
 }

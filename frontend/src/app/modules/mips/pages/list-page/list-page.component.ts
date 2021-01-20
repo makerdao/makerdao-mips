@@ -22,6 +22,7 @@ export class ListPageComponent implements OnInit {
   loadingPlus: boolean;
   total: number;
   moreToLoad: boolean;
+  mobileSearch = false;
 
   constructor(
     private mipsService: MipsService
@@ -99,6 +100,10 @@ export class ListPageComponent implements OnInit {
     this.page = 0;
     this.order = text;
     this.searchMips();
+  }
+
+  onOpenMobileSearch(open: boolean): void {
+    this.mobileSearch = open;
   }
 
 }

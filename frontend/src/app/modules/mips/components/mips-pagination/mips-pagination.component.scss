@@ -1,3 +1,4 @@
+
 .container {
   height: 46px;
   background: #FFFFFF;
@@ -7,6 +8,7 @@
   color: #748AA1;  
   padding: 0 30px;
   margin-bottom: 10px;
+  z-index: 0;
 
   .row {
     display: flex;

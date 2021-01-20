@@ -2,12 +2,13 @@
   font-weight: bold;
   font-size: 20px;
   color: #31394D;
+  float: left;
 }
 
 .row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 app-search {
@@ -21,13 +22,24 @@ app-filter {
 
 app-search-mobile, app-order-mobile {
   margin-top: 17px;
-  margin-right: 4px;
+  // margin-right: 4px;
 }
 
 .mobile {
   display: none;
 }
 
+@media screen and (max-width: 539px) {
+  .title{
+    &.hide {
+      display: none;
+    }
+  }
+  app-search-mobile {
+    width: 100%;
+  }
+
+}
 @media screen and (max-width: 768px) {
   .mobile {
     display: block;

@@ -9,6 +9,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/cor
 export class SearchMobileComponent implements OnInit {
 
   @Output() send = new EventEmitter();
+  @Output() open = new EventEmitter<boolean>();
   timeout: any = null;
   @ViewChild('search') inputSearch;
   showClose = false;
@@ -36,10 +37,15 @@ export class SearchMobileComponent implements OnInit {
     this.inputSearch.nativeElement.value = '';
     this.text = '';
     this.onChange(this.inputSearch.nativeElement.value);
-    this.showInput = false;
+    this.onOpenCloseInput();
   }
 
   ngOnInit(): void {
+  }
+
+  onOpenCloseInput(): void {
+    this.showInput = !this.showInput;
+    this.open.emit(this.showInput);
   }
 
 }

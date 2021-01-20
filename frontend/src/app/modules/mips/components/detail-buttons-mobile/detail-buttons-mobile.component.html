@@ -1,0 +1,14 @@
+<div class="row buttons-mobile mobile">
+  <img (click)="showProposal = !showProposal" src="../../../../../assets/images/filter_mobile.svg" />
+  <div class="frame proposal">
+    <app-proposal-components *ngIf="showProposal"></app-proposal-components>
+  </div>
+  <img (click)="showOptions = !showOptions" src="../../../../../assets/images/more.svg" />
+  <div class="frame options">
+    <div class="left" *ngIf="showOptions">
+      <p class="selected">MIP 2 : Info</p>
+      <p>Details</p>
+      <p>Pull Requests History</p>
+    </div>
+  </div>
+</div>

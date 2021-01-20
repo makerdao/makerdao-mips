@@ -5,7 +5,8 @@
         <img src="../../../../../assets/images/icon_filter_blue.svg" />
       </ng-template>
   </div>
-  <img class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter.svg" />
+  <img *ngIf="!contentOptionsShow" class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter.svg" />
+  <img *ngIf="contentOptionsShow" class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter_blue.svg" />
   <div class="content frame" *ngIf="contentOptionsShow">
     <p class="title">FILTER BY</p>
     <div class="data">
@@ -31,11 +32,11 @@
       <div class="type-options frame" *ngIf="typeOptionsShow">
         <div class="type-option" (click)="setTyepClassAndText(2)">NONE</div>
         <div class="type-option selected" (click)="setTyepClassAndText(0)">PROPOSAL</div>
-        <div class="type-option selected" (click)="setTyepClassAndText(1)">SUB-PROPOSAL</div>        
+        <div class="type-option selected" (click)="setTyepClassAndText(1)">SUB-PROPOSAL</div>
       </div>
     </div>
     <div class="buttons">
-      <button class="reset btn" (click)="reset()">Reset</button>    
+      <button class="reset btn" (click)="reset()">Reset</button>
       <button class="apply btn" (click)="apply()">Apply</button>
     </div>
   </div>

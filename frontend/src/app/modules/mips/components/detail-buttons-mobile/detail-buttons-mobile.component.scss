@@ -1,0 +1,45 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.buttons-mobile {
+  transform: translateY(-121px);
+  cursor: pointer;
+}
+
+.frame {
+  position: absolute;  
+}
+.proposal {
+  // transform: translate(4px, 68px);  
+}
+
+.options {
+  // transform: translate(430px, 68px);
+  right: 0;
+  // transform: translateY(45px);
+}
+
+.left {
+  background: #FFFFFF;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  padding: 23px 30px 27px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #748AA1;
+}
+p.selected {
+  color: #000000;
+}
+
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile {
+    display: flex;
+  } 
+}

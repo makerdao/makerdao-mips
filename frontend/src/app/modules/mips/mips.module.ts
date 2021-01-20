@@ -21,6 +21,7 @@ import { DetailsPageComponent } from './pages/details-page/details-page.componen
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchMobileComponent } from './components/search-mobile/search-mobile.component';
 import { OrderMobileComponent } from './components/order-mobile/order-mobile.component';
+import { DetailButtonsMobileComponent } from './components/detail-buttons-mobile/detail-buttons-mobile.component';
 
 
 
@@ -40,7 +41,8 @@ import { OrderMobileComponent } from './components/order-mobile/order-mobile.com
     DetailContentComponent,
     DetailsPageComponent,
     SearchMobileComponent,
-    OrderMobileComponent
+    OrderMobileComponent,
+    DetailButtonsMobileComponent
   ],
   imports: [
     CommonModule,

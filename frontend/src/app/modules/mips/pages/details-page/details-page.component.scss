@@ -1,48 +1,68 @@
 .container {
   width: 100%;
+  .buttons-mobile {
+    transform: translateY(-80px);
+  }
   .row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 
     app-proposal-components {
-      display: block;
+      // display: block;
       width: 19%;
-    }
-
-    app-detail-content {      
-      width: 60%;
-    }
+    }   
 
     .column {
       app-mip-details {
         display: block;
-      }
-      width: 19%;
+      }      
       display: flex;
       flex-direction: column;
     }
   }
 }
 
+app-detail-buttons-mobile {
+  z-index: 3;
+}
 
+app-mips-pagination {
+  z-index: -5;
+}
 
-// .row {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-// }
+@media screen and (max-width: 768px) {
+  .no-mobile{
+    display: none;
+  }
 
-// .column {
-//   display: flex;
-//   flex-direction: column;  
-// }
+  .mobile {
+    display: block;
+  }
 
-// app-proposal-components {
-//   // width: 20%;
-// }
+  .row {
+    flex-wrap: wrap;
+    app-detail-content {
+      width: 100%;
+    }
+    .column {
+      width: 100%;
+    }
+  }
+}
 
-// app-detail-content {
-//   // width: 58%;
-// }
+@media screen and (min-width: 769px) {
+  .row {
+    app-detail-content {
+      width: 60%;
+    }
+    .column {
+      width: 19%;
+    }
+  }
+  .mobile {
+    display: none !important;
+  }
+}
+
 

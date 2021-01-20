@@ -8,7 +8,8 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class OrderMobileComponent implements OnInit {
 
-  pos = 0;
+  pos = 1;
+  pos1 = 1;
   showFrame = false;
   @Output() sendOrder = new EventEmitter<string>();
   up = true;
@@ -22,8 +23,12 @@ export class OrderMobileComponent implements OnInit {
     this.pos = pos;
   }
 
+  updatePosDown(pos: number): void {
+    this.pos1 = pos;
+  }
+
   apply(): void {
-    if (this.up) {
+    if (this.pos1 === 1) {
       this.onSendOrderASC();
     } else {
       this.onSendOrderDES();
@@ -34,6 +39,7 @@ export class OrderMobileComponent implements OnInit {
     this.pos = 0;
     this.up = true;
     this.apply();
+    this.pos = 1;
   }
 
   transforValue(pos: number): string {

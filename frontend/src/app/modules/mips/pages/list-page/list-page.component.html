@@ -1,19 +1,19 @@
-<div class="row">
-  <p class="title">MIPs List</p>
-  <div class="row filtering">
-    <app-search-mobile class="mobile" (send)="onSendSearch($event)"></app-search-mobile>
+<div>
+  <p class="title" [ngClass]="{'hide': mobileSearch}">MIPs List</p>
+  <div class="row">
+    <app-search-mobile (open)="onOpenMobileSearch($event)" class="mobile" (send)="onSendSearch($event)"></app-search-mobile>
     <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)"></app-order-mobile>
     <app-search class="no-mobile" (send)="onSendSearch($event)"></app-search>
     <app-filter (send)="onSendFilters()"></app-filter>
   </div>
 </div>
-<app-list 
-[loading]="loading" 
+<app-list
+[loading]="loading"
 [loadingPlus]="loadingPlus"
 [moreToLoad]="moreToLoad"
-[dataSource]="mips" 
-[paginationTotal]="total" 
-(send)="onSendPagination()" 
+[dataSource]="mips"
+[paginationTotal]="total"
+(send)="onSendPagination()"
 (sendOrder)="onSendOrder($event)"
 ></app-list>
 
