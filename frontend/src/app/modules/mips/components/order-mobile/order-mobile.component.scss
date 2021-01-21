@@ -1,6 +1,6 @@
 .content {
   position: absolute;
-  width: 159px;
+  width: 142px;
   z-index: 2;
   padding: 30px 20px;
   background: #FFFFFF;
@@ -40,17 +40,21 @@
     }
   }
   .buttons {
-    margin-top: 40px;
+    margin-top: 36px;
     display: flex;
     justify-content: space-between;
 
     .btn {
       background-color: #FFFFFF;
-      padding: 8px 15px;
-      border-radius: 5px;
+      padding: 0px 15px;
+      border-radius: 4px;
       border: none;
       font-weight: bold;
       cursor: pointer;
+      font-size: 12px;
+      font-family: Roboto;
+      width: 63px;
+      height: 27px;
 
       &.reset {
         box-shadow: 0px 30px 60px #E5E9F2;

@@ -30,7 +30,7 @@
   width: 228px;
   padding: 30px 30px 20px;
   transform: translate(-247px, 10px);
-  .title {    
+  .title {
     font-weight: 700;
   }
 
@@ -66,23 +66,23 @@
       }
       &.status-accepted {
         border: 1px solid #27AE60;
-        color: #27AE60;        
+        color: #27AE60;
       }
       &.status-rejected {
         border: 1px solid #EB5757;
-        color: #EB5757;        
+        color: #EB5757;
       }
       &.status-archive {
         border: 1px solid #748AA1;
-        color: #748AA1;        
+        color: #748AA1;
       }
       &.status-rfc {
         border: 1px solid #F2994A;
-        color: #F2994A;        
+        color: #F2994A;
       }
       &.status-none {
         border: 1px solid #BCBEC7;
-        // color: #E5E9F2;        
+        // color: #E5E9F2;
       }
       &.type {
         font-weight: bold;
@@ -96,18 +96,18 @@
         }
 
       }
-      
+
     }
     .arrow {
       margin-left: 8px;
-      cursor: pointer;   
+      cursor: pointer;
       -webkit-transition: 300ms ease all;
       -moz-transition: 300ms ease all;
       -o-transition: 300ms ease all;
-      transition: 300ms ease all;  
+      transition: 300ms ease all;
     }
     .status-options {
-      width: 86px;      
+      width: 86px;
       text-align: center;
       transform: translate(59px, 28px);
       padding: 15px;
@@ -140,7 +140,7 @@
       cursor: pointer;
       img {
         margin-top: 8px;
-      }      
+      }
     }
   }
   .buttons {
@@ -150,18 +150,22 @@
 
     .btn {
       background-color: #FFFFFF;
-      padding: 8px 15px;
-      border-radius: 5px;
+      padding: 0px 15px;
+      border-radius: 4px;
       border: none;
       margin-left: 15px;
       font-weight: bold;
       cursor: pointer;
+      font-size: 12px;
+      font-family: Roboto;
+      width: 63px;
+      height: 27px;
 
       &.reset {
         box-shadow: 0px 30px 60px #E5E9F2;
         color: #31394D;
         border: 1px solid #31394D;
-        
+
       }
 
       &.apply  {
@@ -171,7 +175,7 @@
         color: #FFFFFF;
       }
     }
-  } 
+  }
 }
 
 *:focus {
@@ -180,7 +184,7 @@
 
 .status-accepted {
   border: 1px solid #27AE60;
-  color: #27AE60; 
+  color: #27AE60;
 }
 .status-rejected {
   border: 1px solid #EB5757;
@@ -192,11 +196,11 @@
 }
 .status-rfc {
   border: 1px solid #F2994A;
-  color: #F2994A;          
+  color: #F2994A;
 }
 .status-none {
   border: 1px solid #BCBEC7;
-  color: #BCBEC7;          
+  color: #BCBEC7;
 }
 
 .option {

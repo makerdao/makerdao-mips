@@ -11,6 +11,7 @@ export class SocialComponent implements OnInit {
   @Input() githubLink: 'OK';
   @Input() forumLink: 'OK';
   gitgubUrl = environment.repoUrl;
+  @Input() mobile = false;
 
   constructor() { }
 

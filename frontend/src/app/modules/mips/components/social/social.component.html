@@ -1,9 +1,11 @@
-<a target="_blank" href="{{gitgubUrl}}/{{githubLink}}"><img src="../../../../../assets/images/social_github.svg" /></a>
+<a *ngIf="!mobile" target="_blank" href="{{gitgubUrl}}/{{githubLink}}"><img src="../../../../../assets/images/social_github.svg" /></a>
+<a *ngIf="mobile" target="_blank" href="{{gitgubUrl}}/{{githubLink}}"><img src="../../../../../assets/images/github_mobile.svg" /></a>
 <span class="tooltip">
-  <a ><img src="../../../../../assets/images/social_forum.svg" class="forum" /></a>
+  <a *ngIf="!mobile"><img src="../../../../../assets/images/social_forum.svg" class="forum" /></a>
+  <a *ngIf="mobile"><img src="../../../../../assets/images/forum_mobile.svg" class="forum" /></a>
   <span class="tooltiptext">Link to the forum coming soon. <br>
     Feel free to manually search the MIP number at <br>
-    <a href="https://forum.makerdao.com/">forum.makerdao.com</a>
+    <a href="https://forum.makerdao.com/" target="_blank">forum.makerdao.com</a>
   </span>
 </span>
 
