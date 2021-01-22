@@ -304,6 +304,14 @@ a {
   display: none;
 }
 
+.load-more {
+  text-align: center;
+  font-weight: normal;
+  font-size: 14px;
+  color: #748AA1;
+  margin-top: 35px;
+}
+
 @media screen and (max-width: 768px) {
   .mobile {
     display: block;

@@ -2,9 +2,9 @@
   <p class="title" [ngClass]="{'hide': mobileSearch}">MIPs List</p>
   <div class="row filtering">
     <app-search-mobile class="mobile" (send)="onSendSearch($event)" (open)="onOpenMobileSearch($event)"></app-search-mobile>
-    <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)" [showFrame]="mobileOrderOpen"></app-order-mobile>
+    <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)"></app-order-mobile>
     <app-search class="no-mobile" (send)="onSendSearch($event)"></app-search>
-    <app-filter (send)="onSendFilters()" (open)="closeMobileOrder()"></app-filter>
+    <app-filter (send)="onSendFilters()"></app-filter>
   </div>
 </div>
 <app-list 

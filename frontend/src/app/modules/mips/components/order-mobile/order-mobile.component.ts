@@ -1,4 +1,5 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ElementRef, HostListener } from '@angular/core';
+
 
 
 @Component({
@@ -10,14 +11,27 @@ export class OrderMobileComponent implements OnInit {
 
   pos = 1;
   pos1 = 1;
-  @Input() showFrame = false;
+  showFrame = false;
   @Output() sendOrder = new EventEmitter<string>();
   up = true;
+  inside = false;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  @HostListener('document:click', ['$event'])
+  clickout(event): void {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      if (this.inside && this.showFrame) {
+        this.inside = false;
+      } else {
+        this.showFrame = false;
+      }
+    }
   }
+
+  constructor(
+    private eRef: ElementRef
+  ) { }
+
+  ngOnInit(): void {}
 
   updatePos(pos: number): void {
     this.pos = pos;
@@ -61,6 +75,11 @@ export class OrderMobileComponent implements OnInit {
     } else {
       this.sendOrder.emit(this.transforValue(this.pos));
     }
+  }
+
+  showHideFrame(): void {
+    this.showFrame = !this.showFrame;
+    this.inside = true;
   }
 
 }

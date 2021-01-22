@@ -1,4 +1,4 @@
-<img *ngIf="!showFrame" (click)="showFrame = !showFrame" src="../../../../../assets/images/oder_frame.svg" />
+<img *ngIf="!showFrame" (click)="showHideFrame()" src="../../../../../assets/images/oder_frame.svg" />
 <img *ngIf="showFrame" (click)="showFrame = !showFrame" src="../../../../../assets/images/order_frame_blue.svg" />
 
 <div  class="content" *ngIf="showFrame">

@@ -86,6 +86,10 @@
        </tr>
        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="maker-detail-row"></tr>
     </table>
+    <div class="load-more" *ngIf="moreToLoad">
+      <p>Scroll to load More</p>
+      <img src="../../../../../assets/images/scroll.svg" />
+    </div>
     <div class="loading-plus" *ngIf="loadingPlus">
      <mat-spinner [diameter]="50"></mat-spinner>
    </div>

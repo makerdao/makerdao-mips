@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewChild, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, EventEmitter, Input, HostListener, ElementRef } from '@angular/core';
 import { MipsService } from '../../services/mips.service';
 import FilterData from './filter.data';
 
@@ -19,14 +19,26 @@ export class FilterComponent implements OnInit {
   titleText = '';
   @ViewChild('title') inputTitle;
   @Output() send = new EventEmitter();
-  @Output() open = new EventEmitter();
   filterData: FilterData;
   filterDataSaved: FilterData;
   posStatus: number;
   posType: number;
+  inside = false;
+
+  @HostListener('document:click', ['$event'])
+  clickout(event): void {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      if (this.inside && this.contentOptionsShow) {
+        this.inside = false;
+      } else {
+        this.contentOptionsShow = false;
+      }
+    }
+  }
 
   constructor(
-    private mipsService: MipsService
+    private mipsService: MipsService,
+    private eRef: ElementRef
   ) { }
 
   ngOnInit(): void {
@@ -37,16 +49,17 @@ export class FilterComponent implements OnInit {
   showFilter(): void {
     this.contentOptionsShow = !this.contentOptionsShow;
     if (this.contentOptionsShow) {
+      this.inside = true;
       this.filterDataSaved = this.mipsService.getFilter();
       this.titleText = this.filterDataSaved.title;
       this.setStatusClassAndText(this.filterDataSaved.posStatus);
       this.setTyepClassAndText(this.filterDataSaved.posType);
-      this.open.emit();
     }
   }
 
   setStatusClassAndText(pos: number): void {
     this.posStatus = pos;
+    this.inside = true;
     switch (pos) {
       case 0: { this.statusCLass = 'status-accepted'; this.statusInputText = 'ACCEPTED'; this.statusOptionsShow = false; break; }
       case 1: { this.statusCLass = 'status-rejected'; this.statusInputText = 'REJECTED'; this.statusOptionsShow = false; break; }
@@ -58,6 +71,7 @@ export class FilterComponent implements OnInit {
 
   setTyepClassAndText(pos: number): void {
     this.posType = pos;
+    this.inside = true;
     switch (pos) {
       case 0: { this.typeCLass = 'type-selected'; this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }
       case 1: { this.typeCLass = 'type-selected'; this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }
