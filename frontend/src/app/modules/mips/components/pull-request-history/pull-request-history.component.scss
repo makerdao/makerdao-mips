@@ -7,9 +7,8 @@
   background: #FFFFFF;
   box-shadow: 0px 1px 4px #E5E9F2;
   border-radius: 5px;
-  // display: inline-block;
   padding: 30px;
-  margin-bottom: 40px;
+  // margin-bottom: 40px;
   .logo {
     margin-right: 2px;
   }
@@ -25,14 +24,17 @@
   }
   .label {
     color: #748AA1;
-    font-size: 12px;    
+    font-size: 12px;
   }
   .info {
     font-size: 12px;
     color: #31394D;
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  hr {    
+  hr {
     background-color: #EBEDF4;
     height: 1px;
     border: none;
@@ -54,24 +56,43 @@
 }
 
 
-button {
+.github-link{
+  text-align: center;
+  height: 23px;
   width: 100%;
-  background: #FFFFFF;  
-  border-radius: 5px;
   border: 1px solid #748AA1;
-  padding: 4px 0;
-  font-weight: bold;
-  font-size: 12px;
-  color: #2F80ED;
   cursor: pointer;
-  margin-top: 25px;
+  display: inline-block;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 15px;
+
+  .text {
+    color: #2F80ED;
+    font-weight: bold;
+    font-size: 12px;
+  }
 
   img {
-    transform: translate(-4px,2px);    
+    transform: translate(-4px,2px);
   }
 }
 
 *:focus {
   outline: none;
+}
+
+.space-1 {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 20px 20px 30px;
+    .info {
+      margin-right: 50px;
+    }
+  }
 }
 

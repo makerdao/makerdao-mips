@@ -6,6 +6,12 @@ mat-paginator {
   margin-bottom: 40px;
 }
 
+div.space-status {
+  height: 15px;
+}
+div.space-arrow {
+  height: 22px;
+}
 
 //---------------Expand oficial
 tr.maker-detail-row {
@@ -125,7 +131,7 @@ th {
 .mat-column-status {
   width: 10%;
   max-width: 20px;
-  padding-right: 30px;
+  padding-right: 30px;  
 }
 
 .mat-column-pos {

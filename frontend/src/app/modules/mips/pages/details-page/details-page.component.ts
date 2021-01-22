@@ -11,6 +11,9 @@ export class DetailsPageComponent implements OnInit {
 
   mip: any;
   pullrequest: any;
+  mipId: string;
+  mipPosition: number;
+  total: number;
 
   constructor(
     private mipsService: MipsService,
@@ -20,16 +23,33 @@ export class DetailsPageComponent implements OnInit {
   ngOnInit(): void {
     this.activedRoute.paramMap.subscribe(paramMap => {
       if (paramMap.has('id')) {
-        this.mipsService.getMip(paramMap.get('id'))
-        .subscribe(data => {
-          this.mip = data;
-        });
-        this.mipsService.getPullRequestHistory()
-        .subscribe(response => {
-          this.pullrequest = response;
-        });
+        this.mipId = paramMap.get('id');
+        this.total = this.mipsService.getTotal();
+        this.loadData();
+        this.mipsService.updateActiveSearch(true);
       }
     });
+  }
+
+  loadData(): void {
+    this.mipsService.getMip(this.mipId)
+    .subscribe(data => {
+      this.mip = data;
+    });
+    this.mipsService.getPullRequestHistory()
+    .subscribe(response => {
+      this.pullrequest = response;
+    });
+    const data = this.mipsService.getMipsData();
+    if (data !== undefined) {
+      this.mipPosition = data.findIndex(item => item._id === this.mipId);
+    }
+  }
+
+  mipsPagination(position: number): void {
+    const data = this.mipsService.getMipsData();
+    this.mipId = data[position]._id;
+    this.loadData();
   }
 
 }

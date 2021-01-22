@@ -23,13 +23,22 @@ export class ListPageComponent implements OnInit {
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
+  mobileOrderOpen = false;
 
   constructor(
     private mipsService: MipsService
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.searchMips();
+    this.mipsService.activateSearch$
+    .subscribe(data =>  {
+      if (data) {
+        this.onSendPagination();
+        this.mipsService.updateActiveSearch(false);
+      }
+    });
   }
 
   searchMips(): void {
@@ -37,7 +46,9 @@ export class ListPageComponent implements OnInit {
       .subscribe(data => {
         this.mipsAux = data.items;
         this.mips = this.mips.concat(this.mipsAux);
+        this.mipsService.setMipsData(this.mips);
         this.total = data.total;
+        this.mipsService.setTotal(this.total);
         this.loading = false;
         this.loadingPlus = false;
         if (this.limitAux >= this.total) {
@@ -52,7 +63,9 @@ export class ListPageComponent implements OnInit {
       this.loadingPlus = true;
       this.page++;
       this.limitAux += 10;
-      this.searchMips();
+      if (this.moreToLoad) {
+        this.searchMips();
+      }
   }
 
   onSendFilters(): void {
@@ -104,6 +117,10 @@ export class ListPageComponent implements OnInit {
 
   onOpenMobileSearch(open: boolean): void {
     this.mobileSearch = open;
+  }
+
+  closeMobileOrder(): void {
+    this.mobileOrderOpen = false;
   }
 
 }

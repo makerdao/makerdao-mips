@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { MipsService } from '../../services/mips.service';
 import FilterData from './filter.data';
 
@@ -15,10 +15,11 @@ export class FilterComponent implements OnInit {
   statusOptionsShow = false;
   typeInputText  = 'Select type';
   typeOptionsShow = false;
-  contentOptionsShow = false;
+  @Input() contentOptionsShow = false;
   titleText = '';
   @ViewChild('title') inputTitle;
   @Output() send = new EventEmitter();
+  @Output() open = new EventEmitter();
   filterData: FilterData;
   filterDataSaved: FilterData;
   posStatus: number;
@@ -40,6 +41,7 @@ export class FilterComponent implements OnInit {
       this.titleText = this.filterDataSaved.title;
       this.setStatusClassAndText(this.filterDataSaved.posStatus);
       this.setTyepClassAndText(this.filterDataSaved.posType);
+      this.open.emit();
     }
   }
 

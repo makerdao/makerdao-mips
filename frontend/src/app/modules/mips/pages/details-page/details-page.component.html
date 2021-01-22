@@ -1,17 +1,23 @@
 <div class="container">  
-  <app-mips-pagination [mipId]="mip.mip"></app-mips-pagination>
-  <app-detail-buttons-mobile></app-detail-buttons-mobile>
+  <app-details-mobiles-buttons class="mobile"></app-details-mobiles-buttons>
+  <app-mips-pagination 
+  [mipNumber]="mip.mip" 
+  [mipPosition]="mipPosition" 
+  [total]="total" 
+  (send)="mipsPagination($event)"
+  ></app-mips-pagination>
   <div class="row">
     <app-proposal-components class="no-mobile"></app-proposal-components>
     <app-detail-content [mip]="mip"></app-detail-content>
-    <div class="column">      
-      <app-mip-details 
-      [status]="mip.status" 
+    <div class="column">
+      <app-mip-details
+      id="details-component"
+      [status]="mip.status"
       [dateProposed]="mip.dateProposed"
       [dateRatified]="mip.dateRatified"
       ></app-mip-details>
-      <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history> 
+      <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
     </div>
-  </div> 
+  </div>
 </div>
 

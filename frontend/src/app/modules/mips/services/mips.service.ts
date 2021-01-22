@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import FilterData from '../components/filter/filter.data';
 
 
@@ -11,11 +11,21 @@ import FilterData from '../components/filter/filter.data';
 export class MipsService {
 
   filter: FilterData;
+  mipsData: any[];
+  total = 1;
+  // moreToLoad: boolean;
+
+  private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
 
   constructor(
     private http: HttpClient,
   ) {
    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1};
+  }
+
+  updateActiveSearch(data: boolean): void {
+    this.activateSearch.next(data);
   }
 
   searchMips(limit: number, page: number, order: string, search: string, filter?: any): Observable<any> {
@@ -58,5 +68,29 @@ export class MipsService {
   setFilter(filter: FilterData): void {
     this.filter = filter;
   }
+
+  getMipsData(): any[] {
+    return this.mipsData;
+  }
+
+  setMipsData(data: any[]): void {
+    this.mipsData = data;
+  }
+
+  getTotal(): number {
+    return this.total;
+  }
+
+  setTotal(value: number): void {
+    this.total = value;
+  }
+
+  // getMoreToLoad(): boolean {
+  //   return this.moreToLoad;
+  // }
+
+  // setMoreToLoad(data: boolean): void {
+  //   this.moreToLoad = data;
+  // }
 
 }

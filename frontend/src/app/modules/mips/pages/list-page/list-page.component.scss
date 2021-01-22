@@ -20,9 +20,13 @@ app-filter {
   z-index: 5;
 }
 
-app-search-mobile, app-order-mobile {
-  margin-top: 17px;
+app-order-mobile {
+  margin-top: 16px;
   // margin-right: 4px;
+}
+
+app-search-mobile {
+  margin-top: 14px;
 }
 
 .mobile {

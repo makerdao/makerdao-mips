@@ -1,22 +1,15 @@
 .container {
   width: 100%;
-  .buttons-mobile {
-    transform: translateY(-80px);
-  }
   .row {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-
     app-proposal-components {
-      // display: block;
-      width: 19%;
-    }   
-
+      width: 100%;
+    }
     .column {
       app-mip-details {
         display: block;
-      }      
+      }
       display: flex;
       flex-direction: column;
     }
@@ -31,11 +24,11 @@ app-mips-pagination {
   z-index: -5;
 }
 
+
 @media screen and (max-width: 768px) {
-  .no-mobile{
+  .no-mobile {
     display: none;
   }
-
   .mobile {
     display: block;
   }
@@ -54,14 +47,15 @@ app-mips-pagination {
 @media screen and (min-width: 769px) {
   .row {
     app-detail-content {
-      width: 60%;
+      min-width: 61.067%;
+      margin: 0 10px;
     }
     .column {
-      width: 19%;
+      width: 18.85%;
     }
   }
   .mobile {
-    display: none !important;
+    display: none;
   }
 }
 

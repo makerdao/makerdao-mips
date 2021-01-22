@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { MipsService } from '../../services/mips.service';
+
 
 @Component({
   selector: 'app-mips-pagination',
@@ -7,10 +9,35 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MipsPaginationComponent implements OnInit {
 
-  @Input() mipId: string;
-  constructor() { }
+  @Input() mipNumber: string;
+  @Input() mipPosition = 1;
+  @Input() total: number;
+  @Output() send = new EventEmitter<number>();
+  timeout: any = null;
 
-  ngOnInit(): void {
+  constructor(
+    private mipsService: MipsService
+  ) { }
+
+  ngOnInit(): void { }
+
+  loadMipsData(): void {
+    this.mipsService.updateActiveSearch(true);
+    this.mipPosition++;
+    clearTimeout(this.timeout);
+    const $this = this;
+    this.timeout = setTimeout(() => {
+        $this.send.emit(this.mipPosition);
+    }, 1000);
+  }
+
+  minus(): void {
+    this.mipPosition--;
+    clearTimeout(this.timeout);
+    const $this = this;
+    this.timeout = setTimeout(() => {
+        $this.send.emit(this.mipPosition);
+    }, 1000);
   }
 
 }

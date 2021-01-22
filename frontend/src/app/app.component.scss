@@ -1,15 +1,15 @@
-.container {  
+.container {
   margin: 40px 60px;
 }
 
 @media screen and (max-width: 500px) {
-  .container {  
-    margin: 20px 30px;
+  .container {
+    margin: 19px 20px;
   }
 }
 
 @media screen and (min-width: 1920px) {
-  .container {  
+  .container {
     margin: 40px 210px;
   }
 }

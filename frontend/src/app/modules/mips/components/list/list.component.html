@@ -32,10 +32,17 @@
            <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"  mat-cell *matCellDef="let element;"><span class="tooltiptext">Click for more details</span> <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
          </span>
          <span *ngIf="column == 'status'">
-           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" ><br><app-status [type]="getStatusValue(element.status)"></app-status><span class="tooltiptext">Click for more details</span></td>
+           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" >
+             <div class="space-status"></div>
+             <app-status [type]="getStatusValue(element.status)"></app-status>
+             <span class="tooltiptext">Click for more details</span>
+            </td>
          </span>
          <span *ngIf="column == 'link'">
-           <td  mat-cell *matCellDef="let element" ><br><app-social forumLink="#" [githubLink]="element.filename"></app-social></td>
+           <td  mat-cell *matCellDef="let element" >
+            <div class="space-status"></div>
+            <app-social forumLink="#" [githubLink]="element.filename"></app-social>
+          </td>
          </span>
          <span *ngIf="column == 'pos'">
            <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" ><br>{{element.mip}}<span class="tooltiptext">Click for more details</span></td>
@@ -46,10 +53,12 @@
            mat-cell
            *matCellDef="let element">
            <div>
-             <a class="summary" *ngIf="selected != element._id" routerLink="/mips/details/{{element._id}}"><br>{{element.sentenceSummary}}</a>
-             <a class="paragraphSummary"  *ngIf="selected == element._id" routerLink="/mips/details/{{element._id}}"><br>{{element.paragraphSummary}}</a>
+             <a class="summary" *ngIf="selected != element._id"><br>{{element.sentenceSummary}}</a>
+             <a class="paragraphSummary"  *ngIf="selected == element._id"><br>
+              {{element.paragraphSummary}}
+            </a>
             </div>
-            <br>
+            <div class="space-arrow"></div>
             <img class="arrow expanded" [ngClass]="{'rotate': selected == element._id}" src="../../../../../assets/images/down.svg"/>
             <span class="tooltiptext">Click for more details</span>
             <!-- <br> -->
@@ -103,7 +112,9 @@
   </div>
  </div>
   <div class="no-result" *ngIf="dataSource.length == 0">
-    <img src="../../../../../assets/images/no_results.svg" />
-    <p>No results found</p>
+    <div *ngIf="dataSource.length == 0 && !loading">
+      <img src="../../../../../assets/images/no_results.svg" />
+      <p>No results found</p>
+    </div>
   </div>
 </div>

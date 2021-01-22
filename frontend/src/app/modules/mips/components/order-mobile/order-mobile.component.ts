@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 
 @Component({
@@ -10,7 +10,7 @@ export class OrderMobileComponent implements OnInit {
 
   pos = 1;
   pos1 = 1;
-  showFrame = false;
+  @Input() showFrame = false;
   @Output() sendOrder = new EventEmitter<string>();
   up = true;
 
