@@ -1,4 +1,3 @@
-
 <div class="maker-container">
   <div *ngIf="loading" class="maker-loading-shade">
     <mat-spinner ></mat-spinner>
@@ -14,7 +13,7 @@
             [dataSource]="dataSource" multiTemplateDataRows
             >
        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay;">
-         <!-- Header -->
+         
          <span *ngIf="column != 'link'">
            <span *ngIf="column != 'pos'">
              <th mat-header-cell *matHeaderCellDef > {{column}} <img class="arrow up" (click)="onSendOrderASC(column)" src="../../../../../assets/images/up.svg"/><img class="arrow down" (click)="onSendOrderDES(column)" src="../../../../../assets/images/down.svg"/> </th>
@@ -27,7 +26,7 @@
            <th mat-header-cell *matHeaderCellDef> {{column}}</th>
          </span>
 
-         <!-- content -->
+         
          <span *ngIf="column == 'title'">
            <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"  mat-cell *matCellDef="let element;"><span class="tooltiptext">Click for more details</span> <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
          </span>
@@ -61,19 +60,16 @@
             <div class="space-arrow"></div>
             <img class="arrow expanded" [ngClass]="{'rotate': selected == element._id}" src="../../../../../assets/images/down.svg"/>
             <span class="tooltiptext">Click for more details</span>
-            <!-- <br> -->
+            
           </td>
          </span>
        </ng-container>
 
-       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+       
        <ng-container matColumnDef="expandedDetail">
          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
            <div class="maker-element-detail"
-                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-             <!-- <div class="maker-element-description">
-               {{element.paragraphSummary}}
-             </div> -->
+                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">           
            </div>
          </td>
        </ng-container>

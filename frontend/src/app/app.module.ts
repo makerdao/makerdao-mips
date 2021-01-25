@@ -9,6 +9,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule  } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+
 @NgModule({
   declarations: [
     AppComponent,

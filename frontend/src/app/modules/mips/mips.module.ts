@@ -22,6 +22,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchMobileComponent } from './components/search-mobile/search-mobile.component';
 import { OrderMobileComponent } from './components/order-mobile/order-mobile.component';
 import { DetailsMobilesButtonsComponent } from './components/details-mobiles-buttons/details-mobiles-buttons.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 
 
@@ -51,7 +52,8 @@ import { DetailsMobilesButtonsComponent } from './components/details-mobiles-but
     MatButtonModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    MarkdownModule.forRoot(),
   ]
 })
 export class MipsModule { }

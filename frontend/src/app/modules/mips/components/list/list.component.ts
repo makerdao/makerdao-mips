@@ -82,6 +82,23 @@ export class ListComponent {
   @Output() sendOrder = new EventEmitter<string>();
   timeout: any = null;
 
+  markdown = `## Markdown __rulez__!
+---
+
+### Syntax highlight
+\`\`\`typescript
+const language = 'typescript';
+\`\`\`
+
+### Lists
+1. Ordered list
+2. Another bullet point
+  - Unordered list
+  - Another unordered bullet point
+
+### Blockquote
+> Blockquote to the max`;
+
   getStatusValue(data: string): string {
     if (data !== undefined) {
       if (data.toLocaleLowerCase().includes('accepted')) {
