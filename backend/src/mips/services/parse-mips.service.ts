@@ -191,6 +191,11 @@ export class ParseMIPsService {
       this.logger.log(`Preamble empty ==> ${JSON.stringify(item)}`);
       return;
     }
+    
+    if (preamble.mip == -1 || preamble.mip == undefined) {
+      this.logger.log(`Subproposal ==> ${JSON.stringify(item)}`);
+      return;
+    }
 
     mip.author = preamble.author;
     mip.contributors = preamble.contributors;

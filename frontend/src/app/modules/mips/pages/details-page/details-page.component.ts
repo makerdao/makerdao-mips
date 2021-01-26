@@ -34,7 +34,7 @@ export class DetailsPageComponent implements OnInit {
   loadData(): void {
     this.mipsService.getMip(this.mipId)
     .subscribe(data => {
-      this.mip = data;
+      this.mip = data[0];
     });
     this.mipsService.getPullRequestHistory()
     .subscribe(response => {
