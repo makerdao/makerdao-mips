@@ -101,7 +101,10 @@ export class ParseMIPsService {
         const mip = this.parseLexerData(fileString, item);
 
         if (mip) {
-          createItems.push(mip);
+          // This validation exclude the subproposals
+          if(mip.mip != -1 && mip.mip != undefined) {
+            createItems.push(mip);
+          }
         }
       } else {
         const fileDB = filesDB.get(item.filename);
@@ -190,12 +193,8 @@ export class ParseMIPsService {
     if (!preamble) {
       this.logger.log(`Preamble empty ==> ${JSON.stringify(item)}`);
       return;
-    }
-    
-    if (preamble.mip == -1 || preamble.mip == undefined) {
-      this.logger.log(`Subproposal ==> ${JSON.stringify(item)}`);
-      return;
-    }
+    }  
+   
 
     mip.author = preamble.author;
     mip.contributors = preamble.contributors;
