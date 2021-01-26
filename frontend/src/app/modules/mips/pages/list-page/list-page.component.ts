@@ -22,7 +22,7 @@ export class ListPageComponent implements OnInit {
   loadingPlus: boolean;
   total: number;
   moreToLoad: boolean;
-  mobileSearch = false;  
+  mobileSearch = false;
 
   constructor(
     private mipsService: MipsService
@@ -31,7 +31,7 @@ export class ListPageComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.order = 'mip';
-    this.searchMips();
+    this.onSendFilters();
     this.mipsService.activateSearch$
     .subscribe(data =>  {
       if (data) {

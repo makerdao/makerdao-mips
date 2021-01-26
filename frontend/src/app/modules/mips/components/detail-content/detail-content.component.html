@@ -1,22 +1,10 @@
-<!-- <div class="container">
-  <div class="social">
-    <img src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">Github</a>
-    <img class="forum" src="../../../../../assets/images/forum.svg" /> <a class="tooltip">Forum<span class="tooltiptext">Link to the forum coming soon. <br>
-      Feel free to manually search the MIP number at <br>
-      <a href="https://forum.makerdao.com/" target="_blank">forum.makerdao.com</a>
-    </span></a>
-  </div>
-  <markdown class="variable-binding" [data]="mip.file"></markdown>
-</div> -->
-
-
 <div class="container">
   <div class="row">
     <div>
       <span class="title-bold">MIP{{mip.mip}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{mip.title}}</span>
     </div>
-    <div class="social">
-      <img src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">GitHub</a>
+    <div class="row social">
+      <img class="github" src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">GitHub</a>
       <img class="forum" src="../../../../../assets/images/forum.svg" /> <a class="tooltip">Forum<span class="tooltiptext">Link to the forum coming soon. <br>
         Feel free to manually search the MIP number at <br>
         <a href="https://forum.makerdao.com/" target="_blank">forum.makerdao.com</a>
@@ -26,27 +14,7 @@
   <div class="mobile title margin-2"> {{mip.title}}</div>
   <hr>
   <markdown class="variable-binding" [data]="mip.file"></markdown>
-  <!-- <p class="sub-title space-3 mobile-margin">Preamble</p>
-  <div class="preamble">
-    <span class="label">MIP#:</span><span class="info"> {{mip.mip}}</span> <br>
-    <span class="label">Title:</span><span class="info"> {{mip.title}}</span> <br>
-    <span class="label">Authors:</span><span class="info" *ngFor="let author of mip.author"> {{author}}</span> <br>
-    <span class="label">Contributors:</span><span class="info" *ngFor="let contributor of mip.contributors"> {{contributor}}</span><br>
-    <span class="label">Type:</span><span class="info"> {{mip.types}}</span><br>
-    <span class="label">Status:</span><span class="info"> {{mip.status}}</span><br>
-    <span class="label">Date Proposed:</span><span class="info"> {{mip.dateProposed}}</span><br>
-    <span class="label">Date Ratified:</span><span class="info"> {{mip.dateRatified}}</span><br>
-    <span class="label">Dependencies:</span><span class="info" *ngFor="let dependency of mip.dependencies"> {{dependency}}</span><br>
-    <span class="label">Replaces:</span><span class="info"> {{mip.replaces}}</span><br>
-
-
-
-  </div>
-  <p class="sub-title space-4 mobile-margin">References</p>
-  <a class="mobile-margin a-file" href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">{{mip.filename}}</a>
-  <p class="sub-title space-4-1 mobile-margin">Sentence Summary</p>
-  <p class="summary mobile-margin margin-2 ">{{mip.sentenceSummary}}</p>
-  <p class="sub-title space-4 mobile-margin">Paragraph Summary</p>
-  <p class="summary mobile-margin margin-2 ">{{mip.paragraphSummary}}</p> -->
 </div>
+  
+    
 

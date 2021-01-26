@@ -3,10 +3,12 @@
   flex-direction: row;
   justify-content: space-between;
   &.up {
-    margin-top: -69px;
+    margin-top: -61px;
     margin-bottom: 26px;
     img {
       cursor: pointer;
+      width: 28px;
+      height: 28px;
     }
   }
   .hight-c {

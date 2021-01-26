@@ -40,8 +40,11 @@
     border: none;
   }
   img {
-    cursor: pointer;
     margin-left: 7px;
+    &.open {
+      cursor: pointer;
+      transform: translateY(-3px);
+    }
   }
   .sub {
     font-size: 11px;

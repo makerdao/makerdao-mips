@@ -6,7 +6,7 @@
   box-shadow: 0px 1px 4px #E5E9F2;
   border-radius: 5px;
   color: #748AA1;
-  padding: 0 30px;
+  padding: 0 11px 0 30px;
   margin-bottom: 10px;
   z-index: 0;
 
@@ -29,10 +29,13 @@
       font-style: normal;
       font-weight: bold;
       font-size: 12px;
-      img {
-        margin: 0 10px;
-        transform: translateY(2px);
+      .frame {        
+        padding: 0.5px;
         cursor: pointer;
+        img {
+          margin: 0 10px;
+          transform: translateY(2px);
+        }
       }
     }
   }
@@ -44,6 +47,7 @@
 
 @media screen and (max-width: 768px) {
   .container {
+    padding: 0 11px 0 20px;
     margin-bottom: 13px;
   }
 }

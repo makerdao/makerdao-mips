@@ -36,6 +36,8 @@ export class DetailsPageComponent implements OnInit {
     this.mipsService.getMip(this.mipId)
     .subscribe(data => {
       this.mip = data[0];
+      const regEx = new RegExp('(.)*');
+      this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = data[1];
     });
     this.mipsService.getPullRequestHistory()

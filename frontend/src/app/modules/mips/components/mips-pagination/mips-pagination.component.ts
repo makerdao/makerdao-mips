@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 
 
@@ -16,7 +17,8 @@ export class MipsPaginationComponent implements OnInit {
   timeout: any = null;
 
   constructor(
-    private mipsService: MipsService
+    private mipsService: MipsService,
+    private router: Router
   ) { }
 
   ngOnInit(): void { }
@@ -38,6 +40,11 @@ export class MipsPaginationComponent implements OnInit {
     this.timeout = setTimeout(() => {
         $this.send.emit(this.mipPosition);
     }, 1000);
+  }
+
+  clearFilterAndGoHome(): void {
+    this.mipsService.clearFilter();
+    this.router.navigateByUrl('/mips/list');
   }
 
 }

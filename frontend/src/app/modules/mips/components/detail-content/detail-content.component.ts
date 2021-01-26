@@ -54,9 +54,6 @@ export class DetailContentComponent implements OnInit {
   @Input() mip: any;
   constructor() { }
 
-  ngOnInit(): void {
-    const regEx = new RegExp('(.)*');
-    this.mip.file = this.mip.file.replace(regEx, ' ');
-  }
+  ngOnInit(): void { }
 
 }

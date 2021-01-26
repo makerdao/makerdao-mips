@@ -41,12 +41,19 @@
     }
   }
 
+  img {
+    transform: translateY(-3px);
+  }
 
   img.forum {
     margin-left: 30px;
-    transform: translateY(3px);
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+  }
+
+  img.github {
+    width: 18px;
+    height: 17px; 
   }
 
   .preamble {
@@ -72,7 +79,7 @@
   }
 
   .social {
-    min-width: 150px;
+    margin-top: 7px;
   }
 }
 
@@ -97,16 +104,12 @@
     line-height: 22px;
     color: #31394D;
     width: auto;
-    // word-wrap: break-word;
-    // overflow-wrap: break-word;
     overflow-x: scroll;
     overflow-wrap: break-word;
   }
 
   code {
     width: 100%;
-    // word-wrap: break-word;
-    // overflow-wrap: break-word;
   }
 
   a {
@@ -199,29 +202,20 @@ p {
 @media screen and (max-width: 768px) {
   .container {
     padding: 20px;
-    // .row {
-    //   margin: 0 20px;
-    // }
     hr {
       margin-top: 20px;
     }
     .preamble {
       margin: 0 12px;
       padding: 8px;
-    }
-    // .mobile-margin {
-    //   margin-left: 20px;
-    // }
+    }    
   }
   .space-3 {
     margin-top: 20px;
   }
   .space-4 {
     margin-top: 25px;
-  }
-  .margin-2 {
-    margin: 0 20px;
-  }
+  }  
   .no-mobile {
     display: none;
   }

@@ -21,7 +21,7 @@ export class MipsService {
   constructor(
     private http: HttpClient,
   ) {
-   this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1};
+   this.clearFilter();
   }
 
   updateActiveSearch(data: boolean): void {
@@ -85,12 +85,8 @@ export class MipsService {
     this.total = value;
   }
 
-  // getMoreToLoad(): boolean {
-  //   return this.moreToLoad;
-  // }
-
-  // setMoreToLoad(data: boolean): void {
-  //   this.moreToLoad = data;
-  // }
+  clearFilter(): void {
+    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1};
+  }
 
 }

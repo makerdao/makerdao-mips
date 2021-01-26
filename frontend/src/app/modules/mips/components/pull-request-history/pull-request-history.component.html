@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="title">Pull Requests History</div>
+  <p class="title">Pull Requests History</p>
   <div class="space-1">
     <img class="logo" src="../../../../../assets/images/pull.svg" />
     <span class="label">{{pullrequest.totalOpen}} Open</span>
@@ -10,12 +10,12 @@
   <div *ngFor="let item of pullrequest.items">
     <span class="row">
       <div class="info">{{item.title}} </div>
-      <a href="{{item.url}}" target="_blank"><img src="../../../../../assets/images/open.svg" /></a>
+      <a href="{{item.url}}" target="_blank"><img class="open" src="../../../../../assets/images/open.svg" /></a>
     </span>
       <p class="sub">#{{getPullNumber(item.url)}} by SebVentures was merged 4 days ago </p>
     <hr>
   </div>
-  <a href="{{pullrequest.url}}" target="_blank" class="github-link">
+  <a href="https://github.com/makerdao/mips/pulls" target="_blank" class="github-link">
     <img src="../../../../../assets/images/github_dark.svg" /> <span class="text">See all</span>
   </a>
 </div>
