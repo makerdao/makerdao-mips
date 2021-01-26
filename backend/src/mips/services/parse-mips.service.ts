@@ -29,7 +29,7 @@ export class ParseMIPsService {
     private configService: ConfigService,
     private githubService: GithubService,
     private markedService: MarkedService,
-    private pullRequestService: PullRequestService
+    private pullRequestService: PullRequestService,    
   ) {
     this.baseDir = `${process.cwd()}/${this.configService.get<string>(
       Env.FolderRepositoryName
@@ -140,7 +140,7 @@ export class ParseMIPsService {
   }
 
   parseLexerData(fileString: string, item: IGitFile): MIP {
-    const list: any[] = this.markedService.markedLexer(fileString);
+    const list: any[] = this.markedService.markedLexer(fileString);    
     let preamble: IPreamble = {};
 
     const mip: MIP = {
@@ -276,5 +276,11 @@ export class ParseMIPsService {
     });
 
     return preamble;
+  }
+
+  async parseSections(filename: string): Promise<any> {        
+    let dir = `${this.baseDir}/${filename}`;    
+    const fileString = await readFile(dir, "utf-8");
+    return await this.markedService.markedLexer(fileString);    
   }
 }

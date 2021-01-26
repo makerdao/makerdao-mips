@@ -21,13 +21,14 @@ import { PullRequestService } from "./services/pull-requests.service";
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
 
+
 @Controller("mips")
 export class MIPsController {
   constructor(
     private mipsService: MIPsService,
     private parseMIPsService: ParseMIPsService,
     private pullRequestService: PullRequestService,
-    private configService: ConfigService
+    private configService: ConfigService    
   ) {}
 
   @Get("findall")
@@ -118,13 +119,14 @@ export class MIPsController {
         HttpStatus.BAD_REQUEST
       );
     }
-    const mips = await this.mipsService.findOne(id);
+    let mips = await this.mipsService.findOne(id); 
+    let sections;
 
     if (!mips) {
       throw new NotFoundException(`MIPs with ${id} not found`);
     }
-
-    return mips;
+    sections = await this.parseMIPsService.parseSections(mips.filename);
+    return [mips, sections]    
   }
 
   @Get("pullrequests")
