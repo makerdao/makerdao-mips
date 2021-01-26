@@ -30,6 +30,7 @@ export class ListPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
+    this.order = 'mip';
     this.searchMips();
     this.mipsService.activateSearch$
     .subscribe(data =>  {

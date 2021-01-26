@@ -25,7 +25,11 @@
         <div class="status-option" (click)="setStatusClassAndText(3)"><div class="option status-rfc">RFC</div></div>
       </div>
     </div>
-    <div class="data">
+    
+    <!-- Filter by type disabled, no subproposal now
+    Keep the code in case the subproposal will be included again -->
+
+    <!-- <div class="data">
       <div class="label">MIP Type:</div>
       <input type="text" class="type" [ngClass]="typeCLass" value="{{typeInputText}}" disabled>
       <div class="square" (click)="typeOptionsShow = !typeOptionsShow; statusOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': typeOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
@@ -34,7 +38,7 @@
         <div class="type-option selected" (click)="setTyepClassAndText(0)">PROPOSAL</div>
         <div class="type-option selected" (click)="setTyepClassAndText(1)">SUB-PROPOSAL</div>
       </div>
-    </div>
+    </div> -->
     <div class="buttons">
       <button class="reset btn" (click)="reset()">Reset</button>
       <button class="apply btn" (click)="apply()">Apply</button>

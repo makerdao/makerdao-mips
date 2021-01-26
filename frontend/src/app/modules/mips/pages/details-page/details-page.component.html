@@ -7,7 +7,7 @@
   (send)="mipsPagination($event)"
   ></app-mips-pagination>
   <div class="row">
-    <app-proposal-components class="no-mobile"></app-proposal-components>
+    <app-proposal-components class="no-mobile" [sourceData]="sections"></app-proposal-components>
     <app-detail-content [mip]="mip"></app-detail-content>
     <div class="column">
       <app-mip-details

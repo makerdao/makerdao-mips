@@ -1,37 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
-const sampleData = [
-  {
-    title: 'Preamble',
-    subtitles: []
-  },
-  {
-    title: 'References',
-    subtitles: []
-  },
-  {
-    title: 'Sentence Summary ',
-    subtitles: []
-  },
-  {
-    title: 'Paragraph Summary',
-    subtitles: []
-  },
-  {
-    title: 'Specification / Proposal Detail',
-    subtitles: [
-      {
-        title: 'MIP2c1: Interim Phase 1'
-      },
-      {
-        title: 'MIP2c1: Interim Phase 1'
-      },
-      {
-        title: 'MIP2c1: Interim Phase 1'
-      }
-    ]
-  }
-]
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-proposal-components',
@@ -40,17 +7,45 @@ const sampleData = [
 })
 export class ProposalComponentsComponent implements OnInit {
 
-  sourceData = sampleData;
+  @Input() sourceData;
   marketPosition = 98;
   selectedItem = 0;
+  position = 0;
   constructor() { }
-
   ngOnInit(): void {
   }
 
-  updatePos(index): void {
+  updatePos(index, text): void {
     this.marketPosition = (index) * 31 + 95;
     this.selectedItem = index;
+    this.findElement(text);
+  }
+
+  moveToElement(el: HTMLElement): void {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  findElement(text: string): void {
+    let aTags = document.getElementsByTagName('h2');
+    let found: any = false;
+
+    for (let i = 0; i < aTags.length; i++) {
+      if (aTags[i].textContent === text) {
+        found = aTags[i];
+        break;
+      }
+    }
+
+    if (!found) {
+      aTags = document.getElementsByTagName('h3');
+      for (let i = 0; i < aTags.length; i++) {
+        if (aTags[i].textContent === text) {
+          found = aTags[i];
+          break;
+        }
+      }
+    }
+    this.moveToElement(found);
   }
 
 }

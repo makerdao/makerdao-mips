@@ -10,6 +10,7 @@ import { MipsService } from '../../services/mips.service';
 export class DetailsPageComponent implements OnInit {
 
   mip: any;
+  sections: any;
   pullrequest: any;
   mipId: string;
   mipPosition: number;
@@ -35,6 +36,7 @@ export class DetailsPageComponent implements OnInit {
     this.mipsService.getMip(this.mipId)
     .subscribe(data => {
       this.mip = data[0];
+      this.sections = data[1];
     });
     this.mipsService.getPullRequestHistory()
     .subscribe(response => {

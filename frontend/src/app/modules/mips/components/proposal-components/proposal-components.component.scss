@@ -8,7 +8,8 @@
   box-shadow: 0px 1px 4px #E5E9F2;
   border-radius: 5px;
   display: inline-block;
-  width: 100%;
+  width: 100%; 
+  
   .content {
     padding: 30px;
     p {
@@ -27,6 +28,7 @@
         color: #748AA1;
         font-weight: normal;
         margin-left: 20px;
+        cursor: pointer;
       }
       &.selected {
         color: #31394D;
@@ -41,9 +43,17 @@
     width: 5px;
     height: 14px;
     background: #31394D;
+    position: absolute;
+    transform: translateX(-29px);
+
     -webkit-transition: 300ms ease all;
     -moz-transition: 300ms ease all;
     -o-transition: 300ms ease all;
     transition: 300ms ease all;
+    display: none;
+
+    &.selected {
+      display: block;
+    }
   }
 }
