@@ -13,7 +13,6 @@ export class MipsService {
   filter: FilterData;
   mipsData: any[];
   total = 1;
-  // moreToLoad: boolean;
 
   private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
@@ -86,7 +85,7 @@ export class MipsService {
   }
 
   clearFilter(): void {
-    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1};
+    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0]};
   }
 
 }

@@ -4,4 +4,5 @@ export default interface FilterData {
   type: string;
   posStatus: number;
   posType: number;
+  arrayStatus: number[];
 }

@@ -21,8 +21,8 @@ export class MIPsService {
     filter?: Filters
   ): Promise<IMIPs[]> {
     const buildFilter = this.buildFilter(search, filter);
-    const { limit, page } = paginationQuery;
-
+    const { limit, page } = paginationQuery;   
+    
     return this.mipsDoc
       .find(buildFilter)
       .select(["-file", "-__v"])
@@ -42,29 +42,59 @@ export class MIPsService {
     const source = {};
 
     if (search) {
-      source["$text"] = { $search: JSON.parse(`"${search}"`) };
-    }
+      source["$text"] = { $search: JSON.parse(`"${search}"`) };     
+    }   
 
     if (filter?.contains) {
       const field = filter.contains["field"];
       const value = filter.contains["value"];
-
+      source["$or"] = [];
+      let existOr = false;
+      let firstStatus = '';
+      
       if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
+        for (let i = 0; i < field.length; i++) {          
           const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {
-            $regex: new RegExp(`${newValue}`),
-            $options: "i",
-          };
-        }
-      } else {
+          if (source[`${field[i].toString()}`] != undefined) { 
+            if (!existOr) {
+              source["$or"].push({
+                status: {
+                  $regex: new RegExp(`${firstStatus}`),
+                  $options: "i",
+                }
+              });
+              existOr = true;
+            }           
+            source["$or"].push({
+              status: {
+                $regex: new RegExp(`${newValue}`),
+                $options: "i",
+              }
+            });
+          } else {
+            if (field[i].toString() == 'status') {
+              firstStatus = newValue;
+            }
+            source[`${field[i].toString()}`] = {
+              $regex: new RegExp(`${newValue}`),
+              $options: "i",
+            }; 
+          }
+        }        
+      } else {        
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = {
           $regex: new RegExp(`${newValue}`),
           $options: "i",
         };
+      }      
+      if (existOr) {
+        delete source[`status`];
+      } else {
+        delete source["$or"];
       }
     }
+    
 
     if (filter?.equals) {
       const field = filter.equals["field"];
@@ -114,7 +144,7 @@ export class MIPsService {
         source[`${field.toString()}`] = { $ne: newValue };
       }
     }
-
+    
     return source;
   }
 

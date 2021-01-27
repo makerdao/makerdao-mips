@@ -126,7 +126,7 @@ export class MIPsController {
       throw new NotFoundException(`MIPs with ${id} not found`);
     }
     sections = await this.parseMIPsService.parseSections(mips.filename);
-    return [mips, sections]    
+    return { mips, sections }    
   }
 
   @Get("pullrequests")

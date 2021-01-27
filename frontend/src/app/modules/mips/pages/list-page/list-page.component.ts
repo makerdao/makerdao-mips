@@ -91,9 +91,20 @@ export class ListPageComponent implements OnInit {
     if (this.filterSaved.title !== '') {
       this.filter.contains.push({field: 'title', value: this.filterSaved.title });
     }
-    if (this.filterSaved.status !== 'Select status') {
-      this.filter.contains.push({field: 'status', value: this.filterSaved.status });
+    if (this.filterSaved.arrayStatus[0] === 1) {
+      this.filter.contains.push({field: 'status', value: 'accepted' });
     }
+    if (this.filterSaved.arrayStatus[1] === 1) {
+      this.filter.contains.push({field: 'status', value: 'rejected' });
+    }
+    if (this.filterSaved.arrayStatus[2] === 1) {
+      this.filter.contains.push({field: 'status', value: 'archive' });
+    }
+    if (this.filterSaved.arrayStatus[3] === 1) {
+      this.filter.contains.push({field: 'status', value: 'rfc' });
+    }
+    console.log('paso ' + this.filterSaved.arrayStatus[3]);
+    console.log('paso1 ' + this.filterSaved.arrayStatus[0]);
     this.searchMips();
   }
 
@@ -117,6 +128,6 @@ export class ListPageComponent implements OnInit {
 
   onOpenMobileSearch(open: boolean): void {
     this.mobileSearch = open;
-  } 
+  }
 
 }

@@ -44,6 +44,40 @@
       font-weight: 400;
       line-height: 22px;
     }
+    
+    .status-squares {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      transform: translate(74px, 2px);
+      width: 82px;      
+      .square {
+        height: 16px;
+        width: 100%;
+        cursor: pointer;
+        margin: 0 1px;
+        border-radius: 5px;
+        text-align: center;
+        padding-top: 2px;
+        &.accepted {
+          border: 1px solid #27AE60;
+          color: #27AE60;
+        }
+        &.rejected {
+          border: 1px solid #EB5757;
+          color: #EB5757;          
+        }
+        &.archived {
+          border: 1px solid #748AA1;
+          color: #748AA1;          
+        }
+        &.rfc {
+          border: 1px solid #F2994A;
+          color: #F2994A;          
+        }
+      }
+    }
     input {
       width: 120px;
       height: 20px;

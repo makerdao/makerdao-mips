@@ -35,10 +35,10 @@ export class DetailsPageComponent implements OnInit {
   loadData(): void {
     this.mipsService.getMip(this.mipId)
     .subscribe(data => {
-      this.mip = data[0];
+      this.mip = data.mips;
       const regEx = new RegExp('(.)*');
       this.mip.file = this.mip.file.replace(regEx, ' ');
-      this.sections = data[1];
+      this.sections = data.sections;
     });
     this.mipsService.getPullRequestHistory()
     .subscribe(response => {
