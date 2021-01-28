@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://159.203.86.45:3000',
+  apiUrl: 'https://159.203.86.45:3000',
   repoUrl: 'https://github.com/makerdao/mips/blob/master'
 };
 
