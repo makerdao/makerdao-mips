@@ -36,7 +36,7 @@ export class ParseMIPsService {
     )}`;
   }
 
-  async parse(): Promise<boolean> {
+  async parse(): Promise<boolean> {    
     try {
       this.simpleGitService.pull();
       const result: any = await Promise.all([
