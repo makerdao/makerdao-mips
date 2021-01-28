@@ -40,17 +40,13 @@ export class MIPsService {
   // Function to build filter
   buildFilter(search: string, filter?: Filters): any {
     const source = {};
-
-    if (search) {
-      source["$text"] = { $search: JSON.parse(`"${search}"`) };     
-    }   
+    source["$or"] = [];
+    let existOr = false;
+    let firstStatus = '';     
 
     if (filter?.contains) {
       const field = filter.contains["field"];
-      const value = filter.contains["value"];
-      source["$or"] = [];
-      let existOr = false;
-      let firstStatus = '';
+      const value = filter.contains["value"];      
       
       if (Array.isArray(field) && Array.isArray(value)) {
         for (let i = 0; i < field.length; i++) {          
@@ -87,14 +83,9 @@ export class MIPsService {
           $regex: new RegExp(`${newValue}`),
           $options: "i",
         };
-      }      
-      if (existOr) {
-        delete source[`status`];
-      } else {
-        delete source["$or"];
-      }
-    }
-    
+      }    
+      
+    }    
 
     if (filter?.equals) {
       const field = filter.equals["field"];
@@ -143,6 +134,36 @@ export class MIPsService {
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = { $ne: newValue };
       }
+    }
+
+    if (search) {
+      // source["$text"] = { $search: JSON.parse(`"${search}"`) }; 
+      source["$or"].push({
+        title: {
+          $regex: new RegExp(`${search}`),
+          $options: "i",
+        }
+      });
+      source["$or"].push({
+        sentenceSummary: {
+          $regex: new RegExp(`${search}`),
+          $options: "i",
+        }
+      });
+      source["$or"].push({
+        paragraphSummary: {
+          $regex: new RegExp(`${search}`),
+          $options: "i",
+        }
+      });   
+      
+      existOr = true;
+    }  
+
+    if (existOr) {
+      delete source[`status`];
+    } else {
+      delete source["$or"];
     }
     
     return source;
