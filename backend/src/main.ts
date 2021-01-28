@@ -5,22 +5,22 @@ import { AppModule } from "./app.module";
 import { Env } from "./env";
 import { ValidationPipe } from "@nestjs/common";
 import { MongoExceptionFilter } from "./exceptions/mongodb-exception.filter";
-// var fs = require('fs');
+var fs = require('fs');
 
 async function bootstrap() {
 
-  // const httpsOptions = {
-  //   key: fs.readFileSync('./secrets/privkey.pem'),
-  //   cert: fs.readFileSync('./secrets/cert.pem'),
-  // };
+  const httpsOptions = {
+    key: fs.readFileSync('./secrets/privkey.pem'),
+    cert: fs.readFileSync('./secrets/cert.pem'),
+  };
 
-  // const app = await NestFactory.create(AppModule, { httpsOptions });
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { httpsOptions });
+  // const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe());
 
-  app.enableCors();
+  // app.enableCors();
 
   const options = new DocumentBuilder()
     .setTitle("Parse mips project")
