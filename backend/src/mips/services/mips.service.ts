@@ -23,7 +23,15 @@ export class MIPsService {
     const buildFilter = this.buildFilter(search, filter);
     const { limit, page } = paginationQuery;   
     
-    return this.mipsDoc
+    // return this.mipsDoc
+    //   .find({$or: [{title: {$regex: /Lende/, $options: "i"}}], $and: [{$or: []}] })
+    //   .select(["-file", "-__v"])
+    //   .sort(order)
+    //   .skip(page * limit)
+    //   .limit(limit)
+    //   .exec();
+
+      return this.mipsDoc
       .find(buildFilter)
       .select(["-file", "-__v"])
       .sort(order)
@@ -137,34 +145,49 @@ export class MIPsService {
     }
 
     if (search) {
-      // source["$text"] = { $search: JSON.parse(`"${search}"`) }; 
-      source["$or"].push({
-        title: {
-          $regex: new RegExp(`${search}`),
-          $options: "i",
+      // source["$text"] = { $search: JSON.parse(`"${search}"`) };
+      source["$and"] = []; 
+      const aux = {};
+      aux["$or"] = []; 
+
+      if (source["title"] == undefined) {
+          aux["$or"].push({
+            title: {
+              $regex: new RegExp(`${search}`),
+              $options: "i",
+            }
+          }
+        );
+      }
+      aux["$or"].push({
+          sentenceSummary: {
+            $regex: new RegExp(`${search}`),
+            $options: "i",
+          }
         }
-      });
-      source["$or"].push({
-        sentenceSummary: {
-          $regex: new RegExp(`${search}`),
-          $options: "i",
-        }
-      });
-      source["$or"].push({
+      );
+      aux["$or"].push({
         paragraphSummary: {
           $regex: new RegExp(`${search}`),
           $options: "i",
+          }
         }
-      });   
-      
-      existOr = true;
+      );
+      aux["$or"].push({
+        file: {
+          $regex: new RegExp(`${search}`),
+          $options: "i",
+          }
+        }
+      );
+      source["$and"].push(aux);
     }  
 
     if (existOr) {
       delete source[`status`];
     } else {
       delete source["$or"];
-    }
+    }   
     
     return source;
   }
