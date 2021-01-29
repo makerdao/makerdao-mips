@@ -1,0 +1,120 @@
+<div class="maker-container">
+  <div *ngIf="loading" class="maker-loading-shade">
+    <mat-spinner ></mat-spinner>
+  </div>
+ <div *ngIf="dataSource.length > 0">
+   <div  class="no-mobile"
+     infiniteScroll
+    [infiniteScrollDistance]="0"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()">
+
+<table mat-table
+            [dataSource]="dataSource" multiTemplateDataRows
+            >
+       <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay;">
+         
+         <span *ngIf="column != 'link'">
+           <span *ngIf="column != 'pos'">
+             <th mat-header-cell *matHeaderCellDef > {{column}} <img class="arrow up" (click)="onSendOrderASC(column)" src="../../../../../assets/images/up.svg"/><img class="arrow down" (click)="onSendOrderDES(column)" src="../../../../../assets/images/down.svg"/> </th>
+           </span>
+           <span *ngIf="column == 'pos'">
+             <th mat-header-cell *matHeaderCellDef > # <img class="arrow up" (click)="onSendOrderASC(column)" src="../../../../../assets/images/up.svg"/><img class="arrow down" (click)="onSendOrderDES(column)" src="../../../../../assets/images/down.svg"/> </th>
+           </span>
+         </span>
+         <span *ngIf="column == 'link'">
+           <th mat-header-cell *matHeaderCellDef> {{column}}</th>
+         </span>
+
+         
+         <span *ngIf="column == 'title'">
+           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"  mat-cell *matCellDef="let element;"><span class="tooltiptext">Click for more details</span> <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
+         </span>
+         <span *ngIf="column == 'status'">
+           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" >
+             <div class="space-status"></div>
+             <app-status [type]="getStatusValue(element.status)"></app-status>
+             <span class="tooltiptext">Click for more details</span>
+            </td>
+         </span>
+         <span *ngIf="column == 'link'">
+           <td  mat-cell *matCellDef="let element" >
+            <div class="space-status"></div>
+            <app-social forumLink="#" [githubLink]="element.filename"></app-social>
+          </td>
+         </span>
+         <span *ngIf="column == 'pos'">
+           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" ><br>{{element.mip}}<span class="tooltiptext">Click for more details</span></td>
+         </span>
+         <span *ngIf="column == 'summary'">
+           <td class="tooltip"
+           (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"
+           mat-cell
+           *matCellDef="let element">
+           <div>
+             <a class="summary" *ngIf="selected != element._id"><br>{{element.sentenceSummary}}</a>
+             <a class="paragraphSummary"  *ngIf="selected == element._id"><br>
+              {{element.paragraphSummary}}
+            </a>
+            </div>
+            <div class="space-arrow"></div>
+            <img class="arrow expanded" [ngClass]="{'rotate': selected == element._id}" src="../../../../../assets/images/down.svg"/>
+            <span class="tooltiptext">Click for more details</span>
+            
+          </td>
+         </span>
+       </ng-container>
+
+       
+       <ng-container matColumnDef="expandedDetail">
+         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+           <div class="maker-element-detail"
+                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">           
+           </div>
+         </td>
+       </ng-container>
+
+       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+       <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+           class="maker-element-row"
+           [class.maker-expanded-row]="expandedElement === element"
+           >
+       </tr>
+       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="maker-detail-row"></tr>
+    </table>
+    <div class="load-more" *ngIf="moreToLoad">
+      <p>Scroll to load More</p>
+      <img src="../../../../../assets/images/scroll.svg" />
+    </div>
+    <div class="loading-plus" *ngIf="loadingPlus">
+     <mat-spinner [diameter]="50"></mat-spinner>
+   </div>
+  </div>
+  <div class="mobile">
+    <div class="mobile-container" *ngFor="let item of dataSource">
+      # {{item.mip}} <img src="../../../../../assets/images/circle.svg">
+      <span class="title"> <a routerLink="/mips/details/{{item._id}}"> {{item.title}}</a></span>
+      <div class="status">
+        <app-status [type]="getStatusValue(item.status)"></app-status>
+      </div>
+      <div class="content">
+        <a *ngIf="selected != item._id" routerLink="/mips/details/{{item._id}}">{{item.sentenceSummary}}</a>
+        <a *ngIf="selected == item._id" routerLink="/mips/details/{{item._id}}">{{item.paragraphSummary}}</a>
+      </div>
+      <div style="clear: both;"></div>
+      <div class="more" (click)="updateSelected(item._id)">
+        <img class="arrow" [ngClass]="{'rotate': selected == item._id}" src="../../../../../assets/images/down.svg"/>
+        More
+      </div>
+      <app-social forumLink="#" [githubLink]="item.filename" mobile="true"></app-social>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+ </div>
+  <div class="no-result" *ngIf="dataSource.length == 0">
+    <div *ngIf="dataSource.length == 0 && !loading">
+      <img src="../../../../../assets/images/no_results.svg" />
+      <p>No results found</p>
+    </div>
+  </div>
+</div>

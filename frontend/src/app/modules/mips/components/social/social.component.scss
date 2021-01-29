@@ -1,0 +1,32 @@
+a {
+  margin-right: 15px;
+}
+
+.forum {
+  transform: translateY(2px);
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 310px;
+  color: #748AA1;
+  font-size: 14px;
+  height: auto;
+  
+
+  text-align: center;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  transform: translate(-250px, 20px);
+  // left: 290px;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

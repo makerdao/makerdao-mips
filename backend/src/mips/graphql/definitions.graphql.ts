@@ -6,6 +6,12 @@ export const pullRequests = gql`
       url
       pullRequests(orderBy: { field: CREATED_AT, direction: DESC }, first: 10) {
         totalCount
+        author {
+          avatarUrl
+          login
+          resourcePath
+          url
+        }
         nodes {
           url
           title

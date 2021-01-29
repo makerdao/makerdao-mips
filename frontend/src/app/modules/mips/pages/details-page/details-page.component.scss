@@ -1,0 +1,62 @@
+.container {
+  width: 100%;
+  .row {
+    display: flex;
+    flex-direction: row;
+    app-proposal-components {
+      width: 100%;
+    }
+    .column {
+      app-mip-details {
+        display: block;
+      }
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+app-detail-buttons-mobile {
+  z-index: 3;
+}
+
+app-mips-pagination {
+  z-index: -5;
+}
+
+
+@media screen and (max-width: 768px) {
+  .no-mobile {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+
+  .row {
+    flex-wrap: wrap;
+    app-detail-content {
+      width: 100%;
+    }
+    .column {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .row {
+    app-detail-content {
+      min-width: 61.067%;
+      margin: 0 10px;
+    }
+    .column {
+      width: 18.85%;
+    }
+  }
+  .mobile {
+    display: none;
+  }
+}
+
+

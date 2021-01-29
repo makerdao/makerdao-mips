@@ -1,0 +1,26 @@
+.logo {
+  margin: 45px 0;
+  cursor: pointer;
+  display: inline-block;
+  img {
+    margin-right: 14px;
+    width: auto;
+  }
+}
+
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+    text-align: center;
+    margin: 0 0 36px 0;
+  }
+  .mobile {
+    display: inherit;
+  }
+  .no-mobile{
+    display: none;
+  }
+}

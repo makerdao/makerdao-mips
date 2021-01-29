@@ -1,0 +1,225 @@
+:host {
+  font-style: normal;
+  font-weight: 500; 
+}
+
+
+.container {
+  background: #FFFFFF;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  border-radius: 5px;
+  padding: 30px;
+  margin-bottom: 20px;
+
+  .title {
+    color: #31394D;
+    font-size: 26px;
+    font-weight: normal;
+    &.mobile {
+      margin-top: 10px;
+      font-size: 20px;
+    }
+  }
+  .sub-title {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .title-bold {
+    font-weight: bold;
+    font-size: 26px;
+    color: #31394D;
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    color: #2F80ED;
+    margin-left: 7px;
+    &.a-file {
+      font-size: 14px;
+    }
+  }
+
+  img {
+    transform: translateY(-3px);
+  }
+
+  img.forum {
+    margin-left: 30px;
+    width: 18px;
+    height: 18px;
+  }
+
+  img.github {
+    width: 18px;
+    height: 17px; 
+  }
+
+  .preamble {
+    background: #F5F6FA;
+    border: 1px solid #F5F6FA;
+    box-shadow: 0px 1px 4px #E5E9F2;
+    border-radius: 5px;
+    padding: 16px;
+
+    .label, .info {
+      font-size: 14px;
+      color: #31394D;
+    }
+
+    .info {
+      font-weight: bold;
+    }
+  }
+
+  .summary {
+    font-size: 14px;
+    color: #31394D;
+  }
+
+  .social {
+    margin-top: 7px;
+  }
+}
+
+::ng-deep.variable-binding {  
+  h2 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;  
+    color: #000000;
+    margin-top: 40px;
+  }
+
+  pre {
+    padding: 16px;
+    background: #F5F6FA;
+    border: 1px solid #F5F6FA;
+    box-shadow: 0px 1px 4px #E5E9F2;
+    border-radius: 5px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #31394D;
+    width: auto;
+    overflow-x: scroll;
+    overflow-wrap: break-word;
+  }
+
+  code {
+    width: 100%;
+  }
+
+  a {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    color: #2F80ED;
+    text-decoration: none;
+  }
+
+  p, ul {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #31394D;
+  }
+
+  hr {
+    background-color: #EBEDF4;
+    height: 1px;
+    border: none;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  h3 {
+    margin-top: 40px;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+hr {
+  background-color: #EBEDF4;
+  height: 1px;
+  border: none;
+  margin-top: 12px;
+}
+
+.space-3 {
+  margin-top: 30px;
+}
+
+.space-4 {
+  margin-top: 40px;
+}
+
+.space-4-1 {
+  margin-top: 40px;
+}
+
+p {
+  margin-bottom: 16px;
+}
+
+.mobile {
+  display: none;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 310px;
+  color: #748AA1;
+  font-size: 14px;
+  height: auto;
+  text-align: center;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  padding: 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  transform: translate(-310px, 21px);
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 20px;
+    hr {
+      margin-top: 20px;
+    }
+    .preamble {
+      margin: 0 12px;
+      padding: 8px;
+    }    
+  }
+  .space-3 {
+    margin-top: 20px;
+  }
+  .space-4 {
+    margin-top: 25px;
+  }  
+  .no-mobile {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}

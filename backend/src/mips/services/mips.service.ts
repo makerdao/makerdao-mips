@@ -21,9 +21,17 @@ export class MIPsService {
     filter?: Filters
   ): Promise<IMIPs[]> {
     const buildFilter = this.buildFilter(search, filter);
-    const { limit, page } = paginationQuery;
+    const { limit, page } = paginationQuery;   
+    
+    // return this.mipsDoc
+    //   .find({$or: [{title: {$regex: /Lende/, $options: "i"}}], $and: [{$or: []}] })
+    //   .select(["-file", "-__v"])
+    //   .sort(order)
+    //   .skip(page * limit)
+    //   .limit(limit)
+    //   .exec();
 
-    return this.mipsDoc
+      return this.mipsDoc
       .find(buildFilter)
       .select(["-file", "-__v"])
       .sort(order)
@@ -40,31 +48,52 @@ export class MIPsService {
   // Function to build filter
   buildFilter(search: string, filter?: Filters): any {
     const source = {};
-
-    if (search) {
-      source["$text"] = { $search: JSON.parse(`"${search}"`) };
-    }
+    source["$or"] = [];
+    let existOr = false;
+    let firstStatus = '';     
 
     if (filter?.contains) {
       const field = filter.contains["field"];
-      const value = filter.contains["value"];
-
+      const value = filter.contains["value"];      
+      
       if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
+        for (let i = 0; i < field.length; i++) {          
           const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {
-            $regex: new RegExp(`${newValue}`),
-            $options: "i",
-          };
-        }
-      } else {
+          if (source[`${field[i].toString()}`] != undefined) { 
+            if (!existOr) {
+              source["$or"].push({
+                status: {
+                  $regex: new RegExp(`${firstStatus}`),
+                  $options: "i",
+                }
+              });
+              existOr = true;
+            }           
+            source["$or"].push({
+              status: {
+                $regex: new RegExp(`${newValue}`),
+                $options: "i",
+              }
+            });
+          } else {
+            if (field[i].toString() == 'status') {
+              firstStatus = newValue;
+            }
+            source[`${field[i].toString()}`] = {
+              $regex: new RegExp(`${newValue}`),
+              $options: "i",
+            }; 
+          }
+        }        
+      } else {        
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = {
           $regex: new RegExp(`${newValue}`),
           $options: "i",
         };
-      }
-    }
+      }    
+      
+    }    
 
     if (filter?.equals) {
       const field = filter.equals["field"];
@@ -115,6 +144,51 @@ export class MIPsService {
       }
     }
 
+    if (search) {
+      // source["$text"] = { $search: JSON.parse(`"${search}"`) };
+      source["$and"] = []; 
+      const aux = {};
+      aux["$or"] = []; 
+
+      if (source["title"] == undefined) {
+          aux["$or"].push({
+            title: {
+              $regex: new RegExp(`${search}`),
+              $options: "i",
+            }
+          }
+        );
+      }
+      aux["$or"].push({
+          sentenceSummary: {
+            $regex: new RegExp(`${search}`),
+            $options: "i",
+          }
+        }
+      );
+      aux["$or"].push({
+        paragraphSummary: {
+          $regex: new RegExp(`${search}`),
+          $options: "i",
+          }
+        }
+      );
+      aux["$or"].push({
+        file: {
+          $regex: new RegExp(`${search}`),
+          $options: "i",
+          }
+        }
+      );
+      source["$and"].push(aux);
+    }  
+
+    if (existOr) {
+      delete source[`status`];
+    } else {
+      delete source["$or"];
+    }   
+    
     return source;
   }
 

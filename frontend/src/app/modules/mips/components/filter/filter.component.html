@@ -1,0 +1,53 @@
+<div class="container">  
+  <div class="button no-mobile" (click)="showFilter()">
+      <img *ngIf="!contentOptionsShow else blue" src="../../../../../assets/images/icon_filter.svg" />
+      <ng-template #blue>
+        <img src="../../../../../assets/images/icon_filter_blue.svg" />
+      </ng-template>
+  </div>
+  <img *ngIf="!contentOptionsShow" class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter.svg" />
+  <img *ngIf="contentOptionsShow" class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter_blue.svg" />
+  <div class="content frame" *ngIf="contentOptionsShow">
+    <p class="title">FILTER BY</p>
+    <div class="data">
+      <div class="label">Title:</div>
+      <input class="title" type="text" #title placeholder="Title name" value="{{titleText}}">
+    </div>
+    <div class="data">
+      <div class="label">Status:</div>
+      <input type="text" class="status" [ngClass]="statusCLass" value="{{statusInputText}}" disabled>      
+      <div class="status-squares" *ngIf="cantSelected > 1">
+        <div class="square accepted" *ngIf="selecteds[0] == 1" (click)="setStatusClassAndText(0)">A</div>
+        <div class="square rejected" *ngIf="selecteds[1] == 1" (click)="setStatusClassAndText(1)">R</div>
+        <div class="square archived" *ngIf="selecteds[2] == 1" (click)="setStatusClassAndText(2)">A</div>
+        <div class="square rfc" *ngIf="selecteds[3] == 1" (click)="setStatusClassAndText(3)">R</div>
+      </div>
+      <div class="square" (click)="statusOptionsShow = !statusOptionsShow; typeOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': statusOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
+      <div class="status-options frame" *ngIf="statusOptionsShow" (onmouseout)="statusOptionsShow = false">
+        <div class="status-option" (click)="setStatusClassAndText(4)"><div class="option status-none">NONE</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(0, true)"><div class="option status-accepted">ACCEPTED</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(1, true)"><div class="option status-rejected ">REJECTED</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(2, true)"><div class="option status-archive">ARCHIVE</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(3, true)"><div class="option status-rfc">RFC</div></div>
+      </div>
+    </div>
+    
+    <!-- Filter by type disabled, no subproposal now
+    Keep the code in case the subproposal will be included again -->
+
+    <!-- <div class="data">
+      <div class="label">MIP Type:</div>
+      <input type="text" class="type" [ngClass]="typeCLass" value="{{typeInputText}}" disabled>
+      <div class="square" (click)="typeOptionsShow = !typeOptionsShow; statusOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': typeOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
+      <div class="type-options frame" *ngIf="typeOptionsShow">
+        <div class="type-option" (click)="setTyepClassAndText(2)">NONE</div>
+        <div class="type-option selected" (click)="setTyepClassAndText(0)">PROPOSAL</div>
+        <div class="type-option selected" (click)="setTyepClassAndText(1)">SUB-PROPOSAL</div>
+      </div>
+    </div> -->
+    <div class="buttons">
+      <button class="reset btn" (click)="reset()">Reset</button>
+      <button class="apply btn" (click)="apply()">Apply</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,3343 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "DataElement",
+            "id": "interface-DataElement-91f8219b7911ba7b4b5c7ceaa0ea0bf8",
+            "file": "src/app/modules/mips/components/list/list.component.ts",
+            "type": "interface",
+            "sourceCode": "import {Component, Input, ViewChild} from '@angular/core';\r\nimport {animate, state, style, transition, trigger} from '@angular/animations';\r\nimport {MatPaginator} from '@angular/material/paginator';\r\n\r\nconst sampleData: DataElement[] = [\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'app-list',\r\n  templateUrl: './list.component.html',\r\n  styleUrls: ['./list.component.scss'],\r\n  animations: [\r\n    trigger('detailExpand', [\r\n      state('collapsed', style({height: '0px', minHeight: '0'})),\r\n      state('expanded', style({height: '*'})),\r\n      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),\r\n    ]),\r\n  ],\r\n})\r\nexport class ListComponent {\r\n\r\n  columnsToDisplay = ['#', 'title', 'summary', 'status', 'link'];\r\n  @Input() dataSource: any;\r\n  @Input() loading = false;\r\n  expandedElement: DataElement | null;\r\n  @ViewChild(MatPaginator) paginator: MatPaginator;\r\n\r\n  getStatusValue(data: string): string {\r\n    if (data.toLocaleLowerCase().includes('accepted')) {\r\n        return 'ACCEPTED';\r\n    }\r\n    if (data.toLocaleLowerCase().includes('rfc')) {\r\n      return 'RFC';\r\n    }\r\n    if (data.toLocaleLowerCase().includes('rejected')) {\r\n      return 'REJECTED';\r\n    }\r\n    if (data.toLocaleLowerCase().includes('archived')) {\r\n      return 'ARCHIVED';\r\n    }\r\n\r\n    return data;\r\n  }\r\n\r\n}\r\n\r\nexport interface DataElement {\r\n  position: number;\r\n  title: string;\r\n  summary: string;\r\n  paragraph: string;\r\n  status: string;\r\n  github: string;\r\n  forum: string;\r\n}\r\n\r\n",
+            "properties": [
+                {
+                    "name": "forum",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 99
+                },
+                {
+                    "name": "github",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 98
+                },
+                {
+                    "name": "paragraph",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 96
+                },
+                {
+                    "name": "position",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 93
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 97
+                },
+                {
+                    "name": "summary",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 95
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 94
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "FilterData",
+            "id": "interface-FilterData-9266c868737e1788d1ba12356b22d8fa",
+            "file": "src/app/modules/mips/components/filter/filter.data.ts",
+            "type": "interface",
+            "sourceCode": "export default interface FilterData {\r\n  title: string;\r\n  status: string;\r\n  type: string;\r\n}",
+            "properties": [
+                {
+                    "name": "status",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        }
+    ],
+    "injectables": [
+        {
+            "name": "MipsService",
+            "id": "injectable-MipsService-ffdabb61c71c15365fc383d6ee950bed",
+            "file": "src/app/modules/mips/services/mips.service.ts",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "searchMips",
+                    "args": [
+                        {
+                            "name": "limit",
+                            "type": "number"
+                        },
+                        {
+                            "name": "offset",
+                            "type": "number"
+                        },
+                        {
+                            "name": "order",
+                            "type": "string"
+                        },
+                        {
+                            "name": "search",
+                            "type": "string"
+                        },
+                        {
+                            "name": "filter",
+                            "type": "any",
+                            "optional": true
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<any>",
+                    "typeParameters": [],
+                    "line": 16,
+                    "jsdoctags": [
+                        {
+                            "name": "limit",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "offset",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "order",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "search",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "filter",
+                            "type": "any",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "description": "",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport { HttpClient, HttpParams  } from '@angular/common/http';\nimport {  environment } from '../../../../environments/environment';\nimport { Observable } from 'rxjs';\n\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class MipsService {\n\n  constructor(\n    private http: HttpClient,\n  ) { }\n\n  searchMips(limit: number, offset: number, order: string, search: string, filter?: any): Observable<any> {\n    let params = new HttpParams({fromObject: {limit: limit.toString(), offset: offset.toString()}});\n    if (order !== undefined && order != null && order !== '') {\n      params = params.append('order', order);\n\n    }\n    if (search !== undefined && search != null && search !== '') {\n      params = params.append('search', search);\n\n    }\n    let urlFilter = '';\n    // let enter = false;\n    // if (filter !== undefined && filter != null) {\n    //   if (filter.contains != null) {\n    //     Object.keys(filter.contains).forEach((key) => {\n    //       const character = !enter ? '?' : '&';\n    //       enter = true;\n    //       urlFilter += `${character}filter[contains][field]=${filter.contains[key].field}`;\n    //       urlFilter += `&filter[contains][value]=${filter.contains[key].value}`;\n    //     });\n    //   }\n    //   if (filter.notcontains != null) {\n    //     enter = false;\n    //     Object.keys(filter.notcontains).forEach((key) => {\n    //       const character = !enter ? '?' : '&';\n    //       enter = true;\n    //       urlFilter += `${character}filter[contains][field]=${filter.notcontains[key].field}`;\n    //       urlFilter += `&filter[contains][value]=${filter.notcontains[key].value}`;\n    //     });\n    //   }\n\n    // }\n    return this.http.get(`${environment.apiUrl}/mips/findall${urlFilter}`, {params} );\n  }\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient"
+                    }
+                ],
+                "line": 10,
+                "jsdoctags": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable"
+        }
+    ],
+    "classes": [
+        {
+            "name": "AppPage",
+            "id": "class-AppPage-e3ea1f4631d62652a5623d3ab757b2fc",
+            "file": "e2e/src/app.po.ts",
+            "type": "class",
+            "sourceCode": "import { browser, by, element } from 'protractor';\r\n\r\nexport class AppPage {\r\n  async navigateTo(): Promise<unknown> {\r\n    return browser.get(browser.baseUrl);\r\n  }\r\n\r\n  async getTitleText(): Promise<string> {\r\n    return element(by.css('app-root .content span')).getText();\r\n  }\r\n}\r\n",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "getTitleText",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Promise<string>",
+                    "typeParameters": [],
+                    "line": 8,
+                    "modifierKind": [
+                        120
+                    ]
+                },
+                {
+                    "name": "navigateTo",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Promise<unknown>",
+                    "typeParameters": [],
+                    "line": 4,
+                    "modifierKind": [
+                        120
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        }
+    ],
+    "directives": [],
+    "components": [
+        {
+            "name": "AppComponent",
+            "id": "component-AppComponent-2b0cc937569e7b88e7a48cf890570b54",
+            "file": "src/app/app.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-root",
+            "styleUrls": [
+                "./app.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./app.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "title",
+                    "defaultValue": "'frontend'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "methodsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent {\n  title = 'frontend';\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".container {  \r\n  margin: 40px 60px;\r\n}\r\n",
+                    "styleUrl": "./app.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<div class=\"container\">\r\n  <app-header></app-header>\r\n  <router-outlet></router-outlet>\r\n  <app-footer></app-footer>\r\n</div>\r\n\r\n"
+        },
+        {
+            "name": "ButtonComponent",
+            "id": "component-ButtonComponent-44f2f1e1b3a1e0ebc1e0edafd90d05c0",
+            "file": "src/stories/button.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-button",
+            "styleUrls": [
+                "./button.css"
+            ],
+            "styles": [],
+            "template": "<button   type=\"button\"\n   (click)=\"onClick.emit($event)\"\n   [ngClass]=\"classes\"\n   [ngStyle]=\"{ 'background-color': backgroundColor }\"\n >\n   {{ label }}\n </button>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "backgroundColor",
+                    "description": "<p>What background color to use</p>\n",
+                    "line": 26,
+                    "type": "string"
+                },
+                {
+                    "name": "label",
+                    "defaultValue": "'Button'",
+                    "description": "<p>Button contents</p>\n",
+                    "line": 40
+                },
+                {
+                    "name": "primary",
+                    "defaultValue": "false",
+                    "description": "<p>Is this the principal call to action on the page?</p>\n",
+                    "line": 20
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "'medium'",
+                    "description": "<p>How large should the button be?</p>\n",
+                    "line": 32,
+                    "type": "\"small\" | \"medium\" | \"large\""
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onClick",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "description": "<p>Optional click handler</p>\n",
+                    "line": 46,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'storybook-button',\r\n  template: ` <button\r\n    type=\"button\"\r\n    (click)=\"onClick.emit($event)\"\r\n    [ngClass]=\"classes\"\r\n    [ngStyle]=\"{ 'background-color': backgroundColor }\"\r\n  >\r\n    {{ label }}\r\n  </button>`,\r\n  styleUrls: ['./button.css'],\r\n})\r\nexport default class ButtonComponent {\r\n  /**\r\n   * Is this the principal call to action on the page?\r\n   */\r\n  @Input()\r\n  primary = false;\r\n\r\n  /**\r\n   * What background color to use\r\n   */\r\n  @Input()\r\n  backgroundColor?: string;\r\n\r\n  /**\r\n   * How large should the button be?\r\n   */\r\n  @Input()\r\n  size: 'small' | 'medium' | 'large' = 'medium';\r\n\r\n  /**\r\n   * Button contents\r\n   *\r\n   * @required\r\n   */\r\n  @Input()\r\n  label = 'Button';\r\n\r\n  /**\r\n   * Optional click handler\r\n   */\r\n  @Output()\r\n  onClick = new EventEmitter<Event>();\r\n\r\n  public get classes(): string[] {\r\n    const mode = this.primary ? 'storybook-button--primary' : 'storybook-button--secondary';\r\n\r\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\r\n  }\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-button {\r\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\r\n  font-weight: 700;\r\n  border: 0;\r\n  border-radius: 3em;\r\n  cursor: pointer;\r\n  display: inline-block;\r\n  line-height: 1;\r\n}\r\n.storybook-button--primary {\r\n  color: white;\r\n  background-color: #1ea7fd;\r\n}\r\n.storybook-button--secondary {\r\n  color: #333;\r\n  background-color: transparent;\r\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;\r\n}\r\n.storybook-button--small {\r\n  font-size: 12px;\r\n  padding: 10px 16px;\r\n}\r\n.storybook-button--medium {\r\n  font-size: 14px;\r\n  padding: 11px 20px;\r\n}\r\n.storybook-button--large {\r\n  font-size: 16px;\r\n  padding: 12px 24px;\r\n}\r\n",
+                    "styleUrl": "./button.css"
+                }
+            ],
+            "stylesData": "",
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "[]",
+                        "returnType": "string[]",
+                        "line": 48
+                    }
+                }
+            }
+        },
+        {
+            "name": "DetailContentComponent",
+            "id": "component-DetailContentComponent-75d1a503b115bdd656744a7d528c018a",
+            "file": "src/app/modules/mips/components/detail-content/detail-content.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-detail-content",
+            "styleUrls": [
+                "./detail-content.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./detail-content.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "file",
+                    "defaultValue": "'MIP28c7-SP1.md'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 55
+                },
+                {
+                    "name": "mipId",
+                    "defaultValue": "'MIP 2'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 53
+                },
+                {
+                    "name": "mipName",
+                    "defaultValue": "'Launch Period'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 54
+                },
+                {
+                    "name": "paragraphSummary",
+                    "defaultValue": "'This proposal details the process of how Maker Governance can bootstrap the setup and implementation of the first Governance Paradigm. More specifically, it defines two phases: Phase 1: when a core governance framework is put in place and a functional collateral onboarding process is ratified Phase 2: when the Problem Space is in the process of being addressed with MIPs and MIP Sets. Lastly, the proposal states that MIP2 itself will become obsolete when the Problem Space has officially been addressed.'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 57
+                },
+                {
+                    "name": "preamble",
+                    "defaultValue": "preambleDataSample",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 52
+                },
+                {
+                    "name": "sentenceSummary",
+                    "defaultValue": "'MIP2 details two interim phases during which logic defined in MIP0 is overriden.'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 56
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 61
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\nconst preambleDataSample = [\r\n  {\r\n    key: 'MIP#',\r\n    value: '2'\r\n  },\r\n  {\r\n    key: 'Title',\r\n    value: 'Launch Period'\r\n  },\r\n  {\r\n    key: 'Author(s)',\r\n    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'\r\n  },\r\n  {\r\n    key: 'Contributors',\r\n    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'\r\n  },\r\n  {\r\n    key: 'Type',\r\n    value: 'Process'\r\n  },\r\n  {\r\n    key: 'Status',\r\n    value: 'Accepted'\r\n  },\r\n  {\r\n    key: 'Date Proposed',\r\n    value: '2020-04-06'\r\n  },\r\n  {\r\n    key: 'Date Ratified',\r\n    value: '2020-05-02'\r\n  },\r\n  {\r\n    key: 'Dependencies',\r\n    value: 'MIP0, MIP1'\r\n  },\r\n  {\r\n    key: 'Replaces',\r\n    value: 'n/a'\r\n  }\r\n];\r\n\r\n@Component({\r\n  selector: 'app-detail-content',\r\n  templateUrl: './detail-content.component.html',\r\n  styleUrls: ['./detail-content.component.scss']\r\n})\r\nexport class DetailContentComponent implements OnInit {\r\n  preamble = preambleDataSample;\r\n  mipId = 'MIP 2';\r\n  mipName = 'Launch Period';\r\n  file = 'MIP28c7-SP1.md';\r\n  sentenceSummary = 'MIP2 details two interim phases during which logic defined in MIP0 is overriden.';\r\n  paragraphSummary = 'This proposal details the process of how Maker Governance can bootstrap the setup and implementation of the first Governance Paradigm. More specifically, it defines two phases: Phase 1: when a core governance framework is put in place and a functional collateral onboarding process is ratified Phase 2: when the Problem Space is in the process of being addressed with MIPs and MIP Sets. Lastly, the proposal states that MIP2 itself will become obsolete when the Problem Space has officially been addressed.'\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  font-style: normal;\r\n  font-weight: 500;\r\n}\r\n\r\n.container {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  // display: inline-block;\r\n  padding: 30px;\r\n  .title {    \r\n    color: #31394D;\r\n    font-size: 26px;\r\n  }\r\n  .sub-title {\r\n    font-weight: bold;\r\n    font-size: 20px;    \r\n  }\r\n  .title-bold {\r\n    font-weight: bold;\r\n    font-size: 26px;\r\n    color: #31394D;\r\n  }\r\n\r\n  a {\r\n    text-decoration: none;\r\n    font-weight: bold;\r\n    font-size: 12px;\r\n    color: #2F80ED;\r\n    margin-left: 7px;\r\n  }\r\n\r\n  img {\r\n    margin-left: 30px;\r\n  }\r\n  img.forum {\r\n    transform: translateY(3px)\r\n  }\r\n\r\n  .preamble {    \r\n    background: #F5F6FA;    \r\n    border: 1px solid #F5F6FA;\r\n    box-shadow: 0px 1px 4px #E5E9F2;\r\n    border-radius: 5px;\r\n    padding: 16px;\r\n\r\n    .label, .info {\r\n      font-size: 14px;\r\n      color: #31394D;\r\n    }\r\n  \r\n    .info {\r\n      font-weight: bold;\r\n    }\r\n  }\r\n\r\n  .summary {\r\n    font-size: 14px;\r\n    color: #31394D;\r\n  }\r\n}\r\n\r\n.row {\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: space-between;\r\n}\r\n\r\nhr {    \r\n  background-color: #EBEDF4;\r\n  height: 1px;\r\n  border: none;\r\n}\r\n\r\n.space-3 {\r\n  margin-top: 30px;\r\n}\r\n\r\n.space-4 {\r\n  margin-top: 40px;\r\n}",
+                    "styleUrl": "./detail-content.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 57
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div>\r\n      <span class=\"title-bold\">{{mipId}}:</span><span class=\"title\"> {{mipName}}</span>\r\n    </div>\r\n    <div>\r\n      <img src=\"../../../../../assets/images/github_dark.svg\" /> <a href=\"#\">Github</a>\r\n      <img class=\"forum\" src=\"../../../../../assets/images/forum.svg\" /> <a href=\"#\">Forum</a>\r\n    </div>\r\n  </div>\r\n  <hr>\r\n  <p class=\"sub-title space-3\">Preamble</p>\r\n  <div class=\"preamble\">\r\n    <div *ngFor=\"let pre of preamble\">\r\n      <span class=\"label\">{{pre.key}}:</span><span class=\"info\"> {{pre.value}}</span>\r\n    </div>\r\n  </div> \r\n  <p class=\"sub-title space-4\">References</p>\r\n  <a href=\"#\">{{file}}</a>\r\n  <p class=\"sub-title space-4\">Sentence Summary</p>\r\n  <p class=\"summary\">{{sentenceSummary}}</p>\r\n  <p class=\"sub-title space-4\">Paragraph Summary</p>\r\n  <p class=\"summary\">{{paragraphSummary}}</p>\r\n</div>\r\n\r\n"
+        },
+        {
+            "name": "FilterComponent",
+            "id": "component-FilterComponent-1321aa56f23bd232e0d4b0f8746d17ff",
+            "file": "src/app/modules/mips/components/filter/filter.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-filter",
+            "styleUrls": [
+                "./filter.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./filter.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "send",
+                    "defaultValue": "new EventEmitter<FilterData>()",
+                    "line": 20,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "contentOptionsShow",
+                    "defaultValue": "false",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17
+                },
+                {
+                    "name": "filterData",
+                    "type": "FilterData",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "inputTitle",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "decorators": [
+                        {
+                            "name": "ViewChild",
+                            "stringifiedArguments": "'title'"
+                        }
+                    ]
+                },
+                {
+                    "name": "statusCLass",
+                    "type": "\"status-accepted\" | \"status-rejected\" | \"status-archive\" | \"status-rfc\" | \"status-none\"",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "statusInputText",
+                    "defaultValue": "'Select status'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "statusOptionsShow",
+                    "defaultValue": "false",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "titleText",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "typeInputText",
+                    "defaultValue": "'Select status'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
+                },
+                {
+                    "name": "typeOptionsShow",
+                    "defaultValue": "false",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "apply",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 57
+                },
+                {
+                    "name": "containerShowStatus",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 47
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 25
+                },
+                {
+                    "name": "reset",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 51
+                },
+                {
+                    "name": "setStatusClassAndText",
+                    "args": [
+                        {
+                            "name": "pos",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
+                    "jsdoctags": [
+                        {
+                            "name": "pos",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "setTyepClassAndText",
+                    "args": [
+                        {
+                            "name": "pos",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39,
+                    "jsdoctags": [
+                        {
+                            "name": "pos",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit, Output, ViewChild } from '@angular/core';\r\nimport { EventEmitter } from '@angular/core';\r\nimport FilterData from './filter.data';\r\n\r\n@Component({\r\n  selector: 'app-filter',\r\n  templateUrl: './filter.component.html',\r\n  styleUrls: ['./filter.component.scss']\r\n})\r\nexport class FilterComponent implements OnInit {\r\n\r\n  statusCLass: 'status-accepted' | 'status-rejected' | 'status-archive' | 'status-rfc' | 'status-none';\r\n  statusInputText  = 'Select status';\r\n  statusOptionsShow = false;\r\n  typeInputText  = 'Select status';\r\n  typeOptionsShow = false;\r\n  contentOptionsShow = false;\r\n  titleText: string;\r\n  @ViewChild('title') inputTitle;\r\n  @Output() send = new EventEmitter<FilterData>();\r\n  filterData: FilterData;\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n    this.statusCLass = 'status-none';\r\n  }\r\n\r\n  setStatusClassAndText(pos: number): void {\r\n    switch (pos) {\r\n      case 0: { this.statusCLass = 'status-accepted'; this.statusInputText = 'ACCEPTED'; this.statusOptionsShow = false; break; }\r\n      case 1: { this.statusCLass = 'status-rejected'; this.statusInputText = 'REJECTED'; this.statusOptionsShow = false; break; }\r\n      case 2: { this.statusCLass = 'status-archive'; this.statusInputText = 'ARCHIVE'; this.statusOptionsShow = false; break; }\r\n      case 3: { this.statusCLass = 'status-rfc'; this.statusInputText = 'RFC'; this.statusOptionsShow = false; break; }\r\n      case 4: { this.statusCLass = 'status-none'; this.statusInputText = 'Select status'; this.statusOptionsShow = false; break; }\r\n    }\r\n  }\r\n\r\n  setTyepClassAndText(pos: number): void {\r\n    switch (pos) {\r\n      case 0: { this.typeInputText = 'PROPOSAL'; this.typeOptionsShow = false; break; }\r\n      case 1: { this.typeInputText = 'SUB-PROPOSAL'; this.typeOptionsShow = false; break; }\r\n      case 2: { this.typeInputText = 'Select Type'; this.typeOptionsShow = false; break; }\r\n    }\r\n  }\r\n\r\n  containerShowStatus(): void {\r\n    this.contentOptionsShow = !this.contentOptionsShow;\r\n  }\r\n\r\n  reset(): void {\r\n    this.setStatusClassAndText(4);\r\n    this.setTyepClassAndText(2);\r\n    this.inputTitle.nativeElement.value = ' ';\r\n  }\r\n\r\n  apply(): void {\r\n    this.filterData.title = this.inputTitle.nativeElement.value;\r\n    this.filterData.status = this.statusInputText;\r\n    this.filterData.type = this.typeInputText;\r\n    this.send.emit(this.filterData);\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  color: #748AA1;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n\r\n.button {\r\n  width: 40px;\r\n  height: 40px;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  text-align: center;\r\n  background: #FFFFFF;\r\n  cursor: pointer;\r\n  img {\r\n    margin-top: 10px;\r\n  }\r\n}\r\n\r\n.frame {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 30px 60px #E5E9F2;\r\n  border-radius: 5px;\r\n  position: absolute;\r\n}\r\n\r\n.content {\r\n  height: 265px;\r\n  width: 264px;\r\n  padding: 30px 30px 20px;\r\n  transform: translate(-282px, 10px);\r\n  .title {    \r\n    font-weight: 700;\r\n  }\r\n\r\n  .data {\r\n    display: flex;\r\n    flex-direction: row;\r\n    margin: 26px 0;\r\n    .label {\r\n      width: 55px;\r\n      margin-right: 30px;\r\n    }\r\n    input {\r\n      width: 120px;\r\n      height: 18px;\r\n      border: 1px solid #D2D3D9;\r\n      border-radius: 5px;\r\n      text-align: center;\r\n      &::placeholder {\r\n        color: #BCBEC7;\r\n        font-size: 12px;\r\n      }\r\n      &.status-accepted {\r\n        border: 1px solid #27AE60;\r\n        color: #27AE60;        \r\n      }\r\n      &.status-rejected {\r\n        border: 1px solid #EB5757;\r\n        color: #EB5757;        \r\n      }\r\n      &.status-archive {\r\n        border: 1px solid #748AA1;\r\n        color: #748AA1;        \r\n      }\r\n      &.status-rfc {\r\n        border: 1px solid #F2994A;\r\n        color: #F2994A;        \r\n      }\r\n      &.status-none {\r\n        border: 1px solid #E5E9F2;\r\n        color: #E5E9F2;        \r\n      }\r\n      &.type {\r\n        font-weight: bold;\r\n      }\r\n    }\r\n    .arrow {\r\n      margin-left: 5px;\r\n      cursor: pointer;\r\n      // -webkit-transform: rotate(-45deg);\r\n      // -moz-transform: rotate(-45deg);\r\n      // -ms-transform: rotate(-45deg);\r\n      // -o-transform: rotate(-45deg);\r\n      // transform: rotate(-45deg);\r\n    }\r\n    .status-options, .type-options {\r\n      width: 120px;      \r\n      transform: translate(83px, 27px);\r\n      padding: 10px;\r\n\r\n      .status-option, .type-option {\r\n        margin-top: 5px;\r\n        cursor: pointer;\r\n      }\r\n    }\r\n  }\r\n  .buttons {\r\n    margin-top: 63px;\r\n    display: flex;\r\n    justify-content: flex-end;\r\n\r\n    .btn {\r\n      background-color: #FFFFFF;\r\n      padding: 8px 15px;\r\n      border-radius: 5px;\r\n      border: none;\r\n      margin-left: 15px;\r\n      font-weight: bold;\r\n\r\n      &.reset {\r\n        box-shadow: 0px 30px 60px #E5E9F2;\r\n        color: #31394D;\r\n        border: 1px solid #31394D;\r\n        \r\n      }\r\n\r\n      &.apply  {\r\n        background-color: #2F80ED;\r\n        border: 1px solid #2F80ED;\r\n        box-sizing: border-box;\r\n        color: #FFFFFF;\r\n      }\r\n    }\r\n  } \r\n}\r\n\r\n",
+                    "styleUrl": "./filter.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 21
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\r\n  <div class=\"button\" (click)=\"this.contentOptionsShow = !this.contentOptionsShow\">\r\n      <img src=\"../../../../../assets/images/icon_filter.svg\" />\r\n  </div>\r\n  <div class=\"content frame\" *ngIf=\"contentOptionsShow\">\r\n    <p class=\"title\">FILTER BY</p>\r\n    <div class=\"data\">\r\n      <div class=\"label\">Title:</div>\r\n      <input type=\"text\" #title placeholder=\"Title name\">\r\n    </div>\r\n    <div class=\"data\">\r\n      <div class=\"label\">Status:</div>\r\n      <input type=\"text\" class=\"status\" [ngClass]=\"statusCLass\" value=\"{{statusInputText}}\" disabled>\r\n      <img class=\"arrow\" (click)=\"statusOptionsShow = !statusOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\r\n      <div class=\"status-options frame\" *ngIf=\"statusOptionsShow\" (onmouseout)=\"statusOptionsShow = false\">\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(4)\"><app-status type=\"NONE\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(0)\"><app-status type=\"ACCEPTED\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(1)\"><app-status type=\"REJECTED\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(2)\"><app-status type=\"ARCHIVE\"></app-status></div>\r\n        <div class=\"status-option\" (click)=\"setStatusClassAndText(3)\"><app-status type=\"RFC\"></app-status></div>\r\n      </div>\r\n    </div>\r\n    <div class=\"data\">\r\n      <div class=\"label\">MIP Type:</div>\r\n      <input type=\"text\" class=\"type\" value=\"{{typeInputText}}\" disabled>\r\n      <img class=\"arrow\" (click)=\"typeOptionsShow = !typeOptionsShow\" src=\"../../../../../assets/images/arrow.svg\" />\r\n      <div class=\"type-options frame\" *ngIf=\"typeOptionsShow\">\r\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(2)\">NONE</div>\r\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(0)\">PROPOSAL</div>\r\n        <div class=\"type-option\" (click)=\"setTyepClassAndText(1)\">SUB-PROPOSAL</div>        \r\n      </div>\r\n    </div>\r\n    <div class=\"buttons\">\r\n      <button class=\"reset btn\" (click)=\"reset()\">Reset</button>    \r\n      <button class=\"apply btn\">Apply</button>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+        },
+        {
+            "name": "FooterComponent",
+            "id": "component-FooterComponent-eb3f87f27433f2596d9b9240c9cb1c36",
+            "file": "src/app/shared/footer/footer.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-footer",
+            "styleUrls": [
+                "./footer.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./footer.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-footer',\r\n  templateUrl: './footer.component.html',\r\n  styleUrls: ['./footer.component.scss']\r\n})\r\nexport class FooterComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host, a {\r\n  color: #EBEDF4;\r\n  font-size: 16px;\r\n  font-style: normal;\r\n}\r\n.footer {\r\n  height: 175px;\r\n  background-color: #31394D;\r\n  text-align: center;\r\n  padding-top: 44px;\r\n}\r\n\r\n.logo {\r\n  margin-bottom: 21px;\r\n  img {\r\n    margin: 0 2px;\r\n  }\r\n}\r\n\r\n.icons {\r\n  margin-top: 44px;\r\n  span {\r\n    margin: 0 15px;\r\n    font-size: 14px;\r\n    img {\r\n      margin-right: 9px;\r\n    }\r\n  }\r\n}\r\n\r\n",
+                    "styleUrl": "./footer.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"footer\">\r\n  <div class=\"logo\">\r\n    <img src=\"../../../assets/images/logo_l.svg\" />\r\n    <img src=\"../../../assets/images/logo_r.svg\" />\r\n  </div>\r\n  <span>This is site is part of <a href=\"#\">MakerDAO</a> ecosystem</span>\r\n  <div class=\"icons\">\r\n    <span>\r\n      <img src=\"../../../assets/images/github.svg\" />\r\n      Github\r\n    </span>\r\n    <span>\r\n      <img src=\"../../../assets/images/forum.svg\" />\r\n      Forum\r\n    </span>\r\n  </div>\r\n</div>\r\n"
+        },
+        {
+            "name": "HeaderComponent",
+            "id": "component-HeaderComponent-c349aa42f2121da4b5737d60a50fa413",
+            "file": "src/stories/header.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-header",
+            "styleUrls": [
+                "./header.css"
+            ],
+            "styles": [],
+            "template": "<header>    <div class=\"wrapper\">\n      <div>\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n              fill=\"#FFF\"\n            />\n            <path\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n              fill=\"#555AB9\"\n            />\n            <path\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\n              fill=\"#91BAF8\"\n            />\n          </g>\n        </svg>\n        <h1>Acme</h1>\n      </div>\n      <div>\n        <storybook-button\n          *ngIf=\"user\"\n          size=\"small\"\n          (onClick)=\"onLogout.emit($event)\"\n          label=\"Log out\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          size=\"small\"\n          (onClick)=\"onLogin.emit($event)\"\n          label=\"Log in\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          primary\n          size=\"small\"\n          (onClick)=\"onCreateAccount.emit($event)\"\n          label=\"Sign up\"\n        ></storybook-button>\n      </div>\n    </div>\n  </header>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "line": 53,
+                    "type": "unknown"
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onCreateAccount",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "line": 62,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogin",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "line": 56,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogout",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "line": 59,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'storybook-header',\r\n  template: `<header>\r\n    <div class=\"wrapper\">\r\n      <div>\r\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\r\n          <g fill=\"none\" fillRule=\"evenodd\">\r\n            <path\r\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\r\n              fill=\"#FFF\"\r\n            />\r\n            <path\r\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\r\n              fill=\"#555AB9\"\r\n            />\r\n            <path\r\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\r\n              fill=\"#91BAF8\"\r\n            />\r\n          </g>\r\n        </svg>\r\n        <h1>Acme</h1>\r\n      </div>\r\n      <div>\r\n        <storybook-button\r\n          *ngIf=\"user\"\r\n          size=\"small\"\r\n          (onClick)=\"onLogout.emit($event)\"\r\n          label=\"Log out\"\r\n        ></storybook-button>\r\n        <storybook-button\r\n          *ngIf=\"!user\"\r\n          size=\"small\"\r\n          (onClick)=\"onLogin.emit($event)\"\r\n          label=\"Log in\"\r\n        ></storybook-button>\r\n        <storybook-button\r\n          *ngIf=\"!user\"\r\n          primary\r\n          size=\"small\"\r\n          (onClick)=\"onCreateAccount.emit($event)\"\r\n          label=\"Sign up\"\r\n        ></storybook-button>\r\n      </div>\r\n    </div>\r\n  </header>`,\r\n  styleUrls: ['./header.css'],\r\n})\r\nexport default class HeaderComponent {\r\n  @Input()\r\n  user: unknown = null;\r\n\r\n  @Output()\r\n  onLogin = new EventEmitter<Event>();\r\n\r\n  @Output()\r\n  onLogout = new EventEmitter<Event>();\r\n\r\n  @Output()\r\n  onCreateAccount = new EventEmitter<Event>();\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".wrapper {\r\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\r\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\r\n  padding: 15px 20px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n}\r\n\r\nsvg {\r\n  display: inline-block;\r\n  vertical-align: top;\r\n}\r\n\r\nh1 {\r\n  font-weight: 900;\r\n  font-size: 20px;\r\n  line-height: 1;\r\n  margin: 6px 0 6px 10px;\r\n  display: inline-block;\r\n  vertical-align: top;\r\n}\r\n\r\nbutton + button {\r\n  margin-left: 10px;\r\n}\r\n",
+                    "styleUrl": "./header.css"
+                }
+            ],
+            "stylesData": ""
+        },
+        {
+            "name": "HeaderComponent",
+            "id": "component-HeaderComponent-8ad57df5997ae5255f29359d2a5f5604-1",
+            "file": "src/app/shared/header/header.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-header",
+            "styleUrls": [
+                "./header.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./header.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-header',\r\n  templateUrl: './header.component.html',\r\n  styleUrls: ['./header.component.scss']\r\n})\r\nexport class HeaderComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".logo {\r\n  margin: 45px 0;\r\n  img {\r\n    margin-right: 14px;\r\n  }\r\n}\r\n",
+                    "styleUrl": "./header.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "isDuplicate": true,
+            "duplicateId": 1,
+            "duplicateName": "HeaderComponent-1",
+            "templateData": "<div class=\"logo\">\r\n  <img src=\"../../../assets/images/logo.svg\" />\r\n  <img src=\"../../../assets/images/sub_logo.svg\" />\r\n</div>\r\n"
+        },
+        {
+            "name": "ListComponent",
+            "id": "component-ListComponent-91f8219b7911ba7b4b5c7ceaa0ea0bf8",
+            "file": "src/app/modules/mips/components/list/list.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-list",
+            "styleUrls": [
+                "./list.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./list.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "dataSource",
+                    "line": 68,
+                    "type": "any"
+                },
+                {
+                    "name": "loading",
+                    "defaultValue": "false",
+                    "line": 69
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "columnsToDisplay",
+                    "defaultValue": "['#', 'title', 'summary', 'status', 'link']",
+                    "type": "[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 67
+                },
+                {
+                    "name": "expandedElement",
+                    "type": "DataElement | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 70
+                },
+                {
+                    "name": "paginator",
+                    "type": "MatPaginator",
+                    "optional": false,
+                    "description": "",
+                    "line": 71,
+                    "decorators": [
+                        {
+                            "name": "ViewChild",
+                            "stringifiedArguments": "MatPaginator"
+                        }
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "getStatusValue",
+                    "args": [
+                        {
+                            "name": "data",
+                            "type": "string"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 73,
+                    "jsdoctags": [
+                        {
+                            "name": "data",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import {Component, Input, ViewChild} from '@angular/core';\r\nimport {animate, state, style, transition, trigger} from '@angular/animations';\r\nimport {MatPaginator} from '@angular/material/paginator';\r\n\r\nconst sampleData: DataElement[] = [\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'app-list',\r\n  templateUrl: './list.component.html',\r\n  styleUrls: ['./list.component.scss'],\r\n  animations: [\r\n    trigger('detailExpand', [\r\n      state('collapsed', style({height: '0px', minHeight: '0'})),\r\n      state('expanded', style({height: '*'})),\r\n      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),\r\n    ]),\r\n  ],\r\n})\r\nexport class ListComponent {\r\n\r\n  columnsToDisplay = ['#', 'title', 'summary', 'status', 'link'];\r\n  @Input() dataSource: any;\r\n  @Input() loading = false;\r\n  expandedElement: DataElement | null;\r\n  @ViewChild(MatPaginator) paginator: MatPaginator;\r\n\r\n  getStatusValue(data: string): string {\r\n    if (data.toLocaleLowerCase().includes('accepted')) {\r\n        return 'ACCEPTED';\r\n    }\r\n    if (data.toLocaleLowerCase().includes('rfc')) {\r\n      return 'RFC';\r\n    }\r\n    if (data.toLocaleLowerCase().includes('rejected')) {\r\n      return 'REJECTED';\r\n    }\r\n    if (data.toLocaleLowerCase().includes('archived')) {\r\n      return 'ARCHIVED';\r\n    }\r\n\r\n    return data;\r\n  }\r\n\r\n}\r\n\r\nexport interface DataElement {\r\n  position: number;\r\n  title: string;\r\n  summary: string;\r\n  paragraph: string;\r\n  status: string;\r\n  github: string;\r\n  forum: string;\r\n}\r\n\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "table {\r\n  width: 100%;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n\r\n//---------------Expand oficial\r\ntr.example-detail-row {\r\n  height: 0;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):hover {\r\n  background: whitesmoke;\r\n}\r\n\r\ntr.example-element-row:not(.example-expanded-row):active {\r\n  background: #efefef;\r\n}\r\n\r\n.example-element-row td {\r\n  border-bottom-width: 0;\r\n  font-style: normal;\r\n  font-weight: 500;\r\n  font-size: 14px;\r\n  color: #31394D;\r\n}\r\n\r\n.example-element-detail {\r\n  overflow: hidden;\r\n  display: flex;\r\n}\r\n\r\n.example-element-diagram {\r\n  min-width: 80px;\r\n  border: 2px solid black;\r\n  padding: 8px;\r\n  font-weight: lighter;\r\n  margin: 8px 0;\r\n  height: 104px;\r\n}\r\n\r\n.example-element-symbol {\r\n  font-weight: bold;\r\n  font-size: 40px;\r\n  line-height: normal;\r\n}\r\n\r\n.example-element-description {\r\n  padding: 16px;\r\n}\r\n\r\n.example-element-description-attribution {\r\n  opacity: 0.5;\r\n}\r\n\r\nth {\r\n  text-transform: uppercase;\r\n  font-style: normal;\r\n  // font-weight: bold;\r\n  font-size: 12px;\r\n  color: #748AA1;\r\n}\r\n\r\n.up {\r\n  transform: translate(4px, -5px);\r\n}\r\n\r\n.down {\r\n  transform: translate(-3px, 2px);\r\n}\r\n\r\n.arrow {\r\n  cursor: pointer;\r\n}\r\n\r\n.mat-column-title {\r\n  width: 124px;\r\n}\r\n\r\n\r\n\r\n//---------------End Expand oficial\r\n\r\n\r\n//----- test\r\n\r\n/* Structure */\r\n.example-container {\r\n  position: relative;\r\n  min-height: 200px;\r\n}\r\n\r\n.example-table-container {\r\n  position: relative;\r\n  max-height: 400px;\r\n  overflow: auto;\r\n}\r\n\r\ntable {\r\n  width: 100%;\r\n}\r\n\r\n.example-loading-shade {\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  bottom: 56px;\r\n  right: 0;\r\n  background: rgba(0, 0, 0, 0.15);\r\n  z-index: 1;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n\r\n.example-rate-limit-reached {\r\n  color: #980000;\r\n  max-width: 360px;\r\n  text-align: center;\r\n}\r\n\r\n/* Column Widths */\r\n.mat-column-number,\r\n.mat-column-state {\r\n  max-width: 64px;\r\n}\r\n\r\n.mat-column-created {\r\n  max-width: 124px;\r\n}\r\n\r\n\r\n",
+                    "styleUrl": "./list.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "\r\n<div class=\"example-container mat-elevation-z8\">\r\n  <div *ngIf=\"loading\" class=\"example-loading-shade\">\r\n    <mat-spinner ></mat-spinner>    \r\n  </div>\r\n  \r\n<table mat-table\r\n       [dataSource]=\"dataSource\" multiTemplateDataRows\r\n       class=\"mat-elevation-z8\">\r\n  <ng-container matColumnDef=\"{{column}}\" *ngFor=\"let column of columnsToDisplay;\">\r\n    <span *ngIf=\"column != 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef > {{column}} <img class=\"arrow up\" src=\"../../../../../assets/images/up.svg\"/><img class=\"arrow down\" src=\"../../../../../assets/images/down.svg\"/> </th>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <th mat-header-cell *matHeaderCellDef> {{column}}</th>\r\n    </span>\r\n    <span *ngIf=\"column != 'status' && column != 'link' && column != '#'\">\r\n      <td mat-cell *matCellDef=\"let element\"> {{element[column]}} </td>\r\n    </span>\r\n    <span *ngIf=\"column == 'status'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-status [type]=\"getStatusValue(element.status)\"></app-status></td>\r\n    </span>\r\n    <span *ngIf=\"column == 'link'\">\r\n      <td mat-cell *matCellDef=\"let element\" ><app-social [forumLink]=\"element.forum\" [githubLink]=\"element.github\"></app-social></td>\r\n    </span>\r\n    <span *ngIf=\"column == '#'\">\r\n      <td mat-cell *matCellDef=\"let element\" >{{element.position}}</td>\r\n    </span>\r\n  </ng-container>\r\n\r\n  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->\r\n  <ng-container matColumnDef=\"expandedDetail\">\r\n    <td mat-cell *matCellDef=\"let element\" [attr.colspan]=\"columnsToDisplay.length\">\r\n      <div class=\"example-element-detail\"\r\n           [@detailExpand]=\"element == expandedElement ? 'expanded' : 'collapsed'\">        \r\n        <div class=\"example-element-description\">\r\n          {{element.paragraph}}          \r\n        </div>\r\n      </div>\r\n    </td>\r\n  </ng-container>\r\n\r\n  <tr mat-header-row *matHeaderRowDef=\"columnsToDisplay\"></tr>\r\n  <tr mat-row *matRowDef=\"let element; columns: columnsToDisplay;\"\r\n      class=\"example-element-row\"\r\n      [class.example-expanded-row]=\"expandedElement === element\"\r\n      (click)=\"expandedElement = expandedElement === element ? null : element\">\r\n  </tr>\r\n  <tr mat-row *matRowDef=\"let row; columns: ['expandedDetail']\" class=\"example-detail-row\"></tr>\r\n</table>\r\n<mat-paginator [length]=\"150\" [pageSize]=\"30\"></mat-paginator>\r\n</div>\r\n"
+        },
+        {
+            "name": "ListPageComponent",
+            "id": "component-ListPageComponent-5fddcc6e960ad17ec1c06003d0984135",
+            "file": "src/app/modules/mips/pages/list-page/list-page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-list-page",
+            "styleUrls": [
+                "./list-page.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./list-page.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "filter",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "limit",
+                    "defaultValue": "50",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "loading",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 17
+                },
+                {
+                    "name": "mips",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "offset",
+                    "defaultValue": "0",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "order",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "search",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 23
+                },
+                {
+                    "name": "searchMips",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 27
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { MipsService } from '../../services/mips.service';\r\n\r\n@Component({\r\n  selector: 'app-list-page',\r\n  templateUrl: './list-page.component.html',\r\n  styleUrls: ['./list-page.component.scss']\r\n})\r\nexport class ListPageComponent implements OnInit {\r\n\r\n  mips: any;\r\n  limit = 50;\r\n  offset = 0;\r\n  order: string;\r\n  search: string;\r\n  filter: any;\r\n  loading: boolean;\r\n\r\n  constructor(\r\n    private mipsService: MipsService\r\n  ) { }\r\n\r\n  ngOnInit(): void {\r\n    this.searchMips();\r\n  }\r\n\r\n  searchMips(): void {\r\n      this.loading = true;\r\n      this.mipsService.searchMips(this.limit, this.offset, this.order, this.search, this.filter)\r\n      .subscribe(data => {\r\n        this.mips = data;\r\n        this.loading = false;\r\n      });\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".title {\r\n  font-weight: bold;\r\n  font-size: 20px;\r\n  color: #31394D;\r\n}\r\n\r\n.row {\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: space-between;\r\n}\r\n\r\napp-search {\r\n  margin-right: 12px;\r\n}\r\n\r\napp-filter {\r\n  margin-top: 3px;\r\n  z-index: 5;\r\n}",
+                    "styleUrl": "./list-page.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "mipsService",
+                        "type": "MipsService"
+                    }
+                ],
+                "line": 17,
+                "jsdoctags": [
+                    {
+                        "name": "mipsService",
+                        "type": "MipsService",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"row\">\r\n  <p class=\"title\">MIPs List</p>\r\n  <div class=\"row filtering\">\r\n    <app-search></app-search>\r\n    <app-filter></app-filter>\r\n  </div>\r\n</div>\r\n<app-list [loading]=\"loading\" [dataSource]=\"mips.items\"></app-list>\r\n\r\n"
+        },
+        {
+            "name": "MipDetailsComponent",
+            "id": "component-MipDetailsComponent-dba53e76f1110e7ef8c92c69aab43c6d",
+            "file": "src/app/modules/mips/components/mip-details/mip-details.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-mip-details",
+            "styleUrls": [
+                "./mip-details.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./mip-details.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-mip-details',\r\n  templateUrl: './mip-details.component.html',\r\n  styleUrls: ['./mip-details.component.scss']\r\n})\r\nexport class MipDetailsComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  font-style: normal;\r\n  font-weight: 500;\r\n}\r\n\r\n.container {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  padding: 30px;\r\n  .title {\r\n    font-size: 16px;\r\n    color: #000000;\r\n    font-weight: 500;\r\n  }\r\n  .label {\r\n    color: #748AA1;\r\n    font-size: 12px;\r\n    margin-right: 45px;\r\n  }\r\n  .info {\r\n    font-size: 12px;\r\n    color: #31394D;\r\n    font-weight: bold;\r\n  }\r\n  hr {    \r\n    background-color: #EBEDF4;\r\n    height: 1px;\r\n    border: none;\r\n  }\r\n  img {\r\n    cursor: pointer;\r\n    margin-left: 7px;\r\n  }\r\n}\r\n\r\n.row {\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: space-between;\r\n}\r\n\r\napp-status {\r\n  transform: translateY(8px);\r\n}\r\n\r\n",
+                    "styleUrl": "./mip-details.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\r\n  <p class=\"title\">Details</p>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"label\">Status</p>\r\n    <app-status type='ACCEPTED'></app-status>\r\n  </span>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"label\">Poll Address</p>\r\n    <p class=\"info\">N/A</p>\r\n    <!-- <img src=\"../../../../../assets/images/copy.svg\" />\r\n    <img src=\"../../../../../assets/images/open.svg\" /> -->\r\n  </span>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"label\">Start Date</p>\r\n    <p class=\"info\">2020-12-14</p>\r\n  </span>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"label\">Last Opened</p>\r\n    <p class=\"info\">2020-12-14</p>\r\n  </span>\r\n</div>\r\n"
+        },
+        {
+            "name": "MipsPaginationComponent",
+            "id": "component-MipsPaginationComponent-98e01450002fcb990d53423b977b7f12",
+            "file": "src/app/modules/mips/components/mips-pagination/mips-pagination.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-mips-pagination",
+            "styleUrls": [
+                "./mips-pagination.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./mips-pagination.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-mips-pagination',\r\n  templateUrl: './mips-pagination.component.html',\r\n  styleUrls: ['./mips-pagination.component.scss']\r\n})\r\nexport class MipsPaginationComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".container {\r\n  height: 46px;\r\n  background: #FFFFFF;\r\n  opacity: 0.5;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  color: #748AA1;  \r\n  padding: 0 30px;\r\n\r\n  .row {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n    strong {\r\n      color: #31394D;\r\n    }   \r\n    .links {\r\n      font-size: 14px;  \r\n      a {\r\n        text-decoration: none;\r\n        color: #748AA1; \r\n      } \r\n    }\r\n    .items {\r\n      font-style: normal;\r\n      font-weight: bold;\r\n      font-size: 12px;\r\n      img {\r\n        margin: 0 10px;       \r\n        transform: translateY(2px);    \r\n        cursor: pointer;     \r\n      }\r\n    }\r\n  }\r\n\r\n  .space {\r\n    padding-top: 14px;\r\n  }\r\n}",
+                    "styleUrl": "./mips-pagination.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\r\n  <div class=\"row space\">\r\n    <div class=\"links\">\r\n      <a href=\"#\">ALL MIPs </a>\r\n      <strong > / MIP 2 </strong>\r\n    </div>\r\n    <div class=\"items\">\r\n      <strong>2  </strong>\r\n      <span> of 30 items </span>\r\n      <img src=\"../../../../../assets/images/left.svg\" />\r\n      <img src=\"../../../../../assets/images/right.svg\" />\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+        },
+        {
+            "name": "PageComponent",
+            "id": "component-PageComponent-caf3f2fce2bf7356cf7ccd76b8a88482",
+            "file": "src/stories/page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-page",
+            "styleUrls": [
+                "./page.css"
+            ],
+            "styles": [],
+            "template": "<article>    <storybook-header\n      [user]=\"user\"\n      (onLogout)=\"onLogout.emit($event)\"\n      (onLogin)=\"onLogin.emit($event)\"\n      (onCreateAccount)=\"onCreateAccount.emit($event)\"\n    ></storybook-header>\n    <section>\n      <h2>Pages in Storybook</h2>\n      <p>\n        We recommend building UIs with a\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <strong>component-driven</strong>\n        </a>\n        process starting with atomic components and ending with pages.\n      </p>\n      <p>\n        Render pages with mock data. This makes it easy to build and review page states without\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\n        in Storybook:\n      </p>\n      <ul>\n        <li>\n          Use a higher-level connected component. Storybook helps you compose such data from the\n          \"args\" of child component stories\n        </li>\n        <li>\n          Assemble data in the page component from your services. You can mock these services out\n          using Storybook.\n        </li>\n      </ul>\n      <p>\n        Get a guided tutorial on component-driven development at\n        <a href=\"https://www.learnstorybook.com\" target=\"_blank\" rel=\"noopener noreferrer\">\n          Learn Storybook\n        </a>\n        . Read more in the\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\">\n          docs\n        </a>\n        .\n      </p>\n      <div class=\"tip-wrapper\">\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n              id=\"a\"\n              fill=\"#999\"\n            />\n          </g>\n        </svg>\n        Viewports addon in the toolbar\n      </div>\n    </section>\n  </article>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "line": 66,
+                    "type": "unknown"
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onCreateAccount",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "line": 75,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogin",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "line": 69,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogout",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "line": 72,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'storybook-page',\r\n  template: `<article>\r\n    <storybook-header\r\n      [user]=\"user\"\r\n      (onLogout)=\"onLogout.emit($event)\"\r\n      (onLogin)=\"onLogin.emit($event)\"\r\n      (onCreateAccount)=\"onCreateAccount.emit($event)\"\r\n    ></storybook-header>\r\n    <section>\r\n      <h2>Pages in Storybook</h2>\r\n      <p>\r\n        We recommend building UIs with a\r\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n          <strong>component-driven</strong>\r\n        </a>\r\n        process starting with atomic components and ending with pages.\r\n      </p>\r\n      <p>\r\n        Render pages with mock data. This makes it easy to build and review page states without\r\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\r\n        in Storybook:\r\n      </p>\r\n      <ul>\r\n        <li>\r\n          Use a higher-level connected component. Storybook helps you compose such data from the\r\n          \"args\" of child component stories\r\n        </li>\r\n        <li>\r\n          Assemble data in the page component from your services. You can mock these services out\r\n          using Storybook.\r\n        </li>\r\n      </ul>\r\n      <p>\r\n        Get a guided tutorial on component-driven development at\r\n        <a href=\"https://www.learnstorybook.com\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n          Learn Storybook\r\n        </a>\r\n        . Read more in the\r\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\">\r\n          docs\r\n        </a>\r\n        .\r\n      </p>\r\n      <div class=\"tip-wrapper\">\r\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\r\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\r\n          <g fill=\"none\" fillRule=\"evenodd\">\r\n            <path\r\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\r\n              id=\"a\"\r\n              fill=\"#999\"\r\n            />\r\n          </g>\r\n        </svg>\r\n        Viewports addon in the toolbar\r\n      </div>\r\n    </section>\r\n  </article>`,\r\n  styleUrls: ['./page.css'],\r\n})\r\nexport default class PageComponent {\r\n  @Input()\r\n  user: unknown = null;\r\n\r\n  @Output()\r\n  onLogin = new EventEmitter<Event>();\r\n\r\n  @Output()\r\n  onLogout = new EventEmitter<Event>();\r\n\r\n  @Output()\r\n  onCreateAccount = new EventEmitter<Event>();\r\n}\r\n\r\n// export const Page = ({ user, onLogin, onLogout, onCreateAccount }) => (\r\n//   <article>\r\n//     <Header user={user} onLogin={onLogin} onLogout={onLogout} onCreateAccount={onCreateAccount} />\r\n\r\n// );\r\n// Page.propTypes = {\r\n//   user: PropTypes.shape({}),\r\n//   onLogin: PropTypes.func.isRequired,\r\n//   onLogout: PropTypes.func.isRequired,\r\n//   onCreateAccount: PropTypes.func.isRequired,\r\n// };\r\n\r\n// Page.defaultProps = {\r\n//   user: null,\r\n// };\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "section {\r\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\r\n  font-size: 14px;\r\n  line-height: 24px;\r\n  padding: 48px 20px;\r\n  margin: 0 auto;\r\n  max-width: 600px;\r\n  color: #333;\r\n}\r\n\r\nh2 {\r\n  font-weight: 900;\r\n  font-size: 32px;\r\n  line-height: 1;\r\n  margin: 0 0 4px;\r\n  display: inline-block;\r\n  vertical-align: top;\r\n}\r\n\r\np {\r\n  margin: 1em 0;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: #1ea7fd;\r\n}\r\n\r\nul {\r\n  padding-left: 30px;\r\n  margin: 1em 0;\r\n}\r\n\r\nli {\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.tip {\r\n  display: inline-block;\r\n  border-radius: 1em;\r\n  font-size: 11px;\r\n  line-height: 12px;\r\n  font-weight: 700;\r\n  background: #e7fdd8;\r\n  color: #66bf3c;\r\n  padding: 4px 12px;\r\n  margin-right: 10px;\r\n  vertical-align: top;\r\n}\r\n\r\n.tip-wrapper {\r\n  font-size: 13px;\r\n  line-height: 20px;\r\n  margin-top: 40px;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n.tip-wrapper svg {\r\n  display: inline-block;\r\n  height: 12px;\r\n  width: 12px;\r\n  margin-right: 4px;\r\n  vertical-align: top;\r\n  margin-top: 3px;\r\n}\r\n\r\n.tip-wrapper svg path {\r\n  fill: #1ea7fd;\r\n}\r\n",
+                    "styleUrl": "./page.css"
+                }
+            ],
+            "stylesData": ""
+        },
+        {
+            "name": "ProposalComponentsComponent",
+            "id": "component-ProposalComponentsComponent-1efff6e6686b10967a2324349abfb7fb",
+            "file": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-proposal-components",
+            "styleUrls": [
+                "./proposal-components.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./proposal-components.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "marketPosition",
+                    "defaultValue": "98",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 44
+                },
+                {
+                    "name": "selectedItem",
+                    "defaultValue": "0",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 45
+                },
+                {
+                    "name": "sourceData",
+                    "defaultValue": "sampleData",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 43
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 48
+                },
+                {
+                    "name": "updatePos",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 51,
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\nconst sampleData = [\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]\r\n\r\n@Component({\r\n  selector: 'app-proposal-components',\r\n  templateUrl: './proposal-components.component.html',\r\n  styleUrls: ['./proposal-components.component.scss']\r\n})\r\nexport class ProposalComponentsComponent implements OnInit {\r\n\r\n  sourceData = sampleData;\r\n  marketPosition = 98;\r\n  selectedItem = 0;\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n  updatePos(index): void {\r\n    this.marketPosition = (index) * 29.5 + 95;\r\n    this.selectedItem = index;\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  font-style: normal;\r\n  font-weight: 500;\r\n}\r\n\r\n.container {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  .content {\r\n    padding: 30px;\r\n    p {\r\n      &.header {\r\n        font-size: 16px;\r\n        line-height: 19px;\r\n        color: #000000;\r\n      }\r\n      &.title {\r\n        color: #748AA1;\r\n        font-size: 14px;\r\n        cursor: pointer;\r\n      }\r\n      &.sub-title {\r\n        font-size: 12px;\r\n        color: #748AA1;\r\n        font-weight: normal;\r\n        margin-left: 20px;\r\n      }\r\n      &.selected {\r\n        color: #31394D;\r\n      }\r\n    }\r\n\r\n\r\n  }\r\n\r\n\r\n  .marker {\r\n    width: 5px;\r\n    height: 14px;\r\n    background: #31394D;\r\n    -webkit-transition: 300ms ease all;\r\n    -moz-transition: 300ms ease all;\r\n    -o-transition: 300ms ease all;\r\n    transition: 300ms ease all;\r\n  }\r\n}",
+                    "styleUrl": "./proposal-components.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 45
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\r\n  <div class=\"marker\" [ngStyle]=\"{'transform': 'translateY(' + marketPosition + 'px)'}\"></div>\r\n  <div class=\"content\">\r\n    <p class=\"header\">Proposal Components</p>\r\n    <div *ngFor=\"let element of sourceData; let index = index\">\r\n      <p class=\"title\" [ngClass]=\"{'selected' : selectedItem == index}\" (click)=\"updatePos(index)\">{{element.title}}</p>\r\n      <p class=\"sub-title\" *ngFor=\"let subelement of element.subtitles\">{{subelement.title}}</p>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+        },
+        {
+            "name": "PullRequestHistoryComponent",
+            "id": "component-PullRequestHistoryComponent-647eedf6c6b45533826daaf7f45a168a",
+            "file": "src/app/modules/mips/components/pull-request-history/pull-request-history.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-pull-request-history",
+            "styleUrls": [
+                "./pull-request-history.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./pull-request-history.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-pull-request-history',\r\n  templateUrl: './pull-request-history.component.html',\r\n  styleUrls: ['./pull-request-history.component.scss']\r\n})\r\nexport class PullRequestHistoryComponent implements OnInit {\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  font-style: normal;\r\n  font-weight: 500;\r\n}\r\n\r\n.container {\r\n  background: #FFFFFF;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  padding: 30px;\r\n  .logo {\r\n    margin-right: 2px;\r\n  }\r\n\r\n  .check {\r\n    margin-left: 15px;\r\n    transform: translateY(3px);\r\n  }\r\n  .title {\r\n    font-size: 16px;\r\n    color: #000000;\r\n    font-weight: 500;\r\n  }\r\n  .label {\r\n    color: #748AA1;\r\n    font-size: 12px;    \r\n  }\r\n  .info {\r\n    font-size: 12px;\r\n    color: #31394D;\r\n    font-weight: bold;\r\n  }\r\n  hr {    \r\n    background-color: #EBEDF4;\r\n    height: 1px;\r\n    border: none;\r\n  }\r\n  img {\r\n    cursor: pointer;\r\n    margin-left: 7px;\r\n  }\r\n  .sub {\r\n    font-size: 11px;\r\n    color: #748AA1;\r\n  }\r\n}\r\n\r\n.row {\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: space-between;\r\n}\r\n\r\n\r\nbutton {\r\n  width: 100%;\r\n  background: #FFFFFF;  \r\n  border-radius: 5px;\r\n  border: 1px solid #748AA1;\r\n  padding: 4px 0;\r\n  font-weight: bold;\r\n  font-size: 12px;\r\n  color: #2F80ED;\r\n  cursor: pointer;\r\n  margin-top: 25px;\r\n\r\n  img {\r\n    transform: translate(-4px,2px);    \r\n  }\r\n}\r\n\r\n*:focus {\r\n  outline: none;\r\n}\r\n\r\n",
+                    "styleUrl": "./pull-request-history.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"container\">\r\n  <p class=\"title\">Pull Requests History</p>\r\n  <img class=\"logo\" src=\"../../../../../assets/images/pull.svg\" />\r\n  <span class=\"label\">1 Open</span>\r\n  <img class=\"logo check\" src=\"../../../../../assets/images/check.png\" />\r\n  <span class=\"label\">132 CLosed</span>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"info\">Create MIP7c3-SP5 </p>\r\n    <img src=\"../../../../../assets/images/open.svg\" />\r\n  </span>\r\n    <p class=\"sub\">#136 by SebVentures was merged 4 days ago </p>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"info\">Create MIP7c3-SP5 </p>\r\n    <img src=\"../../../../../assets/images/open.svg\" />\r\n  </span>\r\n    <p class=\"sub\">#136 by SebVentures was merged 4 days ago </p>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"info\">Create MIP7c3-SP5 </p>\r\n    <img src=\"../../../../../assets/images/open.svg\" />\r\n  </span>\r\n    <p class=\"sub\">#136 by SebVentures was merged 4 days ago </p>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"info\">Create MIP7c3-SP5 </p>\r\n    <img src=\"../../../../../assets/images/open.svg\" />\r\n  </span>\r\n    <p class=\"sub\">#136 by SebVentures was merged 4 days ago </p>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"info\">Create MIP7c3-SP5 </p>\r\n    <img src=\"../../../../../assets/images/open.svg\" />\r\n  </span>\r\n    <p class=\"sub\">#136 by SebVentures was merged 4 days ago </p>\r\n  <hr>\r\n  <span class=\"row\">\r\n    <p class=\"info\">Create MIP7c3-SP5 </p>\r\n    <img src=\"../../../../../assets/images/open.svg\" />\r\n  </span>\r\n    <p class=\"sub\">#136 by SebVentures was merged 4 days ago </p> \r\n\r\n    <button class=\"reset btn\"><img src=\"../../../../../assets/images/github_dark.svg\" /> <span class=\"text\">See all</span></button>  \r\n\r\n</div>\r\n\r\n"
+        },
+        {
+            "name": "SearchComponent",
+            "id": "component-SearchComponent-08c612a2eb7f11c9b93927c2e134f745",
+            "file": "src/app/modules/mips/components/search/search.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-search",
+            "styleUrls": [
+                "./search.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./search.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "imageDir",
+                    "defaultValue": "'../../../../../assets/images/magnifier.png'",
+                    "line": 14
+                },
+                {
+                    "name": "placeHolder",
+                    "defaultValue": "'Search on the list'",
+                    "line": 13
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "send",
+                    "defaultValue": "new EventEmitter()",
+                    "line": 15,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "timeout",
+                    "defaultValue": "null",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 20
+                },
+                {
+                    "name": "onChange",
+                    "args": [
+                        {
+                            "name": "value",
+                            "type": "string"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 30,
+                    "jsdoctags": [
+                        {
+                            "name": "value",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "onKeySearch",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "any"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 22,
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "any",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';\r\nimport { EventEmitter } from '@angular/core';\r\n\r\n\r\n@Component({\r\n  selector: 'app-search',\r\n  templateUrl: './search.component.html',\r\n  styleUrls: ['./search.component.scss'],\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class SearchComponent implements OnInit {\r\n\r\n@Input() placeHolder ? = 'Search on the list';\r\n@Input() imageDir ? = '../../../../../assets/images/magnifier.png';\r\n@Output() send = new EventEmitter();\r\ntimeout: any = null;\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {}\r\n\r\n  onKeySearch(event: any): void {\r\n    clearTimeout(this.timeout);\r\n    const $this = this;\r\n    this.timeout = setTimeout(() => {\r\n        $this.onChange(event.target.vlue);\r\n    }, 1000);\r\n  }\r\n\r\n  onChange(value: string): void {\r\n    this.send.emit(value);\r\n  }\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "\r\nimg {\r\n  transform: translate(33px, 7px);\r\n}\r\n\r\ninput {\r\n  text-indent:36px;\r\n  border: none;\r\n  width: 300px;\r\n  height: 38px;\r\n  border-radius: 5px;\r\n  box-shadow: 0px 1px 4px #E5E9F2;\r\n  color: #D2D3D9;\r\n  font-size: 14px;\r\n  font-weight: 400;\r\n  &::placeholder {\r\n    color: #D2D3D9;\r\n    font-size: 14px;\r\n    font-weight: 400;\r\n  } \r\n}\r\n\r\n*:focus {\r\n  outline: none;\r\n}\r\n\r\n",
+                    "styleUrl": "./search.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 16
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<img src=\"{{imageDir}}\" />\r\n<input type=\"text\" placeholder=\"{{placeHolder}}\" (keyup)=\"onKeySearch($event)\">\r\n"
+        },
+        {
+            "name": "SocialComponent",
+            "id": "component-SocialComponent-1f4d56d0b012c44c3b30c8af06c14cd6",
+            "file": "src/app/modules/mips/components/social/social.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-social",
+            "styleUrls": [
+                "./social.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./social.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "forumLink",
+                    "line": 11,
+                    "type": ""
+                },
+                {
+                    "name": "githubLink",
+                    "line": 10,
+                    "type": ""
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 15
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-social',\r\n  templateUrl: './social.component.html',\r\n  styleUrls: ['./social.component.scss']\r\n})\r\nexport class SocialComponent implements OnInit {\r\n\r\n  @Input() githubLink: 'OK';\r\n  @Input() forumLink: 'OK';\r\n\r\n  constructor() { }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "a {\r\n  margin-right: 15px;\r\n}\r\n",
+                    "styleUrl": "./social.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 11
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<a href=\"{{githubLink}}\"><img src=\"../../../../../assets/images/social_github.svg\" /></a>\r\n<a href=\"{{forumLink}}\"><img src=\"../../../../../assets/images/social_forum.svg\" /></a>\r\n\r\n"
+        },
+        {
+            "name": "StatusComponent",
+            "id": "component-StatusComponent-8b41c9915f83ca29986d9311652b2e50",
+            "file": "src/app/modules/mips/components/status/status.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-status",
+            "styleUrls": [
+                "./status.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./status.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "type",
+                    "line": 10,
+                    "type": "\"ACCEPTED\" | \"REJECTED\" | \"ARCHIVE\" | \"RFC\" | \"NONE\""
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 18
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-status',\r\n  templateUrl: './status.component.html',\r\n  styleUrls: ['./status.component.scss']\r\n})\r\nexport class StatusComponent implements OnInit {\r\n\r\n  @Input() type: 'ACCEPTED' | 'REJECTED' | 'ARCHIVE' | 'RFC' | 'NONE';\r\n\r\n  constructor() { }\r\n\r\n  public get classes(): string[] {\r\n    return ['status-container', `type--${this.type}`];\r\n  }\r\n\r\n  ngOnInit(): void {\r\n  }\r\n\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".status-container {\r\n  padding: 2px 5px;\r\n  font-size: 12px;\r\n  text-align: center;\r\n  display: inline-block;\r\n}\r\n\r\n.type--ACCEPTED {\r\n  border: 1px solid #27AE60;\r\n  color: #27AE60;\r\n}\r\n\r\n.type--REJECTED {\r\n  border: 1px solid #EB5757;\r\n  color: #EB5757;\r\n}\r\n\r\n.type--ARCHIVE {\r\n  border: 1px solid #748AA1;\r\n  color: #748AA1;\r\n}\r\n\r\n.type--RFC {\r\n  border: 1px solid #F2994A;\r\n  color: #F2994A;\r\n}\r\n\r\n.type--NONE {\r\n  border: 1px solid #E5E9F2;\r\n  color: #E5E9F2;\r\n}\r\n",
+                    "styleUrl": "./status.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 10
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "[]",
+                        "returnType": "string[]",
+                        "line": 14
+                    }
+                }
+            },
+            "templateData": "<div [ngClass]=\"classes\">\r\n  {{ type }}\r\n</div>\r\n\r\n\r\n"
+        }
+    ],
+    "modules": [
+        {
+            "name": "AppModule",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        },
+                        {
+                            "name": "FooterComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "AppRoutingModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "AppRoutingModule",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "MipsModule",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "DetailContentComponent"
+                        },
+                        {
+                            "name": "FilterComponent"
+                        },
+                        {
+                            "name": "ListComponent"
+                        },
+                        {
+                            "name": "ListPageComponent"
+                        },
+                        {
+                            "name": "MipDetailsComponent"
+                        },
+                        {
+                            "name": "MipsPaginationComponent"
+                        },
+                        {
+                            "name": "ProposalComponentsComponent"
+                        },
+                        {
+                            "name": "PullRequestHistoryComponent"
+                        },
+                        {
+                            "name": "SearchComponent"
+                        },
+                        {
+                            "name": "SocialComponent"
+                        },
+                        {
+                            "name": "StatusComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "MipsRoutingModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "MipsRoutingModule",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "Accepted",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Accepted",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/social/Social.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Archive",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "context",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/test.ts",
+                "type": "",
+                "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+            },
+            {
+                "name": "Custom",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/search/Search.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/shared/footer/Footer.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/shared/header/Header.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/mip-details/MipDetails.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/pull-request-history/PullRequestHistory.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/search/Search.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/detail-content/DetailsContent.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.prod.ts",
+                "type": "object",
+                "defaultValue": "{\n  production: true,\n  apiUrl: 'http://159.203.86.45:3000'\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.ts",
+                "type": "object",
+                "defaultValue": "{\n  production: false,\n  apiUrl: 'http://159.203.86.45:3000'\n}"
+            },
+            {
+                "name": "Large",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "LoggedIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "LoggedIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "preambleDataSample",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/detail-content/detail-content.component.ts",
+                "type": "[]",
+                "defaultValue": "[\r\n  {\r\n    key: 'MIP#',\r\n    value: '2'\r\n  },\r\n  {\r\n    key: 'Title',\r\n    value: 'Launch Period'\r\n  },\r\n  {\r\n    key: 'Author(s)',\r\n    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'\r\n  },\r\n  {\r\n    key: 'Contributors',\r\n    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'\r\n  },\r\n  {\r\n    key: 'Type',\r\n    value: 'Process'\r\n  },\r\n  {\r\n    key: 'Status',\r\n    value: 'Accepted'\r\n  },\r\n  {\r\n    key: 'Date Proposed',\r\n    value: '2020-04-06'\r\n  },\r\n  {\r\n    key: 'Date Ratified',\r\n    value: '2020-05-02'\r\n  },\r\n  {\r\n    key: 'Dependencies',\r\n    value: 'MIP0, MIP1'\r\n  },\r\n  {\r\n    key: 'Replaces',\r\n    value: 'n/a'\r\n  }\r\n]"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Rejected",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/test.ts",
+                "type": "literal type"
+            },
+            {
+                "name": "Rfc",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "sampleData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/list/list.component.ts",
+                "type": "DataElement[]",
+                "defaultValue": "[\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
+            },
+            {
+                "name": "sampleData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                "type": "[]",
+                "defaultValue": "[\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]"
+            },
+            {
+                "name": "Secondary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Small",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "type": "Story<Button>",
+                "defaultValue": "(args: Button) => ({\r\n  component: Button,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "type": "Story<Header>",
+                "defaultValue": "(args: Header) => ({\r\n  component: Header,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "type": "Story<Page>",
+                "defaultValue": "(args: Page) => ({\r\n  component: Page,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/shared/footer/Footer.stories.ts",
+                "type": "Story<FooterComponent>",
+                "defaultValue": "(args: FooterComponent) => ({\r\n  component: FooterComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/shared/header/Header.stories.ts",
+                "type": "Story<HeaderComponent>",
+                "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/mip-details/MipDetails.stories.ts",
+                "type": "Story<MipDetailsComponent>",
+                "defaultValue": "(args: MipDetailsComponent) => ({\r\n  component: MipDetailsComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                "type": "Story<MipsPaginationComponent>",
+                "defaultValue": "(args: MipsPaginationComponent) => ({\r\n  component: MipsPaginationComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "Story<ListComponent>",
+                "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "Story<ProposalComponentsComponent>",
+                "defaultValue": "(args: ProposalComponentsComponent) => ({\r\n  component: ProposalComponentsComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
+                "type": "Story<FilterComponent>",
+                "defaultValue": "(args: FilterComponent) => ({\r\n  component: FilterComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/pull-request-history/PullRequestHistory.stories.ts",
+                "type": "Story<PullRequestHistoryComponent>",
+                "defaultValue": "(args: PullRequestHistoryComponent) => ({\r\n  component: PullRequestHistoryComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/search/Search.stories.ts",
+                "type": "Story<SearchComponent>",
+                "defaultValue": "(args: SearchComponent) => ({\r\n  component: SearchComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "Story<StatusComponent>",
+                "defaultValue": "(args: StatusComponent) => ({\r\n  component: StatusComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/detail-content/DetailsContent.stories.ts",
+                "type": "Story<DetailContentComponent>",
+                "defaultValue": "(args: DetailContentComponent) => ({\r\n  component: DetailContentComponent,\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/modules/mips/components/social/Social.stories.ts",
+                "type": "Story<SocialComponent>",
+                "defaultValue": "(args: SocialComponent) => ({\r\n  component: SocialComponent,\r\n  props: args,\r\n})"
+            }
+        ],
+        "functions": [],
+        "typealiases": [],
+        "enumerations": [],
+        "groupedVariables": {
+            "src/app/modules/mips/components/status/Status.stories.ts": [
+                {
+                    "name": "Accepted",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Archive",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Rejected",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Rfc",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/status/Status.stories.ts",
+                    "type": "Story<StatusComponent>",
+                    "defaultValue": "(args: StatusComponent) => ({\r\n  component: StatusComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/social/Social.stories.ts": [
+                {
+                    "name": "Accepted",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/social/Social.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/social/Social.stories.ts",
+                    "type": "Story<SocialComponent>",
+                    "defaultValue": "(args: SocialComponent) => ({\r\n  component: SocialComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/test.ts",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/test.ts",
+                    "type": "literal type"
+                }
+            ],
+            "src/app/modules/mips/components/search/Search.stories.ts": [
+                {
+                    "name": "Custom",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/search/Search.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/search/Search.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/search/Search.stories.ts",
+                    "type": "Story<SearchComponent>",
+                    "defaultValue": "(args: SearchComponent) => ({\r\n  component: SearchComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/shared/footer/Footer.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/footer/Footer.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/footer/Footer.stories.ts",
+                    "type": "Story<FooterComponent>",
+                    "defaultValue": "(args: FooterComponent) => ({\r\n  component: FooterComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/shared/header/Header.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/header/Header.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/shared/header/Header.stories.ts",
+                    "type": "Story<HeaderComponent>",
+                    "defaultValue": "(args: HeaderComponent) => ({\r\n  component: HeaderComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/mip-details/MipDetails.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/mip-details/MipDetails.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/mip-details/MipDetails.stories.ts",
+                    "type": "Story<MipDetailsComponent>",
+                    "defaultValue": "(args: MipDetailsComponent) => ({\r\n  component: MipDetailsComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                    "type": "Story<MipsPaginationComponent>",
+                    "defaultValue": "(args: MipsPaginationComponent) => ({\r\n  component: MipsPaginationComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/list/List.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/list/List.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/list/List.stories.ts",
+                    "type": "Story<ListComponent>",
+                    "defaultValue": "(args: ListComponent) => ({\r\n  component: ListComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                    "type": "Story<ProposalComponentsComponent>",
+                    "defaultValue": "(args: ProposalComponentsComponent) => ({\r\n  component: ProposalComponentsComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/filter/Filter.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/filter/Filter.stories.ts",
+                    "type": "Story<FilterComponent>",
+                    "defaultValue": "(args: FilterComponent) => ({\r\n  component: FilterComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/pull-request-history/PullRequestHistory.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/pull-request-history/PullRequestHistory.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/pull-request-history/PullRequestHistory.stories.ts",
+                    "type": "Story<PullRequestHistoryComponent>",
+                    "defaultValue": "(args: PullRequestHistoryComponent) => ({\r\n  component: PullRequestHistoryComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/detail-content/DetailsContent.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/detail-content/DetailsContent.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/detail-content/DetailsContent.stories.ts",
+                    "type": "Story<DetailContentComponent>",
+                    "defaultValue": "(args: DetailContentComponent) => ({\r\n  component: DetailContentComponent,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "type": "object",
+                    "defaultValue": "{\n  production: true,\n  apiUrl: 'http://159.203.86.45:3000'\n}"
+                }
+            ],
+            "src/environments/environment.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.ts",
+                    "type": "object",
+                    "defaultValue": "{\n  production: false,\n  apiUrl: 'http://159.203.86.45:3000'\n}"
+                }
+            ],
+            "src/stories/Button.stories.ts": [
+                {
+                    "name": "Large",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Secondary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "type": "Story<Button>",
+                    "defaultValue": "(args: Button) => ({\r\n  component: Button,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/stories/Header.stories.ts": [
+                {
+                    "name": "LoggedIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "LoggedOut",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "type": "Story<Header>",
+                    "defaultValue": "(args: Header) => ({\r\n  component: Header,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/stories/Page.stories.ts": [
+                {
+                    "name": "LoggedIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "LoggedOut",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "type": "Story<Page>",
+                    "defaultValue": "(args: Page) => ({\r\n  component: Page,\r\n  props: args,\r\n})"
+                }
+            ],
+            "src/app/modules/mips/components/detail-content/detail-content.component.ts": [
+                {
+                    "name": "preambleDataSample",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/detail-content/detail-content.component.ts",
+                    "type": "[]",
+                    "defaultValue": "[\r\n  {\r\n    key: 'MIP#',\r\n    value: '2'\r\n  },\r\n  {\r\n    key: 'Title',\r\n    value: 'Launch Period'\r\n  },\r\n  {\r\n    key: 'Author(s)',\r\n    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'\r\n  },\r\n  {\r\n    key: 'Contributors',\r\n    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'\r\n  },\r\n  {\r\n    key: 'Type',\r\n    value: 'Process'\r\n  },\r\n  {\r\n    key: 'Status',\r\n    value: 'Accepted'\r\n  },\r\n  {\r\n    key: 'Date Proposed',\r\n    value: '2020-04-06'\r\n  },\r\n  {\r\n    key: 'Date Ratified',\r\n    value: '2020-05-02'\r\n  },\r\n  {\r\n    key: 'Dependencies',\r\n    value: 'MIP0, MIP1'\r\n  },\r\n  {\r\n    key: 'Replaces',\r\n    value: 'n/a'\r\n  }\r\n]"
+                }
+            ],
+            "src/app/modules/mips/components/list/list.component.ts": [
+                {
+                    "name": "sampleData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/list/list.component.ts",
+                    "type": "DataElement[]",
+                    "defaultValue": "[\r\n  {\r\n    position: 1,\r\n    title: 'TItle 1',\r\n    summary: 'This is my summary number 1',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '1.github.com',\r\n    forum: 'forum.com/1'\r\n  },\r\n  {\r\n    position: 2,\r\n    title: 'TItle 2',\r\n    summary: 'This is my summary number 2',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '2.github.com',\r\n    forum: 'forum.com/2'\r\n  },\r\n  {\r\n    position: 3,\r\n    title: 'TItle 3',\r\n    summary: 'This is my summary number 3',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '3.github.com',\r\n    forum: 'forum.com/3'\r\n  },\r\n  {\r\n    position: 4,\r\n    title: 'TItle 4',\r\n    summary: 'This is my summary number 4',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'ACCEPTED',\r\n    github: '4.github.com',\r\n    forum: 'forum.com/4'\r\n  },\r\n  {\r\n    position: 5,\r\n    title: 'TItle 5',\r\n    summary: 'This is my summary number 5',\r\n    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',\r\n    status: 'REJECTED',\r\n    github: '5.github.com',\r\n    forum: 'forum.com/5'\r\n  },\r\n]"
+                }
+            ],
+            "src/app/modules/mips/components/proposal-components/proposal-components.component.ts": [
+                {
+                    "name": "sampleData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                    "type": "[]",
+                    "defaultValue": "[\r\n  {\r\n    title: 'Preamble',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'References',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Sentence Summary ',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Paragraph Summary',\r\n    subtitles: []\r\n  },\r\n  {\r\n    title: 'Specification / Proposal Detail',\r\n    subtitles: [\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      },\r\n      {\r\n        title: 'MIP2c1: Interim Phase 1'\r\n      }\r\n    ]\r\n  }\r\n]"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {}
+    },
+    "routes": {
+        "name": "<root>",
+        "kind": "module",
+        "className": "AppModule",
+        "children": [
+            {
+                "name": "routes",
+                "filename": "src/app/app-routing.module.ts",
+                "module": "AppRoutingModule",
+                "children": [
+                    {
+                        "path": "mips",
+                        "loadChildren": "./modules/mips/mips.module#MipsModule",
+                        "children": [
+                            {
+                                "kind": "module",
+                                "children": [
+                                    {
+                                        "name": "routes",
+                                        "filename": "src/app/modules/mips/mips-routing.module.ts",
+                                        "module": "MipsRoutingModule",
+                                        "children": [
+                                            {
+                                                "path": "list",
+                                                "component": "ListPageComponent"
+                                            }
+                                        ],
+                                        "kind": "module"
+                                    }
+                                ],
+                                "module": "MipsModule"
+                            }
+                        ]
+                    }
+                ],
+                "kind": "module"
+            }
+        ]
+    },
+    "coverage": {
+        "count": 1,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "e2e/src/app.po.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "AppPage",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/app.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AppComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/detail-content/DetailsContent.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/detail-content/DetailsContent.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/detail-content/detail-content.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DetailContentComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/detail-content/detail-content.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "preambleDataSample",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/filter/Filter.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/filter/Filter.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/filter/filter.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "FilterComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/18",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/filter/filter.data.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "FilterData",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/List.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/list.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ListComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/list.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "DataElement",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/list/list.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "sampleData",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mip-details/MipDetails.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mip-details/MipDetails.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mip-details/mip-details.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "MipDetailsComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mips-pagination/Pagination.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/mips-pagination/mips-pagination.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "MipsPaginationComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/ProposalComponents.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ProposalComponentsComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/proposal-components/proposal-components.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "sampleData",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/pull-request-history/PullRequestHistory.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/pull-request-history/PullRequestHistory.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/pull-request-history/pull-request-history.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PullRequestHistoryComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/search/Search.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Custom",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/search/Search.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/search/Search.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/search/search.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SearchComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/social/Social.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Accepted",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/social/Social.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/social/social.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SocialComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Accepted",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Archive",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Rejected",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Rfc",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/status/Status.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/components/status/status.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "StatusComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/pages/list-page/list-page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ListPageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/11",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/mips/services/mips.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "MipsService",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/footer/Footer.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/footer/Footer.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/footer/footer.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "FooterComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/header/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/header/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/header/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/environments/environment.prod.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "environment",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/environments/environment.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "environment",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Large",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Secondary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Small",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedOut",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedOut",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ButtonComponent",
+                "coveragePercent": 83,
+                "coverageCount": "5/6",
+                "status": "very-good"
+            },
+            {
+                "filePath": "src/stories/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/test.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "context",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/test.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "require",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            }
+        ]
+    }
+}

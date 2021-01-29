@@ -5,8 +5,16 @@ import { AppModule } from "./app.module";
 import { Env } from "./env";
 import { ValidationPipe } from "@nestjs/common";
 import { MongoExceptionFilter } from "./exceptions/mongodb-exception.filter";
+// var fs = require('fs');
 
 async function bootstrap() {
+
+  // const httpsOptions = {
+  //   key: fs.readFileSync('./secrets/privkey.pem'),
+  //   cert: fs.readFileSync('./secrets/cert.pem'),
+  // };
+
+  // const app = await NestFactory.create(AppModule, { httpsOptions });
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
@@ -21,6 +29,7 @@ async function bootstrap() {
     )
     .setVersion("1.0")
     .build();
+
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("doc", app, document);
 

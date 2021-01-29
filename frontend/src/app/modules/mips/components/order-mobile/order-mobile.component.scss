@@ -1,0 +1,100 @@
+.content {
+  position: absolute;
+  width: 142px;
+  z-index: 2;
+  padding: 30px 20px;
+  background: #FFFFFF;
+  box-shadow: 0px 30px 60px #E5E9F2;
+  border-radius: 5px;
+  transform: translate(-150px, -2px);
+  text-align: left;
+  p {
+    font-weight: bold;
+    font-size: 12px;
+    color: #748AA1;
+    margin-bottom: 30px;
+  }
+  hr {
+    border: 1px solid #B8C5D3;
+    margin-bottom: 20px;
+  }
+  img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    -webkit-transition: 300ms ease all;
+    -moz-transition: 300ms ease all;
+    -o-transition: 300ms ease all;
+    transition: 300ms ease all;
+
+  }
+  .option {
+    // margin-top: 5px;
+    font-style: normal;
+    cursor: pointer;
+    font-size: 12px;
+    color: #748AA1;
+    margin-bottom: 20px;
+    &.selected {
+      color: #31394D;
+    }
+  }
+  .buttons {
+    margin-top: 36px;
+    display: flex;
+    justify-content: space-between;
+
+    .btn {
+      background-color: #FFFFFF;
+      padding: 0px 15px;
+      border-radius: 4px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: Roboto;
+      width: 63px;
+      height: 27px;
+
+      &.reset {
+        box-shadow: 0px 30px 60px #E5E9F2;
+        color: #31394D;
+        border: 1px solid #31394D;
+
+      }
+
+      &.apply  {
+        background-color: #2F80ED;
+        border: 1px solid #2F80ED;
+        box-sizing: border-box;
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #B8C5D3;
+  position: absolute;
+  transform: translate(22px, 5px);
+  &.selected-arrow {
+    border-top: 5px solid #31394D;
+  }
+}
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #B8C5D3;;
+  position: absolute;
+  transform: translate(16px, 5px);
+  &.selected-arrow {
+    border-bottom: 5px solid #31394D;
+  }
+}

@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  .main {
+    min-width: 39px;
+    min-height: 39px;
+  }
+}
+
+  input {
+    text-indent:28px;
+    border: none;
+    float: left;
+    width: 100%;
+    height: 28px;
+    border-radius: 5px;
+    box-shadow: 0px 1px 4px #E5E9F2;
+    color: #31394D;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 3px;
+    &::placeholder {
+      color: #D2D3D9;
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+
+  img {
+    cursor: pointer;
+  }
+
+
+*:focus {
+  outline: none;
+}
+
+.close-container {
+  .imageClose {
+    position: absolute;
+    transform: translate(-21px, 12px);
+  }
+}
+
+.init {
+  transform: translate(7px, 10px);
+  width: 0;
+  height: 0;
+  img {
+    width: 17px;
+    height: 17px;
+
+  }
+}

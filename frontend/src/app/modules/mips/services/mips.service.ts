@@ -1,0 +1,91 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams  } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import FilterData from '../components/filter/filter.data';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MipsService {
+
+  filter: FilterData;
+  mipsData: any[];
+  total = 1;
+
+  private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
+
+  constructor(
+    private http: HttpClient,
+  ) {
+   this.clearFilter();
+  }
+
+  updateActiveSearch(data: boolean): void {
+    this.activateSearch.next(data);
+  }
+
+  searchMips(limit: number, page: number, order: string, search: string, filter?: any): Observable<any> {
+    let params = new HttpParams({fromObject: {limit: limit.toString(), page: page.toString()}});
+    if (order !== undefined && order != null && order !== '') {
+      params = params.append('order', order);
+    }
+    if (search !== undefined && search != null && search !== '') {
+      params = params.append('search', search);
+    }
+    let urlFilter = '';
+    let enter = false;
+    if (filter !== undefined && filter != null) {
+      Object.keys(filter).forEach((key) => {
+        Object.keys(filter[key]).forEach((subkey) => {
+          Object.keys(filter[key][subkey]).forEach((final) => {
+            const character = !enter ? '?' : '&';
+            enter = true;
+            urlFilter += `${character}filter[${key}][${[final]}]=${filter[key][subkey][final]}`;
+          });
+        });
+      });
+
+    }
+    return this.http.get(`${environment.apiUrl}/mips/findall${urlFilter}`, {params} );
+  }
+
+  getMip(id: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/findone/${id}`);
+  }
+
+  getPullRequestHistory(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/pullrequests`);
+  }
+
+  getFilter(): FilterData {
+    return this.filter;
+  }
+
+  setFilter(filter: FilterData): void {
+    this.filter = filter;
+  }
+
+  getMipsData(): any[] {
+    return this.mipsData;
+  }
+
+  setMipsData(data: any[]): void {
+    this.mipsData = data;
+  }
+
+  getTotal(): number {
+    return this.total;
+  }
+
+  setTotal(value: number): void {
+    this.total = value;
+  }
+
+  clearFilter(): void {
+    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0]};
+  }
+
+}

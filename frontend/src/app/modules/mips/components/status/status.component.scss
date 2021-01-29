@@ -1,0 +1,34 @@
+.status-container {
+  padding: 2px 5px;
+  font-size: 12px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.type--ACCEPTED {
+  border: 1px solid #27AE60;
+  color: #27AE60;
+}
+
+.type--REJECTED {
+  border: 1px solid #EB5757;
+  color: #EB5757;
+}
+
+.type--ARCHIVE {
+  border: 1px solid #748AA1;
+  color: #748AA1;
+}
+
+.type--RFC {
+  border: 1px solid #F2994A;
+  color: #F2994A;
+  padding-right: 24px;
+  padding-left: 24px;
+}
+
+.type--NONE {
+  border: 1px solid #E5E9F2;
+  color: #E5E9F2;
+}

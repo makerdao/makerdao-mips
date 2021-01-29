@@ -1,0 +1,64 @@
+:host, a {
+  color: #EBEDF4;
+  font-size: 16px;
+  font-style: normal;
+  &.social {
+    text-decoration: none;
+  }
+}
+.footer {
+  height: 175px;
+  background-color: #31394D;
+  text-align: center;
+  padding-top: 44px;
+  margin-top: 40px;
+}
+
+.logo {
+  margin-bottom: 21px;
+  img {
+    margin: 0 2px;
+  }
+}
+
+.icons {
+  margin-top: 44px;
+  span {
+    margin: 0 15px;
+    font-size: 14px;
+    img {
+      margin-right: 7px;
+      transform: translateY(3px);
+      &.forum {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 310px;
+  color: #748AA1;
+  font-size: 14px;  
+  height: auto;
+  text-align: center;
+  
+  text-align: center;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  transform: translate(-250px, -80px);
+  // left: 290px;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+

@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div>
+      <span class="title-bold">MIP{{mip.mip}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{mip.title}}</span>
+    </div>
+    <div class="row social">
+      <img class="github" src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">GitHub</a>
+      <img class="forum" src="../../../../../assets/images/forum.svg" /> <a class="tooltip">Forum<span class="tooltiptext">Link to the forum coming soon. <br>
+        Feel free to manually search the MIP number at <br>
+        <a href="https://forum.makerdao.com/" target="_blank">forum.makerdao.com</a>
+      </span></a>
+    </div>
+  </div>
+  <div class="mobile title margin-2"> {{mip.title}}</div>
+  <hr>
+  <markdown class="variable-binding" [data]="mip.file"></markdown>
+</div>
+  
+    
+

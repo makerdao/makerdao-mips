@@ -1,0 +1,18 @@
+<img *ngIf="!showFrame" (click)="showHideFrame()" src="../../../../../assets/images/oder_frame.svg" />
+<img *ngIf="showFrame" (click)="showFrame = !showFrame" src="../../../../../assets/images/order_frame_blue.svg" />
+
+<div  class="content" *ngIf="showFrame">
+  <p>SORT BY</p>
+  <div class="option" (click)="updatePos(1)" [ngClass]="{'selected': pos == 1}">Number # <img *ngIf="pos == 1" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
+  <div class="option" (click)="updatePos(2)" [ngClass]="{'selected': pos == 2}">Title <img *ngIf="pos == 2" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
+  <div class="option" (click)="updatePos(3)" [ngClass]="{'selected': pos == 3}">Summary <img *ngIf="pos == 3" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
+  <div class="option" (click)="updatePos(4)" [ngClass]="{'selected': pos == 4}">Status <img *ngIf="pos == 4" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
+  <hr>
+  <div class="option" (click)="updatePosDown(1)" [ngClass]="{'selected': pos1 == 1}">Ascendent <span class="arrow-down" [ngClass]="{'selected-arrow': pos1 == 1}"></span><img *ngIf="pos1 == 1" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
+  <div class="option" (click)="updatePosDown(2)" [ngClass]="{'selected': pos1 == 2}">Descendent <span class="arrow-up" [ngClass]="{'selected-arrow': pos1 == 2}"></span><img *ngIf="pos1 == 2" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
+  <div class="buttons">
+    <button class="reset btn" (click)="reset()">Reset</button>
+    <button class="apply btn" (click)="apply()">Apply</button>
+  </div>
+</div>
+
