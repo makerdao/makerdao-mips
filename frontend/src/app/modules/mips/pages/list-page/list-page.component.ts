@@ -103,8 +103,6 @@ export class ListPageComponent implements OnInit {
     if (this.filterSaved.arrayStatus[3] === 1) {
       this.filter.contains.push({field: 'status', value: 'rfc' });
     }
-    console.log('paso ' + this.filterSaved.arrayStatus[3]);
-    console.log('paso1 ' + this.filterSaved.arrayStatus[0]);
     this.searchMips();
   }
 

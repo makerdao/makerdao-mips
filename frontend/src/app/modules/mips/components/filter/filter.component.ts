@@ -46,7 +46,6 @@ export class FilterComponent implements OnInit {
   ngOnInit(): void {
     this.statusCLass = 'status-none';
     this.typeCLass = 'type-none';
-    console.log('inicio');
   }
 
   // ----------- Funtion to load the filters
@@ -58,7 +57,6 @@ export class FilterComponent implements OnInit {
       this.titleText = this.filterDataSaved.title;
       // this.setTyepClassAndText(this.filterDataSaved.posType);
       this.selecteds = this.filterDataSaved.arrayStatus;
-      console.log('valores ' + this.selecteds);
       this.cantSelected = this.selecteds.filter(a => a === 1).length;
       if (this.cantSelected === 1) {
         this.setStatusClassAndText(this.filterDataSaved.arrayStatus.findIndex(a => a === 1), true);
