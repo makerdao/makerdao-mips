@@ -56,6 +56,10 @@ export class MipsService {
     return this.http.get(`${environment.apiUrl}/mips/findone/${id}`);
   }
 
+  sendFeedBack(subject: string, description: string): Observable<any> {
+    return this.http.post(`${environment.feedBackFormUrl}`, { subject, description });
+  }
+
   getPullRequestHistory(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/mips/pullrequests`);
   }

@@ -24,6 +24,7 @@ import { OrderMobileComponent } from './components/order-mobile/order-mobile.com
 import { DetailsMobilesButtonsComponent } from './components/details-mobiles-buttons/details-mobiles-buttons.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -55,6 +56,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     InfiniteScrollModule,
+    MatIconModule,
     MarkdownModule.forRoot(),
   ]
 })

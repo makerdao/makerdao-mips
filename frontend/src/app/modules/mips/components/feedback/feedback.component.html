@@ -1,10 +1,13 @@
-<img (click)="showContainer = !showContainer" class="logo" src="../../../../../assets/images/feedback.svg" />
+<img *ngIf="!sent" (click)="showContainer = !showContainer" class="logo" src="../../../../../assets/images/feedback.svg" />
+<div *ngIf="sent" class="frame">
+  <mat-icon>thumb_up</mat-icon>
+</div>
 <div class="container" *ngIf="showContainer">
   <img src="../../../../../assets/images/feed_text.svg" />
-  <input type="text" placeholder="Subject" />
-  <textarea placeholder="Description"></textarea>
+  <input (keyup)="onKey()" type="text" #input placeholder="Subject" />
+  <textarea (keyup)="onKey()" #textarea placeholder="Description"></textarea>
   <div class="buttons">
-    <button class="reset btn" (click)="cancel()">Cancel</button>
-    <button class="apply btn">Send</button>
+    <button (click)="cancel()" class="reset btn">Cancel</button>
+    <button (click)="sendFeedback()" class="apply btn" [disabled]="disabled">Send</button>
   </div>
 </div>
