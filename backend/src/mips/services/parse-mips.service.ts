@@ -100,10 +100,11 @@ export class ParseMIPsService {
         const fileString = await readFile(dir, "utf-8");
         const mip = this.parseLexerData(fileString, item);
 
-        if (mip) {
+        if (mip) {          
           // This validation exclude the subproposals
-          if(mip.mip != -1 && mip.mip != undefined) {
-            createItems.push(mip);
+          if(mip.mip != -1 && mip.mip != undefined) {        
+            mip.file = this.updateLinks(mip.file, mip.mip);
+            createItems.push(mip);                    
           }
         }
       } else {
@@ -286,5 +287,23 @@ export class ParseMIPsService {
     let dir = `${this.baseDir}/${filename}`;    
     const fileString = await readFile(dir, "utf-8");
     return await this.markedService.markedLexer(fileString);    
+  }
+
+  updateLinks(file: string, mip: number): string {
+    const backend = `${this.configService.get<string>(
+      Env.GithubLinks
+    )}`;  
+
+    let regEx = new RegExp('(.)*');
+    file = file.replace(regEx, ' ');
+
+    regEx = /\[[a-zA-Z0-9._%+-]+\]\([a-zA-Z0-9._%+-]+\)/g;
+    const find = file.match(regEx);
+    for (let i = 0; i < find.length; i++) {
+      let split = find[i].split('(');
+      const change = split[0] + '(' + backend + 'MIP' + mip + '/' + split[1];
+      file = file.replace(find[i], change);
+    }
+    return file;
   }
 }

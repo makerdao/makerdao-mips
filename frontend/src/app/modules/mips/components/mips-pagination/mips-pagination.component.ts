@@ -21,25 +21,31 @@ export class MipsPaginationComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.mipPosition = this.mipPosition !== undefined ? this.mipPosition : 0;
+  }
 
   loadMipsData(): void {
-    this.mipsService.updateActiveSearch(true);
-    this.mipPosition++;
-    clearTimeout(this.timeout);
-    const $this = this;
-    this.timeout = setTimeout(() => {
-        $this.send.emit(this.mipPosition);
-    }, 1000);
+    if (this.mipPosition < this.total - 1) {
+      this.mipsService.updateActiveSearch(true);
+      this.mipPosition++;
+      clearTimeout(this.timeout);
+      const $this = this;
+      this.timeout = setTimeout(() => {
+          $this.send.emit(this.mipPosition);
+      }, 1000);
+    }
   }
 
   minus(): void {
-    this.mipPosition--;
-    clearTimeout(this.timeout);
-    const $this = this;
-    this.timeout = setTimeout(() => {
-        $this.send.emit(this.mipPosition);
-    }, 1000);
+    if (this.mipPosition > 0) {
+      this.mipPosition--;
+      clearTimeout(this.timeout);
+      const $this = this;
+      this.timeout = setTimeout(() => {
+          $this.send.emit(this.mipPosition);
+      }, 1000);
+    }
   }
 
   clearFilterAndGoHome(): void {

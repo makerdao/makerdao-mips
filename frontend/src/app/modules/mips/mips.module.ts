@@ -23,6 +23,7 @@ import { SearchMobileComponent } from './components/search-mobile/search-mobile.
 import { OrderMobileComponent } from './components/order-mobile/order-mobile.component';
 import { DetailsMobilesButtonsComponent } from './components/details-mobiles-buttons/details-mobiles-buttons.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { FeedbackComponent } from './components/feedback/feedback.component';
 
 
 
@@ -43,7 +44,8 @@ import { MarkdownModule } from 'ngx-markdown';
     DetailsPageComponent,
     SearchMobileComponent,
     OrderMobileComponent,
-    DetailsMobilesButtonsComponent
+    DetailsMobilesButtonsComponent,
+    FeedbackComponent
   ],
   imports: [
     CommonModule,
