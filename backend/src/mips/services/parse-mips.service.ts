@@ -104,7 +104,7 @@ export class ParseMIPsService {
           // This validation exclude the subproposals
           if(mip.mip != -1 && mip.mip != undefined) {        
             mip.file = this.updateLinks(mip.file, mip.mip);
-            createItems.push(mip);                    
+            createItems.push(mip);
           }
         }
       } else {
@@ -299,10 +299,12 @@ export class ParseMIPsService {
 
     regEx = /\[[a-zA-Z0-9._%+-]+\]\([a-zA-Z0-9._%+-]+\)/g;
     const find = file.match(regEx);
-    for (let i = 0; i < find.length; i++) {
-      let split = find[i].split('(');
-      const change = split[0] + '(' + backend + 'MIP' + mip + '/' + split[1];
-      file = file.replace(find[i], change);
+    if (Array.isArray(find)) {
+      for (let i = 0; i < find.length; i++) {
+        let split = find[i].split('(');
+        const change = split[0] + '(' + backend + 'MIP' + mip + '/' + split[1];
+        file = file.replace(find[i], change);
+      }     
     }
     return file;
   }

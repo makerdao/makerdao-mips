@@ -21,23 +21,15 @@ export class MIPsService {
     filter?: Filters
   ): Promise<IMIPs[]> {
     const buildFilter = this.buildFilter(search, filter);
-    const { limit, page } = paginationQuery;   
-    
-    // return this.mipsDoc
-    //   .find({$or: [{title: {$regex: /Lende/, $options: "i"}}], $and: [{$or: []}] })
-    //   .select(["-file", "-__v"])
-    //   .sort(order)
-    //   .skip(page * limit)
-    //   .limit(limit)
-    //   .exec();
+    const { limit, page } = paginationQuery;     
 
-      return this.mipsDoc
-      .find(buildFilter)
-      .select(["-file", "-__v"])
-      .sort(order)
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+    return this.mipsDoc
+    .find(buildFilter)
+    .select(["-file", "-__v"])
+    .sort(order)
+    .skip(page * limit)
+    .limit(limit)
+    .exec();
   }
 
   count(search: string, filter?: Filters): Promise<number> {
