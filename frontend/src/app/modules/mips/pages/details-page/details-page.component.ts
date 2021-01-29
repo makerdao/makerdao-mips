@@ -28,6 +28,7 @@ export class DetailsPageComponent implements OnInit {
         this.total = this.mipsService.getTotal();
         this.loadData();
         this.mipsService.updateActiveSearch(true);
+        this.moveToElement();
       }
     });
   }
@@ -36,8 +37,8 @@ export class DetailsPageComponent implements OnInit {
     this.mipsService.getMip(this.mipId)
     .subscribe(data => {
       this.mip = data.mips;
-      const regEx = new RegExp('(.)*');
-      this.mip.file = this.mip.file.replace(regEx, ' ');
+      // const regEx = new RegExp('(.)*');
+      // this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = data.sections;
     });
     this.mipsService.getPullRequestHistory()
@@ -54,6 +55,11 @@ export class DetailsPageComponent implements OnInit {
     const data = this.mipsService.getMipsData();
     this.mipId = data[position]._id;
     this.loadData();
+  }
+
+  moveToElement(): void {
+    const el = document.getElementById('logo');
+    el.scrollIntoView();
   }
 
 }

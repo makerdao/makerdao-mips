@@ -81,7 +81,6 @@ export class ListPageComponent implements OnInit {
     };
 
     this.filterSaved = this.mipsService.getFilter();
-
     if (this.filterSaved.type === 'PROPOSAL') {
       this.filter.notequals.push({field: 'mip', value: -1});
     }
@@ -102,6 +101,9 @@ export class ListPageComponent implements OnInit {
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
       this.filter.contains.push({field: 'status', value: 'rfc' });
+    }
+    if (this.filterSaved.arrayStatus[4] === 1) {
+      this.filter.contains.push({field: 'status', value: 'obsolete' });
     }
     this.searchMips();
   }

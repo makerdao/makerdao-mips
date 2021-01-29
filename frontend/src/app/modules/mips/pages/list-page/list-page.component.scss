@@ -17,7 +17,7 @@ app-search {
 
 app-filter {
   margin-top: 2px;
-  z-index: 5;
+  z-index: 1;
 }
 
 app-order-mobile {
@@ -29,8 +29,25 @@ app-search-mobile {
   margin-top: 14px;
 }
 
+.feedback {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  app-feedback {
+    z-index: 2;
+    transform: translate(24px, 20px);
+  }
+}
 .mobile {
   display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .feedback {
+    app-feedback {
+      transform: translate(5px, 10px);
+    }
+  }
 }
 
 @media screen and (max-width: 539px) {
@@ -51,5 +68,13 @@ app-search-mobile {
 
   .no-mobile {
     display: none;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .feedback {
+    app-feedback {
+      transform: translate(160px, -60px);
+    }
   }
 }

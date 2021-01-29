@@ -1,4 +1,4 @@
-<div class="container">  
+<div class="container">
   <div class="button no-mobile" (click)="showFilter()">
       <img *ngIf="!contentOptionsShow else blue" src="../../../../../assets/images/icon_filter.svg" />
       <ng-template #blue>
@@ -15,23 +15,25 @@
     </div>
     <div class="data">
       <div class="label">Status:</div>
-      <input type="text" class="status" [ngClass]="statusCLass" value="{{statusInputText}}" disabled>      
+      <input type="text" class="status" [ngClass]="statusCLass" value="{{statusInputText}}" disabled>
       <div class="status-squares" *ngIf="cantSelected > 1">
         <div class="square accepted" *ngIf="selecteds[0] == 1" (click)="setStatusClassAndText(0)">A</div>
         <div class="square rejected" *ngIf="selecteds[1] == 1" (click)="setStatusClassAndText(1)">R</div>
         <div class="square archived" *ngIf="selecteds[2] == 1" (click)="setStatusClassAndText(2)">A</div>
         <div class="square rfc" *ngIf="selecteds[3] == 1" (click)="setStatusClassAndText(3)">R</div>
+        <div class="square obsolete" *ngIf="selecteds[4] == 1" (click)="setStatusClassAndText(4)">O</div>
       </div>
       <div class="square" (click)="statusOptionsShow = !statusOptionsShow; typeOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': statusOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
       <div class="status-options frame" *ngIf="statusOptionsShow" (onmouseout)="statusOptionsShow = false">
-        <div class="status-option" (click)="setStatusClassAndText(4)"><div class="option status-none">NONE</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(5)"><div class="option status-none">NONE</div></div>
         <div class="status-option" (click)="setStatusClassAndText(0, true)"><div class="option status-accepted">ACCEPTED</div></div>
         <div class="status-option" (click)="setStatusClassAndText(1, true)"><div class="option status-rejected ">REJECTED</div></div>
         <div class="status-option" (click)="setStatusClassAndText(2, true)"><div class="option status-archive">ARCHIVE</div></div>
         <div class="status-option" (click)="setStatusClassAndText(3, true)"><div class="option status-rfc">RFC</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(4, true)"><div class="option status-obsolete">OBSOLETE</div></div>
       </div>
     </div>
-    
+
     <!-- Filter by type disabled, no subproposal now
     Keep the code in case the subproposal will be included again -->
 

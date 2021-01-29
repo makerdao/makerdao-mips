@@ -120,10 +120,22 @@ export class FilterComponent implements OnInit {
                 break;
               }
       case 4: {
+                if (this.selecteds[4] === 0)  {
+                  this.selecteds[4] = 1;
+                  this.cantSelected++;
+                } else {
+                  if (!add) {
+                    this.selecteds[4] = 0;
+                    this.cantSelected--;
+                  }
+                }
+                break;
+              }
+      case 5: {
                 this.statusCLass = 'status-none';
                 this.statusInputText = 'Select status';
                 this.statusOptionsShow = false;
-                this.selecteds = [0 , 0, 0, 0];
+                this.selecteds = [0 , 0, 0, 0, 0];
                 this.cantSelected = 0;
                 break;
               }
@@ -152,9 +164,9 @@ export class FilterComponent implements OnInit {
     this.inputTitle.nativeElement.value = '';
     this.typeInputText = 'NONE';
     this.statusInputText = 'Select status';
-    this.posStatus = 4;
+    this.posStatus = 5;
     this.posType = 2;
-    this.selecteds = [0, 0, 0, 0];
+    this.selecteds = [0, 0, 0, 0, 0];
     this.apply();
   }
 
@@ -177,6 +189,7 @@ export class FilterComponent implements OnInit {
     if (this.selecteds[1] === 1 ) { return 'status-rejected'; }
     if (this.selecteds[2] === 1 ) { return 'status-archive'; }
     if (this.selecteds[3] === 1 ) { return 'status-rfc'; }
+    if (this.selecteds[4] === 1 ) { return 'status-obsolete'; }
   }
 
   getText(): string {
@@ -185,6 +198,7 @@ export class FilterComponent implements OnInit {
       if (this.selecteds[1] === 1 ) { return 'REJECTED'; }
       if (this.selecteds[2] === 1 ) { return 'ARCHIVE'; }
       if (this.selecteds[3] === 1 ) { return 'RFC'; }
+      if (this.selecteds[4] === 1 ) { return 'OBSOLETE'; }
     }
     if (this.cantSelected === 0) { return 'Select status'; }
     return '';

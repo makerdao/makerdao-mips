@@ -1,0 +1,10 @@
+<img (click)="showContainer = !showContainer" class="logo" src="../../../../../assets/images/feedback.svg" />
+<div class="container" *ngIf="showContainer">
+  <img src="../../../../../assets/images/feed_text.svg" />
+  <input type="text" placeholder="Subject" />
+  <textarea placeholder="Description"></textarea>
+  <div class="buttons">
+    <button class="reset btn" (click)="cancel()">Cancel</button>
+    <button class="apply btn">Send</button>
+  </div>
+</div>
