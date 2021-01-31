@@ -11,7 +11,8 @@ export class FilterComponent implements OnInit {
 
   statusCLass: string;
   typeCLass: 'type-selected' | 'type-none';
-  statusInputText  = 'Select status';
+  statusInputText  = '';
+  statusPlaceHolder = 'Select Status';
   statusOptionsShow = false;
   typeInputText  = 'Select type';
   typeOptionsShow = false;
@@ -133,9 +134,9 @@ export class FilterComponent implements OnInit {
               }
       case 5: {
                 this.statusCLass = 'status-none';
-                this.statusInputText = 'Select status';
                 this.statusOptionsShow = false;
                 this.selecteds = [0 , 0, 0, 0, 0];
+                this.statusInputText = this.getText();
                 this.cantSelected = 0;
                 break;
               }
@@ -163,7 +164,7 @@ export class FilterComponent implements OnInit {
     this.setTyepClassAndText(2);
     this.inputTitle.nativeElement.value = '';
     this.typeInputText = 'NONE';
-    this.statusInputText = 'Select status';
+    this.statusInputText = '';
     this.posStatus = 5;
     this.posType = 2;
     this.selecteds = [0, 0, 0, 0, 0];
@@ -193,6 +194,7 @@ export class FilterComponent implements OnInit {
   }
 
   getText(): string {
+    this.statusPlaceHolder = 'Select Status';
     if (this.cantSelected === 1) {
       if (this.selecteds[0] === 1 ) { return 'ACCEPTED'; }
       if (this.selecteds[1] === 1 ) { return 'REJECTED'; }
@@ -200,7 +202,8 @@ export class FilterComponent implements OnInit {
       if (this.selecteds[3] === 1 ) { return 'RFC'; }
       if (this.selecteds[4] === 1 ) { return 'OBSOLETE'; }
     }
-    if (this.cantSelected === 0) { return 'Select status'; }
+    if (this.cantSelected === 0) { return ''; }
+    this.statusPlaceHolder = '';
     return '';
   }
 

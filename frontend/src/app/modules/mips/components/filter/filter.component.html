@@ -15,7 +15,7 @@
     </div>
     <div class="data">
       <div class="label">Status:</div>
-      <input type="text" class="status" [ngClass]="statusCLass" value="{{statusInputText}}" disabled>
+      <input type="text" class="status" [ngClass]="statusCLass" placeholder="{{statusPlaceHolder}}" value="{{statusInputText}}" disabled>
       <div class="status-squares" *ngIf="cantSelected > 1">
         <div class="square accepted" *ngIf="selecteds[0] == 1" (click)="setStatusClassAndText(0)">A</div>
         <div class="square rejected" *ngIf="selecteds[1] == 1" (click)="setStatusClassAndText(1)">R</div>
