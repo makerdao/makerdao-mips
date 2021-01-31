@@ -9,10 +9,10 @@ import * as moment from 'moment';
 export class PullRequestHistoryComponent implements OnInit {
 
   @Input() pullrequest: any;
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getPullNumber(url: string): string {
     const data = url.split('/');
