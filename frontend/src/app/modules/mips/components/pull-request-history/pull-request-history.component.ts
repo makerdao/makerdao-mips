@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import moment from 'moment';
 
 @Component({
   selector: 'app-pull-request-history',
@@ -18,11 +19,10 @@ export class PullRequestHistoryComponent implements OnInit {
     return data[data.length - 1];
   }
 
-  // getDifferenceInDays(date1): number {
-  //   let date2 = new Date();
-  //   const diffInMs = Math.abs(date2 - date1);
-  //   return diffInMs / (1000 * 60 * 60 * 24);
-  // }
+  getDifferenceInDays(date): number {
+    const today = moment();
+    return today.diff(date, 'days');
+  }
 
   goToMipsPullHistory(): void {
     window.location.href = this.pullrequest.url;
