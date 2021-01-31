@@ -4,7 +4,7 @@ export const pullRequests = gql`
   query repository($name: String!, $owner: String!) {
     repository(name: $name, owner: $owner) {
       url
-      pullRequests(orderBy: { field: CREATED_AT, direction: DESC }, first: 10) {
+      pullRequests(orderBy: { field: CREATED_AT, direction: DESC }, first: 3) {
         totalCount        
         nodes {
           url
