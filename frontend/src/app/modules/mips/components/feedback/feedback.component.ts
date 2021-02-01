@@ -22,6 +22,7 @@ sent = false;
 
   cancel(): void {
    this.showContainer = false;
+   this.disabled = true;
  }
 
  sendFeedback(): void {
