@@ -296,7 +296,7 @@ export class ParseMIPsService {
   }
 
   async parseSections(filename: string): Promise<any> {        
-    let dir = `${this.baseDir}/${filename}`;    
+    const dir = `${this.baseDir}/${filename}`;    
     const fileString = await readFile(dir, "utf-8");
     return await this.markedService.markedLexer(fileString);    
   }
@@ -313,7 +313,7 @@ export class ParseMIPsService {
     const find = file.match(regEx);
     if (Array.isArray(find)) {
       for (let i = 0; i < find.length; i++) {
-        let split = find[i].split('(');
+        const split = find[i].split('(');
         const change = split[0] + '(' + backend + 'MIP' + mip + '/' + split[1];
         file = file.replace(find[i], change);
       }     
