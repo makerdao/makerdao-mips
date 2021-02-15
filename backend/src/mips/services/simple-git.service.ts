@@ -57,6 +57,20 @@ export class SimpleGitService {
         .filter((data) => data.length > 3 && !data.includes("placeholder.md"))
         .map((data) => {
           const newData = data.replace("\t", " ").split(" ");
+
+          if (newData.length > 4) {
+            let filename = newData[3];
+
+            for (let i = 4; i < newData.length; i++) {
+              filename = `${filename} ${newData[i]}`;              
+            }
+
+            return {
+              filename: filename,
+              hash: newData[1].trim(),
+            };
+          }
+
           return {
             filename: newData[3].trim(),
             hash: newData[1].trim(),

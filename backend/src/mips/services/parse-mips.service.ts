@@ -42,6 +42,7 @@ export class ParseMIPsService {
 
   async parse(): Promise<boolean> {    
     try {
+      this.simpleGitService.pull();
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
@@ -103,9 +104,6 @@ export class ParseMIPsService {
         const dir = `${this.baseDir}/${item.filename}`;
 
         try {
-
-          console.log(dir);
-
           const fileString = await readFile(dir, "utf-8");
           const mip = this.parseLexerData(fileString, item);
 
