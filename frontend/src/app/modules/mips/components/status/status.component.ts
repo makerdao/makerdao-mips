@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class StatusComponent implements OnInit {
 
-  @Input() type: 'ACCEPTED' | 'REJECTED' | 'ARCHIVE' | 'RFC' | 'NONE';
+  @Input() type: 'ACCEPTED' | 'REJECTED' | 'ARCHIVE' | 'RFC' | 'NONE' | 'OBSOLETE';
 
   constructor() { }
 

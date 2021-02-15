@@ -113,6 +113,9 @@ const language = 'typescript';
       if (data.toLocaleLowerCase().includes('archived')) {
         return 'ARCHIVED';
       }
+      if (data.toLocaleLowerCase().includes('obsolete')) {
+        return 'OBSOLETE';
+      }
     }
 
     // return data;

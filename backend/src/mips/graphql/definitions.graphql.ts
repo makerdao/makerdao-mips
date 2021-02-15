@@ -5,18 +5,18 @@ export const pullRequests = gql`
     repository(name: $name, owner: $owner) {
       url
       pullRequests(orderBy: { field: CREATED_AT, direction: DESC }, first: 10) {
-        totalCount
-        author {
-          avatarUrl
-          login
-          resourcePath
-          url
-        }
+        totalCount        
         nodes {
           url
           title
           body
           createdAt
+          author {
+            avatarUrl
+            login
+            resourcePath
+            url
+          }
         }
       }
     }

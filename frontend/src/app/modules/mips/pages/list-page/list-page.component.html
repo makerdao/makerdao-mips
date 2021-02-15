@@ -7,13 +7,16 @@
     <app-filter (send)="onSendFilters()"></app-filter>
   </div>
 </div>
-<app-list 
-[loading]="loading" 
+<app-list
+[loading]="loading"
 [loadingPlus]="loadingPlus"
 [moreToLoad]="moreToLoad"
-[dataSource]="mips" 
-[paginationTotal]="total" 
-(send)="onSendPagination()" 
+[dataSource]="mips"
+[paginationTotal]="total"
+(send)="onSendPagination()"
 (sendOrder)="onSendOrder($event)"
 ></app-list>
+<div class="feedback">
+  <app-feedback></app-feedback>
+</div>
 

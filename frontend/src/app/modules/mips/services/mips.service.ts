@@ -56,6 +56,10 @@ export class MipsService {
     return this.http.get(`${environment.apiUrl}/mips/findone/${id}`);
   }
 
+  sendFeedBack(subject: string, description: string): Observable<any> {
+    return this.http.post(`${environment.feedBackFormUrl}`, { subject, description });
+  }
+
   getPullRequestHistory(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/mips/pullrequests`);
   }
@@ -85,7 +89,7 @@ export class MipsService {
   }
 
   clearFilter(): void {
-    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0]};
+    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0, 0]};
   }
 
 }

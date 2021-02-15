@@ -44,14 +44,14 @@
       font-weight: 400;
       line-height: 22px;
     }
-    
+
     .status-squares {
       position: absolute;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       transform: translate(74px, 2px);
-      width: 82px;      
+      width: 82px;
       .square {
         height: 16px;
         width: 100%;
@@ -66,15 +66,19 @@
         }
         &.rejected {
           border: 1px solid #EB5757;
-          color: #EB5757;          
+          color: #EB5757;
         }
         &.archived {
           border: 1px solid #748AA1;
-          color: #748AA1;          
+          color: #748AA1;
         }
         &.rfc {
           border: 1px solid #F2994A;
-          color: #F2994A;          
+          color: #F2994A;
+        }
+        &.obsolete {
+          border: 1px solid #b5b12a;
+          color: #b5b12a;
         }
       }
     }
@@ -97,6 +101,7 @@
       &::placeholder {
         color: #BCBEC7;
         font-size: 12px;
+        font-weight: 700;
       }
       &.status-accepted {
         border: 1px solid #27AE60;
@@ -113,6 +118,10 @@
       &.status-rfc {
         border: 1px solid #F2994A;
         color: #F2994A;
+      }
+      &.status-obsolete {
+        border: 1px solid #b5b12a;
+        color: #b5b12a;
       }
       &.status-none {
         border: 1px solid #BCBEC7;
@@ -231,6 +240,10 @@
 .status-rfc {
   border: 1px solid #F2994A;
   color: #F2994A;
+}
+.status-obsolete {
+  border: 1px solid #b5b12a;
+  color: #b5b12a;
 }
 .status-none {
   border: 1px solid #BCBEC7;

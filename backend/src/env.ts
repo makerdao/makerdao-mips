@@ -9,4 +9,5 @@ export enum Env {
   GithubUrlApiEndpoint = "GITHUB_URL_API_ENDPOINT",
   GithubRepository = "GITHUB_REPOSITORY",
   GithubRepositoryOwner = "GITHUB_REPOSITORY_OWNER",
+  GithubLinks = "GITHUB_LINKS",
 }

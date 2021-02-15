@@ -30,6 +30,9 @@ export class MipDetailsComponent implements OnInit {
       if (data.toLocaleLowerCase().includes('archived')) {
         return 'ARCHIVED';
       }
+      if (data.toLocaleLowerCase().includes('obsolete')) {
+        return 'OBSOLETE';
+      }
     }
 
     // return data;

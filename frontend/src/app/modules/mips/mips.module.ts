@@ -23,6 +23,8 @@ import { SearchMobileComponent } from './components/search-mobile/search-mobile.
 import { OrderMobileComponent } from './components/order-mobile/order-mobile.component';
 import { DetailsMobilesButtonsComponent } from './components/details-mobiles-buttons/details-mobiles-buttons.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { FeedbackComponent } from './components/feedback/feedback.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -43,7 +45,8 @@ import { MarkdownModule } from 'ngx-markdown';
     DetailsPageComponent,
     SearchMobileComponent,
     OrderMobileComponent,
-    DetailsMobilesButtonsComponent
+    DetailsMobilesButtonsComponent,
+    FeedbackComponent
   ],
   imports: [
     CommonModule,
@@ -53,6 +56,7 @@ import { MarkdownModule } from 'ngx-markdown';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     InfiniteScrollModule,
+    MatIconModule,
     MarkdownModule.forRoot(),
   ]
 })

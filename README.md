@@ -27,7 +27,7 @@ FOLDER_REPOSITORY_NAME=mips_repository
 REPO_PATH=https://github.com/makerdao/mips.git
 FOLDER_PATTERN='MIP*'
 
-WEBHOOKS_SECRET_TOKEN=AANBM78GGfffGGGKOI
+WEBHOOKS_SECRET_TOKEN=AANBM78GGfffGGGKOIh
 GIT_ACCESS_API_TOKEN=AANBM78GGfffGGGKOI
 GITHUB_URL_ENDPOINT=https://api.github.com/graphql
 
@@ -152,3 +152,4 @@ Filter field with various filter patterns. (contains, notcontains, equals, noteq
 - Page, default value equal to zero
   
 ---
+

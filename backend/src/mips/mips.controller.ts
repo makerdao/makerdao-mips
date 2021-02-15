@@ -158,6 +158,8 @@ export class MIPsController {
         return false;
       }
 
+      this.parseMIPsService.loggerMessage("Webhooks works");
+
       return this.parseMIPsService.parse();
     } catch (error) {
       throw new HttpException(
