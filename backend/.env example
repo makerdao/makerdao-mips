@@ -6,9 +6,10 @@ FOLDER_REPOSITORY_NAME=mips_repository
 REPO_PATH=https://github.com/makerdao/mips.git
 FOLDER_PATTERN='MIP*'
 
-WEBHOOKS_SECRET_TOKEN=ffgghhjj
-GIT_ACCESS_API_TOKEN=ddfffggg
+WEBHOOKS_SECRET_TOKEN=ffgghhjj1111
+GIT_ACCESS_API_TOKEN=ddfffggg111
 GITHUB_URL_ENDPOINT=https://api.github.com/graphql
-
 GITHUB_REPOSITORY=mips
 GITHUB_REPOSITORY_OWNER=makerdao
+
+GITHUB_LINKS=https://github.com/makerdao/mips/blob/master/
