@@ -36,6 +36,10 @@ export class ParseMIPsService {
     )}`;
   }
 
+  loggerMessage(message: string) {
+    this.logger.log(message);
+  }
+
   async parse(): Promise<boolean> {    
     try {
       this.simpleGitService.pull();
