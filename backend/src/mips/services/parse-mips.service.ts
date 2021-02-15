@@ -42,7 +42,6 @@ export class ParseMIPsService {
 
   async parse(): Promise<boolean> {    
     try {
-      this.simpleGitService.pull();
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
@@ -50,6 +49,7 @@ export class ParseMIPsService {
         this.githubService.pullRequestsOpen(),
         this.githubService.pullRequestsClosed(),
       ]);
+
       const synchronizeData: ISynchronizeData = await this.synchronizeData(
         result[0],
         result[1]
@@ -101,16 +101,26 @@ export class ParseMIPsService {
     for (const item of filesGit) {
       if (!filesDB.has(item.filename)) {
         const dir = `${this.baseDir}/${item.filename}`;
-        const fileString = await readFile(dir, "utf-8");
-        const mip = this.parseLexerData(fileString, item);
 
-        if (mip) {          
-          // This validation exclude the subproposals
-          if(mip.mip != -1 && mip.mip != undefined) {        
-            mip.file = this.updateLinks(mip.file, mip.mip);
-            createItems.push(mip);
-          }
+        try {
+
+          console.log(dir);
+
+          const fileString = await readFile(dir, "utf-8");
+          const mip = this.parseLexerData(fileString, item);
+
+          if (mip) {          
+            // This validation exclude the subproposals
+            if(mip.mip != -1 && mip.mip != undefined) {        
+              mip.file = this.updateLinks(mip.file, mip.mip);
+              createItems.push(mip);
+            }
+          }          
+        } catch (error) {
+          this.logger.log(error); 
+          continue;         
         }
+        
       } else {
         const fileDB = filesDB.get(item.filename);
 
