@@ -109,7 +109,7 @@ export class ParseMIPsService {
 
           if (mip) {          
             // This validation exclude the subproposals
-            if(mip.mip != -1 && mip.mip != undefined) {        
+            if(mip.mip != -1 && mip.mip != undefined && mip.hash !== 'aa6fbbff2dcc9db88e69a05591ad954eee48b9da') {        
               mip.file = this.updateLinks(mip.file, mip.mip);
               createItems.push(mip);
             }
