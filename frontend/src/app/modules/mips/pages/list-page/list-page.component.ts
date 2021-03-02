@@ -43,12 +43,15 @@ export class ListPageComponent implements OnInit {
     });
 
     this.footerVisibleService.isFooterVisible$.subscribe(data => {
-      if (data === true) {
-        document.getElementById('feedback').style.position = 'relative';
-        document.getElementById('feedback').style.bottom = '0px';
+      let elementFeedback = document.getElementById('feedback');
+      if (data === true && elementFeedback) {
+        elementFeedback.style.position = 'relative';
+        elementFeedback.style.bottom = window.innerWidth >= 500 ? '0px' : '-10px';
       } else {
-        document.getElementById('feedback').style.position = 'fixed';
-        document.getElementById('feedback').style.bottom = '40px';
+        if (elementFeedback) {
+          elementFeedback.style.position = 'fixed';
+          elementFeedback.style.bottom = '40px';
+        }
       }
     })
   }
