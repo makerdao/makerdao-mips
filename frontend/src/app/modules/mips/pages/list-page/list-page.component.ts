@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
+import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
 
 @Component({
   selector: 'app-list-page',
@@ -25,7 +26,8 @@ export class ListPageComponent implements OnInit {
   mobileSearch = false;
 
   constructor(
-    private mipsService: MipsService
+    private mipsService: MipsService,
+    private footerVisibleService: FooterVisibleService
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +41,16 @@ export class ListPageComponent implements OnInit {
         this.mipsService.updateActiveSearch(false);
       }
     });
+
+    this.footerVisibleService.isFooterVisible$.subscribe(data => {
+      if (data === true) {
+        document.getElementById('feedback').style.position = 'relative';
+        document.getElementById('feedback').style.bottom = '0px';
+      } else {
+        document.getElementById('feedback').style.position = 'fixed';
+        document.getElementById('feedback').style.bottom = '40px';
+      }
+    })
   }
 
   searchMips(): void {

@@ -8,13 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule  } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ObserveVisibilityDirective
   ],
   imports: [
     BrowserModule,

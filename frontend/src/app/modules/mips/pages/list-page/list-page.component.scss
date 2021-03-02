@@ -33,9 +33,12 @@ app-search-mobile {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  height: 54.44px;
   app-feedback {
     z-index: 2;
     transform: translate(24px, 20px);
+    position: fixed;
+    bottom: 40px;
   }
 }
 .mobile {
