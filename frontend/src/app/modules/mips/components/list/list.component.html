@@ -28,12 +28,12 @@
 
 
          <span *ngIf="column == 'title'">
-           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"  mat-cell *matCellDef="let element;"><span class="tooltiptext">Click for more details</span> <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
+           <td class="tooltip" mat-cell *matCellDef="let element;"><span class="tooltiptext">Click for more details</span> <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
          </span>
          <span *ngIf="column == 'status'">
-           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" >
+           <td class="tooltip" at-cell *matCellDef="let element" >
              <div class="space-status"></div>
-             <app-status [type]="getStatusValue(element.status)"></app-status>
+             <app-status [type]="getStatusValue(element.status)" (click)="onNavigateToDetails(element._id)" style="cursor: pointer;"></app-status>
              <span class="tooltiptext">Click for more details</span>
             </td>
          </span>
@@ -48,10 +48,9 @@
          </span>
          <span *ngIf="column == 'summary'">
            <td class="tooltip"
-           (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"
            mat-cell
            *matCellDef="let element">
-           <div>
+           <div (click)="onNavigateToDetails(element._id)" style="cursor: pointer;">
              <a class="summary" *ngIf="selected != element._id"><br>
               <markdown class="variable-binding variable-binding-summary" [data]="element.sentenceSummary"></markdown></a>
              <a class="paragraphSummary"  *ngIf="selected == element._id"><br>
@@ -59,7 +58,8 @@
             </a>
             </div>
             <div class="space-arrow"></div>
-            <img class="arrow expanded" [ngClass]="{'rotate': selected == element._id}" src="../../../../../assets/images/down.svg"/>
+            <img class="arrow expanded" [ngClass]="{'rotate': selected == element._id}" src="../../../../../assets/images/down.svg"
+            (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"/>
             <span class="tooltiptext">Click for more details</span>
 
           </td>
