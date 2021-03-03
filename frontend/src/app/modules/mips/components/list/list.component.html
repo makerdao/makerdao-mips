@@ -52,9 +52,10 @@
            mat-cell
            *matCellDef="let element">
            <div>
-             <a class="summary" *ngIf="selected != element._id"><br>{{element.sentenceSummary}}</a>
+             <a class="summary" *ngIf="selected != element._id"><br>
+              <markdown class="variable-binding variable-binding-summary" [data]="element.sentenceSummary"></markdown></a>
              <a class="paragraphSummary"  *ngIf="selected == element._id"><br>
-              {{element.paragraphSummary}}
+              <markdown class="variable-binding" [data]="element.paragraphSummary"></markdown>
             </a>
             </div>
             <div class="space-arrow"></div>
@@ -98,8 +99,12 @@
         <app-status [type]="getStatusValue(item.status)"></app-status>
       </div>
       <div class="content">
-        <a *ngIf="selected != item._id" routerLink="/mips/details/{{item._id}}">{{item.sentenceSummary}}</a>
-        <a *ngIf="selected == item._id" routerLink="/mips/details/{{item._id}}">{{item.paragraphSummary}}</a>
+        <a *ngIf="selected != item._id" routerLink="/mips/details/{{item._id}}">
+          <markdown class="variable-binding-content" [data]="item.sentenceSummary"></markdown>
+        </a>
+        <a *ngIf="selected == item._id" routerLink="/mips/details/{{item._id}}">
+          <markdown class="variable-binding-content" [data]="item.paragraphSummary"></markdown>
+        </a>
       </div>
       <div style="clear: both;"></div>
       <div class="more" (click)="updateSelected(item._id)">
