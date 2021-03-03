@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FooterVisibleService } from './services/footer-visible/footer-visible.service';
 
 
 @Component({
@@ -8,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+
+  constructor(private footerVisibleService: FooterVisibleService) {}
+
+  onFooterVisible(event) {
+    this.footerVisibleService.setFooterVisibility(event);
+  }
 }
