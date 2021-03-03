@@ -131,7 +131,7 @@ th {
 .mat-column-status {
   width: 10%;
   max-width: 20px;
-  padding-right: 30px;  
+  padding-right: 30px;
 }
 
 .mat-column-pos {
@@ -310,6 +310,138 @@ a {
   font-size: 14px;
   color: #748AA1;
   margin-top: 35px;
+}
+
+::ng-deep.variable-binding {
+  h2 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+    margin-top: 40px;
+  }
+
+  pre {
+    padding: 16px;
+    background: #F5F6FA;
+    border: 1px solid #F5F6FA;
+    box-shadow: 0px 1px 4px #E5E9F2;
+    border-radius: 5px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #31394D;
+    width: auto;
+    overflow-x: scroll;
+    overflow-wrap: break-word;
+  }
+
+  code {
+    width: 100%;
+  }
+
+  a {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    color: #2F80ED;
+    text-decoration: none;
+  }
+
+  p, ul {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #31394D;
+    margin: 0;
+  }
+
+  hr {
+    background-color: #EBEDF4;
+    height: 1px;
+    border: none;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  h3 {
+    margin-top: 40px;
+  }
+}
+
+::ng-deep.variable-binding-summary {
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+::ng-deep.variable-binding-content {
+  h2 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+    margin-top: 40px;
+  }
+
+  pre {
+    padding: 16px;
+    background: #F5F6FA;
+    border: 1px solid #F5F6FA;
+    box-shadow: 0px 1px 4px #E5E9F2;
+    border-radius: 5px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #31394D;
+    width: auto;
+    overflow-x: scroll;
+    overflow-wrap: break-word;
+  }
+
+  code {
+    width: 100%;
+  }
+
+  a {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    color: #2F80ED;
+    text-decoration: none;
+  }
+
+  p, ul {
+    font-style: normal;
+    font-weight: normal;
+    margin: 0;
+    font-size: 12px;
+    color: #31394D;
+    margin-top: 20px;
+  }
+
+  hr {
+    background-color: #EBEDF4;
+    height: 1px;
+    border: none;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  h3 {
+    margin-top: 40px;
+  }
 }
 
 @media screen and (max-width: 768px) {

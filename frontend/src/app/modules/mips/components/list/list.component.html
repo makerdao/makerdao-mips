@@ -13,7 +13,7 @@
             [dataSource]="dataSource" multiTemplateDataRows
             >
        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay;">
-         
+
          <span *ngIf="column != 'link'">
            <span *ngIf="column != 'pos'">
              <th mat-header-cell *matHeaderCellDef > {{column}} <img class="arrow up" (click)="onSendOrderASC(column)" src="../../../../../assets/images/up.svg"/><img class="arrow down" (click)="onSendOrderDES(column)" src="../../../../../assets/images/down.svg"/> </th>
@@ -26,7 +26,7 @@
            <th mat-header-cell *matHeaderCellDef> {{column}}</th>
          </span>
 
-         
+
          <span *ngIf="column == 'title'">
            <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"  mat-cell *matCellDef="let element;"><span class="tooltiptext">Click for more details</span> <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
          </span>
@@ -52,24 +52,25 @@
            mat-cell
            *matCellDef="let element">
            <div>
-             <a class="summary" *ngIf="selected != element._id"><br>{{element.sentenceSummary}}</a>
+             <a class="summary" *ngIf="selected != element._id"><br>
+              <markdown class="variable-binding variable-binding-summary" [data]="element.sentenceSummary"></markdown></a>
              <a class="paragraphSummary"  *ngIf="selected == element._id"><br>
-              {{element.paragraphSummary}}
+              <markdown class="variable-binding" [data]="element.paragraphSummary"></markdown>
             </a>
             </div>
             <div class="space-arrow"></div>
             <img class="arrow expanded" [ngClass]="{'rotate': selected == element._id}" src="../../../../../assets/images/down.svg"/>
             <span class="tooltiptext">Click for more details</span>
-            
+
           </td>
          </span>
        </ng-container>
 
-       
+
        <ng-container matColumnDef="expandedDetail">
          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
            <div class="maker-element-detail"
-                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">           
+                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
            </div>
          </td>
        </ng-container>
@@ -98,8 +99,12 @@
         <app-status [type]="getStatusValue(item.status)"></app-status>
       </div>
       <div class="content">
-        <a *ngIf="selected != item._id" routerLink="/mips/details/{{item._id}}">{{item.sentenceSummary}}</a>
-        <a *ngIf="selected == item._id" routerLink="/mips/details/{{item._id}}">{{item.paragraphSummary}}</a>
+        <a *ngIf="selected != item._id" routerLink="/mips/details/{{item._id}}">
+          <markdown class="variable-binding-content" [data]="item.sentenceSummary"></markdown>
+        </a>
+        <a *ngIf="selected == item._id" routerLink="/mips/details/{{item._id}}">
+          <markdown class="variable-binding-content" [data]="item.paragraphSummary"></markdown>
+        </a>
       </div>
       <div style="clear: both;"></div>
       <div class="more" (click)="updateSelected(item._id)">
