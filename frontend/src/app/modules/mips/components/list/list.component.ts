@@ -81,6 +81,13 @@ export class ListComponent {
   @Output() send = new EventEmitter();
   @Output() sendOrder = new EventEmitter<string>();
   timeout: any = null;
+  currentSortingColumn: string = '';
+  ascOrderSorting: boolean = true;
+  sortClicked: boolean = false;
+  arrowUp: string = '../../../../../assets/images/up.svg';
+  arrowDown: string = '../../../../../assets/images/down.svg';
+  arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
+  arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
 
   markdown = `## Markdown __rulez__!
 ---
@@ -137,11 +144,17 @@ const language = 'typescript';
   //   }, 1000);
   // }
 
-  onSendOrderASC(value: string): void {
-    this.sendOrder.emit(this.transforValue(value));
-  }
-  onSendOrderDES(value: string): void {
-    this.sendOrder.emit('-' + this.transforValue(value));
+  onSendOrder(value: string): void {
+    let orderPrefix = '';
+    if (this.currentSortingColumn === value) {
+      this.ascOrderSorting = !this.ascOrderSorting;
+      orderPrefix = this.ascOrderSorting ? '' : '-';
+    } else {
+      this.ascOrderSorting = true;
+      this.currentSortingColumn = value;
+    }
+
+    this.sendOrder.emit(orderPrefix + this.transforValue(value));
   }
 
   transforValue(value: string): string {
