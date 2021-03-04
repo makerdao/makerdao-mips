@@ -75,11 +75,19 @@ export class ListPageComponent implements OnInit {
         } else {
           this.moreToLoad = true;
         }
-        if (this.search.toLowerCase() === 'mip') {
-          this.showListSearch = true;
-          this.listSearchMip = this.mips;
-        } else {
-          this.showListSearch = false;
+        if (this.search) {
+          let search = this.search.toLowerCase().trim();
+          if (search.startsWith('mip') && search.length > 3) {
+            this.showListSearch = true;
+            this.listSearchMip = this.mips.map(item => {
+              return {
+                content: "MIP" + item.mip + " " + item.title,
+                id: item._id
+              }
+            });
+          } else {
+            this.showListSearch = false;
+          }
         }
       });
   }
@@ -156,6 +164,6 @@ export class ListPageComponent implements OnInit {
   }
 
   onNavigateToMipDetails(event) {
-    this.router.navigate(["/mips/details/", event._id]);
+    this.router.navigate(["/mips/details/", event.id]);
   }
 }
