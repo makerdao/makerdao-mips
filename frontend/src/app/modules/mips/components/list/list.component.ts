@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, Output, ViewChild, EventEmitt
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatPaginator} from '@angular/material/paginator';
 import {PageEvent} from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 
 const sampleData: DataElement[] = [
@@ -106,6 +107,8 @@ const language = 'typescript';
 ### Blockquote
 > Blockquote to the max`;
 
+  constructor(private router: Router) {}
+
   getStatusValue(data: string): string {
     if (data !== undefined) {
       if (data.toLocaleLowerCase().includes('accepted')) {
@@ -168,6 +171,10 @@ const language = 'typescript';
     if (!this.loading && this.moreToLoad) {
       this.send.emit();
     }
+  }
+
+  onNavigateToDetails(id) {
+    this.router.navigate(["/mips/details/", id]);
   }
 
 }
