@@ -12,6 +12,10 @@
       }
       display: flex;
       flex-direction: column;
+      height: fit-content;
+      position: sticky;
+      position: -webkit-sticky; /* Safari */
+      top: 5px;
     }
   }
 }
