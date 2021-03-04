@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 
 
 @Component({
@@ -15,6 +15,8 @@ export class SearchMobileComponent implements OnInit {
   showClose = false;
   showInput = false;
   text = '';
+  @Input() showListSearch = false;
+  @Input() listSearchItems = [];
 
   constructor() { }
 

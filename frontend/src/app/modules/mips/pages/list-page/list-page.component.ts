@@ -24,6 +24,8 @@ export class ListPageComponent implements OnInit {
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
+  showListSearch: boolean = false;
+  listSearchMip: any[] = [];
 
   constructor(
     private mipsService: MipsService,
@@ -70,6 +72,12 @@ export class ListPageComponent implements OnInit {
           this.moreToLoad = false;
         } else {
           this.moreToLoad = true;
+        }
+        if (this.search === 'mip') {
+          this.showListSearch = true;
+          this.listSearchMip = this.mips;
+        } else {
+          this.showListSearch = false;
         }
       });
   }

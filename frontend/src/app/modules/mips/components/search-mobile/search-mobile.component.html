@@ -3,7 +3,16 @@
   <div class="init">
     <img *ngIf="showInput"  src="../../../../../assets/images/magnifier_dark.png"  />
   </div>
-  <input *ngIf="showInput" type="text" #search placeholder="Search on the list" (keyup)="onKeySearch($event)" value="{{text}}">
+  <input *ngIf="showInput" type="text" #search placeholder="Search on the list" (keyup)="onKeySearch($event)" value="{{text}}"
+    [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}">
+  <div *ngIf="showListSearch" class="ListSearchWrapper">
+    <div class="ListSearch">
+      <div *ngFor="let item of listSearchItems" class="list-search-item">
+        <p>{{item.title}}</p>
+        <img class="arrow-go-to" src="../../../../../assets/images//arrow_go_to.svg">
+      </div>
+    </div>
+  </div>
   <div class="close-container" *ngIf="showInput">
     <img (click)="clear()" src="../../../../../assets/images/close.png" class="imageClose" />
   </div>

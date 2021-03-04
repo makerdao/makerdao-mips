@@ -53,3 +53,66 @@
 
   }
 }
+
+.ListSearchWrapper {
+  position: relative;
+}
+
+.ListSearch {
+  width: 340px;
+  height: 135px;
+  background-color: #fff;
+  box-shadow: 0px 1px 4px #E5E9F2;
+  z-index: 100;
+  position: absolute;
+  border-radius: 0 0 5px 5px;
+  border-top: 1px solid #B8C5D3;
+  overflow-y: scroll;
+}
+
+.list-search-item {
+  height: 45px;
+  padding: 14px;
+  box-sizing: border-box;
+  border-top: 1px solid #EBEDF4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #2F80ED;
+    margin: 0;
+    max-width: 272px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  img.arrow-go-to {
+    width: 12px;
+    position: static;
+  }
+
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.ListSearch::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.ListSearch {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+:host {
+  z-index: 100;
+  // position: relative;
+}

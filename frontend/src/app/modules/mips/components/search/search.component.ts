@@ -15,6 +15,8 @@ export class SearchComponent implements OnInit {
 timeout: any = null;
 @ViewChild('search') inputSearch;
 showClose = false;
+@Input() showListSearch = false;
+@Input() listSearchItems = [];
 
   constructor() { }
 
