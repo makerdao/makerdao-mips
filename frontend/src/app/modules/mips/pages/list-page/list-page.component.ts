@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-page',
@@ -29,7 +30,8 @@ export class ListPageComponent implements OnInit {
 
   constructor(
     private mipsService: MipsService,
-    private footerVisibleService: FooterVisibleService
+    private footerVisibleService: FooterVisibleService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -73,7 +75,7 @@ export class ListPageComponent implements OnInit {
         } else {
           this.moreToLoad = true;
         }
-        if (this.search === 'mip') {
+        if (this.search.toLowerCase() === 'mip') {
           this.showListSearch = true;
           this.listSearchMip = this.mips;
         } else {
@@ -153,4 +155,7 @@ export class ListPageComponent implements OnInit {
     this.mobileSearch = open;
   }
 
+  onNavigateToMipDetails(event) {
+    this.router.navigate(["/mips/details/", event._id]);
+  }
 }

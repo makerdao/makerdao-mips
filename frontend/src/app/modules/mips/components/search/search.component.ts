@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -17,6 +18,7 @@ timeout: any = null;
 showClose = false;
 @Input() showListSearch = false;
 @Input() listSearchItems = [];
+@Output() clickSearchItem = new Subject<any>();
 
   constructor() { }
 
@@ -39,5 +41,9 @@ showClose = false;
     this.showClose = false;
     this.inputSearch.nativeElement.value = '';
     this.onChange(this.inputSearch.nativeElement.value);
+  }
+
+  onClickSearchItem(element) {
+    this.clickSearchItem.next(element);
   }
 }

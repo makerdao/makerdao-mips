@@ -6,7 +6,8 @@
       [listSearchItems]="listSearchMip"></app-search-mobile>
     <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)"></app-order-mobile>
     <app-search class="no-mobile" (send)="onSendSearch($event)" [showListSearch]="showListSearch"
-      [listSearchItems]="listSearchMip"></app-search>
+      [listSearchItems]="listSearchMip"
+      (clickSearchItem)="onNavigateToMipDetails($event)"></app-search>
     <app-filter (send)="onSendFilters()"></app-filter>
   </div>
 </div>
