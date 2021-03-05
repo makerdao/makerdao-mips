@@ -37,7 +37,7 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm i
-          npm run build --prod
+          npm run build-prod
         working-directory: frontend
       - name: Copy file via scp
         uses: appleboy/scp-action@master
