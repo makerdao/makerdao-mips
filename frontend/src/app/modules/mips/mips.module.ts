@@ -25,6 +25,7 @@ import { DetailsMobilesButtonsComponent } from './components/details-mobiles-but
 import { MarkdownModule } from 'ngx-markdown';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatIconModule } from '@angular/material/icon';
+import { SecurityContext } from '@angular/core';
 
 
 
@@ -57,7 +58,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     InfiniteScrollModule,
     MatIconModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    }),
   ]
 })
 export class MipsModule { }

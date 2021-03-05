@@ -30,7 +30,7 @@ export class ProposalComponentsComponent implements OnInit {
     let found: any = false;
 
     for (let i = 0; i < aTags.length; i++) {
-      if (aTags[i].textContent === text) {
+      if (aTags[i].textContent.split('link')[1].trim() === text) {
         found = aTags[i];
         break;
       }
