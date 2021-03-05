@@ -47,7 +47,7 @@ jobs:
         PASSWORD: ${{ secrets.SSH_PASS }}
       with:
         source: "./backend"
-        target: "/var/warehouse/develop/makerdao-mips"
+        target: "/var/warehouse/makerdao-mips-develop"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
@@ -57,7 +57,7 @@ jobs:
         PORT: ${{ secrets.SSH_PORT }}
         PASSWORD: ${{ secrets.SSH_PASS }}
         script: | 
-          cd /var/warehouse/develop/makerdao-mips/backend
+          cd /var/warehouse/makerdao-mips-develop/backend
           pm2 stop all
           npm install
           npm run build
