@@ -27,6 +27,7 @@ export class ListPageComponent implements OnInit {
   mobileSearch = false;
   showListSearch: boolean = false;
   listSearchMip: any[] = [];
+  activateSuggestionsSearch: boolean = false;
 
   constructor(
     private mipsService: MipsService,
@@ -75,19 +76,17 @@ export class ListPageComponent implements OnInit {
         } else {
           this.moreToLoad = true;
         }
-        if (this.search) {
-          let search = this.search.toLowerCase().trim();
-          if (search.startsWith('mip') && search.length > 3) {
-            this.showListSearch = true;
+
+        if (this.activateSuggestionsSearch) {
+          this.showListSearch = true;
             this.listSearchMip = this.mips.map(item => {
               return {
                 content: "MIP" + item.mip + " " + item.title,
                 id: item._id
               }
             });
-          } else {
-            this.showListSearch = false;
-          }
+        } else {
+          this.showListSearch = false;
         }
       });
   }
@@ -142,6 +141,16 @@ export class ListPageComponent implements OnInit {
   }
 
   onSendSearch(text: string): void {
+    let search = text.toLowerCase().trim();
+
+    if (search.startsWith('mip')) {
+      this.activateSuggestionsSearch = true;
+      this.limit = 0;
+    } else {
+      this.activateSuggestionsSearch = false;
+      this.limit = 10;
+    }
+
     this.loading = true;
     this.limitAux = 10;
     this.mips = [];
