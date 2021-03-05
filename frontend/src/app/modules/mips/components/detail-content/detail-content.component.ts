@@ -69,7 +69,7 @@ export class DetailContentComponent implements OnInit {
       return `
              <h${level}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
-                 <i id="${escapedText}" class="material-icons">link</i>
+                 <i id="${escapedText}" class="fas fa-link"></i>
                </a>
                ${text}
              </h${level}>`;
