@@ -5,11 +5,9 @@ name: Node.js develop CI
 
 on:
   push:
-    branches:
-      - master
-      - develop
+    branches: [ develop ] 
     paths:
-        - "backend/**"   
+        - "backend/**"  
 
 jobs:
   build:
@@ -47,7 +45,7 @@ jobs:
         PASSWORD: ${{ secrets.SSH_PASS }}
       with:
         source: "./backend"
-        target: "/var/warehouse/makerdao-mips"
+        target: "/var/warehouse/makerdao-mips-develop"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
@@ -57,10 +55,10 @@ jobs:
         PORT: ${{ secrets.SSH_PORT }}
         PASSWORD: ${{ secrets.SSH_PASS }}
         script: | 
-          cd /var/warehouse/makerdao-mips/backend
-          pm2 stop all
+          cd /var/warehouse/makerdao-mips-develop/backend
+          pm2 stop dist/main.js
           npm install
           npm run build
           npm run pre-start
           npx nestjs-command parse:mips
-          pm2 start all
+          pm2 start dist/main.js --name "api-dev"
