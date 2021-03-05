@@ -56,9 +56,9 @@ jobs:
         PASSWORD: ${{ secrets.SSH_PASS }}
         script: | 
           cd /var/warehouse/makerdao-mips-develop/backend
-          pm2 stop all
+          pm2 stop dist/main.js
           npm install
           npm run build
           npm run pre-start
           npx nestjs-command parse:mips
-          pm2 start all
+          pm2 start dist/main.js --name "api-dev"
