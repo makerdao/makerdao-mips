@@ -13,7 +13,7 @@ on:
     paths:
       - "frontend/**"
 
-name: Build Angular
+name: Build DEV Angular
 
 jobs:
   build:
@@ -50,4 +50,4 @@ jobs:
           PASSWORD: ${{ secrets.SSH_PASS }}
         with:
           source: "./frontend/dist"
-          target: "/var/warehouse/makerdao-mips"
+          target: "/var/warehouse/develop/makerdao-mips"
