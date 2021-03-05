@@ -45,6 +45,15 @@ app-search-mobile {
   display: none;
 }
 
+::ng-deep {
+  app-filter-list {
+    .filter-list {
+      width: 100vw !important;
+      margin-left: -20px;
+    }
+  }
+}
+
 @media screen and (max-width: 500px) {
   .feedback {
     app-feedback {

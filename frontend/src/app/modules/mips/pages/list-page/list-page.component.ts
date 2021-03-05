@@ -102,9 +102,6 @@ export class ListPageComponent implements OnInit {
     if (this.filterSaved.type === 'SUB-PROPOSAL') {
       this.filter.equals.push({field: 'mip', value: -1});
     }
-    if (this.filterSaved.title !== '') {
-      this.filter.contains.push({field: 'title', value: this.filterSaved.title });
-    }
     if (this.filterSaved.arrayStatus[0] === 1) {
       this.filter.contains.push({field: 'status', value: 'accepted' });
     }

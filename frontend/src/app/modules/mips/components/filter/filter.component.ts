@@ -17,8 +17,6 @@ export class FilterComponent implements OnInit {
   typeInputText  = 'Select type';
   typeOptionsShow = false;
   @Input() contentOptionsShow = false;
-  titleText = '';
-  @ViewChild('title') inputTitle;
   @Output() send = new EventEmitter();
   filterData: FilterData;
   filterDataSaved: FilterData;
@@ -55,7 +53,6 @@ export class FilterComponent implements OnInit {
     if (this.contentOptionsShow) {
       this.inside = true;
       this.filterDataSaved = this.mipsService.getFilter();
-      this.titleText = this.filterDataSaved.title;
       // this.setTyepClassAndText(this.filterDataSaved.posType);
       this.selecteds = this.filterDataSaved.arrayStatus;
       this.cantSelected = this.selecteds.filter(a => a === 1).length;
@@ -162,7 +159,6 @@ export class FilterComponent implements OnInit {
   reset(): void {
     this.setStatusClassAndText(4);
     this.setTyepClassAndText(2);
-    this.inputTitle.nativeElement.value = '';
     this.typeInputText = 'NONE';
     this.statusInputText = '';
     this.posStatus = 5;
@@ -173,7 +169,6 @@ export class FilterComponent implements OnInit {
 
   apply(): void {
     this.filterData = {
-      title: this.inputTitle.nativeElement.value,
       status: this.statusInputText,
       type: this.typeInputText,
       posStatus: this.posStatus,

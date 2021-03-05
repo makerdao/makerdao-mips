@@ -9,10 +9,10 @@
   <img *ngIf="contentOptionsShow" class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter_blue.svg" />
   <div class="content frame" *ngIf="contentOptionsShow">
     <p class="title">FILTER BY</p>
-    <div class="data">
+    <!-- <div class="data">
       <div class="label">Title:</div>
       <input class="title" type="text" #title placeholder="Title name" value="{{titleText}}">
-    </div>
+    </div> -->
     <div class="data">
       <div class="label">Status:</div>
       <input type="text" class="status" [ngClass]="statusCLass" placeholder="{{statusPlaceHolder}}" value="{{statusInputText}}" disabled>

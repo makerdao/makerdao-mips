@@ -25,6 +25,8 @@ import { DetailsMobilesButtonsComponent } from './components/details-mobiles-but
 import { MarkdownModule } from 'ngx-markdown';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatIconModule } from '@angular/material/icon';
+import { FilterListComponent } from './components/filter-list/filter-list.component';
+import { FilterListItemComponent } from './components/filter-list-item/filter-list-item.component';
 
 
 
@@ -46,7 +48,9 @@ import { MatIconModule } from '@angular/material/icon';
     SearchMobileComponent,
     OrderMobileComponent,
     DetailsMobilesButtonsComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    FilterListComponent,
+    FilterListItemComponent
   ],
   imports: [
     CommonModule,
