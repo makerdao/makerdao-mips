@@ -48,8 +48,9 @@ app-search-mobile {
 ::ng-deep {
   app-filter-list {
     .filter-list {
-      width: 100vw !important;
-      margin-left: -20px;
+      width: 100%;
+      margin: 12px 0;
+      padding: 10px 20px 2px;
     }
   }
 }
@@ -80,6 +81,17 @@ app-search-mobile {
 
   .no-mobile {
     display: none;
+  }
+
+  ::ng-deep {
+    app-filter-list {
+      .filter-list {
+        width: 100vw !important;
+        margin-left: -20px;
+        padding: 10px 20px 2px;
+        margin-bottom: 12px;
+      }
+    }
   }
 }
 
