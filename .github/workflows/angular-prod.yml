@@ -13,7 +13,7 @@ on:
     paths:
       - "frontend/**"
 
-name: Build Angular
+name: Build PROD Angular
 
 jobs:
   deploy:
