@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ComponentRef, Input, OnInit } from '@angular/core';
 var Color = require('color');
 
 @Component({
@@ -10,7 +10,8 @@ export class FilterListItemComponent implements OnInit {
   @Input() text: string = '';
   @Input() color: string = "";
   @Input() imageClose ? = '../../../../../assets/images/close.png';
-  borderColor;
+  @Input() selfRef: ComponentRef<FilterListItemComponent>;
+  private borderColor;
 
   constructor() { }
 
@@ -26,6 +27,8 @@ export class FilterListItemComponent implements OnInit {
     };
   }
 
-
+  close() {
+    this.selfRef.destroy();
+  }
 
 }

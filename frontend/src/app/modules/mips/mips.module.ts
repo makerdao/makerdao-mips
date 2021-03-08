@@ -27,6 +27,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FilterListComponent } from './components/filter-list/filter-list.component';
 import { FilterListItemComponent } from './components/filter-list-item/filter-list-item.component';
+import { FilterListHostDirective } from './directives/filter-list-host.directive';
 
 
 
@@ -50,7 +51,8 @@ import { FilterListItemComponent } from './components/filter-list-item/filter-li
     DetailsMobilesButtonsComponent,
     FeedbackComponent,
     FilterListComponent,
-    FilterListItemComponent
+    FilterListItemComponent,
+    FilterListHostDirective
   ],
   imports: [
     CommonModule,

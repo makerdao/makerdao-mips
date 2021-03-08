@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, ViewChild, EventEmitter, Input, HostListener, ElementRef } from '@angular/core';
 import { MipsService } from '../../services/mips.service';
 import FilterData from './filter.data';
+import { FilterItemService } from '../../../../services/filter-item/filter-item.service';
 
 @Component({
   selector: 'app-filter',
@@ -39,7 +40,8 @@ export class FilterComponent implements OnInit {
 
   constructor(
     private mipsService: MipsService,
-    private eRef: ElementRef
+    private eRef: ElementRef,
+    private filterItemService: FilterItemService
   ) { }
 
   ngOnInit(): void {
@@ -109,6 +111,8 @@ export class FilterComponent implements OnInit {
                 if (this.selecteds[3] === 0)  {
                   this.selecteds[3] = 1;
                   this.cantSelected++;
+
+                  this.filterItemService.add({text: 'test', color: '#ff0000'})
                 } else {
                   if (!add) {
                     this.selecteds[3] = 0;
