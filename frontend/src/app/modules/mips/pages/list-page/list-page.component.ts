@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-page',
@@ -24,10 +25,14 @@ export class ListPageComponent implements OnInit {
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
+  showListSearch: boolean = false;
+  listSearchMip: any[] = [];
+  activateSuggestionsSearch: boolean = false;
 
   constructor(
     private mipsService: MipsService,
-    private footerVisibleService: FooterVisibleService
+    private footerVisibleService: FooterVisibleService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +75,18 @@ export class ListPageComponent implements OnInit {
           this.moreToLoad = false;
         } else {
           this.moreToLoad = true;
+        }
+
+        if (this.activateSuggestionsSearch) {
+          this.showListSearch = true;
+            this.listSearchMip = this.mips.map(item => {
+              return {
+                content: "MIP" + item.mip + " " + item.title,
+                id: item._id
+              }
+            });
+        } else {
+          this.showListSearch = false;
         }
       });
   }
@@ -124,6 +141,16 @@ export class ListPageComponent implements OnInit {
   }
 
   onSendSearch(text: string): void {
+    let search = text.toLowerCase().trim();
+
+    if (search.startsWith('mip')) {
+      this.activateSuggestionsSearch = true;
+      this.limit = 0;
+    } else {
+      this.activateSuggestionsSearch = false;
+      this.limit = 10;
+    }
+
     this.loading = true;
     this.limitAux = 10;
     this.mips = [];
@@ -145,4 +172,7 @@ export class ListPageComponent implements OnInit {
     this.mobileSearch = open;
   }
 
+  onNavigateToMipDetails(event) {
+    this.router.navigate(["/mips/details/", event.id]);
+  }
 }
