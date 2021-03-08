@@ -67,8 +67,8 @@ export class MIPsController {
       type: "object",
       example: {
         filter: {
-          contains: [{ field: "title", value: "Proposal" }],
-          notcontains: [{ field: "title", value: "subproposal" }],
+          contains: [{ field: "status", value: "RFC" }],
+          notcontains: [{ field: "status", value: "Accepted" }],
           equals: [{ field: "mip", value: -1 }],
           notequals: [{ field: "mip", value: -1 }],
         },
@@ -119,13 +119,12 @@ export class MIPsController {
         HttpStatus.BAD_REQUEST
       );
     }
-    let mips = await this.mipsService.findOne(id); 
-    let sections;
+    const mips = await this.mipsService.findOne(id);    
 
     if (!mips) {
       throw new NotFoundException(`MIPs with ${id} not found`);
     }
-    sections = await this.parseMIPsService.parseSections(mips.filename);
+    const sections = await this.parseMIPsService.parseSections(mips.filename);
     return { mips, sections }    
   }
 

@@ -5,9 +5,7 @@ export type MIPsDoc = MIP & Document;
 
 @Schema()
 export class MIP {
-  @Prop({
-    index: { type: "text" },
-  })
+  @Prop()
   file: string;
   @Prop()
   filename: string;
@@ -19,8 +17,20 @@ export class MIP {
     type: Number,
   })
   mip?: number;
+  
   @Prop()
+  mipName?: string;
+
+  @Prop({
+    index: { type: "text" },
+  })
   title?: string;
+
+  @Prop({
+    default: "",
+    type: String,
+  })
+  proposal?: string;
 
   @Prop({
     type: [String],
