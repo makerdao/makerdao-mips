@@ -142,4 +142,8 @@ export class ListPageComponent implements OnInit {
     this.mobileSearch = open;
   }
 
+  cmpFn(o1: any, o2: any): boolean {
+    return o1.id === o2.id;
+  }
+
 }

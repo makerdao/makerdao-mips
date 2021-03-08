@@ -8,6 +8,7 @@ var Color = require('color');
 })
 export class FilterListItemComponent implements OnInit {
   @Input() text: string = '';
+  @Input() id: string;
   @Input() color: string = "";
   @Input() imageClose ? = '../../../../../assets/images/close.png';
   @Input() selfRef: ComponentRef<FilterListItemComponent>;

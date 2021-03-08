@@ -6,11 +6,15 @@ import { Subject } from 'rxjs';
 })
 export class FilterItemService {
   newItem: Subject<any> = new Subject<any>();
-  newItemRef: Subject<ComponentRef<any>> = new Subject<ComponentRef<any>>();
+  itemToRemove: Subject<any> = new Subject<any>();
 
   constructor() { }
 
   add(data: any) {
     this.newItem.next(data);
+  }
+
+  remove(id: string) {
+    this.itemToRemove.next(id);
   }
 }
