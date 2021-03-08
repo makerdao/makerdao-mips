@@ -15,9 +15,15 @@ export class Filters {
   notcontains?: BinaryOperator[];
   equals?: BinaryOperator[];
   notequals?: BinaryOperator[];
+  inarray?: BinaryArrayOperator[];
 }
 
 export class BinaryOperator {
   field: string;
   value: any;
+}
+
+export class BinaryArrayOperator {
+  field: string;
+  value: any[];
 }

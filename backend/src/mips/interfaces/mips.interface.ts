@@ -4,6 +4,8 @@ export interface IMIPs {
   filename?: string;
   hash?: string;
   mip?: number;
+  mipName?: string;
+  proposal?: string;
   title?: string;
   preambleTitle?: string;
   author?: string[];
@@ -43,6 +45,7 @@ export interface IPreamble {
   mip?: number;
   title?: string;
   preambleTitle?: string;
+  mipName?: string;
   author?: string[];
   contributors?: string[];
   status?: string;
