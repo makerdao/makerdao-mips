@@ -50,6 +50,14 @@ app-md-checkbox {
   margin-right: 25px;
 }
 
+app-md-checkbox {
+  display: block;
+}
+
+app-md-checkbox-mobile {
+  display: none;
+}
+
 @media screen and (max-width: 500px) {
   .feedback {
     app-feedback {
@@ -65,7 +73,7 @@ app-md-checkbox {
     }
   }
   app-search-mobile {
-    width: 100%;
+    // width: 100%;
   }
 
 }
@@ -76,6 +84,14 @@ app-md-checkbox {
 
   .no-mobile {
     display: none;
+  }
+
+  app-md-checkbox {
+    display: none;
+  }
+
+  app-md-checkbox-mobile {
+    display: block;
   }
 }
 

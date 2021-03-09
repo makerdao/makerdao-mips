@@ -44,7 +44,7 @@
 .container input:checked ~ .checkmark {
   border-color: #748aa1;
 
-  i {
+  img {
     visibility: visible;
   }
 }
@@ -56,10 +56,8 @@
 
 /* Style the checkmark/indicator */
 .container .checkmark {
-  i {
+  img {
     visibility: hidden;
-    color: #2f80ed;
-    font-size: 12px;
   }
 }
 

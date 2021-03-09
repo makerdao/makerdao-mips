@@ -27,6 +27,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SecurityContext } from '@angular/core';
 import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.component';
+import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-checkbox-mobile.component';
 
 
 
@@ -49,7 +50,8 @@ import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.compon
     OrderMobileComponent,
     DetailsMobilesButtonsComponent,
     FeedbackComponent,
-    MdCheckboxComponent
+    MdCheckboxComponent,
+    MdCheckboxMobileComponent
   ],
   imports: [
     CommonModule,
