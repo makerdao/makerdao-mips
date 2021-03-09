@@ -7,6 +7,7 @@
       (clickSearchItem)="onNavigateToMipDetails($event)">
     </app-search-mobile>
     <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)"></app-order-mobile>
+    <app-md-checkbox [label]="'Subproposals Mode'"></app-md-checkbox>
     <app-search class="no-mobile" (send)="onSendSearch($event)" [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip"
       (clickSearchItem)="onNavigateToMipDetails($event)">

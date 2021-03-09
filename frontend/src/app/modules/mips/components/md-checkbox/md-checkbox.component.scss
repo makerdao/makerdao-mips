@@ -1,0 +1,73 @@
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border: 1px solid #b8c5d3;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0px 1px 4px #e5e9f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* When the checkbox is checked, change border color and icon visibility */
+.container input:checked ~ .checkmark {
+  border-color: #748aa1;
+
+  i {
+    visibility: visible;
+  }
+}
+
+/* When the checkbox is checked, change text color */
+.container input:checked ~ .text {
+  color: #2f80ed;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark {
+  i {
+    visibility: hidden;
+    color: #2f80ed;
+    font-size: 12px;
+  }
+}
+
+.container .text {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #748aa1;
+}
