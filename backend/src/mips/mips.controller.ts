@@ -138,11 +138,6 @@ export class MIPsController {
     }
   }
 
-  @Get("pullrequests")
-  findPullRequests() {
-    return this.pullRequestService.findOne();
-  }
-
   @Post("callback")
   async callback(@Req() { headers, body }: any): Promise<boolean> {
     try {

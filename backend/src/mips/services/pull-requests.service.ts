@@ -16,10 +16,6 @@ export class PullRequestService {
     return await this.pullRequestDoc.insertMany(pullRequest);
   }
 
-  findOne(): Promise<PullRequest> {
-    return this.pullRequestDoc.findOne({}).select(["-__v"]).exec();
-  }
-
   count(): Promise<number> {
     return this.pullRequestDoc.countDocuments().exec();
   }
