@@ -5,8 +5,8 @@
   </div>
   <input *ngIf="showInput" type="text" #search placeholder="Search on the list" (keyup)="onKeySearch($event)" value="{{text}}"
     [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}">
-  <div class="close-container" *ngIf="showInput">
-    <img (click)="clear()" src="../../../../../assets/images/close.svg" class="imageClose" />
+  <div class="close-container" *ngIf="showInput" (click)="clear()">
+    <img src="../../../../../assets/images/close.svg" class="imageClose" />
   </div>
 </div>
 <div *ngIf="showListSearch && showClose" class="ListSearchWrapper">
