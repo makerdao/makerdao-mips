@@ -27,8 +27,8 @@ export class ListPageComponent implements OnInit {
   mobileSearch = false;
   showListSearch: boolean = false;
   listSearchMip: any[] = [];
-  activateSuggestionsSearch: boolean = false;
   subproposalsMode: boolean;
+  mipsByName: any[] = [];
 
   constructor(
     private mipsService: MipsService,
@@ -77,20 +77,23 @@ export class ListPageComponent implements OnInit {
         } else {
           this.moreToLoad = true;
         }
-
-        if (this.activateSuggestionsSearch) {
-          this.showListSearch = true;
-            this.listSearchMip = this.mips.map(item => {
-              return {
-                content: "MIP" + item.mip + " " + item.title,
-                id: item._id
-              }
-            });
-        } else {
-          this.showListSearch = false;
-        }
       });
   }
+
+  searchMipsByName(limit, page, order, search, filter): void {
+    this.mipsService.searchMips(limit, page, order, search, filter)
+    .subscribe(data => {
+      this.mipsByName = data.items;
+
+      this.showListSearch = true;
+      this.listSearchMip = this.mipsByName.map(item => {
+        return {
+          content: item.mipName + " " + (item.title !== undefined ? item.title : ""),
+          id: item._id
+        }
+      });
+    });
+}
 
   onSendPagination(): void {
       this.loadingPlus = true;
@@ -155,19 +158,21 @@ export class ListPageComponent implements OnInit {
     let search = text.toLowerCase().trim();
 
     if (search.startsWith('mip')) {
-      this.activateSuggestionsSearch = true;
+      let filter = {
+        contains: [],
+      };
+      filter.contains.push({field: 'mipName', value: text});
+      this.searchMipsByName(0, 0, 'mip', '', filter);
       this.limit = 0;
     } else {
-      this.activateSuggestionsSearch = false;
-      this.limit = 10;
+      this.listSearchMip = [];
+      this.loading = true;
+      this.limitAux = 10;
+      this.mips = [];
+      this.page = 0;
+      this.search = text;
+      this.searchMips();
     }
-
-    this.loading = true;
-    this.limitAux = 10;
-    this.mips = [];
-    this.page = 0;
-    this.search = text;
-    this.searchMips();
   }
 
   onSendOrder(text: string): void {
