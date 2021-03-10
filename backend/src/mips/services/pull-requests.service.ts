@@ -32,30 +32,33 @@ export class PullRequestService {
           $facet: {
             open: [
               { $match: { state: "OPEN" } },
-              { $group: { "_id": null, count: { $sum: 1 } } },
+              { $group: { _id: null, count: { $sum: 1 } } },
             ],
             close: [
               { $match: { state: { $in: ["MERGED", "CLOSED"] } } },
-              { $group: { "_id": null, count: { $sum: 1 } } }
+              { $group: { _id: null, count: { $sum: 1 } } },
             ],
-            items: [
-              { $group: { "_id": null, data: { $push: "$$ROOT" } } }
-            ]
+            items: [{ $group: { _id: null, data: { $push: "$$ROOT" } } }],
           },
         },
         {
           $project: {
-            open: {$ifNull: [{ $arrayElemAt: ['$open.count', 0] }, 0]},
-            close: {$ifNull: [{ $arrayElemAt: ['$close.count', 0] }, 0]},
-            items: {$slice: [{$ifNull: [{ $arrayElemAt: ['$items.data', 0] }, []]}, -3]}            
+            open: { $ifNull: [{ $arrayElemAt: ["$open.count", 0] }, 0] },
+            close: { $ifNull: [{ $arrayElemAt: ["$close.count", 0] }, 0] },
+            items: {
+              $slice: [
+                { $ifNull: [{ $arrayElemAt: ["$items.data", 0] }, []] },
+                -3,
+              ],
+            },
           },
         },
       ])
       .exec();
 
-      if (data.length > 0) {
-        return data[0];
-      }
-      return data;    
+    if (data.length > 0) {
+      return data[0];
+    }
+    return data;
   }
 }
