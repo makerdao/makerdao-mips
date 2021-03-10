@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input, HostBinding } from '@angular/core';
 import { Subject } from 'rxjs';
 
 
@@ -54,6 +54,11 @@ export class SearchMobileComponent implements OnInit {
 
   onClickSearchItem(element) {
     this.clickSearchItem.next(element);
+  }
+
+  @HostBinding('class.spread')
+  get spread() {
+    return this.showInput;
   }
 
 }
