@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-md-checkbox',
@@ -7,10 +8,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MdCheckboxComponent implements OnInit {
   @Input() label: string = '';
+  @Output() checked: Subject<any> = new Subject<any>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onCheck(event) {
+    this.checked.next((event.target as HTMLInputElement).checked);
   }
 
 }

@@ -28,6 +28,7 @@ export class ListPageComponent implements OnInit {
   showListSearch: boolean = false;
   listSearchMip: any[] = [];
   activateSuggestionsSearch: boolean = false;
+  subproposalsMode: boolean;
 
   constructor(
     private mipsService: MipsService,
@@ -137,6 +138,16 @@ export class ListPageComponent implements OnInit {
     if (this.filterSaved.arrayStatus[4] === 1) {
       this.filter.contains.push({field: 'status', value: 'obsolete' });
     }
+    if (!this.subproposalsMode) {
+      this.filter.equals.push({field: 'proposal', value: ""});
+    } else {
+      let index = this.filter.equals.findIndex(item => item.field === 'proposal');
+
+      if (index !== -1) {
+        this.filter.equals.splice(index, 1);
+      }
+    }
+
     this.searchMips();
   }
 
@@ -174,5 +185,10 @@ export class ListPageComponent implements OnInit {
 
   onNavigateToMipDetails(event) {
     this.router.navigate(["/mips/details/", event.id]);
+  }
+
+  onCheckedSubproposalMode(event) {
+    this.subproposalsMode = event;
+    this.onSendFilters();
   }
 }
