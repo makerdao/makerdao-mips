@@ -3,6 +3,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  InternalServerErrorException,
   NotFoundException,
   Param,
   Post,
@@ -124,8 +125,17 @@ export class MIPsController {
     if (!mips) {
       throw new NotFoundException(`MIPs with ${id} not found`);
     }
-    const sections = await this.parseMIPsService.parseSections(mips.filename);
-    return { mips, sections }    
+
+    try {
+      const data =  await Promise.all([
+        this.pullRequestService.aggregate(mips.filename),
+        this.parseMIPsService.parseSections(mips.file)
+      ]);
+      return { mips, pullRequests: data[0], sections: data[1] }
+  
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   @Get("pullrequests")

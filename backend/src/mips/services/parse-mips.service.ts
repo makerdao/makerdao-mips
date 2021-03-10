@@ -16,6 +16,7 @@ import { MarkedService } from "./marked.service";
 import { MIP } from "../entities/mips.entity";
 import { GithubService } from "./github.service";
 import { PullRequestService } from "./pull-requests.service";
+import { pullRequests, pullRequestsAfter, pullRequestsCount, pullRequestsLast } from "../graphql/definitions.graphql";
 
 @Injectable()
 export class ParseMIPsService {
@@ -42,14 +43,14 @@ export class ParseMIPsService {
 
   async parse(): Promise<boolean> {    
     try {
-      // this.simpleGitService.pull(); 
+      this.simpleGitService.pull(); 
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
-        // this.githubService.pullRequests(),
-        // this.githubService.pullRequestsOpen(),
-        // this.githubService.pullRequestsClosed(),
+
+        this.pullRequestService.count(),
+        this.githubService.pullRequests(pullRequestsCount)
       ]);
 
       const synchronizeData: ISynchronizeData = await this.synchronizeData(
@@ -57,34 +58,27 @@ export class ParseMIPsService {
         result[1]
       );
 
-      this.logger.log(
-        `Pull request totals ===> ${JSON.stringify(
-          result[2]?.repository?.pullRequests?.totalCount
-        )}}`
-      );
-      this.logger.log(
-        `Open ===>  ${JSON.stringify(
-          result[3]?.repository?.pullRequests?.totalCount
-        )}`
-      );
-      this.logger.log(
-        `Closed ===> ${JSON.stringify(
-          result[4]?.repository?.pullRequests?.totalCount
-        )}`
-      );
+      if (result[2] === 0) {
+        let data =  await this.githubService.pullRequests(pullRequests);
+        await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
 
-      await this.pullRequestService.create({
-        totalClosed: result[4]?.repository?.pullRequests?.totalCount || 0,
-        totalOpen: result[3]?.repository?.pullRequests?.totalCount || 0,
-        url: result[2]?.repository?.url,
-        totalCount: result[2]?.repository?.pullRequests?.totalCount || 0,
-        items: result[2]?.repository?.pullRequests?.nodes || [],
-      });
+        while(data?.repository?.pullRequests?.pageInfo?.hasNextPage) {
+          data = await this.githubService.pullRequests(pullRequestsAfter, data?.repository?.pullRequests?.pageInfo?.endCursor);
+          await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
+        }
+      } else {
+        if (result[3].repository.pullRequests.totalCount - result[2] > 0) {
+          const data =  await this.githubService.pullRequestsLast(pullRequestsLast, result[3].repository.pullRequests.totalCount - result[2]);
+          await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
+        }
+      }      
 
       this.logger.log(`Synchronize Data ===> ${JSON.stringify(synchronizeData)}`);
       return true;
     } catch (error) {
       this.logger.error(error);
+
+      console.log(error);
       return false;
     }
   }
@@ -383,10 +377,8 @@ export class ParseMIPsService {
     return preamble;
   }
 
-  async parseSections(filename: string): Promise<any> {        
-    const dir = `${this.baseDir}/${filename}`;    
-    const fileString = await readFile(dir, "utf-8");
-    return await this.markedService.markedLexer(fileString);    
+  async parseSections(file: string): Promise<any> {        
+    return this.markedService.markedLexer(file);    
   }
 
   updateLinks(file: string, mip: number): string {
