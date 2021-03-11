@@ -92,7 +92,8 @@ export class ListPageComponent implements OnInit {
       contains: [],
       notcontains: [],
       equals: [],
-      notequals: []
+      notequals: [],
+      inarray: []
     };
 
     this.filterSaved = this.mipsService.getFilter();
@@ -103,19 +104,21 @@ export class ListPageComponent implements OnInit {
       this.filter.equals.push({field: 'mip', value: -1});
     }
     if (this.filterSaved.arrayStatus[0] === 1) {
-      this.filter.contains.push({field: 'status', value: 'accepted' });
+      this.filter.inarray.push({field: 'status', value: 'Accepted' });
     }
     if (this.filterSaved.arrayStatus[1] === 1) {
-      this.filter.contains.push({field: 'status', value: 'rejected' });
+      this.filter.inarray.push({field: 'status', value: 'Rejected' });
     }
     if (this.filterSaved.arrayStatus[2] === 1) {
-      this.filter.contains.push({field: 'status', value: 'archive' });
+      this.filter.inarray.push({field: 'status', value: 'Archive' });
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
-      this.filter.contains.push({field: 'status', value: 'rfc' });
+      this.filter.inarray.push({field: 'status', value: 'RFC' });
+      this.filter.inarray.push({field: 'status', value: "Request for Comments (RFC)" });
+      this.filter.inarray.push({field: 'status', value: "Request for Comments" });
     }
     if (this.filterSaved.arrayStatus[4] === 1) {
-      this.filter.contains.push({field: 'status', value: 'obsolete' });
+      this.filter.inarray.push({field: 'status', value: 'Obsolete' });
     }
     this.searchMips();
   }
@@ -144,6 +147,11 @@ export class ListPageComponent implements OnInit {
 
   cmpFn(o1: any, o2: any): boolean {
     return o1.id === o2.id;
+  }
+
+  onCloseFilterItem(event) {
+    this.mipsService.setFilterArrayStatus(parseInt(event), 0);
+    this.onSendFilters();
   }
 
 }

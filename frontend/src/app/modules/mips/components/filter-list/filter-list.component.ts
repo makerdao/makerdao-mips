@@ -5,11 +5,13 @@ import {
   ComponentRef,
   Input,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { FilterItemService } from '../../../../services/filter-item/filter-item.service';
 import { FilterListItemComponent } from '../filter-list-item/filter-list-item.component';
 import { FilterListHostDirective } from '../../directives/filter-list-host.directive';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-filter-list',
@@ -22,6 +24,7 @@ export class FilterListComponent implements OnInit, AfterViewInit {
   itemsRef: ComponentRef<FilterListItemComponent>[] = [];
   items: any[] = [];
   @Input() compareFn: (o1: any, o2: any) => boolean;
+  @Output() closedItem: Subject<any> = new Subject<any>();
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -33,19 +36,18 @@ export class FilterListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.filterItemService.newItem.subscribe((data) => {
       if (!this.exists(data)) {
-        this.itemsRef.push(this.addItem(data));
+        let elem = this.addItem(data);
+        this.itemsRef.push(elem);
         this.items.push(data);
+        elem.instance.closed.subscribe((data) => {
+          this.closedItem.next(data);
+          this.removeItemFromSelfClose(data);
+        });
       }
     });
 
-    this.filterItemService.itemToRemove.subscribe((data) => {
-      let index = this.itemsRef.findIndex((i) => i.instance.id === data);
-
-      if (index !== -1) {
-        this.itemsRef[index].instance.close();
-        this.itemsRef.splice(index, 1);
-        this.items.splice(index, 1);
-      }
+    this.filterItemService.itemToRemove.subscribe((id) => {
+      this.removeItemFromExternalClose(id);
     });
   }
 
@@ -59,6 +61,7 @@ export class FilterListComponent implements OnInit, AfterViewInit {
     >(componentFactory);
     componentRef.instance.id = data.id;
     componentRef.instance.text = data.text;
+    componentRef.instance.value = data.value;
     componentRef.instance.color = data.color;
     componentRef.instance.selfRef = componentRef;
 
@@ -80,5 +83,23 @@ export class FilterListComponent implements OnInit, AfterViewInit {
 
   compare(o1: any, o2: any): boolean {
     return o1.id === o2.id;
+  }
+
+  removeItemFromSelfClose(id): void {
+    let index = this.itemsRef.findIndex((i) => i.instance.id === id);
+
+    if (index !== -1) {
+      this.items.splice(index, 1);
+    }
+  }
+
+  removeItemFromExternalClose(id): void {
+    let index = this.itemsRef.findIndex((i) => i.instance.id === id);
+
+    if (index !== -1) {
+      this.itemsRef[index].instance.close();
+      this.itemsRef.splice(index, 1);
+      this.items.splice(index, 1);
+    }
   }
 }

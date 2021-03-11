@@ -1,4 +1,5 @@
-import { Component, ComponentRef, Input, OnInit } from '@angular/core';
+import { Component, ComponentRef, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 var Color = require('color');
 
 @Component({
@@ -8,10 +9,12 @@ var Color = require('color');
 })
 export class FilterListItemComponent implements OnInit {
   @Input() text: string = '';
+  @Input() value: string = '';
   @Input() id: string;
   @Input() color: string = "";
   @Input() imageClose ? = '../../../../../assets/images/close.png';
   @Input() selfRef: ComponentRef<FilterListItemComponent>;
+  @Output() closed: Subject<any> = new Subject<any>();
   private borderColor;
 
   constructor() { }
@@ -29,6 +32,7 @@ export class FilterListItemComponent implements OnInit {
   }
 
   close() {
+    this.closed.next(this.value);
     this.selfRef.destroy();
   }
 
