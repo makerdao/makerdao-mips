@@ -167,6 +167,7 @@ export class FilterComponent implements OnInit {
                 break;
               }
       case 5: {
+                this.deleteItemsFromFilterList();
                 this.statusCLass = 'status-none';
                 this.statusOptionsShow = false;
                 this.selecteds = [0 , 0, 0, 0, 0];
@@ -194,7 +195,8 @@ export class FilterComponent implements OnInit {
   }
 
   reset(): void {
-    this.setStatusClassAndText(4);
+    this.deleteItemsFromFilterList();
+    // this.setStatusClassAndText(4);
     this.setTyepClassAndText(2);
     this.typeInputText = 'NONE';
     this.statusInputText = '';
@@ -237,6 +239,14 @@ export class FilterComponent implements OnInit {
     if (this.cantSelected === 0) { return ''; }
     this.statusPlaceHolder = '';
     return '';
+  }
+
+  deleteItemsFromFilterList(): void {
+    this.selecteds.forEach((item, index) => {
+      if (item) {
+        this.filterItemService.remove(index.toString());
+      }
+    });
   }
 
 }

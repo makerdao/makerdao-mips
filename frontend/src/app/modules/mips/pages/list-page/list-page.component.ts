@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
+import { FilterListComponent } from '../../components/filter-list/filter-list.component';
 
 @Component({
   selector: 'app-list-page',
@@ -24,6 +25,8 @@ export class ListPageComponent implements OnInit {
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
+  @ViewChild('filterList', {static: true}) filterList: FilterListComponent;
+  showFilterList: boolean = false;
 
   constructor(
     private mipsService: MipsService,
@@ -152,6 +155,10 @@ export class ListPageComponent implements OnInit {
   onCloseFilterItem(event) {
     this.mipsService.setFilterArrayStatus(parseInt(event), 0);
     this.onSendFilters();
+  }
+
+  onHasItemsFilterList(event) {
+    this.showFilterList = event;
   }
 
 }

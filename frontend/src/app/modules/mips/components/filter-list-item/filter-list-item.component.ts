@@ -36,4 +36,8 @@ export class FilterListItemComponent implements OnInit {
     this.selfRef.destroy();
   }
 
+  destroy() {
+    this.selfRef.destroy();
+  }
+
 }

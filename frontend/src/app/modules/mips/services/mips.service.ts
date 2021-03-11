@@ -38,8 +38,6 @@ export class MipsService {
     let urlFilter = '';
     let enter = false;
     if (filter !== undefined && filter != null) {
-      console.log('filter', filter);
-
       Object.keys(filter).forEach((key) => {
         if (key === 'inarray' && filter[key].length > 0) {
           const character = !enter ? '?' : '&';

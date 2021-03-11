@@ -25,6 +25,10 @@ export class FilterListComponent implements OnInit, AfterViewInit {
   items: any[] = [];
   @Input() compareFn: (o1: any, o2: any) => boolean;
   @Output() closedItem: Subject<any> = new Subject<any>();
+  @Output() hasItems: Subject<boolean> = new Subject<boolean>();
+  get length() {
+    return this.items.length;
+  }
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -39,6 +43,7 @@ export class FilterListComponent implements OnInit, AfterViewInit {
         let elem = this.addItem(data);
         this.itemsRef.push(elem);
         this.items.push(data);
+        this.hasItems.next(true);
         elem.instance.closed.subscribe((data) => {
           this.closedItem.next(data);
           this.removeItemFromSelfClose(data);
@@ -89,7 +94,11 @@ export class FilterListComponent implements OnInit, AfterViewInit {
     let index = this.itemsRef.findIndex((i) => i.instance.id === id);
 
     if (index !== -1) {
+      this.itemsRef.splice(index, 1);
       this.items.splice(index, 1);
+      if (!this.itemsRef.length) {
+        this.hasItems.next(false);
+      }
     }
   }
 
@@ -97,9 +106,12 @@ export class FilterListComponent implements OnInit, AfterViewInit {
     let index = this.itemsRef.findIndex((i) => i.instance.id === id);
 
     if (index !== -1) {
-      this.itemsRef[index].instance.close();
+      this.itemsRef[index].instance.destroy();
       this.itemsRef.splice(index, 1);
       this.items.splice(index, 1);
+      if (!this.itemsRef.length) {
+        this.hasItems.next(false);
+      }
     }
   }
 }

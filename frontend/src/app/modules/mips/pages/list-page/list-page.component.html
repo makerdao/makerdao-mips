@@ -7,7 +7,13 @@
     <app-filter (send)="onSendFilters()"></app-filter>
   </div>
 </div>
-<app-filter-list [compareFn]="cmpFn" (closedItem)="onCloseFilterItem($event)"></app-filter-list>
+<app-filter-list
+  [compareFn]="cmpFn"
+  (closedItem)="onCloseFilterItem($event)"
+  (hasItems)="onHasItemsFilterList($event)"
+  [ngStyle]="{display: showFilterList ? 'block' : 'none'}"
+  #filterList
+></app-filter-list>
 <app-list
 [loading]="loading"
 [loadingPlus]="loadingPlus"
