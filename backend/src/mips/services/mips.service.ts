@@ -153,6 +153,9 @@ export class MIPsService {
       case "proposal":
         flag = true;
         break;
+      case "mip":
+        flag = true;
+        break;
     }
 
     if (!flag) {
