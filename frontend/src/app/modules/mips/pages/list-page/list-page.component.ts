@@ -117,6 +117,8 @@ export class ListPageComponent implements OnInit {
     };
 
     this.filterSaved = this.mipsService.getFilter();
+    this.filter.notequals.push({field: 'mip', value: -1});
+
     if (this.filterSaved.type === 'PROPOSAL') {
       this.filter.notequals.push({field: 'mip', value: -1});
     }
@@ -162,7 +164,7 @@ export class ListPageComponent implements OnInit {
         contains: [],
       };
       filter.contains.push({field: 'mipName', value: text});
-      this.searchMipsByName(0, 0, 'mip', '', filter);
+      this.searchMipsByName(0, 0, 'mipName', '', filter);
       this.limit = 0;
     } else {
       this.listSearchMip = [];
@@ -180,7 +182,7 @@ export class ListPageComponent implements OnInit {
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
-    this.order = text;
+    this.order = (this.subproposalsMode && text === 'mip') ? text + " mipName" : text;
     this.searchMips();
   }
 
@@ -193,6 +195,7 @@ export class ListPageComponent implements OnInit {
   }
 
   onCheckedSubproposalMode(event) {
+    this.order = (event && this.order === 'mip') ? this.order + ' mipName' : this.order.replace('mipName', '').trim();
     this.subproposalsMode = event;
     this.onSendFilters();
   }
