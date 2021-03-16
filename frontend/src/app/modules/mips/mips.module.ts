@@ -26,6 +26,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SecurityContext } from '@angular/core';
+import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.component';
+import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-checkbox-mobile.component';
 
 
 
@@ -47,7 +49,9 @@ import { SecurityContext } from '@angular/core';
     SearchMobileComponent,
     OrderMobileComponent,
     DetailsMobilesButtonsComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    MdCheckboxComponent,
+    MdCheckboxMobileComponent
   ],
   imports: [
     CommonModule,

@@ -1,12 +1,19 @@
-<div>
+<div class="container">
   <p class="title" [ngClass]="{'hide': mobileSearch}">MIPs List</p>
   <div class="row filtering">
+    <app-md-checkbox-mobile
+      [imageNoChecked]="'assets/images/subproposals-mode-no-checked.svg'"
+      [imageChecked]="'assets/images/subproposals-mode-checked.svg'"
+      [ngClass]="{'hide': mobileSearch}"
+      (checked)="onCheckedSubproposalMode($event)"
+    ></app-md-checkbox-mobile>
     <app-search-mobile class="mobile" (send)="onSendSearch($event)" (open)="onOpenMobileSearch($event)"
       [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip"
       (clickSearchItem)="onNavigateToMipDetails($event)">
     </app-search-mobile>
     <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)"></app-order-mobile>
+    <app-md-checkbox [label]="'Subproposals Mode'" (checked)="onCheckedSubproposalMode($event)"></app-md-checkbox>
     <app-search class="no-mobile" (send)="onSendSearch($event)" [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip"
       (clickSearchItem)="onNavigateToMipDetails($event)">

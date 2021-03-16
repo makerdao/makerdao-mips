@@ -1,12 +1,12 @@
 <div class="container">
   <img class="main" *ngIf="!showInput"  (click)="onOpenCloseInput()" src="../../../../../assets/images/magnifier_frame.svg" />
   <div class="init">
-    <img *ngIf="showInput"  src="../../../../../assets/images/magnifier_dark.png"  />
+    <img *ngIf="showInput"  src="../../../../../assets/images/magnifier_dark.svg"  />
   </div>
   <input *ngIf="showInput" type="text" #search placeholder="Search on the list" (keyup)="onKeySearch($event)" value="{{text}}"
     [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}">
-  <div class="close-container" *ngIf="showInput">
-    <img (click)="clear()" src="../../../../../assets/images/close.png" class="imageClose" />
+  <div class="close-container" *ngIf="showInput" (click)="clear()">
+    <img src="../../../../../assets/images/close.svg" class="imageClose" />
   </div>
 </div>
 <div *ngIf="showListSearch && showClose" class="ListSearchWrapper">
