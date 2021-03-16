@@ -37,6 +37,22 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   margin-left: 15px;
   vertical-align: top;
   margin-top: 120px;
+
+  &.proposal-title {
+    padding-left: 5px !important;
+  }
+
+  &.subproposal-pos {
+    color: #2F80ED;
+    padding-left: 40px !important;
+  }
+
+  &.subproposal-title {
+    padding-left: 20px;
+    a {
+      color: #2F80ED;
+    }
+  }
 }
 
 .maker-element-detail {
@@ -267,6 +283,7 @@ a {
   border-radius: 5px;
   height: auto;
   margin-bottom: 15px;
+  box-sizing: border-box;
 
   .title {
     font-size: 14px;
@@ -444,10 +461,26 @@ a {
   }
 }
 
+.proposal-card {
+  width: 100%;
+}
+
+.subproposal-card {
+  width: 91.05%;
+  color: #2F80ED;
+
+  .title a {
+    color: #2F80ED;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .mobile {
-    display: block;
-
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
   .no-mobile {
     display: none;

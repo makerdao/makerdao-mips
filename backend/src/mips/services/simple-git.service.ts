@@ -52,9 +52,16 @@ export class SimpleGitService {
         "-s",
         folderPattern,
       ]);
+
       return info
         .split("\n")
-        .filter((data) => data.length > 3 && !data.includes("placeholder.md"))
+        .filter(
+          (data) =>
+            data.length > 3 &&
+            !data.includes("placeholder.md") &&
+            !data.includes("Template") &&
+            data.includes(".md")
+        )
         .map((data) => {
           const newData = data.replace("\t", " ").split(" ");
 
@@ -62,7 +69,7 @@ export class SimpleGitService {
             let filename = newData[3];
 
             for (let i = 4; i < newData.length; i++) {
-              filename = `${filename} ${newData[i]}`;              
+              filename = `${filename} ${newData[i]}`;
             }
 
             return {

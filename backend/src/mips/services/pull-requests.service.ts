@@ -12,17 +12,49 @@ export class PullRequestService {
     private readonly pullRequestDoc: Model<PullRequestDoc>
   ) {}
 
-  async create(pullRequest: PullRequest): Promise<any> {
-    const updated = await this.pullRequestDoc.findOneAndUpdate({}, pullRequest);
-
-    if (!updated) {
-      return this.pullRequestDoc.create(pullRequest);
-    }
-
-    return updated;
+  async create(pullRequest: any[]): Promise<any> {
+    return await this.pullRequestDoc.insertMany(pullRequest);
   }
 
-  findOne(): Promise<PullRequest> {
-    return this.pullRequestDoc.findOne({}).select(["-__v"]).exec();
+  count(): Promise<number> {
+    return this.pullRequestDoc.countDocuments().exec();
+  }
+
+  async aggregate(filename: string): Promise<any> {
+    const data = await this.pullRequestDoc
+      .aggregate([
+        { $match: { "files.nodes": { path: filename } } },
+        {
+          $facet: {
+            open: [
+              { $match: { state: "OPEN" } },
+              { $group: { _id: null, count: { $sum: 1 } } },
+            ],
+            close: [
+              { $match: { state: { $in: ["MERGED", "CLOSED"] } } },
+              { $group: { _id: null, count: { $sum: 1 } } },
+            ],
+            items: [{ $group: { _id: null, data: { $push: "$$ROOT" } } }],
+          },
+        },
+        {
+          $project: {
+            open: { $ifNull: [{ $arrayElemAt: ["$open.count", 0] }, 0] },
+            close: { $ifNull: [{ $arrayElemAt: ["$close.count", 0] }, 0] },
+            items: {
+              $slice: [
+                { $ifNull: [{ $arrayElemAt: ["$items.data", 0] }, []] },
+                -3,
+              ],
+            },
+          },
+        },
+      ])
+      .exec();
+
+    if (data.length > 0) {
+      return data[0];
+    }
+    return data;
   }
 }

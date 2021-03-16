@@ -4,11 +4,8 @@ import { ConfigService } from "@nestjs/config";
 import { GraphQLClient } from "graphql-request";
 
 import { Env } from "@app/env";
-import {
-  pullRequests,
-  pullRequestsTotalClosed,
-  pullRequestsTotalOpen,
-} from "../graphql/definitions.graphql";
+import { pullRequestsLast } from "../graphql/definitions.graphql";
+
 
 @Injectable()
 export class GithubService {
@@ -35,24 +32,26 @@ export class GithubService {
     });
   }
 
-  async pullRequests(): Promise<any> {
+  async pullRequests(pullRequests: any, after = ""): Promise<any> {
+    if (after) {
+      return await this.graphQLClient.request(pullRequests, {
+        name: this.githubRepository,
+        owner: this.githubRepositoryOwner,
+        after: after
+      });
+    }
+
     return await this.graphQLClient.request(pullRequests, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,
-    });
+    });    
   }
 
-  async pullRequestsOpen(): Promise<any> {
-    return await this.graphQLClient.request(pullRequestsTotalOpen, {
+  async pullRequestsLast(pullRequests: any, last: number): Promise<any> {
+    return await this.graphQLClient.request(pullRequestsLast, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,
-    });
-  }
-
-  async pullRequestsClosed(): Promise<any> {
-    return await this.graphQLClient.request(pullRequestsTotalClosed, {
-      name: this.githubRepository,
-      owner: this.githubRepositoryOwner,
-    });
+      last: last
+    });    
   }
 }

@@ -28,7 +28,8 @@
 
 
          <span *ngIf="column == 'title'">
-           <td class="tooltip" mat-cell *matCellDef="let element;">
+           <td class="tooltip" mat-cell *matCellDef="let element;"
+            [ngClass]="{'subproposal-title': element.proposal, 'proposal-title': !element.proposal}">
              <!-- <span class="tooltiptext">Click for more details</span>  -->
              <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
          </span>
@@ -46,7 +47,8 @@
           </td>
          </span>
          <span *ngIf="column == 'pos'">
-           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" ><br>{{element.mip}}
+           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element"
+            [ngClass]="{'subproposal-pos': element.proposal}"><br>{{element.mip}}
             <!-- <span class="tooltiptext">Click for more details</span> -->
           </td>
          </span>
@@ -96,7 +98,9 @@
    </div>
   </div>
   <div class="mobile">
-    <div class="mobile-container" *ngFor="let item of dataSource">
+    <div class="mobile-container" *ngFor="let item of dataSource"
+      [ngClass]="{'proposal-card': !item.proposal, 'subproposal-card': item.proposal}"
+    >
       # {{item.mip}} <img src="../../../../../assets/images/circle.svg">
       <span class="title"> <a routerLink="/mips/details/{{item._id}}"> {{item.title}}</a></span>
       <div class="status">

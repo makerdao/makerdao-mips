@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
+import { MarkdownService } from 'ngx-markdown';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const preambleDataSample = [
   {
@@ -52,8 +54,37 @@ const preambleDataSample = [
 export class DetailContentComponent implements OnInit {
   gitgubUrl = environment.repoUrl;
   @Input() mip: any;
-  constructor() { }
+  constructor(
+    private markdownService: MarkdownService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    let url = this.router.url.split('#')[0];
+
+    this.markdownService.renderer.heading = (text: string, level: number) => {
+      const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+      return `
+             <h${level}>
+               <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
+                 <i id="${escapedText}" class="fas fa-link"></i>
+               </a>
+               ${text}
+             </h${level}>`;
+    };
+  }
+
+  onReady() {
+    if (this.route.snapshot.fragment) {
+      const el = document.getElementById(this.route.snapshot.fragment.toString());
+      this.moveToElement(el);
+    }
+  }
+
+  moveToElement(el: HTMLElement): void {
+    el.scrollIntoView({behavior: 'smooth'});
+  }
 
 }

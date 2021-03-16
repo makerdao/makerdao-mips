@@ -90,6 +90,59 @@
     font-size: 20px;
     color: #000000;
     margin-top: 40px;
+    position: relative;
+
+    &:hover {
+      a.anchor {
+        i {
+          visibility: visible;
+        }
+      }
+    }
+
+    a.anchor {
+      color: black;
+      position: absolute;
+      left: -20px;
+
+      i {
+        visibility: hidden;
+      }
+
+      &:hover {
+        i {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  h3, h1, h4 {
+    position: relative;
+
+    &:hover {
+      a.anchor {
+        i {
+          visibility: visible;
+        }
+      }
+    }
+
+    a.anchor {
+      color: black;
+      position: absolute;
+      left: -20px;
+
+      i {
+        visibility: hidden;
+      }
+
+      &:hover {
+        i {
+          visibility: visible;
+        }
+      }
+    }
   }
 
   pre {

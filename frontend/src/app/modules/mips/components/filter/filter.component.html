@@ -5,8 +5,10 @@
         <img src="../../../../../assets/images/icon_filter_blue.svg" />
       </ng-template>
   </div>
-  <img *ngIf="!contentOptionsShow" class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter.svg" />
-  <img *ngIf="contentOptionsShow" class="mobile" (click)="showFilter()" src="../../../../../assets/images/filter_blue.svg" />
+  <div class="img-container" (click)="showFilter()">
+    <img *ngIf="!contentOptionsShow" class="mobile" src="../../../../../assets/images/filter.svg" />
+    <img *ngIf="contentOptionsShow" class="mobile" src="../../../../../assets/images/filter_blue.svg" />
+  </div>
   <div class="content frame" *ngIf="contentOptionsShow">
     <p class="title">FILTER BY</p>
     <!-- <div class="data">

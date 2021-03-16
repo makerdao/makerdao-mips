@@ -1,9 +1,9 @@
-<div class="container">  
+<div *ngIf="mip" class="container">
   <app-details-mobiles-buttons class="mobile" [sourceData]="sections" [mip]="mip.mip"></app-details-mobiles-buttons>
-  <app-mips-pagination 
-  [mipNumber]="mip.mip" 
-  [mipPosition]="mipPosition" 
-  [total]="total" 
+  <app-mips-pagination
+  [mipNumber]="mip.mip"
+  [mipPosition]="mipPosition"
+  [total]="total"
   (send)="mipsPagination($event)"
   ></app-mips-pagination>
   <div class="row">

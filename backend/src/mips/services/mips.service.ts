@@ -21,15 +21,15 @@ export class MIPsService {
     filter?: Filters
   ): Promise<IMIPs[]> {
     const buildFilter = this.buildFilter(search, filter);
-    const { limit, page } = paginationQuery;     
+    const { limit, page } = paginationQuery;
 
     return this.mipsDoc
-    .find(buildFilter)
-    .select(["-file", "-__v"])
-    .sort(order)
-    .skip(page * limit)
-    .limit(limit)
-    .exec();
+      .find(buildFilter)
+      .select(["-file", "-__v"])
+      .sort(order)
+      .skip(page * limit)
+      .limit(limit)
+      .exec();
   }
 
   count(search: string, filter?: Filters): Promise<number> {
@@ -40,52 +40,25 @@ export class MIPsService {
   // Function to build filter
   buildFilter(search: string, filter?: Filters): any {
     const source = {};
-    source["$or"] = [];
-    let existOr = false;
-    let firstStatus = '';     
 
     if (filter?.contains) {
       const field = filter.contains["field"];
-      const value = filter.contains["value"];      
-      
+      const value = filter.contains["value"];
+
       if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {          
+        for (let i = 0; i < field.length; i++) {
           const newValue = this.validField(field[i].toString(), value[i]);
-          if (source[`${field[i].toString()}`] != undefined) { 
-            if (!existOr) {
-              source["$or"].push({
-                status: {
-                  $regex: new RegExp(`${firstStatus}`),
-                  $options: "i",
-                }
-              });
-              existOr = true;
-            }           
-            source["$or"].push({
-              status: {
-                $regex: new RegExp(`${newValue}`),
-                $options: "i",
-              }
-            });
-          } else {
-            if (field[i].toString() == 'status') {
-              firstStatus = newValue;
-            }
-            source[`${field[i].toString()}`] = {
-              $regex: new RegExp(`${newValue}`),
-              $options: "i",
-            }; 
-          }
-        }        
-      } else {        
+          source[`${field[i].toString()}`] = {
+            $regex: new RegExp(`${newValue}`), $options: "i"
+          };
+        }
+      } else {
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = {
-          $regex: new RegExp(`${newValue}`),
-          $options: "i",
+          $regex: new RegExp(`${newValue}`), $options: "i" 
         };
-      }    
-      
-    }    
+      }
+    }
 
     if (filter?.equals) {
       const field = filter.equals["field"];
@@ -96,9 +69,27 @@ export class MIPsService {
           const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = newValue;
         }
+
       } else {
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = newValue;
+      }
+    }
+
+    if (filter?.inarray) {
+      const field = filter.inarray["field"];
+      const value = filter.inarray["value"];
+
+      if (Array.isArray(field) && Array.isArray(value)) {
+
+        for (let i = 0; i < field.length; i++) {
+          const newValue = this.validField(field[i].toString(), value[i]);
+          source[`${field[i].toString()}`] = {$in: newValue};
+        }
+
+      } else {
+        const newValue = this.validField(field.toString(), value);
+        source[`${field.toString()}`] = {$in: newValue};
       }
     }
 
@@ -137,50 +128,8 @@ export class MIPsService {
     }
 
     if (search) {
-      // source["$text"] = { $search: JSON.parse(`"${search}"`) };
-      source["$and"] = []; 
-      const aux = {};
-      aux["$or"] = []; 
-
-      if (source["title"] == undefined) {
-          aux["$or"].push({
-            title: {
-              $regex: new RegExp(`${search}`),
-              $options: "i",
-            }
-          }
-        );
-      }
-      aux["$or"].push({
-          sentenceSummary: {
-            $regex: new RegExp(`${search}`),
-            $options: "i",
-          }
-        }
-      );
-      aux["$or"].push({
-        paragraphSummary: {
-          $regex: new RegExp(`${search}`),
-          $options: "i",
-          }
-        }
-      );
-      aux["$or"].push({
-        file: {
-          $regex: new RegExp(`${search}`),
-          $options: "i",
-          }
-        }
-      );
-      source["$and"].push(aux);
-    }  
-
-    if (existOr) {
-      delete source[`status`];
-    } else {
-      delete source["$or"];
-    }   
-    
+      source["$text"] = { $search: JSON.parse(`"${search}"`) };
+    }
     return source;
   }
 
@@ -195,13 +144,13 @@ export class MIPsService {
     let flag = false;
 
     switch (field) {
-      case "title":
-        flag = true;
-        break;
-      case "filename":
-        flag = true;
-        break;
       case "status":
+        flag = true;
+        break;
+      case "mipName":
+        flag = true;
+        break;
+      case "proposal":
         flag = true;
         break;
       case "mip":

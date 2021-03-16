@@ -28,6 +28,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { FilterListComponent } from './components/filter-list/filter-list.component';
 import { FilterListItemComponent } from './components/filter-list-item/filter-list-item.component';
 import { FilterListHostDirective } from './directives/filter-list-host.directive';
+import { SecurityContext } from '@angular/core';
+import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.component';
+import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-checkbox-mobile.component';
 
 
 
@@ -52,7 +55,9 @@ import { FilterListHostDirective } from './directives/filter-list-host.directive
     FeedbackComponent,
     FilterListComponent,
     FilterListItemComponent,
-    FilterListHostDirective
+    FilterListHostDirective,
+    MdCheckboxComponent,
+    MdCheckboxMobileComponent
   ],
   imports: [
     CommonModule,
@@ -63,7 +68,9 @@ import { FilterListHostDirective } from './directives/filter-list-host.directive
     MatPaginatorModule,
     InfiniteScrollModule,
     MatIconModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    }),
   ]
 })
 export class MipsModule { }

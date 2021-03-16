@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input, HostBinding } from '@angular/core';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -15,6 +16,9 @@ export class SearchMobileComponent implements OnInit {
   showClose = false;
   showInput = false;
   text = '';
+  @Input() showListSearch = false;
+  @Input() listSearchItems = [];
+  @Output() clickSearchItem = new Subject<any>();
 
   constructor() { }
 
@@ -46,6 +50,15 @@ export class SearchMobileComponent implements OnInit {
   onOpenCloseInput(): void {
     this.showInput = !this.showInput;
     this.open.emit(this.showInput);
+  }
+
+  onClickSearchItem(element) {
+    this.clickSearchItem.next(element);
+  }
+
+  @HostBinding('class.spread')
+  get spread() {
+    return this.showInput;
   }
 
 }
