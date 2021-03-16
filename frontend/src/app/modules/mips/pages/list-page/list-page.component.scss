@@ -55,6 +55,15 @@ app-search-mobile {
   display: none;
 }
 
+::ng-deep {
+  app-filter-list {
+    .filter-list {
+      width: 100%;
+      margin: 12px 0;
+      padding: 10px 20px 2px;
+    }
+  }
+}
 app-md-checkbox {
   margin-right: 25px;
 }
@@ -93,6 +102,17 @@ app-md-checkbox-mobile {
 
   .no-mobile {
     display: none;
+  }
+
+  ::ng-deep {
+    app-filter-list {
+      .filter-list {
+        width: 100vw !important;
+        margin-left: -20px;
+        padding: 10px 20px 2px;
+        margin-bottom: 12px;
+      }
+    }
   }
 
   app-md-checkbox {

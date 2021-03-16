@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
+import { FilterListComponent } from '../../components/filter-list/filter-list.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,6 +26,8 @@ export class ListPageComponent implements OnInit {
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
+  @ViewChild('filterList', {static: true}) filterList: FilterListComponent;
+  showFilterList: boolean = false;
   showListSearch: boolean = false;
   listSearchMip: any[] = [];
   subproposalsMode: boolean;
@@ -113,7 +116,8 @@ export class ListPageComponent implements OnInit {
       contains: [],
       notcontains: [],
       equals: [],
-      notequals: []
+      notequals: [],
+      inarray: []
     };
 
     this.filterSaved = this.mipsService.getFilter();
@@ -125,23 +129,22 @@ export class ListPageComponent implements OnInit {
     if (this.filterSaved.type === 'SUB-PROPOSAL') {
       this.filter.equals.push({field: 'mip', value: -1});
     }
-    if (this.filterSaved.title !== '') {
-      this.filter.contains.push({field: 'title', value: this.filterSaved.title });
-    }
     if (this.filterSaved.arrayStatus[0] === 1) {
-      this.filter.contains.push({field: 'status', value: 'accepted' });
+      this.filter.inarray.push({field: 'status', value: 'Accepted' });
     }
     if (this.filterSaved.arrayStatus[1] === 1) {
-      this.filter.contains.push({field: 'status', value: 'rejected' });
+      this.filter.inarray.push({field: 'status', value: 'Rejected' });
     }
     if (this.filterSaved.arrayStatus[2] === 1) {
-      this.filter.contains.push({field: 'status', value: 'archive' });
+      this.filter.inarray.push({field: 'status', value: 'Archive' });
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
-      this.filter.contains.push({field: 'status', value: 'rfc' });
+      this.filter.inarray.push({field: 'status', value: 'RFC' });
+      this.filter.inarray.push({field: 'status', value: "Request for Comments (RFC)" });
+      this.filter.inarray.push({field: 'status', value: "Request for Comments" });
     }
     if (this.filterSaved.arrayStatus[4] === 1) {
-      this.filter.contains.push({field: 'status', value: 'obsolete' });
+      this.filter.inarray.push({field: 'status', value: 'Obsolete' });
     }
     if (!this.subproposalsMode) {
       this.filter.equals.push({field: 'proposal', value: ""});
@@ -188,6 +191,19 @@ export class ListPageComponent implements OnInit {
 
   onOpenMobileSearch(open: boolean): void {
     this.mobileSearch = open;
+  }
+
+  cmpFn(o1: any, o2: any): boolean {
+    return o1.id === o2.id;
+  }
+
+  onCloseFilterItem(event) {
+    this.mipsService.setFilterArrayStatus(parseInt(event), 0);
+    this.onSendFilters();
+  }
+
+  onHasItemsFilterList(event) {
+    this.showFilterList = event;
   }
 
   onNavigateToMipDetails(event) {
