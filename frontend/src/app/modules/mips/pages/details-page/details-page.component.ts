@@ -40,10 +40,7 @@ export class DetailsPageComponent implements OnInit {
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = data.sections;
-    });
-    this.mipsService.getPullRequestHistory()
-    .subscribe(response => {
-      this.pullrequest = response;
+      this.pullrequest = data.pullRequests;
     });
     const data = this.mipsService.getMipsData();
     if (data !== undefined) {
