@@ -79,7 +79,6 @@ export class FilterComponent implements OnInit {
                   if (!add) {
                     this.selecteds[0] = 0;
                     this.cantSelected--;
-                    this.filterItemService.remove('0');
                   }
                 }
                 break;
@@ -92,7 +91,6 @@ export class FilterComponent implements OnInit {
                   if (!add) {
                     this.selecteds[1] = 0;
                     this.cantSelected--;
-                    this.filterItemService.remove('1');
                   }
                 }
                 break;
@@ -105,7 +103,6 @@ export class FilterComponent implements OnInit {
                   if (!add) {
                     this.selecteds[2] = 0;
                     this.cantSelected--;
-                    this.filterItemService.remove('2');
                   }
                 }
                 break;
@@ -118,7 +115,6 @@ export class FilterComponent implements OnInit {
                   if (!add) {
                     this.selecteds[3] = 0;
                     this.cantSelected--;
-                    this.filterItemService.remove('3');
                   }
                 }
                 break;
@@ -131,7 +127,6 @@ export class FilterComponent implements OnInit {
                   if (!add) {
                     this.selecteds[4] = 0;
                     this.cantSelected--;
-                    this.filterItemService.remove('4');
                   }
                 }
                 break;
@@ -230,6 +225,8 @@ export class FilterComponent implements OnInit {
         value: '0',
         color: '#27AE60'
       });
+    } else {
+      this.filterItemService.remove('0');
     }
     if (filterSaved.arrayStatus[1] === 1) {
       this.filterItemService.add({
@@ -238,6 +235,8 @@ export class FilterComponent implements OnInit {
         value: '1',
         color: '#EB5757'
       });
+    } else {
+      this.filterItemService.remove('1');
     }
     if (filterSaved.arrayStatus[2] === 1) {
       this.filterItemService.add({
@@ -246,6 +245,8 @@ export class FilterComponent implements OnInit {
         value: '2',
         color: '#748AA1'
       });
+    } else {
+      this.filterItemService.remove('2');
     }
     if (filterSaved.arrayStatus[3] === 1) {
       this.filterItemService.add({
@@ -254,6 +255,8 @@ export class FilterComponent implements OnInit {
         value: '3',
         color: '#F2994A'
       });
+    } else {
+      this.filterItemService.remove('3');
     }
     if (filterSaved.arrayStatus[4] === 1) {
       this.filterItemService.add({
@@ -262,6 +265,8 @@ export class FilterComponent implements OnInit {
         value: '4',
         color: '#B5B12A'
       });
+    } else {
+      this.filterItemService.remove('4');
     }
   }
 
