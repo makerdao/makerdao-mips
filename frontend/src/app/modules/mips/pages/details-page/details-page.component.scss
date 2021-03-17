@@ -29,7 +29,7 @@ app-mips-pagination {
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1023px) {
   .no-mobile {
     display: none;
   }
@@ -48,14 +48,17 @@ app-mips-pagination {
   }
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 1024px) {
   .row {
+    display: grid !important;
+    grid-template-columns: 240px auto 240px;
+
     app-detail-content {
       min-width: 61.067%;
       margin: 0 10px;
     }
     .column {
-      width: 19%;
+      // width: 19%;
     }
   }
   .mobile {
@@ -63,4 +66,9 @@ app-mips-pagination {
   }
 }
 
-
+@media screen and (min-width: 1200px) {
+  .row {
+    display: grid !important;
+    grid-template-columns: 284px auto 284px;
+  }
+}
