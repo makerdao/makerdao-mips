@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
 import { FilterListComponent } from '../../components/filter-list/filter-list.component';
 import { Router } from '@angular/router';
+import { FilterItemService } from 'src/app/services/filter-item/filter-item.service';
 
 @Component({
   selector: 'app-list-page',
   templateUrl: './list-page.component.html',
   styleUrls: ['./list-page.component.scss']
 })
-export class ListPageComponent implements OnInit {
+export class ListPageComponent implements OnInit, AfterViewInit {
 
   mips: any = [];
   mipsAux: any = [];
@@ -36,12 +37,14 @@ export class ListPageComponent implements OnInit {
   constructor(
     private mipsService: MipsService,
     private footerVisibleService: FooterVisibleService,
-    private router: Router
+    private router: Router,
+    private filterItemService: FilterItemService
   ) { }
 
   ngOnInit(): void {
     this.loading = true;
     this.order = 'mip';
+    this.subproposalsMode = this.mipsService.subproposalsMode;
     this.onSendFilters();
     this.mipsService.activateSearch$
     .subscribe(data =>  {
@@ -62,7 +65,13 @@ export class ListPageComponent implements OnInit {
           elementFeedback.style.bottom = '40px';
         }
       }
-    })
+    });
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.initFiltersList();
+    }, 200);
   }
 
   searchMips(): void {
@@ -154,6 +163,8 @@ export class ListPageComponent implements OnInit {
       if (index !== -1) {
         this.filter.equals.splice(index, 1);
       }
+
+      this.order = 'mip mipName';
     }
 
     this.searchMips();
@@ -211,8 +222,56 @@ export class ListPageComponent implements OnInit {
   }
 
   onCheckedSubproposalMode(event) {
+    this.mipsService.subproposalsMode = event;
     this.order = (event && this.order === 'mip') ? this.order + ' mipName' : this.order.replace('mipName', '').trim();
     this.subproposalsMode = event;
     this.onSendFilters();
+  }
+
+  initFiltersList(): void {
+    let filterSaved = this.mipsService.getFilter();
+    let sum = filterSaved.arrayStatus.reduce((t, c) => t + c, 0);
+    this.showFilterList = sum ? true : false;
+
+    if (filterSaved.arrayStatus[0] === 1) {
+      this.filterItemService.add({
+        id: '0',
+        text: 'accepted',
+        value: '0',
+        color: '#27AE60'
+      });
+    }
+    if (filterSaved.arrayStatus[1] === 1) {
+      this.filterItemService.add({
+        id: '1',
+        text: 'rejected',
+        value: '1',
+        color: '#EB5757'
+      });
+    }
+    if (filterSaved.arrayStatus[2] === 1) {
+      this.filterItemService.add({
+        id: '2',
+        text: 'archive',
+        value: '2',
+        color: '#748AA1'
+      });
+    }
+    if (filterSaved.arrayStatus[3] === 1) {
+      this.filterItemService.add({
+        id: '3',
+        text: 'rfc',
+        value: '3',
+        color: '#F2994A'
+      });
+    }
+    if (filterSaved.arrayStatus[4] === 1) {
+      this.filterItemService.add({
+        id: '4',
+        text: 'obsolete',
+        value: '4',
+        color: '#B5B12A'
+      });
+    }
   }
 }
