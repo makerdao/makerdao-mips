@@ -10,6 +10,7 @@
   width: 107px;
   margin: 0 8px 8px 0;
   box-sizing: border-box;
+  position: relative;
 }
 
 .filter-item-text {
@@ -23,15 +24,27 @@
   font-size: 12px;
   line-height: 14px;
   text-align: center;
-  margin: 0 10px 0 0;
+  margin: 0 8px 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: -webkit-fill-available;
+  width: 73px;
+  box-sizing: border-box;
 
   .text {
     height: 12px;
   }
+}
+
+.close {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
 }
 
 .close-container {
