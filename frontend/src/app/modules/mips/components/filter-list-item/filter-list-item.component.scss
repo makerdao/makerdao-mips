@@ -7,8 +7,9 @@
   background-color: #ffffff;
   height: 30px;
   padding: 0 8.5px 0 4px;
-  width: fit-content;
+  width: 107px;
   margin: 0 8px 8px 0;
+  box-sizing: border-box;
 }
 
 .filter-item-text {
@@ -25,6 +26,12 @@
   margin: 0 10px 0 0;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: -webkit-fill-available;
+
+  .text {
+    height: 12px;
+  }
 }
 
 .close-container {
@@ -36,5 +43,13 @@
     position: absolute;
     width: inherit;
     height: inherit;
+  }
+}
+
+@media (min-width: 768px) {
+  .filter-item-text {
+    .text {
+      height: 11px;
+    }
   }
 }

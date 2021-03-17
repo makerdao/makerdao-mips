@@ -75,12 +75,6 @@ export class FilterComponent implements OnInit {
                 if (this.selecteds[0] === 0)  {
                   this.selecteds[0] = 1;
                   this.cantSelected++;
-                  this.filterItemService.add({
-                    id: '0',
-                    text: 'accepted',
-                    value: '0',
-                    color: '#27AE60'
-                  });
                 } else {
                   if (!add) {
                     this.selecteds[0] = 0;
@@ -94,12 +88,6 @@ export class FilterComponent implements OnInit {
                 if (this.selecteds[1] === 0)  {
                   this.selecteds[1] = 1;
                   this.cantSelected++;
-                  this.filterItemService.add({
-                    id: '1',
-                    text: 'rejected',
-                    value: '1',
-                    color: '#EB5757'
-                  });
                 } else {
                   if (!add) {
                     this.selecteds[1] = 0;
@@ -113,12 +101,6 @@ export class FilterComponent implements OnInit {
                 if (this.selecteds[2] === 0)  {
                   this.selecteds[2] = 1;
                   this.cantSelected++;
-                  this.filterItemService.add({
-                    id: '2',
-                    text: 'archive',
-                    value: '2',
-                    color: '#748AA1'
-                  });
                 } else {
                   if (!add) {
                     this.selecteds[2] = 0;
@@ -132,12 +114,6 @@ export class FilterComponent implements OnInit {
                 if (this.selecteds[3] === 0)  {
                   this.selecteds[3] = 1;
                   this.cantSelected++;
-                  this.filterItemService.add({
-                    id: '3',
-                    text: 'rfc',
-                    value: '3',
-                    color: '#F2994A'
-                  });
                 } else {
                   if (!add) {
                     this.selecteds[3] = 0;
@@ -151,12 +127,6 @@ export class FilterComponent implements OnInit {
                 if (this.selecteds[4] === 0)  {
                   this.selecteds[4] = 1;
                   this.cantSelected++;
-                  this.filterItemService.add({
-                    id: '4',
-                    text: 'obsolete',
-                    value: '4',
-                    color: '#B5B12A'
-                  });
                 } else {
                   if (!add) {
                     this.selecteds[4] = 0;
@@ -215,6 +185,7 @@ export class FilterComponent implements OnInit {
       arrayStatus: this.selecteds
     };
     this.mipsService.setFilter(this.filterData);
+    this.setFiltersList();
     this.contentOptionsShow = false;
     this.send.emit();
   }
@@ -247,6 +218,51 @@ export class FilterComponent implements OnInit {
         this.filterItemService.remove(index.toString());
       }
     });
+  }
+
+  setFiltersList(): void {
+    let filterSaved = this.mipsService.getFilter();
+
+    if (filterSaved.arrayStatus[0] === 1) {
+      this.filterItemService.add({
+        id: '0',
+        text: 'accepted',
+        value: '0',
+        color: '#27AE60'
+      });
+    }
+    if (filterSaved.arrayStatus[1] === 1) {
+      this.filterItemService.add({
+        id: '1',
+        text: 'rejected',
+        value: '1',
+        color: '#EB5757'
+      });
+    }
+    if (filterSaved.arrayStatus[2] === 1) {
+      this.filterItemService.add({
+        id: '2',
+        text: 'archive',
+        value: '2',
+        color: '#748AA1'
+      });
+    }
+    if (filterSaved.arrayStatus[3] === 1) {
+      this.filterItemService.add({
+        id: '3',
+        text: 'rfc',
+        value: '3',
+        color: '#F2994A'
+      });
+    }
+    if (filterSaved.arrayStatus[4] === 1) {
+      this.filterItemService.add({
+        id: '4',
+        text: 'obsolete',
+        value: '4',
+        color: '#B5B12A'
+      });
+    }
   }
 
 }

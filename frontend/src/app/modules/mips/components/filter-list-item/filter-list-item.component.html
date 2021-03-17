@@ -1,4 +1,6 @@
-<p class="filter-item-text" [ngStyle]="style">{{text | uppercase}}</p>
+<div class="filter-item-text" [ngStyle]="style">
+  <div class="text">{{text | uppercase}}</div>
+</div>
 <div class="close-container" (click)="close()">
   <img src="{{imageClose}}" class="imageClose" />
 </div>
