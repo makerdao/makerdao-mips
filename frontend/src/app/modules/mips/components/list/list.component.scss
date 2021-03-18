@@ -38,17 +38,7 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   vertical-align: top;
   margin-top: 120px;
 
-  &.proposal-title {
-    padding-left: 5px !important;
-  }
-
-  &.subproposal-pos {
-    color: #2F80ED;
-    padding-left: 40px !important;
-  }
-
   &.subproposal-title {
-    padding-left: 20px;
     a {
       color: #2F80ED;
     }
@@ -471,6 +461,47 @@ a {
 
   .title a {
     color: #2F80ED;
+  }
+}
+
+.arrow-container {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+  top: 24px;
+  transform: translateY(-50%);
+
+  .arrow-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    .arrow {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      transform: translate(50%, -50%);
+    }
+  }
+
+  .expanded {
+    margin-left: 15px;
+    -webkit-transition: 500ms ease all;
+    -moz-transition: 500ms ease all;
+    -o-transition: 500ms ease all;
+    transition: 500ms ease all;
+    float: right;
+    vertical-align: middle;
+  }
+
+  .rotate {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
   }
 }
 

@@ -13,6 +13,7 @@ export class MipsService {
   filter: FilterData;
   mipsData: any[];
   total = 1;
+  private _subproposalsMode: boolean = false;
 
   private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
@@ -72,10 +73,6 @@ export class MipsService {
     return this.http.post(`${environment.feedBackFormUrl}`, { subject, description });
   }
 
-  getPullRequestHistory(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/mips/pullrequests`);
-  }
-
   getFilter(): FilterData {
     return this.filter;
   }
@@ -106,6 +103,14 @@ export class MipsService {
 
   setFilterArrayStatus(index: number, value: number) {
     this.filter.arrayStatus[index] = value;
+  }
+
+  public get subproposalsMode() {
+    return this._subproposalsMode;
+  }
+
+  public set subproposalsMode(value: boolean) {
+    this._subproposalsMode = value;
   }
 
 }

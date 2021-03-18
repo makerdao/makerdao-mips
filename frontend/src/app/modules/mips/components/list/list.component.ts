@@ -89,6 +89,8 @@ export class ListComponent {
   arrowDown: string = '../../../../../assets/images/down.svg';
   arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
   arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
+  isArrowDownOnMouseOver: boolean = false;
+  currentRowOver: any;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -131,7 +133,9 @@ const language = 'typescript';
     // return data;
   }
 
-  updateSelected(index: string): void {
+  updateSelected(index: string, event: Event): void {
+    event.stopPropagation();
+
     if (this.selected === index) {
       this.selected = '-1';
     } else {
@@ -175,6 +179,11 @@ const language = 'typescript';
 
   onNavigateToDetails(id) {
     this.router.navigate(["/mips/details/", id]);
+  }
+
+  onMouseOverLeaveArrow(id: any, value: boolean) {
+    this.isArrowDownOnMouseOver = value;
+    this.currentRowOver = id;
   }
 
 }

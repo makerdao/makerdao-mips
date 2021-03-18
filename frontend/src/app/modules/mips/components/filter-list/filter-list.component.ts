@@ -4,6 +4,7 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -18,7 +19,7 @@ import { Subject } from 'rxjs';
   templateUrl: './filter-list.component.html',
   styleUrls: ['./filter-list.component.scss'],
 })
-export class FilterListComponent implements OnInit, AfterViewInit {
+export class FilterListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(FilterListHostDirective, { static: true })
   appFilterListHost: FilterListHostDirective;
   itemsRef: ComponentRef<FilterListItemComponent>[] = [];
@@ -113,5 +114,11 @@ export class FilterListComponent implements OnInit, AfterViewInit {
         this.hasItems.next(false);
       }
     }
+  }
+
+  ngOnDestroy() {
+    let size = this.itemsRef.length;
+    this.itemsRef.splice(0, size);
+    this.items.splice(0, size);
   }
 }

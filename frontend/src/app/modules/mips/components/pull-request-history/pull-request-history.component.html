@@ -2,9 +2,9 @@
   <p class="title">Recent Changes</p>
   <div class="space-1">
     <img class="logo" src="../../../../../assets/images/pull.svg" />
-    <span class="label">{{pullrequest.totalOpen}} Open</span>
+    <span class="label">{{pullrequest.open}} Open</span>
     <img class="logo check" src="../../../../../assets/images/check.png" />
-    <span class="label">{{pullrequest.totalClosed}} Closed</span>
+    <span class="label">{{pullrequest.close}} Closed</span>
   </div>
   <hr>
   <div *ngFor="let item of pullrequest.items.slice(0, 3)">
