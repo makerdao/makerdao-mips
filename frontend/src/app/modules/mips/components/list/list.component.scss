@@ -512,6 +512,7 @@ a {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    overflow: hidden;
   }
   .no-mobile {
     display: none;
