@@ -41,7 +41,8 @@ export class ParseMIPsService {
     this.logger.log(message);
   }
 
-  async parse(): Promise<boolean> {    
+  async parse(): Promise<boolean> {
+    
     try {
       this.simpleGitService.pull(); 
 
@@ -165,7 +166,8 @@ export class ParseMIPsService {
     if (item.filename.includes('-')) {
       mip.proposal = item.filename.split('/')[0];
     } else {
-      mip.mipName = item.filename.split('/')[0];
+      const re = /[a-z#-]/gi;
+      mip.mipName = parseInt((item.filename.split('/')[0]).replace(re, ''));
     }
 
     let title: string;
@@ -185,7 +187,8 @@ export class ParseMIPsService {
           if (item.filename.includes('-')) {
             preamble = this.parsePreambleSubproposal(list[i + 1]?.text);
             preamble.mip = parseInt(mip.proposal.replace('MIP', ''));
-            mip.mipName = preamble.mipName;
+            const re = /[a-z#-]/gi;
+            mip.mipName = parseInt((preamble.mipName).replace(re, ''));
           } else {
             preamble = this.parsePreamble(list[i + 1]?.text);
           }

@@ -19,7 +19,7 @@ export class MIP {
   mip?: number;
   
   @Prop()
-  mipName?: string;
+  mipName?: number;
 
   @Prop({
     index: { type: "text" },
