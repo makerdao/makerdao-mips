@@ -33,6 +33,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   listSearchMip: any[] = [];
   subproposalsMode: boolean;
   mipsByName: any[] = [];
+  orderSubproposalField: string = 'subproposal';
 
   constructor(
     private mipsService: MipsService,
@@ -164,7 +165,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         this.filter.equals.splice(index, 1);
       }
 
-      this.order = 'mip mipName';
+      this.order = 'mip' + ' ' + this.orderSubproposalField;
     }
 
     this.searchMips();
@@ -196,7 +197,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
-    this.order = (this.subproposalsMode && text === 'mip') ? text + " subproposal" : text;
+    this.order = (this.subproposalsMode && text === 'mip') ? text + " " + this.orderSubproposalField : text;
     this.searchMips();
   }
 
@@ -223,7 +224,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onCheckedSubproposalMode(event) {
     this.mipsService.subproposalsMode = event;
-    this.order = (event && this.order === 'mip') ? this.order + ' mipName' : this.order.replace('mipName', '').trim();
+    this.order = (event && this.order === 'mip') ? this.order + ' ' + this.orderSubproposalField : this.order.replace(this.orderSubproposalField, '').trim();
     this.subproposalsMode = event;
     this.onSendFilters();
   }
