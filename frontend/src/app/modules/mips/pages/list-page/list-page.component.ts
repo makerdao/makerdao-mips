@@ -196,7 +196,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
-    this.order = (this.subproposalsMode && text === 'mip') ? text + " mipName" : text;
+    this.order = (this.subproposalsMode && text === 'mip') ? text + " subproposal" : text;
     this.searchMips();
   }
 
