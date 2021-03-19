@@ -167,7 +167,8 @@ export class ParseMIPsService {
       mip.proposal = item.filename.split('/')[0];
     } else {
       const re = /[a-z#-]/gi;
-      mip.mipName = parseInt((item.filename.split('/')[0]).replace(re, ''));
+      mip.subproposal = parseInt((item.filename.split('/')[0]).replace(re, ''));
+      mip.mipName = item.filename.split('/')[0];
     }
 
     let title: string;
@@ -188,7 +189,8 @@ export class ParseMIPsService {
             preamble = this.parsePreambleSubproposal(list[i + 1]?.text);
             preamble.mip = parseInt(mip.proposal.replace('MIP', ''));
             const re = /[a-z#-]/gi;
-            mip.mipName = parseInt((preamble.mipName).replace(re, ''));
+            mip.subproposal = parseInt((preamble.mipName).replace(re, ''));
+            mip.mipName = preamble.mipName;
           } else {
             preamble = this.parsePreamble(list[i + 1]?.text);
           }
@@ -327,7 +329,9 @@ export class ParseMIPsService {
       }
 
       if (flag) {
-        preamble.mipName = data.replace(':', '').replace('#', '').replace(' ', '');
+
+        const re = /[: #-]/gi;
+        preamble.mipName = data.replace(re, '');
 
         flag = false;
         return false;

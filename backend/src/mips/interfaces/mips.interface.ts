@@ -4,7 +4,8 @@ export interface IMIPs {
   filename?: string;
   hash?: string;
   mip?: number;
-  mipName?: number;
+  mipName?: string;
+  subproposal?: number;
   proposal?: string;
   title?: string;
   preambleTitle?: string;

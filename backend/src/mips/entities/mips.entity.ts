@@ -19,7 +19,10 @@ export class MIP {
   mip?: number;
   
   @Prop()
-  mipName?: number;
+  mipName?: string;
+
+  @Prop()
+  subproposal?: number;
 
   @Prop({
     index: { type: "text" },
