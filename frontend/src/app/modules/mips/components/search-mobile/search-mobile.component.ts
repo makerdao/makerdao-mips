@@ -27,13 +27,13 @@ export class SearchMobileComponent implements OnInit {
     clearTimeout(this.timeout);
     const $this = this;
     this.timeout = setTimeout(() => {
-        $this.onChange(this.inputSearch.nativeElement.value);
+        $this.onChange(event);
     }, 1000);
   }
 
-  onChange(value: string): void {
-    this.text = value;
-    this.send.emit(value);
+  onChange(event: any): void {
+    this.text = event.target.value;
+    this.send.emit(event);
   }
 
   clear(): void {
