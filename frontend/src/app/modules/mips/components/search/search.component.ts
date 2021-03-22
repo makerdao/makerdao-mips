@@ -29,12 +29,12 @@ showClose = false;
     clearTimeout(this.timeout);
     const $this = this;
     this.timeout = setTimeout(() => {
-        $this.onChange(this.inputSearch.nativeElement.value);
+        $this.onChange(event);
     }, 1000);
   }
 
-  onChange(value: string): void {
-    this.send.emit(value);
+  onChange(event: any): void {
+    this.send.emit(event);
   }
 
   clear(): void {

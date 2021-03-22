@@ -171,14 +171,17 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.searchMips();
   }
 
-  onSendSearch(text: string): void {
-    let search = text.toLowerCase().trim();
+  onSendSearch(event: any): void {
+    let search = event.target.value.toLowerCase().trim();
 
     if (search.startsWith('mip')) {
+      if (event.keyCode == 13 && this.listSearchMip.length > 0) {
+        this.goToMipDetails(this.listSearchMip[0].id);
+      }
       let filter = {
         contains: [],
       };
-      filter.contains.push({field: 'mipName', value: text});
+      filter.contains.push({field: 'mipName', value: event.target.value});
       this.searchMipsByName(0, 0, 'mipName', '', filter);
       this.limit = 0;
     } else {
@@ -187,7 +190,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.limitAux = 10;
       this.mips = [];
       this.page = 0;
-      this.search = text;
+      this.search = event.target.value;
       this.searchMips();
     }
   }
@@ -219,7 +222,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   onNavigateToMipDetails(event) {
-    this.router.navigate(["/mips/details/", event.id]);
+    this.goToMipDetails(event.id);
+  }
+
+  goToMipDetails(id) {
+    this.router.navigate(["/mips/details/", id]);
   }
 
   onCheckedSubproposalMode(event) {
