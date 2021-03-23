@@ -59,6 +59,6 @@ jobs:
           pm2 stop dist/main.js
           npm install
           npm run build
-          npm run pre-start
+          npm run pre-start-develop
           npx nestjs-command parse:mips
           pm2 start dist/main.js --name "api-dev"

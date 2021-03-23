@@ -3,6 +3,7 @@ export enum Env {
   Port = "PORT",
   FolderRepositoryName = "FOLDER_REPOSITORY_NAME",
   RepoPath = "REPO_PATH",
+  RepoBranch = "REPO_BRANCH",
   FolderPattern = "FOLDER_PATTERN",
   WebhooksSecretToken = "WEBHOOKS_SECRET_TOKEN",
   GitAccessApiToken = "GIT_ACCESS_API_TOKEN",
