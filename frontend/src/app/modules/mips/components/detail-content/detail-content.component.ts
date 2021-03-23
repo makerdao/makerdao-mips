@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MipsService } from '../../services/mips.service';
 
 const preambleDataSample = [
   {
@@ -54,13 +55,35 @@ const preambleDataSample = [
 export class DetailContentComponent implements OnInit {
   gitgubUrl = environment.repoUrl;
   @Input() mip: any;
+  links: Link[] = [];
+  countLinks: number = 0;
+
   constructor(
     private markdownService: MarkdownService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private mipsService: MipsService
   ) { }
 
   ngOnInit(): void {
+    this.overrideDefaultHeadings();
+    this.getDefaultLinks();
+  }
+
+  onReady() {
+    if (this.route.snapshot.fragment) {
+      const el = document.getElementById(this.route.snapshot.fragment.toString());
+      this.moveToElement(el);
+    }
+    this.searchMips();
+
+  }
+
+  moveToElement(el: HTMLElement): void {
+    el.scrollIntoView({behavior: 'smooth'});
+  }
+
+  overrideDefaultHeadings() {
     let url = this.router.url.split('#')[0];
 
     this.markdownService.renderer.heading = (text: string, level: number) => {
@@ -76,15 +99,51 @@ export class DetailContentComponent implements OnInit {
     };
   }
 
-  onReady() {
-    if (this.route.snapshot.fragment) {
-      const el = document.getElementById(this.route.snapshot.fragment.toString());
-      this.moveToElement(el);
-    }
+  getDefaultLinks() {
+    this.markdownService.renderer.link = (href: string, title: string, text: string) => {
+      const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+      let id: string = `md-${escapedText}${this.countLinks++}`;
+
+      let link: Link = {
+        id: id,
+        name: text
+      };
+
+      this.links.push({...link});
+
+      return `<a name="${escapedText}" id="${link.id}" class="anchor" href="${href}">${text}</a>`;
+    };
   }
 
-  moveToElement(el: HTMLElement): void {
-    el.scrollIntoView({behavior: 'smooth'});
+
+
+  searchMipsByNameAndOverrideLink(limit, page, order, search, filter, link: Link): void {
+    this.mipsService.searchMips(limit, page, order, search, filter)
+    .subscribe(data => {
+      if (data.items && data.items[0]) {
+        this.links.push(data.items[0]._id);
+
+        // override link in DOM
+        let elem = document.getElementById(link.id);
+        elem.setAttribute('href', '/mips/details/' + data.items[0]._id);
+      }
+    });
   }
 
+  searchMips() {
+    this.links.forEach(link => {
+      let filter = {
+        contains: [],
+      };
+
+      filter.contains.push({field: 'mipName', value: link.name});
+      this.searchMipsByNameAndOverrideLink(0, 0, 'mipName', '', filter, link);
+    })
+  }
+
+}
+
+interface Link {
+  id: string;
+  name: string;
 }
