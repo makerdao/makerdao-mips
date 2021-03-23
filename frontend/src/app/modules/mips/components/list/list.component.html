@@ -40,7 +40,7 @@
             (click)="onNavigateToDetails(element._id)"
             style="cursor: pointer;">
              <div class="space-status"></div>
-             <app-status [type]="getStatusValue(element.status)" style="cursor: pointer;"></app-status>
+             <app-status [type]="getStatusType(element.status)" [value]="getStatusValue(element.status)" style="cursor: pointer;"></app-status>
              <!-- <span class="tooltiptext">Click for more details</span> -->
             </td>
          </span>
@@ -118,7 +118,7 @@
       {{(item.proposal ? '' : ('# ' + item.mip))}} <img *ngIf="!item.proposal" src="../../../../../assets/images/circle.svg">
       <span class="title"> <a routerLink="/mips/details/{{item._id}}"> {{item.title}}</a></span>
       <div class="status">
-        <app-status [type]="getStatusValue(item.status)"></app-status>
+        <app-status [type]="getStatusType(item.status)" [value]="getStatusValue(item.status)"></app-status>
       </div>
       <div class="content">
         <a *ngIf="selected != item._id" routerLink="/mips/details/{{item._id}}">
