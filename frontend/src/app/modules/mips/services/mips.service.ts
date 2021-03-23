@@ -98,7 +98,7 @@ export class MipsService {
   }
 
   clearFilter(): void {
-    this.filter = { status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0, 0]};
+    this.filter = { status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0, 0, 0]};
   }
 
   setFilterArrayStatus(index: number, value: number) {

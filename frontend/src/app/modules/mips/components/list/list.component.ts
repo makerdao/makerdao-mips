@@ -128,6 +128,9 @@ const language = 'typescript';
       if (data.toLocaleLowerCase().includes('obsolete')) {
         return 'OBSOLETE';
       }
+      if (data.toLocaleLowerCase().includes('submission')) {
+        return 'FS';
+      }
     }
 
     // return data;

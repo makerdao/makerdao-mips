@@ -132,10 +132,22 @@ export class FilterComponent implements OnInit {
                 break;
               }
       case 5: {
+                if (this.selecteds[5] === 0)  {
+                  this.selecteds[5] = 1;
+                  this.cantSelected++;
+                } else {
+                  if (!add) {
+                    this.selecteds[5] = 0;
+                    this.cantSelected--;
+                  }
+                }
+                break;
+              }
+      case 6: {
                 this.deleteItemsFromFilterList();
                 this.statusCLass = 'status-none';
                 this.statusOptionsShow = false;
-                this.selecteds = [0 , 0, 0, 0, 0];
+                this.selecteds = [0 , 0, 0, 0, 0, 0];
                 this.statusInputText = this.getText();
                 this.cantSelected = 0;
                 break;
@@ -165,9 +177,9 @@ export class FilterComponent implements OnInit {
     this.setTyepClassAndText(2);
     this.typeInputText = 'NONE';
     this.statusInputText = '';
-    this.posStatus = 5;
+    this.posStatus = 6;
     this.posType = 2;
-    this.selecteds = [0, 0, 0, 0, 0];
+    this.selecteds = [0, 0, 0, 0, 0, 0];
     this.apply();
   }
 
@@ -191,6 +203,7 @@ export class FilterComponent implements OnInit {
     if (this.selecteds[2] === 1 ) { return 'status-archive'; }
     if (this.selecteds[3] === 1 ) { return 'status-rfc'; }
     if (this.selecteds[4] === 1 ) { return 'status-obsolete'; }
+    if (this.selecteds[5] === 1 ) { return 'status-fs'; }
   }
 
   getText(): string {
@@ -201,6 +214,7 @@ export class FilterComponent implements OnInit {
       if (this.selecteds[2] === 1 ) { return 'ARCHIVE'; }
       if (this.selecteds[3] === 1 ) { return 'RFC'; }
       if (this.selecteds[4] === 1 ) { return 'OBSOLETE'; }
+      if (this.selecteds[5] === 1 ) { return 'FS'; }
     }
     if (this.cantSelected === 0) { return ''; }
     this.statusPlaceHolder = '';
@@ -267,6 +281,16 @@ export class FilterComponent implements OnInit {
       });
     } else {
       this.filterItemService.remove('4');
+    }
+    if (filterSaved.arrayStatus[5] === 1) {
+      this.filterItemService.add({
+        id: '5',
+        text: 'fs',
+        value: '5',
+        color: '#78288C'
+      });
+    } else {
+      this.filterItemService.remove('5');
     }
   }
 
