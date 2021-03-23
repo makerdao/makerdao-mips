@@ -8,6 +8,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "pre-start": "rimraf mips_repository && git clone https://github.com/makerdao/mips.git  mips_repository",
+    "pre-start-develop": "rimraf mips_repository && git clone --branch subproposal-standardization https://github.com/makerdao/mips.git  mips_repository",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

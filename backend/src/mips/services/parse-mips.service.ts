@@ -42,9 +42,11 @@ export class ParseMIPsService {
   }
 
   async parse(): Promise<boolean> {
+
+    const branch = this.configService.get(Env.RepoBranch);
     
     try {
-      this.simpleGitService.pull(); 
+      this.simpleGitService.pull("origin", branch); 
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
