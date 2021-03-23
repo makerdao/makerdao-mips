@@ -156,6 +156,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (this.filterSaved.arrayStatus[4] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Obsolete' });
     }
+    if (this.filterSaved.arrayStatus[5] === 1) {
+      this.filter.inarray.push({field: 'status', value: 'Formal Submission' });
+      this.filter.inarray.push({field: 'status', value: "Formal Submission (FS)" });
+    }
     if (!this.subproposalsMode) {
       this.filter.equals.push({field: 'proposal', value: ""});
     } else {
@@ -279,6 +283,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         text: 'obsolete',
         value: '4',
         color: '#B5B12A'
+      });
+    }
+    if (filterSaved.arrayStatus[5] === 1) {
+      this.filterItemService.add({
+        id: '5',
+        text: 'fs',
+        value: '5',
+        color: '#78288C'
       });
     }
   }

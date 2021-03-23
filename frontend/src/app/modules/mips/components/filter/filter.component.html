@@ -24,6 +24,7 @@
         <div class="square archived" *ngIf="selecteds[2] == 1" (click)="setStatusClassAndText(2)">A</div>
         <div class="square rfc" *ngIf="selecteds[3] == 1" (click)="setStatusClassAndText(3)">R</div>
         <div class="square obsolete" *ngIf="selecteds[4] == 1" (click)="setStatusClassAndText(4)">O</div>
+        <div class="square fs" *ngIf="selecteds[5] == 1" (click)="setStatusClassAndText(5)">F</div>
       </div>
       <div class="square" (click)="statusOptionsShow = !statusOptionsShow; typeOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': statusOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
       <div class="status-options frame" *ngIf="statusOptionsShow" (onmouseout)="statusOptionsShow = false">
@@ -33,6 +34,7 @@
         <div class="status-option" (click)="setStatusClassAndText(2, true)"><div class="option status-archive">ARCHIVE</div></div>
         <div class="status-option" (click)="setStatusClassAndText(3, true)"><div class="option status-rfc">RFC</div></div>
         <div class="status-option" (click)="setStatusClassAndText(4, true)"><div class="option status-obsolete">OBSOLETE</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(5, true)"><div class="option status-fs">FS</div></div>
       </div>
     </div>
 

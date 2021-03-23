@@ -82,6 +82,10 @@
           border: 1px solid #b5b12a;
           color: #b5b12a;
         }
+        &.fs {
+          border: 1px solid #78288C;
+          color: #78288C;
+        }
       }
     }
     input {
@@ -120,6 +124,10 @@
       &.status-rfc {
         border: 1px solid #F2994A;
         color: #F2994A;
+      }
+      &.status-fs {
+        border: 1px solid #78288C;
+        color: #78288C;
       }
       &.status-obsolete {
         border: 1px solid #b5b12a;
@@ -242,6 +250,10 @@
 .status-rfc {
   border: 1px solid #F2994A;
   color: #F2994A;
+}
+.status-fs {
+  border: 1px solid #78288C;
+  color: #78288C;
 }
 .status-obsolete {
   border: 1px solid #b5b12a;
