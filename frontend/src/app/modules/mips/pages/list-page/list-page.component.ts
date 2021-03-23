@@ -288,7 +288,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (filterSaved.arrayStatus[5] === 1) {
       this.filterItemService.add({
         id: '5',
-        text: 'fs',
+        text: 'formal submission',
         value: '5',
         color: '#78288C'
       });

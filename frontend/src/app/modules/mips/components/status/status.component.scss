@@ -4,6 +4,8 @@
   text-align: center;
   display: inline-block;
   border-radius: 5px;
+  width: 136px;
+  box-sizing: border-box;
 }
 
 .type--ACCEPTED {
@@ -36,7 +38,6 @@
 .type--FS {
   border: 1px solid #78288C;
   color: #78288C;
-  width: 73px;
   box-sizing: border-box;
 }
 

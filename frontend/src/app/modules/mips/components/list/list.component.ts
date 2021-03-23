@@ -129,6 +129,31 @@ const language = 'typescript';
         return 'OBSOLETE';
       }
       if (data.toLocaleLowerCase().includes('submission')) {
+        return 'FORMAL SUBMISSION';
+      }
+    }
+
+    // return data;
+  }
+
+  getStatusType(data: string): string {
+    if (data !== undefined) {
+      if (data.toLocaleLowerCase().includes('accepted')) {
+          return 'ACCEPTED';
+      }
+      if (data.toLocaleLowerCase().includes('rfc')) {
+        return 'RFC';
+      }
+      if (data.toLocaleLowerCase().includes('rejected')) {
+        return 'REJECTED';
+      }
+      if (data.toLocaleLowerCase().includes('archived')) {
+        return 'ARCHIVED';
+      }
+      if (data.toLocaleLowerCase().includes('obsolete')) {
+        return 'OBSOLETE';
+      }
+      if (data.toLocaleLowerCase().includes('submission')) {
         return 'FS';
       }
     }
