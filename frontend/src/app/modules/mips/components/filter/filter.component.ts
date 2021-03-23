@@ -214,7 +214,7 @@ export class FilterComponent implements OnInit {
       if (this.selecteds[2] === 1 ) { return 'ARCHIVE'; }
       if (this.selecteds[3] === 1 ) { return 'RFC'; }
       if (this.selecteds[4] === 1 ) { return 'OBSOLETE'; }
-      if (this.selecteds[5] === 1 ) { return 'FS'; }
+      if (this.selecteds[5] === 1 ) { return 'FORMAL SUBMISSION'; }
     }
     if (this.cantSelected === 0) { return ''; }
     this.statusPlaceHolder = '';

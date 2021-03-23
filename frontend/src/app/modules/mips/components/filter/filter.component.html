@@ -28,13 +28,13 @@
       </div>
       <div class="square" (click)="statusOptionsShow = !statusOptionsShow; typeOptionsShow = false"><img class="arrow" [ngClass]="{'rotate': statusOptionsShow}" src="../../../../../assets/images/arrow.svg" /></div>
       <div class="status-options frame" *ngIf="statusOptionsShow" (onmouseout)="statusOptionsShow = false">
-        <div class="status-option" (click)="setStatusClassAndText(5)"><div class="option status-none">NONE</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(6)"><div class="option status-none">NONE</div></div>
         <div class="status-option" (click)="setStatusClassAndText(0, true)"><div class="option status-accepted">ACCEPTED</div></div>
         <div class="status-option" (click)="setStatusClassAndText(1, true)"><div class="option status-rejected ">REJECTED</div></div>
         <div class="status-option" (click)="setStatusClassAndText(2, true)"><div class="option status-archive">ARCHIVE</div></div>
         <div class="status-option" (click)="setStatusClassAndText(3, true)"><div class="option status-rfc">RFC</div></div>
         <div class="status-option" (click)="setStatusClassAndText(4, true)"><div class="option status-obsolete">OBSOLETE</div></div>
-        <div class="status-option" (click)="setStatusClassAndText(5, true)"><div class="option status-fs">FS</div></div>
+        <div class="status-option" (click)="setStatusClassAndText(5, true)"><div class="option status-fs">FORMAL SUBMISSION</div></div>
       </div>
     </div>
 
