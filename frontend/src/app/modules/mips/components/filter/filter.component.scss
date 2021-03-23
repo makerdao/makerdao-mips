@@ -53,7 +53,7 @@
       flex-direction: row;
       justify-content: space-between;
       transform: translate(74px, 2px);
-      width: 82px;
+      width: 126px;
       .square {
         height: 16px;
         width: 100%;
@@ -102,7 +102,8 @@
         text-indent:6px;
       }
       &.status {
-        width: 80px;
+        width: 136px;
+        font-size: 12px;
       }
       &::placeholder {
         color: #BCBEC7;
@@ -135,6 +136,7 @@
       }
       &.status-none {
         border: 1px solid #BCBEC7;
+        box-sizing: content-box;
         // color: #E5E9F2;
       }
       &.type {
@@ -160,7 +162,7 @@
       transition: 300ms ease all;
     }
     .status-options {
-      width: 86px;
+      width: 136px;
       text-align: center;
       transform: translate(59px, 28px);
       padding: 15px;
