@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -52,7 +52,7 @@ const preambleDataSample = [
   templateUrl: './detail-content.component.html',
   styleUrls: ['./detail-content.component.scss']
 })
-export class DetailContentComponent implements OnInit {
+export class DetailContentComponent implements OnInit, OnChanges {
   gitgubUrl = environment.repoUrl;
   @Input() mip: any;
   links: Link[] = [];
@@ -67,6 +67,10 @@ export class DetailContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.overrideDefaultHeadings();
+    this.getDefaultLinks();
+  }
+
+  ngOnChanges() {
     this.getDefaultLinks();
   }
 
@@ -100,6 +104,8 @@ export class DetailContentComponent implements OnInit {
   }
 
   getDefaultLinks() {
+    this.links = [];
+
     this.markdownService.renderer.link = (href: string, title: string, text: string) => {
       const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
       let id: string = `md-${escapedText}${this.countLinks++}`;
@@ -121,8 +127,6 @@ export class DetailContentComponent implements OnInit {
     this.mipsService.searchMips(limit, page, order, search, filter)
     .subscribe(data => {
       if (data.items && data.items[0]) {
-        this.links.push(data.items[0]._id);
-
         // override link in DOM
         let elem = document.getElementById(link.id);
         elem.setAttribute('href', '/mips/details/' + data.items[0]._id);
