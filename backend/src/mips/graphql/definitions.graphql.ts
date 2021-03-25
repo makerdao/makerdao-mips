@@ -74,7 +74,7 @@ export const pullRequestsAfter = gql`
 `;
 
 export const pullRequestsLast = gql`
-  query repository($name: String!, $owner: String!, $last: Number!) {
+  query repository($name: String!, $owner: String!, $last: Int) {
     repository(name: $name, owner: $owner) {
       pullRequests(
         orderBy: { field: CREATED_AT, direction: ASC }
