@@ -74,6 +74,8 @@ export class ParseMIPsService {
           const data =  await this.githubService.pullRequestsLast(pullRequestsLast, result[3].repository.pullRequests.totalCount - result[2]);
           await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
         }
+
+        this.logger.log(`News pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]}`)
       }      
 
       this.logger.log(`Synchronize Data ===> ${JSON.stringify(synchronizeData)}`);
