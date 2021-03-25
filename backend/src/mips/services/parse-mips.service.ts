@@ -75,7 +75,7 @@ export class ParseMIPsService {
           await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
         }
 
-        this.logger.log(`News pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]}`)
+        this.logger.log(`Total news pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]}`)
       }      
 
       this.logger.log(`Synchronize Data ===> ${JSON.stringify(synchronizeData)}`);
