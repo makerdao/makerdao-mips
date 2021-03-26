@@ -15,6 +15,7 @@ export class DetailsPageComponent implements OnInit {
   mipId: string;
   mipPosition: number;
   total: number;
+  MAX_LIMIT: number = 1000000;
 
   constructor(
     private mipsService: MipsService,
@@ -76,13 +77,13 @@ export class DetailsPageComponent implements OnInit {
 
     filter.notequals.push({field: 'mip', value: -1});
 
-    if (this.mip.proposal === '') {
+    if (!this.mip.proposal) {
       filter.equals.push({field: 'proposal', value: ""});
     } else {
       order = 'mip subproposal';
     }
 
-    this.searchMips(0, 0, order, '', filter);
+    this.searchMips(this.MAX_LIMIT, 0, order, '', filter);
   }
 
   searchMips(limit, page, order, search, filter): void {

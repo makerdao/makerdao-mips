@@ -2,13 +2,13 @@
   <div class="row space">
     <div class="links">
       <a routerLink="" (click)="clearFilterAndGoHome()">ALL MIPs </a>
-      <strong > / MIP{{mipNumber}} </strong>
+      <strong > / {{mipName}} </strong>
     </div>
     <div class="items">
       <strong>{{mipPosition + 1}}  </strong>
       <span> of {{total}} items </span>
       <span class="frame" (click)="minus()"><img src="../../../../../assets/images/left.svg" /></span>
-      <span class="frame" (click)="loadMipsData()"><img src="../../../../../assets/images/right.svg" /></span>      
+      <span class="frame" (click)="loadMipsData()"><img src="../../../../../assets/images/right.svg" /></span>
     </div>
   </div>
 </div>
