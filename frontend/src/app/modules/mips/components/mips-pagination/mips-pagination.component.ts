@@ -15,6 +15,7 @@ export class MipsPaginationComponent implements OnInit {
   @Input() total: number;
   @Output() send = new EventEmitter<number>();
   timeout: any = null;
+  @Input() mipName: string;
 
   constructor(
     private mipsService: MipsService,

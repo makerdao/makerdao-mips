@@ -93,8 +93,14 @@ export class DetailContentComponent implements OnInit, OnChanges {
     this.markdownService.renderer.heading = (text: string, level: number) => {
       const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
 
+      let style: string = '';
+
+      if (this.mip.title.localeCompare(text) === 0) {
+        style=`style="display:none;"`;
+      }
+
       return `
-             <h${level}>
+             <h${level} ${style}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
                </a>
