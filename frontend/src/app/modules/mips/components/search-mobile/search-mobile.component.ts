@@ -19,6 +19,7 @@ export class SearchMobileComponent implements OnInit {
   @Input() showListSearch = false;
   @Input() listSearchItems = [];
   @Output() clickSearchItem = new Subject<any>();
+  @Input() value: string;
 
   constructor() { }
 

@@ -9,7 +9,8 @@ import { MipsService } from './mips.service';
 export class QueryParamsListService {
   private _queryParams: QueryParams = {
     status: [],
-    search: ''
+    search: '',
+    subproposalsMode: false
   };
 
   private qParams: BehaviorSubject<QueryParams> = new BehaviorSubject<QueryParams>({

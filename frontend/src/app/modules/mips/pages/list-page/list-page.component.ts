@@ -49,12 +49,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.loading = true;
     this.order = 'mip';
-    this.subproposalsMode = this.mipsService.subproposalsMode;
+    // this.subproposalsMode = this.mipsService.subproposalsMode;
     let queryParams: any = this.route.snapshot.queryParamMap;
     this.search = queryParams.has('search') ? queryParams.params.search : null;
+    this.subproposalsMode = queryParams.has('subproposalsMode') ? queryParams.params.subproposalsMode : false;
     this.initQueryParams();
     this.mipsService.activateSearch$
-    .subscribe(data =>  {
+    .subscribe(data => {
       if (data) {
         this.onSendPagination();
         this.mipsService.updateActiveSearch(false);
@@ -99,11 +100,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: status ? status : [],
-      search: queryParams.params.search
+      search: queryParams.params.search,
+      subproposalsMode: queryParams.params.subproposalsMode
     };
 
     this.queryParamsListService.queryParams = qp;
-
     this.queryParamsListService.updateFiltersFromQueryParams();
     this.sendFilters();
   }
@@ -234,9 +235,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.page = 0;
       this.search = event.target.value;
       this.searchMips();
+      this.setQueryParams();
     }
-
-    this.setQueryParams();
   }
 
   onSendOrder(text: string): void {
@@ -277,7 +277,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.mipsService.subproposalsMode = event;
     this.order = (event && this.order === 'mip') ? this.order + ' ' + this.orderSubproposalField : this.order.replace(this.orderSubproposalField, '').trim();
     this.subproposalsMode = event;
-    this.onSendFilters();
+
+    // this.loading = true;
+    this.limitAux = 10;
+    this.mips = [];
+    this.page = 0;
+    // this.search = event.target.value;
+    // this.searchMips();
+    this.sendFilters();
+    this.setQueryParams();
   }
 
   initFiltersList(): void {
@@ -336,13 +344,16 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   setQueryParams() {
+    console.log('setQueryParams');
+
     this.queryParamsListService.clearStatus();
 
     let filterSaved = this.mipsService.getFilter();
 
     let qp: QueryParams = {
       status: [],
-      search: this.search
+      search: this.search,
+      subproposalsMode: this.subproposalsMode
     };
 
     if (filterSaved.arrayStatus[0] === 1) {
