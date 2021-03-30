@@ -1,39 +1,50 @@
 import * as mongoose from "mongoose";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
+
 export type PullRequestDoc = PullRequest & mongoose.Document;
 
-@Schema()
-export class Item {
+export class File {
   @Prop()
-  url: string;
+  path: string;
+}
+export class Files {
+  @Prop({
+    type: [File]
+  })
+  nodes: File[];
+
   @Prop()
-  title: string;
+  totalCount: number;
+}
+
+export class Author {
   @Prop()
-  body: string;
-  @Prop()
-  createdAt: string;
+  login: string;
 }
 
 @Schema()
 export class PullRequest {
-  @Prop()
+  @Prop({type: String})
+  state: string;
+  @Prop({type: String})
   url: string;
-  @Prop({
-    type: Number,
-  })
-  totalOpen: number;
-  @Prop({
-    type: Number,
-  })
-  totalClosed: number;
-  @Prop({
-    type: Number,
-  })
-  totalCount: number;
+  @Prop({type: String})
+  title: string;
+  @Prop({type: String})
+  createdAt: string;
+  @Prop({type: String})
+  body: string;
 
-  @Prop()
-  items: Item[];
+  @Prop({
+    type: Author
+  })
+  author: Author;
+
+  @Prop({
+    type: Files
+  })
+  files: Files;
 }
 
 export const PullRequestSchema = SchemaFactory.createForClass(PullRequest);

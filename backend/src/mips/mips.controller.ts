@@ -3,6 +3,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  InternalServerErrorException,
   NotFoundException,
   Param,
   Post,
@@ -67,8 +68,8 @@ export class MIPsController {
       type: "object",
       example: {
         filter: {
-          contains: [{ field: "title", value: "Proposal" }],
-          notcontains: [{ field: "title", value: "subproposal" }],
+          contains: [{ field: "status", value: "RFC" }],
+          notcontains: [{ field: "status", value: "Accepted" }],
           equals: [{ field: "mip", value: -1 }],
           notequals: [{ field: "mip", value: -1 }],
         },
@@ -119,19 +120,22 @@ export class MIPsController {
         HttpStatus.BAD_REQUEST
       );
     }
-    let mips = await this.mipsService.findOne(id); 
-    let sections;
+    const mips = await this.mipsService.findOne(id);    
 
     if (!mips) {
       throw new NotFoundException(`MIPs with ${id} not found`);
     }
-    sections = await this.parseMIPsService.parseSections(mips.filename);
-    return { mips, sections }    
-  }
 
-  @Get("pullrequests")
-  findPullRequests() {
-    return this.pullRequestService.findOne();
+    try {
+      const data =  await Promise.all([
+        this.pullRequestService.aggregate(mips.filename),
+        this.parseMIPsService.parseSections(mips.file)
+      ]);
+      return { mips, pullRequests: data[0], sections: data[1] }
+  
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   @Post("callback")

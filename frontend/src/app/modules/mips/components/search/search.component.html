@@ -1,9 +1,18 @@
 <div class="row">
-  <div>
-    <img src="{{imageDir}}" />
-    <input type="text" #search placeholder="{{placeHolder}}" (keyup)="onKeySearch($event)">
+  <div style="position: relative;">
+    <img class="search-icon" src="{{imageDir}}" />
+    <input type="text" #search placeholder="{{placeHolder}}" (keyup)="onKeySearch($event)"
+      [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}">
+    <div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
+      <div class="ListSearch">
+        <div *ngFor="let item of listSearchItems" class="list-search-item" (click)="onClickSearchItem(item)">
+          <p>{{item.content}}</p>
+          <img class="arrow-go-to" src="../../../../../assets/images//arrow_go_to.svg">
+        </div>
+      </div>
+    </div>
   </div>
   <div class="close-container">
-    <img (click)="clear()" *ngIf="showClose" src="{{imageClose}}" class="imageClose" />  
+    <img (click)="clear()" *ngIf="showClose" src="{{imageClose}}" class="imageClose" />
   </div>
 </div>

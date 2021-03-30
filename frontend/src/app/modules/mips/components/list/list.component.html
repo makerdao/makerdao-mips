@@ -28,42 +28,58 @@
 
 
          <span *ngIf="column == 'title'">
-           <td class="tooltip" mat-cell *matCellDef="let element;">
+           <td class="tooltip" mat-cell *matCellDef="let element;"
+            [ngClass]="{'subproposal-title': element.proposal}"
+            (click)="onNavigateToDetails(element._id)"
+            style="cursor: pointer;">
              <!-- <span class="tooltiptext">Click for more details</span>  -->
              <a routerLink="/mips/details/{{element._id}}"><br>{{element[column]}}</a></td>
          </span>
          <span *ngIf="column == 'status'">
-           <td class="tooltip" at-cell *matCellDef="let element" >
+           <td class="tooltip" at-cell *matCellDef="let element"
+            (click)="onNavigateToDetails(element._id)"
+            style="cursor: pointer;">
              <div class="space-status"></div>
-             <app-status [type]="getStatusValue(element.status)" (click)="onNavigateToDetails(element._id)" style="cursor: pointer;"></app-status>
+             <app-status [type]="getStatusType(element.status)" [value]="getStatusValue(element.status)" style="cursor: pointer;"></app-status>
              <!-- <span class="tooltiptext">Click for more details</span> -->
             </td>
          </span>
          <span *ngIf="column == 'link'">
-           <td  mat-cell *matCellDef="let element" >
+           <td  mat-cell *matCellDef="let element" (click)="onNavigateToDetails(element._id)"
+            style="cursor: pointer;">
             <div class="space-status"></div>
             <app-social forumLink="#" [githubLink]="element.filename"></app-social>
           </td>
          </span>
          <span *ngIf="column == 'pos'">
-           <td class="tooltip" (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element" mat-cell *matCellDef="let element" ><br>{{element.mip}}
+           <td class="tooltip" (click)="onNavigateToDetails(element._id)" mat-cell *matCellDef="let element"
+            style="cursor: pointer;"><br>{{element.proposal ? '' : element.mip}}
             <!-- <span class="tooltiptext">Click for more details</span> -->
           </td>
          </span>
          <span *ngIf="column == 'summary'">
-           <td class="tooltip"
+           <td class="tooltip" style="position: relative; cursor: pointer;"
            mat-cell
-           *matCellDef="let element">
-           <div (click)="onNavigateToDetails(element._id)" style="cursor: pointer;">
+           *matCellDef="let element"
+           (click)="onNavigateToDetails(element._id)">
+           <div style="cursor: pointer;">
              <a class="summary" *ngIf="selected != element._id"><br>
               <markdown class="variable-binding variable-binding-summary" [data]="element.sentenceSummary"></markdown></a>
              <a class="paragraphSummary"  *ngIf="selected == element._id"><br>
               <markdown class="variable-binding" [data]="element.paragraphSummary"></markdown>
             </a>
             </div>
-            <div class="space-arrow"></div>
-            <img class="arrow expanded" [ngClass]="{'rotate': selected == element._id}" src="../../../../../assets/images/down.svg"
-            (click)="updateSelected(element._id); expandedElement = expandedElement === element ? null : element"/>
+            <div class="arrow-container"
+              (click)="updateSelected(element._id, $event); expandedElement = expandedElement === element ? null : element"
+              (mouseover)="onMouseOverLeaveArrow(element._id, true)"
+              (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+              >
+              <div class="arrow-wrapper expanded" [ngClass]="{'rotate': selected == element._id}">
+                <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
+                />
+              </div>
+            </div>
+
             <!-- <span class="tooltiptext">Click for more details</span> -->
 
           </td>
@@ -96,11 +112,13 @@
    </div>
   </div>
   <div class="mobile">
-    <div class="mobile-container" *ngFor="let item of dataSource">
-      # {{item.mip}} <img src="../../../../../assets/images/circle.svg">
+    <div class="mobile-container" *ngFor="let item of dataSource"
+      [ngClass]="{'proposal-card': !item.proposal, 'subproposal-card': item.proposal}"
+    >
+      {{(item.proposal ? '' : ('# ' + item.mip))}} <img *ngIf="!item.proposal" src="../../../../../assets/images/circle.svg">
       <span class="title"> <a routerLink="/mips/details/{{item._id}}"> {{item.title}}</a></span>
       <div class="status">
-        <app-status [type]="getStatusValue(item.status)"></app-status>
+        <app-status [type]="getStatusType(item.status)" [value]="getStatusValue(item.status)"></app-status>
       </div>
       <div class="content">
         <a *ngIf="selected != item._id" routerLink="/mips/details/{{item._id}}">

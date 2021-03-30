@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, ViewChild, EventEmitter, Input, HostListener, ElementRef } from '@angular/core';
 import { MipsService } from '../../services/mips.service';
 import FilterData from './filter.data';
+import { FilterItemService } from '../../../../services/filter-item/filter-item.service';
 
 @Component({
   selector: 'app-filter',
@@ -17,8 +18,6 @@ export class FilterComponent implements OnInit {
   typeInputText  = 'Select type';
   typeOptionsShow = false;
   @Input() contentOptionsShow = false;
-  titleText = '';
-  @ViewChild('title') inputTitle;
   @Output() send = new EventEmitter();
   filterData: FilterData;
   filterDataSaved: FilterData;
@@ -41,7 +40,8 @@ export class FilterComponent implements OnInit {
 
   constructor(
     private mipsService: MipsService,
-    private eRef: ElementRef
+    private eRef: ElementRef,
+    private filterItemService: FilterItemService
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +55,6 @@ export class FilterComponent implements OnInit {
     if (this.contentOptionsShow) {
       this.inside = true;
       this.filterDataSaved = this.mipsService.getFilter();
-      this.titleText = this.filterDataSaved.title;
       // this.setTyepClassAndText(this.filterDataSaved.posType);
       this.selecteds = this.filterDataSaved.arrayStatus;
       this.cantSelected = this.selecteds.filter(a => a === 1).length;
@@ -133,9 +132,22 @@ export class FilterComponent implements OnInit {
                 break;
               }
       case 5: {
+                if (this.selecteds[5] === 0)  {
+                  this.selecteds[5] = 1;
+                  this.cantSelected++;
+                } else {
+                  if (!add) {
+                    this.selecteds[5] = 0;
+                    this.cantSelected--;
+                  }
+                }
+                break;
+              }
+      case 6: {
+                this.deleteItemsFromFilterList();
                 this.statusCLass = 'status-none';
                 this.statusOptionsShow = false;
-                this.selecteds = [0 , 0, 0, 0, 0];
+                this.selecteds = [0 , 0, 0, 0, 0, 0];
                 this.statusInputText = this.getText();
                 this.cantSelected = 0;
                 break;
@@ -160,20 +172,19 @@ export class FilterComponent implements OnInit {
   }
 
   reset(): void {
-    this.setStatusClassAndText(4);
+    this.deleteItemsFromFilterList();
+    // this.setStatusClassAndText(4);
     this.setTyepClassAndText(2);
-    this.inputTitle.nativeElement.value = '';
     this.typeInputText = 'NONE';
     this.statusInputText = '';
-    this.posStatus = 5;
+    this.posStatus = 6;
     this.posType = 2;
-    this.selecteds = [0, 0, 0, 0, 0];
+    this.selecteds = [0, 0, 0, 0, 0, 0];
     this.apply();
   }
 
   apply(): void {
     this.filterData = {
-      title: this.inputTitle.nativeElement.value,
       status: this.statusInputText,
       type: this.typeInputText,
       posStatus: this.posStatus,
@@ -181,6 +192,7 @@ export class FilterComponent implements OnInit {
       arrayStatus: this.selecteds
     };
     this.mipsService.setFilter(this.filterData);
+    this.setFiltersList();
     this.contentOptionsShow = false;
     this.send.emit();
   }
@@ -191,6 +203,7 @@ export class FilterComponent implements OnInit {
     if (this.selecteds[2] === 1 ) { return 'status-archive'; }
     if (this.selecteds[3] === 1 ) { return 'status-rfc'; }
     if (this.selecteds[4] === 1 ) { return 'status-obsolete'; }
+    if (this.selecteds[5] === 1 ) { return 'status-fs'; }
   }
 
   getText(): string {
@@ -201,10 +214,84 @@ export class FilterComponent implements OnInit {
       if (this.selecteds[2] === 1 ) { return 'ARCHIVE'; }
       if (this.selecteds[3] === 1 ) { return 'RFC'; }
       if (this.selecteds[4] === 1 ) { return 'OBSOLETE'; }
+      if (this.selecteds[5] === 1 ) { return 'FORMAL SUBMISSION'; }
     }
     if (this.cantSelected === 0) { return ''; }
     this.statusPlaceHolder = '';
     return '';
+  }
+
+  deleteItemsFromFilterList(): void {
+    this.selecteds.forEach((item, index) => {
+      if (item) {
+        this.filterItemService.remove(index.toString());
+      }
+    });
+  }
+
+  setFiltersList(): void {
+    let filterSaved = this.mipsService.getFilter();
+
+    if (filterSaved.arrayStatus[0] === 1) {
+      this.filterItemService.add({
+        id: '0',
+        text: 'accepted',
+        value: '0',
+        color: '#27AE60'
+      });
+    } else {
+      this.filterItemService.remove('0');
+    }
+    if (filterSaved.arrayStatus[1] === 1) {
+      this.filterItemService.add({
+        id: '1',
+        text: 'rejected',
+        value: '1',
+        color: '#EB5757'
+      });
+    } else {
+      this.filterItemService.remove('1');
+    }
+    if (filterSaved.arrayStatus[2] === 1) {
+      this.filterItemService.add({
+        id: '2',
+        text: 'archive',
+        value: '2',
+        color: '#748AA1'
+      });
+    } else {
+      this.filterItemService.remove('2');
+    }
+    if (filterSaved.arrayStatus[3] === 1) {
+      this.filterItemService.add({
+        id: '3',
+        text: 'rfc',
+        value: '3',
+        color: '#F2994A'
+      });
+    } else {
+      this.filterItemService.remove('3');
+    }
+    if (filterSaved.arrayStatus[4] === 1) {
+      this.filterItemService.add({
+        id: '4',
+        text: 'obsolete',
+        value: '4',
+        color: '#B5B12A'
+      });
+    } else {
+      this.filterItemService.remove('4');
+    }
+    if (filterSaved.arrayStatus[5] === 1) {
+      this.filterItemService.add({
+        id: '5',
+        text: 'formal submission',
+        value: '5',
+        color: '#78288C'
+      });
+    } else {
+      this.filterItemService.remove('5');
+    }
   }
 
 }

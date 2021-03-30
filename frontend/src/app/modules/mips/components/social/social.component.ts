@@ -18,4 +18,8 @@ export class SocialComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  stopPropagation(event: Event) {
+    event.stopPropagation();
+  }
+
 }

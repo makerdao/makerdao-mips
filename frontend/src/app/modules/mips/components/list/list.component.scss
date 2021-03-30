@@ -37,6 +37,12 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   margin-left: 15px;
   vertical-align: top;
   margin-top: 120px;
+
+  &.subproposal-title {
+    a {
+      color: #2F80ED;
+    }
+  }
 }
 
 .maker-element-detail {
@@ -107,7 +113,7 @@ th {
 .mat-column-title {
   padding-right: 80px;
   max-width: 30px;
-  width: 30%;
+  width: 26%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -129,7 +135,7 @@ th {
 }
 
 .mat-column-status {
-  width: 10%;
+  width: 17%;
   max-width: 20px;
   padding-right: 30px;
 }
@@ -267,6 +273,7 @@ a {
   border-radius: 5px;
   height: auto;
   margin-bottom: 15px;
+  box-sizing: border-box;
 
   .title {
     font-size: 14px;
@@ -444,10 +451,68 @@ a {
   }
 }
 
+.proposal-card {
+  width: 100%;
+}
+
+.subproposal-card {
+  width: 91.05%;
+  color: #2F80ED;
+
+  .title a {
+    color: #2F80ED;
+  }
+}
+
+.arrow-container {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+  top: 24px;
+  transform: translateY(-50%);
+
+  .arrow-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    .arrow {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      transform: translate(50%, -50%);
+    }
+  }
+
+  .expanded {
+    margin-left: 15px;
+    -webkit-transition: 500ms ease all;
+    -moz-transition: 500ms ease all;
+    -o-transition: 500ms ease all;
+    transition: 500ms ease all;
+    float: right;
+    vertical-align: middle;
+  }
+
+  .rotate {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+
 @media screen and (max-width: 768px) {
   .mobile {
-    display: block;
-
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    overflow: hidden;
   }
   .no-mobile {
     display: none;

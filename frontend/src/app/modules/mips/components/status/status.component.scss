@@ -4,6 +4,8 @@
   text-align: center;
   display: inline-block;
   border-radius: 5px;
+  width: 136px;
+  box-sizing: border-box;
 }
 
 .type--ACCEPTED {
@@ -31,6 +33,12 @@
 .type--OBSOLETE {
   border: 1px solid #b5b12a;
   color: #b5b12a;
+}
+
+.type--FS {
+  border: 1px solid #78288C;
+  color: #78288C;
+  box-sizing: border-box;
 }
 
 .type--NONE {

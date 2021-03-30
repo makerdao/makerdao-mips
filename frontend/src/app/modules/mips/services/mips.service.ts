@@ -13,6 +13,7 @@ export class MipsService {
   filter: FilterData;
   mipsData: any[];
   total = 1;
+  private _subproposalsMode: boolean = false;
 
   private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
@@ -39,13 +40,25 @@ export class MipsService {
     let enter = false;
     if (filter !== undefined && filter != null) {
       Object.keys(filter).forEach((key) => {
-        Object.keys(filter[key]).forEach((subkey) => {
-          Object.keys(filter[key][subkey]).forEach((final) => {
+        if (key === 'inarray' && filter[key].length > 0) {
+          const character = !enter ? '?' : '&';
+          enter = true;
+          urlFilter += `${character}filter[${key}][field]=${filter[key][0]['field']}`;
+
+          filter[key].forEach((final) => {
             const character = !enter ? '?' : '&';
             enter = true;
-            urlFilter += `${character}filter[${key}][${[final]}]=${filter[key][subkey][final]}`;
+            urlFilter += `${character}filter[${key}][value]=${final.value}`;
           });
-        });
+        } else {
+          Object.keys(filter[key]).forEach((subkey) => {
+            Object.keys(filter[key][subkey]).forEach((final) => {
+              const character = !enter ? '?' : '&';
+              enter = true;
+              urlFilter += `${character}filter[${key}][${[final]}]=${filter[key][subkey][final]}`;
+            });
+          });
+        }
       });
 
     }
@@ -58,10 +71,6 @@ export class MipsService {
 
   sendFeedBack(subject: string, description: string): Observable<any> {
     return this.http.post(`${environment.feedBackFormUrl}`, { subject, description });
-  }
-
-  getPullRequestHistory(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/mips/pullrequests`);
   }
 
   getFilter(): FilterData {
@@ -89,7 +98,19 @@ export class MipsService {
   }
 
   clearFilter(): void {
-    this.filter = { title: '', status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0, 0]};
+    this.filter = { status: '', type: '', posStatus: -1, posType: -1, arrayStatus: [0, 0, 0, 0, 0, 0]};
+  }
+
+  setFilterArrayStatus(index: number, value: number) {
+    this.filter.arrayStatus[index] = value;
+  }
+
+  public get subproposalsMode() {
+    return this._subproposalsMode;
+  }
+
+  public set subproposalsMode(value: boolean) {
+    this._subproposalsMode = value;
   }
 
 }

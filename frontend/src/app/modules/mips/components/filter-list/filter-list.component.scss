@@ -1,0 +1,24 @@
+.filter-list {
+  background-color: #EBEDF4;
+  max-height: fit-content;
+  height: fit-content;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px 5px 0 0;
+
+  .item-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.head-text {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  color: #B8C5D3;
+  margin: 0 0 8px;
+}

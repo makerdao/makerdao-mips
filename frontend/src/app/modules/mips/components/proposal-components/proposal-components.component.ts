@@ -30,7 +30,7 @@ export class ProposalComponentsComponent implements OnInit {
     let found: any = false;
 
     for (let i = 0; i < aTags.length; i++) {
-      if (aTags[i].textContent === text) {
+      if (aTags[i].textContent.includes(text)) {
         found = aTags[i];
         break;
       }
@@ -39,7 +39,7 @@ export class ProposalComponentsComponent implements OnInit {
     if (!found) {
       aTags = document.getElementsByTagName('h3');
       for (let i = 0; i < aTags.length; i++) {
-        if (aTags[i].textContent === text) {
+        if (aTags[i].textContent.includes(text)) {
           found = aTags[i];
           break;
         }

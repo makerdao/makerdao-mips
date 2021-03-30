@@ -89,6 +89,8 @@ export class ListComponent {
   arrowDown: string = '../../../../../assets/images/down.svg';
   arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
   arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
+  isArrowDownOnMouseOver: boolean = false;
+  currentRowOver: any;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -126,12 +128,42 @@ const language = 'typescript';
       if (data.toLocaleLowerCase().includes('obsolete')) {
         return 'OBSOLETE';
       }
+      if (data.toLocaleLowerCase().includes('submission')) {
+        return 'FORMAL SUBMISSION';
+      }
     }
 
     // return data;
   }
 
-  updateSelected(index: string): void {
+  getStatusType(data: string): string {
+    if (data !== undefined) {
+      if (data.toLocaleLowerCase().includes('accepted')) {
+          return 'ACCEPTED';
+      }
+      if (data.toLocaleLowerCase().includes('rfc')) {
+        return 'RFC';
+      }
+      if (data.toLocaleLowerCase().includes('rejected')) {
+        return 'REJECTED';
+      }
+      if (data.toLocaleLowerCase().includes('archived')) {
+        return 'ARCHIVED';
+      }
+      if (data.toLocaleLowerCase().includes('obsolete')) {
+        return 'OBSOLETE';
+      }
+      if (data.toLocaleLowerCase().includes('submission')) {
+        return 'FS';
+      }
+    }
+
+    // return data;
+  }
+
+  updateSelected(index: string, event: Event): void {
+    event.stopPropagation();
+
     if (this.selected === index) {
       this.selected = '-1';
     } else {
@@ -175,6 +207,11 @@ const language = 'typescript';
 
   onNavigateToDetails(id) {
     this.router.navigate(["/mips/details/", id]);
+  }
+
+  onMouseOverLeaveArrow(id: any, value: boolean) {
+    this.isArrowDownOnMouseOver = value;
+    this.currentRowOver = id;
   }
 
 }

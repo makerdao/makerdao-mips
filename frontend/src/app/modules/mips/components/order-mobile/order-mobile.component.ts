@@ -78,8 +78,11 @@ export class OrderMobileComponent implements OnInit {
   }
 
   showHideFrame(): void {
+    if (!this.showFrame) {
+      this.inside = true;
+    }
+
     this.showFrame = !this.showFrame;
-    this.inside = true;
   }
 
 }

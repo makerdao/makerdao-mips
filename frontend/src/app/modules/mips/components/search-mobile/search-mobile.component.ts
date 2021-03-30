@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input, HostBinding } from '@angular/core';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -15,6 +16,9 @@ export class SearchMobileComponent implements OnInit {
   showClose = false;
   showInput = false;
   text = '';
+  @Input() showListSearch = false;
+  @Input() listSearchItems = [];
+  @Output() clickSearchItem = new Subject<any>();
 
   constructor() { }
 
@@ -23,13 +27,13 @@ export class SearchMobileComponent implements OnInit {
     clearTimeout(this.timeout);
     const $this = this;
     this.timeout = setTimeout(() => {
-        $this.onChange(this.inputSearch.nativeElement.value);
+        $this.onChange(event);
     }, 1000);
   }
 
-  onChange(value: string): void {
-    this.text = value;
-    this.send.emit(value);
+  onChange(event: any): void {
+    this.text = event.target.value;
+    this.send.emit(event);
   }
 
   clear(): void {
@@ -46,6 +50,15 @@ export class SearchMobileComponent implements OnInit {
   onOpenCloseInput(): void {
     this.showInput = !this.showInput;
     this.open.emit(this.showInput);
+  }
+
+  onClickSearchItem(element) {
+    this.clickSearchItem.next(element);
+  }
+
+  @HostBinding('class.spread')
+  get spread() {
+    return this.showInput;
   }
 
 }
