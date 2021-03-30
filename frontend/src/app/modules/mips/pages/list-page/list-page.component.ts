@@ -3,8 +3,10 @@ import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
 import { FilterListComponent } from '../../components/filter-list/filter-list.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FilterItemService } from 'src/app/services/filter-item/filter-item.service';
+import { QueryParamsListService } from '../../services/query-params-list.service';
+import QueryParams from '../../types/query-params';
 
 @Component({
   selector: 'app-list-page',
@@ -39,14 +41,16 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private mipsService: MipsService,
     private footerVisibleService: FooterVisibleService,
     private router: Router,
-    private filterItemService: FilterItemService
+    private filterItemService: FilterItemService,
+    private route: ActivatedRoute,
+    private queryParamsListService: QueryParamsListService
   ) { }
 
   ngOnInit(): void {
     this.loading = true;
     this.order = 'mip';
     this.subproposalsMode = this.mipsService.subproposalsMode;
-    this.onSendFilters();
+    this.initQueryParams();
     this.mipsService.activateSearch$
     .subscribe(data =>  {
       if (data) {
@@ -73,6 +77,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.initFiltersList();
     }, 200);
+  }
+
+  initQueryParams() {
+    let queryParams: any = this.route.snapshot.queryParamMap;
+
+    let qp: QueryParams = {
+      status: queryParams.has('status') ? queryParams.params.status : []
+    };
+
+    this.queryParamsListService.queryParams = qp;
+
+    this.queryParamsListService.updateFiltersFromQueryParams();
+    this.sendFilters();
   }
 
   searchMips(): void {
@@ -117,7 +134,12 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       }
   }
 
-  onSendFilters(): void {
+  onSendFilters() {
+    this.sendFilters();
+    this.setQueryParams();
+  }
+
+  sendFilters(): void {
     this.loading = true;
     this.limitAux = 10;
     this.mips = [];
@@ -141,24 +163,30 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }
     if (this.filterSaved.arrayStatus[0] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Accepted' });
+      this.queryParamsListService.addStatus('Accepted');
     }
     if (this.filterSaved.arrayStatus[1] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Rejected' });
+      this.queryParamsListService.addStatus('Rejected');
     }
     if (this.filterSaved.arrayStatus[2] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Archive' });
+      this.queryParamsListService.addStatus('Archive');
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
       this.filter.inarray.push({field: 'status', value: 'RFC' });
       this.filter.inarray.push({field: 'status', value: "Request for Comments (RFC)" });
       this.filter.inarray.push({field: 'status', value: "Request for Comments" });
+      this.queryParamsListService.addStatus('RFC');
     }
     if (this.filterSaved.arrayStatus[4] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Obsolete' });
+      this.queryParamsListService.addStatus('Obsolete');
     }
     if (this.filterSaved.arrayStatus[5] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Formal Submission' });
       this.filter.inarray.push({field: 'status', value: "Formal Submission (FS)" });
+      this.queryParamsListService.addStatus('Formal Submission');
     }
     if (!this.subproposalsMode) {
       this.filter.equals.push({field: 'proposal', value: ""});
@@ -293,5 +321,37 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         color: '#78288C'
       });
     }
+  }
+
+  setQueryParams() {
+    this.queryParamsListService.clearStatus();
+
+    let filterSaved = this.mipsService.getFilter();
+
+
+    if (filterSaved.arrayStatus[0] === 1) {
+      this.queryParamsListService.addStatus('Accepted');
+    }
+    if (filterSaved.arrayStatus[1] === 1) {
+      this.queryParamsListService.addStatus('Rejected');
+    }
+    if (filterSaved.arrayStatus[2] === 1) {
+      this.queryParamsListService.addStatus('Archive');
+    }
+    if (filterSaved.arrayStatus[3] === 1) {
+      this.queryParamsListService.addStatus('RFC');
+    }
+    if (filterSaved.arrayStatus[4] === 1) {
+      this.queryParamsListService.addStatus('Obsolete');
+    }
+    if (filterSaved.arrayStatus[5] === 1) {
+      this.queryParamsListService.addStatus('Formal Submission');
+    }
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: this.queryParamsListService.queryParams
+    }
+
+    this.router.navigate(['/mips/list'], {...navigationExtras});
   }
 }
