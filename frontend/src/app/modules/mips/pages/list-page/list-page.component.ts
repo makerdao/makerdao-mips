@@ -50,6 +50,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.order = 'mip';
     this.subproposalsMode = this.mipsService.subproposalsMode;
+    let queryParams: any = this.route.snapshot.queryParamMap;
+    this.search = queryParams.has('search') ? queryParams.params.search : null;
     this.initQueryParams();
     this.mipsService.activateSearch$
     .subscribe(data =>  {
@@ -73,8 +75,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     });
 
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
-      console.log('qParams$');
-
       this.updateUrlQueryParams(data);
     })
   }
