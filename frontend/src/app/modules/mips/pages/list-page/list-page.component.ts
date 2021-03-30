@@ -21,7 +21,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   limitAux = 10;
   page = 0;
   order: string;
-  search: string;
+  search: string = '';
   filter: any;
   filterSaved: FilterData;
   loading: boolean;
@@ -47,13 +47,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.loading = true;
     this.order = 'mip';
-    // this.subproposalsMode = this.mipsService.subproposalsMode;
-    let queryParams: any = this.route.snapshot.queryParamMap;
-    this.search = queryParams.has('search') ? queryParams.params.search : null;
-    this.subproposalsMode = queryParams.has('subproposalsMode') ? queryParams.params.subproposalsMode : false;
-    this.initQueryParams();
+    this.initParametersToLoadData();
+
     this.mipsService.activateSearch$
     .subscribe(data => {
       if (data) {
@@ -86,6 +82,12 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }, 200);
   }
 
+  initParametersToLoadData() {
+    this.initQueryParams();
+    this.initFiltersAndSearch();
+    this.searchMips();
+  }
+
   initQueryParams() {
     let queryParams: any = this.route.snapshot.queryParamMap;
 
@@ -100,13 +102,132 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: status ? status : [],
-      search: queryParams.params.search,
-      subproposalsMode: queryParams.params.subproposalsMode
+      search: queryParams.params.search ? queryParams.params.search : '',
+      subproposalsMode: queryParams.params.subproposalsMode === 'true' ? true : false
     };
 
     this.queryParamsListService.queryParams = qp;
-    this.queryParamsListService.updateFiltersFromQueryParams();
-    this.sendFilters();
+  }
+
+  initFiltersAndSearch() {
+    this.initFiltersStatus();
+    this.initSearch();
+    this.initSubproposalMode();
+  }
+
+  initSearch() {
+    let queryParams: QueryParams = this.queryParamsListService.queryParams;
+    this.search = queryParams.search;
+  }
+
+  initFiltersStatus() {
+    if (this.queryParamsListService.queryParams.status) {
+      this.queryParamsListService.queryParams.status.forEach((value) => {
+        switch (value) {
+          case "Accepted":
+            this.mipsService.setFilterArrayStatus(0, 1);
+            break;
+          case "Rejected":
+            this.mipsService.setFilterArrayStatus(1, 1);
+            break;
+          case "Archive":
+            this.mipsService.setFilterArrayStatus(2, 1);
+            break;
+          case "RFC":
+            this.mipsService.setFilterArrayStatus(3, 1);
+            break;
+          case "Obsolete":
+            this.mipsService.setFilterArrayStatus(4, 1);
+            break;
+          case "Formal Submission":
+            this.mipsService.setFilterArrayStatus(5, 1);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+
+    this.filter = {
+      contains: [],
+      notcontains: [],
+      equals: [],
+      notequals: [],
+      inarray: []
+    };
+
+    this.filter.notequals.push({field: 'mip', value: -1});
+
+    this.setFiltersStatus();
+
+  }
+
+  initSubproposalMode() {
+    this.setSubproposalMode(this.queryParamsListService.queryParams.subproposalsMode);
+  }
+
+  setFiltersStatus() {
+    this.limitAux = 10;
+    this.page = 0;
+
+    let filter = {...this.filter};
+
+    this.filterSaved = this.mipsService.getFilter();
+
+    if (this.filterSaved.arrayStatus[0] === 1) {
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Accepted' });
+    } else {
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Accepted'});
+    }
+    if (this.filterSaved.arrayStatus[1] === 1) {
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Rejected' });
+    } else {
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Rejected'});
+    }
+    if (this.filterSaved.arrayStatus[2] === 1) {
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Archive' });
+    } else {
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Archive'});
+    }
+    if (this.filterSaved.arrayStatus[3] === 1) {
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'RFC' });
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: "Request for Comments (RFC)" });
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: "Request for Comments" });
+    } else {
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'RFC'});
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Request for Comments (RFC)'});
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Request for Comments'});
+    }
+    if (this.filterSaved.arrayStatus[4] === 1) {
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Obsolete' });
+    } else {
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Obsolete'});
+    }
+    if (this.filterSaved.arrayStatus[5] === 1) {
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Formal Submission' });
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: "Formal Submission (FS)" });
+    } else {
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Formal Submission'});
+      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Formal Submission (FS)'});
+    }
+
+    this.filter = {...filter};
+  }
+
+  pushFilterInarray(array: Array<any>, data: any) {
+    let item = array.find(i => i.field === data.field && i.value === data.value);
+
+    if (!item) {
+      array.push(data);
+    }
+  }
+
+  deleteFilterInarray(array: Array<any>, data: any) {
+    let index = array.findIndex(i => i.field === data.field && i.value === data.value);
+
+    if (index !== -1) {
+      array.splice(index, 1);
+    }
   }
 
   searchMips(): void {
@@ -152,66 +273,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   onSendFilters() {
-    this.sendFilters();
-    this.setQueryParams();
-  }
-
-  sendFilters(): void {
+    this.setFiltersStatus();
     this.loading = true;
-    this.limitAux = 10;
     this.mips = [];
-    this.page = 0;
-    this.filter = {
-      contains: [],
-      notcontains: [],
-      equals: [],
-      notequals: [],
-      inarray: []
-    };
-
-    this.filterSaved = this.mipsService.getFilter();
-    this.filter.notequals.push({field: 'mip', value: -1});
-
-    if (this.filterSaved.type === 'PROPOSAL') {
-      this.filter.notequals.push({field: 'mip', value: -1});
-    }
-    if (this.filterSaved.type === 'SUB-PROPOSAL') {
-      this.filter.equals.push({field: 'mip', value: -1});
-    }
-    if (this.filterSaved.arrayStatus[0] === 1) {
-      this.filter.inarray.push({field: 'status', value: 'Accepted' });
-    }
-    if (this.filterSaved.arrayStatus[1] === 1) {
-      this.filter.inarray.push({field: 'status', value: 'Rejected' });
-    }
-    if (this.filterSaved.arrayStatus[2] === 1) {
-      this.filter.inarray.push({field: 'status', value: 'Archive' });
-    }
-    if (this.filterSaved.arrayStatus[3] === 1) {
-      this.filter.inarray.push({field: 'status', value: 'RFC' });
-      this.filter.inarray.push({field: 'status', value: "Request for Comments (RFC)" });
-      this.filter.inarray.push({field: 'status', value: "Request for Comments" });
-    }
-    if (this.filterSaved.arrayStatus[4] === 1) {
-      this.filter.inarray.push({field: 'status', value: 'Obsolete' });
-    }
-    if (this.filterSaved.arrayStatus[5] === 1) {
-      this.filter.inarray.push({field: 'status', value: 'Formal Submission' });
-      this.filter.inarray.push({field: 'status', value: "Formal Submission (FS)" });
-    }
-    if (!this.subproposalsMode) {
-      this.filter.equals.push({field: 'proposal', value: ""});
-    } else {
-      let index = this.filter.equals.findIndex(item => item.field === 'proposal');
-
-      if (index !== -1) {
-        this.filter.equals.splice(index, 1);
-      }
-
-      this.order = 'mip' + ' ' + this.orderSubproposalField;
-    }
-
     this.searchMips();
+    this.setQueryParams();
   }
 
   onSendSearch(event: any): void {
@@ -258,6 +324,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onCloseFilterItem(event) {
     this.mipsService.setFilterArrayStatus(parseInt(event), 0);
+    this.setFiltersStatus();
     this.onSendFilters();
   }
 
@@ -274,18 +341,29 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   onCheckedSubproposalMode(event) {
-    this.mipsService.subproposalsMode = event;
-    this.order = (event && this.order === 'mip') ? this.order + ' ' + this.orderSubproposalField : this.order.replace(this.orderSubproposalField, '').trim();
-    this.subproposalsMode = event;
-
-    // this.loading = true;
-    this.limitAux = 10;
+    this.setSubproposalMode(event);
+    this.loading = true;
     this.mips = [];
-    this.page = 0;
-    // this.search = event.target.value;
-    // this.searchMips();
-    this.sendFilters();
     this.setQueryParams();
+    this.searchMips();
+  }
+
+  setSubproposalMode(value) {
+    this.order =
+      value && this.order === "mip"
+        ? this.order + " " + this.orderSubproposalField
+        : this.order.replace(this.orderSubproposalField, "").trim();
+    this.subproposalsMode = value;
+
+    if (!this.subproposalsMode) {
+      this.filter.equals.push({field: 'proposal', value: ""});
+    } else {
+      let index = this.filter.equals.findIndex(item => item.field === 'proposal');
+
+      if (index !== -1) {
+        this.filter.equals.splice(index, 1);
+      }
+    }
   }
 
   initFiltersList(): void {
@@ -344,8 +422,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   setQueryParams() {
-    console.log('setQueryParams');
-
     this.queryParamsListService.clearStatus();
 
     let filterSaved = this.mipsService.getFilter();
