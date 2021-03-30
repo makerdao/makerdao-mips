@@ -1,3 +1,4 @@
 export default interface QueryParams {
-  status?: string[]
+  status?: string[];
+  search?: string;
 }

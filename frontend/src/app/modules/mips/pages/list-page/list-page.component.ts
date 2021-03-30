@@ -71,6 +71,12 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         }
       }
     });
+
+    this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
+      console.log('qParams$');
+
+      this.updateUrlQueryParams(data);
+    })
   }
 
   ngAfterViewInit() {
@@ -82,8 +88,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   initQueryParams() {
     let queryParams: any = this.route.snapshot.queryParamMap;
 
+    let status;
+    if (queryParams.has("status")) {
+      if (typeof queryParams.params.status === "string") {
+        (status = []).push(queryParams.params.status);
+      } else {
+        status = [...queryParams.params.status];
+      }
+    }
+
     let qp: QueryParams = {
-      status: queryParams.has('status') ? queryParams.params.status : []
+      status: status ? status : [],
+      search: queryParams.params.search
     };
 
     this.queryParamsListService.queryParams = qp;
@@ -163,30 +179,24 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }
     if (this.filterSaved.arrayStatus[0] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Accepted' });
-      this.queryParamsListService.addStatus('Accepted');
     }
     if (this.filterSaved.arrayStatus[1] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Rejected' });
-      this.queryParamsListService.addStatus('Rejected');
     }
     if (this.filterSaved.arrayStatus[2] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Archive' });
-      this.queryParamsListService.addStatus('Archive');
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
       this.filter.inarray.push({field: 'status', value: 'RFC' });
       this.filter.inarray.push({field: 'status', value: "Request for Comments (RFC)" });
       this.filter.inarray.push({field: 'status', value: "Request for Comments" });
-      this.queryParamsListService.addStatus('RFC');
     }
     if (this.filterSaved.arrayStatus[4] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Obsolete' });
-      this.queryParamsListService.addStatus('Obsolete');
     }
     if (this.filterSaved.arrayStatus[5] === 1) {
       this.filter.inarray.push({field: 'status', value: 'Formal Submission' });
       this.filter.inarray.push({field: 'status', value: "Formal Submission (FS)" });
-      this.queryParamsListService.addStatus('Formal Submission');
     }
     if (!this.subproposalsMode) {
       this.filter.equals.push({field: 'proposal', value: ""});
@@ -225,6 +235,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.search = event.target.value;
       this.searchMips();
     }
+
+    this.setQueryParams();
   }
 
   onSendOrder(text: string): void {
@@ -328,28 +340,36 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let filterSaved = this.mipsService.getFilter();
 
+    let qp: QueryParams = {
+      status: [],
+      search: this.search
+    };
 
     if (filterSaved.arrayStatus[0] === 1) {
-      this.queryParamsListService.addStatus('Accepted');
+      qp.status.push('Accepted');
     }
     if (filterSaved.arrayStatus[1] === 1) {
-      this.queryParamsListService.addStatus('Rejected');
+      qp.status.push('Rejected');
     }
     if (filterSaved.arrayStatus[2] === 1) {
-      this.queryParamsListService.addStatus('Archive');
+      qp.status.push('Archive');
     }
     if (filterSaved.arrayStatus[3] === 1) {
-      this.queryParamsListService.addStatus('RFC');
+      qp.status.push('RFC');
     }
     if (filterSaved.arrayStatus[4] === 1) {
-      this.queryParamsListService.addStatus('Obsolete');
+      qp.status.push('Obsolete');
     }
     if (filterSaved.arrayStatus[5] === 1) {
-      this.queryParamsListService.addStatus('Formal Submission');
+      qp.status.push('Formal Submission');
     }
 
+    this.queryParamsListService.queryParams = qp;
+  }
+
+  updateUrlQueryParams(qp: QueryParams) {
     let navigationExtras: NavigationExtras = {
-      queryParams: this.queryParamsListService.queryParams
+      queryParams: qp
     }
 
     this.router.navigate(['/mips/list'], {...navigationExtras});

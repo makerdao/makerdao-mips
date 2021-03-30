@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import QueryParams from '../types/query-params';
 import { MipsService } from './mips.service';
 
@@ -7,37 +8,26 @@ import { MipsService } from './mips.service';
 })
 export class QueryParamsListService {
   private _queryParams: QueryParams = {
-    status: []
+    status: [],
+    search: ''
   };
+
+  private qParams: BehaviorSubject<QueryParams> = new BehaviorSubject<QueryParams>({
+    status: [],
+    search: ''
+  });
+  public qParams$: Observable<QueryParams> = this.qParams.asObservable();
 
   constructor(private mipsService: MipsService) { }
 
-  get queryParams() {
-    return this._queryParams;
-  }
-
   set queryParams(value: QueryParams) {
     this._queryParams = value;
-  }
-
-  addStatus(value: string) {
-    let index = this._queryParams.status.findIndex(item => item === value);
-
-    if (index === -1) {
-      this._queryParams.status.push(value);
-    }
-  }
-
-  substractStatus(value: string) {
-    let index = this._queryParams.status.findIndex(item => item === value);
-
-    if (index !== -1) {
-      this._queryParams.status.splice(index, 0);
-    }
+    this.qParams.next(this._queryParams);
   }
 
   clearStatus() {
     this._queryParams.status = [];
+    this.qParams.next(this._queryParams);
   }
 
   updateFiltersFromQueryParams() {
@@ -67,6 +57,11 @@ export class QueryParamsListService {
         }
       })
     }
+  }
+
+  setSearch(value: string) {
+    this._queryParams.search = value;
+    this.qParams.next(this._queryParams);
   }
 }
 
