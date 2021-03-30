@@ -32,15 +32,18 @@ export class SearchMobileComponent implements OnInit {
   }
 
   onChange(event: any): void {
-    this.text = event.target.value;
-    this.send.emit(event);
+    if (event) {
+      this.text = event.target.value;
+      this.send.emit(event);
+    }
   }
 
   clear(): void {
     this.showClose = false;
     this.inputSearch.nativeElement.value = '';
     this.text = '';
-    this.onChange(this.inputSearch.nativeElement.value);
+    let event = new Event('keyup');
+    this.inputSearch.nativeElement.dispatchEvent(event);
     this.onOpenCloseInput();
   }
 

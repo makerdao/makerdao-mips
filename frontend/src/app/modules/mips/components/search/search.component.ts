@@ -34,13 +34,16 @@ showClose = false;
   }
 
   onChange(event: any): void {
-    this.send.emit(event);
+    if (event) {
+      this.send.emit(event);
+    }
   }
 
   clear(): void {
     this.showClose = false;
     this.inputSearch.nativeElement.value = '';
-    this.onChange(this.inputSearch.nativeElement.value);
+    let event = new Event('keyup');
+    this.inputSearch.nativeElement.dispatchEvent(event);
   }
 
   onClickSearchItem(element) {
