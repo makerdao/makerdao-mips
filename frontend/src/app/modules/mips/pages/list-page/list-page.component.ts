@@ -49,6 +49,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.order = 'mip';
     this.initParametersToLoadData();
+    this.loading = true;
+    this.searchMips();
 
     this.mipsService.activateSearch$
     .subscribe(data => {
@@ -85,7 +87,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   initParametersToLoadData() {
     this.initQueryParams();
     this.initFiltersAndSearch();
-    this.searchMips();
+    this.mips = [];
+    this.limitAux = 10;
+    this.page = 0;
   }
 
   initQueryParams() {
@@ -167,9 +171,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   setFiltersStatus() {
-    this.limitAux = 10;
-    this.page = 0;
-
     let filter = {...this.filter};
 
     this.filterSaved = this.mipsService.getFilter();
@@ -231,21 +232,21 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMips(): void {
-      this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter)
-      .subscribe(data => {
-        this.mipsAux = data.items;
-        this.mips = this.mips.concat(this.mipsAux);
-        this.mipsService.setMipsData(this.mips);
-        this.total = data.total;
-        this.mipsService.setTotal(this.total);
-        this.loading = false;
-        this.loadingPlus = false;
-        if (this.limitAux >= this.total) {
-          this.moreToLoad = false;
-        } else {
-          this.moreToLoad = true;
-        }
-      });
+    this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter)
+    .subscribe(data => {
+      this.mipsAux = data.items;
+      this.mips = this.mips.concat(this.mipsAux);
+      this.mipsService.setMipsData(this.mips);
+      this.total = data.total;
+      this.mipsService.setTotal(this.total);
+      this.loading = false;
+      this.loadingPlus = false;
+      if (this.limitAux >= this.total) {
+         this.moreToLoad = false;
+      } else {
+         this.moreToLoad = true;
+      }
+    });
   }
 
   searchMipsByName(limit, page, order, search, filter): void {
@@ -274,8 +275,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onSendFilters() {
     this.setFiltersStatus();
-    this.loading = true;
     this.mips = [];
+    this.limitAux = 10;
+    this.page = 0;
+    this.loading = true;
     this.searchMips();
     this.setQueryParams();
   }
@@ -295,22 +298,22 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.limit = 0;
     } else {
       this.listSearchMip = [];
-      this.loading = true;
       this.limitAux = 10;
       this.mips = [];
       this.page = 0;
       this.search = event.target.value;
+      this.loading = true;
       this.searchMips();
       this.setQueryParams();
     }
   }
 
   onSendOrder(text: string): void {
-    this.loading = true;
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
     this.order = (this.subproposalsMode && text === 'mip') ? text + " " + this.orderSubproposalField : text;
+    this.loading = true;
     this.searchMips();
   }
 
@@ -342,9 +345,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onCheckedSubproposalMode(event) {
     this.setSubproposalMode(event);
-    this.loading = true;
     this.mips = [];
+    this.page = 0;
+    this.limitAux = 10;
     this.setQueryParams();
+    this.loading = true;
     this.searchMips();
   }
 

@@ -23,7 +23,9 @@ showClose = false;
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.showClose = this.value ? true : false;
+  }
 
   onKeySearch(event: any): void {
     this.showClose = this.inputSearch.nativeElement.value === '' ? false : true;
