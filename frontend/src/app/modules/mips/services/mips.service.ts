@@ -13,7 +13,6 @@ export class MipsService {
   filter: FilterData;
   mipsData: any[];
   total = 1;
-  private _subproposalsMode: boolean = false;
 
   private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
@@ -104,13 +103,4 @@ export class MipsService {
   setFilterArrayStatus(index: number, value: number) {
     this.filter.arrayStatus[index] = value;
   }
-
-  public get subproposalsMode() {
-    return this._subproposalsMode;
-  }
-
-  public set subproposalsMode(value: boolean) {
-    this._subproposalsMode = value;
-  }
-
 }

@@ -8,6 +8,7 @@
       (checked)="onCheckedSubproposalMode($event)"
     ></app-md-checkbox-mobile>
     <app-search-mobile class="mobile" (send)="onSendSearch($event)" (open)="onOpenMobileSearch($event)"
+      [value]="search"
       [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip"
       (clickSearchItem)="onNavigateToMipDetails($event)">
@@ -18,6 +19,7 @@
       (checked)="onCheckedSubproposalMode($event)"
       [checkInput]="subproposalsMode"></app-md-checkbox>
     <app-search class="no-mobile" (send)="onSendSearch($event)" [showListSearch]="showListSearch"
+      [value]="search"
       [listSearchItems]="listSearchMip"
       (clickSearchItem)="onNavigateToMipDetails($event)">
     </app-search>
