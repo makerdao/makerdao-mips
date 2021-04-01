@@ -103,9 +103,7 @@ export class DetailContentComponent implements OnInit, OnChanges {
              <h${level} ${style}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
-               </a>
-               ${text}
-             </h${level}>`;
+               </a>${text}</h${level}>`;
     };
   }
 

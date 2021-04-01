@@ -1,22 +1,23 @@
-<div class="container">  
-  <!-- <div class="marker" [ngStyle]="{'transform': 'translateY(' + marketPosition + 'px)'}"></div> -->
-
-  <div class="content">
+<div class="container">
+  <div class="content" #sectionLinks>
     <p class="header">Proposal Components</p>
     <div *ngFor="let element of sourceData; let index = index">
       <div *ngIf="element.type == 'heading'">
-        <span class="marker" [ngClass]="{'selected' : selectedItem == index}"></span> 
-        <p *ngIf="element.depth == 2" 
-        class="title" 
-        [ngClass]="{'selected' : selectedItem == index}" 
-        (click)="updatePos(index, element.text)">
-        {{element.text}}</p>
-  
-        <p class="sub-title" 
-        *ngIf="element.depth == 3" 
-        [ngClass]="{'selected' : selectedItem == index}"  
-        (click)="updatePos(index, element.text)">
-        {{element.text}}</p>
+        <p>
+          <a *ngIf="element.depth == 2"
+            [id]="idBySection(element.text)"
+            class="title"
+            [href]="getLinkBySection(element.text)"
+            >
+            {{element.text}}</a>
+
+          <a *ngIf="element.depth == 3"
+            [id]="idBySection(element.text)"
+            class="sub-title"
+            [href]="getLinkBySection(element.text)"
+            >
+            {{element.text}}</a>
+        </p>
       </div>
     </div>
   </div>
