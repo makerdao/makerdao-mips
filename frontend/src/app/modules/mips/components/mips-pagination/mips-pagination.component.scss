@@ -9,27 +9,49 @@
   padding: 0 11px 0 30px;
   margin-bottom: 10px;
   z-index: 0;
+  display: flex;
+  align-items: center;
 
   .row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+
     strong {
       color: #31394D;
     }
     .links {
       font-size: 14px;
-      a {
-        text-decoration: none;
-        color: #748AA1;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        display: inline-block;
+
+        &+li::before {
+          padding: 4px;
+          content: "/\00a0";
+        }
+
+        a {
+          text-decoration: none;
+          color: #748AA1;
+
+          &.active {
+            color: #31394D;
+            font-weight: bold;
+          }
+        }
       }
     }
     .items {
       font-style: normal;
       font-weight: bold;
       font-size: 12px;
-      .frame {        
+      .frame {
         padding: 0.5px;
         cursor: pointer;
         img {
@@ -41,7 +63,7 @@
   }
 
   .space {
-    padding-top: 14px;
+    // padding-top: 14px;
   }
 }
 

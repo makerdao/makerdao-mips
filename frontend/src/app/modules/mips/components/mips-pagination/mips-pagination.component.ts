@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 
@@ -8,7 +8,7 @@ import { MipsService } from '../../services/mips.service';
   templateUrl: './mips-pagination.component.html',
   styleUrls: ['./mips-pagination.component.scss']
 })
-export class MipsPaginationComponent implements OnInit {
+export class MipsPaginationComponent implements OnInit, OnChanges {
 
   @Input() mipNumber: string;
   @Input() mipPosition = 1;
@@ -16,6 +16,9 @@ export class MipsPaginationComponent implements OnInit {
   @Output() send = new EventEmitter<number>();
   timeout: any = null;
   @Input() mipName: string;
+  @Input() parent: string;
+  @Input() mipId: string;
+  breadcrumbList: BreadcrumbItem[] = [];
 
   constructor(
     private mipsService: MipsService,
@@ -24,6 +27,27 @@ export class MipsPaginationComponent implements OnInit {
 
   ngOnInit(): void {
     this.mipPosition = this.mipPosition !== undefined ? this.mipPosition : 0;
+  }
+
+  ngOnChanges() {
+    this.updateBreadcrumb();
+  }
+
+  updateBreadcrumb() {
+    let item: BreadcrumbItem = { id: this.mipId, name: this.mipName };
+    let indexParentItem = this.findParentBreadcrumbItem();
+
+    if (indexParentItem === -1) {
+      this.breadcrumbList.splice(0, this.breadcrumbList.length);
+    } else {
+      this.breadcrumbList.splice(indexParentItem + 1, this.breadcrumbList.length);
+    }
+
+    this.breadcrumbList.push({ ...item });
+  }
+
+  findParentBreadcrumbItem(): number {
+    return this.breadcrumbList.findIndex(item => item.name === this.parent);
   }
 
   loadMipsData(): void {
@@ -54,4 +78,13 @@ export class MipsPaginationComponent implements OnInit {
     this.router.navigateByUrl('/mips/list');
   }
 
+  isLastItem(index: number): boolean {
+    return index + 1 === this.breadcrumbList.length;
+  }
+
+}
+
+interface BreadcrumbItem {
+  id: string;
+  name: string;
 }

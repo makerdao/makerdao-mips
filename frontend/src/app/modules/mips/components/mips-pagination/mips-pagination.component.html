@@ -1,9 +1,14 @@
 <div class="container">
   <div class="row space">
-    <div class="links">
-      <a routerLink="" (click)="clearFilterAndGoHome()">ALL MIPs </a>
-      <strong > / {{mipName}} </strong>
-    </div>
+    <ul class="links">
+      <li>
+        <a routerLink="" (click)="clearFilterAndGoHome()">ALL MIPs </a>
+      </li>
+      <li *ngFor="let item of breadcrumbList; let index = index">
+        <a [routerLink]="['/mips/details/' + item.id]"
+          [ngClass]="{'active': isLastItem(index)}">{{item.name}}</a>
+      </li>
+    </ul>
     <div class="items">
       <strong>{{mipPosition + 1}}  </strong>
       <span> of {{total}} items </span>
