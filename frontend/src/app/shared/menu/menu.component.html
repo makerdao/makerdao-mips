@@ -15,16 +15,15 @@
   [cdkConnectedOverlayHasBackdrop]="true"
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   (backdropClick)="onClickedBackdrop()"
-  [cdkConnectedOverlayFlexibleDimensions]="true"
-  [cdkConnectedOverlayGrowAfterOpen]="true"
   [cdkConnectedOverlayPanelClass]="'panelClass'"
-  [cdkConnectedOverlayPush]="true"
+  [cdkConnectedOverlayPositions]="position"
 >
   <div class="dropdown-content">
     <app-menu
       *ngFor="let child of menu.children"
       [menu]="child"
       (clickedBackdrop)="closeMenu()"
+      [level]="level + 1"
     ></app-menu>
   </div>
 </ng-template>

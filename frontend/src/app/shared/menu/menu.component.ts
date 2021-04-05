@@ -1,3 +1,4 @@
+import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import Menu from '../../data-types/menu';
@@ -11,17 +12,68 @@ export class MenuComponent implements OnInit {
   @Input() menu: Menu;
   isOpen: boolean = false;
   @Output() clickedBackdrop: Subject<boolean> = new Subject<boolean>();
+  @Input() level: number = 0;
+  position: ConnectedPosition[] = new Array<ConnectedPosition>();
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initPosition();
+  }
+
+  initPosition() {
+    let posItem: ConnectedPosition;
+
+    if (this.level <= 0) {
+      posItem = {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      };
+      this.position.push({...posItem});
+    } else {
+      posItem = {
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'end',
+        overlayY: 'top',
+      };
+      this.position.push({...posItem});
+
+      posItem = {
+        originX: 'end',
+        originY: 'top',
+        overlayX: 'start',
+        overlayY: 'top',
+      };
+      this.position.push({...posItem});
+
+      posItem = {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      };
+      this.position.push({...posItem});
+
+      posItem = {
+        originX: 'start',
+        originY: 'bottom',
+        overlayX: 'start',
+        overlayY: 'top',
+      };
+      this.position.push({...posItem});
+    }
+  }
 
   onClickedBackdrop() {
-    this.isOpen = false;
-    this.clickedBackdrop.next(false);
+    this.closeMenu();
   }
 
   closeMenu() {
+    this.clickedBackdrop.next(false);
     this.isOpen = false;
   }
 }
