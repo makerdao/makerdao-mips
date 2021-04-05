@@ -76,4 +76,12 @@ export class MenuComponent implements OnInit {
     this.clickedBackdrop.next(false);
     this.isOpen = false;
   }
+
+  onClick() {
+    if (this.menu.children && this.menu.children.length > 0) {
+      this.isOpen = !this.isOpen;
+    } else {
+      window.location.href = this.menu.href;
+    }
+  }
 }

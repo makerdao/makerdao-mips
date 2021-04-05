@@ -1,11 +1,12 @@
 <a
-  (click)="isOpen = !isOpen"
+  (click)="onClick()"
   type="button"
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
   class="dropdown"
 >
   {{ menu.name }}
+  <span *ngIf="menu.children && menu.children.length > 0" class="arrow"></span>
 </a>
 
 <ng-template
