@@ -164,7 +164,8 @@ export class ParseMIPsService {
     const mip: MIP = {
       hash: item.hash,
       file: fileString,
-      filename: item.filename,      
+      filename: item.filename,
+      sections: []      
     };
     
     if (item.filename.includes('-')) {
@@ -217,8 +218,23 @@ export class ParseMIPsService {
         i + 1 < list.length
       ) {
         mip.paragraphSummary = list[i + 1]?.raw;
-        break;
       }
+
+      // if (
+      //   list[i]?.type === "heading" &&
+      //   list[i]?.depth === 2 &&
+      //   list[i]?.text === "References"
+      // ) {
+      //   console.log(mip.mipName, '<====>', list[i + 1]);
+      // }
+
+      if (list[i]?.type === "heading") {
+        mip.sections.push({
+          heading: list[i]?.text,
+          depth: list[i]?.depth
+        });
+      }
+      
     }
 
     if (!preamble) {

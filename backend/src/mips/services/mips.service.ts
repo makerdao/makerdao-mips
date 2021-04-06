@@ -168,6 +168,18 @@ export class MIPsService {
     return await this.mipsDoc.findOne({ _id: id }).select(["-__v"]).exec();
   }
 
+  async findOneByMipName(mipName: string): Promise<MIP> {
+    return await this.mipsDoc.findOne({ mipName: mipName }).select(["-__v"]).exec();
+  }
+
+  async getSummaryByMipName(mipName: string): Promise<MIP> {
+    return await this.mipsDoc.findOne({ mipName: mipName }).select(["sentenceSummary"]).exec();
+  }
+
+  async findOneByProposal(proposal: string): Promise<MIP[]> {
+    return await this.mipsDoc.find({ proposal: proposal }).select("title mipName").exec();
+  }
+
   create(mIPs: IMIPs): Promise<MIP> {
     return this.mipsDoc.create(mIPs);
   }
