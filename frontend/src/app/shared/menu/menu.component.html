@@ -1,5 +1,6 @@
 <a
   (click)="onClick()"
+  (mouseover)="open()"
   type="button"
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
@@ -13,7 +14,7 @@
   cdkConnectedOverlay
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen"
-  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayHasBackdrop]="levelMenu === 0 ? true : false"
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   (backdropClick)="onClickedBackdrop()"
   [cdkConnectedOverlayPanelClass]="'panelClass'"
@@ -21,10 +22,13 @@
 >
   <div class="dropdown-content">
     <app-menu
-      *ngFor="let child of menu.children"
+      *ngFor="let child of menu.children; let i = index"
       [menu]="child"
       (clickedBackdrop)="closeMenu()"
-      [level]="level + 1"
+      [levelMenu]="levelMenu + 1"
+      (opened)="onOpened(i)"
+      [index]="i"
+      [openedIndex]="openedIndexChild"
     ></app-menu>
   </div>
 </ng-template>

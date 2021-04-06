@@ -74,6 +74,12 @@ export class NavMenuComponent implements OnInit {
                     },
                   ],
                 },
+                {
+                  id: 'red3.2',
+                  name: 'Red 3.2',
+                  href: '',
+                  children: [],
+                },
               ],
             },
           ],
