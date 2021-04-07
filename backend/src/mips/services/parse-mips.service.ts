@@ -220,13 +220,13 @@ export class ParseMIPsService {
         mip.paragraphSummary = list[i + 1]?.raw;
       }
 
-      // if (
-      //   list[i]?.type === "heading" &&
-      //   list[i]?.depth === 2 &&
-      //   list[i]?.text === "References"
-      // ) {
-      //   console.log(mip.mipName, '<====>', list[i + 1]);
-      // }
+      if (
+        list[i]?.type === "heading" &&
+        list[i]?.depth === 2 &&
+        list[i]?.text === "References"
+      ) {
+        mip.references = list[i + 1].raw;
+      }
 
       if (list[i]?.type === "heading") {
         mip.sections.push({
