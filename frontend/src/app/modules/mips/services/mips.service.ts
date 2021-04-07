@@ -68,6 +68,10 @@ export class MipsService {
     return this.http.get(`${environment.apiUrl}/mips/findone/${id}`);
   }
 
+  getMipByName(name: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/get-summary/${name}`);
+  }
+
   sendFeedBack(subject: string, description: string): Observable<any> {
     return this.http.post(`${environment.feedBackFormUrl}`, { subject, description });
   }

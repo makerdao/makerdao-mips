@@ -16,5 +16,8 @@
   <markdown class="variable-binding" [data]="mip.file" (ready)="onReady()"></markdown>
 </div>
 
-
-
+<ng-template #preview let-data>
+  <section class="preview">
+    <div>{{data.sentenceSummary}}</div>
+  </section>
+</ng-template>
