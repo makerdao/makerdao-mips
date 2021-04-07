@@ -31,6 +31,7 @@ import { FilterListHostDirective } from './directives/filter-list-host.directive
 import { SecurityContext } from '@angular/core';
 import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.component';
 import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-checkbox-mobile.component';
+import { SideContentComponent } from './components/side-content/side-content.component';
 
 
 
@@ -57,7 +58,8 @@ import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-ch
     FilterListItemComponent,
     FilterListHostDirective,
     MdCheckboxComponent,
-    MdCheckboxMobileComponent
+    MdCheckboxMobileComponent,
+    SideContentComponent
   ],
   imports: [
     CommonModule,

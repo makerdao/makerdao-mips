@@ -10,6 +10,7 @@ export class MipDetailsComponent implements OnInit {
   @Input() status: string;
   @Input() dateProposed: string;
   @Input() dateRatified: string;
+  @Input() preamble: string;
 
   constructor() { }
 

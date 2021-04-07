@@ -16,6 +16,7 @@ export class DetailsPageComponent implements OnInit {
   mipPosition: number;
   total: number;
   MAX_LIMIT: number = 1000000;
+  preambleContentText: string = '';
 
   constructor(
     private mipsService: MipsService,
@@ -40,7 +41,13 @@ export class DetailsPageComponent implements OnInit {
       this.mip = data.mips;
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
+
       this.sections = data.sections;
+      let indexPreambleHeading: number = (this.sections as []).findIndex(
+        (i: any) => i.type === 'heading' && i.text === 'Preamble'
+      );
+      this.preambleContentText = this.sections[indexPreambleHeading + 1].raw;
+
       this.pullrequest = data.pullRequests;
 
       if (this.mipsService.getMipsData() === undefined) {
