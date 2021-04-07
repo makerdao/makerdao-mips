@@ -74,7 +74,14 @@ export class MIP {
   @Prop({
     type: [Object]
   })
-  sections: Section[];
+  sections?: Section[];
+
+  @Prop({
+    type: String
+  })
+  references?: string;
+
+
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

@@ -22,6 +22,7 @@ export interface IMIPs {
   sentenceSummary?: string;
   paragraphSummary?: string;
   sections?: Section[];
+  references?: string;
 }
 
 export interface IGitFile {
