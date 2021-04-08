@@ -129,7 +129,7 @@
         </a>
       </div>
       <div style="clear: both;"></div>
-      <div class="more" (click)="updateSelected(item._id)">
+      <div class="more" (click)="updateSelected(item._id, $event)">
         <img class="arrow" [ngClass]="{'rotate': selected == item._id}" src="../../../../../assets/images/down.svg"/>
         More
       </div>

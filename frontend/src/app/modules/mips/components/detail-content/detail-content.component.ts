@@ -57,6 +57,7 @@ export class DetailContentComponent implements OnInit, OnChanges {
   @Input() mip: any;
   links: Link[] = [];
   countLinks: number = 0;
+  content: any;
 
   constructor(
     private markdownService: MarkdownService,
@@ -71,6 +72,10 @@ export class DetailContentComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if (this.mip && this.mip.sectionsRaw) {
+      this.content = (this.mip.sectionsRaw as []).slice(1).join('');
+    }
+
     this.getDefaultLinks();
   }
 
