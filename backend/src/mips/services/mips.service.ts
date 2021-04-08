@@ -25,7 +25,7 @@ export class MIPsService {
 
     return this.mipsDoc
       .find(buildFilter)
-      .select(["-file", "-__v"])
+      .select(["-file", "-__v", "-sections", "-sectionsRaw"])
       .sort(order)
       .skip(page * limit)
       .limit(limit)
