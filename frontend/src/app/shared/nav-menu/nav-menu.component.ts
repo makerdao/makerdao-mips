@@ -118,18 +118,18 @@ export class NavMenuComponent implements OnInit {
                       children: [
                         {
                           id: 'blue',
-                          name: 'Red 1',
+                          name: 'Blue 3.1.1.1',
                           href: '',
                           children: [
                             {
                               id: 'blue',
-                              name: 'Blue 1',
+                              name: 'Ocean',
                               href: '',
                               children: [],
                             },
                             {
                               id: 'blue',
-                              name: 'Blue 2',
+                              name: 'Sky',
                               href: '',
                               children: [],
                             },

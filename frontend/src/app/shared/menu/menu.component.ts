@@ -89,10 +89,15 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   onClick() {
-    if (this.menu.children && this.menu.children.length > 0) {
-      this.isOpen = !this.isOpen;
+    if (window.innerWidth >= 768) {
+      if (this.menu.children && this.menu.children.length > 0) {
+        this.isOpen = !this.isOpen;
+      } else {
+        window.location.href = this.menu.href;
+      }
     } else {
-      window.location.href = this.menu.href;
+      this.isOpen = true;
+      this.opened.next();
     }
   }
 
