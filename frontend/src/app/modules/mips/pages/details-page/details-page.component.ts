@@ -40,7 +40,7 @@ export class DetailsPageComponent implements OnInit {
       this.mip = data.mip;
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
-      this.sections = data.sections;
+      this.sections = this.mip.sections;
       this.pullrequest = data.pullRequests;
 
       if (this.mipsService.getMipsData() === undefined) {
