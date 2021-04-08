@@ -135,7 +135,7 @@ export class DetailContentComponent implements OnInit, OnChanges {
       if (data.items && data.items[0]) {
         // override link in DOM
         let elem = document.getElementById(link.id);
-        elem.setAttribute('href', '/mips/details/' + data.items[0]._id);
+        elem.setAttribute('href', '/mips/details/' + data.items[0].mipName);
       }
     });
   }

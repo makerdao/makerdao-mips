@@ -336,11 +336,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   onNavigateToMipDetails(event) {
-    this.goToMipDetails(event.id);
+    this.goToMipDetails(event.mipName);
   }
 
-  goToMipDetails(id) {
-    this.router.navigate(["/mips/details/", id]);
+  goToMipDetails(name) {
+    this.router.navigate(["/mips/details/", name]);
   }
 
   onCheckedSubproposalMode(event) {

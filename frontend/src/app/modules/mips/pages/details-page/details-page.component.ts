@@ -12,7 +12,7 @@ export class DetailsPageComponent implements OnInit {
   mip: any;
   sections: any;
   pullrequest: any;
-  mipId: string;
+  mipName: string;
   mipPosition: number;
   total: number;
   MAX_LIMIT: number = 1000000;
@@ -24,8 +24,8 @@ export class DetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.activedRoute.paramMap.subscribe(paramMap => {
-      if (paramMap.has('id')) {
-        this.mipId = paramMap.get('id');
+      if (paramMap.has('name')) {
+        this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
         this.loadData();
         this.mipsService.updateActiveSearch(true);
@@ -35,9 +35,9 @@ export class DetailsPageComponent implements OnInit {
   }
 
   loadData(): void {
-    this.mipsService.getMip(this.mipId)
+    this.mipsService.getMip(this.mipName)
     .subscribe(data => {
-      this.mip = data.mips;
+      this.mip = data.mip;
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = data.sections;
@@ -50,13 +50,13 @@ export class DetailsPageComponent implements OnInit {
     const data = this.mipsService.getMipsData();
 
     if (data !== undefined) {
-      this.mipPosition = data.findIndex(item => item._id === this.mipId);
+      this.mipPosition = data.findIndex(item => item.mipName === this.mipName);
     }
   }
 
   mipsPagination(position: number): void {
     const data = this.mipsService.getMipsData();
-    this.mipId = data[position]._id;
+    this.mipName = data[position].mipName;
     this.loadData();
   }
 
@@ -93,7 +93,7 @@ export class DetailsPageComponent implements OnInit {
       this.total = data.total;
       this.mipsService.setTotal(this.total);
       const mips = this.mipsService.getMipsData();
-      this.mipPosition = mips.findIndex(item => item._id === this.mipId);
+      this.mipPosition = mips.findIndex(item => item.mipName === this.mipName);
     });
   }
 
