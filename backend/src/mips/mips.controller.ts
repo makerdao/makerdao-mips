@@ -144,7 +144,7 @@ export class MIPsController {
     const mip = await this.mipsService.findOneByMipName(mipName);    
 
     if (!mip) {
-      throw new NotFoundException(`MIPs with name ${mip} not found`);
+      throw new NotFoundException(`MIPs with name ${mipName} not found`);
     }
 
     let subproposals = [];
@@ -164,7 +164,13 @@ export class MIPsController {
 
   @Get("get-summary/:mip")
   async getSummaryByMipName(@Param("mip") mipName: string) {    
-    return await this.mipsService.getSummaryByMipName(mipName);
+    const mip = await this.mipsService.getSummaryByMipName(mipName);    
+
+    if (!mip) {
+      throw new NotFoundException(`MIPs with name ${mipName} not found`);
+    }
+
+    return mip;
   }
 
   @Post("callback")
