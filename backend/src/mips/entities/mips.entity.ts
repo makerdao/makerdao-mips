@@ -3,6 +3,14 @@ import { Document } from "mongoose";
 
 export type MIPsDoc = MIP & Document;
 
+export class Section {
+  @Prop()
+  heading: string;
+
+  @Prop()
+  depth: string;
+}
+
 @Schema()
 export class MIP {
   @Prop()
@@ -62,6 +70,23 @@ export class MIP {
   sentenceSummary?: string;
   @Prop()
   paragraphSummary?: string;
+
+  @Prop({
+    type: [Object]
+  })
+  sections?: Section[];
+
+  @Prop({
+    type: [String]
+  })
+  sectionsRaw?: string[];
+
+  @Prop({
+    type: String
+  })
+  references?: string;
+
+
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);
