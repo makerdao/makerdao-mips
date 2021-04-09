@@ -164,7 +164,9 @@ export class ParseMIPsService {
     const mip: MIP = {
       hash: item.hash,
       file: fileString,
-      filename: item.filename,      
+      filename: item.filename,
+      sections: [],
+      sectionsRaw: []
     };
     
     if (item.filename.includes('-')) {
@@ -178,11 +180,12 @@ export class ParseMIPsService {
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
+
+      mip.sectionsRaw.push(list[i].raw);
+
       if (list[i]?.type === "heading" && list[i]?.depth === 1) {
         title = list[i]?.text;
-      }
-
-      if (
+      } else if (
         list[i]?.type === "heading" &&
         list[i]?.depth === 2 &&
         list[i]?.text === "Preamble" &&
@@ -199,26 +202,35 @@ export class ParseMIPsService {
             preamble = this.parsePreamble(list[i + 1]?.text);
           }
         }
-      }
-
-      if (
+      } else if (
         list[i]?.type === "heading" &&
         list[i]?.depth === 2 &&
         list[i]?.text === "Sentence Summary" &&
         i + 1 < list.length
       ) {
         mip.sentenceSummary = list[i + 1]?.raw;
-      }
-
-      if (
+      } else if (
         list[i]?.type === "heading" &&
         list[i]?.depth === 2 &&
         list[i]?.text === "Paragraph Summary" &&
         i + 1 < list.length
       ) {
         mip.paragraphSummary = list[i + 1]?.raw;
-        break;
+      } else if (
+        list[i]?.type === "heading" &&
+        list[i]?.depth === 2 &&
+        list[i]?.text === "References"
+      ) {
+        mip.references = list[i + 1].raw;
       }
+
+      if (list[i]?.type === "heading") {
+        mip.sections.push({
+          heading: list[i]?.text,
+          depth: list[i]?.depth
+        });
+      }
+      
     }
 
     if (!preamble) {

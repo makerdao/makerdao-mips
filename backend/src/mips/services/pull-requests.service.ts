@@ -10,7 +10,7 @@ export class PullRequestService {
   constructor(
     @InjectModel(PullRequest.name)
     private readonly pullRequestDoc: Model<PullRequestDoc>
-  ) {}
+  ) { }
 
   async create(pullRequest: any[]): Promise<any> {
     return await this.pullRequestDoc.insertMany(pullRequest);
@@ -34,7 +34,21 @@ export class PullRequestService {
               { $match: { state: { $in: ["MERGED", "CLOSED"] } } },
               { $group: { _id: null, count: { $sum: 1 } } },
             ],
-            items: [{ $group: { _id: null, data: { $push: "$$ROOT" } } }],
+            items: [{
+              $group: {
+                _id: null, data: {
+                  $push: {
+                    id: "$_id",
+                    url: "$url",
+                    title: "$title",
+                    body: "$body",
+                    createdAt: "$createdAt",
+                    author: "$author",
+                    state: "$state"
+                  }
+                }
+              }
+            }],
           },
         },
         {

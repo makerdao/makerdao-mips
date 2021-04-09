@@ -2,21 +2,21 @@
   <div class="content" #sectionLinks>
     <p class="header">Proposal Components</p>
     <div *ngFor="let element of sourceData; let index = index">
-      <div *ngIf="element.type == 'heading'">
+      <div>
         <p>
           <a *ngIf="element.depth == 2"
-            [id]="idBySection(element.text)"
+            [id]="idBySection(element.heading)"
             class="title"
-            [href]="getLinkBySection(element.text)"
+            [href]="getLinkBySection(element.heading)"
             >
-            {{element.text}}</a>
+            {{element.heading}}</a>
 
           <a *ngIf="element.depth == 3"
-            [id]="idBySection(element.text)"
+            [id]="idBySection(element.heading)"
             class="sub-title"
-            [href]="getLinkBySection(element.text)"
+            [href]="getLinkBySection(element.heading)"
             >
-            {{element.text}}</a>
+            {{element.heading}}</a>
         </p>
       </div>
     </div>

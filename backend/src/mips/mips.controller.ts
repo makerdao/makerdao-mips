@@ -138,6 +138,41 @@ export class MIPsController {
     }
   }
 
+  @Get("findone-tmp/:mip")
+  async findOneByMipName(@Param("mip") mipName: string) {
+    
+    const mip = await this.mipsService.findOneByMipName(mipName);    
+
+    if (!mip) {
+      throw new NotFoundException(`MIPs with name ${mipName} not found`);
+    }
+
+    let subproposals = [];
+
+    if (!mip.proposal) {
+      subproposals = await this.mipsService.findOneByProposal(mip.mipName);
+    }
+
+    try {
+      const pullRequests = await this.pullRequestService.aggregate(mip.filename);
+      return { mip, pullRequests, subproposals }
+  
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  @Get("get-summary/:mip")
+  async getSummaryByMipName(@Param("mip") mipName: string) {    
+    const mip = await this.mipsService.getSummaryByMipName(mipName);    
+
+    if (!mip) {
+      throw new NotFoundException(`MIPs with name ${mipName} not found`);
+    }
+
+    return mip;
+  }
+
   @Post("callback")
   async callback(@Req() { headers, body }: any): Promise<boolean> {
     try {
