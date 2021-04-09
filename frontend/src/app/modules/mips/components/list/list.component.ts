@@ -205,8 +205,8 @@ const language = 'typescript';
     }
   }
 
-  onNavigateToDetails(id) {
-    this.router.navigate(["/mips/details/", id]);
+  onNavigateToDetails(name) {
+    this.router.navigate(["/mips/details/", name]);
   }
 
   onMouseOverLeaveArrow(id: any, value: boolean) {

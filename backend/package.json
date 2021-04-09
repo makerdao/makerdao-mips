@@ -31,7 +31,7 @@
     "class-validator": "^0.12.2",
     "graphql": "^15.4.0",
     "graphql-request": "^3.4.0",
-    "marked": "^1.2.7",
+    "marked": "^2.0.1",
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.10",
     "nestjs-command": "^1.5.3",
