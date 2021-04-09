@@ -17,7 +17,7 @@ export class MipsPaginationComponent implements OnInit, OnChanges {
   timeout: any = null;
   @Input() mipName: string;
   @Input() parent: string;
-  @Input() mipId: string;
+  // @Input() mipId: string;
   breadcrumbList: BreadcrumbItem[] = [];
   currentMipName: string;
 
@@ -47,7 +47,7 @@ export class MipsPaginationComponent implements OnInit, OnChanges {
   }
 
   updateBreadcrumb() {
-    let item: BreadcrumbItem = { id: this.mipId, name: this.mipName };
+    let item: BreadcrumbItem = { id: this.mipName, name: this.mipName };
     let indexParentItem = this.findParentBreadcrumbItem();
 
     if (indexParentItem === -1) {
@@ -61,7 +61,7 @@ export class MipsPaginationComponent implements OnInit, OnChanges {
 
   async initBreadcrumbFromSubproposal() {
     this.breadcrumbList = [];
-    this.breadcrumbList.push({id: this.mipId, name: this.mipName});
+    this.breadcrumbList.push({id: this.mipName, name: this.mipName});
     let parent: any;
     let parentName = this.parent;
 
@@ -78,7 +78,7 @@ export class MipsPaginationComponent implements OnInit, OnChanges {
         parentName = mips.items[0].proposal;
 
         if (this.breadcrumbList.findIndex(i => i.name === mips.items[0].mipName) === -1) {
-          this.breadcrumbList.push({id: parent._id, name: parent.mipName});
+          this.breadcrumbList.push({id: parent.mipName, name: parent.mipName});
         }
       }
     }
