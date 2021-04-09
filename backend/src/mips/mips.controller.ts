@@ -22,14 +22,13 @@ import { PullRequestService } from "./services/pull-requests.service";
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
 
-
 @Controller("mips")
 export class MIPsController {
   constructor(
     private mipsService: MIPsService,
     private parseMIPsService: ParseMIPsService,
     private pullRequestService: PullRequestService,
-    private configService: ConfigService    
+    private configService: ConfigService
   ) {}
 
   @Get("findall")
@@ -120,28 +119,34 @@ export class MIPsController {
         HttpStatus.BAD_REQUEST
       );
     }
-    const mips = await this.mipsService.findOne(id);    
+    const mips = await this.mipsService.findOne(id);
 
     if (!mips) {
       throw new NotFoundException(`MIPs with ${id} not found`);
     }
 
     try {
-      const data =  await Promise.all([
+      const data = await Promise.all([
         this.pullRequestService.aggregate(mips.filename),
-        this.parseMIPsService.parseSections(mips.file)
+        this.parseMIPsService.parseSections(mips.file),
       ]);
-      return { mips, pullRequests: data[0], sections: data[1] }
-  
+      return { mips, pullRequests: data[0], sections: data[1] };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
 
   @Get("findone-tmp/:mip")
-  async findOneByMipName(@Param("mip") mipName: string) {
-    
-    const mip = await this.mipsService.findOneByMipName(mipName);    
+  @ApiQuery({
+    type: String,
+    name: "filename",
+    required: false
+  })
+  async findOneByMipName(
+    @Param("mip") mipName: string,
+    @Query("filename") filename?: string
+  ) {
+    const mip = await this.mipsService.findOneByMipName(mipName, filename);
 
     if (!mip) {
       throw new NotFoundException(`MIPs with name ${mipName} not found`);
@@ -154,17 +159,18 @@ export class MIPsController {
     }
 
     try {
-      const pullRequests = await this.pullRequestService.aggregate(mip.filename);
-      return { mip, pullRequests, subproposals }
-  
+      const pullRequests = await this.pullRequestService.aggregate(
+        mip.filename
+      );
+      return { mip, pullRequests, subproposals };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
 
   @Get("get-summary/:mip")
-  async getSummaryByMipName(@Param("mip") mipName: string) {    
-    const mip = await this.mipsService.getSummaryByMipName(mipName);    
+  async getSummaryByMipName(@Param("mip") mipName: string) {
+    const mip = await this.mipsService.getSummaryByMipName(mipName);
 
     if (!mip) {
       throw new NotFoundException(`MIPs with name ${mipName} not found`);

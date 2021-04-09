@@ -113,7 +113,6 @@ export class ParseMIPsService {
           }
 
           if (mip) {                 
-            mip.file = this.updateLinks(mip.file, mip.mip);
             createItems.push(mip);
           }          
         } catch (error) {
@@ -216,13 +215,7 @@ export class ParseMIPsService {
         i + 1 < list.length
       ) {
         mip.paragraphSummary = list[i + 1]?.raw;
-      } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "References"
-      ) {
-        mip.references = list[i + 1].raw;
-      }
+      } 
 
       if (list[i]?.type === "heading") {
         mip.sections.push({
