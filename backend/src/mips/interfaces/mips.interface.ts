@@ -22,7 +22,6 @@ export interface IMIPs {
   sentenceSummary?: string;
   paragraphSummary?: string;
   sections?: Section[];
-  sectionsRaw?: string[];
   references?: string;
 }
 

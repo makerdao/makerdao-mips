@@ -99,8 +99,7 @@ export class ParseMIPsService {
     };
     const createItems = [];
 
-    for (const item of filesGit) {
-
+    for (const item of filesGit) {    
       if (!filesDB.has(item.filename)) {
         const dir = `${this.baseDir}/${item.filename}`;
 
@@ -115,7 +114,8 @@ export class ParseMIPsService {
           if (mip) {                 
             mip.file = this.updateLinks(mip.file, mip.mip);
             createItems.push(mip);
-          }          
+          }       
+          
         } catch (error) {
           this.logger.log(error); 
           continue;         
@@ -165,8 +165,7 @@ export class ParseMIPsService {
       hash: item.hash,
       file: fileString,
       filename: item.filename,
-      sections: [],
-      sectionsRaw: []
+      sections: []
     };
     
     if (item.filename.includes('-')) {
@@ -180,8 +179,6 @@ export class ParseMIPsService {
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
-
-      mip.sectionsRaw.push(list[i].raw);
 
       if (list[i]?.type === "heading" && list[i]?.depth === 1) {
         title = list[i]?.text;
@@ -229,8 +226,7 @@ export class ParseMIPsService {
           heading: list[i]?.text,
           depth: list[i]?.depth
         });
-      }
-      
+      }      
     }
 
     if (!preamble) {
