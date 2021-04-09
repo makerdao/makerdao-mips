@@ -77,6 +77,11 @@ export class MIP {
   sections?: Section[];
 
   @Prop({
+    type: [String]
+  })
+  sectionsRaw?: string[];
+
+  @Prop({
     type: String
   })
   references?: string;

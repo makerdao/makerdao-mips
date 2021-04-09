@@ -25,7 +25,7 @@ export class MIPsService {
 
     return this.mipsDoc
       .find(buildFilter)
-      .select(["-file", "-__v", "-sections"])
+      .select(["-file", "-__v", "-sections", "-sectionsRaw"])
       .sort(order)
       .skip(page * limit)
       .limit(limit)
@@ -173,7 +173,7 @@ export class MIPsService {
   }
 
   async getSummaryByMipName(mipName: string): Promise<MIP> {
-    return await this.mipsDoc.findOne({ mipName: mipName }).select(["sentenceSummary", "paragraphSummary"]).exec();
+    return await this.mipsDoc.findOne({ mipName: mipName }).select(["sentenceSummary"]).exec();
   }
 
   async findOneByProposal(proposal: string): Promise<MIP[]> {
