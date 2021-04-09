@@ -63,6 +63,7 @@ export class DetailContentComponent implements OnInit, OnChanges, AfterViewInit 
   @ViewChild('preview') preview: TemplateRef<any>;
   overlayRef: OverlayRef | null;
   templatePortal: TemplatePortal<any>;
+  content: any;
 
   constructor(
     private markdownService: MarkdownService,
@@ -143,6 +144,10 @@ export class DetailContentComponent implements OnInit, OnChanges, AfterViewInit 
   }
 
   ngOnChanges() {
+    if (this.mip && this.mip.sectionsRaw) {
+      this.content = (this.mip.sectionsRaw as []).slice(1).join('');
+    }
+
     this.getDefaultLinks();
   }
 
@@ -207,7 +212,7 @@ export class DetailContentComponent implements OnInit, OnChanges, AfterViewInit 
       if (data.items && data.items[0]) {
         // override link in DOM
         let elem = document.getElementById(link.id);
-        elem.setAttribute('href', '/mips/details/' + data.items[0]._id);
+        elem.setAttribute('href', '/mips/details/' + data.items[0].mipName);
       }
     });
   }

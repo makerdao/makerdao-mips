@@ -13,7 +13,7 @@
   </div>
   <div class="mobile title margin-2"> {{mip.title}}</div>
   <hr>
-  <markdown class="variable-binding" [data]="mip.file" (ready)="onReady()"></markdown>
+  <markdown class="variable-binding" [data]="content" (ready)="onReady()"></markdown>
 </div>
 
 <ng-template #preview let-data>

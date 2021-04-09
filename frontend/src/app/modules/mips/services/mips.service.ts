@@ -64,8 +64,8 @@ export class MipsService {
     return this.http.get(`${environment.apiUrl}/mips/findall${urlFilter}`, {params} );
   }
 
-  getMip(id: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/mips/findone/${id}`);
+  getMip(name: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/findone-tmp/${name}`);
   }
 
   getMipByName(name: string): Observable<any> {
