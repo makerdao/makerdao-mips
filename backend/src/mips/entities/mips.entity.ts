@@ -80,13 +80,6 @@ export class MIP {
     type: [String]
   })
   sectionsRaw?: string[];
-
-  @Prop({
-    type: String
-  })
-  references?: string;
-
-
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

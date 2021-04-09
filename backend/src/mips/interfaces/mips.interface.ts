@@ -23,7 +23,6 @@ export interface IMIPs {
   paragraphSummary?: string;
   sections?: Section[];
   sectionsRaw?: string[];
-  references?: string;
 }
 
 export interface IGitFile {

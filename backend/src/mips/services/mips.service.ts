@@ -49,13 +49,15 @@ export class MIPsService {
         for (let i = 0; i < field.length; i++) {
           const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = {
-            $regex: new RegExp(`${newValue}`), $options: "i"
+            $regex: new RegExp(`${newValue}`),
+            $options: "i",
           };
         }
       } else {
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = {
-          $regex: new RegExp(`${newValue}`), $options: "i" 
+          $regex: new RegExp(`${newValue}`),
+          $options: "i",
         };
       }
     }
@@ -69,7 +71,6 @@ export class MIPsService {
           const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = newValue;
         }
-
       } else {
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = newValue;
@@ -81,15 +82,13 @@ export class MIPsService {
       const value = filter.inarray["value"];
 
       if (Array.isArray(field) && Array.isArray(value)) {
-
         for (let i = 0; i < field.length; i++) {
           const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {$in: newValue};
+          source[`${field[i].toString()}`] = { $in: newValue };
         }
-
       } else {
         const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = {$in: newValue};
+        source[`${field.toString()}`] = { $in: newValue };
       }
     }
 
@@ -168,16 +167,31 @@ export class MIPsService {
     return await this.mipsDoc.findOne({ _id: id }).select(["-__v"]).exec();
   }
 
-  async findOneByMipName(mipName: string): Promise<MIP> {
-    return await this.mipsDoc.findOne({ mipName: mipName }).select(["-__v"]).exec();
+  async findOneByMipName(mipName: string, filename: string): Promise<MIP> {
+    const filter = { mipName: mipName };
+
+    if (filename) {
+      filter["filename"] = {
+        $regex: new RegExp(filename),
+        $options: "i",
+      };
+    }
+
+    return await this.mipsDoc.findOne(filter).select(["-__v", "-file"]).exec();
   }
 
   async getSummaryByMipName(mipName: string): Promise<MIP> {
-    return await this.mipsDoc.findOne({ mipName: mipName }).select(["sentenceSummary"]).exec();
+    return await this.mipsDoc
+      .findOne({ filename: mipName })
+      .select(["sentenceSummary", "paragraphSummary"])
+      .exec();
   }
 
   async findOneByProposal(proposal: string): Promise<MIP[]> {
-    return await this.mipsDoc.find({ proposal: proposal }).select("title mipName").exec();
+    return await this.mipsDoc
+      .find({ proposal: proposal })
+      .select("title mipName")
+      .exec();
   }
 
   create(mIPs: IMIPs): Promise<MIP> {
