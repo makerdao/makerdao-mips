@@ -108,34 +108,6 @@ export class MIPsController {
     }
   }
 
-  @Get("findone/:id")
-  async findOne(@Param("id") id: string) {
-    if (!this.mipsService.isValidObjectId(id)) {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: `Invalid decoding ID ${id}`,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
-    const mips = await this.mipsService.findOne(id);
-
-    if (!mips) {
-      throw new NotFoundException(`MIPs with ${id} not found`);
-    }
-
-    try {
-      const data = await Promise.all([
-        this.pullRequestService.aggregate(mips.filename),
-        this.parseMIPsService.parseSections(mips.file),
-      ]);
-      return { mips, pullRequests: data[0], sections: data[1] };
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
   @Get("findone-tmp/:mip")
   @ApiQuery({
     type: String,
@@ -175,7 +147,6 @@ export class MIPsController {
     if (!mip) {
       throw new NotFoundException(`MIPs with name ${mipName} not found`);
     }
-
     return mip;
   }
 
