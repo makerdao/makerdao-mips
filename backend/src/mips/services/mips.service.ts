@@ -163,10 +163,6 @@ export class MIPsService {
     return value;
   }
 
-  async findOne(id: string): Promise<MIP> {
-    return await this.mipsDoc.findOne({ _id: id }).select(["-__v"]).exec();
-  }
-
   async findOneByMipName(mipName: string, filename: string): Promise<MIP> {
     const filter = { mipName: mipName };
 
