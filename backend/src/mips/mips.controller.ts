@@ -108,16 +108,26 @@ export class MIPsController {
     }
   }
 
-  @Get("findone-tmp/:mip")
+  @Get("findone")
   @ApiQuery({
     type: String,
     name: "filename",
     required: false
   })
+  @ApiQuery({
+    type: String,
+    name: "mipName",
+    required: false
+  })
   async findOneByMipName(
-    @Param("mip") mipName: string,
+    @Query("mipName") mipName?: string,
     @Query("filename") filename?: string
   ) {
+
+    if (!mipName && !filename) {
+      throw new NotFoundException(`At least one query parameter is required`);
+    }
+
     const mip = await this.mipsService.findOneByMipName(mipName, filename);
 
     if (!mip) {

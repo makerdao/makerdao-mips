@@ -164,9 +164,13 @@ export class MIPsService {
   }
 
   async findOneByMipName(mipName: string, filename: string): Promise<MIP> {
-    const filter = { mipName: mipName };
+    const filter = {};
 
     if (filename) {
+      filter["mipName"] = mipName;
+    }
+
+    if (mipName) {
       filter["filename"] = {
         $regex: new RegExp(filename),
         $options: "i",
