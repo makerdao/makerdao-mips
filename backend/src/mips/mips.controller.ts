@@ -108,17 +108,17 @@ export class MIPsController {
     }
   }
 
-  @Get("findone-tmp/:mip")
+  @Get("findone")
   @ApiQuery({
     type: String,
-    name: "filename",
-    required: false
+    name: "mipName",
+    required: true
   })
   async findOneByMipName(
-    @Param("mip") mipName: string,
-    @Query("filename") filename?: string
+    @Query("mipName") mipName?: string
   ) {
-    const mip = await this.mipsService.findOneByMipName(mipName, filename);
+
+    const mip = await this.mipsService.findOneByMipName(mipName, "");
 
     if (!mip) {
       throw new NotFoundException(`MIPs with name ${mipName} not found`);
@@ -138,6 +138,25 @@ export class MIPsController {
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
+  }
+
+  @Get("findone-by-filename")
+  @ApiQuery({
+    type: String,
+    name: "filename",
+    required: true
+  })
+  async findOneByFilename(
+    @Query("filename") filename: string
+  ) {
+
+    const mip = await this.mipsService.findOneByMipName("", filename);
+
+    if (!mip) {
+      throw new NotFoundException(`MIPs with filename ${filename} not found`);
+    }
+
+    return mip;
   }
 
   @Get("get-summary/:mip")
