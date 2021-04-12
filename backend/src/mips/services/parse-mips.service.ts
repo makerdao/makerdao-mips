@@ -226,8 +226,6 @@ export class ParseMIPsService {
           depth: list[i]?.depth
         });
       }
-
-      console.log(mip.subproposal, "<===", mip.mipName);
       
     }
 
