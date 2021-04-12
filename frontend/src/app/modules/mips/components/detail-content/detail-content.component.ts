@@ -149,12 +149,14 @@ export class DetailContentComponent implements OnInit, OnChanges {
 
   searchMips() {
     this.links.forEach(link => {
-      let filter = {
-        contains: [],
-      };
 
-      filter.contains.push({field: 'mipName', value: link.name});
-      this.searchMipsByNameAndOverrideLink(0, 0, 'mipName', '', filter, link);
+      if (link.name.includes('.md')) {
+        this.mipsService.getMipByFilename(link.name.replace('.md', '')).subscribe(data => {
+          let elem = document.getElementById(link.id);
+          elem.setAttribute('href', '/mips/details/' + data.mipName);
+        });
+      }
+
     })
   }
 
