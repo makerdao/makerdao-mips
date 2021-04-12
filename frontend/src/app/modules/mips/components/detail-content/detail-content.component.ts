@@ -73,8 +73,6 @@ export class DetailContentComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.mip && this.mip.sectionsRaw) {
-      // (this.mip.sectionsRaw as []).slice(1).slice(1)
-
       this.content = (this.mip.sectionsRaw as []).slice(1).join('\n');
     }
 
