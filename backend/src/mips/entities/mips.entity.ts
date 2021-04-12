@@ -29,7 +29,10 @@ export class MIP {
   @Prop()
   mipName?: string;
 
-  @Prop()
+  @Prop({
+    default: -1,
+    type: Number,
+  })
   subproposal?: number;
 
   @Prop({

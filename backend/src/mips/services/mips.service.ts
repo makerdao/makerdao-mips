@@ -149,6 +149,9 @@ export class MIPsService {
       case "mipName":
         flag = true;
         break;
+      case "filename":
+        flag = true;
+        break;
       case "proposal":
         flag = true;
         break;
@@ -166,11 +169,11 @@ export class MIPsService {
   async findOneByMipName(mipName: string, filename: string): Promise<MIP> {
     const filter = {};
 
-    if (filename) {
+    if (mipName) {
       filter["mipName"] = mipName;
     }
 
-    if (mipName) {
+    if (filename) {
       filter["filename"] = {
         $regex: new RegExp(filename),
         $options: "i",

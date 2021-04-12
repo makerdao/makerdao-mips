@@ -59,7 +59,7 @@ export class SimpleGitService {
           (data) =>
             data.length > 3 &&
             !data.includes("placeholder.md") &&
-            !data.includes("Template") &&
+            // !data.includes("Template") &&
             data.includes(".md")
         )
         .map((data) => {
