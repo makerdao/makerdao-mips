@@ -161,7 +161,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     };
 
     this.filter.notequals.push({field: 'mip', value: -1});
-    // this.filter.notcontains.push({field: 'filename', value: "Template"});
 
     this.setFiltersStatus();
 
