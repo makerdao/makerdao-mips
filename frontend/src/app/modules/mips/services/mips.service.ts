@@ -69,7 +69,7 @@ export class MipsService {
   }
 
   getMipByFilename(filename?: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/mips/findone-by-filename?filename=${filename}`);
+    return this.http.get(`${environment.apiUrl}/mips/findone-by?field=filename&value=${filename}`);
   }
 
   sendFeedBack(subject: string, description: string): Observable<any> {
