@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Backend of MakerDao mip projects",
   "author": "Dspot Inc",
   "scripts": {
