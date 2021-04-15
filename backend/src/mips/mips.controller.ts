@@ -118,7 +118,7 @@ export class MIPsController {
     @Query("mipName") mipName?: string
   ) {
 
-    const mip = await this.mipsService.findOneByMipName(mipName, "");
+    const mip = await this.mipsService.findOneByMipName(mipName);
 
     if (!mip) {
       throw new NotFoundException(`MIPs with name ${mipName} not found`);
@@ -140,33 +140,78 @@ export class MIPsController {
     }
   }
 
-  @Get("findone-by-filename")
+  @Get("smart-search")
   @ApiQuery({
     type: String,
-    name: "filename",
+    name: "field",
+    required: true
+  })
+  @ApiQuery({
+    type: String,
+    name: "value",
+    required: true
+  })
+  async smartSearch(
+    @Query("field") field: string,
+    @Query("value") value: string,
+  ) {
+    try {
+      return await this.mipsService.smartSearch(field, value);      
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );      
+    }
+    
+  }
+
+  @Get("findone-by")
+  @ApiQuery({
+    type: String,
+    name: "field",
+    required: true
+  })
+  @ApiQuery({
+    type: String,
+    name: "value",
     required: true
   })
   async findOneByFilename(
-    @Query("filename") filename: string
+    @Query("field") field: string,
+    @Query("value") value: string,
   ) {
 
-    const mip = await this.mipsService.findOneByMipName("", filename);
+    let mip;
 
-    if (!mip) {
-      throw new NotFoundException(`MIPs with filename ${filename} not found`);
-    }
+    switch (field) {
+      case 'filename':
+        mip = await this.mipsService.findOneByFileName(value);
+        if (!mip) {
+          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+        }
+        return mip;
 
-    return mip;
-  }
+      case 'mipName':
+        mip = await this.mipsService.getSummaryByMipName(value);
 
-  @Get("get-summary/:mip")
-  async getSummaryByMipName(@Param("mip") mipName: string) {
-    const mip = await this.mipsService.getSummaryByMipName(mipName);
-
-    if (!mip) {
-      throw new NotFoundException(`MIPs with name ${mipName} not found`);
-    }
-    return mip;
+        if (!mip) {
+          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+        }
+        return mip;
+    
+      default:
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: `Field ${field} not found`,
+          },
+          HttpStatus.BAD_REQUEST
+        );    
+    }    
   }
 
   @Post("callback")
