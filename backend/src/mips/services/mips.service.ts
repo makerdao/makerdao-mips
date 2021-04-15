@@ -169,26 +169,62 @@ export class MIPsService {
     return value;
   }
 
-  async findOneByMipName(mipName: string, filename: string): Promise<MIP> {
-    const filter = {};
+  async findOneByMipName(mipName: string): Promise<MIP> {
+    return await this.mipsDoc
+      .findOne({ mipName })
+      .select(["-__v", "-file"])
+      .exec();
+  }
 
-    if (mipName) {
-      filter["mipName"] = mipName;
+  async smartSearch(field: string, value: string): Promise<MIP[]> {
+    switch (field) {
+      case 'tags':        
+        return await this.mipsDoc.aggregate([
+          {$unwind: "$tags"},
+          {
+            $match: {
+              tags: {
+                $regex: new RegExp(`^${value}`),
+                $options: "i",
+              },
+            },
+          },
+          { $group: { _id: {tags: "$tags"}, tag: { $first: "$tags"} } },
+          { $project: { _id: 0, tag: "$tag"}},
+        ]);
+      case 'status':        
+        return await this.mipsDoc.aggregate([
+          {
+            $match: {
+              status: {
+                $regex: new RegExp(`^${value}`),
+                $options: "i",
+              },
+            },
+          },
+          { $group: { _id: {status: "$status"}, status: { $first: "$status"} } },
+          { $project: { _id: 0, status: "$status"}},
+        ]);
+    
+      default:
+        throw new Error(`Field ${field} invalid`);
     }
+  }
 
-    if (filename) {
-      filter["filename"] = {
+  async findOneByFileName(filename: string): Promise<MIP> {
+    const filter = {
+      filename: {
         $regex: new RegExp(filename),
         $options: "i",
-      };
-    }
+      },
+    };
 
     return await this.mipsDoc.findOne(filter).select(["-__v", "-file"]).exec();
   }
 
   async getSummaryByMipName(mipName: string): Promise<MIP> {
     return await this.mipsDoc
-      .findOne({ filename: mipName })
+      .findOne({ mipName })
       .select(["sentenceSummary", "paragraphSummary"])
       .exec();
   }
