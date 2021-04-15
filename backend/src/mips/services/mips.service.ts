@@ -158,6 +158,9 @@ export class MIPsService {
       case "mip":
         flag = true;
         break;
+      case "tags":
+        flag = true;
+        break;
     }
 
     if (!flag) {

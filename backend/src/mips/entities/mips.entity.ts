@@ -54,6 +54,12 @@ export class MIP {
     type: [String],
   })
   contributors?: string[];
+
+  @Prop({
+    type: [String],
+  })
+  tags?: string[];
+  
   @Prop()
   status?: string;
   @Prop()
