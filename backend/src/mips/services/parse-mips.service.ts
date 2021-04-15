@@ -244,6 +244,7 @@ export class ParseMIPsService {
     mip.status = preamble.status;
     mip.title = preamble.preambleTitle || title;
     mip.types = preamble.types;
+    mip.tags = preamble.tags;
 
     return mip;
   }
@@ -295,6 +296,15 @@ export class ParseMIPsService {
           break;
         case "Author(s)":
           preamble.author = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "Author":
+          preamble.author = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "Tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
           break;
         case "Replaces":
           preamble.replaces = keyValue[1].trim();
@@ -370,6 +380,15 @@ export class ParseMIPsService {
           break;
         case "Author(s)":
           preamble.author = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "Author":
+          preamble.author = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "Tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
           break;
         case "Replaces":
           preamble.replaces = keyValue[1].trim();

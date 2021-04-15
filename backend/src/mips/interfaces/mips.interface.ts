@@ -13,6 +13,7 @@ export interface IMIPs {
   preambleTitle?: string;
   author?: string[];
   contributors?: string[];
+  tags?: string[];
   status?: string;
   types?: string;
   dateProposed?: string;
@@ -53,6 +54,7 @@ export interface IPreamble {
   mipName?: string;
   author?: string[];
   contributors?: string[];
+  tags?: string[];
   status?: string;
   types?: string;
   dateProposed?: string;
