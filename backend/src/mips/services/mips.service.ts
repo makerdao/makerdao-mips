@@ -49,13 +49,15 @@ export class MIPsService {
         for (let i = 0; i < field.length; i++) {
           const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = {
-            $regex: new RegExp(`${newValue}`), $options: "i"
+            $regex: new RegExp(`${newValue}`),
+            $options: "i",
           };
         }
       } else {
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = {
-          $regex: new RegExp(`${newValue}`), $options: "i" 
+          $regex: new RegExp(`${newValue}`),
+          $options: "i",
         };
       }
     }
@@ -69,7 +71,6 @@ export class MIPsService {
           const newValue = this.validField(field[i].toString(), value[i]);
           source[`${field[i].toString()}`] = newValue;
         }
-
       } else {
         const newValue = this.validField(field.toString(), value);
         source[`${field.toString()}`] = newValue;
@@ -81,15 +82,13 @@ export class MIPsService {
       const value = filter.inarray["value"];
 
       if (Array.isArray(field) && Array.isArray(value)) {
-
         for (let i = 0; i < field.length; i++) {
           const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {$in: newValue};
+          source[`${field[i].toString()}`] = { $in: newValue };
         }
-
       } else {
         const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = {$in: newValue};
+        source[`${field.toString()}`] = { $in: newValue };
       }
     }
 
@@ -150,10 +149,16 @@ export class MIPsService {
       case "mipName":
         flag = true;
         break;
+      case "filename":
+        flag = true;
+        break;
       case "proposal":
         flag = true;
         break;
       case "mip":
+        flag = true;
+        break;
+      case "tags":
         flag = true;
         break;
     }
@@ -164,20 +169,71 @@ export class MIPsService {
     return value;
   }
 
-  async findOne(id: string): Promise<MIP> {
-    return await this.mipsDoc.findOne({ _id: id }).select(["-__v"]).exec();
+  async findOneByMipName(mipName: string): Promise<MIP> {
+    return await this.mipsDoc
+      .findOne({ mipName })
+      .select(["-__v", "-file"])
+      .exec();
   }
 
-  async findOneByMipName(mipName: string): Promise<MIP> {
-    return await this.mipsDoc.findOne({ mipName: mipName }).select(["-__v"]).exec();
+  async smartSearch(field: string, value: string): Promise<MIP[]> {
+    switch (field) {
+      case 'tags':        
+        return await this.mipsDoc.aggregate([
+          {$unwind: "$tags"},
+          {
+            $match: {
+              tags: {
+                $regex: new RegExp(`^${value}`),
+                $options: "i",
+              },
+            },
+          },
+          { $group: { _id: {tags: "$tags"}, tag: { $first: "$tags"} } },
+          { $project: { _id: 0, tag: "$tag"}},
+        ]);
+      case 'status':        
+        return await this.mipsDoc.aggregate([
+          {
+            $match: {
+              status: {
+                $regex: new RegExp(`^${value}`),
+                $options: "i",
+              },
+            },
+          },
+          { $group: { _id: {status: "$status"}, status: { $first: "$status"} } },
+          { $project: { _id: 0, status: "$status"}},
+        ]);
+    
+      default:
+        throw new Error(`Field ${field} invalid`);
+    }
+  }
+
+  async findOneByFileName(filename: string): Promise<MIP> {
+    const filter = {
+      filename: {
+        $regex: new RegExp(filename),
+        $options: "i",
+      },
+    };
+
+    return await this.mipsDoc.findOne(filter).select(["-__v", "-file"]).exec();
   }
 
   async getSummaryByMipName(mipName: string): Promise<MIP> {
-    return await this.mipsDoc.findOne({ mipName: mipName }).select(["sentenceSummary"]).exec();
+    return await this.mipsDoc
+      .findOne({ mipName })
+      .select(["sentenceSummary", "paragraphSummary"])
+      .exec();
   }
 
   async findOneByProposal(proposal: string): Promise<MIP[]> {
-    return await this.mipsDoc.find({ proposal: proposal }).select("title mipName").exec();
+    return await this.mipsDoc
+      .find({ proposal: proposal })
+      .select("title mipName")
+      .exec();
   }
 
   create(mIPs: IMIPs): Promise<MIP> {

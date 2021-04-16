@@ -145,7 +145,7 @@ export class DetailContentComponent implements OnInit, OnChanges, AfterViewInit 
 
   ngOnChanges() {
     if (this.mip && this.mip.sectionsRaw) {
-      this.content = (this.mip.sectionsRaw as []).slice(1).join('');
+      this.content = (this.mip.sectionsRaw as []).slice(1).join('\n');
     }
 
     this.getDefaultLinks();
@@ -219,13 +219,16 @@ export class DetailContentComponent implements OnInit, OnChanges, AfterViewInit 
 
   searchMips() {
     this.links.forEach(link => {
-      let filter = {
-        contains: [],
-      };
-
-      filter.contains.push({field: 'mipName', value: link.name});
-      this.searchMipsByNameAndOverrideLink(0, 0, 'mipName', '', filter, link);
-    })
+      if (!link.name.includes('.md')) {
+        this.mipsService.getMipByFilename(link.name).subscribe(data => {
+          let elem = document.getElementById(link.id);
+          elem.setAttribute('href', `/mips/details/${data.mipName}`);
+        });
+      } else {
+        let elem = document.getElementById(link.id);
+        elem.setAttribute('href', `${this.gitgubUrl}/${this.mip.mipName}/${link.name}` );
+      }
+    });
   }
 
 }

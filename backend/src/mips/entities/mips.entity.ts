@@ -29,7 +29,10 @@ export class MIP {
   @Prop()
   mipName?: string;
 
-  @Prop()
+  @Prop({
+    default: -1,
+    type: Number,
+  })
   subproposal?: number;
 
   @Prop({
@@ -51,6 +54,12 @@ export class MIP {
     type: [String],
   })
   contributors?: string[];
+
+  @Prop({
+    type: [String],
+  })
+  tags?: string[];
+  
   @Prop()
   status?: string;
   @Prop()
@@ -80,13 +89,6 @@ export class MIP {
     type: [String]
   })
   sectionsRaw?: string[];
-
-  @Prop({
-    type: String
-  })
-  references?: string;
-
-
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);
