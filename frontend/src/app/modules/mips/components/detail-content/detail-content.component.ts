@@ -64,6 +64,7 @@ export class DetailContentComponent implements OnInit, OnChanges, AfterViewInit 
   overlayRef: OverlayRef | null;
   templatePortal: TemplatePortal<any>;
   content: any;
+  triangleUp: boolean;
 
   constructor(
     private markdownService: MarkdownService,
@@ -96,39 +97,78 @@ export class DetailContentComponent implements OnInit, OnChanges, AfterViewInit 
     let textContent: string = (e.target as HTMLElement).textContent;
 
     if (textContent && textContent.trim() != '') {
-      let subscription: Subscription = this.mipsService.getMipByName(textContent).subscribe(data => {
-        if (data) {
-          let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+      // let y: number =
+      //   (e.target as HTMLElement).getBoundingClientRect().top +
+      //   (e.target as HTMLElement).getBoundingClientRect().height;
 
-          const positionStrategy = this.overlay.position()
-            .flexibleConnectedTo(posStrategy)
-            .withPositions([
-              {
-                originX: 'end',
-                originY: 'bottom',
-                overlayX: 'end',
-                overlayY: 'top',
-              },
-              {
-                originX: 'end',
-                originY: 'top',
-                overlayX: 'end',
-                overlayY: 'bottom',
+      // let e2: MouseEvent = new MouseEvent('mouseover', {
+      //   ...(e as MouseEvent),
+      //   clientY: y,
+      //   clientX: (e as MouseEvent).x + 20,
+      // });
+
+      let subscription: Subscription = this.mipsService
+        .getMipBy('mipName', textContent)
+        .subscribe((data) => {
+          if (data) {
+            let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+            const positionStrategy = this.overlay
+              .position()
+              .flexibleConnectedTo(posStrategy)
+              // .flexibleConnectedTo(e2)
+              .withPositions([
+                {
+                  originX: 'end',
+                  originY: 'bottom',
+                  overlayX: 'end',
+                  overlayY: 'top',
+                },
+                {
+                  originX: 'end',
+                  originY: 'top',
+                  overlayX: 'end',
+                  overlayY: 'bottom',
+                },
+                {
+                  originX: 'start',
+                  originY: 'bottom',
+                  overlayX: 'start',
+                  overlayY: 'top',
+                },
+              ]);
+
+            positionStrategy.positionChanges.subscribe((pos) => {
+              if (
+                pos.connectionPair.originX === 'end' &&
+                pos.connectionPair.originY === 'top' &&
+                pos.connectionPair.overlayX === 'end' &&
+                pos.connectionPair.overlayY === 'bottom'
+              ) {
+                this.triangleUp = false;
+              } else {
+                this.triangleUp = true;
               }
-            ]);
+            });
 
-          this.overlayRef = this.overlay.create({
-            positionStrategy,
-            scrollStrategy: this.overlay.scrollStrategies.close()
-          });
+            this.overlayRef = this.overlay.create({
+              positionStrategy,
+              scrollStrategy: this.overlay.scrollStrategies.close(),
+            });
 
-          this.overlayRef.attach(new TemplatePortal(this.preview, this.viewContainerRef, {
-            $implicit: data
-          }));
-        }
-      });
+            this.overlayRef.attach(
+              new TemplatePortal(this.preview, this.viewContainerRef, {
+                $implicit: data,
+              })
+            );
+          }
+        });
 
-      e.target.addEventListener('mouseleave', () => this.closePreview(subscription));
+      e.target.addEventListener(
+        'mouseleave',
+        () =>
+          this.closePreview(subscription)
+      );
     }
   }
 

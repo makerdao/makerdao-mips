@@ -19,5 +19,6 @@
 <ng-template #preview let-data>
   <section class="preview">
     <div>{{data.sentenceSummary}}</div>
+    <div [ngClass]="{triangleUp: triangleUp, triangleDown: !triangleUp}"></div>
   </section>
 </ng-template>
