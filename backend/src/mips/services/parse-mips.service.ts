@@ -113,7 +113,6 @@ export class ParseMIPsService {
           }
 
           if (mip) {                 
-            mip.file = this.updateLinks(mip.file, mip.mip);
             createItems.push(mip);
           }          
         } catch (error) {
@@ -171,16 +170,13 @@ export class ParseMIPsService {
     
     if (item.filename.includes('-')) {
       mip.proposal = item.filename.split('/')[0];
-    } else {
-      const re = /[a-z#-]/gi;
-      mip.subproposal = parseInt((item.filename.split('/')[0]).replace(re, ''));
+    } else {     
       mip.mipName = item.filename.split('/')[0];
     }
 
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
-
       mip.sectionsRaw.push(list[i].raw);
 
       if (list[i]?.type === "heading" && list[i]?.depth === 1) {
@@ -195,9 +191,15 @@ export class ParseMIPsService {
           if (item.filename.includes('-')) {
             preamble = this.parsePreambleSubproposal(list[i + 1]?.text);
             preamble.mip = parseInt(mip.proposal.replace('MIP', ''));
-            const re = /[a-z#-]/gi;
-            mip.subproposal = parseInt((preamble.mipName).replace(re, ''));
             mip.mipName = preamble.mipName;
+
+            mip.subproposal = -1;
+            const re = /[a-z#-]/gi;
+
+            if (!isNaN(parseInt(mip.mipName.replace(re, '')))) {
+              mip.subproposal = parseInt(mip.mipName.replace(re, ''));
+            }           
+            
           } else {
             preamble = this.parsePreamble(list[i + 1]?.text);
           }
@@ -216,13 +218,7 @@ export class ParseMIPsService {
         i + 1 < list.length
       ) {
         mip.paragraphSummary = list[i + 1]?.raw;
-      } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "References"
-      ) {
-        mip.references = list[i + 1].raw;
-      }
+      } 
 
       if (list[i]?.type === "heading") {
         mip.sections.push({
@@ -248,6 +244,7 @@ export class ParseMIPsService {
     mip.status = preamble.status;
     mip.title = preamble.preambleTitle || title;
     mip.types = preamble.types;
+    mip.tags = preamble.tags;
 
     return mip;
   }
@@ -300,6 +297,15 @@ export class ParseMIPsService {
         case "Author(s)":
           preamble.author = keyValue[1].split(",").map((data) => data.trim());
           break;
+        case "Author":
+          preamble.author = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "Tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
+          break;
         case "Replaces":
           preamble.replaces = keyValue[1].trim();
           break;
@@ -345,7 +351,6 @@ export class ParseMIPsService {
       }
 
       if (flag) {
-
         const re = /[: #-]/gi;
         preamble.mipName = data.replace(re, '');
 
@@ -376,6 +381,15 @@ export class ParseMIPsService {
         case "Author(s)":
           preamble.author = keyValue[1].split(",").map((data) => data.trim());
           break;
+        case "Author":
+          preamble.author = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "Tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
+          break;
+        case "tags":
+          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
+          break;
         case "Replaces":
           preamble.replaces = keyValue[1].trim();
           break;
@@ -404,23 +418,4 @@ export class ParseMIPsService {
     return this.markedService.markedLexer(file);    
   }
 
-  updateLinks(file: string, mip: number): string {
-    const backend = `${this.configService.get<string>(
-      Env.GithubLinks
-    )}`;  
-
-    let regEx = new RegExp('(.)*');
-    file = file.replace(regEx, ' ');
-
-    regEx = /\[[a-zA-Z0-9._%+-]+\]\([a-zA-Z0-9._%+-]+\)/g;
-    const find = file.match(regEx);
-    if (Array.isArray(find)) {
-      for (let i = 0; i < find.length; i++) {
-        const split = find[i].split('(');
-        const change = split[0] + '(' + backend + 'MIP' + mip + '/' + split[1];
-        file = file.replace(find[i], change);
-      }     
-    }
-    return file;
-  }
 }
