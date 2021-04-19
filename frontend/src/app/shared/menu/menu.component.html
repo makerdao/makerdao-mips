@@ -5,9 +5,16 @@
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
   class="dropdown"
+  [ngClass]="{ firstLevel: levelMenu === 0, subMenu: levelMenu !== 0 }"
+  [ngStyle]="{ color: isOpen ? '#31394D' : '#748aa1' }"
 >
   {{ menu.name }}
-  <span *ngIf="menu.children && menu.children.length > 0" class="arrow"></span>
+  <img
+    *ngIf="menu.children && menu.children.length > 0 && levelMenu === 0"
+    class="arrow"
+    [ngClass]="{ rotate: isOpen }"
+    src="../../../../../assets/images/down.svg"
+  />
 </a>
 
 <ng-template
@@ -15,7 +22,6 @@
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen"
   [cdkConnectedOverlayHasBackdrop]="levelMenu === 0 ? true : false"
-  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   (backdropClick)="onClickedBackdrop()"
   [cdkConnectedOverlayPanelClass]="'panelClass'"
   [cdkConnectedOverlayPositions]="position"

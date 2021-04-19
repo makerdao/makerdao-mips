@@ -18,9 +18,9 @@ export class MenuComponent implements OnInit, OnChanges {
   @Input() openedIndex: number = -1;
   openedIndexChild: number = -1;
   @Input() index: number;
+  @Output() toggle: Subject<any> = new Subject<any>();
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.initPosition();
@@ -32,48 +32,48 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   initPosition() {
-    let posItem: ConnectedPosition;
-
     if (this.levelMenu <= 0) {
-      posItem = {
-        originX: 'end',
-        originY: 'bottom',
-        overlayX: 'end',
-        overlayY: 'top',
-      };
-      this.position.push({...posItem});
+      this.position = [
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        },
+      ];
     } else {
-      posItem = {
-        originX: 'start',
-        originY: 'top',
-        overlayX: 'end',
-        overlayY: 'top',
-      };
-      this.position.push({...posItem});
-
-      posItem = {
-        originX: 'end',
-        originY: 'top',
-        overlayX: 'start',
-        overlayY: 'top',
-      };
-      this.position.push({...posItem});
-
-      posItem = {
-        originX: 'end',
-        originY: 'bottom',
-        overlayX: 'end',
-        overlayY: 'top',
-      };
-      this.position.push({...posItem});
-
-      posItem = {
-        originX: 'start',
-        originY: 'bottom',
-        overlayX: 'start',
-        overlayY: 'top',
-      };
-      this.position.push({...posItem});
+      this.position = [
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'top',
+        },
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        },
+      ];
     }
   }
 
@@ -82,6 +82,7 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   closeMenu() {
+    this.toggle.next(false);
     this.clickedBackdrop.next(false);
     this.isOpen = false;
     this.openedIndex = -1;
@@ -89,6 +90,8 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   onClick() {
+    this.toggle.next(!this.isOpen);
+
     if (window.innerWidth >= 768) {
       if (this.menu.children && this.menu.children.length > 0) {
         this.isOpen = !this.isOpen;

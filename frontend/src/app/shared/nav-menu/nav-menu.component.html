@@ -1,3 +1,8 @@
 <div class="NavMenu">
-  <app-menu [menu]="menu[0]" [levelMenu]="0"></app-menu>
+  <app-menu
+    *ngFor="let item of menu"
+    [menu]="item"
+    [levelMenu]="0"
+    (toggle)="onMenuToggle($event)"
+  ></app-menu>
 </div>
