@@ -83,7 +83,6 @@ export class DetailContentComponent
   }
 
   ngAfterViewInit() {
-    this.setPreviewFeature();
   }
 
   setPreviewFeature() {
@@ -218,7 +217,9 @@ export class DetailContentComponent
       );
       this.moveToElement(el);
     }
+
     this.searchMips();
+    this.setPreviewFeature();
   }
 
   moveToElement(el: HTMLElement): void {
