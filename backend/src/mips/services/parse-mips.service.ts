@@ -197,7 +197,7 @@ export class ParseMIPsService {
             const re = /[a-z#-]/gi;
 
             if (!isNaN(parseInt(mip.mipName.replace(re, '')))) {
-              mip.subproposal = parseInt(mip.mipName.replace(re, '')) / 10;
+              mip.subproposal = parseInt(mip.mipName.replace(re, '')) / 100;
             }           
             
           } else {
