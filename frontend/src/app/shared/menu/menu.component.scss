@@ -102,7 +102,7 @@
   display: flex;
   flex-direction: column;
   // padding: 5px 0;
-  animation: fadeIn 0.3s;
+  animation: fadeInMenu 0.3s;
 
   .verticalLine {
     position: absolute;
@@ -124,7 +124,7 @@
   height: auto;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInMenu {
   0% {
     opacity: 0;
   }

@@ -89,7 +89,8 @@ export class MenuComponent implements OnInit, OnChanges {
     this.openedIndexChild = -1;
   }
 
-  onClick() {
+  onClick(ev: Event) {
+    ev.stopPropagation();
     this.toggle.next(!this.isOpen);
 
     if (window.innerWidth >= 768) {
