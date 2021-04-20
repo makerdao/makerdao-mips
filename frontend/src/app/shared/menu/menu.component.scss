@@ -5,10 +5,10 @@
   display: flex;
   align-items: center;
 
-  &:hover {
-    background-color: whitesmoke;
-    transition: background-color 0.2s ease-in-out;
-  }
+  // &:hover {
+  //   background-color: whitesmoke;
+  //   transition: background-color 0.2s ease-in-out;
+  // }
 
   a {
     font-family: Roboto;
@@ -24,6 +24,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+    transition: all 0.2s;
 
     .arrow {
       position: absolute;
@@ -42,11 +43,25 @@
       transition: transform 0.2s;
     }
 
-    .firstLevel {
+    &.firstLevel {
       height: 100%;
       display: flex;
       align-items: center;
       box-sizing: border-box;
+      transition: all 0.2s;
+
+      // &:hover {
+      //   color: #31394D;
+      // }
+    }
+
+    &.firstLevelActive {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      font-weight: bold;
+      transition: all 0.2s;
     }
 
     &.subMenu {
@@ -56,10 +71,21 @@
       font-size: 12px;
       line-height: 14px;
       color: #748aa1;
+      transition: all 0.2s;
+    }
+
+    &.subMenuActive {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 14px;
+      color: #31394d;
+      transition: all 0.2s;
     }
 
     &:hover {
-      font-weight: bold;
+      color: #31394d;
     }
   }
 }
@@ -71,6 +97,7 @@
   display: flex;
   flex-direction: column;
   // padding: 5px 0;
+  animation: fadeIn 0.3s;
 }
 
 .backdrop {
@@ -80,4 +107,13 @@
 .panelClass {
   transition: all 0.4s ease-in-out;
   height: auto;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

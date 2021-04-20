@@ -9,6 +9,7 @@ import Menu from '../../data-types/menu';
 })
 export class NavMenuComponent implements OnInit {
   @Output() menuOpen: Subject<boolean> = new Subject<boolean>();
+  openedIndexChild: number = -1;
   menu: Menu[] = [
     {
       id: 'colors',
@@ -448,17 +449,32 @@ export class NavMenuComponent implements OnInit {
           id: 'Sub menu',
           name: 'Sub menu',
           href: '',
-          children: []
-        }
-      ]
+          children: [],
+        },
+      ],
     },
   ];
 
-  constructor() {}
+  constructor() {
+    let menu: Menu[] = [
+      {
+        id: 'rootMenu',
+        name: 'rootMenu',
+        href: '',
+        children: [...this.menu],
+      },
+    ];
+
+    this.menu = [...menu];
+  }
 
   ngOnInit(): void {}
 
   onMenuToggle(ev) {
     this.menuOpen.next(ev);
+  }
+
+  onOpened(index: number) {
+    this.openedIndexChild = index;
   }
 }

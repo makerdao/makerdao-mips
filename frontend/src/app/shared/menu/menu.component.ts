@@ -10,7 +10,7 @@ import Menu from '../../data-types/menu';
 })
 export class MenuComponent implements OnInit, OnChanges {
   @Input() menu: Menu;
-  isOpen: boolean = false;
+  @Input() isOpen: boolean = false;
   @Output() clickedBackdrop: Subject<boolean> = new Subject<boolean>();
   @Input() levelMenu: number = 0;
   position: ConnectedPosition[] = new Array<ConnectedPosition>();
@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.isOpen = this.openedIndex === this.index;
+    this.isOpen = this.isOpen ? this.isOpen : this.openedIndex === this.index;
     this.openedIndexChild = this.isOpen ? this.openedIndexChild : -1;
   }
 
@@ -95,6 +95,12 @@ export class MenuComponent implements OnInit, OnChanges {
     if (window.innerWidth >= 768) {
       if (this.menu.children && this.menu.children.length > 0) {
         this.isOpen = !this.isOpen;
+
+        if (!this.isOpen) {
+          this.closeMenu();
+        }
+
+        this.opened.next();
       } else {
         window.location.href = this.menu.href;
       }
@@ -105,8 +111,10 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   open() {
-    this.isOpen = this.levelMenu > 0 ? true : false;
-    this.opened.next();
+    if (this.levelMenu > 0) {
+      this.isOpen = this.levelMenu > 0 ? true : false;
+      this.opened.next();
+    }
   }
 
   onOpened(index: number) {
