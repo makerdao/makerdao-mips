@@ -3,10 +3,9 @@
   font-weight: 500;
 }
 
-
 .container {
-  background: #FFFFFF;
-  box-shadow: 0px 1px 4px #E5E9F2;
+  background: #ffffff;
+  box-shadow: 0px 1px 4px #e5e9f2;
   border-radius: 5px;
   padding: 30px;
   margin-bottom: 20px;
@@ -14,7 +13,7 @@
   box-sizing: border-box;
 
   .title {
-    color: #31394D;
+    color: #31394d;
     font-size: 26px;
     font-weight: normal;
     &.mobile {
@@ -29,14 +28,14 @@
   .title-bold {
     font-weight: bold;
     font-size: 26px;
-    color: #31394D;
+    color: #31394d;
   }
 
   a {
     text-decoration: none;
     font-weight: bold;
     font-size: 12px;
-    color: #2F80ED;
+    color: #2f80ed;
     margin-left: 7px;
     &.a-file {
       font-size: 14px;
@@ -59,15 +58,16 @@
   }
 
   .preamble {
-    background: #F5F6FA;
-    border: 1px solid #F5F6FA;
-    box-shadow: 0px 1px 4px #E5E9F2;
+    background: #f5f6fa;
+    border: 1px solid #f5f6fa;
+    box-shadow: 0px 1px 4px #e5e9f2;
     border-radius: 5px;
     padding: 16px;
 
-    .label, .info {
+    .label,
+    .info {
       font-size: 14px;
-      color: #31394D;
+      color: #31394d;
     }
 
     .info {
@@ -77,7 +77,7 @@
 
   .summary {
     font-size: 14px;
-    color: #31394D;
+    color: #31394d;
   }
 
   .social {
@@ -119,7 +119,9 @@
     }
   }
 
-  h3, h1, h4 {
+  h3,
+  h1,
+  h4 {
     position: relative;
 
     &:hover {
@@ -147,17 +149,25 @@
     }
   }
 
+  a.anchor {
+    padding: 16px 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   pre {
     padding: 16px;
-    background: #F5F6FA;
-    border: 1px solid #F5F6FA;
-    box-shadow: 0px 1px 4px #E5E9F2;
+    background: #f5f6fa;
+    border: 1px solid #f5f6fa;
+    box-shadow: 0px 1px 4px #e5e9f2;
     border-radius: 5px;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 22px;
-    color: #31394D;
+    color: #31394d;
     width: auto;
     overflow-x: scroll;
     overflow-wrap: break-word;
@@ -171,20 +181,21 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 22px;
-    color: #2F80ED;
+    color: #2f80ed;
     text-decoration: none;
   }
 
-  p, ul {
+  p,
+  ul {
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 22px;
-    color: #31394D;
+    color: #31394d;
   }
 
   hr {
-    background-color: #EBEDF4;
+    background-color: #ebedf4;
     height: 1px;
     border: none;
   }
@@ -206,7 +217,7 @@
 }
 
 hr {
-  background-color: #EBEDF4;
+  background-color: #ebedf4;
   height: 1px;
   border: none;
   margin-top: 12px;
@@ -235,11 +246,11 @@ p {
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 310px;
-  color: #748AA1;
+  color: #748aa1;
   font-size: 14px;
   height: auto;
   text-align: center;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 5px;
@@ -252,7 +263,6 @@ p {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
-
 
 @media screen and (max-width: 768px) {
   .container {
@@ -276,5 +286,67 @@ p {
   }
   .mobile {
     display: block;
+  }
+}
+
+.preview {
+  width: 310px;
+  height: auto;
+  text-align: left;
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 30px 30px 41px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #31394d;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
+  animation: fadeIn 0.3s linear;
+
+  .triangleUp {
+    width: 0px;
+    height: 0px;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 15px solid #ffffff;
+    position: absolute;
+    top: 0;
+    transform: translateY(-96%);
+  }
+
+  .triangleDown {
+    width: 0px;
+    height: 0px;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-top: 15px solid #ffffff;
+    position: absolute;
+    bottom: -13px;
+  }
+
+  .left {
+    left: 11px;
+  }
+
+  .right {
+    right: 11px;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }
