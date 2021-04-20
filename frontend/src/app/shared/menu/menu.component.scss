@@ -103,6 +103,16 @@
   flex-direction: column;
   // padding: 5px 0;
   animation: fadeIn 0.3s;
+
+  .verticalLine {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: #B8C5D3;
+    right: 0;
+    height: calc(100% - 20px);
+    top: 10px;
+  }
 }
 
 .backdrop {

@@ -14,9 +14,11 @@
   [ngStyle]="{ padding: levelMenu === 0 ? '10px 0px 10px 40px' : '10px 40px' }"
 >
   {{ menu.name }}
-  <div class="arrowContainer">
+  <div
+    *ngIf="menu.children && menu.children.length > 0 && levelMenu === 0"
+    class="arrowContainer"
+  >
     <img
-      *ngIf="menu.children && menu.children.length > 0 && levelMenu === 0"
       class="arrow"
       [ngClass]="{ rotate: isOpen }"
       src="../../../../../assets/images/down.svg"
@@ -44,5 +46,13 @@
       [openedIndex]="openedIndexChild"
       [isOpen]="openedIndexChild === i"
     ></app-menu>
+    <div
+      *ngIf="
+        openedIndexChild !== -1 &&
+        menu.children[openedIndexChild] &&
+        menu.children[openedIndexChild].children.length > 0
+      "
+      class="verticalLine"
+    ></div>
   </div>
 </ng-template>
