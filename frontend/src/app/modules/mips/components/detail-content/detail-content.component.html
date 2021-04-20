@@ -16,5 +16,11 @@
   <markdown class="variable-binding" [data]="content" (ready)="onReady()"></markdown>
 </div>
 
-
-
+<ng-template #preview let-data>
+  <section class="preview">
+    <div>{{data.sentenceSummary}}</div>
+    <div
+      [ngClass]="{triangleUp: triangleUp, triangleDown: !triangleUp, left: triangleLeft, right: !triangleLeft}"
+    ></div>
+  </section>
+</ng-template>
