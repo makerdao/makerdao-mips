@@ -49,7 +49,9 @@
     <div
       *ngIf="
         openedIndexChild !== -1 &&
+        menu.children &&
         menu.children[openedIndexChild] &&
+        menu.children[openedIndexChild].children &&
         menu.children[openedIndexChild].children.length > 0
       "
       class="verticalLine"

@@ -1,32 +1,22 @@
 {
   "data": [
     {
-      "id": "colors",
-      "name": "Colors3",
-      "href": "",
+      "id": "",
+      "name": "Colors1",
       "children": [
         {
           "id": "red",
           "name": "Red testing",
-          "href": "",
           "children": [
             {
               "id": "red1",
               "name": "Red 1",
-              "href": "",
-              "children": []
+              "href": ""
             },
             {
               "id": "red2",
               "name": "Red 2",
-              "href": "",
-              "children": []
-            },
-            {
-              "id": "red3",
-              "name": "Red 3 Testing testing",
-              "href": "",
-              "children": []
+              "href": ""
             }
           ]
         },
@@ -38,20 +28,27 @@
             {
               "id": "blue",
               "name": "Blue 1",
-              "href": "",
-              "children": []
+              "href": ""
             },
             {
               "id": "blue",
               "name": "Blue 2",
-              "href": "",
-              "children": []
+              "href": ""
             },
             {
               "id": "blue",
               "name": "Blue 3 Testing testing",
-              "href": "",
-              "children": []
+              "href": ""
+            },
+            {
+              "id": "blue",
+              "name": "Blue 4",
+              "href": ""
+            },
+            {
+              "id": "blue",
+              "name": "Blue 5",
+              "href": ""
             }
           ]
         }
@@ -63,52 +60,36 @@
       "href": "",
       "children": [
         {
-          "id": "red",
-          "name": "Red testing",
+          "id": "green",
+          "name": "Green testing",
           "href": "",
           "children": [
             {
-              "id": "red1",
-              "name": "Red 1",
-              "href": "",
-              "children": []
+              "id": "green1",
+              "name": "Green 1",
+              "href": ""
             },
             {
-              "id": "red2",
-              "name": "Red 2",
-              "href": "",
-              "children": []
+              "id": "green2",
+              "name": "Green 2",
+              "href": ""
             },
             {
-              "id": "red3",
-              "name": "Red 3 Testing testing",
-              "href": "",
-              "children": []
+              "id": "green3",
+              "name": "Green 3 Testing testing",
+              "href": ""
             }
           ]
         },
         {
-          "id": "blue",
-          "name": "Blue",
+          "id": "yellow",
+          "name": "Yellow",
           "href": "",
           "children": [
             {
-              "id": "blue",
-              "name": "Blue 1",
-              "href": "",
-              "children": []
-            },
-            {
-              "id": "blue",
-              "name": "Blue 2",
-              "href": "",
-              "children": []
-            },
-            {
-              "id": "blue",
-              "name": "Blue 3 Testing testing",
-              "href": "",
-              "children": []
+              "id": "yellow",
+              "name": "Yellow 1",
+              "href": ""
             }
           ]
         }
@@ -116,7 +97,7 @@
     },
     {
       "id": "menu",
-      "name": "Menu5",
+      "name": "Menu",
       "href": "",
       "children": []
     },
