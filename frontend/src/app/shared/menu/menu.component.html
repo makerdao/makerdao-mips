@@ -11,6 +11,7 @@
     subMenu: levelMenu !== 0 && !isOpen,
     subMenuActive: levelMenu !== 0 && isOpen
   }"
+  [ngStyle]="{ padding: levelMenu === 0 ? '10px 0px 10px 40px' : '10px 40px' }"
 >
   {{ menu.name }}
   <div class="arrowContainer">

@@ -25,14 +25,12 @@
     align-items: center;
     width: 100%;
     transition: all 0.2s;
+    gap: 8px;
 
     .arrowContainer {
-      position: absolute;
-      top: 50%;
-      right: 16px;
+      position: relative;
       height: 5px;
       width: 7px;
-      transform: translateY(-50%);
       transition: transform 0.2s;
 
       .arrow {
