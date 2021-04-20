@@ -6,21 +6,23 @@ import { Filters, PaginationQueryDto } from "../dto/query.dto";
 
 import { MIP, MIPsDoc } from "../entities/mips.entity";
 import { IGitFile, IMIPs } from "../interfaces/mips.interface";
+import { ParseQueryService } from "./parse-query.service";
 
 @Injectable()
 export class MIPsService {
   constructor(
     @InjectModel(MIP.name)
-    private readonly mipsDoc: Model<MIPsDoc>
+    private readonly mipsDoc: Model<MIPsDoc>,
+    private readonly parseQueryService: ParseQueryService
   ) {}
 
-  findAll(
+  async findAll(
     paginationQuery?: PaginationQueryDto,
     order?: string,
     search?: string,
     filter?: Filters
   ): Promise<IMIPs[]> {
-    const buildFilter = this.buildFilter(search, filter);
+    const buildFilter = await this.buildFilter(search, filter);
     const { limit, page } = paginationQuery;
 
     return this.mipsDoc
@@ -32,13 +34,13 @@ export class MIPsService {
       .exec();
   }
 
-  count(search: string, filter?: Filters): Promise<number> {
-    const buildFilter = this.buildFilter(search, filter);
+  async count(search: string, filter?: Filters): Promise<number> {
+    const buildFilter = await this.buildFilter(search, filter);
     return this.mipsDoc.countDocuments(buildFilter).exec();
   }
 
   // Function to build filter
-  buildFilter(search: string, filter?: Filters): any {
+  async buildFilter(search: string, filter?: Filters): Promise<any> {
     const source = {};
 
     if (filter?.contains) {
@@ -127,7 +129,12 @@ export class MIPsService {
     }
 
     if (search) {
-      source["$text"] = { $search: JSON.parse(`"${search}"`) };
+      if (search[0] === "$") {
+        const ast = await this.parseQueryService.parse(search);        
+        console.log(ast);
+      } else {
+        source["$text"] = { $search: JSON.parse(`"${search}"`) };
+      }
     }
     return source;
   }

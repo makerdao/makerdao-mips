@@ -97,7 +97,6 @@ export class MIPsController {
       const total = await this.mipsService.count(search, filter);
       return { items, total };
     } catch (error) {
-      console.log(error);
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
