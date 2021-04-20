@@ -26,21 +26,27 @@
     width: 100%;
     transition: all 0.2s;
 
-    .arrow {
+    .arrowContainer {
       position: absolute;
       top: 50%;
       right: 16px;
+      height: 5px;
+      width: 7px;
       transform: translateY(-50%);
       transition: transform 0.2s;
-    }
 
-    .rotate {
-      -webkit-transform: rotate(180deg);
-      -moz-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      -o-transform: rotate(180deg);
-      transform: rotate(180deg);
-      transition: transform 0.2s;
+      .arrow {
+        position: absolute;
+      }
+
+      .rotate {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+        transition: transform 0.2s;
+      }
     }
 
     &.firstLevel {
@@ -62,6 +68,7 @@
       box-sizing: border-box;
       font-weight: bold;
       transition: all 0.2s;
+      color: #31394d;
     }
 
     &.subMenu {

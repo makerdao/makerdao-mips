@@ -13,12 +13,14 @@
   }"
 >
   {{ menu.name }}
-  <img
-    *ngIf="menu.children && menu.children.length > 0 && levelMenu === 0"
-    class="arrow"
-    [ngClass]="{ rotate: isOpen }"
-    src="../../../../../assets/images/down.svg"
-  />
+  <div class="arrowContainer">
+    <img
+      *ngIf="menu.children && menu.children.length > 0 && levelMenu === 0"
+      class="arrow"
+      [ngClass]="{ rotate: isOpen }"
+      src="../../../../../assets/images/down.svg"
+    />
+  </div>
 </a>
 
 <ng-template
