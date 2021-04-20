@@ -64,8 +64,23 @@ export class MipsService {
     return this.http.get(`${environment.apiUrl}/mips/findall${urlFilter}`, {params} );
   }
 
-  getMip(name: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/mips/findone-tmp/${name}`);
+  getMip(name?: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/findone?mipName=${name}`);
+  }
+
+  getMipByFilename(filename?: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/findone-by?field=filename&value=${filename}`);
+  }
+
+  getMipBy(field: string, value: string): Observable<any> {
+    let params: HttpParams = new HttpParams({
+      fromObject: {
+        field: field,
+        value: value
+      }
+    });
+
+    return this.http.get(`${environment.apiUrl}/mips/findone-by`, {params: params});
   }
 
   sendFeedBack(subject: string, description: string): Observable<any> {
