@@ -88,14 +88,13 @@ export class MIPsController {
         page: +page,
       };
 
-      const items = await this.mipsService.findAll(
+      return await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
         filter
       );
-      const total = await this.mipsService.count(search, filter);
-      return { items, total };
+      
     } catch (error) {
       throw new HttpException(
         {

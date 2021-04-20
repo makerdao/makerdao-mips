@@ -29,7 +29,7 @@ export class ParseQueryService {
         e: [
           ["OR ( e , e )", "$$ = { type: 'OPERATION', left: $3, op: $1, right: $5 }"],
           ["AND ( e , e )", "$$ = { type: 'OPERATION', left: $3, op: $1, right: $5 }"],
-          ["NOT ( e )", "$$ = { type: 'OPERATION', left: $3, op: $1 }"],
+          ["NOT ( LITERAL )", "$$ = { type: 'OPERATION', left: $3, op: $1 }"],
           ["LITERAL", "$$ = { type: 'LITERAL', name: $1 };"],
         ],
       },

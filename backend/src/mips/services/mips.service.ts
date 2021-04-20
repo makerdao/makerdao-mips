@@ -21,27 +21,26 @@ export class MIPsService {
     order?: string,
     search?: string,
     filter?: Filters
-  ): Promise<IMIPs[]> {
+  ): Promise<any> {
     const buildFilter = await this.buildFilter(search, filter);
     const { limit, page } = paginationQuery;
 
-    return this.mipsDoc
+    const total = await this.mipsDoc.countDocuments(buildFilter).exec();
+
+    const items = await this.mipsDoc
       .find(buildFilter)
       .select(["-file", "-__v", "-sections", "-sectionsRaw"])
       .sort(order)
       .skip(page * limit)
       .limit(limit)
       .exec();
-  }
 
-  async count(search: string, filter?: Filters): Promise<number> {
-    const buildFilter = await this.buildFilter(search, filter);
-    return this.mipsDoc.countDocuments(buildFilter).exec();
+    return { items, total };
   }
 
   // Function to build filter
   async buildFilter(search: string, filter?: Filters): Promise<any> {
-    const source = {};
+    let source = {};
 
     if (filter?.contains) {
       const field = filter.contains["field"];
@@ -130,13 +129,70 @@ export class MIPsService {
 
     if (search) {
       if (search[0] === "$") {
-        const ast = await this.parseQueryService.parse(search);        
-        console.log(ast);
+        const ast = await this.parseQueryService.parse(search);
+        const query = this.buildSmartMongoDBQuery(ast);
+        
+        source = {$and: [{
+          ...source,
+          ...query
+        }]};
+
+        //console.log(JSON.stringify(source));
+
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
       }
     }
     return source;
+  }
+
+  // {
+  //   type: 'OPERATION',
+  //   left: {
+  //     type: 'OPERATION',
+  //     left: { type: 'LITERAL', name: '#proposal' },
+  //     op: 'NOT'
+  //   },
+  //   op: 'AND',
+  //   right: {
+  //     type: 'OPERATION',
+  //     left: { type: 'LITERAL', name: '#MIP' },
+  //     op: 'OR',
+  //     right: { type: 'LITERAL', name: '@RFC' }
+  //   }
+  // }
+  buildSmartMongoDBQuery(ast: any): any {
+    if (ast.type === "LITERAL" && ast.name.includes("#")) {
+      return { tags: {$in: [ast.name.replace("#", "")] }};
+    } else if (ast.type === "LITERAL" && ast.name.includes("@")) {
+      return { status: ast.name.replace("@", "") };
+    } else {
+      if (ast.type === "OPERATION" && ast.op === "OR") {
+        return {
+          $or: [
+            this.buildSmartMongoDBQuery(ast.left),
+            this.buildSmartMongoDBQuery(ast.right),
+          ],
+        };
+      } else if (ast.type === "OPERATION" && ast.op === "AND") {
+        return {
+          $and: [
+            this.buildSmartMongoDBQuery(ast.left),
+            this.buildSmartMongoDBQuery(ast.right),
+          ],
+        };
+      } else if (ast.type === "OPERATION" && ast.op === "NOT") {
+        if (ast.left.includes("#")) {
+          return { tags: {$nin: [ast.left.replace("#", "")] }};
+        } else if (ast.left.includes("@")) {
+          return { status: {$ne: ast.left.replace("@", "")} };
+        } else {
+          throw new Error("Database query not support");          
+        }
+      } else {
+        return;
+      }
+    }
   }
 
   isValidObjectId(id: string): boolean {
@@ -185,9 +241,9 @@ export class MIPsService {
 
   async smartSearch(field: string, value: string): Promise<MIP[]> {
     switch (field) {
-      case 'tags':        
+      case "tags":
         return await this.mipsDoc.aggregate([
-          {$unwind: "$tags"},
+          { $unwind: "$tags" },
           {
             $match: {
               tags: {
@@ -196,10 +252,10 @@ export class MIPsService {
               },
             },
           },
-          { $group: { _id: {tags: "$tags"}, tag: { $first: "$tags"} } },
-          { $project: { _id: 0, tag: "$tag"}},
+          { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
+          { $project: { _id: 0, tag: "$tag" } },
         ]);
-      case 'status':        
+      case "status":
         return await this.mipsDoc.aggregate([
           {
             $match: {
@@ -209,10 +265,15 @@ export class MIPsService {
               },
             },
           },
-          { $group: { _id: {status: "$status"}, status: { $first: "$status"} } },
-          { $project: { _id: 0, status: "$status"}},
+          {
+            $group: {
+              _id: { status: "$status" },
+              status: { $first: "$status" },
+            },
+          },
+          { $project: { _id: 0, status: "$status" } },
         ]);
-    
+
       default:
         throw new Error(`Field ${field} invalid`);
     }
