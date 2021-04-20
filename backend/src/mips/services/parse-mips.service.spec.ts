@@ -10,6 +10,7 @@ import { GithubService } from "./github.service";
 import { MarkedService } from "./marked.service";
 import { MIPsService } from "./mips.service";
 import { ParseMIPsService } from "./parse-mips.service";
+import { ParseQueryService } from "./parse-query.service";
 import { PullRequestService } from "./pull-requests.service";
 
 describe("Parse MIPs service", () => {
@@ -20,6 +21,7 @@ describe("Parse MIPs service", () => {
       controllers: [MIPsController],
       providers: [
         ParseMIPsService,
+        ParseQueryService,
         MIPsService,
         ConfigService,
         GithubService,
