@@ -16,8 +16,16 @@
       [status]="mip.status"
       [dateProposed]="mip.dateProposed"
       [dateRatified]="mip.dateRatified"
-      [preamble]="preambleContentText"
+      [mipName]="mip.mipName"
+      [title]="mip.title"
+      [authors]="mip.author"
+      [contributors]="mip.contributors"
+      [type]=""
+      [lastOpened]=""
+      [dependencies]="mip.dependencies"
+      [replaces]="mip.replaces"
       ></app-mip-details>
+      <app-references></app-references>
       <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
     </div>
   </div>
