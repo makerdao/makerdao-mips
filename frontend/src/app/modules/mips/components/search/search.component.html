@@ -1,22 +1,84 @@
 <div class="row">
   <div style="position: relative;">
-    <img class="search-icon" src="{{imageDir}}" />
-    <input type="text" #search placeholder="{{placeHolder}}" (keyup)="onKeySearch($event)"
-      [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}"
-      [value]="value">
+    <img class="search-icon" src="{{ imageDir }}" />
+    <input
+      type="text"
+      #search
+      placeholder="{{ placeHolder }}"
+      (keyup)="onKeySearch($event)"
+      [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
+      [value]="value"
+    />
     <div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
       <div class="ListSearch">
-        <div *ngFor="let item of listSearchItems" class="list-search-item" (click)="onClickSearchItem(item)">
-          <p>{{item.content}}</p>
-          <img class="arrow-go-to" src="../../../../../assets/images/arrow_go_to.svg">
+        <div
+          *ngFor="let item of listSearchItems"
+          class="list-search-item"
+          (click)="onClickSearchItem(item)"
+        >
+          <p>{{ item.content }}</p>
+          <img
+            class="arrow-go-to"
+            src="../../../../../assets/images/arrow_go_to.svg"
+          />
         </div>
       </div>
     </div>
   </div>
   <div class="close-container">
-    <img (click)="clear()" *ngIf="showClose && !isQueryMode" src="{{imageClose}}" class="imageClose" />
+    <img
+      (click)="clear()"
+      *ngIf="showClose && !isQueryMode"
+      src="{{ imageClose }}"
+      class="imageClose"
+    />
   </div>
-  <div *ngIf="!showClose" class="help-container">
-    <img (click)="clear()" src="../../../../../assets/images/help_icon.svg" class="imageHelp" />
+  <div
+    class="help-popup-wrapper"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+    (click)="openHelpPopup()"
+    [ngStyle]="{ visibility: showClose ? 'hidden' : 'visible' }"
+  >
+    <a class="help-container" type="button">
+      <img
+        [src]="isOpenHelpPopup ? helpIconBlue : helpIconDark"
+        class="imageHelp"
+      />
+    </a>
   </div>
 </div>
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpenHelpPopup"
+  [cdkConnectedOverlayPanelClass]="'panelClass'"
+  [cdkConnectedOverlayPositions]="positionHelpPopup"
+>
+  <div class="help-popup">
+    <div class="head-help-popup">
+      <span>You can use:</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>OR</b></span
+      ><span class="grey"><b>: OR</b>(A, B)</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>AND</b></span
+      ><span class="grey"><b>: AND</b>(A, B)</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>NOT</b></span
+      ><span class="grey"><b>: NOT</b>(A)</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>#</b></span
+      ><span class="grey">: #tag</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>@</b></span
+      ><span class="grey">: @STATUS</span>
+    </div>
+    <div class="hr"></div>
+  </div>
+</ng-template>
