@@ -16,7 +16,7 @@ export class DetailsPageComponent implements OnInit {
   mipPosition: number;
   total: number;
   MAX_LIMIT: number = 1000000;
-  preambleContentText: string = '';
+  referencesContent: string[];
 
   constructor(
     private mipsService: MipsService,
@@ -54,8 +54,21 @@ export class DetailsPageComponent implements OnInit {
         (i: any) => (i as string).includes('Preamble')
       );
 
-      this.preambleContentText = this.mip.sectionsRaw[indexPreambleHeading + 1];
       (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete Preamble heading and its content
+
+      let indexReferencesSection: number = (this.sections as []).findIndex(
+        (i: any) => i.heading === 'References'
+      );
+
+      (this.sections as []).splice(indexReferencesSection, 1);
+
+      let indexReferencesHeading: number = (this.mip.sectionsRaw as []).findIndex(
+        (i: any) => (i as string).includes('References')
+      );
+
+      this.referencesContent = this.mip.sectionsRaw[indexPreambleHeading + 1];
+      (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete References heading and its content
+
       this.pullrequest = data.pullRequests;
 
       if (this.mipsService.getMipsData() === undefined) {
