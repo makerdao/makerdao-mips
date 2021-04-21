@@ -20,6 +20,7 @@ showClose = false;
 @Input() listSearchItems = [];
 @Output() clickSearchItem = new Subject<any>();
 @Input() value: string;
+isQueryMode: boolean = false;
 
   constructor() { }
 
@@ -38,8 +39,23 @@ showClose = false;
 
   onChange(event: any): void {
     if (event) {
-      this.send.emit(event);
+      if (this.isQuery(event.target.value)) {
+        this.isQueryMode = true;
+
+        if (event.keyCode == 13) {
+          this.send.emit(event);
+        }
+      } else {
+        this.isQueryMode = false;
+        this.send.emit(event);
+      }
     }
+  }
+
+  isQuery(data: string): boolean {
+    let search = data.toLowerCase().trim();
+
+    return search.startsWith('$');
   }
 
   clear(): void {

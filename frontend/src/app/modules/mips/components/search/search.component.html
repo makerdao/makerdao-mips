@@ -14,6 +14,9 @@
     </div>
   </div>
   <div class="close-container">
-    <img (click)="clear()" *ngIf="showClose" src="{{imageClose}}" class="imageClose" />
+    <img (click)="clear()" *ngIf="showClose && !isQueryMode" src="{{imageClose}}" class="imageClose" />
+  </div>
+  <div *ngIf="!showClose" class="help-container">
+    <img (click)="clear()" src="../../../../../assets/images/help_icon.svg" class="imageHelp" />
   </div>
 </div>

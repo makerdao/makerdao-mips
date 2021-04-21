@@ -246,6 +246,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       } else {
          this.moreToLoad = true;
       }
+    }, error => {
+      console.log('error', error.error.error);
     });
   }
 
