@@ -92,8 +92,7 @@ export class ParseMIPsService {
         }
 
         this.logger.log(
-          `Total news pull request ===> ${
-            result[3].repository.pullRequests.totalCount - result[2]
+          `Total news pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]
           }`
         );
       }
@@ -128,7 +127,6 @@ export class ParseMIPsService {
         try {
           const fileString = await readFile(dir, "utf-8");
           const mip = this.parseLexerData(fileString, item);
-
           if (mip.mip === undefined || mip.mipName === undefined) {
             console.log(mip.mip, mip.mipName, mip.filename);
           }
@@ -210,19 +208,15 @@ export class ParseMIPsService {
       ) {
         if (list[i + 1]?.type === "code") {
           if (item.filename.includes("-")) {
-            preamble = this.parsePreambleSubproposal(list[i + 1]?.text);
+            preamble = this.parsePreamble(list[i + 1]?.text, true);
+
             preamble.mip = parseInt(mip.proposal.replace("MIP", ""));
             mip.mipName = preamble.mipName;
-
-            mip.subproposal = -1;
-            const re = /[a-z#-]/gi;
-
-            if (!isNaN(parseInt(mip.mipName.replace(re, "")))) {
-              mip.subproposal = parseInt(mip.mipName.replace(re, "")) / 100;
-            }
+            mip.subproposal = this.setSubproposalValue(mip.mipName);
           } else {
             preamble = this.parsePreamble(list[i + 1]?.text);
           }
+
         }
       } else if (
         list[i]?.type === "heading" &&
@@ -253,8 +247,8 @@ export class ParseMIPsService {
                     name: f.text,
                     link: f.href,
                   }
-                }));                
-              }              
+                }));
+              }
             }
           }
         } else {
@@ -307,6 +301,25 @@ export class ParseMIPsService {
     return mip;
   }
 
+  setSubproposalValue(mipName: string): number {
+    let acumulate = "";
+
+    for (const item of mipName.split('c')) {
+      if (item.includes("MIP")) {
+        acumulate = acumulate + item.replace("MIP", "");
+      } else if (item.includes("SP")) {
+        acumulate = acumulate + item.split('SP').map(d => {
+          if (d.length === 1) {
+            return `0${d}`;
+          }
+          return d;
+        }).reduce((a, b) => a + b);
+      }
+    }
+
+    return parseInt(acumulate);
+  }
+
   // Preamble example
   // MIP#: 0
   // Title: The Maker Improvement Proposal Framework
@@ -318,8 +331,10 @@ export class ParseMIPsService {
   // Date Ratified: 2020-05-02
   // Dependencies: n/a
   // Replaces: n/a
-  parsePreamble(data: string): IPreamble {
+  parsePreamble(data: string, subproposal = false): IPreamble {
     const preamble: IPreamble = {};
+
+    let flag = true;
 
     data.split("\n").filter((data: string) => {
       if (!data.includes(":")) {
@@ -331,6 +346,15 @@ export class ParseMIPsService {
         return false;
       }
 
+      if (subproposal && flag) {
+        const re = /[: #-]/gi;
+        preamble.mipName = data.replace(re, "");
+
+        flag = false;
+        subproposal = false;
+        return false;
+      }
+
       switch (keyValue[0]) {
         case "MIP#":
           if (isNaN(+keyValue[1].trim())) {
@@ -339,90 +363,6 @@ export class ParseMIPsService {
           }
           preamble.mip = +keyValue[1].trim();
           break;
-        case "Title":
-          preamble.preambleTitle = keyValue[1].trim();
-          break;
-        case "Contributors":
-          preamble.contributors = keyValue[1]
-            .split(",")
-            .map((data) => data.trim());
-          break;
-        case "Dependencies":
-          preamble.dependencies = keyValue[1]
-            .split(",")
-            .map((data) => data.trim());
-          break;
-        case "Author(s)":
-          preamble.author = keyValue[1].split(",").map((data) => data.trim());
-          break;
-        case "Author":
-          preamble.author = keyValue[1].split(",").map((data) => data.trim());
-          break;
-        case "Tags":
-          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
-          break;
-        case "tags":
-          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
-          break;
-        case "Replaces":
-          preamble.replaces = keyValue[1].trim();
-          break;
-        case "Type":
-          preamble.types = keyValue[1].trim();
-          break;
-        case "Status":
-          preamble.status = keyValue[1].trim();
-          break;
-        case "Date Proposed":
-          preamble.dateProposed = keyValue[1].trim();
-          break;
-        case "Date Ratified":
-          preamble.dateRatified = keyValue[1].trim();
-          break;
-        default:
-          return false;
-      }
-      return true;
-    });
-
-    return preamble;
-  }
-
-  // Preamble example
-  // MIP0c12-SP#: 1
-  // Author: Charles St.Louis
-  // Contributors: n/a
-  // Status: Request for Comments (RFC)
-  // Date Applied: 2020-04-22
-  // Date Ratified: 2020-05-02
-  // ---
-  // Core Personnel Role: MIP Editor
-  // Proposed applicant: Charles St.Louis
-  parsePreambleSubproposal(d: string): IPreamble {
-    const preamble: IPreamble = {};
-
-    let flag = true;
-
-    d.split("\n").filter((data: string) => {
-      if (!data.includes(":")) {
-        return false;
-      }
-
-      if (flag) {
-        const re = /[: #-]/gi;
-        preamble.mipName = data.replace(re, "");
-
-        flag = false;
-        return false;
-      }
-
-      const keyValue = data.split(":");
-
-      if (!(keyValue.length > 1)) {
-        return false;
-      }
-
-      switch (keyValue[0]) {
         case "Title":
           preamble.preambleTitle = keyValue[1].trim();
           break;
