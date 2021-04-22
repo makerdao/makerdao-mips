@@ -36,6 +36,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   subproposalsMode: boolean;
   mipsByName: any[] = [];
   orderSubproposalField: string = 'subproposal';
+  sintaxError: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private mipsService: MipsService,
@@ -241,13 +243,24 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.mipsService.setTotal(this.total);
       this.loading = false;
       this.loadingPlus = false;
+
       if (this.limitAux >= this.total) {
          this.moreToLoad = false;
       } else {
          this.moreToLoad = true;
       }
+
+      this.sintaxError = false;
+      this.errorMessage = "";
     }, error => {
       console.log('error', error.error.error);
+      if ((error.error.error as string).includes('Parse error')) {
+        this.sintaxError = true;
+        this.errorMessage = "Sintax error.";
+      } else {
+        this.sintaxError = false;
+        this.errorMessage = "";
+      }
     });
   }
 

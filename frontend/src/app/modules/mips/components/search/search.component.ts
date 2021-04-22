@@ -17,6 +17,12 @@ export class SearchComponent implements OnInit {
 timeout: any = null;
 @ViewChild('search') inputSearch;
 showClose = false;
+// get showClose() {
+//   return this._showClose;
+// }
+// set showClose(value: boolean) {
+//   this._showClose = value;
+// }
 @Input() showListSearch = false;
 @Input() listSearchItems = [];
 @Output() clickSearchItem = new Subject<any>();
@@ -26,6 +32,8 @@ positionHelpPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
 isOpenHelpPopup: boolean = false;
 helpIconDark: string = '../../../../../assets/images/help_icon.svg';
 helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
+@Input() error: boolean = false;
+@Input() errorMessage: string = '';
 
   constructor() { }
 
@@ -50,24 +58,52 @@ helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
   }
 
   onKeySearch(event: any): void {
-    this.showClose = this.inputSearch.nativeElement.value === '' ? false : true;
     clearTimeout(this.timeout);
-    const $this = this;
-    this.timeout = setTimeout(() => {
-        $this.onChange(event);
-    }, 1000);
+    // this.showClose = this.inputSearch.nativeElement.value === '' ? false : true;
+    console.log('showClose [onKeySearch]', this.showClose);
+    if (event) {
+      if (this.isQuery(event.target.value)) {
+        this.isQueryMode = true;
+        this.showClose = false;
+        console.log('this.showClose', this.showClose);
+
+
+        if (event.keyCode == 13) {
+          this.timeout = setTimeout(() => {
+              this.send.emit(event);
+          }, 1000);
+        }
+      } else {
+        this.isQueryMode = false;
+        this.showClose = this.inputSearch.nativeElement.value === '' ? false : true;
+
+        this.timeout = setTimeout(() => {
+            this.send.emit(event);
+        }, 1000);
+      }
+    }
+
+    // clearTimeout(this.timeout);
+    // const $this = this;
+    // this.timeout = setTimeout(() => {
+    //     $this.onChange(event);
+    // }, 1000);
   }
 
   onChange(event: any): void {
     if (event) {
       if (this.isQuery(event.target.value)) {
         this.isQueryMode = true;
+        this.showClose = false;
+        console.log('this.showClose', this.showClose);
+
 
         if (event.keyCode == 13) {
           this.send.emit(event);
         }
       } else {
         this.isQueryMode = false;
+        this.showClose = this.inputSearch.nativeElement.value === '' ? false : true;
         this.send.emit(event);
       }
     }
@@ -75,6 +111,8 @@ helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
 
   isQuery(data: string): boolean {
     let search = data.toLowerCase().trim();
+    console.log("search.startsWith('$')", search.startsWith('$'));
+
 
     return search.startsWith('$');
   }

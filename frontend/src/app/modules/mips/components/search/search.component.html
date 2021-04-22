@@ -8,6 +8,7 @@
       (keyup)="onKeySearch($event)"
       [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
       [value]="value"
+      [ngClass]="{error: error}"
     />
     <div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
       <div class="ListSearch">
@@ -25,20 +26,15 @@
       </div>
     </div>
   </div>
-  <div class="close-container">
-    <img
-      (click)="clear()"
-      *ngIf="showClose && !isQueryMode"
-      src="{{ imageClose }}"
-      class="imageClose"
-    />
+  <div *ngIf="showClose && !isQueryMode" class="close-container">
+    <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
   </div>
   <div
     class="help-popup-wrapper"
     cdkOverlayOrigin
     #trigger="cdkOverlayOrigin"
     (click)="openHelpPopup()"
-    [ngStyle]="{ visibility: showClose ? 'hidden' : 'visible' }"
+    [ngStyle]="{ visibility: !showClose ? 'visible' : 'hidden' }"
   >
     <a class="help-container" type="button">
       <img
@@ -47,6 +43,7 @@
       />
     </a>
   </div>
+  <div *ngIf="error" class="invalid">{{errorMessage}}</div>
 </div>
 <ng-template
   cdkConnectedOverlay

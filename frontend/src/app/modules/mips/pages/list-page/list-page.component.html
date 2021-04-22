@@ -21,6 +21,8 @@
     <app-search class="no-mobile" (send)="onSendSearch($event)" [showListSearch]="showListSearch"
       [value]="search"
       [listSearchItems]="listSearchMip"
+      [error]="sintaxError"
+      [errorMessage]="errorMessage"
       (clickSearchItem)="onNavigateToMipDetails($event)">
     </app-search>
     <app-filter (send)="onSendFilters()"></app-filter>
