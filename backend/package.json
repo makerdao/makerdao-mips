@@ -4,6 +4,7 @@
   "description": "Backend of MakerDao mip projects",
   "author": "Dspot Inc",
   "scripts": {
+    "nest": "nest",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
