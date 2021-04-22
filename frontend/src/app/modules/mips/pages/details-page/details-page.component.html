@@ -20,12 +20,12 @@
       [title]="mip.title"
       [authors]="mip.author"
       [contributors]="mip.contributors"
-      [type]=""
+      [type]="mip.types"
       [lastOpened]=""
       [dependencies]="mip.dependencies"
       [replaces]="mip.replaces"
       ></app-mip-details>
-      <app-references></app-references>
+      <app-references [references]="mip.references"></app-references>
       <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
     </div>
   </div>
