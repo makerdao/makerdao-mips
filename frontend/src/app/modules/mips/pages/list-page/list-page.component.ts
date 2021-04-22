@@ -253,13 +253,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.sintaxError = false;
       this.errorMessage = "";
     }, error => {
-      console.log('error', error.error.error);
-      if ((error.error.error as string).includes('Parse error')) {
+      if (
+        (error.error.error as string).includes('Parse error') ||
+        (error.error.error as string).includes('Lexical error')
+      ) {
         this.sintaxError = true;
-        this.errorMessage = "Sintax error.";
+        this.errorMessage = 'Sintax error.';
       } else {
         this.sintaxError = false;
-        this.errorMessage = "";
+        this.errorMessage = '';
       }
     });
   }
