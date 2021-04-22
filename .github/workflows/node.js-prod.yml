@@ -58,6 +58,7 @@ jobs:
           cd /var/warehouse/makerdao-mips/backend
           pm2 stop dist/main.js
           npm install
+          npm run build
           npm run pre-start
           npx nestjs-command parse:mips
           pm2 start dist/main.js --name "api-prod"
