@@ -52,7 +52,7 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "select",
-    description: `Select files to get`,
+    description: `Select files to get output`,
     type: String,
     required: false,
   })
