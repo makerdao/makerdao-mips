@@ -20,12 +20,25 @@ export class MIPsService {
     paginationQuery?: PaginationQueryDto,
     order?: string,
     search?: string,
-    filter?: Filters
+    filter?: Filters,
+    select?: string
   ): Promise<any> {
     const buildFilter = await this.buildFilter(search, filter);
     const { limit, page } = paginationQuery;
 
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
+
+    if (select) {
+      const items = await this.mipsDoc
+      .find(buildFilter)
+      .select(select)
+      .sort(order)
+      .skip(page * limit)
+      .limit(limit)
+      .exec();
+
+      return { items, total };
+    }
 
     const items = await this.mipsDoc
       .find(buildFilter)
@@ -128,7 +141,7 @@ export class MIPsService {
     }
 
     if (search) {
-      if (search[0] === "$") {
+      if (search.startsWith('$')) {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
         
@@ -136,8 +149,6 @@ export class MIPsService {
           ...source,
           ...query
         }]};
-
-        //console.log(JSON.stringify(source));
 
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
