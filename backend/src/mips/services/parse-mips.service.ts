@@ -16,7 +16,12 @@ import { MarkedService } from "./marked.service";
 import { MIP } from "../entities/mips.entity";
 import { GithubService } from "./github.service";
 import { PullRequestService } from "./pull-requests.service";
-import { pullRequests, pullRequestsAfter, pullRequestsCount, pullRequestsLast } from "../graphql/definitions.graphql";
+import {
+  pullRequests,
+  pullRequestsAfter,
+  pullRequestsCount,
+  pullRequestsLast,
+} from "../graphql/definitions.graphql";
 
 @Injectable()
 export class ParseMIPsService {
@@ -30,7 +35,7 @@ export class ParseMIPsService {
     private configService: ConfigService,
     private githubService: GithubService,
     private markedService: MarkedService,
-    private pullRequestService: PullRequestService,    
+    private pullRequestService: PullRequestService
   ) {
     this.baseDir = `${process.cwd()}/${this.configService.get<string>(
       Env.FolderRepositoryName
@@ -42,18 +47,17 @@ export class ParseMIPsService {
   }
 
   async parse(): Promise<boolean> {
-
     const branch = this.configService.get(Env.RepoBranch);
-    
+
     try {
-      this.simpleGitService.pull("origin", branch); 
+      this.simpleGitService.pull("origin", branch);
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
 
         this.pullRequestService.count(),
-        this.githubService.pullRequests(pullRequestsCount)
+        this.githubService.pullRequests(pullRequestsCount),
       ]);
 
       const synchronizeData: ISynchronizeData = await this.synchronizeData(
@@ -62,23 +66,41 @@ export class ParseMIPsService {
       );
 
       if (result[2] === 0) {
-        let data =  await this.githubService.pullRequests(pullRequests);
-        await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
+        let data = await this.githubService.pullRequests(pullRequests);
+        await this.pullRequestService.create(
+          data?.repository?.pullRequests?.nodes
+        );
 
-        while(data?.repository?.pullRequests?.pageInfo?.hasNextPage) {
-          data = await this.githubService.pullRequests(pullRequestsAfter, data?.repository?.pullRequests?.pageInfo?.endCursor);
-          await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
+        while (data?.repository?.pullRequests?.pageInfo?.hasNextPage) {
+          data = await this.githubService.pullRequests(
+            pullRequestsAfter,
+            data?.repository?.pullRequests?.pageInfo?.endCursor
+          );
+          await this.pullRequestService.create(
+            data?.repository?.pullRequests?.nodes
+          );
         }
       } else {
         if (result[3].repository.pullRequests.totalCount - result[2] > 0) {
-          const data =  await this.githubService.pullRequestsLast(pullRequestsLast, result[3].repository.pullRequests.totalCount - result[2]);
-          await this.pullRequestService.create(data?.repository?.pullRequests?.nodes);
+          const data = await this.githubService.pullRequestsLast(
+            pullRequestsLast,
+            result[3].repository.pullRequests.totalCount - result[2]
+          );
+          await this.pullRequestService.create(
+            data?.repository?.pullRequests?.nodes
+          );
         }
 
-        this.logger.log(`Total news pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]}`)
-      }      
+        this.logger.log(
+          `Total news pull request ===> ${
+            result[3].repository.pullRequests.totalCount - result[2]
+          }`
+        );
+      }
 
-      this.logger.log(`Synchronize Data ===> ${JSON.stringify(synchronizeData)}`);
+      this.logger.log(
+        `Synchronize Data ===> ${JSON.stringify(synchronizeData)}`
+      );
       return true;
     } catch (error) {
       this.logger.error(error);
@@ -100,7 +122,6 @@ export class ParseMIPsService {
     const createItems = [];
 
     for (const item of filesGit) {
-
       if (!filesDB.has(item.filename)) {
         const dir = `${this.baseDir}/${item.filename}`;
 
@@ -112,14 +133,13 @@ export class ParseMIPsService {
             console.log(mip.mip, mip.mipName, mip.filename);
           }
 
-          if (mip) {                 
+          if (mip) {
             createItems.push(mip);
-          }          
+          }
         } catch (error) {
-          this.logger.log(error); 
-          continue;         
+          this.logger.log(error.message);
+          continue;
         }
-        
       } else {
         const fileDB = filesDB.get(item.filename);
 
@@ -132,7 +152,7 @@ export class ParseMIPsService {
             try {
               await this.mipsService.update(fileDB._id, mip);
             } catch (error) {
-              this.logger.error(error);
+              this.logger.error(error.message);
             }
           }
           synchronizeData.updates++;
@@ -157,7 +177,7 @@ export class ParseMIPsService {
   }
 
   parseLexerData(fileString: string, item: IGitFile): MIP {
-    const list: any[] = this.markedService.markedLexer(fileString);    
+    const list: any[] = this.markedService.markedLexer(fileString);
     let preamble: IPreamble = {};
 
     const mip: MIP = {
@@ -165,13 +185,14 @@ export class ParseMIPsService {
       file: fileString,
       filename: item.filename,
       sections: [],
-      sectionsRaw: []
+      sectionsRaw: [],
+      references: [],
     };
-    
-    if (item.filename.includes('-')) {
-      mip.proposal = item.filename.split('/')[0];
-    } else {     
-      mip.mipName = item.filename.split('/')[0];
+
+    if (item.filename.includes("-")) {
+      mip.proposal = item.filename.split("/")[0];
+    } else {
+      mip.mipName = item.filename.split("/")[0];
     }
 
     let title: string;
@@ -188,18 +209,17 @@ export class ParseMIPsService {
         i + 1 < list.length
       ) {
         if (list[i + 1]?.type === "code") {
-          if (item.filename.includes('-')) {
+          if (item.filename.includes("-")) {
             preamble = this.parsePreambleSubproposal(list[i + 1]?.text);
-            preamble.mip = parseInt(mip.proposal.replace('MIP', ''));
+            preamble.mip = parseInt(mip.proposal.replace("MIP", ""));
             mip.mipName = preamble.mipName;
 
             mip.subproposal = -1;
             const re = /[a-z#-]/gi;
 
-            if (!isNaN(parseInt(mip.mipName.replace(re, '')))) {
-              mip.subproposal = parseInt(mip.mipName.replace(re, '')) / 100;
-            }           
-            
+            if (!isNaN(parseInt(mip.mipName.replace(re, "")))) {
+              mip.subproposal = parseInt(mip.mipName.replace(re, "")) / 100;
+            }
           } else {
             preamble = this.parsePreamble(list[i + 1]?.text);
           }
@@ -218,21 +238,59 @@ export class ParseMIPsService {
         i + 1 < list.length
       ) {
         mip.paragraphSummary = list[i + 1]?.raw;
-      } 
+      } else if (
+        list[i]?.type === "heading" &&
+        list[i]?.depth === 2 &&
+        list[i]?.text === "References" &&
+        i + 1 < list.length
+      ) {
+        if (list[i + 1].type === "list") {
+          for (const item of list[i + 1]?.items) {
+            for (const list of item.tokens) {
+              if (list.tokens) {
+                mip.references.push(...list.tokens.map(f => {
+                  return {
+                    name: f.text,
+                    link: f.href,
+                  }
+                }));                
+              }              
+            }
+          }
+        } else {
+          if (list[i + 1]?.tokens) {
+            for (const item of list[i + 1]?.tokens) {
+              if (item.type === "text") {
+                mip.references.push({
+                  name: item.text,
+                  link: "",
+                });
+              } else {
+                if (item.tokens) {
+                  mip.references.push(
+                    ...item.tokens.map((d) => {
+                      return { name: d.text, link: d.text };
+                    })
+                  );
+                }
+              }
+            }
+          }
+        }
+      }
 
       if (list[i]?.type === "heading") {
         mip.sections.push({
           heading: list[i]?.text,
-          depth: list[i]?.depth
+          depth: list[i]?.depth,
         });
       }
-      
     }
 
     if (!preamble) {
       this.logger.log(`Preamble empty ==> ${JSON.stringify(item)}`);
       return;
-    }   
+    }
 
     mip.author = preamble.author;
     mip.contributors = preamble.contributors;
@@ -352,7 +410,7 @@ export class ParseMIPsService {
 
       if (flag) {
         const re = /[: #-]/gi;
-        preamble.mipName = data.replace(re, '');
+        preamble.mipName = data.replace(re, "");
 
         flag = false;
         return false;
@@ -414,8 +472,7 @@ export class ParseMIPsService {
     return preamble;
   }
 
-  async parseSections(file: string): Promise<any> {        
-    return this.markedService.markedLexer(file);    
+  async parseSections(file: string): Promise<any> {
+    return this.markedService.markedLexer(file);
   }
-
 }
