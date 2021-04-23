@@ -1,51 +1,61 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-proposal-components',
   templateUrl: './proposal-components.component.html',
   styleUrls: ['./proposal-components.component.scss']
 })
-export class ProposalComponentsComponent implements OnInit {
+export class ProposalComponentsComponent implements OnInit, AfterViewInit {
 
   @Input() sourceData;
-  marketPosition = 98;
-  selectedItem = 0;
-  position = 0;
-  constructor() { }
+  prefixIdLinkSection: string = "sectionLink-";
+  @ViewChild('sectionLinks') sectionLinks;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute) { }
+
   ngOnInit(): void {
   }
 
-  updatePos(index, text): void {
-    this.marketPosition = (index) * 31 + 95;
-    this.selectedItem = index;
-    this.findElement(text);
+  ngAfterViewInit() {
+    this.route.fragment.subscribe(data => {
+      this.setActiveLinkSection(data);
+    });
   }
 
-  moveToElement(el: HTMLElement): void {
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  getLinkBySection(text: string): string {
+    let url = this.router.url.split('#')[0];
+    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+    return `${url}#${escapedText}`;
   }
 
-  findElement(text: string): void {
-    let aTags = document.getElementsByTagName('h2');
-    let found: any = false;
+  idBySection(text: string): string {
+    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
 
-    for (let i = 0; i < aTags.length; i++) {
-      if (aTags[i].textContent.includes(text)) {
-        found = aTags[i];
-        break;
-      }
+    return this.prefixIdLinkSection + escapedText;
+  }
+
+  setActiveLinkSection(str: string) {
+    this.findSectionLink(str);
+  }
+
+  findSectionLink(str: string) {
+    let elem = document.querySelector("#" + this.prefixIdLinkSection + str);
+
+    if (elem) {
+      elem.classList.toggle('active');
     }
 
-    if (!found) {
-      aTags = document.getElementsByTagName('h3');
-      for (let i = 0; i < aTags.length; i++) {
-        if (aTags[i].textContent.includes(text)) {
-          found = aTags[i];
-          break;
-        }
+    let sectionLinks = (this.sectionLinks.nativeElement as HTMLElement).getElementsByTagName('a');
+
+    for (let index = 0; index < sectionLinks.length; index++) {
+      if (sectionLinks.item(index) !== elem) {
+        sectionLinks.item(index).classList.remove('active');
       }
     }
-    this.moveToElement(found);
   }
 
 }
