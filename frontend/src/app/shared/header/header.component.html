@@ -1,6 +1,12 @@
-<div class="logo" id="logo" (click)="clearFilterAndGoHome()">
+<div
+  class="logo"
+  id="logo"
+  (click)="clearFilterAndGoHome()"
+  [ngStyle]="{ backgroundColor: menuOpen ? 'white' : 'transparent' }"
+>
   <a>
     <img class="no-mobile" src="../../../assets/images/logo_desktop.svg" />
     <img class="mobile" src="../../../assets/images/logo_mobile.svg" />
   </a>
+  <app-nav-menu (menuOpen)="onMenuToggle($event)"></app-nav-menu>
 </div>

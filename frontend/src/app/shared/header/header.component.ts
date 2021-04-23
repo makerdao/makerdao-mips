@@ -8,6 +8,7 @@ import { MipsService } from '../../modules/mips/services/mips.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  menuOpen: boolean;
 
   constructor(
     private router: Router,
@@ -17,9 +18,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clearFilterAndGoHome(): void { 
+  clearFilterAndGoHome(): void {
     this.mipsService.clearFilter();
     this.router.navigateByUrl('/mips/list');
+  }
+
+  onMenuToggle(ev) {
+    this.menuOpen = ev;
   }
 
 }

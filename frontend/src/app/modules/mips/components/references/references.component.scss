@@ -4,10 +4,10 @@
 }
 
 .container {
-  background: #FFFFFF;
-  box-shadow: 0px 1px 4px #E5E9F2;
+  background: #ffffff;
+  box-shadow: 0px 1px 4px #e5e9f2;
   border-radius: 5px;
-  padding: 30px 30px 10px;
+  padding: 30px 30px 16px;
   margin-bottom: 10px;
   max-height: 330px;
   overflow-y: auto;
@@ -20,7 +20,7 @@
     margin: 0;
   }
   .label {
-    color: #748AA1;
+    color: #748aa1;
     font-size: 12px;
     margin-right: 10px;
     font-family: Roboto;
@@ -31,16 +31,24 @@
     margin-bottom: 0;
   }
   .info {
-    font-size: 12px;
-    color: #31394D;
+    font-family: Roboto;
+    font-style: normal;
     font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    color: #2f80ed;
     width: fit-content;
-    text-align: right;
     margin-top: 0;
     margin-bottom: 0;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
   hr {
-    background-color: #EBEDF4;
+    background-color: #ebedf4;
     height: 1px;
     border: none;
     margin: 0;
@@ -61,13 +69,6 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-
-  app-status {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
 }
 
 .mt-10 {
@@ -81,19 +82,18 @@
 
 /* scrollbar track */
 ::-webkit-scrollbar-track {
-  background: #EBEDF4;
+  background: #ebedf4;
 }
 
 /* scrollbar handle */
 ::-webkit-scrollbar-thumb {
-  background: #B8C5D3;
+  background: #b8c5d3;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #748AA1;
+  background: #748aa1;
 }
-
 
 @media screen and (max-width: 768px) {
   .container {
@@ -108,4 +108,3 @@
     }
   }
 }
-

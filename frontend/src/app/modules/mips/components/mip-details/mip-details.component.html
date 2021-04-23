@@ -1,25 +1,111 @@
 <div class="container">
-  <p class="title">Details</p>
-  <hr>
-  <span class="row">
-    <p class="label">Status</p>
-    <app-status [type]='getStatusType(status)' [value]='getStatusValue(status)'></app-status>
-  </span>
-  <hr>
-  <span class="row">
-    <p class="label">Poll Address</p>
-    <p class="info">N/A</p>
-    <!-- <img src="../../../../../assets/images/copy.svg" />
+  <p class="title" style="margin-bottom: 30px;">Details</p>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">MIP#</p>
+      <p class="info">{{ mipName }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Title</p>
+      <p class="info">{{ title }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Author(s)</p>
+      <p class="info"></p>
+    </span>
+
+    <span *ngFor="let author of authors; let i = index" class="row mt-10">
+      <p class="label">{{ i + 1 }}</p>
+      <p class="info">{{ author }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Contributors</p>
+      <p class="info"></p>
+    </span>
+
+    <span
+      *ngFor="let contributor of contributors; let i = index"
+      class="row mt-10"
+    >
+      <p class="label">{{ i + 1 }}</p>
+      <p class="info">{{ contributor }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Type</p>
+      <p class="info">{{ type }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Status</p>
+      <app-status
+        [type]="getStatusType(status)"
+        [value]="getStatusValue(status)"
+      ></app-status>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Poll Address</p>
+      <p class="info">{{ pollAddress }}</p>
+      <!-- <img src="../../../../../assets/images/copy.svg" />
+      </div>
     <img src="../../../../../assets/images/open.svg" /> -->
-  </span>
-  <hr>
-  <span class="row">
-    <p class="label">Proposed Date</p>
-    <p class="info">{{dateProposed}}</p>
-  </span>
-  <hr>
-  <span class="row">
-    <p class="label">Ratified Date</p>
-    <p class="info">{{dateRatified}}</p>
-  </span>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Date Proposed</p>
+      <p class="info">{{ dateProposed }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Date Ratified</p>
+      <p class="info">{{ dateRatified }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Last Opened</p>
+      <p class="info">{{ lastOpened }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Dependencies</p>
+      <p class="info">{{ dependencies.join(', ') }}</p>
+    </span>
+  </div>
+  <hr />
+  <div class="data-container">
+    <span class="row">
+      <p class="label">Replaces</p>
+      <p class="info">{{ replaces }}</p>
+    </span>
+  </div>
+  <!-- <hr />
+  <span class="">
+    <p class="label">Preamble</p>
+    <app-side-content [content]="preamble"></app-side-content>
+  </span> -->
 </div>

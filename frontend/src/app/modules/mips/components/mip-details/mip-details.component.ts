@@ -10,6 +10,15 @@ export class MipDetailsComponent implements OnInit {
   @Input() status: string;
   @Input() dateProposed: string;
   @Input() dateRatified: string;
+  @Input() mipName: string;
+  @Input() title: string;
+  @Input() authors: string[];
+  @Input() contributors: string[];
+  @Input() type: string;
+  @Input() lastOpened: string;
+  @Input() dependencies: string[];
+  @Input() replaces: string;
+  @Input() pollAddress: string;
 
   constructor() { }
 
