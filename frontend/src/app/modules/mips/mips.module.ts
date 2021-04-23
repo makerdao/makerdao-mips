@@ -31,6 +31,7 @@ import { FilterListHostDirective } from './directives/filter-list-host.directive
 import { SecurityContext } from '@angular/core';
 import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.component';
 import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-checkbox-mobile.component';
+import {OverlayModule} from '@angular/cdk/overlay';
 import { SideContentComponent } from './components/side-content/side-content.component';
 import { ReferencesComponent } from './components/references/references.component';
 
@@ -75,6 +76,7 @@ import { ReferencesComponent } from './components/references/references.componen
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),
+    OverlayModule
   ]
 })
 export class MipsModule { }
