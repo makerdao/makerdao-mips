@@ -67,6 +67,7 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
+  subscription: Subscription;
 
   constructor(
     private markdownService: MarkdownService,
@@ -91,6 +92,7 @@ export class DetailContentComponent
     for (let index = 0; index < links.length; index++) {
       const element = links.item(index);
       element.addEventListener('mouseover', this.displayPreview);
+      element.addEventListener('mouseleave', this.closePreview);
     }
   }
 
@@ -99,7 +101,7 @@ export class DetailContentComponent
       let textContent: string = (e.target as HTMLElement).textContent;
 
       if (textContent && textContent.trim() != '') {
-        let subscription: Subscription = this.mipsService
+        this.subscription = this.mipsService
           .getMipBy('mipName', textContent)
           .subscribe((data) => {
             if (data) {
@@ -184,16 +186,18 @@ export class DetailContentComponent
             }
           });
 
-        e.target.addEventListener('mouseleave', () => {
-          this.closePreview(subscription);
-        });
+        // e.target.addEventListener('mouseleave', () => {
+        //   this.closePreview();
+        // });
       }
     }
   };
 
-  closePreview = (subscription: Subscription) => {
-    if (!subscription.closed) {
-      subscription.unsubscribe();
+  closePreview = (e: Event) => {
+    // alert('leave');
+
+    if (!this.subscription.closed) {
+      this.subscription.unsubscribe();
     }
 
     if (this.overlayRef) {
