@@ -1,4 +1,4 @@
-import { Section } from "../entities/mips.entity";
+import { Reference, Section } from "../entities/mips.entity";
 
 export interface IMIPs {
   id?: string;
@@ -24,6 +24,7 @@ export interface IMIPs {
   paragraphSummary?: string;
   sections?: Section[];
   sectionsRaw?: string[];
+  references?: Reference[];
 }
 
 export interface IGitFile {
