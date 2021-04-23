@@ -9,6 +9,9 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule  } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
+import { NavMenuComponent } from './shared/nav-menu/nav-menu.component';
+import { MenuComponent } from './shared/menu/menu.component';
+import {OverlayModule} from '@angular/cdk/overlay';
 
 
 @NgModule({
@@ -16,14 +19,17 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ObserveVisibilityDirective
+    ObserveVisibilityDirective,
+    NavMenuComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    OverlayModule
   ],
   providers: [],
   bootstrap: [AppComponent]

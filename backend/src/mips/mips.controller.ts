@@ -51,6 +51,12 @@ export class MIPsController {
     required: false,
   })
   @ApiQuery({
+    name: "select",
+    description: `Select files to get output`,
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
     name: "search",
     description:
       'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (\\ ") that specifies a phrase',
@@ -79,6 +85,7 @@ export class MIPsController {
     @Query("limit") limit?: string,
     @Query("page") page?: string,
     @Query("order") order?: string,
+    @Query("select") select?: string,
     @Query("search") search?: string,
     @Query("filter") filter?: Filters
   ) {
@@ -88,16 +95,15 @@ export class MIPsController {
         page: +page,
       };
 
-      const items = await this.mipsService.findAll(
+      return await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
-        filter
+        filter,
+        select
       );
-      const total = await this.mipsService.count(search, filter);
-      return { items, total };
+      
     } catch (error) {
-      console.log(error);
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,

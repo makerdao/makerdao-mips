@@ -7,33 +7,51 @@
   background: #FFFFFF;
   box-shadow: 0px 1px 4px #E5E9F2;
   border-radius: 5px;
-  padding: 20px 30px 35px;
+  padding: 30px 30px 10px;
   margin-bottom: 10px;
+  max-height: 330px;
+  overflow-y: auto;
+
   .title {
     font-size: 16px;
     color: #000000;
     font-weight: 500;
     margin-bottom: 30px;
+    margin: 0;
   }
   .label {
     color: #748AA1;
     font-size: 12px;
-    margin-right: 30px;
+    margin-right: 10px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 14px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .info {
     font-size: 12px;
     color: #31394D;
     font-weight: bold;
+    width: fit-content;
+    text-align: right;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   hr {
     background-color: #EBEDF4;
     height: 1px;
     border: none;
-    margin: 5px 0;
+    margin: 0;
   }
   img {
     cursor: pointer;
     margin-left: 7px;
+  }
+
+  .data-container {
+    padding: 14px 0;
   }
 }
 
@@ -41,19 +59,52 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+
+  app-status {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
-app-status {
-  transform: translateY(8px);
+.mt-10 {
+  margin-top: 10px;
 }
+
+/* scrollbar width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* scrollbar track */
+::-webkit-scrollbar-track {
+  background: #EBEDF4;
+}
+
+/* scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background: #B8C5D3;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #748AA1;
+}
+
 
 @media screen and (max-width: 768px) {
   .container {
-    padding: 10px 20px 25px;
+    padding: 20px 20px 15px;
     margin-bottom: 20px;
+    margin-top: 20px;
+    max-height: fit-content;
+
     .title {
       margin-bottom: 20px;
+      margin-top: 0px;
     }
   }
 }

@@ -11,6 +11,14 @@ export class Section {
   depth: string;
 }
 
+export class Reference {
+  @Prop()
+  name: string;
+
+  @Prop()
+  link: string;
+}
+
 @Schema()
 export class MIP {
   @Prop()
@@ -89,6 +97,11 @@ export class MIP {
     type: [String]
   })
   sectionsRaw?: string[];
+
+  @Prop({
+    type: [Object]
+  })
+  references?: Reference[];
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

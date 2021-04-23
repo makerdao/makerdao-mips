@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, Input, HostBinding } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ConnectedPosition } from '@angular/cdk/overlay';
 
 
 @Component({
@@ -20,24 +21,54 @@ export class SearchMobileComponent implements OnInit {
   @Input() listSearchItems = [];
   @Output() clickSearchItem = new Subject<any>();
   @Input() value: string;
+  isQueryMode: boolean = false;
+  positionHelpPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
+  isOpenHelpPopup: boolean = false;
+  helpIconDark: string = '../../../../../assets/images/help_icon.svg';
+  helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
+  @Input() error: boolean = false;
+  @Input() errorMessage: string = '';
+  @Input() imageClose? = '../../../../../assets/images/close.png';
 
   constructor() { }
 
   onKeySearch(event: any): void {
-    this.showClose = this.inputSearch.nativeElement.value === '' ? false : true;
     clearTimeout(this.timeout);
-    const $this = this;
-    this.timeout = setTimeout(() => {
-        $this.onChange(event);
-    }, 1000);
-  }
 
-  onChange(event: any): void {
     if (event) {
-      this.text = event.target.value;
-      this.send.emit(event);
+      if (this.isQuery(event.target.value)) {
+        this.isQueryMode = true;
+        this.showClose = false;
+
+        if (event.keyCode == 13) {
+          this.timeout = setTimeout(() => {
+            this.send.emit(event);
+          }, 1000);
+        }
+      } else {
+        this.isQueryMode = false;
+        this.showClose =
+          this.inputSearch.nativeElement.value === '' ? false : true;
+
+        this.timeout = setTimeout(() => {
+          this.send.emit(event);
+        }, 1000);
+      }
     }
   }
+
+  isQuery(data: string): boolean {
+    let search = data.toLowerCase().trim();
+
+    return search.startsWith('$');
+  }
+
+  // onChange(event: any): void {
+  //   if (event) {
+  //     this.text = event.target.value;
+  //     this.send.emit(event);
+  //   }
+  // }
 
   clear(): void {
     this.showClose = false;
@@ -49,6 +80,22 @@ export class SearchMobileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initPositionHelpPopup();
+  }
+
+  initPositionHelpPopup() {
+    this.positionHelpPopup = [
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      },
+    ];
+  }
+
+  openHelpPopup() {
+    this.isOpenHelpPopup = !this.isOpenHelpPopup;
   }
 
   onOpenCloseInput(): void {

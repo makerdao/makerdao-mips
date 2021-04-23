@@ -246,9 +246,7 @@ export class DetailContentComponent
              <h${level} ${style}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
-               </a>
-               ${text}
-             </h${level}>`;
+               </a>${text}</h${level}>`;
     };
   }
 
@@ -295,17 +293,40 @@ export class DetailContentComponent
 
   searchMips() {
     this.links.forEach((link) => {
-      if (!link.name.includes('.md')) {
+      if (!link.name.includes('Template')) {
         this.mipsService.getMipByFilename(link.name).subscribe((data) => {
+
           let elem = document.getElementById(link.id);
-          elem.setAttribute('href', `/mips/details/${data.mipName}`);
+
+          if (data.mipName) {
+            elem.setAttribute('href', `/mips/details/${data.mipName}`);
+          } else {
+            elem.setAttribute(
+              'href',
+              `${this.gitgubUrl}/${this.mip.filename}`
+            );
+          }
+        }, err => {
+          let elem = document.getElementById(link.id);
+          elem.setAttribute(
+            'href',
+            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
+          );
         });
       } else {
         let elem = document.getElementById(link.id);
-        elem.setAttribute(
-          'href',
-          `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
-        );
+
+        if (link.name.includes('.md')) {
+          elem.setAttribute(
+            'href',
+            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
+          );
+        } else {
+          elem.setAttribute(
+            'href',
+            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}.md`
+          );
+        }
       }
     });
   }
