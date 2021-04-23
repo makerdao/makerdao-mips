@@ -220,6 +220,7 @@ export class DetailContentComponent
     }
 
     this.getDefaultLinks();
+    this.overrideDefaultHeadings();
   }
 
   onReady() {
