@@ -16,6 +16,7 @@ export class DetailsPageComponent implements OnInit {
   mipPosition: number;
   total: number;
   MAX_LIMIT: number = 1000000;
+  subproposals: any[];
 
   constructor(
     private mipsService: MipsService,
@@ -42,6 +43,7 @@ export class DetailsPageComponent implements OnInit {
       // this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = this.mip.sections;
       this.pullrequest = data.pullRequests;
+      this.subproposals = data.subproposals;
 
       if (this.mipsService.getMipsData() === undefined) {
         this.getMips();

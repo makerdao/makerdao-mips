@@ -67,6 +67,7 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
+  @Input() subproposals: any[];
 
   constructor(
     private markdownService: MarkdownService,

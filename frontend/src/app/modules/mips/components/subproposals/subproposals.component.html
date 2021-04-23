@@ -1,0 +1,7 @@
+<p class="title">Subproposals</p>
+<a
+  class="link"
+  *ngFor="let item of subproposals"
+  [routerLink]="['/mips/details/', item]"
+  >{{ item }}</a
+>
