@@ -1,21 +1,21 @@
 <div class="container">
   <p class="title" style="margin-bottom: 30px;">Details</p>
   <hr />
-  <div class="data-container">
+  <div *ngIf="mipName" class="data-container">
     <span class="row">
       <p class="label">MIP#</p>
       <p class="info">{{ mipName }}</p>
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="title" class="data-container">
     <span class="row">
       <p class="label">Title</p>
       <p class="info">{{ title }}</p>
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="authors" class="data-container">
     <span class="row">
       <p class="label">Author(s)</p>
       <p class="info"></p>
@@ -27,7 +27,7 @@
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="contributors" class="data-container">
     <span class="row">
       <p class="label">Contributors</p>
       <p class="info"></p>
@@ -42,14 +42,14 @@
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="type" class="data-container">
     <span class="row">
       <p class="label">Type</p>
       <p class="info">{{ type }}</p>
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="status" class="data-container">
     <span class="row">
       <p class="label">Status</p>
       <app-status
@@ -59,7 +59,7 @@
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="pollAddress" class="data-container">
     <span class="row">
       <p class="label">Poll Address</p>
       <p class="info">{{ pollAddress }}</p>
@@ -69,35 +69,35 @@
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="dateProposed" class="data-container">
     <span class="row">
       <p class="label">Date Proposed</p>
       <p class="info">{{ dateProposed }}</p>
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="dateRatified" class="data-container">
     <span class="row">
       <p class="label">Date Ratified</p>
       <p class="info">{{ dateRatified }}</p>
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="lastOpened" class="data-container">
     <span class="row">
       <p class="label">Last Opened</p>
       <p class="info">{{ lastOpened }}</p>
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="dependencies" class="data-container">
     <span class="row">
       <p class="label">Dependencies</p>
       <p class="info">{{ dependencies.join(', ') }}</p>
     </span>
   </div>
   <hr />
-  <div class="data-container">
+  <div *ngIf="replaces" class="data-container">
     <span class="row">
       <p class="label">Replaces</p>
       <p class="info">{{ replaces }}</p>
