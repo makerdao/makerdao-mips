@@ -310,12 +310,12 @@ export class DetailContentComponent
 
   searchMips() {
     this.links.forEach((link) => {
+      let elem = document.getElementById(link.id);
+
       if (!link.name.includes('Template')) {
         if (link.link.includes(this.gitgubUrl)) {
           this.mipsService.getMipByFilename(link.name).subscribe(
             (data) => {
-              let elem = document.getElementById(link.id);
-
               if (data.mipName) {
                 elem.setAttribute('href', `/mips/details/${data.mipName}`);
               } else {
@@ -326,16 +326,33 @@ export class DetailContentComponent
               }
             },
             (_) => {
-              let elem = document.getElementById(link.id);
-              elem.setAttribute(
-                'href',
-                `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
-              );
+              if (link.link.includes('MIP')) {
+                const mip = link.link
+                  .replace(`${this.gitgubUrl}/`, '')
+                  .split('#');
+
+                if (mip.length > 0) {
+                  this.mipsService
+                    .getMipByFilename(mip[0])
+                    .subscribe((data) => {
+                      if (mip.length > 1) {
+                        elem.setAttribute(
+                          'href',
+                          `/mips/details/${data.mipName}#${mip[1]}`
+                        );
+                      } else {
+                        elem.setAttribute(
+                          'href',
+                          `/mips/details/${data.mipName}}`
+                        );
+                      }
+                    });
+                }
+              }
             }
           );
         }
       } else {
-        let elem = document.getElementById(link.id);
         if (link.name.includes('.md') && !link.link.includes('https')) {
           elem.setAttribute(
             'href',

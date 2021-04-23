@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { environment as env } from '../../../../../environments/environment';
+
 @Component({
   selector: 'app-references',
   templateUrl: './references.component.html',
@@ -7,6 +9,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ReferencesComponent implements OnInit {
   @Input() references: any[];
+  @Input() mipName: string;
+
+  gitHubUrl = env.repoUrl;
 
   constructor() {}
 
