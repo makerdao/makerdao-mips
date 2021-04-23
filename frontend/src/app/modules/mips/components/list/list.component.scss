@@ -39,6 +39,8 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   margin-top: 120px;
 
   &.subproposal-title {
+    padding-left: 15px;
+
     a {
       color: #2F80ED;
     }

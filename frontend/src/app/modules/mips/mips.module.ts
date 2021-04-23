@@ -32,6 +32,9 @@ import { SecurityContext } from '@angular/core';
 import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.component';
 import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-checkbox-mobile.component';
 import {OverlayModule} from '@angular/cdk/overlay';
+import { SideContentComponent } from './components/side-content/side-content.component';
+import { ReferencesComponent } from './components/references/references.component';
+
 
 
 
@@ -57,7 +60,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
     FilterListItemComponent,
     FilterListHostDirective,
     MdCheckboxComponent,
-    MdCheckboxMobileComponent
+    MdCheckboxMobileComponent,
+    SideContentComponent,
+    ReferencesComponent
   ],
   imports: [
     CommonModule,
