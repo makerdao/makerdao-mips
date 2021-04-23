@@ -27,8 +27,13 @@ export class MipsService {
     this.activateSearch.next(data);
   }
 
-  searchMips(limit: number, page: number, order: string, search: string, filter?: any): Observable<any> {
+  searchMips(limit: number, page: number, order: string, search: string, filter?: any, select?: string): Observable<any> {
     let params = new HttpParams({fromObject: {limit: limit.toString(), page: page.toString()}});
+
+    if (select !== undefined && select != null && select !== '') {
+      params = params.append('select', select);
+    }
+
     if (order !== undefined && order != null && order !== '') {
       params = params.append('order', order);
     }

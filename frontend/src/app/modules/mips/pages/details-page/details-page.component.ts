@@ -87,7 +87,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
   searchMips(limit, page, order, search, filter): void {
-    this.mipsService.searchMips(limit, page, order, search, filter)
+    this.mipsService.searchMips(limit, page, order, search, filter, "mipName")
     .subscribe(data => {
       this.mipsService.setMipsData(data.items);
       this.total = data.total;
