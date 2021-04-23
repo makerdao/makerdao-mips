@@ -18,6 +18,7 @@ export class MipDetailsComponent implements OnInit {
   @Input() lastOpened: string;
   @Input() dependencies: string[];
   @Input() replaces: string;
+  @Input() pollAddress: string;
 
   constructor() { }
 
