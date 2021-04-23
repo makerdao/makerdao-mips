@@ -1,7 +1,17 @@
-<p class="title">Subproposals</p>
+<h2 class="title">
+  <a
+    name="subproposals"
+    id="subproposals"
+    class="anchor"
+    href="/mips/details/MIP0#subproposals"
+  >
+    <i id="subproposals" class="fas fa-link" aria-hidden="true"></i> </a
+  >Subproposals
+</h2>
 <a
   class="link"
   *ngFor="let item of subproposals"
-  [routerLink]="['/mips/details/', item]"
-  >{{ item }}</a
+  [routerLink]="['/mips/details/', item.mipName]"
+>
+  <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
 >
