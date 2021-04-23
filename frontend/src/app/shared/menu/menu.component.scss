@@ -1,0 +1,134 @@
+:host {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  // &:hover {
+  //   background-color: whitesmoke;
+  //   transition: background-color 0.2s ease-in-out;
+  // }
+
+  a {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #748aa1;
+    padding: 10px 40px;
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    transition: all 0.2s;
+    gap: 8px;
+
+    .arrowContainer {
+      position: relative;
+      height: 5px;
+      width: 7px;
+      transition: transform 0.2s;
+
+      .arrow {
+        position: absolute;
+      }
+
+      .rotate {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+        transition: transform 0.2s;
+      }
+    }
+
+    &.firstLevel {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      transition: all 0.2s;
+
+      // &:hover {
+      //   color: #31394D;
+      // }
+    }
+
+    &.firstLevelActive {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      font-weight: bold;
+      transition: all 0.2s;
+      color: #31394d;
+    }
+
+    &.subMenu {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 14px;
+      color: #748aa1;
+      transition: all 0.2s;
+    }
+
+    &.subMenuActive {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 14px;
+      color: #31394d;
+      transition: all 0.2s;
+    }
+
+    &:hover {
+      color: #31394d;
+    }
+  }
+}
+
+.dropdown-content {
+  width: max-content;
+  height: auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  // padding: 5px 0;
+  animation: fadeInMenu 0.3s;
+
+  .verticalLine {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: #B8C5D3;
+    right: 0;
+    height: calc(100% - 20px);
+    top: 10px;
+  }
+}
+
+.backdrop {
+  opacity: 0.5;
+}
+
+.panelClass {
+  transition: all 0.4s ease-in-out;
+  height: auto;
+}
+
+@keyframes fadeInMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
