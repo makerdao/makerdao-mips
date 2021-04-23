@@ -53,7 +53,10 @@
          </span>
          <span *ngIf="column == 'pos'">
            <td class="tooltip" (click)="onNavigateToDetails(element.mipName)" mat-cell *matCellDef="let element"
-            style="cursor: pointer;"><br>{{element.proposal ? '' : element.mip}}
+            style="cursor: pointer;"><br>
+
+            {{element.proposal ? '' : element.mip}}
+
             <!-- <span class="tooltiptext">Click for more details</span> -->
           </td>
          </span>
