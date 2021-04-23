@@ -1,53 +1,66 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
-import { FlexibleConnectedPositionStrategyOrigin, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import {
+  FlexibleConnectedPositionStrategyOrigin,
+  Overlay,
+  OverlayRef,
+} from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
 
 const preambleDataSample = [
   {
     key: 'MIP#',
-    value: '2'
+    value: '2',
   },
   {
     key: 'Title',
-    value: 'Launch Period'
+    value: 'Launch Period',
   },
   {
     key: 'Author(s)',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'
+    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
   },
   {
     key: 'Contributors',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)'
+    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
   },
   {
     key: 'Type',
-    value: 'Process'
+    value: 'Process',
   },
   {
     key: 'Status',
-    value: 'Accepted'
+    value: 'Accepted',
   },
   {
     key: 'Date Proposed',
-    value: '2020-04-06'
+    value: '2020-04-06',
   },
   {
     key: 'Date Ratified',
-    value: '2020-05-02'
+    value: '2020-05-02',
   },
   {
     key: 'Dependencies',
-    value: 'MIP0, MIP1'
+    value: 'MIP0, MIP1',
   },
   {
     key: 'Replaces',
-    value: 'n/a'
-  }
+    value: 'n/a',
+  },
 ];
 
 @Component({
@@ -82,8 +95,7 @@ export class DetailContentComponent
     this.getDefaultLinks();
   }
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   setPreviewFeature() {
     let links = document.getElementsByClassName('anchor');
@@ -260,11 +272,19 @@ export class DetailContentComponent
       let link: Link = {
         id: id,
         name: text,
+        link: href,
       };
 
       this.links.push({ ...link });
 
-      return `<a name="${escapedText}" id="${link.id}" class="anchor" href="${href}">${text}</a>`;
+      if (
+        !link.name.includes('Template') &&
+        link.link.includes(this.gitgubUrl)
+      ) {
+        return `<a name="${escapedText}" id="${link.id}" class="anchor" href="${href}">${text}</a>`;
+      }
+
+      return `<a name="${escapedText}" id="${link.id}" class="anchor-link" href="${href}">${text}</a>`;
     };
   }
 
@@ -290,34 +310,37 @@ export class DetailContentComponent
   searchMips() {
     this.links.forEach((link) => {
       if (!link.name.includes('Template')) {
-        this.mipsService.getMipByFilename(link.name).subscribe((data) => {
+        if (link.link.includes(this.gitgubUrl)) {
+          this.mipsService.getMipByFilename(link.name).subscribe(
+            (data) => {
+              let elem = document.getElementById(link.id);
 
-          let elem = document.getElementById(link.id);
-
-          if (data.mipName) {
-            elem.setAttribute('href', `/mips/details/${data.mipName}`);
-          } else {
-            elem.setAttribute(
-              'href',
-              `${this.gitgubUrl}/${this.mip.filename}`
-            );
-          }
-        }, err => {
-          let elem = document.getElementById(link.id);
-          elem.setAttribute(
-            'href',
-            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
+              if (data.mipName) {
+                elem.setAttribute('href', `/mips/details/${data.mipName}`);
+              } else {
+                elem.setAttribute(
+                  'href',
+                  `${this.gitgubUrl}/${this.mip.filename}`
+                );
+              }
+            },
+            (_) => {
+              let elem = document.getElementById(link.id);
+              elem.setAttribute(
+                'href',
+                `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
+              );
+            }
           );
-        });
+        }
       } else {
         let elem = document.getElementById(link.id);
-
-        if (link.name.includes('.md')) {
+        if (link.name.includes('.md') && !link.link.includes('https')) {
           elem.setAttribute(
             'href',
             `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
           );
-        } else {
+        } else if (!link.link.includes('https')) {
           elem.setAttribute(
             'href',
             `${this.gitgubUrl}/${this.mip.mipName}/${link.name}.md`
@@ -331,4 +354,5 @@ export class DetailContentComponent
 interface Link {
   id: string;
   name: string;
+  link: string;
 }
