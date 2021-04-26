@@ -141,7 +141,7 @@ export class MIPsService {
     }
 
     if (search) {
-      if (search.startsWith('$')) {
+      if (search.startsWith('+')) {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
         
@@ -149,6 +149,8 @@ export class MIPsService {
           ...source,
           ...query
         }]};
+
+        // console.log(JSON.stringify(source), "<==========");
 
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
@@ -176,7 +178,7 @@ export class MIPsService {
     if (ast.type === "LITERAL" && ast.name.includes("#")) {
       return { tags: {$in: [ast.name.replace("#", "")] }};
     } else if (ast.type === "LITERAL" && ast.name.includes("@")) {
-      return { status: ast.name.replace("@", "") };
+      return { status: { $regex: new RegExp(`${ast.name.replace("@", "")}`), $options: "i" } };
     } else {
       if (ast.type === "OPERATION" && ast.op === "OR") {
         return {
@@ -196,7 +198,7 @@ export class MIPsService {
         if (ast.left.includes("#")) {
           return { tags: {$nin: [ast.left.replace("#", "")] }};
         } else if (ast.left.includes("@")) {
-          return { status: {$ne: ast.left.replace("@", "")} };
+          return { status: {$ne: { $regex: new RegExp(`${ast.left.replace("@", "")}`), $options: "i" }} };
         } else {
           throw new Error("Database query not support");          
         }
