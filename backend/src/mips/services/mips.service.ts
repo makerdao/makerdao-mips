@@ -198,7 +198,7 @@ export class MIPsService {
         if (ast.left.includes("#")) {
           return { tags: {$nin: [ast.left.replace("#", "")] }};
         } else if (ast.left.includes("@")) {
-          return { status: {$ne: { $regex: new RegExp(`${ast.left.replace("@", "")}`), $options: "i" }} };
+          return { status: {$not: { $regex: new RegExp(`${ast.left.replace("@", "")}`), $options: "i" }} };
         } else {
           throw new Error("Database query not support");          
         }
