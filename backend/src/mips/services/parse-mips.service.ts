@@ -274,12 +274,6 @@ export class ParseMIPsService {
             }
           }
         }
-
-        if (mip.mipName === 'MIP50') {
-
-          console.log(mip.references);
-
-        }
       }
 
       if (list[i]?.type === "heading") {
