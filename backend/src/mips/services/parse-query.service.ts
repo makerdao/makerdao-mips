@@ -10,14 +10,14 @@ export class ParseQueryService {
       lex: {
         rules: [
           ["\\s", "/* skip whitespace */"],
-          ["\\$", "/* skip whitespace */"],
+          ["\\+", "/* skip whitespace */"],
           [",", "return ',';"],
           ["AND", "return 'AND';"],
           ["OR", "return 'OR';"],
           ["NOT", "return 'NOT';"],
           ["\\(", "return '(';"],
           ["\\)", "return ')';"],
-          ["(#|@)+[a-zA-Z_][a-zA-Z0-9_]*", "return 'LITERAL';"],
+          ["(#|@)+[a-zA-Z_\\-][a-zA-Z0-9_\\-]*", "return 'LITERAL';"],
         ],
       },
       operators: [
