@@ -16,6 +16,7 @@ export class DetailsPageComponent implements OnInit {
   mipPosition: number;
   total: number;
   MAX_LIMIT: number = 1000000;
+  subproposals: any[];
   referencesContent: string[];
 
   constructor(
@@ -62,6 +63,13 @@ export class DetailsPageComponent implements OnInit {
 
       (this.sections as []).splice(indexReferencesSection, 1);
 
+      if (data.subproposals && data.subproposals.length > 0) {
+        (this.sections as any[]).push({
+          depth: 2,
+          heading: "Subproposals"
+        });
+      }
+
       let indexReferencesHeading: number = (this.mip.sectionsRaw as []).findIndex(
         (i: any) => (i as string).includes('References')
       );
@@ -70,6 +78,7 @@ export class DetailsPageComponent implements OnInit {
       (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete References heading and its content
 
       this.pullrequest = data.pullRequests;
+      this.subproposals = data.subproposals;
 
       if (this.mipsService.getMipsData() === undefined) {
         this.getMips();
