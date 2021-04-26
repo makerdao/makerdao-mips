@@ -34,6 +34,7 @@
   (backdropClick)="onClickedBackdrop()"
   [cdkConnectedOverlayPanelClass]="'panelClass'"
   [cdkConnectedOverlayPositions]="position"
+  (overlayOutsideClick)="onClickedOutside($event)"
 >
   <div class="dropdown-content">
     <app-menu
