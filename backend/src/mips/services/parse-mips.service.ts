@@ -92,7 +92,8 @@ export class ParseMIPsService {
         }
 
         this.logger.log(
-          `Total news pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]
+          `Total news pull request ===> ${
+            result[3].repository.pullRequests.totalCount - result[2]
           }`
         );
       }
@@ -216,7 +217,6 @@ export class ParseMIPsService {
           } else {
             preamble = this.parsePreamble(list[i + 1]?.text);
           }
-
         }
       } else if (
         list[i]?.type === "heading" &&
@@ -238,16 +238,19 @@ export class ParseMIPsService {
         list[i]?.text === "References" &&
         i + 1 < list.length
       ) {
+
         if (list[i + 1].type === "list") {
           for (const item of list[i + 1]?.items) {
             for (const list of item.tokens) {
               if (list.tokens) {
-                mip.references.push(...list.tokens.map(f => {
-                  return {
-                    name: f.text,
-                    link: f.href,
-                  }
-                }));
+                mip.references.push(
+                  ...list.tokens.filter(d => d.href).map((f) => {
+                    return {
+                      name: f.text,
+                      link: f.href,
+                    };
+                  })
+                );
               }
             }
           }
@@ -270,6 +273,12 @@ export class ParseMIPsService {
               }
             }
           }
+        }
+
+        if (mip.mipName === 'MIP50') {
+
+          console.log(mip.references);
+
         }
       }
 
@@ -302,18 +311,23 @@ export class ParseMIPsService {
   }
 
   setSubproposalValue(mipName: string): number {
-    let acumulate = "";
+    let acumulate: any = "";
 
-    for (const item of mipName.split('c')) {
+    for (const item of mipName.split("c")) {
       if (item.includes("MIP")) {
         acumulate = acumulate + item.replace("MIP", "");
       } else if (item.includes("SP")) {
-        acumulate = acumulate + item.split('SP').map(d => {
-          if (d.length === 1) {
-            return `0${d}`;
-          }
-          return d;
-        }).reduce((a, b) => a + b);
+        acumulate =
+          acumulate +
+          item
+            .split("SP")
+            .map((d) => {
+              if (d.length === 1) {
+                return `0${d}`;
+              }
+              return d;
+            })
+            .reduce((a, b) => a + b);
       }
     }
 
@@ -346,7 +360,7 @@ export class ParseMIPsService {
         return false;
       }
 
-      if (subproposal && flag) {
+      if (subproposal && flag && data.includes("-SP")) {
         const re = /[: #-]/gi;
         preamble.mipName = data.replace(re, "");
 
@@ -395,7 +409,18 @@ export class ParseMIPsService {
           preamble.types = keyValue[1].trim();
           break;
         case "Status":
-          preamble.status = keyValue[1].trim();
+          const status = keyValue[1].trim();
+
+          if (
+            status === "Request For Comments (RFC)" ||
+            status === "Request for Comments" ||
+            status === "Request for Comments (RFC)" ||
+            status === "RFC"
+          ) {
+            preamble.status = "RFC";
+          } else {
+            preamble.status = status;
+          }
           break;
         case "Date Proposed":
           preamble.dateProposed = keyValue[1].trim();
