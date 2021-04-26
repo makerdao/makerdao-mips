@@ -141,7 +141,7 @@ export class MIPsService {
     }
 
     if (search) {
-      if (search.startsWith('+')) {
+      if (search.startsWith('$')) {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
         
