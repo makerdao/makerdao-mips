@@ -18,10 +18,19 @@
 </div>
 
 <ng-template #preview let-data>
-  <section class="preview">
-    <div>{{data.sentenceSummary}}</div>
+  <section
+    class="preview"
+    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp }"
+    #previewRef
+  >
+    <div>{{ data.sentenceSummary }}</div>
     <div
-      [ngClass]="{triangleUp: triangleUp, triangleDown: !triangleUp, left: triangleLeft, right: !triangleLeft}"
+      [ngClass]="{
+        triangleUp: triangleUp,
+        triangleDown: !triangleUp,
+        left: triangleLeft,
+        right: !triangleLeft
+      }"
     ></div>
   </section>
 </ng-template>

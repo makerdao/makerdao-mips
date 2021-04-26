@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 
 @Component({
@@ -21,7 +21,8 @@ export class DetailsPageComponent implements OnInit {
 
   constructor(
     private mipsService: MipsService,
-    private activedRoute: ActivatedRoute
+    private activedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -42,7 +43,6 @@ export class DetailsPageComponent implements OnInit {
       this.mip = data.mip;
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
-
       this.sections = this.mip.sections;
 
       let indexPreambleSection: number = (this.sections as []).findIndex(
@@ -91,7 +91,8 @@ export class DetailsPageComponent implements OnInit {
   mipsPagination(position: number): void {
     const data = this.mipsService.getMipsData();
     this.mipName = data[position].mipName;
-    this.loadData();
+
+    this.router.navigate(['/mips/details', this.mipName]);
   }
 
   moveToElement(): void {
@@ -121,7 +122,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
   searchMips(limit, page, order, search, filter): void {
-    this.mipsService.searchMips(limit, page, order, search, filter)
+    this.mipsService.searchMips(limit, page, order, search, filter, "mipName")
     .subscribe(data => {
       this.mipsService.setMipsData(data.items);
       this.total = data.total;
