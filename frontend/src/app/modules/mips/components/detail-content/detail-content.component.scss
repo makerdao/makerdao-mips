@@ -150,7 +150,15 @@
   }
 
   a.anchor {
-    padding: 16px 0;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  a.linkPreview {
+    text-decoration: none;
+    padding: 0;
+    display: inline-block;
 
     &:hover {
       text-decoration: underline;
@@ -304,7 +312,6 @@ p {
   line-height: 20px;
   color: #31394d;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
-  animation: fadeIn 0.3s linear;
 
   .triangleUp {
     width: 0px;
@@ -336,14 +343,39 @@ p {
   }
 }
 
-@keyframes fadeIn {
+.fadeInFromDown {
+  transform: translateY(0px);
+  animation: fadeInFromDown 0.2s linear;
+}
+
+.fadeInFromUp {
+  transform: translateY(0px);
+  animation: fadeInFromUp 0.2s linear;
+}
+
+@keyframes fadeInFromDown {
   0% {
     opacity: 0;
-    transform: translateY(-15px);
+    transform: translateY(35px);
   }
   50% {
     opacity: 0.5;
-    transform: translateY(5px);
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeInFromUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-35px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-25px);
   }
   100% {
     opacity: 1;

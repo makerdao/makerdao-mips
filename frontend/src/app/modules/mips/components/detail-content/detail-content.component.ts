@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -80,6 +71,8 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
+  subscription: Subscription;
+  @ViewChild('previewRef') previewRef: ElementRef;
 
   constructor(
     private markdownService: MarkdownService,
@@ -98,11 +91,12 @@ export class DetailContentComponent
   ngAfterViewInit() {}
 
   setPreviewFeature() {
-    let links = document.getElementsByClassName('anchor');
+    let links = document.getElementsByClassName('linkPreview');
 
     for (let index = 0; index < links.length; index++) {
       const element = links.item(index);
       element.addEventListener('mouseover', this.displayPreview);
+      element.addEventListener('mouseleave', this.closePreview);
     }
   }
 
@@ -111,7 +105,7 @@ export class DetailContentComponent
       let textContent: string = (e.target as HTMLElement).textContent;
 
       if (textContent && textContent.trim() != '') {
-        let subscription: Subscription = this.mipsService
+        this.subscription = this.mipsService
           .getMipBy('mipName', textContent)
           .subscribe((data) => {
             if (data) {
@@ -181,6 +175,10 @@ export class DetailContentComponent
                   this.triangleUp = false;
                   this.triangleLeft = true;
                 }
+
+                let element: HTMLElement = this.previewRef.nativeElement.parentElement.parentElement;
+                element.style.marginTop = '17px';
+                element.style.marginBottom = '17px';
               });
 
               this.overlayRef = this.overlay.create({
@@ -195,17 +193,13 @@ export class DetailContentComponent
               );
             }
           });
-
-        e.target.addEventListener('mouseleave', () => {
-          this.closePreview(subscription);
-        });
       }
     }
   };
 
-  closePreview = (subscription: Subscription) => {
-    if (!subscription.closed) {
-      subscription.unsubscribe();
+  closePreview = (e: Event) => {
+    if (!this.subscription.closed) {
+      this.subscription.unsubscribe();
     }
 
     if (this.overlayRef) {
@@ -282,7 +276,7 @@ export class DetailContentComponent
         !link.name.includes('Template') &&
         link.link.includes(this.gitgubUrl)
       ) {
-        return `<a name="${escapedText}" id="${link.id}" class="anchor" href="${href}">${text}</a>`;
+        return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
       }
 
       return `<a name="${escapedText}" id="${link.id}" class="anchor-link" href="${href}">${text}</a>`;
