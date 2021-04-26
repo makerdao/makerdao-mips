@@ -89,7 +89,15 @@ export class DetailContentComponent
     this.getDefaultLinks();
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    if (this.route.snapshot.fragment) {
+      const el = document.getElementById(
+        this.route.snapshot.fragment.toString()
+      );
+
+      this.moveToElement(el);
+    }
+  }
 
   setPreviewFeature() {
     let links = document.getElementsByClassName('linkPreview');
@@ -223,6 +231,7 @@ export class DetailContentComponent
       const el = document.getElementById(
         this.route.snapshot.fragment.toString()
       );
+
       this.moveToElement(el);
     }
 
@@ -231,7 +240,9 @@ export class DetailContentComponent
   }
 
   moveToElement(el: HTMLElement): void {
-    el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   overrideDefaultHeadings() {
