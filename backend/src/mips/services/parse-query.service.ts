@@ -10,7 +10,7 @@ export class ParseQueryService {
       lex: {
         rules: [
           ["\\s", "/* skip whitespace */"],
-          ["\\+", "/* skip whitespace */"],
+          ["\\$", "/* skip whitespace */"],
           [",", "return ',';"],
           ["AND", "return 'AND';"],
           ["OR", "return 'OR';"],
