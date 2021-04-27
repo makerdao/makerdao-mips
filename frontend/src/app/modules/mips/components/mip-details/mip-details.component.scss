@@ -9,14 +9,12 @@
   border-radius: 5px;
   padding: 30px 30px 10px;
   margin-bottom: 10px;
-  max-height: 330px;
-  overflow-y: auto;
 
   .title {
     font-size: 16px;
     color: #000000;
     font-weight: 500;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     margin: 0;
   }
   .label {
@@ -74,27 +72,6 @@
   margin-top: 10px;
 }
 
-/* scrollbar width */
-::-webkit-scrollbar {
-  width: 2px;
-}
-
-/* scrollbar track */
-::-webkit-scrollbar-track {
-  background: #EBEDF4;
-}
-
-/* scrollbar handle */
-::-webkit-scrollbar-thumb {
-  background: #B8C5D3;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #748AA1;
-}
-
-
 @media screen and (max-width: 768px) {
   .container {
     padding: 20px 20px 15px;
@@ -103,7 +80,7 @@
     max-height: fit-content;
 
     .title {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       margin-top: 0px;
     }
   }

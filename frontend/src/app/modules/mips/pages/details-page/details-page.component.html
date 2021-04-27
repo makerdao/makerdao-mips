@@ -12,23 +12,25 @@
     <app-proposal-components class="no-mobile" [sourceData]="sections"></app-proposal-components>
     <app-detail-content [mip]="mip" [subproposals]="subproposals"></app-detail-content>
     <div class="column">
-      <app-mip-details
-      id="details-component"
-      [status]="mip.status"
-      [dateProposed]="mip.dateProposed"
-      [dateRatified]="mip.dateRatified"
-      [mipName]="mip.mipName"
-      [title]="mip.title"
-      [authors]="mip.author"
-      [contributors]="mip.contributors"
-      [type]="mip.types"
-      [lastOpened]=""
-      [dependencies]="mip.dependencies"
-      [replaces]="mip.replaces"
-      [pollAddress]="mip.pollAddress"
-      ></app-mip-details>
-      <app-references [references]="mip.references" [mipName]="mip.mipName"></app-references>
-      <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
+      <div class="sidebar-wrapper">
+        <app-mip-details
+          id="details-component"
+          [status]="mip.status"
+          [dateProposed]="mip.dateProposed"
+          [dateRatified]="mip.dateRatified"
+          [mipName]="mip.mipName"
+          [title]="mip.title"
+          [authors]="mip.author"
+          [contributors]="mip.contributors"
+          [type]="mip.types"
+          [lastOpened]=""
+          [dependencies]="mip.dependencies"
+          [replaces]="mip.replaces"
+          [pollAddress]="mip.pollAddress"
+          ></app-mip-details>
+        <app-references [references]="mip.references" [mipName]="mip.mipName"></app-references>
+        <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
+      </div>
     </div>
   </div>
 </div>

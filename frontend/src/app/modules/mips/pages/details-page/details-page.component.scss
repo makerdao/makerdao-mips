@@ -7,6 +7,11 @@
       width: 100%;
     }
     .column {
+      .sidebar-wrapper {
+        height: 98vh;
+        overflow-y: scroll;
+      }
+
       app-mip-details {
         display: block;
       }
@@ -28,6 +33,16 @@ app-mips-pagination {
   z-index: -5;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.sidebar-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.sidebar-wrapper {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
 @media screen and (max-width: 1023px) {
   .no-mobile {
@@ -44,6 +59,13 @@ app-mips-pagination {
     }
     .column {
       width: 100%;
+      height: auto;
+      overflow-y: unset;
+
+      .sidebar-wrapper {
+        height: auto !important;
+        overflow-y: unset !important;
+      }
     }
   }
 }
