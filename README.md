@@ -18,6 +18,8 @@
         * [findall endpoint, sort parameter](#findall-endpoint-sort-parameter)
         * [findall endpoint, limit parameter](#findall-endpoint-limit-parameter)
         * [findall endpoint, page parameter](#findall-endpoint-page-parameter)
+* [Menu](#menu)
+    * [Creating a menu](#creating-a-menu)
 # Introduction <a name="introduction"></a>
 This project (makerdao-mips) is a MIPs Tracker for MakerDAO Improvement Proposals. 
 
@@ -173,3 +175,35 @@ Filter field with various filter patterns. (contains, notcontains, equals, noteq
   
 ---
 
+## Menu <a name="menu"></a>
+Menu appears horizontally along of top page, and is formed through a config JSON file existing in MIPs repository. 
+Menu support second level menu items and can link to any valid URL.
+It is located at _frontend/src/assets/data/menu.json_
+
+### Creating a menu <a name="creating-a-menu"></a>
+#### Example:
+```json
+{
+  "data": [
+      {
+          "id": "item1",
+          "name": "Item 1",
+          "href": "URL1"          
+      },
+      {
+          "id": "item2",
+          "name": "Item 2",
+          "children": [
+              {
+                  "id": "subitem2",
+                  "name": "Sub Item 2",
+                  "href": "URL2"
+              }
+          ]
+      }
+  ]    
+}
+```
+#### Result in frontend
+![image](https://github.com/DSpotDevelopers/makerdao-mips/blob/readme-table-of-content/docs/img/menu001.png)
+![image](https://github.com/DSpotDevelopers/makerdao-mips/blob/readme-table-of-content/docs/img/menu002.png)
