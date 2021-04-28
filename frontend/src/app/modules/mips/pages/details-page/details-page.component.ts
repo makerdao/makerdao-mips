@@ -49,19 +49,25 @@ export class DetailsPageComponent implements OnInit {
         (i: any) => i.heading === 'Preamble'
       );
 
-      (this.sections as []).splice(indexPreambleSection, 1);
+      if (indexPreambleSection !== -1) {
+        (this.sections as []).splice(indexPreambleSection, 1);
+      }
 
       let indexPreambleHeading: number = (this.mip.sectionsRaw as []).findIndex(
         (i: any) => (i as string).includes('Preamble')
       );
 
-      (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete Preamble heading and its content
+      if (indexPreambleHeading !== -1) {
+        (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete Preamble heading and its content
+      }
 
       let indexReferencesSection: number = (this.sections as []).findIndex(
         (i: any) => i.heading === 'References'
       );
 
-      (this.sections as []).splice(indexReferencesSection, 1);
+      if (indexReferencesSection !== -1) {
+        (this.sections as []).splice(indexReferencesSection, 1);
+      }
 
       if (data.subproposals && data.subproposals.length > 0) {
         (this.sections as any[]).push({
@@ -74,8 +80,9 @@ export class DetailsPageComponent implements OnInit {
         (i: any) => (i as string).includes('References')
       );
 
-      this.referencesContent = this.mip.sectionsRaw[indexPreambleHeading + 1];
-      (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete References heading and its content
+      if (indexReferencesHeading !== -1) {
+        (this.mip.sectionsRaw as []).splice(indexReferencesHeading, 2);
+      }
 
       this.pullrequest = data.pullRequests;
       this.subproposals = data.subproposals;

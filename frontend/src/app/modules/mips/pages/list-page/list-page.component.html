@@ -25,6 +25,7 @@
       [listSearchItems]="listSearchMip"
       [error]="sintaxError"
       [errorMessage]="errorMessage"
+      [placeHolder]="'e.g $ AND(#process, #mip-set)'"
       (clickSearchItem)="onNavigateToMipDetails($event)">
     </app-search>
     <app-filter (send)="onSendFilters()"></app-filter>
