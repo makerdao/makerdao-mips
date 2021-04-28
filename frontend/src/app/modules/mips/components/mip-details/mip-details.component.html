@@ -14,8 +14,8 @@
       <p class="info">{{ title }}</p>
     </span>
   </div>
-  <hr *ngIf="authors"/>
-  <div *ngIf="authors" class="data-container">
+  <hr *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)"/>
+  <div *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" class="data-container">
     <span class="row">
       <p class="label">Author(s)</p>
       <p class="info"></p>
@@ -26,8 +26,8 @@
       <p class="info">{{ author }}</p>
     </span>
   </div>
-  <hr *ngIf="contributors"/>
-  <div *ngIf="contributors" class="data-container">
+  <hr *ngIf="contributors && contributors.length > 0 && !isEmptyWhenReduce(contributors)"/>
+  <div *ngIf="contributors && contributors.length > 0 && !isEmptyWhenReduce(contributors)" class="data-container">
     <span class="row">
       <p class="label">Contributors</p>
       <p class="info"></p>
@@ -89,8 +89,8 @@
       <p class="info">{{ lastOpened }}</p>
     </span>
   </div>
-  <hr *ngIf="dependencies"/>
-  <div *ngIf="dependencies" class="data-container">
+  <hr *ngIf="dependencies && dependencies.length > 0 && !isEmptyWhenReduce(dependencies)"/>
+  <div *ngIf="dependencies && dependencies.length > 0 && !isEmptyWhenReduce(dependencies)" class="data-container">
     <span class="row">
       <p class="label">Dependencies</p>
       <p class="info">{{ dependencies.join(', ') }}</p>
@@ -103,8 +103,8 @@
       <p class="info">{{ replaces }}</p>
     </span>
   </div>
-  <hr *ngIf="contributors"/>
-  <div *ngIf="contributors" class="data-container">
+  <hr *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)"/>
+  <div *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)" class="data-container">
     <span class="row">
       <p class="label">Tags</p>
       <p class="info"></p>

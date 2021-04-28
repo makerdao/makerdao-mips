@@ -81,10 +81,6 @@ export class MenuComponent implements OnInit, OnChanges {
     this.closeMenu();
   }
 
-  onClickedOutside(ev: MouseEvent) {
-    this.closeMenu();
-  }
-
   closeMenu() {
     this.toggle.next(false);
     this.clickedBackdrop.next(false);

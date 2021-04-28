@@ -76,4 +76,15 @@ export class MipDetailsComponent implements OnInit {
     // return data;
   }
 
+  isEmptyWhenReduce(array: string[]): boolean {
+    let str: string;
+    if (array && array.length > 0) {
+      str = array.reduce((c, t) => {
+        return (t as string).concat(c);
+      });
+    }
+
+    return !str ? true : false;
+  }
+
 }

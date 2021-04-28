@@ -8,7 +8,7 @@
       (keyup)="onKeySearch($event)"
       [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
       [value]="value"
-      [ngClass]="{error: error}"
+      [ngClass]="{ error: error }"
     />
     <div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
       <div class="ListSearch">
@@ -43,7 +43,7 @@
       />
     </a>
   </div>
-  <div *ngIf="error" class="invalid">{{errorMessage}}</div>
+  <div *ngIf="error" class="invalid">{{ errorMessage }}</div>
 </div>
 <ng-template
   cdkConnectedOverlay
@@ -55,6 +55,10 @@
   <div class="help-popup">
     <div class="head-help-popup">
       <span>You can use:</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>$</b></span
+      ><span class="grey"><b>: </b><i>to start query sentence</i></span>
     </div>
     <div class="info-help-popup">
       <span class="dark"><b>OR</b></span
