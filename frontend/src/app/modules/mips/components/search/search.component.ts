@@ -99,4 +99,9 @@ export class SearchComponent implements OnInit {
   onClickSearchItem(element) {
     this.clickSearchItem.next(element);
   }
+
+  onClickOutside(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.isOpenHelpPopup = false;
+  }
 }

@@ -51,6 +51,7 @@
   [cdkConnectedOverlayOpen]="isOpenHelpPopup"
   [cdkConnectedOverlayPanelClass]="'panelClass'"
   [cdkConnectedOverlayPositions]="positionHelpPopup"
+  (overlayOutsideClick)="onClickOutside($event)"
 >
   <div class="help-popup">
     <div class="head-help-popup">
