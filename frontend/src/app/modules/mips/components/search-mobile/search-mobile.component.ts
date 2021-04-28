@@ -112,4 +112,9 @@ export class SearchMobileComponent implements OnInit {
     return this.showInput;
   }
 
+  onClickOutside(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.isOpenHelpPopup = false;
+  }
+
 }
