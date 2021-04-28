@@ -2,6 +2,7 @@
   class="logo"
   id="logo"
   [ngStyle]="{ backgroundColor: menuOpen ? 'white' : 'transparent' }"
+  (click)="onMenuToggle(false)"
 >
   <a (click)="clearFilterAndGoHome()" style="cursor: pointer;">
     <img class="no-mobile" src="../../../assets/images/logo_desktop.svg" />

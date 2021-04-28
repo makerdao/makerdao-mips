@@ -20,7 +20,7 @@
   >
     <img
       class="arrow"
-      [ngClass]="{ rotate: isOpen }"
+      [ngClass]="{ rotateUp: isOpen, rotateDown: !isOpen }"
       src="../../../../../assets/images/down.svg"
     />
   </div>
@@ -34,7 +34,6 @@
   (backdropClick)="onClickedBackdrop()"
   [cdkConnectedOverlayPanelClass]="'panelClass'"
   [cdkConnectedOverlayPositions]="position"
-  (overlayOutsideClick)="onClickedOutside($event)"
 >
   <div class="dropdown-content">
     <app-menu
