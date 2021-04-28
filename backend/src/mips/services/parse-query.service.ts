@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import {Parser} from "jison";
+import { Parser } from "jison";
 
 @Injectable()
-export class ParseQueryService {  
+export class ParseQueryService {
   parser: any;
 
   constructor() {
@@ -26,17 +26,27 @@ export class ParseQueryService {
       ],
       bnf: {
         program: [["e", "return $1"]],
+        LIST: [
+          ["e", "$$ = [$1]"],
+          ["e , LIST", "$$ = $3; $3.push($1)"],
+        ],
         e: [
-          ["OR ( e , e )", "$$ = { type: 'OPERATION', left: $3, op: $1, right: $5 }"],
-          ["AND ( e , e )", "$$ = { type: 'OPERATION', left: $3, op: $1, right: $5 }"],
+          [
+            "OR ( LIST )",
+            "$$ = { type: 'OPERATION', op: $1, left: $3 }",
+          ],
+          [
+            "AND ( LIST )",
+            "$$ = { type: 'OPERATION', op: $1, left: $3 }",
+          ],
           ["NOT ( LITERAL )", "$$ = { type: 'OPERATION', left: $3, op: $1 }"],
           ["LITERAL", "$$ = { type: 'LITERAL', name: $1 };"],
-        ],
+        ]        
       },
     });
   }
 
   async parse(query: string): Promise<any> {
-    return this.parser.parse(query);    
+    return this.parser.parse(query);      
   }
 }
