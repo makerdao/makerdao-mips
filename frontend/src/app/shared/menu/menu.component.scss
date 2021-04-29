@@ -85,7 +85,7 @@
       font-family: Roboto;
       font-style: normal;
       font-weight: 500;
-      font-size: 12px;
+      font-size: 10px;
       line-height: 14px;
       color: #748aa1;
       transition: all 0.2s;
@@ -180,6 +180,14 @@
 
       &.firstLevelActive {
         padding: 10px 0px 10px 40px;
+      }
+
+      &.subMenu {
+        font-size: 12px;
+      }
+
+      &.subMenuActive {
+        font-size: 12px;
       }
     }
   }
