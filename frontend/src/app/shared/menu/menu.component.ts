@@ -1,6 +1,7 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
+import { MenuService } from 'src/app/services/menu/menu.service';
 import Menu from '../../data-types/menu';
 
 @Component({
@@ -20,7 +21,7 @@ export class MenuComponent implements OnInit, OnChanges {
   @Input() index: number;
   @Output() toggle: Subject<any> = new Subject<any>();
 
-  constructor() {}
+  constructor(private menuService: MenuService) {}
 
   ngOnInit(): void {
     this.initPosition();
@@ -90,6 +91,11 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   onClick(ev: Event) {
+    // console.log('getClientRects', (ev.target as HTMLElement).getClientRects());
+    this.menuService.setposXClicked(
+      (ev.target as HTMLElement).getClientRects()[0].left
+    );
+
     ev.stopPropagation();
     this.toggle.next(!this.isOpen);
 
@@ -110,8 +116,10 @@ export class MenuComponent implements OnInit, OnChanges {
         window.location.href = this.menu.href;
       }
     } else {
-      this.isOpen = true;
-      this.opened.next();
+      setTimeout(() => {
+        this.isOpen = true;
+        this.opened.next();
+      }, this.menuService.transitionTime * 1000 + 50);
     }
   }
 

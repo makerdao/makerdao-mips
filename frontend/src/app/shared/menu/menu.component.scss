@@ -35,6 +35,7 @@
 
       .arrow {
         position: absolute;
+        left: 0;
       }
 
       .rotateUp {
@@ -62,10 +63,7 @@
       align-items: center;
       box-sizing: border-box;
       transition: all 0.2s;
-
-      // &:hover {
-      //   color: #31394D;
-      // }
+      padding: 10px 0px 10px 28px;
     }
 
     &.firstLevelActive {
@@ -76,6 +74,16 @@
       font-weight: bold;
       transition: all 0.2s;
       color: #31394d;
+      padding: 10px 0px 10px 28px;
+    }
+
+    &.noFirstLevel {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      transition: all 0.2s;
+      padding: 10px 40px;
     }
 
     &.subMenu {
@@ -105,11 +113,33 @@
 }
 
 .dropdown-content {
-  width: max-content;
+  width: calc(50vw - 0.2px);
   height: auto;
   background-color: white;
   display: flex;
   flex-direction: column;
+  // padding: 5px 0;
+  animation: fadeInMenu 0.3s;
+
+  .verticalLine {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: #B8C5D3;
+    right: 0;
+    height: calc(100% - 20px);
+    top: 10px;
+  }
+}
+
+.dropdown-content-first-level {
+  width: calc(50vw - 0.2px);
+  height: auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
   // padding: 5px 0;
   animation: fadeInMenu 0.3s;
 
@@ -139,5 +169,64 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  :host {
+    a {
+      &.firstLevel {
+        padding: 10px 0px 10px 40px;
+      }
+
+      &.noFirstLevel {
+        padding: 10px 40px;
+      }
+
+      &.firstLevelActive {
+        padding: 10px 0px 10px 40px;
+      }
+    }
+  }
+
+  .dropdown-content {
+    width: max-content;
+    height: auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    // padding: 5px 0;
+    animation: fadeInMenu 0.3s;
+
+    .verticalLine {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background-color: #B8C5D3;
+      right: 0;
+      height: calc(100% - 20px);
+      top: 10px;
+    }
+  }
+
+  .dropdown-content-first-level {
+    width: max-content;
+    height: auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    position: initial;
+    // padding: 5px 0;
+    animation: fadeInMenu 0.3s;
+
+    .verticalLine {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background-color: #B8C5D3;
+      right: 0;
+      height: calc(100% - 20px);
+      top: 10px;
+    }
   }
 }

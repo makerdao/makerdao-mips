@@ -7,11 +7,11 @@
   class="dropdown"
   [ngClass]="{
     firstLevel: levelMenu === 0 && !isOpen,
+    noFirstLevel: levelMenu !== 0 && !isOpen,
     firstLevelActive: levelMenu === 0 && isOpen,
     subMenu: levelMenu !== 0 && !isOpen,
     subMenuActive: levelMenu !== 0 && isOpen
   }"
-  [ngStyle]="{ padding: levelMenu === 0 ? '10px 0px 10px 40px' : '10px 40px' }"
 >
   {{ menu.name }}
   <div
@@ -35,7 +35,12 @@
   [cdkConnectedOverlayPanelClass]="'panelClass'"
   [cdkConnectedOverlayPositions]="position"
 >
-  <div class="dropdown-content">
+  <div
+    [ngClass]="{
+      'dropdown-content-first-level': levelMenu === 0,
+      'dropdown-content': levelMenu > 0
+    }"
+  >
     <app-menu
       *ngFor="let child of menu.children; let i = index"
       [menu]="child"
