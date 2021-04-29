@@ -150,7 +150,8 @@ export class MIPsService {
           ...query
         }]};
 
-        // console.log(JSON.stringify(source), "<==========");
+        // console.log(JSON.stringify(ast), "<==========");
+        // console.log(JSON.stringify(query), "<==========");
 
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
@@ -159,21 +160,6 @@ export class MIPsService {
     return source;
   }
 
-  // {
-  //   type: 'OPERATION',
-  //   left: {
-  //     type: 'OPERATION',
-  //     left: { type: 'LITERAL', name: '#proposal' },
-  //     op: 'NOT'
-  //   },
-  //   op: 'AND',
-  //   right: {
-  //     type: 'OPERATION',
-  //     left: { type: 'LITERAL', name: '#MIP' },
-  //     op: 'OR',
-  //     right: { type: 'LITERAL', name: '@RFC' }
-  //   }
-  // }
   buildSmartMongoDBQuery(ast: any): any {
     if (ast.type === "LITERAL" && ast.name.includes("#")) {
       return { tags: {$in: [ast.name.replace("#", "")] }};
@@ -181,17 +167,27 @@ export class MIPsService {
       return { status: { $regex: new RegExp(`${ast.name.replace("@", "")}`), $options: "i" } };
     } else {
       if (ast.type === "OPERATION" && ast.op === "OR") {
+        const request = [];
+
+        for (const item of ast.left) {
+          request.push(this.buildSmartMongoDBQuery(item));          
+        }
+
         return {
           $or: [
-            this.buildSmartMongoDBQuery(ast.left),
-            this.buildSmartMongoDBQuery(ast.right),
+            ...request
           ],
         };
       } else if (ast.type === "OPERATION" && ast.op === "AND") {
+        const request = [];
+
+        for (const item of ast.left) {
+          request.push(this.buildSmartMongoDBQuery(item));          
+        }
+
         return {
           $and: [
-            this.buildSmartMongoDBQuery(ast.left),
-            this.buildSmartMongoDBQuery(ast.right),
+            ...request
           ],
         };
       } else if (ast.type === "OPERATION" && ast.op === "NOT") {
