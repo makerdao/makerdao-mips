@@ -234,7 +234,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMips(): void {
-    this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter, 'title proposal mipName paragraphSummary sentenceSummary mip status')
+    this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter, 'title proposal filename mipName paragraphSummary sentenceSummary mip status')
     .subscribe(data => {
       this.mipsAux = data.items;
       this.mips = this.mips.concat(this.mipsAux);
@@ -269,7 +269,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMipsByName(limit, page, order, search, filter): void {
-    this.mipsService.searchMips(limit, page, order, search, filter, 'title proposal mipName paragraphSummary sentenceSummary mip status')
+    this.mipsService.searchMips(limit, page, order, search, filter, 'title proposal mipName filename paragraphSummary sentenceSummary mip status')
     .subscribe(data => {
       this.mipsByName = data.items;
 
