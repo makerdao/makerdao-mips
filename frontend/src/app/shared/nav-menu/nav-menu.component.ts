@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, HostBinding, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import Menu from '../../data-types/menu';
@@ -19,7 +19,7 @@ export class NavMenuComponent implements OnInit {
     this.menuService.getMenu().subscribe((data: any) => {
       this.menu = data.data;
     });
-    this.menuService.openedIndexChild$.subscribe(data => {
+    this.menuService.openedIndexChild$.subscribe((data) => {
       this.openedIndexChild = data;
     });
   }
@@ -31,5 +31,10 @@ export class NavMenuComponent implements OnInit {
   onOpened(index: number) {
     this.openedIndexChild = index;
     this.menuService.setOpenedIndexChild(index);
+  }
+
+  @HostBinding('class.activeChild')
+  get activeChild() {
+    return this.openedIndexChild !== -1;
   }
 }
