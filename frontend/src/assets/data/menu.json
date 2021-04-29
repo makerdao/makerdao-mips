@@ -123,7 +123,61 @@
     },
     {
       "id": "",
-      "name": "ColorsT",
+      "name": "Colors6",
+      "children": [
+        {
+          "id": "red",
+          "name": "Red testing",
+          "children": [
+            {
+              "id": "red1",
+              "name": "Red 1",
+              "href": "http://localhost:4200/mips/details/MIP2"
+            },
+            {
+              "id": "red2",
+              "name": "Red 2",
+              "href": ""
+            }
+          ]
+        },
+        {
+          "id": "blue",
+          "name": "Blue",
+          "href": "",
+          "children": [
+            {
+              "id": "blue",
+              "name": "Blue 1",
+              "href": ""
+            },
+            {
+              "id": "blue",
+              "name": "Blue 2",
+              "href": ""
+            },
+            {
+              "id": "blue",
+              "name": "Blue 3 Testing testing",
+              "href": ""
+            },
+            {
+              "id": "blue",
+              "name": "Blue 4",
+              "href": ""
+            },
+            {
+              "id": "blue",
+              "name": "Blue 5",
+              "href": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "name": "Colors7",
       "children": [
         {
           "id": "red",

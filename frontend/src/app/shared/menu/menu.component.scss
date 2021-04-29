@@ -5,11 +5,6 @@
   display: flex;
   align-items: center;
 
-  // &:hover {
-  //   background-color: whitesmoke;
-  //   transition: background-color 0.2s ease-in-out;
-  // }
-
   a {
     font-family: Roboto;
     font-style: normal;
@@ -125,7 +120,7 @@
     position: absolute;
     height: 100%;
     width: 1px;
-    background-color: #B8C5D3;
+    background-color: #b8c5d3;
     right: 0;
     height: calc(100% - 20px);
     top: 10px;
@@ -147,7 +142,7 @@
     position: absolute;
     height: 100%;
     width: 1px;
-    background-color: #B8C5D3;
+    background-color: #b8c5d3;
     right: 0;
     height: calc(100% - 20px);
     top: 10px;
@@ -202,7 +197,7 @@
       position: absolute;
       height: 100%;
       width: 1px;
-      background-color: #B8C5D3;
+      background-color: #b8c5d3;
       right: 0;
       height: calc(100% - 20px);
       top: 10px;
@@ -223,7 +218,7 @@
       position: absolute;
       height: 100%;
       width: 1px;
-      background-color: #B8C5D3;
+      background-color: #b8c5d3;
       right: 0;
       height: calc(100% - 20px);
       top: 10px;

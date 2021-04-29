@@ -91,10 +91,11 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   onClick(ev: Event) {
-    // console.log('getClientRects', (ev.target as HTMLElement).getClientRects());
-    this.menuService.setposXClicked(
-      (ev.target as HTMLElement).getClientRects()[0].left
-    );
+    if (this.levelMenu === 0) {
+      this.menuService.setposXClicked(
+        (ev.target as HTMLElement).getClientRects()[0].left
+      );
+    }
 
     ev.stopPropagation();
     this.toggle.next(!this.isOpen);
@@ -116,10 +117,21 @@ export class MenuComponent implements OnInit, OnChanges {
         window.location.href = this.menu.href;
       }
     } else {
-      setTimeout(() => {
-        this.isOpen = true;
-        this.opened.next();
-      }, this.menuService.transitionTime * 1000 + 50);
+      if (this.menu.children && this.menu.children.length > 0) {
+        if (this.levelMenu > 0) {
+          this.open();
+        } else {
+          this.isOpen = !this.isOpen;
+
+          if (!this.isOpen) {
+            this.closeMenu();
+          }
+
+          this.opened.next();
+        }
+      } else {
+        window.location.href = this.menu.href;
+      }
     }
   }
 

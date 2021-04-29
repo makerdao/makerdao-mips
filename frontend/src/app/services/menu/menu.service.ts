@@ -7,9 +7,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class MenuService {
   url: string = 'assets/data/menu.json';
-  private openedIndexChild: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
-  public openedIndexChild$: Observable<number> = this.openedIndexChild.asObservable();
-  private posXClicked: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  private openedIndexChild: BehaviorSubject<number> = new BehaviorSubject<
+    number
+  >(-1);
+  public openedIndexChild$: Observable<
+    number
+  > = this.openedIndexChild.asObservable();
+  private posXClicked: BehaviorSubject<number> = new BehaviorSubject<number>(
+    null
+  );
   public posXClicked$: Observable<number> = this.posXClicked.asObservable();
   transitionTime: number = 0.3;
 
