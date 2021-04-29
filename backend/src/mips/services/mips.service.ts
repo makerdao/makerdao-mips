@@ -310,6 +310,7 @@ export class MIPsService {
     return await this.mipsDoc
       .find({ proposal: proposal })
       .select("title mipName")
+      .sort("mip subproposal")
       .exec();
   }
 
