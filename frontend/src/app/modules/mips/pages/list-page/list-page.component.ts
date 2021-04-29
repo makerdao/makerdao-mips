@@ -277,6 +277,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.listSearchMip = this.mipsByName.map(item => {
         return {
           content: item.mipName + " " + (item.title !== undefined ? item.title : ""),
+          mipName: item.mipName,
           id: item._id
         }
       });
@@ -307,7 +308,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     if (search.startsWith('mip')) {
       if (event.keyCode == 13 && this.listSearchMip.length > 0) {
-        this.goToMipDetails(this.listSearchMip[0].id);
+        this.goToMipDetails(this.listSearchMip[0].mipName);
       }
       let filter = {
         contains: [],
