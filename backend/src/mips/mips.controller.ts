@@ -22,14 +22,13 @@ import { PullRequestService } from "./services/pull-requests.service";
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
 
-
 @Controller("mips")
 export class MIPsController {
   constructor(
     private mipsService: MIPsService,
     private parseMIPsService: ParseMIPsService,
     private pullRequestService: PullRequestService,
-    private configService: ConfigService    
+    private configService: ConfigService
   ) {}
 
   @Get("findall")
@@ -48,6 +47,12 @@ export class MIPsController {
   @ApiQuery({
     name: "order",
     description: `'title -mip', means: order property title ASC and mip DESC`,
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
+    name: "select",
+    description: `Select files to get output`,
     type: String,
     required: false,
   })
@@ -80,6 +85,7 @@ export class MIPsController {
     @Query("limit") limit?: string,
     @Query("page") page?: string,
     @Query("order") order?: string,
+    @Query("select") select?: string,
     @Query("search") search?: string,
     @Query("filter") filter?: Filters
   ) {
@@ -89,16 +95,15 @@ export class MIPsController {
         page: +page,
       };
 
-      const items = await this.mipsService.findAll(
+      return await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
-        filter
+        filter,
+        select
       );
-      const total = await this.mipsService.count(search, filter);
-      return { items, total };
+      
     } catch (error) {
-      console.log(error);
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
@@ -109,33 +114,110 @@ export class MIPsController {
     }
   }
 
-  @Get("findone/:id")
-  async findOne(@Param("id") id: string) {
-    if (!this.mipsService.isValidObjectId(id)) {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: `Invalid decoding ID ${id}`,
-        },
-        HttpStatus.BAD_REQUEST
-      );
-    }
-    const mips = await this.mipsService.findOne(id);    
+  @Get("findone")
+  @ApiQuery({
+    type: String,
+    name: "mipName",
+    required: true
+  })
+  async findOneByMipName(
+    @Query("mipName") mipName?: string
+  ) {
 
-    if (!mips) {
-      throw new NotFoundException(`MIPs with ${id} not found`);
+    const mip = await this.mipsService.findOneByMipName(mipName);
+
+    if (!mip) {
+      throw new NotFoundException(`MIPs with name ${mipName} not found`);
+    }
+
+    let subproposals = [];
+
+    if (!mip.proposal) {
+      subproposals = await this.mipsService.findOneByProposal(mip.mipName);
     }
 
     try {
-      const data =  await Promise.all([
-        this.pullRequestService.aggregate(mips.filename),
-        this.parseMIPsService.parseSections(mips.file)
-      ]);
-      return { mips, pullRequests: data[0], sections: data[1] }
-  
+      const pullRequests = await this.pullRequestService.aggregate(
+        mip.filename
+      );
+      return { mip, pullRequests, subproposals };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
+  }
+
+  @Get("smart-search")
+  @ApiQuery({
+    type: String,
+    name: "field",
+    required: true
+  })
+  @ApiQuery({
+    type: String,
+    name: "value",
+    required: true
+  })
+  async smartSearch(
+    @Query("field") field: string,
+    @Query("value") value: string,
+  ) {
+    try {
+      return await this.mipsService.smartSearch(field, value);      
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );      
+    }
+    
+  }
+
+  @Get("findone-by")
+  @ApiQuery({
+    type: String,
+    name: "field",
+    required: true
+  })
+  @ApiQuery({
+    type: String,
+    name: "value",
+    required: true
+  })
+  async findOneByFilename(
+    @Query("field") field: string,
+    @Query("value") value: string,
+  ) {
+
+    let mip;
+
+    switch (field) {
+      case 'filename':
+        mip = await this.mipsService.findOneByFileName(value);
+        if (!mip) {
+          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+        }
+        return mip;
+
+      case 'mipName':
+        mip = await this.mipsService.getSummaryByMipName(value);
+
+        if (!mip) {
+          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+        }
+        return mip;
+    
+      default:
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: `Field ${field} not found`,
+          },
+          HttpStatus.BAD_REQUEST
+        );    
+    }    
   }
 
   @Post("callback")

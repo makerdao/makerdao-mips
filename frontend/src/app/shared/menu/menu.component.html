@@ -1,0 +1,65 @@
+<a
+  (click)="onClick($event)"
+  (mouseover)="open()"
+  type="button"
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  class="dropdown"
+  [ngClass]="{
+    firstLevel: levelMenu === 0 && !isOpen,
+    noFirstLevel: levelMenu !== 0 && !isOpen,
+    firstLevelActive: levelMenu === 0 && isOpen,
+    subMenu: levelMenu !== 0 && !isOpen,
+    subMenuActive: levelMenu !== 0 && isOpen
+  }"
+>
+  {{ menu.name }}
+  <div
+    *ngIf="menu.children && menu.children.length > 0 && levelMenu === 0"
+    class="arrowContainer"
+  >
+    <img
+      class="arrow"
+      [ngClass]="{ rotateUp: isOpen, rotateDown: !isOpen }"
+      src="../../../../../assets/images/down.svg"
+    />
+  </div>
+</a>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen"
+  [cdkConnectedOverlayHasBackdrop]="levelMenu === 0 ? true : false"
+  (backdropClick)="onClickedBackdrop()"
+  [cdkConnectedOverlayPanelClass]="'panelClass'"
+  [cdkConnectedOverlayPositions]="position"
+>
+  <div
+    [ngClass]="{
+      'dropdown-content-first-level': levelMenu === 0,
+      'dropdown-content': levelMenu > 0
+    }"
+  >
+    <app-menu
+      *ngFor="let child of menu.children; let i = index"
+      [menu]="child"
+      (clickedBackdrop)="closeMenu()"
+      [levelMenu]="levelMenu + 1"
+      (opened)="onOpened(i)"
+      [index]="i"
+      [openedIndex]="openedIndexChild"
+      [isOpen]="openedIndexChild === i"
+    ></app-menu>
+    <div
+      *ngIf="
+        openedIndexChild !== -1 &&
+        menu.children &&
+        menu.children[openedIndexChild] &&
+        menu.children[openedIndexChild].children &&
+        menu.children[openedIndexChild].children.length > 0
+      "
+      class="verticalLine"
+    ></div>
+  </div>
+</ng-template>

@@ -1,0 +1,12 @@
+<div class="container">
+  <p class="title" style="margin-bottom: 10px;">References</p>
+  <div *ngFor="let reference of references">
+    <hr />
+    <div class="data-container">
+      <span class="row">
+        <a class="info" *ngIf="!reference.link.includes('https://')" [href]="gitHubUrl+'/'+mipName+'/'+reference.link">{{ reference.name }}</a>
+        <a class="info" *ngIf="reference.link.includes('https://')" [href]="reference.link">{{ reference.name }}</a>
+      </span>
+    </div>
+  </div>
+</div>

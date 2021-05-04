@@ -1,0 +1,31 @@
+.info {
+  font-size: 12px;
+  color: #31394D;
+  font-weight: bold;
+}
+
+.overflow-auto {
+  max-height: 90px;
+  overflow: auto;
+}
+
+/* scrollbar width */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+/* scrollbar track */
+::-webkit-scrollbar-track {
+  background: #EBEDF4;
+}
+
+/* scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background: #B8C5D3;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #748AA1;
+}

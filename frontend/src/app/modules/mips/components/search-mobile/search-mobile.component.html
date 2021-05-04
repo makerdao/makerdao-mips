@@ -4,8 +4,10 @@
     <img *ngIf="showInput"  src="../../../../../assets/images/magnifier_dark.svg"  />
   </div>
   <input *ngIf="showInput" type="text" #search placeholder="Search on the list" (keyup)="onKeySearch($event)" value="{{text}}"
-    [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}">
-  <div class="close-container" *ngIf="showInput" (click)="clear()">
+    [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}"
+    [ngClass]="{error: error}"
+    [value]="value">
+  <div class="close-container" *ngIf="showInput && !isQueryMode" (click)="clear()">
     <img src="../../../../../assets/images/close.svg" class="imageClose" />
   </div>
 </div>
@@ -17,3 +19,60 @@
     </div>
   </div>
 </div>
+<!-- <div *ngIf="!isQueryMode" class="close-container">
+  <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
+</div> -->
+<div
+  class="help-popup-wrapper"
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  (click)="openHelpPopup()"
+  [ngStyle]="{ visibility: isQueryMode ? 'visible' : 'hidden' }"
+>
+  <a class="help-container" type="button">
+    <img
+      [src]="isOpenHelpPopup ? helpIconBlue : helpIconDark"
+      class="imageHelp"
+    />
+  </a>
+</div>
+<div *ngIf="error && showInput" class="invalid">{{errorMessage}}</div>
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpenHelpPopup"
+  [cdkConnectedOverlayPanelClass]="'panelClass'"
+  [cdkConnectedOverlayPositions]="positionHelpPopup"
+  (overlayOutsideClick)="onClickOutside($event)"
+>
+  <div class="help-popup">
+    <div class="head-help-popup">
+      <span>You can use:</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>$</b></span
+      ><span class="grey"><b>: </b><i>to start query sentence</i></span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>OR</b></span
+      ><span class="grey"><b>: OR</b>(A, B, ...)</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>AND</b></span
+      ><span class="grey"><b>: AND</b>(A, B, ...)</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>NOT</b></span
+      ><span class="grey"><b>: NOT</b>(A)</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>#</b></span
+      ><span class="grey">: #tag</span>
+    </div>
+    <div class="info-help-popup">
+      <span class="dark"><b>@</b></span
+      ><span class="grey">: @STATUS</span>
+    </div>
+    <div class="hr"></div>
+  </div>
+</ng-template>

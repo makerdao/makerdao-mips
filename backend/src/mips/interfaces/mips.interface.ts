@@ -1,3 +1,5 @@
+import { Reference, Section } from "../entities/mips.entity";
+
 export interface IMIPs {
   id?: string;
   file?: string;
@@ -11,6 +13,7 @@ export interface IMIPs {
   preambleTitle?: string;
   author?: string[];
   contributors?: string[];
+  tags?: string[];
   status?: string;
   types?: string;
   dateProposed?: string;
@@ -19,6 +22,9 @@ export interface IMIPs {
   replaces?: string;
   sentenceSummary?: string;
   paragraphSummary?: string;
+  sections?: Section[];
+  sectionsRaw?: string[];
+  references?: Reference[];
 }
 
 export interface IGitFile {
@@ -49,6 +55,7 @@ export interface IPreamble {
   mipName?: string;
   author?: string[];
   contributors?: string[];
+  tags?: string[];
   status?: string;
   types?: string;
   dateProposed?: string;

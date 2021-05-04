@@ -13,7 +13,6 @@ export class MipsService {
   filter: FilterData;
   mipsData: any[];
   total = 1;
-  private _subproposalsMode: boolean = false;
 
   private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
@@ -28,8 +27,13 @@ export class MipsService {
     this.activateSearch.next(data);
   }
 
-  searchMips(limit: number, page: number, order: string, search: string, filter?: any): Observable<any> {
+  searchMips(limit: number, page: number, order: string, search: string, filter?: any, select?: string): Observable<any> {
     let params = new HttpParams({fromObject: {limit: limit.toString(), page: page.toString()}});
+
+    if (select !== undefined && select != null && select !== '') {
+      params = params.append('select', select);
+    }
+
     if (order !== undefined && order != null && order !== '') {
       params = params.append('order', order);
     }
@@ -65,8 +69,23 @@ export class MipsService {
     return this.http.get(`${environment.apiUrl}/mips/findall${urlFilter}`, {params} );
   }
 
-  getMip(id: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/mips/findone/${id}`);
+  getMip(name?: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/findone?mipName=${name}`);
+  }
+
+  getMipByFilename(filename?: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/findone-by?field=filename&value=${filename}`);
+  }
+
+  getMipBy(field: string, value: string): Observable<any> {
+    let params: HttpParams = new HttpParams({
+      fromObject: {
+        field: field,
+        value: value
+      }
+    });
+
+    return this.http.get(`${environment.apiUrl}/mips/findone-by`, {params: params});
   }
 
   sendFeedBack(subject: string, description: string): Observable<any> {
@@ -104,13 +123,4 @@ export class MipsService {
   setFilterArrayStatus(index: number, value: number) {
     this.filter.arrayStatus[index] = value;
   }
-
-  public get subproposalsMode() {
-    return this._subproposalsMode;
-  }
-
-  public set subproposalsMode(value: boolean) {
-    this._subproposalsMode = value;
-  }
-
 }

@@ -8,8 +8,11 @@
       (checked)="onCheckedSubproposalMode($event)"
     ></app-md-checkbox-mobile>
     <app-search-mobile class="mobile" (send)="onSendSearch($event)" (open)="onOpenMobileSearch($event)"
+      [value]="search"
       [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip"
+      [error]="sintaxError"
+      [errorMessage]="errorMessage"
       (clickSearchItem)="onNavigateToMipDetails($event)">
     </app-search-mobile>
     <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)"></app-order-mobile>
@@ -18,7 +21,11 @@
       (checked)="onCheckedSubproposalMode($event)"
       [checkInput]="subproposalsMode"></app-md-checkbox>
     <app-search class="no-mobile" (send)="onSendSearch($event)" [showListSearch]="showListSearch"
+      [value]="search"
       [listSearchItems]="listSearchMip"
+      [error]="sintaxError"
+      [errorMessage]="errorMessage"
+      [placeHolder]="'e.g $ AND(#process, #mip-set)'"
       (clickSearchItem)="onNavigateToMipDetails($event)">
     </app-search>
     <app-filter (send)="onSendFilters()"></app-filter>

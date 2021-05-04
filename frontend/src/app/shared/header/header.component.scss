@@ -1,11 +1,33 @@
 .logo {
-  margin: 45px 0;
-  cursor: pointer;
-  display: inline-block;
+  margin: 0 0 40px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 86px;
+  padding: 0 60px;
+  background-color: transparent;
+  position: relative;
+  z-index: 9999;
+  transition: background-color 0.2s;
+
+  .menu-wrapper {
+    height: 100%;
+    scroll-behavior: smooth;
+  }
+
   img {
     margin-right: 14px;
     width: auto;
   }
+}
+
+.logoBackgroundColor {
+  background-color: white;
+}
+
+.logoBackgroundTransparent {
+  background-color: transparent;
 }
 
 .mobile {
@@ -21,15 +43,50 @@
   .mobile {
     display: inherit;
   }
-  .no-mobile{
+  .no-mobile {
     display: none;
+  }
+
+  .logoBackgroundColor {
+    background-color: #f5f6fa;
+  }
+
+  .logoBackgroundTransparent {
+    background-color: transparent;
   }
 }
 
 @media screen and (max-width: 1024px) {
   .logo {
     text-align: center;
-    margin: 0 0 36px 0;
+    margin: 0 0 29px 0;
     display: block;
+    height: auto;
+    padding: 0;
+    margin-top: 0;
+    padding-top: 19px;
+
+    .menu-wrapper {
+      width: 100vw;
+      overflow-x: auto;
+      height: 100%;
+
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      & {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .logo {
+    padding: 0 210px;
   }
 }

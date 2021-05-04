@@ -12,6 +12,7 @@ import { GithubService } from "./services/github.service";
 import { PullRequest, PullRequestSchema } from "./entities/pull-request.entity";
 import { PullRequestService } from "./services/pull-requests.service";
 import { ParseMIPsCommand } from "./mips.command";
+import { ParseQueryService } from "./services/parse-query.service";
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ParseMIPsCommand } from "./mips.command";
     MIPsService,
     SimpleGitService,
     ParseMIPsService,
+    ParseQueryService,
     SimpleGitService,
     MarkedService,
     GithubService,

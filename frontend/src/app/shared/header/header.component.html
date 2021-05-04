@@ -1,6 +1,20 @@
-<div class="logo" id="logo" (click)="clearFilterAndGoHome()">
-  <a>
+<div
+  class="logo"
+  id="logo"
+  [ngClass]="{
+    logoBackgroundColor: menuOpen,
+    logoBackgroundTransparent: !menuOpen
+  }"
+  (click)="onMenuToggle(false)"
+>
+  <a (click)="clearFilterAndGoHome()" style="cursor: pointer;">
     <img class="no-mobile" src="../../../assets/images/logo_desktop.svg" />
     <img class="mobile" src="../../../assets/images/logo_mobile.svg" />
   </a>
+  <div class="menu-wrapper" #navMenu>
+    <app-nav-menu
+      (menuOpen)="onMenuToggle($event)"
+      [ngStyle]="{ transition: transitionStyle }"
+    ></app-nav-menu>
+  </div>
 </div>

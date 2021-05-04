@@ -1,0 +1,62 @@
+.title {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+  color: #000000;
+  margin: 40px 0 30px;
+  position: relative;
+
+  &:hover {
+    a.anchor {
+      i {
+        visibility: visible;
+      }
+    }
+  }
+
+  a.anchor {
+    color: black;
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+
+    i {
+      visibility: hidden;
+    }
+
+    &:hover {
+      i {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.link {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  color: #2f80ed;
+  display: block;
+  margin-top: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  img {
+    margin-right: 9px;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

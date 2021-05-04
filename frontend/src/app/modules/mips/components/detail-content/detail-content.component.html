@@ -13,8 +13,24 @@
   </div>
   <div class="mobile title margin-2"> {{mip.title}}</div>
   <hr>
-  <markdown class="variable-binding" [data]="mip.file" (ready)="onReady()"></markdown>
+  <markdown class="variable-binding" [data]="content" (ready)="onReady()"></markdown>
+  <app-subproposals *ngIf="subproposals && subproposals.length > 0" [subproposals]="subproposals"></app-subproposals>
 </div>
 
-
-
+<ng-template #preview let-data>
+  <section
+    class="preview"
+    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp }"
+    #previewRef
+  >
+    <div>{{ data.sentenceSummary }}</div>
+    <div
+      [ngClass]="{
+        triangleUp: triangleUp,
+        triangleDown: !triangleUp,
+        left: triangleLeft,
+        right: !triangleLeft
+      }"
+    ></div>
+  </section>
+</ng-template>

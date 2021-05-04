@@ -1,0 +1,10 @@
+<div class="NavMenu">
+  <app-menu
+    *ngFor="let item of menu; let i = index"
+    [menu]="item"
+    [levelMenu]="0"
+    (toggle)="onMenuToggle($event)"
+    [isOpen]="openedIndexChild === i"
+    (opened)="onOpened(i)"
+  ></app-menu>
+</div>

@@ -3,6 +3,22 @@ import { Document } from "mongoose";
 
 export type MIPsDoc = MIP & Document;
 
+export class Section {
+  @Prop()
+  heading: string;
+
+  @Prop()
+  depth: string;
+}
+
+export class Reference {
+  @Prop()
+  name: string;
+
+  @Prop()
+  link: string;
+}
+
 @Schema()
 export class MIP {
   @Prop()
@@ -21,7 +37,10 @@ export class MIP {
   @Prop()
   mipName?: string;
 
-  @Prop()
+  @Prop({
+    default: -1,
+    type: Number,
+  })
   subproposal?: number;
 
   @Prop({
@@ -43,6 +62,12 @@ export class MIP {
     type: [String],
   })
   contributors?: string[];
+
+  @Prop({
+    type: [String],
+  })
+  tags?: string[];
+  
   @Prop()
   status?: string;
   @Prop()
@@ -62,6 +87,21 @@ export class MIP {
   sentenceSummary?: string;
   @Prop()
   paragraphSummary?: string;
+
+  @Prop({
+    type: [Object]
+  })
+  sections?: Section[];
+
+  @Prop({
+    type: [String]
+  })
+  sectionsRaw?: string[];
+
+  @Prop({
+    type: [Object]
+  })
+  references?: Reference[];
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

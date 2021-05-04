@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 
 @Component({
@@ -12,20 +12,23 @@ export class DetailsPageComponent implements OnInit {
   mip: any;
   sections: any;
   pullrequest: any;
-  mipId: string;
+  mipName: string;
   mipPosition: number;
   total: number;
   MAX_LIMIT: number = 1000000;
+  subproposals: any[];
+  referencesContent: string[];
 
   constructor(
     private mipsService: MipsService,
-    private activedRoute: ActivatedRoute
+    private activedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.activedRoute.paramMap.subscribe(paramMap => {
-      if (paramMap.has('id')) {
-        this.mipId = paramMap.get('id');
+      if (paramMap.has('name')) {
+        this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
         this.loadData();
         this.mipsService.updateActiveSearch(true);
@@ -35,13 +38,54 @@ export class DetailsPageComponent implements OnInit {
   }
 
   loadData(): void {
-    this.mipsService.getMip(this.mipId)
+    this.mipsService.getMip(this.mipName)
     .subscribe(data => {
-      this.mip = data.mips;
+      this.mip = data.mip;
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
-      this.sections = data.sections;
+      this.sections = this.mip.sections;
+
+      let indexPreambleSection: number = (this.sections as []).findIndex(
+        (i: any) => i.heading === 'Preamble'
+      );
+
+      if (indexPreambleSection !== -1) {
+        (this.sections as []).splice(indexPreambleSection, 1);
+      }
+
+      let indexPreambleHeading: number = (this.mip.sectionsRaw as []).findIndex(
+        (i: any) => (i as string).includes('Preamble')
+      );
+
+      if (indexPreambleHeading !== -1) {
+        (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete Preamble heading and its content
+      }
+
+      let indexReferencesSection: number = (this.sections as []).findIndex(
+        (i: any) => i.heading === 'References'
+      );
+
+      if (indexReferencesSection !== -1) {
+        (this.sections as []).splice(indexReferencesSection, 1);
+      }
+
+      if (data.subproposals && data.subproposals.length > 0) {
+        (this.sections as any[]).push({
+          depth: 2,
+          heading: "Subproposals"
+        });
+      }
+
+      let indexReferencesHeading: number = (this.mip.sectionsRaw as []).findIndex(
+        (i: any) => (i as string).includes('References')
+      );
+
+      if (indexReferencesHeading !== -1) {
+        (this.mip.sectionsRaw as []).splice(indexReferencesHeading, 2);
+      }
+
       this.pullrequest = data.pullRequests;
+      this.subproposals = data.subproposals;
 
       if (this.mipsService.getMipsData() === undefined) {
         this.getMips();
@@ -50,14 +94,15 @@ export class DetailsPageComponent implements OnInit {
     const data = this.mipsService.getMipsData();
 
     if (data !== undefined) {
-      this.mipPosition = data.findIndex(item => item._id === this.mipId);
+      this.mipPosition = data.findIndex(item => item.mipName === this.mipName);
     }
   }
 
   mipsPagination(position: number): void {
     const data = this.mipsService.getMipsData();
-    this.mipId = data[position]._id;
-    this.loadData();
+    this.mipName = data[position].mipName;
+
+    this.router.navigate(['/mips/details', this.mipName]);
   }
 
   moveToElement(): void {
@@ -87,13 +132,13 @@ export class DetailsPageComponent implements OnInit {
   }
 
   searchMips(limit, page, order, search, filter): void {
-    this.mipsService.searchMips(limit, page, order, search, filter)
+    this.mipsService.searchMips(limit, page, order, search, filter, "mipName")
     .subscribe(data => {
       this.mipsService.setMipsData(data.items);
       this.total = data.total;
       this.mipsService.setTotal(this.total);
       const mips = this.mipsService.getMipsData();
-      this.mipPosition = mips.findIndex(item => item._id === this.mipId);
+      this.mipPosition = mips.findIndex(item => item.mipName === this.mipName);
     });
   }
 

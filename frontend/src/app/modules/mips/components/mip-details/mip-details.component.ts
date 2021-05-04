@@ -10,6 +10,16 @@ export class MipDetailsComponent implements OnInit {
   @Input() status: string;
   @Input() dateProposed: string;
   @Input() dateRatified: string;
+  @Input() mipName: string;
+  @Input() title: string;
+  @Input() authors: string[];
+  @Input() contributors: string[];
+  @Input() type: string;
+  @Input() lastOpened: string;
+  @Input() dependencies: string[];
+  @Input() replaces: string;
+  @Input() pollAddress: string;
+  @Input() tags: string[];
 
   constructor() { }
 
@@ -64,6 +74,17 @@ export class MipDetailsComponent implements OnInit {
     }
 
     // return data;
+  }
+
+  isEmptyWhenReduce(array: string[]): boolean {
+    let str: string;
+    if (array && array.length > 0) {
+      str = array.reduce((c, t) => {
+        return (t as string).concat(c);
+      });
+    }
+
+    return !str ? true : false;
   }
 
 }

@@ -1,0 +1,235 @@
+:host {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  a {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #748aa1;
+    padding: 10px 40px;
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    transition: all 0.2s;
+    gap: 8px;
+
+    .arrowContainer {
+      position: relative;
+      height: 5px;
+      width: 7px;
+      transition: transform 0.2s;
+
+      .arrow {
+        position: absolute;
+        left: 0;
+      }
+
+      .rotateUp {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+        transition: transform 0.2s;
+      }
+
+      .rotateDown {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+        transition: transform 0.2s;
+      }
+    }
+
+    &.firstLevel {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      transition: all 0.2s;
+      padding: 10px 0px 10px 28px;
+    }
+
+    &.firstLevelActive {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      font-weight: bold;
+      transition: all 0.2s;
+      color: #31394d;
+      padding: 10px 0px 10px 28px;
+    }
+
+    &.noFirstLevel {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      transition: all 0.2s;
+      padding: 10px 40px;
+    }
+
+    &.subMenu {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 10px;
+      line-height: 14px;
+      color: #748aa1;
+      transition: all 0.2s;
+    }
+
+    &.subMenuActive {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 14px;
+      color: #31394d;
+      transition: all 0.2s;
+    }
+
+    &:hover {
+      color: #31394d;
+    }
+  }
+}
+
+.dropdown-content {
+  width: calc(50vw - 0.2px);
+  height: auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  // padding: 5px 0;
+  animation: fadeInMenu 0.3s;
+
+  .verticalLine {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: #b8c5d3;
+    right: 0;
+    height: calc(100% - 20px);
+    top: 10px;
+  }
+}
+
+.dropdown-content-first-level {
+  width: calc(50vw - 0.2px);
+  height: auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  // padding: 5px 0;
+  animation: fadeInMenu 0.3s;
+
+  .verticalLine {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: #b8c5d3;
+    right: 0;
+    height: calc(100% - 20px);
+    top: 10px;
+  }
+}
+
+.backdrop {
+  opacity: 0.5;
+}
+
+.panelClass {
+  transition: all 0.4s ease-in-out;
+  height: auto;
+}
+
+@keyframes fadeInMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  :host {
+    a {
+      &.firstLevel {
+        padding: 10px 0px 10px 40px;
+      }
+
+      &.noFirstLevel {
+        padding: 10px 40px;
+      }
+
+      &.firstLevelActive {
+        padding: 10px 0px 10px 40px;
+      }
+
+      &.subMenu {
+        font-size: 12px;
+      }
+
+      &.subMenuActive {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .dropdown-content {
+    width: max-content;
+    height: auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    // padding: 5px 0;
+    animation: fadeInMenu 0.3s;
+
+    .verticalLine {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background-color: #b8c5d3;
+      right: 0;
+      height: calc(100% - 20px);
+      top: 10px;
+    }
+  }
+
+  .dropdown-content-first-level {
+    width: max-content;
+    height: auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    position: initial;
+    // padding: 5px 0;
+    animation: fadeInMenu 0.3s;
+
+    .verticalLine {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background-color: #b8c5d3;
+      right: 0;
+      height: calc(100% - 20px);
+      top: 10px;
+    }
+  }
+}

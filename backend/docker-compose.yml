@@ -1,13 +1,16 @@
 version: "3.3"
 
 volumes: 
-  mongodb:
+  mongo:
 
 services:
   mongodb:
-    image: mongo:4.2.1-bionic
+    image: mongo:4.4.4-bionic
     volumes:
-      - mongodb:/var/lib/mongodb
+      - mongo:/var/lib/mongo
     ports:
-      - 27017:27017
-    restart: always  
+      - 27018:27017
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    restart: always
