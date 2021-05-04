@@ -35,6 +35,8 @@ import { SubproposalsComponent } from './components/subproposals/subproposals.co
 import {OverlayModule} from '@angular/cdk/overlay';
 import { SideContentComponent } from './components/side-content/side-content.component';
 import { ReferencesComponent } from './components/references/references.component';
+import { OptionAutocompleteComponent } from './components/option-autocomplete/option-autocomplete.component';
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 
 
 
@@ -64,7 +66,9 @@ import { ReferencesComponent } from './components/references/references.componen
     MdCheckboxMobileComponent,
     SubproposalsComponent,
     SideContentComponent,
-    ReferencesComponent
+    ReferencesComponent,
+    OptionAutocompleteComponent,
+    AutocompleteComponent
   ],
   imports: [
     CommonModule,
