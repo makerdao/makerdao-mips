@@ -81,16 +81,11 @@ export class SearchComponent implements OnInit {
         this.isQueryMode = true;
         this.showClose = false;
 
-        // console.log('eee', event);
-
-
         if (event.keyCode == 13) {
           this.timeout = setTimeout(() => {
             this.send.emit(event);
           }, 1000);
         } else if (event.key === "@") {
-          // console.log('here');
-
           this.options = [
             { id: 1, label: 'ACCEPTED' },
             { id: 2, label: 'REJECTED' },
@@ -99,7 +94,6 @@ export class SearchComponent implements OnInit {
           ];
 
           this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
-          // console.log('indexCaretPositionStart', this.indexCaretPositionStart);
           this.isFilteringOption = true;
 
         } else if (event.key === "#") {
@@ -111,12 +105,10 @@ export class SearchComponent implements OnInit {
           ];
 
           this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
-          // console.log('indexCaretPositionStart', this.indexCaretPositionStart);
           this.isFilteringOption = true;
         } else {
           if (this.isFilteringOption) {
             this.indexCaretPositionEnd = (event.target as HTMLInputElement).selectionEnd;
-            // console.log('indexCaretPositionEnd', this.indexCaretPositionEnd);
           }
         }
       } else {

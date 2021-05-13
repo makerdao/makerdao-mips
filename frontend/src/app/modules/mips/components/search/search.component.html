@@ -87,7 +87,7 @@
   </div>
 </ng-template>
 
-<app-autocomplete #autocomplete="appAutocomplete">
+<app-autocomplete #autocomplete="appAutocomplete" [labels]="['@', '#']">
   <ng-template appAutocompleteContent>
     <app-option-autocomplete
       *ngFor="

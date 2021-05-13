@@ -1,8 +1,8 @@
 import {
-  AfterViewInit,
   Component,
   ContentChild,
   ContentChildren,
+  Input,
   OnInit,
   QueryList,
   TemplateRef,
@@ -19,7 +19,7 @@ import { AutocompleteContentDirective } from '../../directives/autocomplete-cont
   styleUrls: ['./autocomplete.component.scss'],
   exportAs: 'appAutocomplete',
 })
-export class AutocompleteComponent implements OnInit, AfterViewInit {
+export class AutocompleteComponent implements OnInit {
   @ViewChild('root') rootTemplate: TemplateRef<any>;
 
   @ContentChild(AutocompleteContentDirective)
@@ -29,24 +29,9 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
     OptionAutocompleteComponent
   >;
 
+  @Input() labels: string[] = [];
+
   ngOnInit() {}
-
-  ngAfterViewInit() {
-    console.log('rootTemplate', this.rootTemplate.elementRef.nativeElement);
-    fromEvent(this.rootTemplate.elementRef.nativeElement, 'load').subscribe(() => {
-      console.log('loaded');
-    });
-
-    (this.rootTemplate.elementRef.nativeElement as HTMLElement).onload = () => {
-      console.log('wwwwwwwww');
-
-    };
-
-    setTimeout(() => {
-      console.log('root', this.rootTemplate.elementRef);
-
-    }, 10000);
-  }
 
   optionsClick() {
     return this.options.changes.pipe(
