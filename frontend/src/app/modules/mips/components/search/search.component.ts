@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -35,12 +36,26 @@ export class SearchComponent implements OnInit {
   helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
   @Input() error: boolean = false;
   @Input() errorMessage: string = '';
+  options = [
+    { id: 1, label: 'One' },
+    { id: 2, label: 'Two' },
+    { id: 3, label: 'Three' }
+  ];
+  control = new FormControl();
+  showAutocompleteContent: boolean = false;
+  indexCaretPositionStart: number;
+  indexCaretPositionEnd: number;
+  isFilteringOption: boolean = false;
 
   constructor() {}
 
   ngOnInit(): void {
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
+
+    setTimeout(() => {
+      this.showAutocompleteContent = true;
+    }, 3000);
   }
 
   initPositionHelpPopup() {
@@ -66,10 +81,43 @@ export class SearchComponent implements OnInit {
         this.isQueryMode = true;
         this.showClose = false;
 
+        // console.log('eee', event);
+
+
         if (event.keyCode == 13) {
           this.timeout = setTimeout(() => {
             this.send.emit(event);
           }, 1000);
+        } else if (event.key === "@") {
+          // console.log('here');
+
+          this.options = [
+            { id: 1, label: 'ACCEPTED' },
+            { id: 2, label: 'REJECTED' },
+            { id: 3, label: 'RFC' },
+            { id: 3, label: 'ARCHIVE' }
+          ];
+
+          this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
+          // console.log('indexCaretPositionStart', this.indexCaretPositionStart);
+          this.isFilteringOption = true;
+
+        } else if (event.key === "#") {
+          this.options = [
+            { id: 1, label: 'process' },
+            { id: 2, label: 'tag2' },
+            { id: 3, label: 'tag3' },
+            { id: 3, label: 'tag4' }
+          ];
+
+          this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
+          // console.log('indexCaretPositionStart', this.indexCaretPositionStart);
+          this.isFilteringOption = true;
+        } else {
+          if (this.isFilteringOption) {
+            this.indexCaretPositionEnd = (event.target as HTMLInputElement).selectionEnd;
+            // console.log('indexCaretPositionEnd', this.indexCaretPositionEnd);
+          }
         }
       } else {
         this.isQueryMode = false;

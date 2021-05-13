@@ -37,8 +37,10 @@ import { SideContentComponent } from './components/side-content/side-content.com
 import { ReferencesComponent } from './components/references/references.component';
 import { OptionAutocompleteComponent } from './components/option-autocomplete/option-autocomplete.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
-
-
+import { AutocompleteContentDirective } from './directives/autocomplete-content.directive';
+import { AutocompleteDirective } from './directives/autocomplete.directive';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FilterPipe } from './pipes/filter.pipe';
 
 
 @NgModule({
@@ -68,7 +70,10 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     SideContentComponent,
     ReferencesComponent,
     OptionAutocompleteComponent,
-    AutocompleteComponent
+    AutocompleteComponent,
+    AutocompleteContentDirective,
+    AutocompleteDirective,
+    FilterPipe
   ],
   imports: [
     CommonModule,
@@ -82,7 +87,8 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),
-    OverlayModule
+    OverlayModule,
+    ReactiveFormsModule
   ]
 })
 export class MipsModule { }

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ContentChild,
   ContentChildren,
@@ -8,9 +9,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
-import { merge } from 'rxjs/index';
+import { fromEvent, merge } from 'rxjs/index';
 import { OptionAutocompleteComponent } from '../option-autocomplete/option-autocomplete.component';
-import { AutocompleteContentDirective } from 'src/app/directives/autocomplete-content.directive';
+import { AutocompleteContentDirective } from '../../directives/autocomplete-content.directive';
 
 @Component({
   selector: 'app-autocomplete',
@@ -18,7 +19,7 @@ import { AutocompleteContentDirective } from 'src/app/directives/autocomplete-co
   styleUrls: ['./autocomplete.component.scss'],
   exportAs: 'appAutocomplete',
 })
-export class AutocompleteComponent implements OnInit {
+export class AutocompleteComponent implements OnInit, AfterViewInit {
   @ViewChild('root') rootTemplate: TemplateRef<any>;
 
   @ContentChild(AutocompleteContentDirective)
@@ -29,6 +30,23 @@ export class AutocompleteComponent implements OnInit {
   >;
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    console.log('rootTemplate', this.rootTemplate.elementRef.nativeElement);
+    fromEvent(this.rootTemplate.elementRef.nativeElement, 'load').subscribe(() => {
+      console.log('loaded');
+    });
+
+    (this.rootTemplate.elementRef.nativeElement as HTMLElement).onload = () => {
+      console.log('wwwwwwwww');
+
+    };
+
+    setTimeout(() => {
+      console.log('root', this.rootTemplate.elementRef);
+
+    }, 10000);
+  }
 
   optionsClick() {
     return this.options.changes.pipe(

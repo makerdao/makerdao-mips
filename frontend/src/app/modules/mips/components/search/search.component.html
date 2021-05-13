@@ -9,6 +9,8 @@
       [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
       [value]="value"
       [ngClass]="{ error: error }"
+      [appAutocomplete]="autocomplete"
+      [formControl]="control"
     />
     <div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
       <div class="ListSearch">
@@ -84,3 +86,21 @@
     <div class="hr"></div>
   </div>
 </ng-template>
+
+<app-autocomplete #autocomplete="appAutocomplete">
+  <ng-template appAutocompleteContent>
+    <app-option-autocomplete
+      *ngFor="
+        let option of options
+          | filter
+            : control.value.slice(
+                indexCaretPositionStart,
+                indexCaretPositionEnd
+              )
+      "
+      [value]="option.label"
+    >
+      {{ option.label }}
+    </app-option-autocomplete>
+  </ng-template>
+</app-autocomplete>

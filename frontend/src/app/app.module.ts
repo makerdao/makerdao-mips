@@ -12,8 +12,6 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
 import { NavMenuComponent } from './shared/nav-menu/nav-menu.component';
 import { MenuComponent } from './shared/menu/menu.component';
 import {OverlayModule} from '@angular/cdk/overlay';
-import { AutocompleteContentDirective } from './directives/autocomplete-content.directive';
-import { AutocompleteDirective } from './directives/autocomplete.directive';
 
 
 @NgModule({
@@ -23,9 +21,7 @@ import { AutocompleteDirective } from './directives/autocomplete.directive';
     FooterComponent,
     ObserveVisibilityDirective,
     NavMenuComponent,
-    MenuComponent,
-    AutocompleteContentDirective,
-    AutocompleteDirective
+    MenuComponent
   ],
   imports: [
     BrowserModule,
