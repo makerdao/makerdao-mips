@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { environment as env } from '../../../../../environments/environment.prod';
+import { environment as env } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-references',

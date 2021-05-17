@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { environment } from '../../../../../environments/environment.prod';
+import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
