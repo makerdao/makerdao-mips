@@ -39,7 +39,7 @@ export class SearchComponent implements OnInit {
   options = [
     { id: 1, label: 'One' },
     { id: 2, label: 'Two' },
-    { id: 3, label: 'Three' }
+    { id: 3, label: 'Three' },
   ];
   control = new FormControl();
   showAutocompleteContent: boolean = false;
@@ -85,31 +85,8 @@ export class SearchComponent implements OnInit {
           this.timeout = setTimeout(() => {
             this.send.emit(event);
           }, 1000);
-        } else if (event.key === "@") {
-          this.options = [
-            { id: 1, label: 'ACCEPTED' },
-            { id: 2, label: 'REJECTED' },
-            { id: 3, label: 'RFC' },
-            { id: 3, label: 'ARCHIVE' }
-          ];
-
-          this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
-          this.isFilteringOption = true;
-
-        } else if (event.key === "#") {
-          this.options = [
-            { id: 1, label: 'process' },
-            { id: 2, label: 'tag2' },
-            { id: 3, label: 'tag3' },
-            { id: 3, label: 'tag4' }
-          ];
-
-          this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
-          this.isFilteringOption = true;
         } else {
-          if (this.isFilteringOption) {
-            this.indexCaretPositionEnd = (event.target as HTMLInputElement).selectionEnd;
-          }
+          this.searchAutocompleteOptions(event);
         }
       } else {
         this.isQueryMode = false;
@@ -143,5 +120,33 @@ export class SearchComponent implements OnInit {
   onClickOutside(ev: MouseEvent) {
     ev.stopPropagation();
     this.isOpenHelpPopup = false;
+  }
+
+  searchAutocompleteOptions(event: any): void {
+    if (event.key === '@') {
+      this.options = [
+        { id: 1, label: 'ACCEPTED' },
+        { id: 2, label: 'REJECTED' },
+        { id: 3, label: 'RFC' },
+        { id: 3, label: 'ARCHIVE' },
+      ];
+
+      this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
+      this.isFilteringOption = true;
+    } else if (event.key === '#') {
+      this.options = [
+        { id: 1, label: 'process' },
+        { id: 2, label: 'tag2' },
+        { id: 3, label: 'tag3' },
+        { id: 3, label: 'tag4' },
+      ];
+
+      this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
+      this.isFilteringOption = true;
+    } else {
+      if (this.isFilteringOption) {
+        this.indexCaretPositionEnd = (event.target as HTMLInputElement).selectionEnd;
+      }
+    }
   }
 }
