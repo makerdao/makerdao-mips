@@ -157,12 +157,12 @@
             {
               "id": "implemented",
               "name": "Implemented",
-              "href": "https://mips.makerdao.com/mips/list?&search=$AND(@accepted,%20%23pending-implementation)&subproposalsMode=false"
+              "href": "https://mips.makerdao.com/mips/list?&search=$AND(%23technical,%20NOT(%23pending-implementation))&subproposalsMode=false"
             },
             {
               "id": "pending",
               "name": "Pending Implementation",
-              "href": "https://mips.makerdao.com/mips/list?&search=$AND(%23technical,%20NOT(%23pending-implementation))&subproposalsMode=false"
+              "href": "https://mips.makerdao.com/mips/list?&search=$AND(@accepted,%20%23pending-implementation)&subproposalsMode=false"
             }
           ]
         }
