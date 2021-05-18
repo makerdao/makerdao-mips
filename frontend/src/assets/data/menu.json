@@ -9,7 +9,7 @@
             {
               "id": "portaldoc",
               "name": "The MIPs Portal",
-              "href": ""
+              "href": "https://mips.makerdao.com"
             },
             {
               "id": "mip0",
@@ -149,22 +149,22 @@
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "technical",
-      "name": "Technical MIPs",
-      "children": [
-        {
-          "id": "implemented",
-          "name": "Implemented Technical MIPs",
-          "href": "https://mips.makerdao.com/mips/list?&search=$AND(@accepted,%20%23pending-implementation)&subproposalsMode=false"
         },
         {
-          "id": "pending",
-          "name": "Uninplemented Technical MIPs Pending",
-          "href": "https://mips.makerdao.com/mips/list?&search=$AND(%23technical,%20NOT(%23pending-implementation))&subproposalsMode=false"
+          "id": "technical",
+          "name": "Technical MIPs",
+          "children": [
+            {
+              "id": "implemented",
+              "name": "Implemented",
+              "href": "https://mips.makerdao.com/mips/list?&search=$AND(@accepted,%20%23pending-implementation)&subproposalsMode=false"
+            },
+            {
+              "id": "pending",
+              "name": "Pending Implementation",
+              "href": "https://mips.makerdao.com/mips/list?&search=$AND(%23technical,%20NOT(%23pending-implementation))&subproposalsMode=false"
+            }
+          ]
         }
       ]
     },
