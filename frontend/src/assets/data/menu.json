@@ -1,32 +1,30 @@
 {
   "data": [
     {
-      "Learn MIPs": [
+      "id": "learn",
+      "name": "Learn MIPs",
+      "children": [
         {
-          "id": "learn",
-          "name": "Learn MIPs",
-          "children": [
-            {
-              "id": "portaldoc",
-              "name": "The MIPs Portal",
-              "href": "https://mips.makerdao.com"
-            },
-            {
-              "id": "mip0",
-              "name": "The MIPs Framework",
-              "href": "https://mips.makerdao.com/mips/details/MIP0"
-            },
-            {
-              "id": "mip3",
-              "name": "Governance Cycle",
-              "href": "https://mips.makerdao.com/mips/details/MIP3"
-            }
-          ]
+          "id": "portaldoc",
+          "name": "The MIPs Portal",
+          "href": "https://mips.makerdao.com"
+        },
+        {
+          "id": "mip0",
+          "name": "The MIPs Framework",
+          "href": "https://mips.makerdao.com/mips/details/MIP0"
+        },
+        {
+          "id": "mip3",
+          "name": "Governance Cycle",
+          "href": "https://mips.makerdao.com/mips/details/MIP3"
         }
       ]
     },
     {
-      "Views": [
+      "id": "views",
+      "name": "Views",
+      "children": [
         {
           "id": "coreunits",
           "name": "Core Units",
