@@ -52,7 +52,7 @@
             },
             {
               "id": "gro-001",
-              "name": "GRO-001: GROWTH",
+              "name": "GRO-001: Growth",
               "children": [
                 {
                   "id": "gro-001-active",
@@ -143,6 +143,22 @@
                   "id": "rwf-001-inactive",
                   "name": "Archive",
                   "href": "https://mips.makerdao.com/mips/list?&search=$AND(%23cu-rwf-001,%20NOT(%23active))&subproposalsMode=true"
+                }
+              ]
+            },
+            {
+              "id": "ses-001",
+              "name": "SES-001: Sustainable Ecosystem Scaling",
+              "children": [
+                {
+                  "id": "ses-001-active",
+                  "name": "Subproposals in Force",
+                  "href": "https://mips.makerdao.com/mips/list?&search=$AND(%23cu-ses-001,%20%23active)&subproposalsMode=true"
+                },
+                {
+                  "id": "ses-001-inactive",
+                  "name": "Archive",
+                  "href": "https://mips.makerdao.com/mips/list?&search=$AND(%23cu-ses-001,%20NOT(%23active))&subproposalsMode=true"
                 }
               ]
             }
