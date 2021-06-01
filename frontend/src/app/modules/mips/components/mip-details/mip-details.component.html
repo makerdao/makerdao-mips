@@ -15,31 +15,23 @@
     </span>
   </div>
   <hr *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)"/>
-  <div *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" class="data-container">
-    <span class="row">
-      <p class="label">Author(s)</p>
-      <p class="info"></p>
-    </span>
-
-    <span *ngFor="let author of authors; let i = index" class="row mt-10">
-      <p class="label">{{ i + 1 }}</p>
+  <div *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" class="data-container authorsContributors">
+    <span *ngFor="let author of authors" class="row mt-10">
+      <p class="label">Author</p>
       <p class="info">{{ author }}</p>
     </span>
-  </div>
-  <hr *ngIf="contributors && contributors.length > 0 && !isEmptyWhenReduce(contributors)"/>
-  <div *ngIf="contributors && contributors.length > 0 && !isEmptyWhenReduce(contributors)" class="data-container">
-    <span class="row">
-      <p class="label">Contributors</p>
-      <p class="info"></p>
-    </span>
-
-    <span
-      *ngFor="let contributor of contributors; let i = index"
-      class="row mt-10"
+    <ng-container
+      *ngIf="
+        contributors &&
+        contributors.length > 0 &&
+        !isEmptyWhenReduce(contributors)
+      "
     >
-      <p class="label">{{ i + 1 }}</p>
-      <p class="info">{{ contributor }}</p>
-    </span>
+      <span *ngFor="let contributor of contributors" class="row mt-10">
+        <p class="label">Contributor</p>
+        <p class="info">{{ contributor }}</p>
+      </span>
+    </ng-container>
   </div>
   <hr *ngIf="type"/>
   <div *ngIf="type" class="data-container">
@@ -105,17 +97,13 @@
   </div>
   <hr *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)"/>
   <div *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)" class="data-container">
-    <span class="row">
-      <p class="label">Tags</p>
-      <p class="info"></p>
-    </span>
-
     <span
-      *ngFor="let tag of tags; let i = index"
       class="row mt-10"
     >
-      <p class="label">{{ i + 1 }}</p>
-      <p class="info">{{ tag }}</p>
+      <p class="label">Tags</p>
+      <p class="info">
+        <a *ngFor="let tag of tags">{{ tag }}</a>
+      </p>
     </span>
   </div>
   <!-- <hr />
