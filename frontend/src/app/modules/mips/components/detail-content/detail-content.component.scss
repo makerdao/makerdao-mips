@@ -303,7 +303,7 @@ p {
   text-align: left;
   background: #ffffff;
   border-radius: 4px;
-  padding: 30px 30px 41px;
+  padding: 30px 30px 30px;
 
   font-family: Roboto;
   font-style: normal;
@@ -340,6 +340,23 @@ p {
 
   .right {
     right: 11px;
+  }
+
+  .previewTextTitle {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    color: #31394D;
+    margin-bottom: 25px;
+  }
+
+  .previewTextContent {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
   }
 }
 
