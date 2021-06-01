@@ -26,8 +26,7 @@ jobs:
     - name: install and test 
       run: |
         npm install
-        npm test    
-        npm run build        
+        npm test        
       working-directory: backend  
 
   deploy:
