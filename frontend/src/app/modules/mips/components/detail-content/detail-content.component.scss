@@ -298,12 +298,17 @@ p {
 }
 
 .preview {
-  width: 310px;
+  width: 410px;
   height: auto;
   text-align: left;
   background: #ffffff;
   border-radius: 4px;
-  padding: 30px 30px 30px;
+  padding: 30px 24px 30px 30px;
+  box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    width: 310px;;
+  }
 
   font-family: Roboto;
   font-style: normal;
@@ -350,6 +355,10 @@ p {
     line-height: 23px;
     color: #31394D;
     margin-bottom: 25px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
   }
 
   .previewTextContent {
