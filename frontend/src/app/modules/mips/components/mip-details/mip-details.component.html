@@ -14,6 +14,47 @@
       <p class="info">{{ title }}</p>
     </span>
   </div>
+  <hr *ngIf="status"/>
+  <div *ngIf="status" class="data-container">
+    <span class="row">
+      <p class="label">Status</p>
+      <app-status
+        [type]="getStatusType(status)"
+        [value]="getStatusValue(status)"
+      ></app-status>
+    </span>
+  </div>
+  <hr *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)"/>
+  <div *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)" class="data-container">
+    <span
+      class="row"
+    >
+      <p class="label">Tags</p>
+      <p class="info">
+        <span *ngFor="let tag of tags; let i = index">
+          <a
+            [routerLink]="['/mips/list']"
+            [queryParams]="{ search: '$ #' + tag }"
+            >{{ tag }}</a
+          >{{ i < tags.length - 1 ? ", " : "" }}
+        </span>
+      </p>
+    </span>
+  </div>
+  <hr *ngIf="dateProposed"/>
+  <div *ngIf="dateProposed" class="data-container">
+    <span class="row">
+      <p class="label">Date Proposed</p>
+      <p class="info">{{ dateProposed }}</p>
+    </span>
+  </div>
+  <hr *ngIf="dateRatified"/>
+  <div *ngIf="dateRatified" class="data-container">
+    <span class="row">
+      <p class="label">Date Ratified</p>
+      <p class="info">{{ dateRatified }}</p>
+    </span>
+  </div>
   <hr *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)"/>
   <div *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" class="data-container authorsContributors">
     <span *ngFor="let author of authors" class="row mt-10">
@@ -33,54 +74,6 @@
       </span>
     </ng-container>
   </div>
-  <hr *ngIf="type"/>
-  <div *ngIf="type" class="data-container">
-    <span class="row">
-      <p class="label">Type</p>
-      <p class="info">{{ type }}</p>
-    </span>
-  </div>
-  <hr *ngIf="status"/>
-  <div *ngIf="status" class="data-container">
-    <span class="row">
-      <p class="label">Status</p>
-      <app-status
-        [type]="getStatusType(status)"
-        [value]="getStatusValue(status)"
-      ></app-status>
-    </span>
-  </div>
-  <hr *ngIf="pollAddress"/>
-  <div *ngIf="pollAddress" class="data-container">
-    <span class="row">
-      <p class="label">Poll Address</p>
-      <p class="info">{{ pollAddress }}</p>
-      <!-- <img src="../../../../../assets/images/copy.svg" />
-      </div>
-    <img src="../../../../../assets/images/open.svg" /> -->
-    </span>
-  </div>
-  <hr *ngIf="dateProposed"/>
-  <div *ngIf="dateProposed" class="data-container">
-    <span class="row">
-      <p class="label">Date Proposed</p>
-      <p class="info">{{ dateProposed }}</p>
-    </span>
-  </div>
-  <hr *ngIf="dateRatified"/>
-  <div *ngIf="dateRatified" class="data-container">
-    <span class="row">
-      <p class="label">Date Ratified</p>
-      <p class="info">{{ dateRatified }}</p>
-    </span>
-  </div>
-  <hr *ngIf="lastOpened"/>
-  <div *ngIf="lastOpened" class="data-container">
-    <span class="row">
-      <p class="label">Last Opened</p>
-      <p class="info">{{ lastOpened }}</p>
-    </span>
-  </div>
   <hr *ngIf="dependencies && dependencies.length > 0 && !isEmptyWhenReduce(dependencies)"/>
   <div *ngIf="dependencies && dependencies.length > 0 && !isEmptyWhenReduce(dependencies)" class="data-container">
     <span class="row">
@@ -95,15 +88,28 @@
       <p class="info">{{ replaces }}</p>
     </span>
   </div>
-  <hr *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)"/>
-  <div *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)" class="data-container">
-    <span
-      class="row mt-10"
-    >
-      <p class="label">Tags</p>
-      <p class="info">
-        <a *ngFor="let tag of tags">{{ tag }}</a>
-      </p>
+  <hr *ngIf="type"/>
+  <div *ngIf="type" class="data-container">
+    <span class="row">
+      <p class="label">Type</p>
+      <p class="info">{{ type }}</p>
+    </span>
+  </div>
+  <hr *ngIf="pollAddress"/>
+  <div *ngIf="pollAddress" class="data-container">
+    <span class="row">
+      <p class="label">Poll Address</p>
+      <p class="info">{{ pollAddress }}</p>
+      <!-- <img src="../../../../../assets/images/copy.svg" />
+      </div>
+    <img src="../../../../../assets/images/open.svg" /> -->
+    </span>
+  </div>
+  <hr *ngIf="lastOpened"/>
+  <div *ngIf="lastOpened" class="data-container">
+    <span class="row">
+      <p class="label">Last Opened</p>
+      <p class="info">{{ lastOpened }}</p>
     </span>
   </div>
   <!-- <hr />
