@@ -186,7 +186,7 @@ export class MIPsController {
     name: "value",
     required: true
   })
-  async findOneByFilename(
+  async findOneBy(
     @Query("field") field: string,
     @Query("value") value: string,
   ) {

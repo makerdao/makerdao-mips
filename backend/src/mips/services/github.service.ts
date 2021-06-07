@@ -6,7 +6,6 @@ import { GraphQLClient } from "graphql-request";
 import { Env } from "@app/env";
 import { pullRequestsLast } from "../graphql/definitions.graphql";
 
-
 @Injectable()
 export class GithubService {
   graphQLClient: GraphQLClient;
@@ -37,21 +36,21 @@ export class GithubService {
       return await this.graphQLClient.request(pullRequests, {
         name: this.githubRepository,
         owner: this.githubRepositoryOwner,
-        after: after
+        after: after,
       });
     }
 
     return await this.graphQLClient.request(pullRequests, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,
-    });    
+    });
   }
 
   async pullRequestsLast(pullRequests: any, last: number): Promise<any> {
     return await this.graphQLClient.request(pullRequestsLast, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,
-      last: last
-    });    
+      last: last,
+    });
   }
 }

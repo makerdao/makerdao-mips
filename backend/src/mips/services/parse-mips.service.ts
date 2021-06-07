@@ -238,18 +238,19 @@ export class ParseMIPsService {
         list[i]?.text === "References" &&
         i + 1 < list.length
       ) {
-
         if (list[i + 1].type === "list") {
           for (const item of list[i + 1]?.items) {
             for (const list of item.tokens) {
               if (list.tokens) {
                 mip.references.push(
-                  ...list.tokens.filter(d => d.href).map((f) => {
-                    return {
-                      name: f.text,
-                      link: f.href,
-                    };
-                  })
+                  ...list.tokens
+                    .filter((d) => d.href)
+                    .map((f) => {
+                      return {
+                        name: f.text,
+                        link: f.href,
+                      };
+                    })
                 );
               }
             }
