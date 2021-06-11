@@ -53,9 +53,20 @@
          </span>
          <span *ngIf="column == 'pos'">
            <td class="tooltip" (click)="onNavigateToDetails(element.mipName)" mat-cell *matCellDef="let element"
-            style="cursor: pointer;"><br>
+            style="cursor: pointer; position: relative;"><br>
 
             {{element.proposal ? '' : element.mip}}
+            <div class="arrow-container"
+              (click)="updateSelected(element._id, $event); expandedElement = expandedElement === element ? null : element; expandedItems = {subproposals: true, summary: false}; onGetSubproposals()"
+              (mouseover)="onMouseOverLeaveArrow(element._id, true)"
+              (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+              style="right: 0;"
+              >
+              <div class="arrow-wrapper expanded" [ngClass]="{'rotate': selected == element._id && expandedItems.subproposals}">
+                <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
+                />
+              </div>
+            </div>
 
             <!-- <span class="tooltiptext">Click for more details</span> -->
           </td>
@@ -66,18 +77,18 @@
            *matCellDef="let element"
            (click)="onNavigateToDetails(element.mipName)">
            <div style="cursor: pointer;">
-             <a class="summary" *ngIf="selected != element._id"><br>
+             <a class="summary" *ngIf="selected != element._id || expandedItems.subproposals"><br>
               <markdown class="variable-binding variable-binding-summary" [data]="element.sentenceSummary"></markdown></a>
-             <a class="paragraphSummary"  *ngIf="selected == element._id"><br>
+             <a class="paragraphSummary" *ngIf="selected == element._id && expandedItems.summary"><br>
               <markdown class="variable-binding" [data]="element.paragraphSummary"></markdown>
             </a>
             </div>
             <div class="arrow-container"
-              (click)="updateSelected(element._id, $event); expandedElement = expandedElement === element ? null : element"
+              (click)="updateSelected(element._id, $event); expandedElement = expandedElement === element ? null : element; expandedItems = {subproposals: false, summary: true}"
               (mouseover)="onMouseOverLeaveArrow(element._id, true)"
               (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
               >
-              <div class="arrow-wrapper expanded" [ngClass]="{'rotate': selected == element._id}">
+              <div class="arrow-wrapper expanded" [ngClass]="{'rotate': selected == element._id && expandedItems.summary}">
                 <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
                 />
               </div>
@@ -94,6 +105,104 @@
          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
            <div class="maker-element-detail"
                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <!-- <table *ngIf="expandedItems.subproposals" mat-table [dataSource]="dataSource2"> -->
+                <table *ngIf="false" mat-table [dataSource]="dataSource2">
+
+                  <ng-container matColumnDef="{{column2}}" *ngFor="let column2 of columnsToDisplay;">
+
+                    <span *ngIf="column2 != 'link'">
+                      <span *ngIf="column2 != 'pos'">
+                        <th mat-header-cell *matHeaderCellDef (click)="onSendOrder(column2)" style="cursor: pointer;"> {{column}} <img class="arrow up" [src]="currentSortingColumn === column2 && ascOrderSorting ? arrowUpDark : arrowUp"/><img class="arrow down" [src]="currentSortingColumn === column2 && !ascOrderSorting ? arrowDownDark : arrowDown"/> </th>
+                      </span>
+                      <span *ngIf="column2 == 'pos'">
+                        <th mat-header-cell *matHeaderCellDef (click)="onSendOrder(column2)" style="cursor: pointer;"> # <img class="arrow up" [src]="currentSortingColumn === column2 && ascOrderSorting ? arrowUpDark : arrowUp"/><img class="arrow down" [src]="currentSortingColumn === column2 && !ascOrderSorting ? arrowDownDark : arrowDown"/> </th>
+                      </span>
+                    </span>
+                    <span *ngIf="column2 == 'link'">
+                      <th mat-header-cell *matHeaderCellDef> {{column2}}</th>
+                    </span>
+
+
+                    <span *ngIf="column2 == 'title'">
+                      <td class="tooltip subproposal-title" mat-cell *matCellDef="let element;"
+
+                       (click)="onNavigateToDetails(element.mipName)"
+                       style="cursor: pointer;">
+                        <a routerLink="/mips/details/{{element.mipName}}"><br>{{element[column2]}}</a></td>
+                    </span>
+                    <span *ngIf="column2 == 'status'">
+                      <td class="tooltip" at-cell *matCellDef="let element"
+                       (click)="onNavigateToDetails(element.mipName)"
+                       style="cursor: pointer;">
+                        <div class="space-status"></div>
+                        <app-status [type]="getStatusType(element.status)" [value]="getStatusValue(element.status)" style="cursor: pointer;"></app-status>
+                        <!-- <span class="tooltiptext">Click for more details</span> -->
+                       </td>
+                    </span>
+                    <span *ngIf="column2 == 'link'">
+                      <td  mat-cell *matCellDef="let element" (click)="onNavigateToDetails(element.mipName)"
+                       style="cursor: pointer;">
+                       <div class="space-status"></div>
+                       <app-social forumLink="#" [githubLink]="element.filename"></app-social>
+                     </td>
+                    </span>
+                    <span *ngIf="column2 == 'pos'">
+                      <td class="tooltip" (click)="onNavigateToDetails(element.mipName)" mat-cell *matCellDef="let element"
+                       style="cursor: pointer; position: relative;"><br>
+                       {{element.proposal ? '' : element.mip}}
+                     </td>
+                    </span>
+                    <span *ngIf="column2 == 'summary'">
+                      <td class="tooltip" style="position: relative; cursor: pointer;"
+                      mat-cell
+                      *matCellDef="let element"
+                      (click)="onNavigateToDetails(element.mipName)">
+                      <div style="cursor: pointer;">
+                        <a class="summary" *ngIf="selected != element._id || expandedItems.subproposals"><br>
+                         <markdown class="variable-binding variable-binding-summary" [data]="element.sentenceSummary"></markdown></a>
+                        <a class="paragraphSummary" *ngIf="selected == element._id && expandedItems.summary"><br>
+                         <markdown class="variable-binding" [data]="element.paragraphSummary"></markdown>
+                       </a>
+                       </div>
+                       <div class="arrow-container"
+                         (click)="updateSelected(element._id, $event); expandedElement = expandedElement === element ? null : element; expandedItems = {subproposals: false, summary: true}"
+                         (mouseover)="onMouseOverLeaveArrow(element._id, true)"
+                         (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+                         >
+                         <div class="arrow-wrapper expanded" [ngClass]="{'rotate': selected == element._id && expandedItems.summary}">
+                           <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
+                           />
+                         </div>
+                       </div>
+
+                       <!-- <span class="tooltiptext">Click for more details</span> -->
+
+                     </td>
+                    </span>
+                  </ng-container>
+
+                  <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                      <div class="maker-element-detail"
+                           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <!-- <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr> -->
+                  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"
+                    class="maker-element-row"></tr>
+
+                  <!-- <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+                      class="maker-element-row"
+                      [class.maker-expanded-row]="expandedElement === element"
+                      >
+                  </tr>
+                  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="maker-detail-row"></tr> -->
+                </table>
+
+
            </div>
          </td>
        </ng-container>

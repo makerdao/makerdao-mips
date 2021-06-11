@@ -9,8 +9,8 @@ const sampleData: DataElement[] = [
   {
     position: 1,
     title: 'TItle 1',
-    summary: 'This is my summary number 1',
-    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
+    sentenceSummary: 'This is my summary number 1',
+    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
     status: 'ACCEPTED',
     github: '1.github.com',
     forum: 'forum.com/1'
@@ -18,8 +18,8 @@ const sampleData: DataElement[] = [
   {
     position: 2,
     title: 'TItle 2',
-    summary: 'This is my summary number 2',
-    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
+    sentenceSummary: 'This is my summary number 2',
+    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
     status: 'ACCEPTED',
     github: '2.github.com',
     forum: 'forum.com/2'
@@ -27,8 +27,8 @@ const sampleData: DataElement[] = [
   {
     position: 3,
     title: 'TItle 3',
-    summary: 'This is my summary number 3',
-    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
+    sentenceSummary: 'This is my summary number 3',
+    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
     status: 'ACCEPTED',
     github: '3.github.com',
     forum: 'forum.com/3'
@@ -36,8 +36,8 @@ const sampleData: DataElement[] = [
   {
     position: 4,
     title: 'TItle 4',
-    summary: 'This is my summary number 4',
-    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
+    sentenceSummary: 'This is my summary number 4',
+    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
     status: 'ACCEPTED',
     github: '4.github.com',
     forum: 'forum.com/4'
@@ -45,13 +45,18 @@ const sampleData: DataElement[] = [
   {
     position: 5,
     title: 'TItle 5',
-    summary: 'This is my summary number 5',
-    paragraph: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
+    sentenceSummary: 'This is my summary number 5',
+    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
     status: 'REJECTED',
     github: '5.github.com',
     forum: 'forum.com/5'
   },
 ];
+
+interface ExpandedItems {
+  subproposals: boolean;
+  summary: boolean;
+}
 
 @Component({
   selector: 'app-list',
@@ -91,6 +96,20 @@ export class ListComponent {
   arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource2 = sampleData;
+  _expandedItems: ExpandedItems = {
+    subproposals: false,
+    summary: false
+  }
+
+  get expandedItems() {
+    return this._expandedItems;
+  }
+
+  set expandedItems(value) {
+    this._expandedItems = {...value};
+  }
 
   markdown = `## Markdown __rulez__!
 ---
@@ -214,13 +233,17 @@ const language = 'typescript';
     this.currentRowOver = id;
   }
 
+  onGetSubproposals() {
+
+  }
+
 }
 
 export interface DataElement {
   position: number;
   title: string;
-  summary: string;
-  paragraph: string;
+  sentenceSummary: string;
+  paragraphSummary: string;
   status: string;
   github: string;
   forum: string;
