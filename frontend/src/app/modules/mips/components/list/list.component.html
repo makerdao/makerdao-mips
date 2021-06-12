@@ -10,7 +10,7 @@
     (scrolled)="onScroll()">
 
 <table mat-table
-            [dataSource]="dataSource" multiTemplateDataRows
+            [dataSource]="dataSourceTable" multiTemplateDataRows
             >
        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay;">
 
@@ -56,16 +56,18 @@
             style="cursor: pointer; position: relative;"><br>
 
             {{element.proposal ? '' : element.mip}}
-            <div class="arrow-container"
-              (click)="updateSelected(element._id, $event); expandedElement = expandedElement === element ? null : element; expandedItems = {subproposals: true, summary: false}; onGetSubproposals()"
-              (mouseover)="onMouseOverLeaveArrow(element._id, true)"
-              (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
-              style="right: 0;"
-              >
-              <div class="arrow-wrapper expanded" [ngClass]="{'rotate': selected == element._id && expandedItems.subproposals}">
-                <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
-                />
-              </div>
+            <div (click)="onClickButtonCaptureEvent($event)">
+              <button *ngIf="!element.proposal" class="arrow-container" [disabled]="element.loadingSubproposals"
+                (click)="expandedItems = {subproposals: true, summary: false}; onGetSubproposals(element, $event)"
+                (mouseover)="onMouseOverLeaveArrow(element._id, true)"
+                (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+                style="right: 0;"
+                >
+                <div class="arrow-wrapper expanded" [ngClass]="{'rotate': element.cantSubproposals}">
+                  <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
+                  />
+                </div>
+              </button>
             </div>
 
             <!-- <span class="tooltiptext">Click for more details</span> -->
@@ -189,17 +191,13 @@
                     </td>
                   </ng-container>
 
-                  <!-- <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr> -->
-                  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"
-                    class="maker-element-row"></tr>
-
-                  <!-- <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                   <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
                       class="maker-element-row"
                       [class.maker-expanded-row]="expandedElement === element"
                       >
                   </tr>
-                  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="maker-detail-row"></tr> -->
+                  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="maker-detail-row"></tr>
                 </table>
 
 

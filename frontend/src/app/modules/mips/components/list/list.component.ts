@@ -1,57 +1,11 @@
-import {ChangeDetectionStrategy, Component, Input, Output, ViewChild, EventEmitter} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, Output, ViewChild, EventEmitter, OnChanges, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatPaginator} from '@angular/material/paginator';
 import {PageEvent} from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MipsService } from '../../services/mips.service';
 
-
-const sampleData: DataElement[] = [
-  {
-    position: 1,
-    title: 'TItle 1',
-    sentenceSummary: 'This is my summary number 1',
-    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
-    status: 'ACCEPTED',
-    github: '1.github.com',
-    forum: 'forum.com/1'
-  },
-  {
-    position: 2,
-    title: 'TItle 2',
-    sentenceSummary: 'This is my summary number 2',
-    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
-    status: 'ACCEPTED',
-    github: '2.github.com',
-    forum: 'forum.com/2'
-  },
-  {
-    position: 3,
-    title: 'TItle 3',
-    sentenceSummary: 'This is my summary number 3',
-    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
-    status: 'ACCEPTED',
-    github: '3.github.com',
-    forum: 'forum.com/3'
-  },
-  {
-    position: 4,
-    title: 'TItle 4',
-    sentenceSummary: 'This is my summary number 4',
-    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
-    status: 'ACCEPTED',
-    github: '4.github.com',
-    forum: 'forum.com/4'
-  },
-  {
-    position: 5,
-    title: 'TItle 5',
-    sentenceSummary: 'This is my summary number 5',
-    paragraphSummary: 'TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood. TExt description under the hood.',
-    status: 'REJECTED',
-    github: '5.github.com',
-    forum: 'forum.com/5'
-  },
-];
 
 interface ExpandedItems {
   subproposals: boolean;
@@ -71,7 +25,7 @@ interface ExpandedItems {
     ]),
   ],
 })
-export class ListComponent {
+export class ListComponent implements OnInit, OnChanges {
 
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
   @Input() dataSource: any;
@@ -97,7 +51,7 @@ export class ListComponent {
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource2 = sampleData;
+  dataSourceTable = new MatTableDataSource<any>();
   _expandedItems: ExpandedItems = {
     subproposals: false,
     summary: false
@@ -128,7 +82,15 @@ const language = 'typescript';
 ### Blockquote
 > Blockquote to the max`;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private mipsService: MipsService,) {}
+
+  ngOnInit() {
+    this.dataSourceTable.data = this.dataSource;
+  }
+
+  ngOnChanges() {
+    this.dataSourceTable.data = this.dataSource;
+  }
 
   getStatusValue(data: string): string {
     if (data !== undefined) {
@@ -231,10 +193,43 @@ const language = 'typescript';
   onMouseOverLeaveArrow(id: any, value: boolean) {
     this.isArrowDownOnMouseOver = value;
     this.currentRowOver = id;
+
   }
 
-  onGetSubproposals() {
+  onGetSubproposals(row: any, e: Event) {
+    e.stopPropagation();
+    let index = this.dataSourceTable.data.findIndex(item => item._id === row._id);
+    let nextRow = this.dataSourceTable.data[index + 1];
 
+    if (nextRow && nextRow.proposal === row.mipName) { // hide subproposals children
+      this.dataSourceTable.data.splice(index + 1, row.cantSubproposals);
+      this.dataSourceTable.data = this.dataSourceTable.data;
+      this.dataSourceTable.data[index]["cantSubproposals"] = 0;
+    } else { // show subproposals children
+      if (index !== -1) {
+        this.dataSourceTable.data[index]["loadingSubproposals"] = true;
+        let filter = {
+          equals: [],
+        };
+        filter.equals.push({field: 'proposal', value: row.mipName});
+
+        this.mipsService.searchMips(100000 , 0, "mipName", '', filter, 'title proposal mipName filename paragraphSummary sentenceSummary mip status')
+        .subscribe(data => {
+          this.dataSourceTable.data.splice(index + 1, 0, ...data.items);
+          this.dataSourceTable.data = this.dataSourceTable.data;
+          this.dataSourceTable.data[index]["cantSubproposals"] = data.items.length;
+          this.dataSourceTable.data[index]["loadingSubproposals"] = false;
+        }, error => {
+          this.dataSourceTable.data[index]["loadingSubproposals"] = false;
+          console.log(error);
+        } );
+      }
+    }
+  }
+
+  // usefull for stop event click propagation when button for get subproposals is disabled and clicked
+  onClickButtonCaptureEvent(e: Event) {
+    e.stopPropagation();
   }
 
 }
@@ -247,5 +242,6 @@ export interface DataElement {
   status: string;
   github: string;
   forum: string;
+  proposal: string;
 }
 
