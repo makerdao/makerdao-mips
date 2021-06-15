@@ -269,14 +269,7 @@ export class DetailContentComponent
 
   overrideDefaultImg() {
     this.markdownService.renderer.image = (href: string, title: string, text: string) => {
-      let hrefNew: string = href;
-      let a: string[] = href.split("blob");
-
-      if (a.length === 2) {
-        hrefNew = a[0] + "raw" + a[1];
-      }
-
-      return `<img src="${hrefNew}">`;
+      return `<img src="${href}?raw=true">`;
     };
   }
 
