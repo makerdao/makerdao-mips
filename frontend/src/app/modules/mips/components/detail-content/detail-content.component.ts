@@ -87,6 +87,7 @@ export class DetailContentComponent
   ngOnInit(): void {
     this.overrideDefaultHeadings();
     this.getDefaultLinks();
+    this.overrideDefaultImg();
   }
 
   ngAfterViewInit() {
@@ -224,6 +225,7 @@ export class DetailContentComponent
 
     this.getDefaultLinks();
     this.overrideDefaultHeadings();
+    this.overrideDefaultImg();
   }
 
   onReady() {
@@ -262,6 +264,19 @@ export class DetailContentComponent
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
                </a>${text}</h${level}>`;
+    };
+  }
+
+  overrideDefaultImg() {
+    this.markdownService.renderer.image = (href: string, title: string, text: string) => {
+      let hrefNew: string = href;
+      let a: string[] = href.split("blob");
+
+      if (a.length === 2) {
+        hrefNew = a[0] + "raw" + a[1];
+      }
+
+      return `<img src="${hrefNew}">`;
     };
   }
 
