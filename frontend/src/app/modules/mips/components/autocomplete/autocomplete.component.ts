@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ContentChild,
   ContentChildren,
@@ -20,7 +21,7 @@ import { AutocompleteContentDirective } from '../../directives/autocomplete-cont
   styleUrls: ['./autocomplete.component.scss'],
   exportAs: 'appAutocomplete',
 })
-export class AutocompleteComponent implements OnInit {
+export class AutocompleteComponent implements OnInit, AfterViewInit {
   @ViewChild('root') rootTemplate: TemplateRef<any>;
 
   @ContentChild(AutocompleteContentDirective)
@@ -35,6 +36,17 @@ export class AutocompleteComponent implements OnInit {
 
   ngOnInit() {}
 
+  ngAfterViewInit() {
+    this.options.changes.subscribe(data => {
+      if (this.options.length > 0) {
+        this.focusIndex = 0;
+        let child: Element = (this.options.toArray()[0].element as HTMLElement).children.item(0);
+        child.classList.add("focusOption");
+        (child as HTMLElement).focus();
+      }
+    });
+  }
+
   optionsClick() {
     return this.options.changes.pipe(
       switchMap((options) => {
@@ -47,6 +59,8 @@ export class AutocompleteComponent implements OnInit {
   @HostListener('document:keydown.ArrowDown', ['$event'])
   onArrowDown(event: KeyboardEvent) {
     event.preventDefault();
+    let size: number = this.options.length;
+    this.focusIndex = (size + ++this.focusIndex) % size;
 
     this.options.toArray().forEach((item, index) => {
       let child: Element = (item.element as HTMLElement).children.item(0);
@@ -57,7 +71,28 @@ export class AutocompleteComponent implements OnInit {
         child.classList.remove("focusOption");
       }
     });
+  }
 
-    this.focusIndex++;
+  @HostListener('document:keydown.ArrowUp', ['$event'])
+  onArrowUp(event: KeyboardEvent) {
+    event.preventDefault();
+    let size: number = this.options.length;
+    this.focusIndex = (size + --this.focusIndex) % size;
+
+    this.options.toArray().forEach((item, index) => {
+      let child: Element = (item.element as HTMLElement).children.item(0);
+
+      if (index === this.focusIndex) {
+        child.classList.add("focusOption");
+      } else {
+        child.classList.remove("focusOption");
+      }
+    });
+  }
+
+  @HostListener('document:keydown.Enter', ['$event'])
+  onEnter(event: KeyboardEvent) {
+    event.stopPropagation();
+    this.options.toArray()[this.focusIndex].element.click();
   }
 }
