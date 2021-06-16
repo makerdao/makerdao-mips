@@ -2,6 +2,7 @@ import {
   Component,
   ContentChild,
   ContentChildren,
+  HostListener,
   Input,
   OnInit,
   QueryList,
@@ -30,6 +31,7 @@ export class AutocompleteComponent implements OnInit {
   >;
 
   @Input() labels: string[] = [];
+  focusIndex: number = 0;
 
   ngOnInit() {}
 
@@ -40,5 +42,22 @@ export class AutocompleteComponent implements OnInit {
         return merge(...clicks$);
       })
     );
+  }
+
+  @HostListener('document:keydown.ArrowDown', ['$event'])
+  onArrowDown(event: KeyboardEvent) {
+    event.preventDefault();
+
+    this.options.toArray().forEach((item, index) => {
+      let child: Element = (item.element as HTMLElement).children.item(0);
+
+      if (index === this.focusIndex) {
+        child.classList.add("focusOption");
+      } else {
+        child.classList.remove("focusOption");
+      }
+    });
+
+    this.focusIndex++;
   }
 }
