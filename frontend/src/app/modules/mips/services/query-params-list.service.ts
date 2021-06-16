@@ -8,8 +8,7 @@ import QueryParams from '../types/query-params';
 export class QueryParamsListService {
   private _queryParams: QueryParams = {
     status: [],
-    search: '',
-    subproposalsMode: false
+    search: ''
   };
 
   private qParams: BehaviorSubject<QueryParams> = new BehaviorSubject<QueryParams>({
