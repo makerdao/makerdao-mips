@@ -286,7 +286,9 @@ export class DetailContentComponent
 
       if (
         !link.name.includes('Template') &&
-        link.link.includes(this.gitgubUrl)
+        (link.link.includes(this.gitgubUrl) ||
+         link.link.includes("https://github.com/makerdao/mips/blob") ||
+         link.link.includes("https://github.com/makerdao/mips/tree"))
       ) {
         return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
       }
@@ -349,7 +351,7 @@ export class DetailContentComponent
                       } else {
                         elem.setAttribute(
                           'href',
-                          `/mips/details/${data.mipName}}`
+                          `/mips/details/${data.mipName}`
                         );
                       }
                     });
