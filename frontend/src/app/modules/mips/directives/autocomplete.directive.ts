@@ -25,7 +25,6 @@ var getCaretCoordinates = require('textarea-caret');
 export class AutocompleteDirective {
   @Input() appAutocomplete: AutocompleteComponent;
   private overlayRef: OverlayRef;
-  @Input() showAutocompleteContent: boolean = false;
   top: number;
   left: number;
   indexCaretPosition: number;

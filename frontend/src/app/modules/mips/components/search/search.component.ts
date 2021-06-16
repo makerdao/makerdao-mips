@@ -6,6 +6,9 @@ import {
   Output,
   EventEmitter,
   ViewChild,
+  ElementRef,
+  QueryList,
+  AfterViewInit,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
@@ -17,7 +20,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
   @Input() placeHolder? = 'Search on the list';
   @Input() imageDir? = '../../../../../assets/images/magnifier.png';
   @Input() imageClose? = '../../../../../assets/images/close.png';
@@ -42,20 +45,27 @@ export class SearchComponent implements OnInit {
     { id: 3, label: 'Three' },
   ];
   control = new FormControl();
-  showAutocompleteContent: boolean = false;
   indexCaretPositionStart: number;
   indexCaretPositionEnd: number;
   isFilteringOption: boolean = false;
+  @ViewChild('autocomplete') autocomplete;
+  autocompletePanelOpened: boolean = false;
 
   constructor() {}
 
   ngOnInit(): void {
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
+  }
 
-    setTimeout(() => {
-      this.showAutocompleteContent = true;
-    }, 3000);
+  ngAfterViewInit() {
+    // (this.autocomplete.options as QueryList<any>).changes.subscribe(() => {
+    //   console.log("autocomplete", this.autocomplete.options.length);
+    //   // this.autocompletePanelOpened = this.autocomplete.options.length > 0;
+    //   this.autocompletePanelOpened = true;
+    //   console.log("autocompletePanelOpened", this.autocompletePanelOpened);
+
+    // });
   }
 
   initPositionHelpPopup() {
@@ -74,6 +84,8 @@ export class SearchComponent implements OnInit {
   }
 
   onKeySearch(event: any): void {
+    console.log("enter input");
+
     clearTimeout(this.timeout);
 
     if (event) {
@@ -148,5 +160,9 @@ export class SearchComponent implements OnInit {
         this.indexCaretPositionEnd = (event.target as HTMLInputElement).selectionEnd;
       }
     }
+  }
+
+  onEnterKeyAutocompleteOption(e) {
+    console.log("onEnterKeyAutocompleteOption");
   }
 }

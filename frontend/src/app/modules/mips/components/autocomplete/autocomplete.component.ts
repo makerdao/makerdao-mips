@@ -6,12 +6,13 @@ import {
   HostListener,
   Input,
   OnInit,
+  Output,
   QueryList,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
-import { fromEvent, merge } from 'rxjs/index';
+import { fromEvent, merge, Subject } from 'rxjs/index';
 import { OptionAutocompleteComponent } from '../option-autocomplete/option-autocomplete.component';
 import { AutocompleteContentDirective } from '../../directives/autocomplete-content.directive';
 
@@ -33,6 +34,7 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
 
   @Input() labels: string[] = [];
   focusIndex: number = 0;
+  @Output() enter: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit() {}
 
@@ -92,7 +94,8 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
 
   @HostListener('document:keydown.Enter', ['$event'])
   onEnter(event: KeyboardEvent) {
-    event.stopPropagation();
-    this.options.toArray()[this.focusIndex].element.click();
+    console.log("enter");
+    this.enter.next(true);
+    this.options.toArray()[this.focusIndex]?.element.click();
   }
 }
