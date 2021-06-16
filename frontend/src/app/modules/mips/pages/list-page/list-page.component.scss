@@ -64,17 +64,6 @@ app-search-mobile {
     }
   }
 }
-app-md-checkbox {
-  margin-right: 25px;
-}
-
-app-md-checkbox {
-  display: block;
-}
-
-app-md-checkbox-mobile {
-  display: none;
-}
 
 @media screen and (max-width: 500px) {
   .feedback {
@@ -112,19 +101,6 @@ app-md-checkbox-mobile {
         padding: 10px 20px 2px;
         margin-bottom: 12px;
       }
-    }
-  }
-
-  app-md-checkbox {
-    display: none;
-  }
-
-  app-md-checkbox-mobile {
-    display: block;
-    margin-right: 12px;
-
-    &.hide {
-      display: none;
     }
   }
 }
