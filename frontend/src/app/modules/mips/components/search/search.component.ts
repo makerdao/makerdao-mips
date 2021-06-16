@@ -20,7 +20,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit, AfterViewInit {
+export class SearchComponent implements OnInit {
   @Input() placeHolder? = 'Search on the list';
   @Input() imageDir? = '../../../../../assets/images/magnifier.png';
   @Input() imageClose? = '../../../../../assets/images/close.png';
@@ -48,24 +48,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
   indexCaretPositionStart: number;
   indexCaretPositionEnd: number;
   isFilteringOption: boolean = false;
-  @ViewChild('autocomplete') autocomplete;
-  autocompletePanelOpened: boolean = false;
+  selectedAutocompleteOptionByEnter: boolean = false;
 
   constructor() {}
 
   ngOnInit(): void {
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
-  }
-
-  ngAfterViewInit() {
-    // (this.autocomplete.options as QueryList<any>).changes.subscribe(() => {
-    //   console.log("autocomplete", this.autocomplete.options.length);
-    //   // this.autocompletePanelOpened = this.autocomplete.options.length > 0;
-    //   this.autocompletePanelOpened = true;
-    //   console.log("autocompletePanelOpened", this.autocompletePanelOpened);
-
-    // });
   }
 
   initPositionHelpPopup() {
@@ -84,8 +73,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   onKeySearch(event: any): void {
-    console.log("enter input");
-
     clearTimeout(this.timeout);
 
     if (event) {
@@ -93,11 +80,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.isQueryMode = true;
         this.showClose = false;
 
-        if (event.keyCode == 13) {
+        if (event.keyCode == 13 && !this.selectedAutocompleteOptionByEnter) {
           this.timeout = setTimeout(() => {
             this.send.emit(event);
           }, 1000);
         } else {
+          this.selectedAutocompleteOptionByEnter = false;
           this.searchAutocompleteOptions(event);
         }
       } else {
@@ -160,9 +148,5 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.indexCaretPositionEnd = (event.target as HTMLInputElement).selectionEnd;
       }
     }
-  }
-
-  onEnterKeyAutocompleteOption(e) {
-    console.log("onEnterKeyAutocompleteOption");
   }
 }

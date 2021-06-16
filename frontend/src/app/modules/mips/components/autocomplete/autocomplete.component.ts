@@ -94,8 +94,10 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
 
   @HostListener('document:keydown.Enter', ['$event'])
   onEnter(event: KeyboardEvent) {
-    console.log("enter");
-    this.enter.next(true);
+    if (this.options.length > 0) {
+      this.enter.next();
+    }
+
     this.options.toArray()[this.focusIndex]?.element.click();
   }
 }
