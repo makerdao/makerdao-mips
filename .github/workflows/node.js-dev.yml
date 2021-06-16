@@ -26,8 +26,7 @@ jobs:
     - name: install and test 
       run: |
         npm install
-        npm test    
-        npm build        
+        npm test        
       working-directory: backend  
 
   deploy:
@@ -57,8 +56,8 @@ jobs:
         script: | 
           cd /var/warehouse/makerdao-mips-develop/backend
           pm2 stop dist/main.js
-          npm install
-          npm run build
+          #npm install
+          #npm run build
           npm run pre-start-develop
           npx nestjs-command parse:mips
           pm2 start dist/main.js --name "api-dev"

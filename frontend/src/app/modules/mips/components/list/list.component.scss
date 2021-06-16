@@ -276,12 +276,20 @@ a {
   height: auto;
   margin-bottom: 15px;
   box-sizing: border-box;
+  position: relative;
 
   .title {
     font-size: 14px;
     font-weight: 500;
     color: #31394D;
   }
+
+  .subproposalsButtonWrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   .status {
     margin-top: 5px;
   }
@@ -474,6 +482,9 @@ a {
   cursor: pointer;
   top: 24px;
   transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
 
   .arrow-wrapper {
     position: relative;

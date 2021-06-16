@@ -30,12 +30,12 @@ export class MIPsService {
 
     if (select) {
       const items = await this.mipsDoc
-      .find(buildFilter)
-      .select(select)
-      .sort(order)
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+        .find(buildFilter)
+        .select(select)
+        .sort(order)
+        .skip(page * limit)
+        .limit(limit)
+        .exec();
 
       return { items, total };
     }
@@ -141,18 +141,21 @@ export class MIPsService {
     }
 
     if (search) {
-      if (search.startsWith('$')) {
+      if (search.startsWith("$")) {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
-        
-        source = {$and: [{
-          ...source,
-          ...query
-        }]};
+
+        source = {
+          $and: [
+            {
+              ...source,
+              ...query,
+            },
+          ],
+        };
 
         // console.log(JSON.stringify(ast), "<==========");
         // console.log(JSON.stringify(query), "<==========");
-
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
       }
@@ -162,41 +165,49 @@ export class MIPsService {
 
   buildSmartMongoDBQuery(ast: any): any {
     if (ast.type === "LITERAL" && ast.name.includes("#")) {
-      return { tags: {$in: [ast.name.replace("#", "")] }};
+      return { tags: { $in: [ast.name.replace("#", "")] } };
     } else if (ast.type === "LITERAL" && ast.name.includes("@")) {
-      return { status: { $regex: new RegExp(`${ast.name.replace("@", "")}`), $options: "i" } };
+      return {
+        status: {
+          $regex: new RegExp(`${ast.name.replace("@", "")}`),
+          $options: "i",
+        },
+      };
     } else {
       if (ast.type === "OPERATION" && ast.op === "OR") {
         const request = [];
 
         for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));          
+          request.push(this.buildSmartMongoDBQuery(item));
         }
 
         return {
-          $or: [
-            ...request
-          ],
+          $or: [...request],
         };
       } else if (ast.type === "OPERATION" && ast.op === "AND") {
         const request = [];
 
         for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));          
+          request.push(this.buildSmartMongoDBQuery(item));
         }
 
         return {
-          $and: [
-            ...request
-          ],
+          $and: [...request],
         };
       } else if (ast.type === "OPERATION" && ast.op === "NOT") {
         if (ast.left.includes("#")) {
-          return { tags: {$nin: [ast.left.replace("#", "")] }};
+          return { tags: { $nin: [ast.left.replace("#", "")] } };
         } else if (ast.left.includes("@")) {
-          return { status: {$not: { $regex: new RegExp(`${ast.left.replace("@", "")}`), $options: "i" }} };
+          return {
+            status: {
+              $not: {
+                $regex: new RegExp(`${ast.left.replace("@", "")}`),
+                $options: "i",
+              },
+            },
+          };
         } else {
-          throw new Error("Database query not support");          
+          throw new Error("Database query not support");
         }
       } else {
         return;
@@ -302,7 +313,7 @@ export class MIPsService {
   async getSummaryByMipName(mipName: string): Promise<MIP> {
     return await this.mipsDoc
       .findOne({ mipName })
-      .select(["sentenceSummary", "paragraphSummary"])
+      .select(["sentenceSummary", "paragraphSummary", "title"])
       .exec();
   }
 
