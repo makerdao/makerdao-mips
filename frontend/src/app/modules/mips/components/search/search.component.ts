@@ -39,11 +39,7 @@ export class SearchComponent implements OnInit {
   helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
   @Input() error: boolean = false;
   @Input() errorMessage: string = '';
-  options = [
-    { id: 1, label: 'One' },
-    { id: 2, label: 'Two' },
-    { id: 3, label: 'Three' },
-  ];
+  options = [];
   control = new FormControl();
   indexCaretPositionStart: number;
   indexCaretPositionEnd: number;
@@ -53,6 +49,7 @@ export class SearchComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.control.setValue(this.value);
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
   }
