@@ -161,12 +161,14 @@ export class AutocompleteDirective {
       ),
     ];
 
+    let scrollLeft = this.host.nativeElement.scrollLeft;
+
     let ev: MouseEvent = new MouseEvent('click', {});
     let ev2: MouseEvent = {
       ...ev,
       x:
         (this.host.nativeElement as HTMLElement).getClientRects()[0].left +
-        this.left,
+        this.left - scrollLeft,
       y:
         (this.host.nativeElement as HTMLElement).getClientRects()[0].top +
         this.top +
