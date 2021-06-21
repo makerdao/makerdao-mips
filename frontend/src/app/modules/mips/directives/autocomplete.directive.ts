@@ -108,6 +108,9 @@ export class AutocompleteDirective {
           this.indexCaretPositionStart + value.length;
         (this.host.nativeElement as HTMLInputElement).selectionEnd =
           this.indexCaretPositionStart + value.length;
+        (this.host.nativeElement as HTMLInputElement).dispatchEvent(
+          new Event('input')
+        );
       });
 
     this.appAutocomplete.options.changes.subscribe(
