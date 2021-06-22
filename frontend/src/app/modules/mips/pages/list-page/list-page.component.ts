@@ -33,9 +33,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   showFilterList: boolean = false;
   showListSearch: boolean = false;
   listSearchMip: any[] = [];
-  subproposalsMode: boolean;
   mipsByName: any[] = [];
-  orderSubproposalField: string = 'subproposal';
   sintaxError: boolean = false;
   errorMessage: string = '';
 
@@ -109,8 +107,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: status ? status : [],
-      search: queryParams.params.search ? queryParams.params.search : '',
-      subproposalsMode: queryParams.params.subproposalsMode === 'true' ? true : false
+      search: queryParams.params.search ? queryParams.params.search : ''
     };
 
     this.queryParamsListService.queryParams = qp;
@@ -119,7 +116,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   initFiltersAndSearch() {
     this.initFiltersStatus();
     this.initSearch();
-    this.initSubproposalMode();
+    this.filter.equals.push({field: 'proposal', value: ""});  // no subproposals
   }
 
   initSearch() {
@@ -167,10 +164,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     this.setFiltersStatus();
 
-  }
-
-  initSubproposalMode() {
-    this.setSubproposalMode(this.queryParamsListService.queryParams.subproposalsMode);
   }
 
   setFiltersStatus() {
@@ -333,7 +326,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
-    this.order = (this.subproposalsMode && text === 'mip') ? text + " " + this.orderSubproposalField : text;
+    this.order = text;
     this.loading = true;
     this.searchMips();
   }
@@ -362,34 +355,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   goToMipDetails(name) {
     this.router.navigate(["/mips/details/", name]);
-  }
-
-  onCheckedSubproposalMode(event) {
-    this.setSubproposalMode(event);
-    this.mips = [];
-    this.page = 0;
-    this.limitAux = 10;
-    this.setQueryParams();
-    this.loading = true;
-    this.searchMips();
-  }
-
-  setSubproposalMode(value) {
-    this.order =
-      value && this.order === "mip"
-        ? this.order + " " + this.orderSubproposalField
-        : this.order.replace(this.orderSubproposalField, "").trim();
-    this.subproposalsMode = value;
-
-    if (!this.subproposalsMode) {
-      this.filter.equals.push({field: 'proposal', value: ""});
-    } else {
-      let index = this.filter.equals.findIndex(item => item.field === 'proposal');
-
-      if (index !== -1) {
-        this.filter.equals.splice(index, 1);
-      }
-    }
   }
 
   initFiltersList(): void {
@@ -454,8 +419,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: [],
-      search: this.search,
-      subproposalsMode: this.subproposalsMode
+      search: this.search
     };
 
     if (filterSaved.arrayStatus[0] === 1) {
