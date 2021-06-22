@@ -53,7 +53,22 @@ export class AutocompleteDirective {
         this.indexCaretPosition = (this.host
           .nativeElement as HTMLInputElement).selectionStart;
 
-        if (this.appAutocomplete.labels.findIndex((i) => i === ev.key) !== -1) {
+        let str = (this.host.nativeElement as HTMLInputElement).value.substring(
+          (this.host.nativeElement as HTMLInputElement).selectionStart - 1,
+          (this.host.nativeElement as HTMLInputElement).selectionStart
+        );
+
+        let indexLabel: number = this.appAutocomplete.labels.findIndex((i) => i === str);
+
+        if (
+          indexLabel !== -1 &&
+          !this.overlayRef &&
+          ev.key !== 'ArrowLeft' &&
+          ev.key !== 'ArrowRight' &&
+          ev.key !== 'Delete' &&
+          ev.key !== 'Backspace'
+        ) {
+          this.appAutocomplete.activatedLabel.next(this.appAutocomplete.labels[indexLabel]);
           this.indexCaretPositionStart = (this.host
             .nativeElement as HTMLInputElement).selectionStart;
 
@@ -168,7 +183,8 @@ export class AutocompleteDirective {
       ...ev,
       x:
         (this.host.nativeElement as HTMLElement).getClientRects()[0].left +
-        this.left - scrollLeft,
+        this.left -
+        scrollLeft,
       y:
         (this.host.nativeElement as HTMLElement).getClientRects()[0].top +
         this.top +

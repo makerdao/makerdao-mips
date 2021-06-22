@@ -6,9 +6,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
-  ElementRef,
-  QueryList,
-  AfterViewInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
@@ -46,7 +44,7 @@ export class SearchComponent implements OnInit {
   isFilteringOption: boolean = false;
   selectedAutocompleteOptionByEnter: boolean = false;
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.control.setValue(this.value);
@@ -83,9 +81,10 @@ export class SearchComponent implements OnInit {
           }, 1000);
         } else {
           this.selectedAutocompleteOptionByEnter = false;
-          this.searchAutocompleteOptions(event);
+          this.filteringOptions();
         }
       } else {
+        this.options = [];
         this.isQueryMode = false;
         this.showClose =
           this.inputSearch.nativeElement.value === '' ? false : true;
@@ -120,30 +119,44 @@ export class SearchComponent implements OnInit {
   }
 
   searchAutocompleteOptions(event: any): void {
-    if (event.key === '@') {
-      this.options = [
-        { id: 1, label: 'ACCEPTED' },
-        { id: 2, label: 'REJECTED' },
-        { id: 3, label: 'RFC' },
-        { id: 3, label: 'ARCHIVE' },
-      ];
+    this.options = [];
+    this.cdr.detectChanges();
 
-      this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
-      this.isFilteringOption = true;
-    } else if (event.key === '#') {
-      this.options = [
-        { id: 1, label: 'process' },
-        { id: 2, label: 'tag2' },
-        { id: 3, label: 'tag3' },
-        { id: 3, label: 'tag4' },
-      ];
+    if (event === '@') {
+      setTimeout(() => {
+        this.options = [
+          { id: 1, label: 'ACCEPTED' },
+          { id: 2, label: 'REJECTED' },
+          { id: 3, label: 'RFC' },
+          { id: 3, label: 'ARCHIVE' },
+        ];
+        this.cdr.detectChanges();
+      }, 2000);
 
-      this.indexCaretPositionStart = (event.target as HTMLInputElement).selectionStart;
+      this.indexCaretPositionStart = (this.inputSearch
+        .nativeElement as HTMLInputElement).selectionStart;
       this.isFilteringOption = true;
-    } else {
-      if (this.isFilteringOption) {
-        this.indexCaretPositionEnd = (event.target as HTMLInputElement).selectionEnd;
-      }
+    } else if (event === '#') {
+      setTimeout(() => {
+        this.options = [
+          { id: 1, label: 'process' },
+          { id: 2, label: 'tag2' },
+          { id: 3, label: 'tag3' },
+          { id: 3, label: 'tag4' },
+        ];
+        this.cdr.detectChanges();
+      }, 2000);
+
+      this.indexCaretPositionStart = (this.inputSearch
+        .nativeElement as HTMLInputElement).selectionStart;
+      this.isFilteringOption = true;
+    }
+  }
+
+  filteringOptions() {
+    if (this.isFilteringOption) {
+      this.indexCaretPositionEnd = (this.inputSearch
+        .nativeElement as HTMLInputElement).selectionEnd;
     }
   }
 }

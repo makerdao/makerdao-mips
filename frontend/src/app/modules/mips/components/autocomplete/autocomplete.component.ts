@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
-import { fromEvent, merge, Subject } from 'rxjs/index';
+import { merge, Subject } from 'rxjs/index';
 import { OptionAutocompleteComponent } from '../option-autocomplete/option-autocomplete.component';
 import { AutocompleteContentDirective } from '../../directives/autocomplete-content.directive';
 
@@ -35,15 +35,19 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   @Input() labels: string[] = [];
   focusIndex: number = 0;
   @Output() enter: Subject<boolean> = new Subject<boolean>();
+  @Output() activatedLabel: Subject<string> = new Subject<string>();
+
+  constructor() {}
 
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.options.changes.subscribe(data => {
+    this.options.changes.subscribe((data) => {
       if (this.options.length > 0) {
         this.focusIndex = 0;
-        let child: Element = (this.options.toArray()[0].element as HTMLElement).children.item(0);
-        child.classList.add("focusOption");
+        let child: Element = (this.options.toArray()[0]
+          .element as HTMLElement).children.item(0);
+        child.classList.add('focusOption');
         (child as HTMLElement).focus();
       }
     });
@@ -68,9 +72,9 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
       let child: Element = (item.element as HTMLElement).children.item(0);
 
       if (index === this.focusIndex) {
-        child.classList.add("focusOption");
+        child.classList.add('focusOption');
       } else {
-        child.classList.remove("focusOption");
+        child.classList.remove('focusOption');
       }
     });
   }
@@ -85,9 +89,9 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
       let child: Element = (item.element as HTMLElement).children.item(0);
 
       if (index === this.focusIndex) {
-        child.classList.add("focusOption");
+        child.classList.add('focusOption');
       } else {
-        child.classList.remove("focusOption");
+        child.classList.remove('focusOption');
       }
     });
   }

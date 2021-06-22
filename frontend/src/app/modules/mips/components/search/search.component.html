@@ -87,8 +87,12 @@
   </div>
 </ng-template>
 
-<app-autocomplete #autocomplete="appAutocomplete" [labels]="['@', '#']"
-  (enter)="selectedAutocompleteOptionByEnter = true">
+<app-autocomplete
+  #autocomplete="appAutocomplete"
+  [labels]="['@', '#']"
+  (enter)="selectedAutocompleteOptionByEnter = true"
+  (activatedLabel)="searchAutocompleteOptions($event)"
+>
   <ng-template appAutocompleteContent>
     <app-option-autocomplete
       *ngFor="
