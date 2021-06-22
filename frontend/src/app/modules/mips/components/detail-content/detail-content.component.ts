@@ -111,11 +111,11 @@ export class DetailContentComponent
 
   displayPreview = (e: Event) => {
     if (!this.overlayRef) {
-      let textContent: string = (e.target as HTMLElement).textContent;
+      let href: string = (e.target as HTMLAnchorElement).href.split("/mips/details/")[1];
 
-      if (textContent && textContent.trim() != '') {
+      if (href) {
         this.subscription = this.mipsService
-          .getMipBy('mipName', textContent.split(" ").join(""))
+          .getMipBy('mipName', href)
           .subscribe((data) => {
             if (data) {
               let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
