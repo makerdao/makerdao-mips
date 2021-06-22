@@ -115,7 +115,7 @@ export class DetailContentComponent
 
       if (textContent && textContent.trim() != '') {
         this.subscription = this.mipsService
-          .getMipBy('mipName', textContent)
+          .getMipBy('mipName', textContent.split(" ").join(""))
           .subscribe((data) => {
             if (data) {
               let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
@@ -288,7 +288,8 @@ export class DetailContentComponent
         !link.name.includes('Template') &&
         (link.link.includes(this.gitgubUrl) ||
          link.link.includes("https://github.com/makerdao/mips/blob") ||
-         link.link.includes("https://github.com/makerdao/mips/tree"))
+         link.link.includes("https://github.com/makerdao/mips/tree") ||
+         link.link.includes("https://forum.makerdao.com"))
       ) {
         return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
       }
@@ -321,8 +322,11 @@ export class DetailContentComponent
       let elem = document.getElementById(link.id);
 
       if (!link.name.includes('Template')) {
-        if (link.link.includes(this.gitgubUrl)) {
-          this.mipsService.getMipByFilename(link.name).subscribe(
+        if (link.link.includes(this.gitgubUrl) ||
+            link.link.includes("https://github.com/makerdao/mips/blob") ||
+            link.link.includes("https://github.com/makerdao/mips/tree") ||
+            link.link.includes("https://forum.makerdao.com")) {
+          this.mipsService.getMipByFilename(link.name.split(" ").join("")).subscribe(
             (data) => {
               if (data.mipName) {
                 elem.setAttribute('href', `/mips/details/${data.mipName}`);
