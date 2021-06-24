@@ -47,6 +47,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.mipsService.updateActiveSearch(false);
     this.order = 'mip';
     this.initParametersToLoadData();
     this.loading = true;
@@ -253,7 +254,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           (error.error.error as string).includes('Lexical error'))
       ) {
         this.sintaxError = true;
-        this.errorMessage = 'Sintax error.';
+        this.errorMessage = 'Syntax error.';
       } else {
         this.sintaxError = false;
         this.errorMessage = '';
