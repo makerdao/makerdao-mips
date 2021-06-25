@@ -44,10 +44,10 @@ export class MIP {
   subproposal?: number;
 
   @Prop({
-    default: 0,
-    type: Number,
+    default: false,
+    type: Boolean,
   })
-  subproposalCount?: number;
+  mipFather?: boolean;
 
   @Prop({
     index: { type: "text" },

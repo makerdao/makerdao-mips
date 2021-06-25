@@ -30,6 +30,10 @@ let MIPsService = class MIPsService {
         this.mipsDoc = mipsDoc;
         this.parseQueryService = parseQueryService;
     }
+    async groupProposal() {
+        const [data] = await this.mipsDoc.aggregate([{ $group: { _id: "$proposal" } }]);
+        return data;
+    }
     async findAll(paginationQuery, order, search, filter, select) {
         const buildFilter = await this.buildFilter(search, filter);
         const { limit, page } = paginationQuery;

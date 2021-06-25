@@ -63,6 +63,8 @@ let ParseMIPsService = ParseMIPsService_1 = class ParseMIPsService {
                 this.logger.log(`Total news pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]}`);
             }
             this.logger.log(`Synchronize Data ===> ${JSON.stringify(synchronizeData)}`);
+            const mips = await this.mipsService.groupProposal();
+            console.log(mips, "<========");
             return true;
         }
         catch (error) {

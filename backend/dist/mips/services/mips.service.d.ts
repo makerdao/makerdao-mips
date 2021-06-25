@@ -7,6 +7,7 @@ export declare class MIPsService {
     private readonly mipsDoc;
     private readonly parseQueryService;
     constructor(mipsDoc: Model<MIPsDoc>, parseQueryService: ParseQueryService);
+    groupProposal(): Promise<string[]>;
     findAll(paginationQuery?: PaginationQueryDto, order?: string, search?: string, filter?: Filters, select?: string): Promise<any>;
     buildFilter(search: string, filter?: Filters): Promise<any>;
     buildSmartMongoDBQuery(ast: any): any;
