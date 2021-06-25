@@ -30,6 +30,12 @@ let MIPsService = class MIPsService {
         this.mipsDoc = mipsDoc;
         this.parseQueryService = parseQueryService;
     }
+    async groupProposal() {
+        return await this.mipsDoc.aggregate([
+            { $match: { proposal: { $ne: "" } } },
+            { $group: { _id: "$proposal" } },
+        ]);
+    }
     async findAll(paginationQuery, order, search, filter, select) {
         const buildFilter = await this.buildFilter(search, filter);
         const { limit, page } = paginationQuery;
@@ -137,6 +143,13 @@ let MIPsService = class MIPsService {
         }
         if (search) {
             if (search.startsWith("$")) {
+                const or = new RegExp("or", "gi");
+                const and = new RegExp("and", "gi");
+                const not = new RegExp("not", "gi");
+                search = search
+                    .replace(or, "OR")
+                    .replace(not, "NOT")
+                    .replace(and, "AND");
                 const ast = await this.parseQueryService.parse(search);
                 const query = this.buildSmartMongoDBQuery(ast);
                 source = {
@@ -230,6 +243,12 @@ let MIPsService = class MIPsService {
                 flag = true;
                 break;
             case "tags":
+                flag = true;
+                break;
+            case "contributors":
+                flag = true;
+                break;
+            case "author":
                 flag = true;
                 break;
         }
@@ -340,6 +359,12 @@ let MIPsService = class MIPsService {
     async update(id, mIPs) {
         const existingMIPs = await this.mipsDoc
             .findOneAndUpdate({ _id: id }, { $set: mIPs }, { new: true, useFindAndModify: false })
+            .lean(true);
+        return existingMIPs;
+    }
+    async setMipsFather(mips) {
+        const existingMIPs = await this.mipsDoc
+            .findOneAndUpdate({ mipName: { $in: mips } }, { $set: { mipFather: true } }, { new: true, useFindAndModify: false })
             .lean(true);
         return existingMIPs;
     }

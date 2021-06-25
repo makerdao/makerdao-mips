@@ -95,8 +95,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   initQueryParams() {
     let queryParams: any = this.route.snapshot.queryParamMap;
-
     let status;
+
     if (queryParams.has("status")) {
       if (typeof queryParams.params.status === "string") {
         (status = []).push(queryParams.params.status);
@@ -107,20 +107,49 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: status ? status : [],
-      search: queryParams.params.search ? queryParams.params.search : ''
+      search: queryParams.params.search ? queryParams.params.search : '',
+      contributor: queryParams.params.contributor,
+      author: queryParams.params.author
     };
 
     this.queryParamsListService.queryParams = qp;
   }
 
   initFiltersAndSearch() {
+    this.filter = {
+      contains: [],
+      notcontains: [],
+      equals: [],
+      notequals: [],
+      inarray: []
+    };
     this.initFiltersStatus();
+    this.initFilterContributor();
+    this.initFilterAuthor();
     this.initSearch();
   }
 
   initSearch() {
     let queryParams: QueryParams = this.queryParamsListService.queryParams;
     this.search = queryParams.search;
+  }
+
+  initFilterContributor() {
+    if (this.queryParamsListService.queryParams.contributor) {
+      this.pushFilterInarray(this.filter.inarray, {
+        field: 'contributors',
+        value: this.queryParamsListService.queryParams.contributor,
+      });
+    }
+  }
+
+  initFilterAuthor() {
+    if (this.queryParamsListService.queryParams.author) {
+      this.pushFilterInarray(this.filter.inarray, {
+        field: 'author',
+        value: this.queryParamsListService.queryParams.author,
+      });
+    }
   }
 
   initFiltersStatus() {
@@ -150,14 +179,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         }
       });
     }
-
-    this.filter = {
-      contains: [],
-      notcontains: [],
-      equals: [],
-      notequals: [],
-      inarray: []
-    };
 
     this.filter.notequals.push({field: 'mip', value: -1});
 
@@ -239,7 +260,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       }
     }
 
-    this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter, 'title proposal filename mipName paragraphSummary sentenceSummary mip status')
+    this.mipsService
+      .searchMips(
+        this.limit,
+        this.page,
+        this.order,
+        this.search,
+        this.filter,
+        'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+      )
     .subscribe(data => {
       this.mipsAux = data.items;
       this.mips = this.mips.concat(this.mipsAux);
@@ -287,7 +316,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMipsByName(limit, page, order, search, filter): void {
-    this.mipsService.searchMips(limit, page, order, search, filter, 'title proposal mipName filename paragraphSummary sentenceSummary mip status')
+    this.mipsService
+      .searchMips(
+        limit,
+        page,
+        order,
+        search,
+        filter,
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather'
+      )
     .subscribe(data => {
       this.mipsByName = data.items;
 

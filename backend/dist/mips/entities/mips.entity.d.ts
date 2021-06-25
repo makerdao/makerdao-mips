@@ -15,6 +15,7 @@ export declare class MIP {
     mip?: number;
     mipName?: string;
     subproposal?: number;
+    mipFather?: boolean;
     title?: string;
     proposal?: string;
     author?: string[];
