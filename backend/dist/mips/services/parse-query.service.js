@@ -16,6 +16,9 @@ let ParseQueryService = class ParseQueryService {
     constructor() {
         this.parser = new jison_1.Parser({
             lex: {
+                options: {
+                    "case-insensitive": false
+                },
                 rules: [
                     ["\\s", "/* skip whitespace */"],
                     ["\\$", "/* skip whitespace */"],

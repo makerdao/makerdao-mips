@@ -142,6 +142,15 @@ export class MIPsService {
 
     if (search) {
       if (search.startsWith("$")) {
+        const or = new RegExp("or", "gi");
+        const and = new RegExp("and", "gi");
+        const not = new RegExp("not", "gi");
+
+        search = search
+          .replace(or, "OR")
+          .replace(not, "NOT")
+          .replace(and, "AND");
+
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
 
@@ -244,6 +253,12 @@ export class MIPsService {
       case "tags":
         flag = true;
         break;
+      case "contributors":
+        flag = true;
+        break;
+      case "author":
+        flag = true;
+        break;        
     }
 
     if (!flag) {
