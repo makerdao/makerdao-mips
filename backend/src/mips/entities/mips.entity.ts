@@ -44,6 +44,12 @@ export class MIP {
   subproposal?: number;
 
   @Prop({
+    default: 0,
+    type: Number,
+  })
+  subproposalCount?: number;
+
+  @Prop({
     index: { type: "text" },
   })
   title?: string;
