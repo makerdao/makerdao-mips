@@ -59,7 +59,12 @@
   <div *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" class="data-container authorsContributors">
     <span *ngFor="let author of authors" class="row mt-10">
       <p class="label">Author</p>
-      <p class="info">{{ author }}</p>
+      <a
+        class="info"
+        [routerLink]="['/mips/list']"
+        [queryParams]="{ author: author }"
+        >{{ author }}</a
+      >
     </span>
     <ng-container
       *ngIf="
@@ -70,7 +75,12 @@
     >
       <span *ngFor="let contributor of contributors" class="row mt-10">
         <p class="label">Contributor</p>
-        <p class="info">{{ contributor }}</p>
+        <a
+          class="info"
+          [routerLink]="['/mips/list']"
+          [queryParams]="{ contributor: contributor }"
+          >{{ contributor }}</a
+        >
       </span>
     </ng-container>
   </div>
