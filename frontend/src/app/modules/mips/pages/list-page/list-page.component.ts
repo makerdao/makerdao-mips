@@ -116,7 +116,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   initFiltersAndSearch() {
     this.initFiltersStatus();
     this.initSearch();
-    this.filter.equals.push({field: 'proposal', value: ""});  // no subproposals
   }
 
   initSearch() {
@@ -228,6 +227,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMips(): void {
+    let index = this.filter.equals.findIndex(item => item.field === 'proposal');
+
+    if (this.filterOrSearch()) {  // filter or search
+      if (index !== -1) {
+        this.filter.equals.splice(index, 1);  // include subproposals in searching
+      }
+    } else {
+      if (index === -1) {
+        this.filter.equals.push({field: 'proposal', value: ""});  // no subproposals
+      }
+    }
+
     this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter, 'title proposal filename mipName paragraphSummary sentenceSummary mip status')
     .subscribe(data => {
       this.mipsAux = data.items;
@@ -260,6 +271,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         this.errorMessage = '';
       }
     });
+  }
+
+  filterOrSearch(): boolean {
+    if (
+      this.filter.contains.length ||
+      this.filter.inarray.length ||
+      this.filter.notcontains.length ||
+      this.search
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   searchMipsByName(limit, page, order, search, filter): void {
