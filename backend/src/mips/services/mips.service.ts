@@ -16,6 +16,13 @@ export class MIPsService {
     private readonly parseQueryService: ParseQueryService
   ) {}
 
+  async groupProposal(): Promise<any> {
+    return await this.mipsDoc.aggregate([
+      { $match: { proposal: { $ne: "" } } },
+      { $group: { _id: "$proposal" } },
+    ]);
+  }
+
   async findAll(
     paginationQuery?: PaginationQueryDto,
     order?: string,
@@ -258,7 +265,7 @@ export class MIPsService {
         break;
       case "author":
         flag = true;
-        break;        
+        break;
     }
 
     if (!flag) {
@@ -374,6 +381,18 @@ export class MIPsService {
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
+        { new: true, useFindAndModify: false }
+      )
+      .lean(true);
+
+    return existingMIPs;
+  }
+
+  async setMipsFather(mips: string[]): Promise<MIP> {
+    const existingMIPs = await this.mipsDoc
+      .findOneAndUpdate(
+        { mipName: {$in: mips}},
+        { $set: {mipFather: true} },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
