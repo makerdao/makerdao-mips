@@ -64,7 +64,9 @@ let ParseMIPsService = ParseMIPsService_1 = class ParseMIPsService {
             }
             this.logger.log(`Synchronize Data ===> ${JSON.stringify(synchronizeData)}`);
             const mips = await this.mipsService.groupProposal();
-            console.log(mips, "<========");
+            if (mips.length > 0) {
+                await this.mipsService.setMipsFather(mips.map(d => d._id));
+            }
             return true;
         }
         catch (error) {

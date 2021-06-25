@@ -31,8 +31,10 @@ let MIPsService = class MIPsService {
         this.parseQueryService = parseQueryService;
     }
     async groupProposal() {
-        const [data] = await this.mipsDoc.aggregate([{ $group: { _id: "$proposal" } }]);
-        return data;
+        return await this.mipsDoc.aggregate([
+            { $match: { proposal: { $ne: "" } } },
+            { $group: { _id: "$proposal" } },
+        ]);
     }
     async findAll(paginationQuery, order, search, filter, select) {
         const buildFilter = await this.buildFilter(search, filter);
@@ -357,6 +359,12 @@ let MIPsService = class MIPsService {
     async update(id, mIPs) {
         const existingMIPs = await this.mipsDoc
             .findOneAndUpdate({ _id: id }, { $set: mIPs }, { new: true, useFindAndModify: false })
+            .lean(true);
+        return existingMIPs;
+    }
+    async setMipsFather(mips) {
+        const existingMIPs = await this.mipsDoc
+            .findOneAndUpdate({ mipName: { $in: mips } }, { $set: { mipFather: true } }, { new: true, useFindAndModify: false })
             .lean(true);
         return existingMIPs;
     }

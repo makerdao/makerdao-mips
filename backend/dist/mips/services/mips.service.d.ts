@@ -7,7 +7,7 @@ export declare class MIPsService {
     private readonly mipsDoc;
     private readonly parseQueryService;
     constructor(mipsDoc: Model<MIPsDoc>, parseQueryService: ParseQueryService);
-    groupProposal(): Promise<string[]>;
+    groupProposal(): Promise<any>;
     findAll(paginationQuery?: PaginationQueryDto, order?: string, search?: string, filter?: Filters, select?: string): Promise<any>;
     buildFilter(search: string, filter?: Filters): Promise<any>;
     buildSmartMongoDBQuery(ast: any): any;
@@ -24,6 +24,7 @@ export declare class MIPsService {
     deleteManyByIds(ids: string[]): Promise<void>;
     deleteMany(): Promise<void>;
     update(id: string, mIPs: MIP): Promise<MIP>;
+    setMipsFather(mips: string[]): Promise<MIP>;
     remove(id: string): Promise<{
         n: number;
         ok: number;
