@@ -85,7 +85,7 @@
   }
 }
 
-::ng-deep.variable-binding {
+:host::ng-deep.variable-binding {
   h2 {
     font-style: normal;
     font-weight: bold;
