@@ -154,7 +154,7 @@
       <app-social forumLink="#" [githubLink]="item.filename" mobile="true"></app-social>
       <div style="clear: both;"></div>
       <div class="subproposalsButtonWrapper" (click)="onClickButtonCaptureEvent($event)">
-        <button *ngIf="!item.proposal" class="arrow-container" [disabled]="item.loadingSubproposals"
+        <button *ngIf="!item.proposal && item.mipFather" class="arrow-container" [disabled]="item.loadingSubproposals"
           (click)="expandedItems = {subproposals: true, summary: false}; onGetSubproposals(item, $event)"
           (mouseover)="onMouseOverLeaveArrow(item._id, true)"
           (mouseleave)="onMouseOverLeaveArrow(item._id, false)"
