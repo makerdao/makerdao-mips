@@ -57,7 +57,7 @@
 
             {{element.proposal ? '' : element.mip}}
             <div (click)="onClickButtonCaptureEvent($event)">
-              <button *ngIf="!element.proposal" class="arrow-container" [disabled]="element.loadingSubproposals"
+              <button *ngIf="!element.proposal && element.mipFather" class="arrow-container" [disabled]="element.loadingSubproposals"
                 (click)="expandedItems = {subproposals: true, summary: false}; onGetSubproposals(element, $event)"
                 (mouseover)="onMouseOverLeaveArrow(element._id, true)"
                 (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
