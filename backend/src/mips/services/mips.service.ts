@@ -16,6 +16,13 @@ export class MIPsService {
     private readonly parseQueryService: ParseQueryService
   ) {}
 
+  async groupProposal(): Promise<any> {
+    return await this.mipsDoc.aggregate([
+      { $match: { proposal: { $ne: "" } } },
+      { $group: { _id: "$proposal" } },
+    ]);
+  }
+
   async findAll(
     paginationQuery?: PaginationQueryDto,
     order?: string,
@@ -142,6 +149,15 @@ export class MIPsService {
 
     if (search) {
       if (search.startsWith("$")) {
+        const or = new RegExp("or", "gi");
+        const and = new RegExp("and", "gi");
+        const not = new RegExp("not", "gi");
+
+        search = search
+          .replace(or, "OR")
+          .replace(not, "NOT")
+          .replace(and, "AND");
+
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
 
@@ -242,6 +258,12 @@ export class MIPsService {
         flag = true;
         break;
       case "tags":
+        flag = true;
+        break;
+      case "contributors":
+        flag = true;
+        break;
+      case "author":
         flag = true;
         break;
     }
@@ -359,6 +381,18 @@ export class MIPsService {
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
+        { new: true, useFindAndModify: false }
+      )
+      .lean(true);
+
+    return existingMIPs;
+  }
+
+  async setMipsFather(mips: string[]): Promise<MIP> {
+    const existingMIPs = await this.mipsDoc
+      .findOneAndUpdate(
+        { mipName: {$in: mips}},
+        { $set: {mipFather: true} },
         { new: true, useFindAndModify: false }
       )
       .lean(true);

@@ -23,7 +23,8 @@
     [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp }"
     #previewRef
   >
-    <div>{{ data.sentenceSummary }}</div>
+    <div class="previewTextTitle">{{ data.title }}</div>
+    <div class="previewTextContent">{{ data.sentenceSummary }}</div>
     <div
       [ngClass]="{
         triangleUp: triangleUp,
