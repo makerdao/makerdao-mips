@@ -1817,8 +1817,8 @@
         "affectsGlobalScope": false
       },
       "../src/mips/entities/mips.entity.ts": {
-        "version": "676f4de0666dba3f52002fec667af53db92e632ad09a758bc8fb511a568adc53",
-        "signature": "c94dff8e2a2697f4e13cfbe706da6b3ef28bf54f4f171823189dfddae5e71240",
+        "version": "0a3f50e357ca60e01da549d926b70c0754bc2e939892ad81e505963db0c6a72d",
+        "signature": "d04311bef39ee8c829434a931824eb9240af09b504e82dac955bb09f5919ec77",
         "affectsGlobalScope": false
       },
       "../node_modules/@nestjs/swagger/dist/decorators/api-basic.decorator.d.ts": {
@@ -2632,13 +2632,13 @@
         "affectsGlobalScope": false
       },
       "../src/mips/services/parse-query.service.ts": {
-        "version": "d9f756a6e23190648729c66188881e8a6c679619b6711292ff44e5e5682fda34",
+        "version": "b9c24c7d9fd6dedd6d8fcbb8a9c3747c1be0be8012ce4c00e698a164c9a81f66",
         "signature": "e3c70a8ce8ad9dfb6f4361813b6d310fb9e38e0bc58555380736488fc9e5bfd6",
         "affectsGlobalScope": false
       },
       "../src/mips/services/mips.service.ts": {
-        "version": "d23feea08e82b6bb2db0a3a552fdea0bc4436fd639a6dbaa3ae2ffa55d28f8d0",
-        "signature": "024bdde28ca243d620cabb7bba158c7311e704654500a57be5b8237e0a06d15a",
+        "version": "1f31a31092e1f579bcfdc1868852b93d3512961552459c87e059d14317438d77",
+        "signature": "4edafe98b3ba3050024c4756a53916e4d3de59b9ad4bd8f7159a433b9fa3403a",
         "affectsGlobalScope": false
       },
       "../node_modules/simple-git/src/lib/tasks/task.d.ts": {
@@ -2802,7 +2802,7 @@
         "affectsGlobalScope": false
       },
       "../src/mips/services/parse-mips.service.ts": {
-        "version": "00854d732fbca64d1dbee0c7c0be188447d9cf5780b525061d5e8d19a0a9b7a1",
+        "version": "da3c76f4924a9deaa23e3105e01818c5b21f0c706d90bbb9bcbbc445ebe3da1f",
         "signature": "443e01648c423631ad5cd031c44b085031be37a77e6c405df325791766cd3cd5",
         "affectsGlobalScope": false
       },
