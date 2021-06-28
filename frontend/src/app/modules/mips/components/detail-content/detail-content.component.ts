@@ -111,11 +111,11 @@ export class DetailContentComponent
 
   displayPreview = (e: Event) => {
     if (!this.overlayRef) {
-      let textContent: string = (e.target as HTMLElement).textContent;
+      let href: string = (e.target as HTMLAnchorElement).href.split("/mips/details/")[1];
 
-      if (textContent && textContent.trim() != '') {
+      if (href) {
         this.subscription = this.mipsService
-          .getMipBy('mipName', textContent)
+          .getMipBy('mipName', href)
           .subscribe((data) => {
             if (data) {
               let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
@@ -286,7 +286,10 @@ export class DetailContentComponent
 
       if (
         !link.name.includes('Template') &&
-        link.link.includes(this.gitgubUrl)
+        (link.link.includes(this.gitgubUrl) ||
+         link.link.includes("https://github.com/makerdao/mips/blob") ||
+         link.link.includes("https://github.com/makerdao/mips/tree") ||
+         link.link.includes("https://forum.makerdao.com"))
       ) {
         return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
       }
@@ -319,8 +322,11 @@ export class DetailContentComponent
       let elem = document.getElementById(link.id);
 
       if (!link.name.includes('Template')) {
-        if (link.link.includes(this.gitgubUrl)) {
-          this.mipsService.getMipByFilename(link.name).subscribe(
+        if (link.link.includes(this.gitgubUrl) ||
+            link.link.includes("https://github.com/makerdao/mips/blob") ||
+            link.link.includes("https://github.com/makerdao/mips/tree") ||
+            link.link.includes("https://forum.makerdao.com")) {
+          this.mipsService.getMipByFilename(link.name.split(" ").join("")).subscribe(
             (data) => {
               if (data.mipName) {
                 elem.setAttribute('href', `/mips/details/${data.mipName}`);
@@ -349,7 +355,7 @@ export class DetailContentComponent
                       } else {
                         elem.setAttribute(
                           'href',
-                          `/mips/details/${data.mipName}}`
+                          `/mips/details/${data.mipName}`
                         );
                       }
                     });

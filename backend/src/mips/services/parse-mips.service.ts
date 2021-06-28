@@ -101,6 +101,13 @@ export class ParseMIPsService {
       this.logger.log(
         `Synchronize Data ===> ${JSON.stringify(synchronizeData)}`
       );
+
+      const mips = await this.mipsService.groupProposal();
+
+      if (mips.length > 0) {
+        await this.mipsService.setMipsFather(mips.map(d => d._id));
+      }
+
       return true;
     } catch (error) {
       this.logger.error(error);
@@ -238,18 +245,19 @@ export class ParseMIPsService {
         list[i]?.text === "References" &&
         i + 1 < list.length
       ) {
-
         if (list[i + 1].type === "list") {
           for (const item of list[i + 1]?.items) {
             for (const list of item.tokens) {
               if (list.tokens) {
                 mip.references.push(
-                  ...list.tokens.filter(d => d.href).map((f) => {
-                    return {
-                      name: f.text,
-                      link: f.href,
-                    };
-                  })
+                  ...list.tokens
+                    .filter((d) => d.href)
+                    .map((f) => {
+                      return {
+                        name: f.text,
+                        link: f.href,
+                      };
+                    })
                 );
               }
             }
