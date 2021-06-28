@@ -67,6 +67,13 @@ __decorate([
 ], MIP.prototype, "subproposal", void 0);
 __decorate([
     mongoose_1.Prop({
+        default: false,
+        type: Boolean,
+    }),
+    __metadata("design:type", Boolean)
+], MIP.prototype, "mipFather", void 0);
+__decorate([
+    mongoose_1.Prop({
         index: { type: "text" },
     }),
     __metadata("design:type", String)
