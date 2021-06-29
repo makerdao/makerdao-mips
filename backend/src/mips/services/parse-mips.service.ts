@@ -104,6 +104,10 @@ export class ParseMIPsService {
 
       const mips = await this.mipsService.groupProposal();
 
+      this.logger.log(
+        `Mips with subproposals data ===> ${JSON.stringify(mips)}`
+      );
+
       if (mips.length > 0) {
         await this.mipsService.setMipsFather(mips.map(d => d._id));
       }
@@ -111,8 +115,6 @@ export class ParseMIPsService {
       return true;
     } catch (error) {
       this.logger.error(error);
-
-      console.log(error);
       return false;
     }
   }
