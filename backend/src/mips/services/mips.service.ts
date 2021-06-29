@@ -396,7 +396,7 @@ export class MIPsService {
 
   async setMipsFather(mips: string[]): Promise<MIP> {
     const existingMIPs = await this.mipsDoc
-      .findOneAndUpdate(
+      .updateMany(
         { mipName: {$in: mips}},
         { $set: {mipFather: true} },
         { new: true, useFindAndModify: false }
