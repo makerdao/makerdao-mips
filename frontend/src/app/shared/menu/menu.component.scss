@@ -12,7 +12,7 @@
     font-size: 14px;
     line-height: 16px;
     color: #748aa1;
-    padding: 10px 40px;
+    padding: 10px 40px 10px 20px;
     position: relative;
     height: 100%;
     box-sizing: border-box;
@@ -78,14 +78,13 @@
       align-items: center;
       box-sizing: border-box;
       transition: all 0.2s;
-      padding: 10px 40px;
-    }
+      padding: 10px 40px 10px 20px;    }
 
     &.subMenu {
       font-family: Roboto;
       font-style: normal;
       font-weight: 500;
-      font-size: 10px;
+      font-size: 11px;
       line-height: 14px;
       color: #748aa1;
       transition: all 0.2s;
@@ -95,7 +94,7 @@
       font-family: Roboto;
       font-style: normal;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 11px;
       line-height: 14px;
       color: #31394d;
       transition: all 0.2s;
@@ -132,17 +131,8 @@
   display: flex;
   flex-direction: column;
   // padding: 5px 0;
-  animation: fadeInMenu 0.3s;
-
-  .verticalLine {
-    position: absolute;
-    height: 100%;
-    width: 1px;
-    background-color: #b8c5d3;
-    right: 0;
-    height: calc(100% - 20px);
-    top: 10px;
-  }
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
+    0 1px 14px 0 rgb(0 0 0 / 12%);
 }
 
 .dropdown-content-first-level {
@@ -154,17 +144,16 @@
   position: fixed;
   left: 0;
   // padding: 5px 0;
-  animation: fadeInMenu 0.3s;
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
+    0 1px 14px 0 rgb(0 0 0 / 12%);
+}
 
-  .verticalLine {
-    position: absolute;
-    height: 100%;
-    width: 1px;
-    background-color: #b8c5d3;
-    right: 0;
-    height: calc(100% - 20px);
-    top: 10px;
-  }
+.fadeInMenuDownAnimation {
+  animation: fadeInMenuDown 0.2s;
+}
+
+.fadeInMenuUpAnimation {
+  animation: fadeInMenuUp 0.2s;
 }
 
 .backdrop {
@@ -176,12 +165,21 @@
   height: auto;
 }
 
-@keyframes fadeInMenu {
+@keyframes fadeInMenuDown {
   0% {
-    opacity: 0;
+    transform: translateY(-20px);
   }
   100% {
-    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeInMenuUp {
+  0% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0px);
   }
 }
 
@@ -193,7 +191,8 @@
       }
 
       &.noFirstLevel {
-        padding: 10px 40px;
+        // padding: 10px 40px;
+        padding: 10px 40px 10px 20px;
       }
 
       &.firstLevelActive {
@@ -201,11 +200,7 @@
       }
 
       &.subMenu {
-        font-size: 12px;
-      }
-
-      &.subMenuActive {
-        font-size: 12px;
+        font-size: 11px;
       }
     }
   }
@@ -217,17 +212,16 @@
     display: flex;
     flex-direction: column;
     // padding: 5px 0;
-    animation: fadeInMenu 0.3s;
+    box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
+      0 1px 14px 0 rgb(0 0 0 / 12%);
+  }
 
-    .verticalLine {
-      position: absolute;
-      height: 100%;
-      width: 1px;
-      background-color: #b8c5d3;
-      right: 0;
-      height: calc(100% - 20px);
-      top: 10px;
-    }
+  .fadeInMenuDownAnimation {
+    animation: fadeInMenuDown 0.2s;
+  }
+
+  .fadeInMenuUpAnimation {
+    animation: fadeInMenuUp 0.2s;
   }
 
   .dropdown-content-first-level {
@@ -238,16 +232,7 @@
     flex-direction: column;
     position: initial;
     // padding: 5px 0;
-    animation: fadeInMenu 0.3s;
-
-    .verticalLine {
-      position: absolute;
-      height: 100%;
-      width: 1px;
-      background-color: #b8c5d3;
-      right: 0;
-      height: calc(100% - 20px);
-      top: 10px;
-    }
+    box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
+      0 1px 14px 0 rgb(0 0 0 / 12%);
   }
 }

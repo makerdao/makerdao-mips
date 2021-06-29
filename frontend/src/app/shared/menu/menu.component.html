@@ -1,6 +1,6 @@
 <a
   (click)="onClick($event)"
-  (mouseover)="open()"
+  (mouseover)="open($event)"
   type="button"
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
@@ -42,7 +42,9 @@
   <div
     [ngClass]="{
       'dropdown-content-first-level': levelMenu === 0,
-      'dropdown-content': levelMenu > 0
+      'dropdown-content': levelMenu > 0,
+      'fadeInMenuDownAnimation': yDirection === 'down' || levelMenu === 0,
+      'fadeInMenuUpAnimation': yDirection === 'up' && levelMenu != 0
     }"
   >
     <app-menu
@@ -55,15 +57,5 @@
       [openedIndex]="openedIndexChild"
       [isOpen]="openedIndexChild === i"
     ></app-menu>
-    <div
-      *ngIf="
-        openedIndexChild !== -1 &&
-        menu.children &&
-        menu.children[openedIndexChild] &&
-        menu.children[openedIndexChild].children &&
-        menu.children[openedIndexChild].children.length > 0
-      "
-      class="verticalLine"
-    ></div>
   </div>
 </ng-template>
