@@ -183,6 +183,7 @@
 
   code {
     width: 100%;
+    overflow-wrap: break-word;
   }
 
   a {
@@ -191,6 +192,7 @@
     line-height: 1.5;
     color: #2f80ed;
     text-decoration: none;
+    overflow-wrap: break-word;
   }
 
   p,
@@ -200,6 +202,10 @@
     font-size: 16px;
     line-height: 1.5;
     color: #31394d;
+
+    li {
+      overflow-wrap: break-word;
+    }
   }
 
   hr {
