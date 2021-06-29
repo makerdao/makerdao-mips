@@ -24,6 +24,10 @@
       src="../../../../../assets/images/down.svg"
     />
   </div>
+  <div
+    *ngIf="menu.children && menu.children.length > 0 && levelMenu > 0"
+    class="submenuArrow"
+  ></div>
 </a>
 
 <ng-template
