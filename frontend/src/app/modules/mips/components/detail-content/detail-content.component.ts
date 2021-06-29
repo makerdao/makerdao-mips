@@ -87,6 +87,8 @@ export class DetailContentComponent
   ngOnInit(): void {
     this.overrideDefaultHeadings();
     this.getDefaultLinks();
+    this.overrideDefaultTables();
+    this.overrideDefaultImg();
   }
 
   ngAfterViewInit() {
@@ -224,6 +226,8 @@ export class DetailContentComponent
 
     this.getDefaultLinks();
     this.overrideDefaultHeadings();
+    this.overrideDefaultTables();
+    this.overrideDefaultImg();
   }
 
   onReady() {
@@ -262,6 +266,23 @@ export class DetailContentComponent
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
                </a>${text}</h${level}>`;
+    };
+  }
+
+  overrideDefaultTables() {
+    this.markdownService.renderer.table = (header: string, body: string) => {
+      return `<div style="overflow-x:auto; margin-bottom: 16px;">
+                <table>
+                  <thead>${header}</thead>
+                  <tbody>${body}</tbody>
+                </table>
+              </div>`;
+    }
+  }
+
+  overrideDefaultImg() {
+    this.markdownService.renderer.image = (href: string, title: string, text: string) => {
+      return `<img src="${href}?raw=true">`;
     };
   }
 

@@ -216,6 +216,38 @@
   h3 {
     margin-top: 40px;
   }
+
+  table {
+    border: 1px solid #e2e4e7;
+    border-collapse: collapse;
+    width: max-content;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  th, td {
+    border: 1px solid #e2e4e7;
+    padding: 6px 13px;
+  }
+
+  td {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+    color: #31394d;
+  }
+
+  th {
+    font-style: normal;
+    font-size: 16px;
+    line-height: 22px;
+    color: #31394d;
+  }
+
+  tr:nth-child(even) {
+    background-color: #F5F6FA;
+  }
 }
 
 .row {
