@@ -102,7 +102,6 @@ export class MIPsController {
         filter,
         select
       );
-      
     } catch (error) {
       throw new HttpException(
         {
@@ -118,12 +117,9 @@ export class MIPsController {
   @ApiQuery({
     type: String,
     name: "mipName",
-    required: true
+    required: true,
   })
-  async findOneByMipName(
-    @Query("mipName") mipName?: string
-  ) {
-
+  async findOneByMipName(@Query("mipName") mipName?: string) {
     const mip = await this.mipsService.findOneByMipName(mipName);
 
     if (!mip) {
@@ -150,19 +146,19 @@ export class MIPsController {
   @ApiQuery({
     type: String,
     name: "field",
-    required: true
+    required: true,
   })
   @ApiQuery({
     type: String,
     name: "value",
-    required: true
+    required: true,
   })
   async smartSearch(
     @Query("field") field: string,
-    @Query("value") value: string,
+    @Query("value") value: string
   ) {
     try {
-      return await this.mipsService.smartSearch(field, value);      
+      return await this.mipsService.smartSearch(field, value);
     } catch (error) {
       throw new HttpException(
         {
@@ -170,45 +166,43 @@ export class MIPsController {
           error: error.message,
         },
         HttpStatus.BAD_REQUEST
-      );      
+      );
     }
-    
   }
 
   @Get("findone-by")
   @ApiQuery({
     type: String,
     name: "field",
-    required: true
+    required: true,
   })
   @ApiQuery({
     type: String,
     name: "value",
-    required: true
+    required: true,
   })
-  async findOneByFilename(
+  async findOneBy(
     @Query("field") field: string,
-    @Query("value") value: string,
+    @Query("value") value: string
   ) {
-
     let mip;
 
     switch (field) {
-      case 'filename':
+      case "filename":
         mip = await this.mipsService.findOneByFileName(value);
         if (!mip) {
           throw new NotFoundException(`MIPs with ${field} ${value} not found`);
         }
         return mip;
 
-      case 'mipName':
+      case "mipName":
         mip = await this.mipsService.getSummaryByMipName(value);
 
         if (!mip) {
           throw new NotFoundException(`MIPs with ${field} ${value} not found`);
         }
         return mip;
-    
+
       default:
         throw new HttpException(
           {
@@ -216,8 +210,8 @@ export class MIPsController {
             error: `Field ${field} not found`,
           },
           HttpStatus.BAD_REQUEST
-        );    
-    }    
+        );
+    }
   }
 
   @Post("callback")

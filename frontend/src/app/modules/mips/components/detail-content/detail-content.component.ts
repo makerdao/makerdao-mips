@@ -10,6 +10,7 @@ import {
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 const preambleDataSample = [
   {
@@ -74,6 +75,8 @@ export class DetailContentComponent
   @Input() subproposals: any[];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
+  subproposalCode: string = "";
+  subproposalTitle: string = "";
 
   constructor(
     private markdownService: MarkdownService,
@@ -81,12 +84,15 @@ export class DetailContentComponent
     private route: ActivatedRoute,
     private mipsService: MipsService,
     public overlay: Overlay,
-    public viewContainerRef: ViewContainerRef
+    public viewContainerRef: ViewContainerRef,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
     this.overrideDefaultHeadings();
     this.getDefaultLinks();
+    this.overrideDefaultTables();
+    this.overrideDefaultImg();
   }
 
   ngAfterViewInit() {
@@ -111,11 +117,11 @@ export class DetailContentComponent
 
   displayPreview = (e: Event) => {
     if (!this.overlayRef) {
-      let textContent: string = (e.target as HTMLElement).textContent;
+      let href: string = (e.target as HTMLAnchorElement).href.split("/mips/details/")[1];
 
-      if (textContent && textContent.trim() != '') {
+      if (href) {
         this.subscription = this.mipsService
-          .getMipBy('mipName', textContent)
+          .getMipBy('mipName', href)
           .subscribe((data) => {
             if (data) {
               let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
@@ -220,10 +226,23 @@ export class DetailContentComponent
   ngOnChanges() {
     if (this.mip && this.mip.sectionsRaw) {
       this.content = (this.mip.sectionsRaw as []).slice(1).join('\n');
+
+      if (this.mip.proposal) {
+        let subProposalTitleArray: string[] = this.mip.title.split(':');
+        this.subproposalCode = subProposalTitleArray[0];
+        this.subproposalTitle = subProposalTitleArray.slice(1).join("");
+      }
+      this.titleService.setTitle(
+        this.mip.proposal
+          ? this.mip.title
+          : this.mip.mipName + ': ' + this.mip.title
+      );
     }
 
     this.getDefaultLinks();
     this.overrideDefaultHeadings();
+    this.overrideDefaultTables();
+    this.overrideDefaultImg();
   }
 
   onReady() {
@@ -241,7 +260,7 @@ export class DetailContentComponent
 
   moveToElement(el: HTMLElement): void {
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView();
     }
   }
 
@@ -262,6 +281,23 @@ export class DetailContentComponent
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
                </a>${text}</h${level}>`;
+    };
+  }
+
+  overrideDefaultTables() {
+    this.markdownService.renderer.table = (header: string, body: string) => {
+      return `<div style="overflow-x:auto; margin-bottom: 16px;">
+                <table>
+                  <thead>${header}</thead>
+                  <tbody>${body}</tbody>
+                </table>
+              </div>`;
+    }
+  }
+
+  overrideDefaultImg() {
+    this.markdownService.renderer.image = (href: string, title: string, text: string) => {
+      return `<img src="${href}?raw=true">`;
     };
   }
 
@@ -286,7 +322,10 @@ export class DetailContentComponent
 
       if (
         !link.name.includes('Template') &&
-        link.link.includes(this.gitgubUrl)
+        (link.link.includes(this.gitgubUrl) ||
+         link.link.includes("https://github.com/makerdao/mips/blob") ||
+         link.link.includes("https://github.com/makerdao/mips/tree") ||
+         link.link.includes("https://forum.makerdao.com"))
       ) {
         return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
       }
@@ -319,8 +358,11 @@ export class DetailContentComponent
       let elem = document.getElementById(link.id);
 
       if (!link.name.includes('Template')) {
-        if (link.link.includes(this.gitgubUrl)) {
-          this.mipsService.getMipByFilename(link.name).subscribe(
+        if (link.link.includes(this.gitgubUrl) ||
+            link.link.includes("https://github.com/makerdao/mips/blob") ||
+            link.link.includes("https://github.com/makerdao/mips/tree") ||
+            link.link.includes("https://forum.makerdao.com")) {
+          this.mipsService.getMipByFilename(link.name.split(" ").join("")).subscribe(
             (data) => {
               if (data.mipName) {
                 elem.setAttribute('href', `/mips/details/${data.mipName}`);
@@ -349,7 +391,7 @@ export class DetailContentComponent
                       } else {
                         elem.setAttribute(
                           'href',
-                          `/mips/details/${data.mipName}}`
+                          `/mips/details/${data.mipName}`
                         );
                       }
                     });
@@ -372,6 +414,10 @@ export class DetailContentComponent
         }
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.titleService.setTitle("MIPs Portal");
   }
 }
 

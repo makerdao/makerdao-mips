@@ -143,11 +143,15 @@ th {
 }
 
 .mat-column-pos {
-  width: 5%;
+  width: 7%;
   max-width: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (min-width: 1440px) {
+    width: 5.5%;
+  }
 }
 
 .mat-column-link {
@@ -276,12 +280,20 @@ a {
   height: auto;
   margin-bottom: 15px;
   box-sizing: border-box;
+  position: relative;
 
   .title {
     font-size: 14px;
     font-weight: 500;
     color: #31394D;
   }
+
+  .subproposalsButtonWrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   .status {
     margin-top: 5px;
   }
@@ -321,7 +333,7 @@ a {
   margin-top: 35px;
 }
 
-::ng-deep.variable-binding {
+:host::ng-deep.variable-binding {
   h2 {
     font-style: normal;
     font-weight: bold;
@@ -474,6 +486,9 @@ a {
   cursor: pointer;
   top: 24px;
   transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
 
   .arrow-wrapper {
     position: relative;
@@ -505,6 +520,13 @@ a {
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
   }
+}
+
+::ng-deep.mat-tooltip {
+  color: white;
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgba(26, 171, 155, 0.9);
 }
 
 @media screen and (max-width: 768px) {

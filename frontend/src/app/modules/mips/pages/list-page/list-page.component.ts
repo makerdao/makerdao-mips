@@ -33,9 +33,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   showFilterList: boolean = false;
   showListSearch: boolean = false;
   listSearchMip: any[] = [];
-  subproposalsMode: boolean;
   mipsByName: any[] = [];
-  orderSubproposalField: string = 'subproposal';
   sintaxError: boolean = false;
   errorMessage: string = '';
 
@@ -49,6 +47,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.mipsService.updateActiveSearch(false);
     this.order = 'mip';
     this.initParametersToLoadData();
     this.loading = true;
@@ -96,8 +95,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   initQueryParams() {
     let queryParams: any = this.route.snapshot.queryParamMap;
-
     let status;
+
     if (queryParams.has("status")) {
       if (typeof queryParams.params.status === "string") {
         (status = []).push(queryParams.params.status);
@@ -109,21 +108,48 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     let qp: QueryParams = {
       status: status ? status : [],
       search: queryParams.params.search ? queryParams.params.search : '',
-      subproposalsMode: queryParams.params.subproposalsMode === 'true' ? true : false
+      contributor: queryParams.params.contributor,
+      author: queryParams.params.author
     };
 
     this.queryParamsListService.queryParams = qp;
   }
 
   initFiltersAndSearch() {
+    this.filter = {
+      contains: [],
+      notcontains: [],
+      equals: [],
+      notequals: [],
+      inarray: []
+    };
     this.initFiltersStatus();
+    this.initFilterContributor();
+    this.initFilterAuthor();
     this.initSearch();
-    this.initSubproposalMode();
   }
 
   initSearch() {
     let queryParams: QueryParams = this.queryParamsListService.queryParams;
     this.search = queryParams.search;
+  }
+
+  initFilterContributor() {
+    if (this.queryParamsListService.queryParams.contributor) {
+      this.pushFilterInarray(this.filter.inarray, {
+        field: 'contributors',
+        value: this.queryParamsListService.queryParams.contributor,
+      });
+    }
+  }
+
+  initFilterAuthor() {
+    if (this.queryParamsListService.queryParams.author) {
+      this.pushFilterInarray(this.filter.inarray, {
+        field: 'author',
+        value: this.queryParamsListService.queryParams.author,
+      });
+    }
   }
 
   initFiltersStatus() {
@@ -154,22 +180,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.filter = {
-      contains: [],
-      notcontains: [],
-      equals: [],
-      notequals: [],
-      inarray: []
-    };
-
     this.filter.notequals.push({field: 'mip', value: -1});
 
     this.setFiltersStatus();
 
-  }
-
-  initSubproposalMode() {
-    this.setSubproposalMode(this.queryParamsListService.queryParams.subproposalsMode);
   }
 
   setFiltersStatus() {
@@ -234,7 +248,27 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMips(): void {
-    this.mipsService.searchMips(this.limit, this.page, this.order, this.search, this.filter, 'title proposal filename mipName paragraphSummary sentenceSummary mip status')
+    let index = this.filter.equals.findIndex(item => item.field === 'proposal');
+
+    if (this.filterOrSearch()) {  // filter or search
+      if (index !== -1) {
+        this.filter.equals.splice(index, 1);  // include subproposals in searching
+      }
+    } else {
+      if (index === -1) {
+        this.filter.equals.push({field: 'proposal', value: ""});  // no subproposals
+      }
+    }
+
+    this.mipsService
+      .searchMips(
+        this.limit,
+        this.page,
+        this.order,
+        this.search,
+        this.filter,
+        'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+      )
     .subscribe(data => {
       this.mipsAux = data.items;
       this.mips = this.mips.concat(this.mipsAux);
@@ -260,7 +294,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           (error.error.error as string).includes('Lexical error'))
       ) {
         this.sintaxError = true;
-        this.errorMessage = 'Sintax error.';
+        this.errorMessage = 'Syntax error.';
       } else {
         this.sintaxError = false;
         this.errorMessage = '';
@@ -268,8 +302,29 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     });
   }
 
+  filterOrSearch(): boolean {
+    if (
+      this.filter.contains.length ||
+      this.filter.inarray.length ||
+      this.filter.notcontains.length ||
+      this.search
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   searchMipsByName(limit, page, order, search, filter): void {
-    this.mipsService.searchMips(limit, page, order, search, filter, 'title proposal mipName filename paragraphSummary sentenceSummary mip status')
+    this.mipsService
+      .searchMips(
+        limit,
+        page,
+        order,
+        search,
+        filter,
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather'
+      )
     .subscribe(data => {
       this.mipsByName = data.items;
 
@@ -332,7 +387,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
-    this.order = (this.subproposalsMode && text === 'mip') ? text + " " + this.orderSubproposalField : text;
+    this.order = text;
     this.loading = true;
     this.searchMips();
   }
@@ -361,34 +416,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   goToMipDetails(name) {
     this.router.navigate(["/mips/details/", name]);
-  }
-
-  onCheckedSubproposalMode(event) {
-    this.setSubproposalMode(event);
-    this.mips = [];
-    this.page = 0;
-    this.limitAux = 10;
-    this.setQueryParams();
-    this.loading = true;
-    this.searchMips();
-  }
-
-  setSubproposalMode(value) {
-    this.order =
-      value && this.order === "mip"
-        ? this.order + " " + this.orderSubproposalField
-        : this.order.replace(this.orderSubproposalField, "").trim();
-    this.subproposalsMode = value;
-
-    if (!this.subproposalsMode) {
-      this.filter.equals.push({field: 'proposal', value: ""});
-    } else {
-      let index = this.filter.equals.findIndex(item => item.field === 'proposal');
-
-      if (index !== -1) {
-        this.filter.equals.splice(index, 1);
-      }
-    }
   }
 
   initFiltersList(): void {
@@ -453,8 +480,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: [],
-      search: this.search,
-      subproposalsMode: this.subproposalsMode
+      search: this.search
     };
 
     if (filterSaved.arrayStatus[0] === 1) {

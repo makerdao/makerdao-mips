@@ -16,6 +16,13 @@ export class MIPsService {
     private readonly parseQueryService: ParseQueryService
   ) {}
 
+  async groupProposal(): Promise<any> {
+    return await this.mipsDoc.aggregate([
+      { $match: { proposal: { $ne: "" } } },
+      { $group: { _id: "$proposal" } },
+    ]);
+  }
+
   async findAll(
     paginationQuery?: PaginationQueryDto,
     order?: string,
@@ -30,12 +37,12 @@ export class MIPsService {
 
     if (select) {
       const items = await this.mipsDoc
-      .find(buildFilter)
-      .select(select)
-      .sort(order)
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+        .find(buildFilter)
+        .select(select)
+        .sort(order)
+        .skip(page * limit)
+        .limit(limit)
+        .exec();
 
       return { items, total };
     }
@@ -141,18 +148,36 @@ export class MIPsService {
     }
 
     if (search) {
-      if (search.startsWith('$')) {
+      if (search.startsWith("$")) {
+        const or = new RegExp("or", "gi");
+        const and = new RegExp("and", "gi");
+        const not = new RegExp("not", "gi");
+
+        search = search
+          .replace(or, "OR")
+          .replace(not, "NOT")
+          .replace(and, "AND");
+
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
-        
-        source = {$and: [{
-          ...source,
-          ...query
-        }]};
+
+        console.log(JSON.stringify(ast));
+
+        console.log(JSON.stringify(query));
+
+        console.log(JSON.stringify(source));
+
+        source = {
+          $and: [
+            {
+              ...source,
+              ...query,
+            },
+          ],
+        };
 
         // console.log(JSON.stringify(ast), "<==========");
         // console.log(JSON.stringify(query), "<==========");
-
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
       }
@@ -162,41 +187,49 @@ export class MIPsService {
 
   buildSmartMongoDBQuery(ast: any): any {
     if (ast.type === "LITERAL" && ast.name.includes("#")) {
-      return { tags: {$in: [ast.name.replace("#", "")] }};
+      return { tags: { $in: [ast.name.replace("#", "")] } };
     } else if (ast.type === "LITERAL" && ast.name.includes("@")) {
-      return { status: { $regex: new RegExp(`${ast.name.replace("@", "")}`), $options: "i" } };
+      return {
+        status: {
+          $regex: new RegExp(`${ast.name.replace("@", "")}`),
+          $options: "i",
+        },
+      };
     } else {
       if (ast.type === "OPERATION" && ast.op === "OR") {
         const request = [];
 
         for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));          
+          request.push(this.buildSmartMongoDBQuery(item));
         }
 
         return {
-          $or: [
-            ...request
-          ],
+          $or: [...request],
         };
       } else if (ast.type === "OPERATION" && ast.op === "AND") {
         const request = [];
 
         for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));          
+          request.push(this.buildSmartMongoDBQuery(item));
         }
 
         return {
-          $and: [
-            ...request
-          ],
+          $and: [...request],
         };
       } else if (ast.type === "OPERATION" && ast.op === "NOT") {
         if (ast.left.includes("#")) {
-          return { tags: {$nin: [ast.left.replace("#", "")] }};
+          return { tags: { $nin: [ast.left.replace("#", "")] } };
         } else if (ast.left.includes("@")) {
-          return { status: {$not: { $regex: new RegExp(`${ast.left.replace("@", "")}`), $options: "i" }} };
+          return {
+            status: {
+              $not: {
+                $regex: new RegExp(`${ast.left.replace("@", "")}`),
+                $options: "i",
+              },
+            },
+          };
         } else {
-          throw new Error("Database query not support");          
+          throw new Error("Database query not support");
         }
       } else {
         return;
@@ -231,6 +264,12 @@ export class MIPsService {
         flag = true;
         break;
       case "tags":
+        flag = true;
+        break;
+      case "contributors":
+        flag = true;
+        break;
+      case "author":
         flag = true;
         break;
     }
@@ -302,7 +341,7 @@ export class MIPsService {
   async getSummaryByMipName(mipName: string): Promise<MIP> {
     return await this.mipsDoc
       .findOne({ mipName })
-      .select(["sentenceSummary", "paragraphSummary"])
+      .select(["sentenceSummary", "paragraphSummary", "title"])
       .exec();
   }
 
@@ -348,6 +387,18 @@ export class MIPsService {
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
+        { new: true, useFindAndModify: false }
+      )
+      .lean(true);
+
+    return existingMIPs;
+  }
+
+  async setMipsFather(mips: string[]): Promise<MIP> {
+    const existingMIPs = await this.mipsDoc
+      .updateMany(
+        { mipName: {$in: mips}},
+        { $set: {mipFather: true} },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
