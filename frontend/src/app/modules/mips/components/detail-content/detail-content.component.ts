@@ -252,7 +252,7 @@ export class DetailContentComponent
 
   moveToElement(el: HTMLElement): void {
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView();
     }
   }
 
