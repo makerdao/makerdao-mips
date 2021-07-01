@@ -10,6 +10,7 @@ import {
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 const preambleDataSample = [
   {
@@ -83,7 +84,8 @@ export class DetailContentComponent
     private route: ActivatedRoute,
     private mipsService: MipsService,
     public overlay: Overlay,
-    public viewContainerRef: ViewContainerRef
+    public viewContainerRef: ViewContainerRef,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
@@ -230,6 +232,11 @@ export class DetailContentComponent
         this.subproposalCode = subProposalTitleArray[0];
         this.subproposalTitle = subProposalTitleArray.slice(1).join("");
       }
+      this.titleService.setTitle(
+        this.mip.proposal
+          ? this.mip.title
+          : this.mip.mipName + ': ' + this.mip.title
+      );
     }
 
     this.getDefaultLinks();
@@ -253,7 +260,7 @@ export class DetailContentComponent
 
   moveToElement(el: HTMLElement): void {
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView();
     }
   }
 
@@ -407,6 +414,10 @@ export class DetailContentComponent
         }
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.titleService.setTitle("MIPs Portal");
   }
 }
 

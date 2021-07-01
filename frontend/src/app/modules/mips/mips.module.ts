@@ -35,6 +35,7 @@ import { SubproposalsComponent } from './components/subproposals/subproposals.co
 import {OverlayModule} from '@angular/cdk/overlay';
 import { SideContentComponent } from './components/side-content/side-content.component';
 import { ReferencesComponent } from './components/references/references.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -78,7 +79,8 @@ import { ReferencesComponent } from './components/references/references.componen
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),
-    OverlayModule
+    OverlayModule,
+    MatTooltipModule
   ]
 })
 export class MipsModule { }

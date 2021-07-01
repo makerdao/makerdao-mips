@@ -4,6 +4,9 @@ import { Subject } from 'rxjs';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import Menu from '../../data-types/menu';
 
+// mouse direction
+var oldY = 0;
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -20,6 +23,7 @@ export class MenuComponent implements OnInit, OnChanges {
   openedIndexChild: number = -1;
   @Input() index: number;
   @Output() toggle: Subject<any> = new Subject<any>();
+  yDirection = '';
 
   constructor(private menuService: MenuService) {}
 
@@ -135,14 +139,28 @@ export class MenuComponent implements OnInit, OnChanges {
     }
   }
 
-  open() {
+  open(e?) {
     if (this.levelMenu > 0) {
       this.isOpen = this.levelMenu > 0 ? true : false;
       this.opened.next();
+    }
+
+    if (e) {
+      this.getMouseDirection(e);
     }
   }
 
   onOpened(index: number) {
     this.openedIndexChild = index;
+  }
+
+  getMouseDirection(e) {
+    if (oldY < e.pageY) {
+      this.yDirection = 'down';
+    } else {
+      this.yDirection = 'up';
+    }
+
+    oldY = e.pageY;
   }
 }
