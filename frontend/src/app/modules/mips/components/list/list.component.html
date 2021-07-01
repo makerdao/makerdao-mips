@@ -33,7 +33,13 @@
             (click)="onNavigateToDetails(element.mipName)"
             style="cursor: pointer;">
              <!-- <span class="tooltiptext">Click for more details</span>  -->
-             <a routerLink="/mips/details/{{element.mipName}}"><br>{{element[column]}}</a></td>
+             <a
+                routerLink="/mips/details/{{ element.mipName }}"
+                [matTooltip]="element[column]"
+                [matTooltipClass]="{ 'mat-tooltip': true }"
+                ><br />{{ element[column] }}</a
+              >
+             </td>
          </span>
          <span *ngIf="column == 'status'">
            <td class="tooltip" at-cell *matCellDef="let element"

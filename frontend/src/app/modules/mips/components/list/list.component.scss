@@ -522,6 +522,13 @@ a {
   }
 }
 
+::ng-deep.mat-tooltip {
+  color: white;
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgba(26, 171, 155, 0.9);
+}
+
 @media screen and (max-width: 768px) {
   .mobile {
     width: 100%;
