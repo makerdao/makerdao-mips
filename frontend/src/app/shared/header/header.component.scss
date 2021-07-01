@@ -11,6 +11,10 @@
   z-index: 9999;
   transition: background-color 0.2s;
 
+  &:hover {
+    background-color: #ffffff;
+  }
+
   .menu-wrapper {
     height: 100%;
     scroll-behavior: smooth;
