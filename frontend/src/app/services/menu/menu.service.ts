@@ -6,7 +6,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MenuService {
-  url: string = 'assets/data/menu.json';
   private openedIndexChild: BehaviorSubject<number> = new BehaviorSubject<
     number
   >(-1);
@@ -21,8 +20,10 @@ export class MenuService {
 
   constructor(private http: HttpClient) {}
 
-  getMenu() {
-    return this.http.get(this.url);
+  getMenu(): Observable<any> {
+    return this.http.get(
+      'https://raw.githubusercontent.com/makerdao/mips/master/meta/menu.json'
+    );
   }
 
   setOpenedIndexChild(value: number) {
