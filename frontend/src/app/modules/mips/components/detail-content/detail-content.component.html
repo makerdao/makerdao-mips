@@ -1,7 +1,10 @@
 <div class="container">
   <div class="row">
-    <div>
+    <div *ngIf="!mip.proposal">
       <span class="title-bold">{{mip.mipName}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{mip.title}}</span>
+    </div>
+    <div *ngIf="mip.proposal">
+      <span class="title-bold">{{subproposalCode}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{subproposalTitle}}</span>
     </div>
     <div class="row social">
       <img class="github" src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">GitHub</a>
@@ -11,7 +14,13 @@
       </span></a>
     </div>
   </div>
-  <div class="mobile title margin-2"> {{mip.title}}</div>
+  <!-- <div class="mobile title margin-2"> {{mip.title}}</div> -->
+  <div *ngIf="!mip.proposal" class="mobile title margin-2">
+    <span class="title"> {{mip.title}}</span>
+  </div>
+  <div *ngIf="mip.proposal" class="mobile title margin-2">
+    <span class="title"> {{subproposalTitle}}</span>
+  </div>
   <hr>
   <markdown class="variable-binding" [data]="content" (ready)="onReady()"></markdown>
   <app-subproposals *ngIf="subproposals && subproposals.length > 0" [subproposals]="subproposals"></app-subproposals>

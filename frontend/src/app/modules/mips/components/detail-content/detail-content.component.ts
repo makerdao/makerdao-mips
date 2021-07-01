@@ -75,6 +75,8 @@ export class DetailContentComponent
   @Input() subproposals: any[];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
+  subproposalCode: string = "";
+  subproposalTitle: string = "";
 
   constructor(
     private markdownService: MarkdownService,
@@ -224,6 +226,12 @@ export class DetailContentComponent
   ngOnChanges() {
     if (this.mip && this.mip.sectionsRaw) {
       this.content = (this.mip.sectionsRaw as []).slice(1).join('\n');
+
+      if (this.mip.proposal) {
+        let subProposalTitleArray: string[] = this.mip.title.split(':');
+        this.subproposalCode = subProposalTitleArray[0];
+        this.subproposalTitle = subProposalTitleArray.slice(1).join("");
+      }
       this.titleService.setTitle(
         this.mip.proposal
           ? this.mip.title
