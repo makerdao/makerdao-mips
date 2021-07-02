@@ -36,8 +36,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { SideContentComponent } from './components/side-content/side-content.component';
 import { ReferencesComponent } from './components/references/references.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
-
+import { FeedbackDialogComponent } from './components/feedback/feedback-dialog/feedback-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MdCheckboxMobileComponent,
     SubproposalsComponent,
     SideContentComponent,
-    ReferencesComponent
+    ReferencesComponent,
+    FeedbackDialogComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +82,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
       sanitize: SecurityContext.NONE
     }),
     OverlayModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule,
+    ReactiveFormsModule
   ]
 })
 export class MipsModule { }

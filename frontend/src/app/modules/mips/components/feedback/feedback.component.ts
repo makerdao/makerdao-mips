@@ -1,47 +1,54 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MipsService } from '../../services/mips.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
+import IFeedback from '../../types/feedback';
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss']
+  styleUrls: ['./feedback.component.scss'],
 })
 export class FeedbackComponent implements OnInit {
-showContainer = false;
-@ViewChild('input') input: ElementRef;
-@ViewChild('textarea') textarea: ElementRef;
-disabled = true;
-sent = false;
+  showContainer = false;
+  sent = false;
+  feedbackData: IFeedback = {
+    subject: '',
+    description: '',
+  };
 
-  constructor(
-    private mipsService: MipsService
-  ) { }
+  constructor(private mipsService: MipsService, public dialog: MatDialog) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  sendFeedback(): void {
+    this.mipsService
+      .sendFeedBack(this.feedbackData.subject, this.feedbackData.description)
+      .subscribe(() => {
+        this.sent = true;
+
+        setTimeout(() => {
+          this.sent = false;
+        }, 3000);
+      });
   }
 
-  cancel(): void {
-   this.showContainer = false;
-   this.disabled = true;
- }
-
- sendFeedback(): void {
-   this.disabled = true;
-   this.mipsService.sendFeedBack(this.input.nativeElement.value, this.textarea.nativeElement.value)
-   .subscribe(() => {
-      this.input.nativeElement.value = '';
-      this.textarea.nativeElement.value = '';
-      this.sent = true;
-      this.showContainer = false;
-      setTimeout(() => {
-        this.sent = false;
-      }, 3000);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(FeedbackDialogComponent, {
+      backdropClass: 'feedbackBackDropClass',
+      position: {
+        bottom: '40px',
+        right: window.innerWidth <= 500 ? '' : '40px',
+      },
+      panelClass: 'feedbackPanelClass',
+      maxWidth: '90vw',
     });
- }
 
- onKey(): void {
-  this.disabled = this.input.nativeElement.value === '' ||
-  this.textarea.nativeElement.value === '' ? true : false;
- }
-
+    dialogRef.afterClosed().subscribe((result: IFeedback) => {
+      if (result) {
+        this.feedbackData = result;
+        this.sendFeedback();
+      }
+    });
+  }
 }
