@@ -35,9 +35,15 @@
              <!-- <span class="tooltiptext">Click for more details</span>  -->
              <a
                 routerLink="/mips/details/{{ element.mipName }}"
-                [matTooltip]="element[column]"
-                [matTooltipClass]="{ 'mat-tooltip': true }"
-                ><br />{{ element[column] }}</a
+                style="position: relative;"
+                >
+                <div
+                  class="cover"
+                  [matTooltip]="element[column]"
+                  [matTooltipClass]="{ 'mat-tooltip': true }"
+                  #tooltip="matTooltip"
+                  (mouseover)="tooltip.show()"
+                ></div><br />{{ element[column] }}</a
               >
              </td>
          </span>
