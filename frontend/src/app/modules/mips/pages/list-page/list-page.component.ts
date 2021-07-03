@@ -272,9 +272,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     .subscribe(data => {
       this.mipsAux = data.items;
       this.mips = this.mips.concat(this.mipsAux);
-      this.mipsService.setMipsData(this.mips);
       this.total = data.total;
-      this.mipsService.setTotal(this.total);
       this.loading = false;
       this.loadingPlus = false;
 
