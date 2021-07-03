@@ -213,7 +213,7 @@ export class DetailContentComponent
   };
 
   closePreview = (e: Event) => {
-    if (!this.subscription.closed) {
+    if (this.subscription && !this.subscription.closed) {
       this.subscription.unsubscribe();
     }
 
@@ -225,9 +225,11 @@ export class DetailContentComponent
 
   ngOnChanges() {
     if (this.mip && this.mip.sectionsRaw) {
-      this.content = (this.mip.sectionsRaw as []).slice(1).join('\n');
+      this.content = this.mip.title
+        ? (this.mip.sectionsRaw as []).slice(1).join('\n')
+        : (this.mip.sectionsRaw as []).join('\n');
 
-      if (this.mip.proposal) {
+      if (this.mip.proposal && this.mip.title) {
         let subProposalTitleArray: string[] = this.mip.title.split(':');
         this.subproposalCode = subProposalTitleArray[0];
         this.subproposalTitle = subProposalTitleArray.slice(1).join("");
@@ -272,7 +274,7 @@ export class DetailContentComponent
 
       let style: string = '';
 
-      if (this.mip.title.localeCompare(text) === 0) {
+      if (this.mip.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
       }
 
