@@ -142,7 +142,7 @@ export class AutocompleteDirective {
   openDropdown() {
     this.overlayRef = this.overlay.create({
       width: this.origin.offsetWidth,
-      maxHeight: 40 * 3,
+      maxHeight: 25 * 6,
       backdropClass: '',
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       positionStrategy: this.getOverlayPosition(),

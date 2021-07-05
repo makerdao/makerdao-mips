@@ -11,6 +11,8 @@ import {
 import { Subject } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
+import { SmartSearchService } from '../../services/smart-search.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -43,8 +45,12 @@ export class SearchComponent implements OnInit {
   indexCaretPositionEnd: number;
   isFilteringOption: boolean = false;
   selectedAutocompleteOptionByEnter: boolean = false;
+  activatedLabelAutocomplete: string;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private smartSearchService: SmartSearchService
+  ) {}
 
   ngOnInit(): void {
     this.control.setValue(this.value);
@@ -123,26 +129,59 @@ export class SearchComponent implements OnInit {
     this.cdr.detectChanges();
 
     if (event === '@') {
-      setTimeout(() => {
-        this.options = [
-          { id: 1, label: 'ACCEPTED' },
-          { id: 2, label: 'REJECTED' },
-          { id: 3, label: 'RFC' },
-          { id: 3, label: 'ARCHIVE' },
-        ];
-        this.cdr.detectChanges();
-      }, 2000);
+      // setTimeout(() => {
+      //   this.options = [
+      //     { id: 1, label: 'ACCEPTED' },
+      //     { id: 2, label: 'REJECTED' },
+      //     { id: 3, label: 'RFC' },
+      //     { id: 4, label: 'ARCHIVE' },
+      //   ];
+      //   this.cdr.detectChanges();
+      // }, 2000);
 
       this.indexCaretPositionStart = (this.inputSearch
         .nativeElement as HTMLInputElement).selectionStart;
       this.isFilteringOption = true;
+
+      // this.smartSearchService
+      //   .getOptions(
+      //     'status',
+      //     this.control.value.slice(
+      //       this.indexCaretPositionStart,
+      //       this.indexCaretPositionEnd
+      //     )
+      //   )
+      //   .subscribe((data) => {
+      //     this.options = data;
+      //   });
+      this.smartSearchService
+        .getOptions(
+          'status',
+          this.control.value.slice(
+            this.indexCaretPositionStart,
+            this.indexCaretPositionEnd
+          )
+        )
+        .pipe(
+          map((data) => {
+            const newArray = (data as []).map((i: any) => { return {label: i.status}});
+
+            return newArray;
+          })
+        )
+        .subscribe((data: any) => {
+          this.options = data;
+        });
     } else if (event === '#') {
       setTimeout(() => {
         this.options = [
           { id: 1, label: 'process' },
           { id: 2, label: 'tag2' },
           { id: 3, label: 'tag3' },
-          { id: 3, label: 'tag4' },
+          { id: 4, label: 'tag4' },
+          { id: 5, label: 'tag5' },
+          { id: 6, label: 'tag6' },
+          { id: 7, label: 'tag7' },
         ];
         this.cdr.detectChanges();
       }, 2000);

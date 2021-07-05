@@ -95,14 +95,7 @@
 >
   <ng-template appAutocompleteContent>
     <app-option-autocomplete
-      *ngFor="
-        let option of options
-          | filter
-            : control.value.slice(
-                indexCaretPositionStart,
-                indexCaretPositionEnd
-              )
-      "
+      *ngFor="let option of options"
       [value]="option.label"
     >
       {{ option.label }}

@@ -3,6 +3,7 @@ import {
   Component,
   ContentChild,
   ContentChildren,
+  ElementRef,
   HostListener,
   Input,
   OnInit,
@@ -36,6 +37,8 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   focusIndex: number = 0;
   @Output() enter: Subject<boolean> = new Subject<boolean>();
   @Output() activatedLabel: Subject<string> = new Subject<string>();
+  @ViewChild('autocomplete') autocompleteRef: ElementRef;
+  maxVisibleOptions: number = 6;
 
   constructor() {}
 
@@ -77,6 +80,10 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
         child.classList.remove('focusOption');
       }
     });
+
+    if (this.focusIndex >= this.maxVisibleOptions) {
+      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(0, 25);
+    }
   }
 
   @HostListener('document:keydown.ArrowUp', ['$event'])
@@ -94,6 +101,10 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
         child.classList.remove('focusOption');
       }
     });
+
+    if (this.focusIndex >= this.maxVisibleOptions) {
+      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(0, -25);
+    }
   }
 
   @HostListener('document:keydown.Enter', ['$event'])
