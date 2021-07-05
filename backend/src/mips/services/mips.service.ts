@@ -16,6 +16,13 @@ export class MIPsService {
     private readonly parseQueryService: ParseQueryService
   ) {}
 
+  async groupProposal(): Promise<any> {
+    return await this.mipsDoc.aggregate([
+      { $match: { proposal: { $ne: "" } } },
+      { $group: { _id: "$proposal" } },
+    ]);
+  }
+
   async findAll(
     paginationQuery?: PaginationQueryDto,
     order?: string,
@@ -145,6 +152,10 @@ export class MIPsService {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
 
+        // console.log(JSON.stringify(ast));
+        // console.log(JSON.stringify(query));
+        // console.log(JSON.stringify(source));
+
         source = {
           $and: [
             {
@@ -164,6 +175,10 @@ export class MIPsService {
   }
 
   buildSmartMongoDBQuery(ast: any): any {
+    const or = new RegExp("or", "gi");
+    const and = new RegExp("and", "gi");
+    const not = new RegExp("not", "gi");
+
     if (ast.type === "LITERAL" && ast.name.includes("#")) {
       return { tags: { $in: [ast.name.replace("#", "")] } };
     } else if (ast.type === "LITERAL" && ast.name.includes("@")) {
@@ -174,7 +189,7 @@ export class MIPsService {
         },
       };
     } else {
-      if (ast.type === "OPERATION" && ast.op === "OR") {
+      if (ast.type === "OPERATION" && or.exec(ast.op)) {
         const request = [];
 
         for (const item of ast.left) {
@@ -184,7 +199,7 @@ export class MIPsService {
         return {
           $or: [...request],
         };
-      } else if (ast.type === "OPERATION" && ast.op === "AND") {
+      } else if (ast.type === "OPERATION" && and.exec(ast.op)) {
         const request = [];
 
         for (const item of ast.left) {
@@ -194,7 +209,7 @@ export class MIPsService {
         return {
           $and: [...request],
         };
-      } else if (ast.type === "OPERATION" && ast.op === "NOT") {
+      } else if (ast.type === "OPERATION" && not.exec(ast.op)) {
         if (ast.left.includes("#")) {
           return { tags: { $nin: [ast.left.replace("#", "")] } };
         } else if (ast.left.includes("@")) {
@@ -242,6 +257,12 @@ export class MIPsService {
         flag = true;
         break;
       case "tags":
+        flag = true;
+        break;
+      case "contributors":
+        flag = true;
+        break;
+      case "author":
         flag = true;
         break;
     }
@@ -359,6 +380,18 @@ export class MIPsService {
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
+        { new: true, useFindAndModify: false }
+      )
+      .lean(true);
+
+    return existingMIPs;
+  }
+
+  async setMipsFather(mips: string[]): Promise<MIP> {
+    const existingMIPs = await this.mipsDoc
+      .updateMany(
+        { mipName: {$in: mips}},
+        { $set: {mipFather: true} },
         { new: true, useFindAndModify: false }
       )
       .lean(true);

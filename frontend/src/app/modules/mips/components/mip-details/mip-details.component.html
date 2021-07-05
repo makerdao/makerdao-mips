@@ -14,40 +14,6 @@
       <p class="info">{{ title }}</p>
     </span>
   </div>
-  <hr *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)"/>
-  <div *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" class="data-container">
-    <span class="row">
-      <p class="label">Author(s)</p>
-      <p class="info"></p>
-    </span>
-
-    <span *ngFor="let author of authors; let i = index" class="row mt-10">
-      <p class="label">{{ i + 1 }}</p>
-      <p class="info">{{ author }}</p>
-    </span>
-  </div>
-  <hr *ngIf="contributors && contributors.length > 0 && !isEmptyWhenReduce(contributors)"/>
-  <div *ngIf="contributors && contributors.length > 0 && !isEmptyWhenReduce(contributors)" class="data-container">
-    <span class="row">
-      <p class="label">Contributors</p>
-      <p class="info"></p>
-    </span>
-
-    <span
-      *ngFor="let contributor of contributors; let i = index"
-      class="row mt-10"
-    >
-      <p class="label">{{ i + 1 }}</p>
-      <p class="info">{{ contributor }}</p>
-    </span>
-  </div>
-  <hr *ngIf="type"/>
-  <div *ngIf="type" class="data-container">
-    <span class="row">
-      <p class="label">Type</p>
-      <p class="info">{{ type }}</p>
-    </span>
-  </div>
   <hr *ngIf="status"/>
   <div *ngIf="status" class="data-container">
     <span class="row">
@@ -58,14 +24,21 @@
       ></app-status>
     </span>
   </div>
-  <hr *ngIf="pollAddress"/>
-  <div *ngIf="pollAddress" class="data-container">
-    <span class="row">
-      <p class="label">Poll Address</p>
-      <p class="info">{{ pollAddress }}</p>
-      <!-- <img src="../../../../../assets/images/copy.svg" />
-      </div>
-    <img src="../../../../../assets/images/open.svg" /> -->
+  <hr *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)"/>
+  <div *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)" class="data-container">
+    <span
+      class="row"
+    >
+      <p class="label">Tags</p>
+      <p class="info">
+        <span *ngFor="let tag of tags; let i = index">
+          <a
+            [routerLink]="['/mips/list']"
+            [queryParams]="{ search: '$ #' + tag }"
+            >{{ tag }}</a
+          >{{ i < tags.length - 1 ? ", " : "" }}
+        </span>
+      </p>
     </span>
   </div>
   <hr *ngIf="dateProposed"/>
@@ -82,12 +55,34 @@
       <p class="info">{{ dateRatified }}</p>
     </span>
   </div>
-  <hr *ngIf="lastOpened"/>
-  <div *ngIf="lastOpened" class="data-container">
-    <span class="row">
-      <p class="label">Last Opened</p>
-      <p class="info">{{ lastOpened }}</p>
+  <hr *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)"/>
+  <div *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" class="data-container authorsContributors">
+    <span *ngFor="let author of authors" class="row mt-10">
+      <p class="label">Author</p>
+      <a
+        class="info"
+        [routerLink]="['/mips/list']"
+        [queryParams]="{ author: author }"
+        >{{ author }}</a
+      >
     </span>
+    <ng-container
+      *ngIf="
+        contributors &&
+        contributors.length > 0 &&
+        !isEmptyWhenReduce(contributors)
+      "
+    >
+      <span *ngFor="let contributor of contributors" class="row mt-10">
+        <p class="label">Contributor</p>
+        <a
+          class="info"
+          [routerLink]="['/mips/list']"
+          [queryParams]="{ contributor: contributor }"
+          >{{ contributor }}</a
+        >
+      </span>
+    </ng-container>
   </div>
   <hr *ngIf="dependencies && dependencies.length > 0 && !isEmptyWhenReduce(dependencies)"/>
   <div *ngIf="dependencies && dependencies.length > 0 && !isEmptyWhenReduce(dependencies)" class="data-container">
@@ -103,19 +98,28 @@
       <p class="info">{{ replaces }}</p>
     </span>
   </div>
-  <hr *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)"/>
-  <div *ngIf="tags && tags.length > 0 && !isEmptyWhenReduce(tags)" class="data-container">
+  <hr *ngIf="type"/>
+  <div *ngIf="type" class="data-container">
     <span class="row">
-      <p class="label">Tags</p>
-      <p class="info"></p>
+      <p class="label">Type</p>
+      <p class="info">{{ type }}</p>
     </span>
-
-    <span
-      *ngFor="let tag of tags; let i = index"
-      class="row mt-10"
-    >
-      <p class="label">{{ i + 1 }}</p>
-      <p class="info">{{ tag }}</p>
+  </div>
+  <hr *ngIf="pollAddress"/>
+  <div *ngIf="pollAddress" class="data-container">
+    <span class="row">
+      <p class="label">Poll Address</p>
+      <p class="info">{{ pollAddress }}</p>
+      <!-- <img src="../../../../../assets/images/copy.svg" />
+      </div>
+    <img src="../../../../../assets/images/open.svg" /> -->
+    </span>
+  </div>
+  <hr *ngIf="lastOpened"/>
+  <div *ngIf="lastOpened" class="data-container">
+    <span class="row">
+      <p class="label">Last Opened</p>
+      <p class="info">{{ lastOpened }}</p>
     </span>
   </div>
   <!-- <hr />

@@ -11,6 +11,10 @@
   z-index: 9999;
   transition: background-color 0.2s;
 
+  &:hover {
+    background-color: #ffffff;
+  }
+
   .menu-wrapper {
     height: 100%;
     scroll-behavior: smooth;
@@ -39,10 +43,6 @@
     text-align: center;
     margin: 0 0 36px 0;
     display: block;
-
-    .menu-wrapper {
-      text-align: left;
-    }
   }
   .mobile {
     display: inherit;

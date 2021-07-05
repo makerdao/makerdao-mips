@@ -143,11 +143,15 @@ th {
 }
 
 .mat-column-pos {
-  width: 5%;
+  width: 7%;
   max-width: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (min-width: 1440px) {
+    width: 5.5%;
+  }
 }
 
 .mat-column-link {
@@ -329,7 +333,7 @@ a {
   margin-top: 35px;
 }
 
-::ng-deep.variable-binding {
+:host::ng-deep.variable-binding {
   h2 {
     font-style: normal;
     font-weight: bold;
@@ -516,6 +520,22 @@ a {
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
   }
+}
+
+::ng-deep.mat-tooltip {
+  color: white;
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgba(26, 171, 155, 0.9);
+}
+
+.cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  top: 0;
+  left: 0;
 }
 
 @media screen and (max-width: 768px) {

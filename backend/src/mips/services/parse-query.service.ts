@@ -8,6 +8,9 @@ export class ParseQueryService {
   constructor() {
     this.parser = new Parser({
       lex: {
+        options: {
+          "case-insensitive": true
+        },
         rules: [
           ["\\s", "/* skip whitespace */"],
           ["\\$", "/* skip whitespace */"],

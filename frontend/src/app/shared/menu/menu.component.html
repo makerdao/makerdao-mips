@@ -1,6 +1,6 @@
 <a
   (click)="onClick($event)"
-  (mouseover)="open()"
+  (mouseover)="open($event)"
   type="button"
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
@@ -13,7 +13,7 @@
     subMenuActive: levelMenu !== 0 && isOpen
   }"
 >
-  {{ menu.name }}
+  <span>{{ menu.name }}</span>
   <div
     *ngIf="menu.children && menu.children.length > 0 && levelMenu === 0"
     class="arrowContainer"
@@ -24,6 +24,10 @@
       src="../../../../../assets/images/down.svg"
     />
   </div>
+  <div
+    *ngIf="menu.children && menu.children.length > 0 && levelMenu > 0"
+    class="submenuArrow"
+  ></div>
 </a>
 
 <ng-template
@@ -38,7 +42,9 @@
   <div
     [ngClass]="{
       'dropdown-content-first-level': levelMenu === 0,
-      'dropdown-content': levelMenu > 0
+      'dropdown-content': levelMenu > 0,
+      'fadeInMenuDownAnimation': yDirection === 'down' || levelMenu === 0,
+      'fadeInMenuUpAnimation': yDirection === 'up' && levelMenu != 0
     }"
   >
     <app-menu
@@ -51,15 +57,5 @@
       [openedIndex]="openedIndexChild"
       [isOpen]="openedIndexChild === i"
     ></app-menu>
-    <div
-      *ngIf="
-        openedIndexChild !== -1 &&
-        menu.children &&
-        menu.children[openedIndexChild] &&
-        menu.children[openedIndexChild].children &&
-        menu.children[openedIndexChild].children.length > 0
-      "
-      class="verticalLine"
-    ></div>
   </div>
 </ng-template>

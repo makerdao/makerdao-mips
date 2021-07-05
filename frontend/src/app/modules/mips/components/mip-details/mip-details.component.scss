@@ -36,6 +36,18 @@
     text-align: right;
     margin-top: 0;
     margin-bottom: 0;
+    text-decoration: none;
+
+    span a {
+      font-size: 12px;
+      color: #31394D;
+      font-weight: bold;
+      width: fit-content;
+      text-align: right;
+      margin-top: 0;
+      margin-bottom: 0;
+      text-decoration: none;
+    }
   }
   hr {
     background-color: #EBEDF4;
@@ -51,6 +63,12 @@
   .data-container {
     padding: 14px 0;
   }
+
+  .authorsContributors {
+    span:first-child {
+      margin-top: 0;
+    }
+  }
 }
 
 .row {
@@ -59,6 +77,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+  column-gap: 10px;
 
   app-status {
     position: absolute;

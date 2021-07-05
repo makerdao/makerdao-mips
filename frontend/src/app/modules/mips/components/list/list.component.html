@@ -33,7 +33,19 @@
             (click)="onNavigateToDetails(element.mipName)"
             style="cursor: pointer;">
              <!-- <span class="tooltiptext">Click for more details</span>  -->
-             <a routerLink="/mips/details/{{element.mipName}}"><br>{{element[column]}}</a></td>
+             <a
+                routerLink="/mips/details/{{ element.mipName }}"
+                style="position: relative;"
+                >
+                <div
+                  class="cover"
+                  [matTooltip]="element[column]"
+                  [matTooltipClass]="{ 'mat-tooltip': true }"
+                  #tooltip="matTooltip"
+                  (mouseover)="tooltip.show()"
+                ></div><br />{{ element[column] }}</a
+              >
+             </td>
          </span>
          <span *ngIf="column == 'status'">
            <td class="tooltip" at-cell *matCellDef="let element"
@@ -57,7 +69,7 @@
 
             {{element.proposal ? '' : element.mip}}
             <div (click)="onClickButtonCaptureEvent($event)">
-              <button *ngIf="!element.proposal" class="arrow-container" [disabled]="element.loadingSubproposals"
+              <button *ngIf="!element.proposal && element.mipFather" class="arrow-container" [disabled]="element.loadingSubproposals"
                 (click)="expandedItems = {subproposals: true, summary: false}; onGetSubproposals(element, $event)"
                 (mouseover)="onMouseOverLeaveArrow(element._id, true)"
                 (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
@@ -154,7 +166,7 @@
       <app-social forumLink="#" [githubLink]="item.filename" mobile="true"></app-social>
       <div style="clear: both;"></div>
       <div class="subproposalsButtonWrapper" (click)="onClickButtonCaptureEvent($event)">
-        <button *ngIf="!item.proposal" class="arrow-container" [disabled]="item.loadingSubproposals"
+        <button *ngIf="!item.proposal && item.mipFather" class="arrow-container" [disabled]="item.loadingSubproposals"
           (click)="expandedItems = {subproposals: true, summary: false}; onGetSubproposals(item, $event)"
           (mouseover)="onMouseOverLeaveArrow(item._id, true)"
           (mouseleave)="onMouseOverLeaveArrow(item._id, false)"

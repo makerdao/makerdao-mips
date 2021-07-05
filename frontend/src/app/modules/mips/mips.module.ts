@@ -41,6 +41,9 @@ import { AutocompleteContentDirective } from './directives/autocomplete-content.
 import { AutocompleteDirective } from './directives/autocomplete.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from './pipes/filter.pipe';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
 
 
 @NgModule({
@@ -88,7 +91,8 @@ import { FilterPipe } from './pipes/filter.pipe';
       sanitize: SecurityContext.NONE
     }),
     OverlayModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule
   ]
 })
 export class MipsModule { }
