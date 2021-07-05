@@ -1,6 +1,10 @@
-<app-header></app-header>
-<div class="container">
-  <router-outlet></router-outlet>
-  <app-footer appObserveVisibility (visible)="onFooterVisible($event)"></app-footer>
+<div #container>
+  <app-header></app-header>
+  <div class="container">
+    <router-outlet></router-outlet>
+    <app-footer
+      appObserveVisibility
+      (visible)="onFooterVisible($event)"
+    ></app-footer>
+  </div>
 </div>
-
