@@ -100,6 +100,10 @@
       transition: all 0.2s;
     }
 
+    span {
+      position: relative;
+    }
+
     &:hover {
       color: #31394d;
 
@@ -188,6 +192,35 @@
     a {
       &.firstLevel {
         padding: 10px 0px 10px 40px;
+
+        span {
+          position: relative;
+
+          &::after {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background-color: #2F80ED;
+            position: absolute;
+            display: block;
+            margin-top: 5px;
+            border-radius: 1px;
+            transform: rotateY(90deg);
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+          }
+        }
+
+        &:hover {
+          color: #31394d;
+
+          span {
+            &::after {
+              transform: rotateY(0deg);
+              transition: all 0.2s ease-in-out;
+            }
+          }
+        }
       }
 
       &.noFirstLevel {
@@ -197,6 +230,35 @@
 
       &.firstLevelActive {
         padding: 10px 0px 10px 40px;
+
+        span {
+          position: relative;
+
+          &::after {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background-color: #2F80ED;
+            position: absolute;
+            display: block;
+            margin-top: 5px;
+            border-radius: 1px;
+            transform: rotateY(90deg);
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+          }
+        }
+
+        &:hover {
+          color: #31394d;
+
+          span {
+            &::after {
+              transform: rotateY(0deg);
+              transition: all 0.2s ease-in-out;
+            }
+          }
+        }
       }
 
       &.subMenu {
