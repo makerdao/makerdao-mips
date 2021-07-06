@@ -41,6 +41,7 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   maxVisibleOptions: number = 6;
   topOptionIndex: number = 0;
   ITEM_OPTION_HEIGHT: number = 25;
+  showOptions: Subject<any> = new Subject<any>();
 
   constructor() {}
 
@@ -149,6 +150,7 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
 
   ngAfterViewChecked() {
     if (this.autocompleteRef?.nativeElement && this.focusIndex === 0) {
+      this.showOptions.next();
       (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
     }
   }

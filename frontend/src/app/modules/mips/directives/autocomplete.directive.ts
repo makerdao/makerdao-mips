@@ -58,7 +58,9 @@ export class AutocompleteDirective {
           (this.host.nativeElement as HTMLInputElement).selectionStart
         );
 
-        let indexLabel: number = this.appAutocomplete.labels.findIndex((i) => i === str);
+        let indexLabel: number = this.appAutocomplete.labels.findIndex(
+          (i) => i === str
+        );
 
         if (
           indexLabel !== -1 &&
@@ -68,7 +70,9 @@ export class AutocompleteDirective {
           ev.key !== 'Delete' &&
           ev.key !== 'Backspace'
         ) {
-          this.appAutocomplete.activatedLabel.next(this.appAutocomplete.labels[indexLabel]);
+          this.appAutocomplete.activatedLabel.next(
+            this.appAutocomplete.labels[indexLabel]
+          );
           this.indexCaretPositionStart = (this.host
             .nativeElement as HTMLInputElement).selectionStart;
 
@@ -98,6 +102,10 @@ export class AutocompleteDirective {
         this.top = caret.top;
         this.left = caret.left;
       });
+
+    this.appAutocomplete.showOptions.subscribe((ev) => {
+      this.overlayRef.updatePosition();
+    });
   }
 
   showContent() {

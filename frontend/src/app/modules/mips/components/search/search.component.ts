@@ -171,6 +171,7 @@ export class SearchComponent implements OnInit {
         )
         .subscribe((data: any) => {
           this.options = data;
+          this.cdr.detectChanges();
         });
     } else if (event === '#') {
       setTimeout(() => {
