@@ -12,7 +12,11 @@
 ::ng-deep.focusOption {
   background-color: #2f80ed;
   color: #ffffff !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
+
+  &:hover {
+    background-color: #2f80ed !important;
+  }
 }
 
 /* scrollbar width */

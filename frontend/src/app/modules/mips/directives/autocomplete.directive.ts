@@ -104,7 +104,7 @@ export class AutocompleteDirective {
       });
 
     this.appAutocomplete.showOptions.subscribe((ev) => {
-      this.overlayRef.updatePosition();
+      this.overlayRef?.updatePosition();
     });
   }
 

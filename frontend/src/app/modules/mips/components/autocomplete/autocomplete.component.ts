@@ -43,6 +43,7 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   ITEM_OPTION_HEIGHT: number = 25;
   showOptions: Subject<any> = new Subject<any>();
   @Output() closedOptions: Subject<any> = new Subject<any>();
+  optionsChanged: boolean = false;
 
   constructor() {}
 
@@ -51,6 +52,7 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.options.changes.subscribe((data) => {
       if (this.options.length > 0) {
+        this.optionsChanged = true;
         this.topOptionIndex = 0;
         this.focusIndex = 0;
 
@@ -79,64 +81,105 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
 
   @HostListener('document:keydown.ArrowDown', ['$event'])
   onArrowDown(event: KeyboardEvent) {
-    event.preventDefault();
-    let size: number = this.options.length;
-    this.focusIndex = (size + ++this.focusIndex) % size;
+    if (this.autocompleteRef?.nativeElement) {
+      event.preventDefault();
+      let size: number = this.options.length;
+      this.focusIndex = (size + ++this.focusIndex) % size;
 
-    this.options.toArray().forEach((item, index) => {
-      let child: Element = (item.element as HTMLElement).children.item(0);
+      this.options.toArray().forEach((item, index) => {
+        let child: Element = (item.element as HTMLElement).children.item(0);
 
-      if (index === this.focusIndex) {
-        child.classList.add('focusOption');
-      } else {
-        child.classList.remove('focusOption');
+        if (index === this.focusIndex) {
+          child.classList.add('focusOption');
+        } else {
+          child.classList.remove('focusOption');
+        }
+      });
+
+      // scrolling settings
+      if (this.focusIndex === 0) {
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
+        this.topOptionIndex = 0;
       }
-    });
 
-    if (this.focusIndex >= this.topOptionIndex + this.maxVisibleOptions) {
-      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(
-        0,
-        this.ITEM_OPTION_HEIGHT
-      );
-      this.topOptionIndex++;
-    }
+      const focusedElTop: number = (this.options.toArray()[this.focusIndex]
+        .element as HTMLElement).getBoundingClientRect().top;
 
-    if (this.focusIndex === 0) {
-      (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
-      this.topOptionIndex = 0;
+      const focusedElHeight: number = (this.options.toArray()[this.focusIndex]
+        .element as HTMLElement).getBoundingClientRect().height;
+
+      const focusedElParentTop: number = (this.autocompleteRef
+        .nativeElement as HTMLElement).getBoundingClientRect().top;
+
+      const parentElHeight: number = (this.autocompleteRef
+        .nativeElement as HTMLElement).getBoundingClientRect().height;
+
+      if (focusedElTop < focusedElParentTop) {
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(
+          0,
+          this.focusIndex * this.ITEM_OPTION_HEIGHT
+        );
+      } else if (
+        focusedElTop + focusedElHeight >
+        focusedElParentTop + parentElHeight
+      ) {
+        this.topOptionIndex++;
+
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(
+          0,
+          (this.focusIndex - this.maxVisibleOptions + 1) *
+            this.ITEM_OPTION_HEIGHT
+        );
+      }
     }
   }
 
   @HostListener('document:keydown.ArrowUp', ['$event'])
   onArrowUp(event: KeyboardEvent) {
-    event.preventDefault();
-    let size: number = this.options.length;
-    this.focusIndex = (size + --this.focusIndex) % size;
+    if (this.autocompleteRef?.nativeElement) {
+      event.preventDefault();
+      let size: number = this.options.length;
+      this.focusIndex = (size + --this.focusIndex) % size;
 
-    this.options.toArray().forEach((item, index) => {
-      let child: Element = (item.element as HTMLElement).children.item(0);
+      this.options.toArray().forEach((item, index) => {
+        let child: Element = (item.element as HTMLElement).children.item(0);
 
-      if (index === this.focusIndex) {
-        child.classList.add('focusOption');
-      } else {
-        child.classList.remove('focusOption');
+        if (index === this.focusIndex) {
+          child.classList.add('focusOption');
+        } else {
+          child.classList.remove('focusOption');
+        }
+      });
+
+      const focusedElTop: number = (this.options.toArray()[this.focusIndex]
+        .element as HTMLElement).getBoundingClientRect().top;
+
+      const focusedElHeight: number = (this.options.toArray()[this.focusIndex]
+        .element as HTMLElement).getBoundingClientRect().height;
+
+      const focusedElParentTop: number = (this.autocompleteRef
+        .nativeElement as HTMLElement).getBoundingClientRect().top;
+
+      const parentElHeight: number = (this.autocompleteRef
+        .nativeElement as HTMLElement).getBoundingClientRect().height;
+
+      if (focusedElTop < focusedElParentTop) {
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(
+          0,
+          this.focusIndex * this.ITEM_OPTION_HEIGHT
+        );
+      } else if (
+        focusedElTop + focusedElHeight >
+        focusedElParentTop + parentElHeight
+      ) {
+        this.topOptionIndex++;
+
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(
+          0,
+          (this.focusIndex - this.maxVisibleOptions + 1) *
+            this.ITEM_OPTION_HEIGHT
+        );
       }
-    });
-
-    if (this.focusIndex < this.topOptionIndex) {
-      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(
-        0,
-        -this.ITEM_OPTION_HEIGHT
-      );
-      this.topOptionIndex--;
-    }
-
-    if (this.focusIndex === this.options.length - 1) {
-      const yPos: number =
-        (this.options.length - this.maxVisibleOptions) *
-        this.ITEM_OPTION_HEIGHT;
-      (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, yPos);
-      this.topOptionIndex = this.options.length - this.maxVisibleOptions;
     }
   }
 
@@ -150,9 +193,14 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewChecked() {
-    if (this.autocompleteRef?.nativeElement && this.focusIndex === 0) {
+    if (
+      this.autocompleteRef?.nativeElement &&
+      this.focusIndex === 0 &&
+      this.optionsChanged
+    ) {
       this.showOptions.next();
       (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
+      this.optionsChanged = false;
     }
   }
 }
