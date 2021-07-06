@@ -42,6 +42,7 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   topOptionIndex: number = 0;
   ITEM_OPTION_HEIGHT: number = 25;
   showOptions: Subject<any> = new Subject<any>();
+  @Output() closedOptions: Subject<any> = new Subject<any>();
 
   constructor() {}
 

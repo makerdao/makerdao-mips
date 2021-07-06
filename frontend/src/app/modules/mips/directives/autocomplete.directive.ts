@@ -171,6 +171,7 @@ export class AutocompleteDirective {
   private close() {
     this.overlayRef.detach();
     this.overlayRef = null;
+    this.appAutocomplete.closedOptions.next();
   }
 
   private getOverlayPosition() {

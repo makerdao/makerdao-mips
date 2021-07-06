@@ -8,11 +8,11 @@ import {
   ViewChild,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { SmartSearchService } from '../../services/smart-search.service';
-import { map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -46,6 +46,7 @@ export class SearchComponent implements OnInit {
   isFilteringOption: boolean = false;
   selectedAutocompleteOptionByEnter: boolean = false;
   activatedLabelAutocomplete: string;
+  searchOptionsSubscription: Subscription;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -129,31 +130,40 @@ export class SearchComponent implements OnInit {
     this.cdr.detectChanges();
 
     if (event === '@') {
-      // setTimeout(() => {
-      //   this.options = [
-      //     { id: 1, label: 'ACCEPTED' },
-      //     { id: 2, label: 'REJECTED' },
-      //     { id: 3, label: 'RFC' },
-      //     { id: 4, label: 'ARCHIVE' },
-      //   ];
-      //   this.cdr.detectChanges();
-      // }, 2000);
-
       this.indexCaretPositionStart = (this.inputSearch
         .nativeElement as HTMLInputElement).selectionStart;
       this.isFilteringOption = true;
 
-      // this.smartSearchService
-      //   .getOptions(
-      //     'status',
-      //     this.control.value.slice(
-      //       this.indexCaretPositionStart,
-      //       this.indexCaretPositionEnd
-      //     )
-      //   )
-      //   .subscribe((data) => {
-      //     this.options = data;
-      //   });
+      this.searchOptionsSubscription = this.control.valueChanges
+        .pipe(debounceTime(10))
+        .subscribe((value) => {
+          this.indexCaretPositionEnd = (this.inputSearch
+            .nativeElement as HTMLInputElement).selectionEnd;
+
+          const search: string = value.slice(
+            this.indexCaretPositionStart,
+            this.indexCaretPositionEnd
+          );
+
+          this.smartSearchService
+            .getOptions('status', search)
+            .pipe(
+              map((data) => {
+                const newArray = (data as []).map((i: any) => {
+                  return { label: i.status };
+                });
+
+                return newArray;
+              })
+            )
+            .subscribe((data: any) => {
+              this.options = (data as []).sort(function (a: any, b: any) {
+                return a.label < b.label ? -1 : 1;
+              });
+              this.cdr.detectChanges();
+            });
+        });
+
       this.smartSearchService
         .getOptions(
           'status',
@@ -164,40 +174,82 @@ export class SearchComponent implements OnInit {
         )
         .pipe(
           map((data) => {
-            const newArray = (data as []).map((i: any) => { return {label: i.status}});
+            const newArray = (data as []).map((i: any) => {
+              return { label: i.status };
+            });
 
             return newArray;
           })
         )
         .subscribe((data: any) => {
-          this.options = data;
+          this.options = (data as []).sort(function (a: any, b: any) {
+            return a.label < b.label ? -1 : 1;
+          });
           this.cdr.detectChanges();
         });
     } else if (event === '#') {
-      setTimeout(() => {
-        this.options = [
-          { id: 1, label: 'process' },
-          { id: 2, label: 'tag2' },
-          { id: 3, label: 'tag3' },
-          { id: 4, label: 'tag4' },
-          { id: 5, label: 'tag5' },
-          { id: 6, label: 'tag6' },
-          { id: 7, label: 'tag7' },
-          { id: 8, label: 'tag8' },
-          { id: 9, label: 'tag9' },
-          { id: 10, label: 'tag10' },
-          { id: 3, label: 'tag30' },
-          { id: 3, label: 'tag31' },
-          { id: 3, label: 'tag32' },
-          { id: 3, label: 'loooooooooooooooooooooooooooong' },
-        ];
-        this.cdr.detectChanges();
-      }, 2000);
-
       this.indexCaretPositionStart = (this.inputSearch
         .nativeElement as HTMLInputElement).selectionStart;
       this.isFilteringOption = true;
+
+      this.searchOptionsSubscription = this.control.valueChanges
+        .pipe(debounceTime(200))
+        .subscribe((value) => {
+          this.indexCaretPositionEnd = (this.inputSearch
+            .nativeElement as HTMLInputElement).selectionEnd;
+
+          const search: string = value.slice(
+            this.indexCaretPositionStart,
+            this.indexCaretPositionEnd
+          );
+
+          this.smartSearchService
+            .getOptions('tags', search)
+            .pipe(
+              map((data) => {
+                const newArray = (data as []).map((i: any) => {
+                  return { label: i.tag };
+                });
+
+                return newArray;
+              })
+            )
+            .subscribe((data: any) => {
+              this.options = (data as []).sort(function (a: any, b: any) {
+                return a.label < b.label ? -1 : 1;
+              });
+              this.cdr.detectChanges();
+            });
+        });
+
+      this.smartSearchService
+        .getOptions(
+          'tags',
+          this.control.value.slice(
+            this.indexCaretPositionStart,
+            this.indexCaretPositionEnd
+          )
+        )
+        .pipe(
+          map((data) => {
+            const newArray = (data as []).map((i: any) => {
+              return { label: i.tag };
+            });
+
+            return newArray;
+          })
+        )
+        .subscribe((data: any) => {
+          this.options = (data as []).sort(function (a: any, b: any) {
+            return a.label < b.label ? -1 : 1;
+          });
+          this.cdr.detectChanges();
+        });
     }
+  }
+
+  onClosedOptionsAutocomplete() {
+    this.searchOptionsSubscription.unsubscribe();
   }
 
   filteringOptions() {
