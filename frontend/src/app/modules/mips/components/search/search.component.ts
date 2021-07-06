@@ -182,6 +182,13 @@ export class SearchComponent implements OnInit {
           { id: 5, label: 'tag5' },
           { id: 6, label: 'tag6' },
           { id: 7, label: 'tag7' },
+          { id: 8, label: 'tag8' },
+          { id: 9, label: 'tag9' },
+          { id: 10, label: 'tag10' },
+          { id: 3, label: 'tag30' },
+          { id: 3, label: 'tag31' },
+          { id: 3, label: 'tag32' },
+          { id: 3, label: 'loooooooooooooooooooooooooooong' },
         ];
         this.cdr.detectChanges();
       }, 2000);

@@ -39,6 +39,8 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   @Output() activatedLabel: Subject<string> = new Subject<string>();
   @ViewChild('autocomplete') autocompleteRef: ElementRef;
   maxVisibleOptions: number = 6;
+  topOptionIndex: number = 0;
+  ITEM_OPTION_HEIGHT: number = 25;
 
   constructor() {}
 
@@ -47,11 +49,19 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.options.changes.subscribe((data) => {
       if (this.options.length > 0) {
+        this.topOptionIndex = 0;
         this.focusIndex = 0;
-        let child: Element = (this.options.toArray()[0]
-          .element as HTMLElement).children.item(0);
-        child.classList.add('focusOption');
-        (child as HTMLElement).focus();
+
+        this.options.toArray().forEach((item, index) => {
+          let child: Element = (item.element as HTMLElement).children.item(0);
+
+          if (index === this.focusIndex) {
+            child.classList.add('focusOption');
+            (child as HTMLElement).focus();
+          } else {
+            child.classList.remove('focusOption');
+          }
+        });
       }
     });
   }
@@ -81,8 +91,17 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
       }
     });
 
-    if (this.focusIndex >= this.maxVisibleOptions) {
-      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(0, 25);
+    if (this.focusIndex >= this.topOptionIndex + this.maxVisibleOptions) {
+      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(
+        0,
+        this.ITEM_OPTION_HEIGHT
+      );
+      this.topOptionIndex++;
+    }
+
+    if (this.focusIndex === 0) {
+      (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
+      this.topOptionIndex = 0;
     }
   }
 
@@ -102,8 +121,20 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
       }
     });
 
-    if (this.focusIndex >= this.maxVisibleOptions) {
-      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(0, -25);
+    if (this.focusIndex < this.topOptionIndex) {
+      (this.autocompleteRef.nativeElement as HTMLElement).scrollBy(
+        0,
+        -this.ITEM_OPTION_HEIGHT
+      );
+      this.topOptionIndex--;
+    }
+
+    if (this.focusIndex === this.options.length - 1) {
+      const yPos: number =
+        (this.options.length - this.maxVisibleOptions) *
+        this.ITEM_OPTION_HEIGHT;
+      (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, yPos);
+      this.topOptionIndex = this.options.length - this.maxVisibleOptions;
     }
   }
 
@@ -114,5 +145,11 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
     }
 
     this.options.toArray()[this.focusIndex]?.element.click();
+  }
+
+  ngAfterViewChecked() {
+    if (this.autocompleteRef?.nativeElement && this.focusIndex === 0) {
+      (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
+    }
   }
 }

@@ -91,11 +91,18 @@
   #autocomplete="appAutocomplete"
   [labels]="['@', '#']"
   (enter)="selectedAutocompleteOptionByEnter = true"
-  (activatedLabel)="searchAutocompleteOptions($event)"
+  (activatedLabel)="isQueryMode ? searchAutocompleteOptions($event) : null"
 >
   <ng-template appAutocompleteContent>
     <app-option-autocomplete
-      *ngFor="let option of options"
+      *ngFor="
+        let option of options
+          | filter
+            : control.value.slice(
+                indexCaretPositionStart,
+                indexCaretPositionEnd
+              )
+      "
       [value]="option.label"
     >
       {{ option.label }}

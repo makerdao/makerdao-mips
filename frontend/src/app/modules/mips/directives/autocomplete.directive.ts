@@ -143,6 +143,7 @@ export class AutocompleteDirective {
     this.overlayRef = this.overlay.create({
       width: this.origin.offsetWidth,
       maxHeight: 25 * 6,
+      maxWidth: 'fit-content',
       backdropClass: '',
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       positionStrategy: this.getOverlayPosition(),
@@ -173,6 +174,10 @@ export class AutocompleteDirective {
       new ConnectionPositionPair(
         { originX: 'start', originY: 'top' },
         { overlayX: 'start', overlayY: 'bottom' }
+      ),
+      new ConnectionPositionPair(
+        { originX: 'start', originY: 'bottom' },
+        { overlayX: 'end', overlayY: 'top' }
       ),
     ];
 

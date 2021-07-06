@@ -57,8 +57,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     this.mipsService.activateSearch$
     .subscribe(data => {
-      console.log("activateSearch");
-
       if (data) {
         this.onSendPagination();
         this.mipsService.updateActiveSearch(false);
