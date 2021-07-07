@@ -188,6 +188,10 @@ export class AutocompleteDirective {
         { originX: 'start', originY: 'bottom' },
         { overlayX: 'end', overlayY: 'top' }
       ),
+      new ConnectionPositionPair(
+        { originX: 'start', originY: 'bottom' },
+        { overlayX: 'center', overlayY: 'top' }
+      ),
     ];
 
     let scrollLeft = this.host.nativeElement.scrollLeft;

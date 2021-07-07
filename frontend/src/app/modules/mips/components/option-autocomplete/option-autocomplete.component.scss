@@ -17,7 +17,11 @@
   line-height: 16px;
   color: #31394d;
   min-height: 25px;
+  height: 25px;
   box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .option:hover {
