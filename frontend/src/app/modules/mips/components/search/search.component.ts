@@ -149,9 +149,11 @@ export class SearchComponent implements OnInit {
             .getOptions('status', search)
             .pipe(
               map((data) => {
-                const newArray = (data as []).map((i: any) => {
-                  return { label: i.status };
-                });
+                const newArray = (data as [])
+                  .filter((i: any) => i.status !== '')
+                  .map((i: any) => {
+                    return { label: i.status };
+                  });
 
                 return newArray;
               })
@@ -174,9 +176,11 @@ export class SearchComponent implements OnInit {
         )
         .pipe(
           map((data) => {
-            const newArray = (data as []).map((i: any) => {
-              return { label: i.status };
-            });
+            const newArray = (data as [])
+              .filter((i: any) => i.status !== '')
+              .map((i: any) => {
+                return { label: i.status };
+              });
 
             return newArray;
           })
@@ -207,9 +211,11 @@ export class SearchComponent implements OnInit {
             .getOptions('tags', search)
             .pipe(
               map((data) => {
-                const newArray = (data as []).map((i: any) => {
-                  return { label: i.tag };
-                });
+                const newArray = (data as [])
+                  .filter((i: any) => i.tag !== '')
+                  .map((i: any) => {
+                    return { label: i.tag };
+                  });
 
                 return newArray;
               })
@@ -232,9 +238,11 @@ export class SearchComponent implements OnInit {
         )
         .pipe(
           map((data) => {
-            const newArray = (data as []).map((i: any) => {
-              return { label: i.tag };
-            });
+            const newArray = (data as [])
+              .filter((i: any) => i.tag !== '')
+              .map((i: any) => {
+                return { label: i.tag };
+              });
 
             return newArray;
           })
