@@ -35,10 +35,15 @@ import { SubproposalsComponent } from './components/subproposals/subproposals.co
 import {OverlayModule} from '@angular/cdk/overlay';
 import { SideContentComponent } from './components/side-content/side-content.component';
 import { ReferencesComponent } from './components/references/references.component';
+import { OptionAutocompleteComponent } from './components/option-autocomplete/option-autocomplete.component';
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { AutocompleteContentDirective } from './directives/autocomplete-content.directive';
+import { AutocompleteDirective } from './directives/autocomplete.directive';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FilterPipe } from './pipes/filter.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FeedbackDialogComponent } from './components/feedback/feedback-dialog/feedback-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -67,7 +72,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     SubproposalsComponent,
     SideContentComponent,
     ReferencesComponent,
-    FeedbackDialogComponent
+    FeedbackDialogComponent,
+    OptionAutocompleteComponent,
+    AutocompleteComponent,
+    AutocompleteContentDirective,
+    AutocompleteDirective,
+    FilterPipe
   ],
   imports: [
     CommonModule,

@@ -30,7 +30,9 @@
     "moment": "^2.29.1",
     "ngx-infinite-scroll": "^10.0.1",
     "ngx-markdown": "^11.0.1",
+    "ngx-take-until-destroy": "^5.4.0",
     "rxjs": "~6.6.0",
+    "textarea-caret": "^3.1.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

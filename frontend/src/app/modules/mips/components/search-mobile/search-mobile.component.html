@@ -1,21 +1,49 @@
 <div class="container">
-  <img class="main" *ngIf="!showInput"  (click)="onOpenCloseInput()" src="../../../../../assets/images/magnifier_frame.svg" />
+  <img
+    class="main"
+    *ngIf="!showInput"
+    (click)="onOpenCloseInput()"
+    src="../../../../../assets/images/magnifier_frame.svg"
+  />
   <div class="init">
-    <img *ngIf="showInput"  src="../../../../../assets/images/magnifier_dark.svg"  />
+    <img
+      *ngIf="showInput"
+      src="../../../../../assets/images/magnifier_dark.svg"
+    />
   </div>
-  <input *ngIf="showInput" type="text" #search placeholder="Search on the list" (keyup)="onKeySearch($event)" value="{{text}}"
-    [ngStyle]="{borderRadius: showListSearch ? '5px 5px 0 0' : '5px'}"
-    [ngClass]="{error: error}"
-    [value]="value">
-  <div class="close-container" *ngIf="showInput && !isQueryMode" (click)="clear()">
+  <input
+    *ngIf="showInput"
+    type="text"
+    #search
+    placeholder="Search on the list"
+    (keyup)="onKeySearch($event)"
+    value="{{ text }}"
+    [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
+    [ngClass]="{ error: error }"
+    [value]="value"
+    [appAutocomplete]="autocomplete"
+    [formControl]="control"
+  />
+  <div
+    class="close-container"
+    *ngIf="showInput && !isQueryMode"
+    (click)="clear()"
+  >
     <img src="../../../../../assets/images/close.svg" class="imageClose" />
   </div>
 </div>
 <div *ngIf="showListSearch && showClose" class="ListSearchWrapper">
   <div class="ListSearch">
-    <div *ngFor="let item of listSearchItems" class="list-search-item" (click)="onClickSearchItem(item)">
-      <p>{{item.content}}</p>
-      <img class="arrow-go-to" src="../../../../../assets/images//arrow_go_to.svg">
+    <div
+      *ngFor="let item of listSearchItems"
+      class="list-search-item"
+      (click)="onClickSearchItem(item)"
+    >
+      <p>{{ item.content }}</p>
+      <img
+        class="arrow-go-to"
+        src="../../../../../assets/images//arrow_go_to.svg"
+      />
     </div>
   </div>
 </div>
@@ -36,7 +64,7 @@
     />
   </a>
 </div>
-<div *ngIf="error && showInput" class="invalid">{{errorMessage}}</div>
+<div *ngIf="error && showInput" class="invalid">{{ errorMessage }}</div>
 <ng-template
   cdkConnectedOverlay
   [cdkConnectedOverlayOrigin]="trigger"
@@ -76,3 +104,20 @@
     <div class="hr"></div>
   </div>
 </ng-template>
+
+<app-autocomplete
+  #autocomplete="appAutocomplete"
+  [labels]="['@', '#']"
+  (enter)="selectedAutocompleteOptionByEnter = true"
+  (activatedLabel)="isQueryMode ? searchAutocompleteOptions($event) : null"
+  (closedOptions)="onClosedOptionsAutocomplete()"
+>
+  <ng-template appAutocompleteContent>
+    <app-option-autocomplete
+      *ngFor="let option of options"
+      [value]="option.label"
+    >
+      {{ option.label }}
+    </app-option-autocomplete>
+  </ng-template>
+</app-autocomplete>
