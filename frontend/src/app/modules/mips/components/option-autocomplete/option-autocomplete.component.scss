@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+:host.no-result {
+  pointer-events: none;
+}
+
+.option {
+  padding: 5px 10px;
+  cursor: pointer;
+  display: block;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #31394d;
+  min-height: 25px;
+  height: 25px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.option:hover {
+  background-color: whitesmoke;
+}
