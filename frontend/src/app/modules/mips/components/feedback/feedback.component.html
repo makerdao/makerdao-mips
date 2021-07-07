@@ -1,13 +1,9 @@
-<img *ngIf="!sent" (click)="showContainer = !showContainer" class="logo" src="../../../../../assets/images/feedback.svg" />
+<div *ngIf="!sent" class="imgContainer" (click)="openDialog()">
+  <img
+    class="logo"
+    src="../../../../../assets/images/feedback.svg"
+  />
+</div>
 <div *ngIf="sent" class="frame">
   <mat-icon>thumb_up</mat-icon>
-</div>
-<div class="container" *ngIf="showContainer">
-  <img src="../../../../../assets/images/feed_text.svg" />
-  <input (keyup)="onKey()" type="text" #input placeholder="Subject" />
-  <textarea (keyup)="onKey()" #textarea placeholder="Description"></textarea>
-  <div class="buttons">
-    <button (click)="cancel()" class="reset btn">Cancel</button>
-    <button (click)="sendFeedback()" class="apply btn" [disabled]="disabled">Send</button>
-  </div>
 </div>

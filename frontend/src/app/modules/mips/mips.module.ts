@@ -42,8 +42,8 @@ import { AutocompleteDirective } from './directives/autocomplete.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from './pipes/filter.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
-
+import { FeedbackDialogComponent } from './components/feedback/feedback-dialog/feedback-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -72,6 +72,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     SubproposalsComponent,
     SideContentComponent,
     ReferencesComponent,
+    FeedbackDialogComponent,
     OptionAutocompleteComponent,
     AutocompleteComponent,
     AutocompleteContentDirective,
@@ -91,8 +92,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
       sanitize: SecurityContext.NONE
     }),
     OverlayModule,
-    ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule,
+    ReactiveFormsModule
   ]
 })
 export class MipsModule { }

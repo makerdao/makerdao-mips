@@ -14,7 +14,7 @@
 
   .title {
     color: #31394d;
-    font-size: 26px;
+    font-size: 2em;
     font-weight: normal;
     &.mobile {
       margin-top: 10px;
@@ -27,7 +27,7 @@
   }
   .title-bold {
     font-weight: bold;
-    font-size: 26px;
+    font-size: 2em;
     color: #31394d;
   }
 
@@ -88,11 +88,12 @@
 
 :host::ng-deep.variable-binding {
   color: #31394d;
+  font-size: 16px;
 
   h2 {
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.5em;
     color: #000000;
     position: relative;
 
@@ -130,6 +131,22 @@
     margin-top: 24px;
     margin-bottom: 16px;
     color: #000000;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1em;
+  }
+
+  h5 {
+    font-size: .875em;
   }
 
   h3,
@@ -207,9 +224,10 @@
 
   code {
     width: 100%;
+    overflow-wrap: break-word;
     background-color: #F5F6FA;
     border-radius: 6px;
-    font-size: 85%;
+    font-size: inherit;
     margin: 0;
     padding: .2em .4em;
   }
@@ -220,6 +238,7 @@
     line-height: 1.5;
     color: #2f80ed;
     text-decoration: none;
+    overflow-wrap: break-word;
   }
 
   p,
@@ -229,7 +248,16 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 1.5;
+    color: #31394d;
+
+    li {
+      overflow-wrap: break-word;
+    }
     overflow-wrap: break-word;
+
+    code {
+      font-size: 85%;
+    }
   }
 
   hr {
@@ -348,7 +376,7 @@ p {
 
 @media screen and (max-width: 768px) {
   .container {
-    padding: 20px;
+    padding: 25px;
     hr {
       margin-top: 20px;
     }

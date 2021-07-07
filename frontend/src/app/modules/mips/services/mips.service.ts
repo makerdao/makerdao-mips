@@ -13,6 +13,7 @@ export class MipsService {
   filter: FilterData;
   mipsData: any[];
   total = 1;
+  includeSubproposals: boolean = false;
 
   private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
