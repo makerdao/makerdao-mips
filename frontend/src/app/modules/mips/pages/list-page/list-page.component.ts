@@ -7,6 +7,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FilterItemService } from 'src/app/services/filter-item/filter-item.service';
 import { QueryParamsListService } from '../../services/query-params-list.service';
 import QueryParams from '../../types/query-params';
+import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
 
 @Component({
   selector: 'app-list-page',
@@ -43,7 +44,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private router: Router,
     private filterItemService: FilterItemService,
     private route: ActivatedRoute,
-    private queryParamsListService: QueryParamsListService
+    private queryParamsListService: QueryParamsListService,
+    private elementsRefUiService: ElementsRefUiService
   ) { }
 
   ngOnInit(): void {
@@ -272,9 +274,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     .subscribe(data => {
       this.mipsAux = data.items;
       this.mips = this.mips.concat(this.mipsAux);
-      this.mipsService.setMipsData(this.mips);
       this.total = data.total;
-      this.mipsService.setTotal(this.total);
       this.loading = false;
       this.loadingPlus = false;
 
@@ -286,6 +286,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
       this.sintaxError = false;
       this.errorMessage = "";
+
+      if (
+        this.elementsRefUiService.containerRef.nativeElement.getBoundingClientRect()
+          .height <= window.innerHeight
+      ) {
+        this.mipsService.updateActiveSearch(true);
+      }
     }, error => {
       if (
         error.error &&

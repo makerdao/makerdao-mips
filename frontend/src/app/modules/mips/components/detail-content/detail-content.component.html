@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row">
     <div *ngIf="!mip.proposal">
-      <span class="title-bold">{{mip.mipName}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{mip.title}}</span>
+      <span *ngIf="mip.title" class="title-bold">{{mip.mipName}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{mip.title}}</span>
     </div>
     <div *ngIf="mip.proposal">
-      <span class="title-bold">{{subproposalCode}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{subproposalTitle}}</span>
+      <span *ngIf="mip.title" class="title-bold">{{subproposalCode}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{subproposalTitle}}</span>
     </div>
     <div class="row social">
       <img class="github" src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip.filename}}" target="_blank">GitHub</a>

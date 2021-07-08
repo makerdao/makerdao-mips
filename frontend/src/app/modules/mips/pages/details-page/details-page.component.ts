@@ -30,6 +30,7 @@ export class DetailsPageComponent implements OnInit {
       if (paramMap.has('name')) {
         this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
+        console.log("total", this.total);
         this.loadData();
         this.mipsService.updateActiveSearch(true);
         this.moveToElement();
@@ -87,13 +88,16 @@ export class DetailsPageComponent implements OnInit {
       this.pullrequest = data.pullRequests;
       this.subproposals = data.subproposals;
 
-      if (this.mipsService.getMipsData() === undefined) {
+      if (!this.mipsService.getMipsData()) {
+        this.getMips();
+      } else if (this.mip.proposal && !this.mipsService.includeSubproposals) {
+        this.mipsService.includeSubproposals = true;
         this.getMips();
       }
     });
     const data = this.mipsService.getMipsData();
 
-    if (data !== undefined) {
+    if (data) {
       this.mipPosition = data.findIndex(item => item.mipName === this.mipName);
     }
   }
@@ -124,8 +128,10 @@ export class DetailsPageComponent implements OnInit {
 
     if (!this.mip.proposal) {
       filter.equals.push({field: 'proposal', value: ""});
+      this.mipsService.includeSubproposals = false;
     } else {
       order = 'mip subproposal';
+      this.mipsService.includeSubproposals = true;
     }
 
     this.searchMips(this.MAX_LIMIT, 0, order, '', filter);
@@ -142,4 +148,8 @@ export class DetailsPageComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.mipsService.setMipsData(null);
+    this.mipsService.includeSubproposals = false;
+  }
 }
