@@ -48,7 +48,7 @@ export class MipDetailsComponent implements OnInit {
       }
     }
 
-    // return data;
+    return data;
   }
 
   getStatusType(data: string): string {
@@ -73,7 +73,7 @@ export class MipDetailsComponent implements OnInit {
       }
     }
 
-    // return data;
+    return 'DEFAULT';
   }
 
   isEmptyWhenReduce(array: string[]): boolean {
