@@ -162,6 +162,8 @@
 
     &:hover {
       a.anchor {
+        outline: none;
+
         i {
           visibility: visible;
         }
@@ -172,12 +174,15 @@
       color: black;
       position: absolute;
       left: -20px;
+      outline: none;
 
       i {
         visibility: hidden;
       }
 
       &:hover {
+        outline: none;
+
         i {
           visibility: visible;
         }
@@ -186,6 +191,8 @@
   }
 
   a.anchor {
+    outline: none;
+
     &:hover {
       text-decoration: underline;
     }
