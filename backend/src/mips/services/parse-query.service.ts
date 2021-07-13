@@ -12,15 +12,17 @@ export class ParseQueryService {
           "case-insensitive": true
         },
         rules: [
-          ["\\s", "/* skip whitespace */"],
+          // ["\\s", "/* skip whitespace */"],
+          ["\\$\\s", "/* skip whitespace */"],
           ["\\$", "/* skip whitespace */"],
-          [",", "return ',';"],
+          [",\\s", "return ',';"],
+          [",", "return ',';"],          
           ["AND", "return 'AND';"],
           ["OR", "return 'OR';"],
           ["NOT", "return 'NOT';"],
           ["\\(", "return '(';"],
           ["\\)", "return ')';"],
-          ["(#|@)+[a-zA-Z_\\-][a-zA-Z0-9_\\-]*", "return 'LITERAL';"],
+          ["(#|@)+[a-zA-Z_\\-][a-zA-Z0-9_\\-\\s]*", "return 'LITERAL';"],
         ],
       },
       operators: [
