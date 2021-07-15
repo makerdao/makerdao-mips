@@ -12,7 +12,7 @@
       <div class="info">{{item.title}} </div>
       <a href="{{item.url}}" target="_blank"><img class="open" src="../../../../../assets/images/open.svg" /></a>
     </span>
-      <p class="sub">#{{getPullNumber(item.url)}} by <a href="{{item.author.url}}" target="_blank">{{item.author.login}}</a>  was merged
+      <p class="sub">#{{getPullNumber(item.url)}} by <a href="{{githubURL+item.author.login}}" target="_blank">{{item.author.login}}</a>  was merged
       <span *ngIf="getDifferenceInDays(item.createdAt) == 0"> today</span>
       <span *ngIf="getDifferenceInDays(item.createdAt) == 1"> 1 day ago</span>
       <span *ngIf="getDifferenceInDays(item.createdAt) > 1"> {{getDifferenceInDays(item.createdAt)}} days ago</span>

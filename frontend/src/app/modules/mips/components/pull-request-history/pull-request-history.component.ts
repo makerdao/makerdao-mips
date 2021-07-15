@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 
+import {environment as env} from 'src/environments/environment';
+
 @Component({
   selector: 'app-pull-request-history',
   templateUrl: './pull-request-history.component.html',
@@ -10,7 +12,11 @@ export class PullRequestHistoryComponent implements OnInit {
 
   @Input() pullrequest: any;
 
-  constructor() { }
+  githubURL: string;
+
+  constructor() {
+    this.githubURL = env.githubURL;
+  }
 
   ngOnInit(): void {}
 
