@@ -7,12 +7,18 @@ import {
   EventEmitter,
   ViewChild,
   ChangeDetectorRef,
+  ElementRef,
+  AfterViewInit,
 } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { from, Observable, ObservableInput, Subject, Subscription } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { SmartSearchService } from '../../services/smart-search.service';
 import { debounceTime, map } from 'rxjs/operators';
+// import { Caret } from 'textarea-caret-ts';
+import { position, offset } from 'caret-pos';
+import IFormatting from '../../types/formatting';
+
 
 @Component({
   selector: 'app-search',
@@ -20,7 +26,7 @@ import { debounceTime, map } from 'rxjs/operators';
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
   @Input() placeHolder? = 'Search on the list';
   @Input() imageDir? = '../../../../../assets/images/magnifier.png';
   @Input() imageClose? = '../../../../../assets/images/close.png';
@@ -42,11 +48,49 @@ export class SearchComponent implements OnInit {
   options = [];
   control = new FormControl();
   indexCaretPositionStart: number;
-  indexCaretPositionEnd: number;
+  indexCaretPositionEnd: number = 0;
   isFilteringOption: boolean = false;
   selectedAutocompleteOptionByEnter: boolean = false;
   activatedLabelAutocomplete: string;
   searchOptionsSubscription: Subscription;
+  format: IFormatting[] = [
+    {
+      pattern: /and\(/gi,
+      replace: "<span style='font-weight:bold;'>AND</span>(",
+    },
+    {
+      pattern: /or\(/gi,
+      replace: "<span style='font-weight:bold;'>OR</span>(",
+    },
+    {
+      pattern: /not\(/gi,
+      replace: "<span style='font-weight:bold;'>NOT</span>(",
+    },
+    {
+      pattern: /@accepted/gi,
+      replace: "@<span style='font-weight:500;color:#27AE60'>Accepted</span>",
+    },
+    {
+      pattern: /@rejected/gi,
+      replace: "@<span style='font-weight:500;color:#EB5757'>Rejected</span>",
+    },
+    {
+      pattern: /@rfc/gi,
+      replace: "@<span style='font-weight:500;color:#F2994A'>RFC</span>",
+    },
+    {
+      pattern: /@archive/gi,
+      replace: "@<span style='font-weight:500;color:#748AA1'>Archive</span>",
+    },
+    {
+      pattern: /@obsolete/gi,
+      replace: "@<span style='font-weight:500;color:#CBAB48'>Obsolete</span>",
+    },
+    {
+      pattern: /@Formal\sSubmission/gi,
+      replace: "@<span style='font-weight:500;color:#9B51E0'>Formal Submission</span>",
+    }
+  ];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -57,6 +101,15 @@ export class SearchComponent implements OnInit {
     this.control.setValue(this.value);
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
+  }
+
+  ngAfterViewInit() {
+    (this.inputSearch.nativeElement as HTMLElement).setAttribute(
+      'placeholder',
+      this.placeHolder
+    );
+
+    this.isQueryMode = this.isQuery(this.value);
   }
 
   initPositionHelpPopup() {
@@ -78,13 +131,24 @@ export class SearchComponent implements OnInit {
     clearTimeout(this.timeout);
 
     if (event) {
-      if (this.isQuery(event.target.value)) {
+      let val: string = this.control.value;
+
+      if (this.inputSearch.nativeElement.constructor !== HTMLInputElement) {
+        val = (this.inputSearch.nativeElement as HTMLElement).innerText;
+      }
+
+      if (this.isQuery(val)) {
         this.isQueryMode = true;
         this.showClose = false;
 
         if (event.keyCode == 13 && !this.selectedAutocompleteOptionByEnter) {
           this.timeout = setTimeout(() => {
-            this.send.emit(event);
+            if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+              this.send.emit(event);
+            } else {
+              event.target.value = (this.inputSearch.nativeElement as HTMLElement).innerText;
+              this.send.emit(event);
+            }
           }, 1000);
         } else {
           this.selectedAutocompleteOptionByEnter = false;
@@ -93,11 +157,25 @@ export class SearchComponent implements OnInit {
       } else {
         this.options = [];
         this.isQueryMode = false;
-        this.showClose =
-          this.inputSearch.nativeElement.value === '' ? false : true;
+
+        if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+          this.showClose =
+            this.inputSearch.nativeElement.value === '' ? false : true;
+        } else {
+          this.showClose =
+            (this.inputSearch.nativeElement as HTMLElement).innerText === ''
+              ? false
+              : true;
+        }
 
         this.timeout = setTimeout(() => {
-          this.send.emit(event);
+          if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+            this.send.emit(event);
+          } else {
+            event.target.value = (this.inputSearch.nativeElement as HTMLElement).innerText;
+            this.send.emit(event);
+          }
+
         }, 1000);
       }
     }
@@ -111,7 +189,7 @@ export class SearchComponent implements OnInit {
 
   clear(): void {
     this.showClose = false;
-    this.inputSearch.nativeElement.value = '';
+    this.control.setValue('');
     let event = new Event('keyup');
     this.inputSearch.nativeElement.dispatchEvent(event);
   }
@@ -130,17 +208,18 @@ export class SearchComponent implements OnInit {
     this.cdr.detectChanges();
 
     if (event === '@') {
-      this.indexCaretPositionStart = (this.inputSearch
-        .nativeElement as HTMLInputElement).selectionStart;
+      this.indexCaretPositionStart = position(
+        this.inputSearch.nativeElement
+      ).pos;
       this.isFilteringOption = true;
 
       this.searchOptionsSubscription = this.control.valueChanges
         .pipe(debounceTime(10))
         .subscribe((value) => {
-          this.indexCaretPositionEnd = (this.inputSearch
-            .nativeElement as HTMLInputElement).selectionEnd;
+          this.indexCaretPositionEnd = position(this.inputSearch.nativeElement).pos;
 
-          const search: string = value.slice(
+          const search: string = (this.inputSearch
+            .nativeElement as HTMLElement).innerText.slice(
             this.indexCaretPositionStart,
             this.indexCaretPositionEnd
           );
@@ -192,17 +271,18 @@ export class SearchComponent implements OnInit {
           this.cdr.detectChanges();
         });
     } else if (event === '#') {
-      this.indexCaretPositionStart = (this.inputSearch
-        .nativeElement as HTMLInputElement).selectionStart;
+      this.indexCaretPositionStart = position(
+        this.inputSearch.nativeElement
+      ).pos;
       this.isFilteringOption = true;
 
       this.searchOptionsSubscription = this.control.valueChanges
         .pipe(debounceTime(200))
         .subscribe((value) => {
-          this.indexCaretPositionEnd = (this.inputSearch
-            .nativeElement as HTMLInputElement).selectionEnd;
+          this.indexCaretPositionEnd = position(this.inputSearch.nativeElement).pos;
 
-          const search: string = value.slice(
+          const search: string = (this.inputSearch
+            .nativeElement as HTMLElement).innerText.slice(
             this.indexCaretPositionStart,
             this.indexCaretPositionEnd
           );
@@ -257,13 +337,12 @@ export class SearchComponent implements OnInit {
   }
 
   onClosedOptionsAutocomplete() {
-    this.searchOptionsSubscription.unsubscribe();
+    this.searchOptionsSubscription?.unsubscribe();
   }
 
   filteringOptions() {
     if (this.isFilteringOption) {
-      this.indexCaretPositionEnd = (this.inputSearch
-        .nativeElement as HTMLInputElement).selectionEnd;
+      this.indexCaretPositionEnd = position(this.inputSearch.nativeElement).pos;
     }
   }
 }
