@@ -428,11 +428,6 @@ export class ParseMIPsService {
             status === "Rejected"
           ) {
             preamble.status = "Rejected";
-          } else if (
-            status === "Rejected (Failed Inclusion Poll July 2020)" ||
-            status === "Rejected"
-          ) {
-            preamble.status = "Rejected";
           } else {
             preamble.status = status;
           }
