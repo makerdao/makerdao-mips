@@ -116,6 +116,7 @@
     <app-option-autocomplete
       *ngFor="let option of options"
       [value]="option.label"
+      [ngStyle]="getAutocompleteOptionStyle(option.label)"
     >
       {{ option.label }}
     </app-option-autocomplete>

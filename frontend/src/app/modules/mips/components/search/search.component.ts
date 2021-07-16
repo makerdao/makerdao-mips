@@ -7,7 +7,6 @@ import {
   EventEmitter,
   ViewChild,
   ChangeDetectorRef,
-  ElementRef,
   AfterViewInit,
 } from '@angular/core';
 import { from, Observable, ObservableInput, Subject, Subscription } from 'rxjs';
@@ -15,10 +14,8 @@ import { ConnectedPosition } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { SmartSearchService } from '../../services/smart-search.service';
 import { debounceTime, map } from 'rxjs/operators';
-// import { Caret } from 'textarea-caret-ts';
 import { position, offset } from 'caret-pos';
 import IFormatting from '../../types/formatting';
-
 
 @Component({
   selector: 'app-search',
@@ -88,8 +85,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     },
     {
       pattern: /@Formal\sSubmission/gi,
-      replace: "@<span style='font-weight:500;color:#9B51E0'>Formal Submission</span>",
-    }
+      replace:
+        "@<span style='font-weight:500;color:#9B51E0'>Formal Submission</span>",
+    },
   ];
 
   constructor(
@@ -110,6 +108,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     );
 
     this.isQueryMode = this.isQuery(this.value);
+    this.cdr.detectChanges();
   }
 
   initPositionHelpPopup() {
@@ -143,10 +142,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
         if (event.keyCode == 13 && !this.selectedAutocompleteOptionByEnter) {
           this.timeout = setTimeout(() => {
-            if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+            if (
+              this.inputSearch.nativeElement.constructor === HTMLInputElement
+            ) {
               this.send.emit(event);
             } else {
-              event.target.value = (this.inputSearch.nativeElement as HTMLElement).innerText;
+              event.target.value = (this.inputSearch
+                .nativeElement as HTMLElement).innerText;
               this.send.emit(event);
             }
           }, 1000);
@@ -172,10 +174,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
           if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
             this.send.emit(event);
           } else {
-            event.target.value = (this.inputSearch.nativeElement as HTMLElement).innerText;
+            event.target.value = (this.inputSearch
+              .nativeElement as HTMLElement).innerText;
             this.send.emit(event);
           }
-
         }, 1000);
       }
     }
@@ -216,7 +218,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.searchOptionsSubscription = this.control.valueChanges
         .pipe(debounceTime(10))
         .subscribe((value) => {
-          this.indexCaretPositionEnd = position(this.inputSearch.nativeElement).pos;
+          this.indexCaretPositionEnd = position(
+            this.inputSearch.nativeElement
+          ).pos;
 
           const search: string = (this.inputSearch
             .nativeElement as HTMLElement).innerText.slice(
@@ -245,13 +249,25 @@ export class SearchComponent implements OnInit, AfterViewInit {
             });
         });
 
-      this.smartSearchService
-        .getOptions(
-          'status',
-          this.control.value.slice(
+        let search: string;
+
+        if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+          search = this.control.value.slice(
             this.indexCaretPositionStart,
             this.indexCaretPositionEnd
           )
+        } else {
+          search = (this.inputSearch
+            .nativeElement as HTMLElement).innerText.slice(
+            this.indexCaretPositionStart,
+            this.indexCaretPositionEnd
+          );
+        }
+
+      this.smartSearchService
+        .getOptions(
+          'status',
+          search
         )
         .pipe(
           map((data) => {
@@ -279,7 +295,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.searchOptionsSubscription = this.control.valueChanges
         .pipe(debounceTime(200))
         .subscribe((value) => {
-          this.indexCaretPositionEnd = position(this.inputSearch.nativeElement).pos;
+          this.indexCaretPositionEnd = position(
+            this.inputSearch.nativeElement
+          ).pos;
 
           const search: string = (this.inputSearch
             .nativeElement as HTMLElement).innerText.slice(
@@ -308,13 +326,25 @@ export class SearchComponent implements OnInit, AfterViewInit {
             });
         });
 
-      this.smartSearchService
-        .getOptions(
-          'tags',
-          this.control.value.slice(
+        let search: string;
+
+        if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+          search = this.control.value.slice(
             this.indexCaretPositionStart,
             this.indexCaretPositionEnd
           )
+        } else {
+          search = (this.inputSearch
+            .nativeElement as HTMLElement).innerText.slice(
+            this.indexCaretPositionStart,
+            this.indexCaretPositionEnd
+          );
+        }
+
+      this.smartSearchService
+        .getOptions(
+          'tags',
+          search
         )
         .pipe(
           map((data) => {
@@ -344,5 +374,38 @@ export class SearchComponent implements OnInit, AfterViewInit {
     if (this.isFilteringOption) {
       this.indexCaretPositionEnd = position(this.inputSearch.nativeElement).pos;
     }
+  }
+
+  getAutocompleteOptionStyle(value: string): any {
+    const val: string = value.toLowerCase();
+    const style: any = {
+      color: '#00000',
+    };
+
+    switch (val) {
+      case 'accepted':
+        style.color = '#27AE60';
+        break;
+      case 'rejected':
+        style.color = '#EB5757';
+        break;
+      case 'rfc':
+        style.color = '#F2994A';
+        break;
+      case 'obsolete':
+        style.color = '#CBAB48';
+        break;
+      case 'formal submission':
+        style.color = '#9B51E0';
+        break;
+      case 'archive':
+        style.color = '#748AA1';
+        break;
+
+      default:
+        break;
+    }
+
+    return style;
   }
 }

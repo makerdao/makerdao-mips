@@ -42,14 +42,17 @@ export class FormattingMdDirective implements OnChanges {
 
   formatting = () => {
     (this.host.nativeElement as HTMLElement).focus();
-    const pos = position(this.host.nativeElement);
-    let str: string = (this.host.nativeElement as HTMLElement).innerText;
 
-    this.appFormattingMd.forEach((item) => {
-      str = str.replace(item.pattern, item.replace);
-    });
+    if (this.host.nativeElement === document.activeElement) {
+      const pos = position(this.host.nativeElement);
+      let str: string = (this.host.nativeElement as HTMLElement).innerText;
 
-    (this.host.nativeElement as HTMLElement).innerHTML = str;
-    position(this.host.nativeElement, pos.pos);
+      this.appFormattingMd.forEach((item) => {
+        str = str.replace(item.pattern, item.replace);
+      });
+
+      (this.host.nativeElement as HTMLElement).innerHTML = str;
+      position(this.host.nativeElement, pos.pos);
+    }
   };
 }
