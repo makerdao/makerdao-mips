@@ -282,9 +282,19 @@ const language = 'typescript';
           .subscribe(
             (data) => {
               this.dataSourceTable.data[index]['loadingSubproposals'] = false;
+              // sort by subset
+              let items: any[] = (data.items as []).sort(function (
+                a: any,
+                b: any
+              ) {
+                return +(a.subset as string).split(a.proposal + 'c')[1] <
+                  +(b.subset as string).split(b.proposal + 'c')[1]
+                  ? -1
+                  : 1;
+              });
 
-              let items: any[] = data.items;
               this.subproposalsGroup = this.groupBy('subset', items);
+              this.sortSubproposalsGroups();
               const subsetRows: ISubsetDataElement[] = [];
 
               for (const key in this.subproposalsGroup) {
@@ -314,6 +324,26 @@ const language = 'typescript';
     }, {});
 
     return group;
+  }
+
+  sortSubproposalsGroups() {
+    for (const key in this.subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
+        let element: any[] = this.subproposalsGroup[key];
+        this.subproposalsGroup[key] = this.sortSubproposalGroup(element);
+      }
+    }
+  }
+
+  sortSubproposalGroup(arr: any[]) {
+    return arr.sort(function (a: any, b: any) {
+      return (a.mipName as string).includes('SP') &&
+        a.mipName.split('SP').length > 1
+        ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
+          ? -1
+          : 1
+        : 1;
+    });
   }
 
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
