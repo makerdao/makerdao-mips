@@ -584,6 +584,10 @@ a {
     border-bottom-color: #1aab9b;
     padding-left: 14px !important;
   }
+
+  tr:last-child td.mat-cell {
+    border-bottom-color: transparent;
+  }
 }
 
 :host::ng-deep.subset-table-children {
