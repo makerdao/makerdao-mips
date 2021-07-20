@@ -361,7 +361,12 @@
             >
               <div
                 class="arrow-wrapper expanded"
-                [ngClass]="{ rotate: item.cantSubproposals }"
+                [ngClass]="{
+                  rotate:
+                    !item.loadingSubproposals &&
+                    expandedMipFather == item.mipName &&
+                    expandedItems.subproposals
+                }"
               >
                 <img
                   class="arrow"
@@ -404,7 +409,11 @@
                   >
                     <div
                       class="arrow-wrapper expanded"
-                      [ngClass]="{ rotate: item.cantSubproposals }"
+                      [ngClass]="{
+                        rotate:
+                        expandedMipSubset == itemSubset.subset &&
+                          expandedItems.subproposals
+                      }"
                     >
                       <img
                         class="arrow"

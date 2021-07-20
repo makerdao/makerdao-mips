@@ -255,6 +255,7 @@ const language = 'typescript';
     ) {
       this.expandedElement = null;
       this.expandedMipFather = null;
+      this.expandedMipSubset = null;
       this.subsetChildrenActivate = false;
     } else {
       let index = this.dataSourceTable.data.findIndex(
