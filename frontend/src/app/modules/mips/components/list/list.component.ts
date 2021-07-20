@@ -43,7 +43,10 @@ interface ExpandedItems {
       ),
     ]),
     trigger('subproposalExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', overflow: 'hidden' })),
+      state(
+        'collapsed',
+        style({ height: '0px', minHeight: '0', overflow: 'hidden' })
+      ),
       state('expanded', style({ height: '*' })),
       transition(
         'expanded <=> collapsed',
@@ -91,8 +94,6 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   dataSourceSubsetRows: any;
-  columnsToDisplaySubset = ['subset'];
-  expandedElementSubset: ISubsetDataElement | null;
 
   subsetChildrenActivate: boolean = false;
   subproposalsGroup: any;
@@ -245,18 +246,15 @@ const language = 'typescript';
     this.currentRowOver = id;
   }
 
-  onMouseOverLeaveSubsetArrow(subset: any, value: boolean) {
-    this.isArrowDownOnMouseOver = value;
-    this.currentRowOver = subset;
-  }
-
   onGetSubproposals(row: any, e: Event) {
     e.stopPropagation();
 
-    if (this.expandedElement === row || this.expandedMipFather === row.mipName) {
+    if (
+      this.expandedElement === row ||
+      this.expandedMipFather === row.mipName
+    ) {
       this.expandedElement = null;
       this.expandedMipFather = null;
-      // this.cdr.detectChanges();
       this.subsetChildrenActivate = false;
     } else {
       let index = this.dataSourceTable.data.findIndex(
@@ -293,7 +291,6 @@ const language = 'typescript';
           )
           .subscribe(
             (data) => {
-              // this.expandedMipFather = data.items[0].proposal;
               this.dataSourceTable.data[index]['loadingSubproposals'] = false;
               // sort by subset
               let items: any[] = (data.items as []).sort(function (
@@ -311,8 +308,13 @@ const language = 'typescript';
               const subsetRows: ISubsetDataElement[] = [];
 
               for (const key in this.subproposalsGroup) {
-                if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
-                  subsetRows.push({subset: key});
+                if (
+                  Object.prototype.hasOwnProperty.call(
+                    this.subproposalsGroup,
+                    key
+                  )
+                ) {
+                  subsetRows.push({ subset: key });
                 }
               }
 

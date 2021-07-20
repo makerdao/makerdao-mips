@@ -1,0 +1,90 @@
+<table
+  mat-table
+  [dataSource]="dataSourceSubsetRows"
+  multiTemplateDataRows
+  class="subset-table"
+>
+  <ng-container
+    matColumnDef="{{ column }}"
+    *ngFor="let column of columnsToDisplaySubset"
+  >
+    <span *ngIf="column == 'subset'" class="subsetColumnWrapper">
+      <td
+        class="tooltip subsetColumn"
+        mat-cell
+        *matCellDef="let element"
+        style="cursor: pointer; position: relative;"
+      >
+        <br />
+
+        {{ element[column] }}
+        <div (click)="onClickButtonCaptureEvent($event)">
+          <button
+            class="arrow-container"
+            [disabled]="element.loadingSubproposals"
+            (click)="
+              expandedElementSubset =
+                expandedElementSubset === element ? null : element
+            "
+            (mouseover)="onMouseOverLeaveSubsetArrow(element.subset, true)"
+            (mouseleave)="onMouseOverLeaveSubsetArrow(element.subset, false)"
+            style="right: 0; position: relative;"
+          >
+            <div
+              class="arrow-wrapper expanded"
+              [ngClass]="{
+                rotate: expandedElementSubset === element
+              }"
+            >
+              <img
+                class="arrow"
+                [src]="
+                  isArrowDownOnMouseOver && element.subset == currentRowOver
+                    ? '../../../../../../assets/images/down_hover.svg'
+                    : '../../../../../../assets/images/down.svg'
+                "
+              />
+            </div>
+          </button>
+        </div>
+      </td>
+    </span>
+  </ng-container>
+
+  <!-- Expanded Content Column -->
+  <ng-container matColumnDef="expandedDetail">
+    <td
+      mat-cell
+      *matCellDef="let element"
+      [attr.colspan]="columnsToDisplaySubset.length"
+    >
+      <div
+        class="maker-element-subsetchildren-detail"
+        [@detailExpand]="
+          element == expandedElementSubset ? 'expanded' : 'collapsed'
+        "
+      >
+        <ng-container *ngIf="element == expandedElementSubset">
+          <app-list-subproposal
+            [dataSource]="subproposalsGroup[element.subset]"
+          ></app-list-subproposal>
+        </ng-container>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr
+    mat-row
+    *matRowDef="let element; columns: columnsToDisplaySubset"
+    class="maker-element-subset-row"
+    [class.example-expanded-row]="expandedElementSubset === element"
+    (click)="
+      expandedElementSubset = expandedElementSubset === element ? null : element
+    "
+  ></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: ['expandedDetail']"
+    class="maker-detail-subset-row"
+  ></tr>
+</table>
