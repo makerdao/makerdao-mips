@@ -492,11 +492,24 @@ a {
 }
 
 .subproposal-card {
-  width: 91.05%;
+  width: 86.05%;
   color: #2f80ed;
+  margin-right: 0;
+  margin-left: auto;
 
   .title a {
     color: #2f80ed;
+  }
+}
+
+.subproposal-card-subset {
+  width: 91.05%;
+  color: #1aab9b;
+  margin-right: 0;
+  margin-left: auto;
+
+  .title {
+    color: #1aab9b;
   }
 }
 
@@ -740,4 +753,14 @@ tr.maker-element-subsetchildren-row {
 
 tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   background: whitesmoke;
+}
+
+.expandedSubset {
+  height: fit-content;
+  transition: all 1.3s ease-in-out;
+}
+
+.shrinkedSubset {
+  height: 0;
+  overflow: hidden;
 }

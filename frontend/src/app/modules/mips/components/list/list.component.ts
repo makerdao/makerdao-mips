@@ -42,6 +42,14 @@ interface ExpandedItems {
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
+    trigger('subproposalExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', overflow: 'hidden' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
   ],
 })
 export class ListComponent implements OnInit, OnChanges {
@@ -91,6 +99,9 @@ export class ListComponent implements OnInit, OnChanges {
 
   columnsToDisplaySubsetChildren = ['title', 'summary', 'status', 'link'];
   expandedElementSubsetChildren: DataElement | null;
+
+  expandedMipFather: string;
+  expandedMipSubset: string | null;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -241,15 +252,16 @@ const language = 'typescript';
 
   onGetSubproposals(row: any, e: Event) {
     e.stopPropagation();
-    let index = this.dataSourceTable.data.findIndex(
-      (item) => item._id === row._id
-    );
 
-    if (this.expandedElement === row) {
+    if (this.expandedElement === row || this.expandedMipFather === row.mipName) {
       this.expandedElement = null;
-      this.cdr.detectChanges();
+      this.expandedMipFather = null;
+      // this.cdr.detectChanges();
       this.subsetChildrenActivate = false;
     } else {
+      let index = this.dataSourceTable.data.findIndex(
+        (item) => item._id === row._id
+      );
       // show subproposals children
       if (index !== -1) {
         this.dataSourceTable.data[index]['loadingSubproposals'] = true;
@@ -281,6 +293,7 @@ const language = 'typescript';
           )
           .subscribe(
             (data) => {
+              // this.expandedMipFather = data.items[0].proposal;
               this.dataSourceTable.data[index]['loadingSubproposals'] = false;
               // sort by subset
               let items: any[] = (data.items as []).sort(function (
@@ -305,6 +318,7 @@ const language = 'typescript';
 
               this.dataSourceSubsetRows = subsetRows;
               this.expandedElement = row;
+              this.expandedMipFather = data.items[0].proposal;
               this.cdr.detectChanges();
               this.subsetChildrenActivate = true;
             },
@@ -349,6 +363,11 @@ const language = 'typescript';
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
   onClickButtonCaptureEvent(e: Event) {
     e.stopPropagation();
+  }
+
+  onExpadSubproposals(itemSubset: any) {
+    this.expandedMipSubset =
+      this.expandedMipSubset == itemSubset.subset ? null : itemSubset.subset;
   }
 }
 
