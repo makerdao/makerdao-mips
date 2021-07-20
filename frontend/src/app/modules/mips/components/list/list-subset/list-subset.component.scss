@@ -523,8 +523,8 @@ a {
   position: absolute;
   right: 30px;
   cursor: pointer;
-  top: 24px;
-  transform: translateY(-50%);
+  // top: 24px;
+  // transform: translateY(-50%);
   background: none;
   border: none;
   outline: none;
@@ -694,15 +694,16 @@ tr.maker-element-subsetchildren-row {
   }
 }
 
-.maker-element-subset-row td {
-  border-bottom-width: 0;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  color: #1aab9b;
-  // margin-left: 15px;
-  vertical-align: top;
-  // margin-top: 120px;
+.maker-element-subset-row {
+  td {
+    border-bottom-width: 0;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1aab9b;
+    vertical-align: top;
+    height: inherit;
+  }
 }
 
 .maker-element-subsetchildren-row td {

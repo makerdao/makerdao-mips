@@ -281,11 +281,13 @@ const language = 'typescript';
           )
           .pipe(
             map((res) => {
-              const newItems: any[] = (res.items as []).map((item: any) => {
-                let subset: string = (item.mipName as string).split('SP')[0];
-                item.subset = subset;
-                return item;
-              });
+              const newItems: any[] = (res.items as [])
+                .filter((i: any) => i.mipName)
+                .map((item: any) => {
+                  let subset: string = (item.mipName as string).split('SP')[0];
+                  item.subset = subset;
+                  return item;
+                });
               res.items = newItems;
               return res;
             })
