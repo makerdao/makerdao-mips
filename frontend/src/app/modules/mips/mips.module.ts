@@ -44,6 +44,8 @@ import { FilterPipe } from './pipes/filter.pipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FeedbackDialogComponent } from './components/feedback/feedback-dialog/feedback-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ContenteditableValueAccessorModule } from '@tinkoff/angular-contenteditable-accessor';
+import { FormattingMdDirective } from './directives/formatting-md.directive';
 import { ListSubsetComponent } from './components/list/list-subset/list-subset.component';
 import { ListSubproposalComponent } from './components/list/list-subproposal/list-subproposal.component';
 
@@ -80,6 +82,7 @@ import { ListSubproposalComponent } from './components/list/list-subproposal/lis
     AutocompleteContentDirective,
     AutocompleteDirective,
     FilterPipe,
+    FormattingMdDirective,
     ListSubsetComponent,
     ListSubproposalComponent
   ],
@@ -98,7 +101,8 @@ import { ListSubproposalComponent } from './components/list/list-subproposal/lis
     OverlayModule,
     MatTooltipModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ContenteditableValueAccessorModule
   ]
 })
 export class MipsModule { }
