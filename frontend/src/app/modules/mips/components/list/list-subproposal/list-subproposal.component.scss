@@ -260,6 +260,13 @@ table {
   visibility: visible;
 }
 
+.tooltip a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .no-result {
   width: 100%;
   text-align: center;
