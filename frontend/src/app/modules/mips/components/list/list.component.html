@@ -1,186 +1,533 @@
 <div class="maker-container">
   <div *ngIf="loading" class="maker-loading-shade">
-    <mat-spinner ></mat-spinner>
+    <mat-spinner></mat-spinner>
   </div>
- <div *ngIf="dataSource.length > 0">
-   <div  class="no-mobile"
-     infiniteScroll
-    [infiniteScrollDistance]="0"
-    [infiniteScrollThrottle]="50"
-    (scrolled)="onScroll()">
+  <div *ngIf="dataSource.length > 0">
+    <div
+      class="no-mobile"
+      infiniteScroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+    >
+      <table mat-table [dataSource]="dataSourceTable" multiTemplateDataRows>
+        <ng-container
+          matColumnDef="{{ column }}"
+          *ngFor="let column of columnsToDisplay"
+        >
+          <span *ngIf="column != 'link'">
+            <span *ngIf="column != 'pos'">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                (click)="onSendOrder(column)"
+                style="cursor: pointer;"
+              >
+                {{ column }}
+                <img
+                  class="arrow up"
+                  [src]="
+                    currentSortingColumn === column && ascOrderSorting
+                      ? arrowUpDark
+                      : arrowUp
+                  "
+                /><img
+                  class="arrow down"
+                  [src]="
+                    currentSortingColumn === column && !ascOrderSorting
+                      ? arrowDownDark
+                      : arrowDown
+                  "
+                />
+              </th>
+            </span>
+            <span *ngIf="column == 'pos'">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                (click)="onSendOrder(column)"
+                style="cursor: pointer;"
+              >
+                #
+                <img
+                  class="arrow up"
+                  [src]="
+                    currentSortingColumn === column && ascOrderSorting
+                      ? arrowUpDark
+                      : arrowUp
+                  "
+                /><img
+                  class="arrow down"
+                  [src]="
+                    currentSortingColumn === column && !ascOrderSorting
+                      ? arrowDownDark
+                      : arrowDown
+                  "
+                />
+              </th>
+            </span>
+          </span>
+          <span *ngIf="column == 'link'">
+            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+          </span>
 
-<table mat-table
-            [dataSource]="dataSourceTable" multiTemplateDataRows
+          <span *ngIf="column == 'title'">
+            <td
+              class="tooltip"
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{ 'subproposal-title': element.proposal }"
+              (click)="onNavigateToDetails(element.mipName)"
+              style="cursor: pointer;"
             >
-       <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay;">
-
-         <span *ngIf="column != 'link'">
-           <span *ngIf="column != 'pos'">
-             <th mat-header-cell *matHeaderCellDef (click)="onSendOrder(column)" style="cursor: pointer;"> {{column}} <img class="arrow up" [src]="currentSortingColumn === column && ascOrderSorting ? arrowUpDark : arrowUp"/><img class="arrow down" [src]="currentSortingColumn === column && !ascOrderSorting ? arrowDownDark : arrowDown"/> </th>
-           </span>
-           <span *ngIf="column == 'pos'">
-             <th mat-header-cell *matHeaderCellDef (click)="onSendOrder(column)" style="cursor: pointer;"> # <img class="arrow up" [src]="currentSortingColumn === column && ascOrderSorting ? arrowUpDark : arrowUp"/><img class="arrow down" [src]="currentSortingColumn === column && !ascOrderSorting ? arrowDownDark : arrowDown"/> </th>
-           </span>
-         </span>
-         <span *ngIf="column == 'link'">
-           <th mat-header-cell *matHeaderCellDef> {{column}}</th>
-         </span>
-
-
-         <span *ngIf="column == 'title'">
-           <td class="tooltip" mat-cell *matCellDef="let element;"
-            [ngClass]="{'subproposal-title': element.proposal}"
-            (click)="onNavigateToDetails(element.mipName)"
-            style="cursor: pointer;">
-             <!-- <span class="tooltiptext">Click for more details</span>  -->
-             <a
+              <!-- <span class="tooltiptext">Click for more details</span>  -->
+              <a
                 routerLink="/mips/details/{{ element.mipName }}"
                 style="position: relative;"
-                >
+              >
                 <div
                   class="cover"
                   [matTooltip]="element[column]"
                   [matTooltipClass]="{ 'mat-tooltip': true }"
                   #tooltip="matTooltip"
                   (mouseover)="tooltip.show()"
-                ></div><br />{{ element[column] }}</a
+                ></div>
+                <br />{{ element[column] }}</a
               >
-             </td>
-         </span>
-         <span *ngIf="column == 'status'">
-           <td class="tooltip" at-cell *matCellDef="let element"
-            (click)="onNavigateToDetails(element.mipName)"
-            style="cursor: pointer;">
-             <div class="space-status"></div>
-             <app-status [type]="getStatusType(element.status)" [value]="getStatusValue(element.status)" style="cursor: pointer;"></app-status>
-             <!-- <span class="tooltiptext">Click for more details</span> -->
             </td>
-         </span>
-         <span *ngIf="column == 'link'">
-           <td  mat-cell *matCellDef="let element" (click)="onNavigateToDetails(element.mipName)"
-            style="cursor: pointer;">
-            <div class="space-status"></div>
-            <app-social forumLink="#" [githubLink]="element.filename"></app-social>
-          </td>
-         </span>
-         <span *ngIf="column == 'pos'">
-           <td class="tooltip" (click)="onNavigateToDetails(element.mipName)" mat-cell *matCellDef="let element"
-            style="cursor: pointer; position: relative;"><br>
+          </span>
+          <span *ngIf="column == 'status'">
+            <td
+              class="tooltip"
+              mat-cell
+              *matCellDef="let element"
+              (click)="onNavigateToDetails(element.mipName)"
+              style="cursor: pointer;"
+            >
+              <div class="space-status"></div>
+              <app-status
+                [type]="getStatusType(element.status)"
+                [value]="getStatusValue(element.status)"
+                style="cursor: pointer;"
+              ></app-status>
+              <!-- <span class="tooltiptext">Click for more details</span> -->
+            </td>
+          </span>
+          <span *ngIf="column == 'link'">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="onNavigateToDetails(element.mipName)"
+              style="cursor: pointer;"
+            >
+              <div class="space-status"></div>
+              <app-social
+                forumLink="#"
+                [githubLink]="element.filename"
+              ></app-social>
+            </td>
+          </span>
+          <span *ngIf="column == 'pos'">
+            <td
+              class="tooltip"
+              (click)="onNavigateToDetails(element.mipName)"
+              mat-cell
+              *matCellDef="let element"
+              style="cursor: pointer; position: relative;"
+            >
+              <br />
 
-            {{element.proposal ? '' : element.mip}}
-            <div (click)="onClickButtonCaptureEvent($event)">
-              <button *ngIf="!element.proposal && element.mipFather" class="arrow-container" [disabled]="element.loadingSubproposals"
-                (click)="expandedItems = {subproposals: true, summary: false}; onGetSubproposals(element, $event)"
+              {{ element.proposal ? "" : element.mip }}
+              <div (click)="onClickButtonCaptureEvent($event)">
+                <button
+                  *ngIf="!element.proposal && element.mipFather"
+                  class="arrow-container"
+                  [disabled]="element.loadingSubproposals"
+                  (click)="
+                    expandedItems = {
+                      subproposals: true,
+                      summary: false
+                    };
+                    onGetSubproposals(element, $event)
+                  "
+                  (mouseover)="onMouseOverLeaveArrow(element._id, true)"
+                  (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+                  style="right: 0;"
+                >
+                  <div
+                    class="arrow-wrapper expanded"
+                    [ngClass]="{
+                      rotate:
+                        !element.loadingSubproposals &&
+                        expandedElement == element &&
+                        expandedItems.subproposals
+                    }"
+                  >
+                    <img
+                      class="arrow"
+                      [src]="
+                        isArrowDownOnMouseOver && element._id == currentRowOver
+                          ? '../../../../../assets/images/down_hover.svg'
+                          : '../../../../../assets/images/down.svg'
+                      "
+                    />
+                  </div>
+                </button>
+              </div>
+
+              <!-- <span class="tooltiptext">Click for more details</span> -->
+            </td>
+          </span>
+          <span *ngIf="column == 'summary'">
+            <td
+              class="tooltip"
+              style="position: relative; cursor: pointer;"
+              mat-cell
+              *matCellDef="let element"
+              (click)="onNavigateToDetails(element.mipName)"
+            >
+              <div style="cursor: pointer;">
+                <a
+                  class="summary"
+                  *ngIf="selected != element._id || expandedItems.subproposals"
+                  ><br />
+                  <markdown
+                    class="variable-binding variable-binding-summary"
+                    [data]="element.sentenceSummary"
+                  ></markdown
+                ></a>
+                <a
+                  class="paragraphSummary"
+                  *ngIf="selected == element._id && expandedItems.summary"
+                  ><br />
+                  <markdown
+                    class="variable-binding"
+                    [data]="element.paragraphSummary"
+                  ></markdown>
+                </a>
+              </div>
+              <div
+                class="arrow-container"
+                (click)="
+                  expandedItems = { subproposals: false, summary: true };
+                  updateSelected(element._id, $event);
+                  expandedElement = expandedElement === element ? null : element
+                "
                 (mouseover)="onMouseOverLeaveArrow(element._id, true)"
                 (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
-                style="right: 0;"
+              >
+                <div
+                  class="arrow-wrapper expanded"
+                  [ngClass]="{
+                    rotate: selected == element._id && expandedItems.summary
+                  }"
                 >
-                <div class="arrow-wrapper expanded" [ngClass]="{'rotate': element.cantSubproposals}">
-                  <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
+                  <img
+                    class="arrow"
+                    [src]="
+                      isArrowDownOnMouseOver && element._id == currentRowOver
+                        ? '../../../../../assets/images/down_hover.svg'
+                        : '../../../../../assets/images/down.svg'
+                    "
                   />
                 </div>
-              </button>
-            </div>
+              </div>
 
-            <!-- <span class="tooltiptext">Click for more details</span> -->
-          </td>
-         </span>
-         <span *ngIf="column == 'summary'">
-           <td class="tooltip" style="position: relative; cursor: pointer;"
-           mat-cell
-           *matCellDef="let element"
-           (click)="onNavigateToDetails(element.mipName)">
-           <div style="cursor: pointer;">
-             <a class="summary" *ngIf="selected != element._id || expandedItems.subproposals"><br>
-              <markdown class="variable-binding variable-binding-summary" [data]="element.sentenceSummary"></markdown></a>
-             <a class="paragraphSummary" *ngIf="selected == element._id && expandedItems.summary"><br>
-              <markdown class="variable-binding" [data]="element.paragraphSummary"></markdown>
-            </a>
+              <!-- <span class="tooltiptext">Click for more details</span> -->
+            </td>
+          </span>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [attr.colspan]="columnsToDisplay.length"
+          >
+            <div
+              class="maker-element-subset-detail"
+              [@detailExpand]="
+                element == expandedElement ? 'expanded' : 'collapsed'
+              "
+            >
+              <!-- subset -->
+              <app-list-subset
+                *ngIf="expandedItems.subproposals"
+                [dataSourceSubsetRows]="dataSourceSubsetRows"
+                [subproposalsGroup]="subproposalsGroup"
+              ></app-list-subset>
             </div>
-            <div class="arrow-container"
-              (click)="updateSelected(element._id, $event); expandedElement = expandedElement === element ? null : element; expandedItems = {subproposals: false, summary: true}"
-              (mouseover)="onMouseOverLeaveArrow(element._id, true)"
-              (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: columnsToDisplay"
+          class="maker-element-row"
+          [class.maker-expanded-row]="expandedElement === element"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['expandedDetail']"
+          class="maker-detail-row"
+        ></tr>
+      </table>
+      <div class="load-more" *ngIf="moreToLoad">
+        <p>Scroll to load More</p>
+        <img src="../../../../../assets/images/scroll.svg" />
+      </div>
+      <div class="loading-plus" *ngIf="loadingPlus">
+        <mat-spinner [diameter]="50"></mat-spinner>
+      </div>
+    </div>
+    <div class="mobile">
+      <div *ngFor="let item of dataSourceTable.data" style="width: 100%;">
+        <div
+          class="mobile-container"
+          [ngClass]="{
+            'proposal-card': !item.proposal,
+            'subproposal-card': item.proposal
+          }"
+        >
+          <div style="width: calc(100% - 35px);">
+            {{ item.proposal ? "" : "# " + item.mip }}
+            <img
+              *ngIf="!item.proposal"
+              src="../../../../../assets/images/circle.svg"
+            />
+            <span class="title">
+              <a routerLink="/mips/details/{{ item.mipName }}">
+                {{ item.title }}</a
+              ></span
+            >
+          </div>
+          <div class="status">
+            <app-status
+              [type]="getStatusType(item.status)"
+              [value]="getStatusValue(item.status)"
+            ></app-status>
+          </div>
+          <div class="content">
+            <a
+              *ngIf="selected != item._id"
+              routerLink="/mips/details/{{ item.mipName }}"
+            >
+              <markdown
+                class="variable-binding-content"
+                [data]="item.sentenceSummary"
+              ></markdown>
+            </a>
+            <a
+              *ngIf="selected == item._id"
+              routerLink="/mips/details/{{ item.mipName }}"
+            >
+              <markdown
+                class="variable-binding-content"
+                [data]="item.paragraphSummary"
+              ></markdown>
+            </a>
+          </div>
+          <div style="clear: both;"></div>
+          <div class="more" (click)="updateSelected(item._id, $event)">
+            <img
+              class="arrow"
+              [ngClass]="{ rotate: selected == item._id }"
+              src="../../../../../assets/images/down.svg"
+            />
+            More
+          </div>
+          <app-social
+            forumLink="#"
+            [githubLink]="item.filename"
+            mobile="true"
+          ></app-social>
+          <div style="clear: both;"></div>
+          <div
+            class="subproposalsButtonWrapper"
+            (click)="onClickButtonCaptureEvent($event)"
+          >
+            <button
+              *ngIf="!item.proposal && item.mipFather"
+              class="arrow-container"
+              [disabled]="item.loadingSubproposals"
+              (click)="
+                expandedItems = { subproposals: true, summary: false };
+                onGetSubproposals(item, $event)
+              "
+              (mouseover)="onMouseOverLeaveArrow(item._id, true)"
+              (mouseleave)="onMouseOverLeaveArrow(item._id, false)"
+              style="right: 0;"
+            >
+              <div
+                class="arrow-wrapper expanded"
+                [ngClass]="{
+                  rotate:
+                    !item.loadingSubproposals &&
+                    expandedMipFather == item.mipName &&
+                    expandedItems.subproposals
+                }"
               >
-              <div class="arrow-wrapper expanded" [ngClass]="{'rotate': selected == element._id && expandedItems.summary}">
-                <img class="arrow" [src]="isArrowDownOnMouseOver && element._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
+                <img
+                  class="arrow"
+                  [src]="
+                    isArrowDownOnMouseOver && item._id == currentRowOver
+                      ? '../../../../../assets/images/down_hover.svg'
+                      : '../../../../../assets/images/down.svg'
+                  "
                 />
               </div>
-            </div>
-
-            <!-- <span class="tooltiptext">Click for more details</span> -->
-
-          </td>
-         </span>
-       </ng-container>
-
-
-       <ng-container matColumnDef="expandedDetail">
-         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-           <div class="maker-element-detail"
-                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-           </div>
-         </td>
-       </ng-container>
-
-       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-       <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-           class="maker-element-row"
-           [class.maker-expanded-row]="expandedElement === element"
-           >
-       </tr>
-       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="maker-detail-row"></tr>
-    </table>
-    <div class="load-more" *ngIf="moreToLoad">
-      <p>Scroll to load More</p>
-      <img src="../../../../../assets/images/scroll.svg" />
-    </div>
-    <div class="loading-plus" *ngIf="loadingPlus">
-     <mat-spinner [diameter]="50"></mat-spinner>
-   </div>
-  </div>
-  <div class="mobile">
-    <div class="mobile-container" *ngFor="let item of dataSourceTable.data"
-      [ngClass]="{'proposal-card': !item.proposal, 'subproposal-card': item.proposal}"
-    >
-      <div style="width: calc(100% - 35px);">
-        {{(item.proposal ? '' : ('# ' + item.mip))}} <img *ngIf="!item.proposal" src="../../../../../assets/images/circle.svg">
-        <span class="title"> <a routerLink="/mips/details/{{item.mipName}}"> {{item.title}}</a></span>
-      </div>
-      <div class="status">
-        <app-status [type]="getStatusType(item.status)" [value]="getStatusValue(item.status)"></app-status>
-      </div>
-      <div class="content">
-        <a *ngIf="selected != item._id" routerLink="/mips/details/{{item.mipName}}">
-          <markdown class="variable-binding-content" [data]="item.sentenceSummary"></markdown>
-        </a>
-        <a *ngIf="selected == item._id" routerLink="/mips/details/{{item.mipName}}">
-          <markdown class="variable-binding-content" [data]="item.paragraphSummary"></markdown>
-        </a>
-      </div>
-      <div style="clear: both;"></div>
-      <div class="more" (click)="updateSelected(item._id, $event)">
-        <img class="arrow" [ngClass]="{'rotate': selected == item._id}" src="../../../../../assets/images/down.svg"/>
-        More
-      </div>
-      <app-social forumLink="#" [githubLink]="item.filename" mobile="true"></app-social>
-      <div style="clear: both;"></div>
-      <div class="subproposalsButtonWrapper" (click)="onClickButtonCaptureEvent($event)">
-        <button *ngIf="!item.proposal && item.mipFather" class="arrow-container" [disabled]="item.loadingSubproposals"
-          (click)="expandedItems = {subproposals: true, summary: false}; onGetSubproposals(item, $event)"
-          (mouseover)="onMouseOverLeaveArrow(item._id, true)"
-          (mouseleave)="onMouseOverLeaveArrow(item._id, false)"
-          style="right: 0;"
-          >
-          <div class="arrow-wrapper expanded" [ngClass]="{'rotate': item.cantSubproposals}">
-            <img class="arrow" [src]="isArrowDownOnMouseOver && item._id == currentRowOver ? '../../../../../assets/images/down_hover.svg' : '../../../../../assets/images/down.svg'"
-            />
+            </button>
           </div>
-        </button>
+        </div>
+        <div
+          [@detailExpand]="
+            expandedMipFather === item.mipName ? 'expanded' : 'collapsed'
+          "
+        >
+          <ng-container *ngIf="expandedMipFather === item.mipName">
+            <div *ngFor="let itemSubset of dataSourceSubsetRows">
+              <div class="mobile-container subproposal-card-subset">
+                <div style="width: calc(100% - 35px);">
+                  <span class="title"> {{ itemSubset.subset }}</span>
+                </div>
+                <div
+                  class="subproposalsButtonWrapper"
+                  (click)="onClickButtonCaptureEvent($event)"
+                >
+                  <button
+                    *ngIf="!item.proposal && item.mipFather"
+                    class="arrow-container"
+                    [disabled]="item.loadingSubproposals"
+                    (click)="
+                      expandedItems = { subproposals: true, summary: false };
+                      onExpadSubproposals(itemSubset)
+                    "
+                    (mouseover)="onMouseOverLeaveArrow(item._id, true)"
+                    (mouseleave)="onMouseOverLeaveArrow(item._id, false)"
+                    style="right: 0;"
+                  >
+                    <div
+                      class="arrow-wrapper expanded"
+                      [ngClass]="{
+                        rotate:
+                        expandedMipSubset == itemSubset.subset &&
+                          expandedItems.subproposals
+                      }"
+                    >
+                      <img
+                        class="arrow"
+                        [src]="
+                          isArrowDownOnMouseOver && item._id == currentRowOver
+                            ? '../../../../../assets/images/down_hover.svg'
+                            : '../../../../../assets/images/down.svg'
+                        "
+                      />
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <div
+                [@subproposalExpand]="
+                  expandedMipSubset == itemSubset.subset
+                    ? 'expanded'
+                    : 'collapsed'
+                "
+              >
+                <ng-container *ngIf="expandedMipSubset == itemSubset.subset">
+                  <div
+                    *ngFor="
+                      let itemSubsetChildren of subproposalsGroup[
+                        itemSubset.subset
+                      ]
+                    "
+                    class="mobile-container subproposal-card"
+                  >
+                    <div style="width: calc(100% - 35px);">
+                      {{
+                        itemSubsetChildren.proposal
+                          ? ""
+                          : "# " + itemSubsetChildren.mip
+                      }}
+                      <img
+                        *ngIf="!itemSubsetChildren.proposal"
+                        src="../../../../../assets/images/circle.svg"
+                      />
+                      <span class="title">
+                        <a
+                          routerLink="/mips/details/{{
+                            itemSubsetChildren.mipName
+                          }}"
+                        >
+                          {{
+                            itemSubsetChildren.title &&
+                            itemSubsetChildren.title.includes("-SP")
+                              ? "SP" + itemSubsetChildren.title.split("-SP")[1]
+                              : itemSubsetChildren.title
+                          }}</a
+                        ></span
+                      >
+                    </div>
+                    <div class="status">
+                      <app-status
+                        [type]="getStatusType(itemSubsetChildren.status)"
+                        [value]="getStatusValue(itemSubsetChildren.status)"
+                      ></app-status>
+                    </div>
+                    <div class="content">
+                      <a
+                        *ngIf="selected != itemSubsetChildren._id"
+                        routerLink="/mips/details/{{
+                          itemSubsetChildren.mipName
+                        }}"
+                      >
+                        <markdown
+                          class="variable-binding-content"
+                          [data]="itemSubsetChildren.sentenceSummary"
+                        ></markdown>
+                      </a>
+                      <a
+                        *ngIf="selected == itemSubsetChildren._id"
+                        routerLink="/mips/details/{{
+                          itemSubsetChildren.mipName
+                        }}"
+                      >
+                        <markdown
+                          class="variable-binding-content"
+                          [data]="itemSubsetChildren.paragraphSummary"
+                        ></markdown>
+                      </a>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div
+                      class="more"
+                      (click)="updateSelected(itemSubsetChildren._id, $event)"
+                    >
+                      <img
+                        class="arrow"
+                        [ngClass]="{
+                          rotate: selected == itemSubsetChildren._id
+                        }"
+                        src="../../../../../assets/images/down.svg"
+                      />
+                      More
+                    </div>
+                    <app-social
+                      forumLink="#"
+                      [githubLink]="itemSubsetChildren.filename"
+                      mobile="true"
+                    ></app-social>
+                    <div style="clear: both;"></div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
- </div>
   <div class="no-result" *ngIf="dataSource.length == 0">
     <div *ngIf="dataSource.length == 0 && !loading">
       <img src="../../../../../assets/images/no_results.svg" />

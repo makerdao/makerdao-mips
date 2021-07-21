@@ -46,6 +46,8 @@ import { FeedbackDialogComponent } from './components/feedback/feedback-dialog/f
 import {MatDialogModule} from '@angular/material/dialog';
 import { ContenteditableValueAccessorModule } from '@tinkoff/angular-contenteditable-accessor';
 import { FormattingMdDirective } from './directives/formatting-md.directive';
+import { ListSubsetComponent } from './components/list/list-subset/list-subset.component';
+import { ListSubproposalComponent } from './components/list/list-subproposal/list-subproposal.component';
 
 
 @NgModule({
@@ -80,7 +82,9 @@ import { FormattingMdDirective } from './directives/formatting-md.directive';
     AutocompleteContentDirective,
     AutocompleteDirective,
     FilterPipe,
-    FormattingMdDirective
+    FormattingMdDirective,
+    ListSubsetComponent,
+    ListSubproposalComponent
   ],
   imports: [
     CommonModule,

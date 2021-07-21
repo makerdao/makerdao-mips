@@ -30,7 +30,6 @@ export class DetailsPageComponent implements OnInit {
       if (paramMap.has('name')) {
         this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
-        console.log("total", this.total);
         this.loadData();
         this.mipsService.updateActiveSearch(true);
         this.moveToElement();
