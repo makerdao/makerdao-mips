@@ -157,7 +157,7 @@ const language = 'typescript';
       }
     }
 
-    // return data;
+    return data;
   }
 
   getStatusType(data: string): string {
@@ -182,7 +182,7 @@ const language = 'typescript';
       }
     }
 
-    // return data;
+    return 'DEFAULT';
   }
 
   updateSelected(index: string, event: Event): void {
