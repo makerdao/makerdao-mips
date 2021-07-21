@@ -23,7 +23,7 @@ export class FormattingMdDirective implements OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    const chng = changes.activate.currentValue;
+    const chng = changes.activate?.currentValue;
 
     if (chng) {
       this.formatting();

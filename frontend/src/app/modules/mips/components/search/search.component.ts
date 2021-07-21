@@ -88,6 +88,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
       replace:
         "@<span style='font-weight:500;color:#9B51E0'>Formal Submission</span>",
     },
+    {
+      pattern: /@proposed/gi,
+      replace: "@<span style='font-weight:500;color:#8B4513'>Proposed</span>",
+    },
+    {
+      pattern: /@withdrawn/gi,
+      replace: "@<span style='font-weight:500;color:#8B4513'>Withdrawn</span>",
+    },
   ];
 
   constructor(
@@ -249,26 +257,23 @@ export class SearchComponent implements OnInit, AfterViewInit {
             });
         });
 
-        let search: string;
+      let search: string;
 
-        if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
-          search = this.control.value.slice(
-            this.indexCaretPositionStart,
-            this.indexCaretPositionEnd
-          )
-        } else {
-          search = (this.inputSearch
-            .nativeElement as HTMLElement).innerText.slice(
-            this.indexCaretPositionStart,
-            this.indexCaretPositionEnd
-          );
-        }
+      if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+        search = this.control.value.slice(
+          this.indexCaretPositionStart,
+          this.indexCaretPositionEnd
+        );
+      } else {
+        search = (this.inputSearch
+          .nativeElement as HTMLElement).innerText.slice(
+          this.indexCaretPositionStart,
+          this.indexCaretPositionEnd
+        );
+      }
 
       this.smartSearchService
-        .getOptions(
-          'status',
-          search
-        )
+        .getOptions('status', search)
         .pipe(
           map((data) => {
             const newArray = (data as [])
@@ -326,26 +331,23 @@ export class SearchComponent implements OnInit, AfterViewInit {
             });
         });
 
-        let search: string;
+      let search: string;
 
-        if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
-          search = this.control.value.slice(
-            this.indexCaretPositionStart,
-            this.indexCaretPositionEnd
-          )
-        } else {
-          search = (this.inputSearch
-            .nativeElement as HTMLElement).innerText.slice(
-            this.indexCaretPositionStart,
-            this.indexCaretPositionEnd
-          );
-        }
+      if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+        search = this.control.value.slice(
+          this.indexCaretPositionStart,
+          this.indexCaretPositionEnd
+        );
+      } else {
+        search = (this.inputSearch
+          .nativeElement as HTMLElement).innerText.slice(
+          this.indexCaretPositionStart,
+          this.indexCaretPositionEnd
+        );
+      }
 
       this.smartSearchService
-        .getOptions(
-          'tags',
-          search
-        )
+        .getOptions('tags', search)
         .pipe(
           map((data) => {
             const newArray = (data as [])
@@ -400,6 +402,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
         break;
       case 'archive':
         style.color = '#748AA1';
+        break;
+      case 'proposed':
+        style.color = '#8B4513';
+        break;
+      case 'withdrawn':
+        style.color = '#8B4513';
         break;
 
       default:
