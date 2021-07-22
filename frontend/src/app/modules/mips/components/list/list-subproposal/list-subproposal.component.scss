@@ -1,3 +1,7 @@
+:host {
+  width: 100%;
+}
+
 table {
   width: 100%;
 }
@@ -754,6 +758,7 @@ tr.maker-element-subsetchildren-row {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-right: 0;
   }
 }
 

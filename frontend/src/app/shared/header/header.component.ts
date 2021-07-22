@@ -40,8 +40,20 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   clearFilterAndGoHome(): void {
     this.mipsService.clearFilter();
-    this.router.navigateByUrl('/mips/list');
+    this.onRefresh();
   }
+
+  onRefresh() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function(){return false;};
+
+    let currentUrl = this.router.url + '?';
+
+    this.router.navigateByUrl(currentUrl)
+      .then(() => {
+        this.router.navigated = false;
+        this.router.navigate(['/mips/list']);
+      });
+    }
 
   onMenuToggle(ev) {
     if (!ev) {

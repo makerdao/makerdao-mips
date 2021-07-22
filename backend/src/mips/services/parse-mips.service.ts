@@ -419,9 +419,15 @@ export class ParseMIPsService {
             status === "Request For Comments (RFC)" ||
             status === "Request for Comments" ||
             status === "Request for Comments (RFC)" ||
+            status === "Request for Comment (RFC)" ||
             status === "RFC"
           ) {
             preamble.status = "RFC";
+          } else if (
+            status === "Rejected (Failed Inclusion Poll July 2020)" ||
+            status === "Rejected"
+          ) {
+            preamble.status = "Rejected";
           } else {
             preamble.status = status;
           }

@@ -1,0 +1,170 @@
+<table
+  *ngIf="subsetChildrenActivate"
+  mat-table
+  [dataSource]="dataSource"
+  multiTemplateDataRows
+  class="subset-table-children"
+>
+  <ng-container
+    matColumnDef="{{ column }}"
+    *ngFor="let column of columnsToDisplaySubsetChildren"
+  >
+    <span *ngIf="column != 'link'">
+      <span *ngIf="column != 'pos'">
+        <th mat-header-cell *matHeaderCellDef style="cursor: pointer;">
+          {{ column }}
+        </th>
+      </span>
+      <span *ngIf="column == 'pos'">
+        <th mat-header-cell *matHeaderCellDef style="cursor: pointer;">
+          #
+        </th>
+      </span>
+    </span>
+    <span *ngIf="column == 'link'">
+      <th mat-header-cell *matHeaderCellDef>
+        {{ column }}
+      </th>
+    </span>
+
+    <span *ngIf="column == 'title'">
+      <td
+        class="tooltip"
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
+          'subproposal-title': element.proposal
+        }"
+        (click)="onNavigateToDetails(element.mipName)"
+        style="cursor: pointer;"
+      >
+        <a
+          routerLink="/mips/details/{{ element.mipName }}"
+          style="position: relative;"
+        >
+          <div
+            class="cover"
+            [matTooltip]="element[column]"
+            [matTooltipClass]="{ 'mat-tooltip': true }"
+            #tooltip="matTooltip"
+            (mouseover)="tooltip.show()"
+          ></div>
+          <br />{{
+            element[column] && element[column].includes("-SP")
+              ? "SP" + element[column].split("-SP")[1]
+              : element[column]
+          }}</a
+        >
+      </td>
+    </span>
+    <span *ngIf="column == 'status'">
+      <td
+        class="tooltip"
+        mat-cell
+        *matCellDef="let element"
+        (click)="onNavigateToDetails(element.mipName)"
+        style="cursor: pointer;"
+      >
+        <div class="space-status"></div>
+        <app-status
+          [type]="getStatusType(element.status)"
+          [value]="getStatusValue(element.status)"
+          style="cursor: pointer;"
+        ></app-status>
+      </td>
+    </span>
+    <span *ngIf="column == 'link'">
+      <td
+        mat-cell
+        *matCellDef="let element"
+        (click)="onNavigateToDetails(element.mipName)"
+        style="cursor: pointer;"
+      >
+        <div class="space-status"></div>
+        <app-social forumLink="#" [githubLink]="element.filename"></app-social>
+      </td>
+    </span>
+
+    <span *ngIf="column == 'summary'">
+      <td
+        class="tooltip"
+        style="position: relative; cursor: pointer;"
+        mat-cell
+        *matCellDef="let element"
+        (click)="onNavigateToDetails(element.mipName)"
+      >
+        <div style="cursor: pointer;">
+          <a class="summary" *ngIf="selected != element._id"
+            ><br />
+            <markdown
+              class="variable-binding variable-binding-summary"
+              [data]="element.sentenceSummary"
+            ></markdown
+          ></a>
+          <a class="paragraphSummary" *ngIf="selected == element._id"
+            ><br />
+            <markdown
+              class="variable-binding"
+              [data]="element.paragraphSummary"
+            ></markdown>
+          </a>
+        </div>
+        <div
+          class="arrow-container"
+          (click)="
+            updateSelected(element._id, $event);
+            expandedItems = { subproposals: false, summary: true };
+            expandedElementSubsetChildren =
+              expandedElementSubsetChildren === element ? null : element
+          "
+          (mouseover)="onMouseOverLeaveArrow(element._id, true)"
+          (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+        >
+          <div
+            class="arrow-wrapper expanded"
+            [ngClass]="{
+              rotate: selected == element._id && expandedItems.summary
+            }"
+          >
+            <img
+              class="arrow"
+              [src]="
+                isArrowDownOnMouseOver && element._id == currentRowOver
+                  ? '../../../../../../assets/images/down_hover.svg'
+                  : '../../../../../../assets/images/down.svg'
+              "
+            />
+          </div>
+        </div>
+      </td>
+    </span>
+  </ng-container>
+
+  <!-- Expanded Content Column -->
+  <ng-container matColumnDef="expandedDetail">
+    <td
+      mat-cell
+      *matCellDef="let element"
+      [attr.colspan]="columnsToDisplaySubsetChildren.length"
+    >
+      <div
+        class="example-element-detail"
+        [@detailExpand]="
+          element == expandedElementSubsetChildren ? 'expanded' : 'collapsed'
+        "
+      ></div>
+    </td>
+  </ng-container>
+
+  <tr
+    mat-row
+    *matRowDef="let element; columns: columnsToDisplaySubsetChildren"
+    class="maker-element-row"
+    [class.maker-expanded-row]="expandedElementSubsetChildren === element"
+  ></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: ['expandedDetail']"
+    class="maker-detail-row"
+  ></tr>
+</table>

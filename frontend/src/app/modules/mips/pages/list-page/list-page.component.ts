@@ -8,6 +8,7 @@ import { FilterItemService } from 'src/app/services/filter-item/filter-item.serv
 import { QueryParamsListService } from '../../services/query-params-list.service';
 import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-list-page',
@@ -23,6 +24,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   page = 0;
   order: string;
   search: string = '';
+  searchCopy: string = '';
   filter: any;
   filterSaved: FilterData;
   loading: boolean;
@@ -37,6 +39,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   mipsByName: any[] = [];
   sintaxError: boolean = false;
   errorMessage: string = '';
+  defaultSearch: string = "$ and(not(@Obsolete), not(@Withdrawn))";
+  mobileView: boolean = false;
 
   constructor(
     private mipsService: MipsService,
@@ -84,6 +88,20 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.initFiltersList();
+
+      if (window.innerWidth <= 768) {
+        this.mobileView = true;
+      } else {
+        this.mobileView = false;
+      }
+
+      fromEvent(window, 'onresize').subscribe(() => {
+        if (window.innerWidth <= 768) {
+          this.mobileView = true;
+        } else {
+          this.mobileView = false;
+        }
+      });
     }, 200);
   }
 
@@ -115,6 +133,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     };
 
     this.queryParamsListService.queryParams = qp;
+
+    this.searchCopy = this.defaultSearch;
+
+    for (const key in qp) {
+      if (Object.prototype.hasOwnProperty.call(qp, key)) {
+        const element = qp[key];
+
+        if (element && (element as [])?.length != 0) {
+          this.searchCopy = this.search;
+          break;
+        }
+      }
+    }
   }
 
   initFiltersAndSearch() {
@@ -262,12 +293,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       }
     }
 
+    this.searchCopy = this.defaultSearch;
+
+    if (this.filterOrSearch()) {
+      this.searchCopy = this.search;
+    }
+
     this.mipsService
       .searchMips(
         this.limit,
         this.page,
         this.order,
-        this.search,
+        this.searchCopy,
         this.filter,
         'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
       )
@@ -379,6 +416,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.searchMipsByName(0, 0, 'mipName', '', filter);
       this.limit = 0;
     } else {
+      this.showListSearch = false;
       this.listSearchMip = [];
       this.limitAux = 10;
       this.mips = [];
