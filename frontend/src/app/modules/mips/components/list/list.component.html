@@ -1,5 +1,5 @@
 <div class="maker-container">
-  <div *ngIf="loading" class="maker-loading-shade">
+  <div *ngIf="loading && !dataSource.length" class="maker-loading-shade">
     <mat-spinner></mat-spinner>
   </div>
   <div *ngIf="dataSource.length > 0">
@@ -277,7 +277,7 @@
         <p>Scroll to load More</p>
         <img src="../../../../../assets/images/scroll.svg" />
       </div>
-      <div class="loading-plus" *ngIf="loadingPlus">
+      <div class="loading-plus" *ngIf="loading">
         <mat-spinner [diameter]="50"></mat-spinner>
       </div>
     </div>
