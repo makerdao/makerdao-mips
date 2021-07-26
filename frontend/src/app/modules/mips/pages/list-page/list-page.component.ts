@@ -27,7 +27,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   searchCopy: string = '';
   filter: any;
   filterSaved: FilterData;
-  loading: boolean;
+  loading: boolean = false;
   loadingPlus: boolean;
   total: number;
   moreToLoad: boolean;
@@ -56,7 +56,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.mipsService.updateActiveSearch(false);
     this.order = 'mip';
     this.initParametersToLoadData();
-    this.loading = true;
     this.searchMips();
 
     this.mipsService.activateSearch$
@@ -299,51 +298,57 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.searchCopy = this.search;
     }
 
-    this.mipsService
-      .searchMips(
-        this.limit,
-        this.page,
-        this.order,
-        this.searchCopy,
-        this.filter,
-        'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
-      )
-    .subscribe(data => {
-      this.mipsAux = data.items;
-      this.mips = this.mips.concat(this.mipsAux);
-      this.total = data.total;
-      this.loading = false;
-      this.loadingPlus = false;
+    if (!this.loading) {
+      this.loading = true;
+      this.mipsService
+        .searchMips(
+          this.limit,
+          this.page,
+          this.order,
+          this.searchCopy,
+          this.filter,
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+        )
+        .subscribe(
+          (data) => {
+            this.mipsAux = data.items;
+            this.mips = this.mips.concat(this.mipsAux);
+            this.total = data.total;
+            this.loading = false;
+            this.loadingPlus = false;
 
-      if (this.limitAux >= this.total) {
-         this.moreToLoad = false;
-      } else {
-         this.moreToLoad = true;
-      }
+            if (this.limitAux >= this.total) {
+              this.moreToLoad = false;
+            } else {
+              this.moreToLoad = true;
+            }
 
-      this.sintaxError = false;
-      this.errorMessage = "";
+            this.sintaxError = false;
+            this.errorMessage = '';
 
-      if (
-        this.elementsRefUiService.containerRef.nativeElement.getBoundingClientRect()
-          .height <= window.innerHeight
-      ) {
-        this.mipsService.updateActiveSearch(true);
-      }
-    }, error => {
-      if (
-        error.error &&
-        error.error.error &&
-        ((error.error.error as string).includes('Parse error') ||
-          (error.error.error as string).includes('Lexical error'))
-      ) {
-        this.sintaxError = true;
-        this.errorMessage = 'Syntax error.';
-      } else {
-        this.sintaxError = false;
-        this.errorMessage = '';
-      }
-    });
+            if (
+              this.elementsRefUiService.containerRef.nativeElement.getBoundingClientRect()
+                .height <= window.innerHeight
+            ) {
+              this.mipsService.updateActiveSearch(true);
+            }
+          },
+          (error) => {
+            if (
+              error.error &&
+              error.error.error &&
+              ((error.error.error as string).includes('Parse error') ||
+                (error.error.error as string).includes('Lexical error'))
+            ) {
+              this.sintaxError = true;
+              this.errorMessage = 'Syntax error.';
+            } else {
+              this.sintaxError = false;
+              this.errorMessage = '';
+            }
+          }
+        );
+    }
   }
 
   filterOrSearch(): boolean {
@@ -397,7 +402,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
-    this.loading = true;
     this.searchMips();
     this.setQueryParams();
   }
@@ -422,7 +426,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.mips = [];
       this.page = 0;
       this.search = event.target.value;
-      this.loading = true;
       this.searchMips();
       this.setQueryParams();
     }
@@ -433,7 +436,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.limitAux = 10;
     this.page = 0;
     this.order = text;
-    this.loading = true;
     this.searchMips();
   }
 
