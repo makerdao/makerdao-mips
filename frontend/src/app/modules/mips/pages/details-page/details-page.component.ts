@@ -93,6 +93,13 @@ export class DetailsPageComponent implements OnInit {
         this.mipsService.includeSubproposals = true;
         this.getMips();
       }
+    }, (error) => {
+      if (
+        error.error &&
+        error.error.statusCode === 404
+      ) {
+        this.router.navigate(['page-not-found'], { skipLocationChange: true });
+      }
     });
     const data = this.mipsService.getMipsData();
 

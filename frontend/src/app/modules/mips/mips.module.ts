@@ -48,6 +48,7 @@ import { ContenteditableValueAccessorModule } from '@tinkoff/angular-contentedit
 import { FormattingMdDirective } from './directives/formatting-md.directive';
 import { ListSubsetComponent } from './components/list/list-subset/list-subset.component';
 import { ListSubproposalComponent } from './components/list/list-subproposal/list-subproposal.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { ListSubproposalComponent } from './components/list/list-subproposal/lis
     FilterPipe,
     FormattingMdDirective,
     ListSubsetComponent,
-    ListSubproposalComponent
+    ListSubproposalComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
