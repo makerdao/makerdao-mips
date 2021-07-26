@@ -125,13 +125,8 @@ export class DetailsPageComponent implements OnInit {
 
     filter.notequals.push({field: 'mip', value: -1});
 
-    if (!this.mip.proposal) {
-      filter.equals.push({field: 'proposal', value: ""});
-      this.mipsService.includeSubproposals = false;
-    } else {
-      order = 'mip subproposal';
-      this.mipsService.includeSubproposals = true;
-    }
+    order = 'mip subproposal';
+    this.mipsService.includeSubproposals = true;
 
     this.searchMips(this.MAX_LIMIT, 0, order, '', filter);
   }
