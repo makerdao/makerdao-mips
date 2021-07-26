@@ -50,12 +50,11 @@ export class ParseMIPsService {
     const branch = this.configService.get(Env.RepoBranch);
 
     try {
-      this.simpleGitService.pull("origin", branch);
+      // this.simpleGitService.pull("origin", branch);
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
-
         this.pullRequestService.count(),
         this.githubService.pullRequests(pullRequestsCount),
       ]);
@@ -191,6 +190,7 @@ export class ParseMIPsService {
     const mip: MIP = {
       hash: item.hash,
       file: fileString,
+      language: item.language,
       filename: item.filename,
       sections: [],
       sectionsRaw: [],

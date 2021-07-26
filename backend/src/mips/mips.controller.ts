@@ -5,7 +5,6 @@ import {
   HttpStatus,
   InternalServerErrorException,
   NotFoundException,
-  Param,
   Post,
   Query,
   Req,
@@ -57,6 +56,12 @@ export class MIPsController {
     required: false,
   })
   @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    type: String,
+    required: true,
+  })
+  @ApiQuery({
     name: "search",
     description:
       'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (\\ ") that specifies a phrase',
@@ -86,6 +91,7 @@ export class MIPsController {
     @Query("page") page?: string,
     @Query("order") order?: string,
     @Query("select") select?: string,
+    @Query("lang") lang?: string,
     @Query("search") search?: string,
     @Query("filter") filter?: Filters
   ) {
@@ -100,7 +106,8 @@ export class MIPsController {
         order,
         search,
         filter,
-        select
+        select,
+        lang
       );
     } catch (error) {
       throw new HttpException(

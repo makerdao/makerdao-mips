@@ -11,6 +11,7 @@ import simpleGit, {
 import { Env } from "@app/env";
 
 import { IGitFile } from "../interfaces/mips.interface";
+import { Language } from "../entities/mips.entity";
 
 @Injectable()
 export class SimpleGitService {
@@ -75,17 +76,29 @@ export class SimpleGitService {
             return {
               filename: filename,
               hash: newData[1].trim(),
+              language: this.getLanguage(filename)
             };
           }
 
           return {
             filename: newData[3].trim(),
             hash: newData[1].trim(),
+            language: this.getLanguage(newData[3].trim())
           };
         });
     } catch (error) {
       this.logger.error(error);
       return error;
     }
+  }
+
+  getLanguage(filename: string): Language {
+    const defaultLang = Language.English;
+
+    if (filename.includes(`-${Language.Spanish}`)) {
+      return Language.Spanish;
+    }
+
+    return defaultLang;    
   }
 }

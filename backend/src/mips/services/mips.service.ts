@@ -28,9 +28,10 @@ export class MIPsService {
     order?: string,
     search?: string,
     filter?: Filters,
-    select?: string
+    select?: string,
+    lang?: string
   ): Promise<any> {
-    const buildFilter = await this.buildFilter(search, filter);
+    const buildFilter = await this.buildFilter(search, filter, lang);
     const { limit, page } = paginationQuery;
 
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
@@ -59,8 +60,12 @@ export class MIPsService {
   }
 
   // Function to build filter
-  async buildFilter(search: string, filter?: Filters): Promise<any> {
+  async buildFilter(search: string, filter?: Filters, lang?: string): Promise<any> {
     let source = {};
+
+    if (lang) {
+      source = {language: lang};
+    }    
 
     if (filter?.contains) {
       const field = filter.contains["field"];

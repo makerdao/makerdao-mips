@@ -1,6 +1,11 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
+export const enum Language {
+  English='en',
+  Spanish='es',
+}
+
 export type MIPsDoc = MIP & Document;
 
 export class Section {
@@ -27,6 +32,11 @@ export class MIP {
   filename: string;
   @Prop()
   hash: string;
+
+  @Prop({
+    default: Language.English
+  })
+  language?: Language;
 
   @Prop({
     default: -1,
