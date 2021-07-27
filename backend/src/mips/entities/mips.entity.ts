@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
-export const enum Language {
+export enum Language {
   English='en',
   Spanish='es',
 }

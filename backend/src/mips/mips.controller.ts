@@ -20,6 +20,7 @@ import { PullRequestService } from "./services/pull-requests.service";
 
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
+import { Language } from "./entities/mips.entity";
 
 @Controller("mips")
 export class MIPsController {
@@ -51,14 +52,14 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "select",
-    description: `Select files to get output`,
+    description: `Select files to get output`,    
     type: String,
     required: false,
   })
   @ApiQuery({
     name: "lang",
     description: `Lang files to get output`,
-    type: String,
+    enum: Language,
     required: true,
   })
   @ApiQuery({
@@ -91,7 +92,7 @@ export class MIPsController {
     @Query("page") page?: string,
     @Query("order") order?: string,
     @Query("select") select?: string,
-    @Query("lang") lang?: string,
+    @Query("lang") lang?: Language,
     @Query("search") search?: string,
     @Query("filter") filter?: Filters
   ) {
