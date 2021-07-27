@@ -5,7 +5,6 @@ import {
   HttpStatus,
   InternalServerErrorException,
   NotFoundException,
-  Param,
   Post,
   Query,
   Req,

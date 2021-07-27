@@ -31,7 +31,7 @@ export class MIPsService {
     select?: string
   ): Promise<any> {
     const buildFilter = await this.buildFilter(search, filter);
-    const { limit, page } = paginationQuery;
+    const { limit, page } = paginationQuery;    
 
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
 
