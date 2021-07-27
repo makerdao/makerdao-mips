@@ -265,6 +265,9 @@ export class MIPsService {
       case "author":
         flag = true;
         break;
+      case "mipFather":
+        flag = true;
+        break;
     }
 
     if (!flag) {
