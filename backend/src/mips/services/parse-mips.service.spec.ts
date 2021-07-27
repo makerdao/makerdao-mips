@@ -12,9 +12,16 @@ import { MIPsService } from "./mips.service";
 import { ParseMIPsService } from "./parse-mips.service";
 import { ParseQueryService } from "./parse-query.service";
 import { PullRequestService } from "./pull-requests.service";
+import { SimpleGitService } from "./simple-git.service";
 
 describe("Parse MIPs service", () => {
   let service: ParseMIPsService;
+
+  const simpleGitService = {
+    cloneRepository: async () => '',
+    getFiles: async () => [],
+    pull: async (remote = "origin", branch = "master") => true,
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,14 +34,7 @@ describe("Parse MIPs service", () => {
         GithubService,
         MarkedService,
         PullRequestService,
-        {
-          provide: "SimpleGitService",
-          useValue: {
-            cloneRepository: jest.fn(),
-            getFiles: jest.fn(),
-            pull: jest.fn(),
-          },
-        },
+        SimpleGitService,
         {
           provide: getModelToken(MIP.name),
           useValue: {
@@ -66,7 +66,10 @@ describe("Parse MIPs service", () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideProvider(SimpleGitService)
+      .useValue(simpleGitService)
+      .compile();
 
     service = module.get<ParseMIPsService>(ParseMIPsService);
   });

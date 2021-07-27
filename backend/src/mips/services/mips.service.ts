@@ -31,7 +31,7 @@ export class MIPsService {
     select?: string
   ): Promise<any> {
     const buildFilter = await this.buildFilter(search, filter);
-    const { limit, page } = paginationQuery;
+    const { limit, page } = paginationQuery;    
 
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
 
@@ -265,6 +265,9 @@ export class MIPsService {
       case "author":
         flag = true;
         break;
+      case "mipFather":
+        flag = true;
+        break;
     }
 
     if (!flag) {
@@ -350,7 +353,7 @@ export class MIPsService {
     return this.mipsDoc.create(mIPs);
   }
 
-  insertMany(mips: MIP[] | any): Promise<MIPsDoc> {
+  insertMany(mips: MIP[] | any): Promise<any> {
     return this.mipsDoc.insertMany(mips);
   }
 
@@ -387,7 +390,7 @@ export class MIPsService {
     return existingMIPs;
   }
 
-  async setMipsFather(mips: string[]): Promise<MIP> {
+  async setMipsFather(mips: string[]): Promise<any> {
     const existingMIPs = await this.mipsDoc
       .updateMany(
         { mipName: {$in: mips}},
