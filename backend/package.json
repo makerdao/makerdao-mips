@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "Backend of MakerDao mip projects",
   "author": "Dspot Inc",
   "scripts": {
@@ -26,7 +26,7 @@
     "@nestjs/config": "^1.0.1",
     "@nestjs/core": "^8.0.4",
     "@nestjs/mongoose": "^8.0.0",
-    "@nestjs/platform-fastify": "^8.0.4",
+    "@nestjs/platform-express": "^8.0.4",
     "@nestjs/swagger": "^5.0.8",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
@@ -40,7 +40,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "simple-git": "^2.41.1",
-    "fastify-swagger": "^4.8.3"
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.2",
