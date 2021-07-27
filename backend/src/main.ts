@@ -1,15 +1,22 @@
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
+import { ValidationPipe } from "@nestjs/common";
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from "@nestjs/platform-fastify";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+
 import { AppModule } from "./app.module";
 import { Env } from "./env";
-import { ValidationPipe } from "@nestjs/common";
+
 import { MongoExceptionFilter } from "./exceptions/mongodb-exception.filter";
 
-
 async function bootstrap() {
-
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter()
+  );
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe());
@@ -31,7 +38,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new MongoExceptionFilter());
 
-  await app.listen(port);
+  await app.listen(port, "0.0.0.0");
   console.log(`Application running at ${port} port`);
 }
 bootstrap();
