@@ -20,6 +20,7 @@ import { PullRequestService } from "./services/pull-requests.service";
 
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
+import { Language } from "./entities/mips.entity";
 
 @Controller("mips")
 export class MIPsController {
@@ -56,6 +57,12 @@ export class MIPsController {
     required: false,
   })
   @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    enum: Language,
+    required: false, // If you view this comment change to true value
+  })
+  @ApiQuery({
     name: "search",
     description:
       'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (\\ ") that specifies a phrase',
@@ -85,6 +92,7 @@ export class MIPsController {
     @Query("page") page?: string,
     @Query("order") order?: string,
     @Query("select") select?: string,
+    @Query("lang") lang?: Language,
     @Query("search") search?: string,
     @Query("filter") filter?: Filters
   ) {
@@ -99,7 +107,8 @@ export class MIPsController {
         order,
         search,
         filter,
-        select
+        select,
+        lang
       );
     } catch (error) {
       throw new HttpException(
@@ -118,8 +127,17 @@ export class MIPsController {
     name: "mipName",
     required: true,
   })
-  async findOneByMipName(@Query("mipName") mipName?: string) {
-    const mip = await this.mipsService.findOneByMipName(mipName);
+  @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    enum: Language,
+    required: false, // If you view this comment change to true value
+  })
+  async findOneByMipName(
+    @Query("lang") lang?: Language,
+    @Query("mipName") mipName?: string
+  ) {
+    const mip = await this.mipsService.findOneByMipName(mipName, lang);
 
     if (!mip) {
       throw new NotFoundException(`MIPs with name ${mipName} not found`);
@@ -152,12 +170,19 @@ export class MIPsController {
     name: "value",
     required: true,
   })
+  @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    enum: Language,
+    required: false, // If you view this comment change to true value
+  })
   async smartSearch(
     @Query("field") field: string,
-    @Query("value") value: string
+    @Query("value") value: string,
+    @Query("lang") lang?: Language
   ) {
     try {
-      return await this.mipsService.smartSearch(field, value);
+      return await this.mipsService.smartSearch(field, value, lang);
     } catch (error) {
       throw new HttpException(
         {
@@ -180,22 +205,29 @@ export class MIPsController {
     name: "value",
     required: true,
   })
+  @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    enum: Language,
+    required: false, // If you view this comment change to true value
+  })
   async findOneBy(
     @Query("field") field: string,
-    @Query("value") value: string
+    @Query("value") value: string,
+    @Query("lang") lang?: Language,
   ) {
     let mip;
 
     switch (field) {
       case "filename":
-        mip = await this.mipsService.findOneByFileName(value);
+        mip = await this.mipsService.findOneByFileName(value, lang);
         if (!mip) {
           throw new NotFoundException(`MIPs with ${field} ${value} not found`);
         }
         return mip;
 
       case "mipName":
-        mip = await this.mipsService.getSummaryByMipName(value);
+        mip = await this.mipsService.getSummaryByMipName(value, lang);
 
         if (!mip) {
           throw new NotFoundException(`MIPs with ${field} ${value} not found`);

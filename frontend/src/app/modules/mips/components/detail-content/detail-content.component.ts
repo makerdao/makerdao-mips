@@ -420,10 +420,13 @@ export class DetailContentComponent
               });
           }
         } else {
-          elem.setAttribute(
-            'href',
-            `${this.gitgubUrl}/${this.mip.mipName}/${link.link}`
-          );
+
+          if (!link.link.includes('https')) {
+            elem.setAttribute(
+              'href',
+              `${this.gitgubUrl}/${this.mip.mipName}/${link.link}`
+            );
+          }
         }
       } else {
         if (link.name.includes('.md') && !link.link.includes('https')) {
