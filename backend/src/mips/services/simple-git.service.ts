@@ -19,7 +19,7 @@ export class SimpleGitService {
   private readonly logger = new Logger(SimpleGitService.name);
 
   constructor(private configService: ConfigService) {
-    const options: SimpleGitOptions = {
+    const options: any = {
       baseDir: `${process.cwd()}/${this.configService.get<string>(
         Env.FolderRepositoryName
       )}`,

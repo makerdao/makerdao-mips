@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
+import { MarkdownService } from 'ngx-markdown';
+import { MetadataShareService } from '../../services/metadata-share.service';
 
 @Component({
   selector: 'app-details-page',
@@ -22,7 +24,9 @@ export class DetailsPageComponent implements OnInit {
   constructor(
     private mipsService: MipsService,
     private activedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private markdownService: MarkdownService,
+    private metadataShareService: MetadataShareService
   ) { }
 
   ngOnInit(): void {
@@ -93,12 +97,27 @@ export class DetailsPageComponent implements OnInit {
         this.mipsService.includeSubproposals = true;
         this.getMips();
       }
+
+      this.setMetadataShareable();
+
     });
     const data = this.mipsService.getMipsData();
 
     if (data) {
       this.mipPosition = data.findIndex(item => item.mipName === this.mipName);
     }
+  }
+
+  setMetadataShareable() {
+    let sentenceSummaryHTML = this.markdownService.compile(
+      this.mip.sentenceSummary
+    );
+    let elemTemp: HTMLElement = document.createElement('span');
+    elemTemp.innerHTML = sentenceSummaryHTML;
+    let sentenceSummaryText: string = elemTemp.textContent;
+
+    this.metadataShareService.title = this.mip.title;
+    this.metadataShareService.description = sentenceSummaryText;
   }
 
   mipsPagination(position: number): void {

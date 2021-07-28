@@ -270,6 +270,9 @@ export class MIPsService {
       case "author":
         flag = true;
         break;
+      case "mipFather":
+        flag = true;
+        break;
     }
 
     if (!flag) {
@@ -339,7 +342,7 @@ export class MIPsService {
   async getSummaryByMipName(mipName: string): Promise<MIP> {
     return await this.mipsDoc
       .findOne({ mipName })
-      .select(["sentenceSummary", "paragraphSummary", "title"])
+      .select(["sentenceSummary", "paragraphSummary", "title", "mipName"])
       .exec();
   }
 
@@ -355,7 +358,7 @@ export class MIPsService {
     return this.mipsDoc.create(mIPs);
   }
 
-  insertMany(mips: MIP[] | any): Promise<MIPsDoc> {
+  insertMany(mips: MIP[] | any): Promise<any> {
     return this.mipsDoc.insertMany(mips);
   }
 
@@ -392,7 +395,7 @@ export class MIPsService {
     return existingMIPs;
   }
 
-  async setMipsFather(mips: string[]): Promise<MIP> {
+  async setMipsFather(mips: string[]): Promise<any> {
     const existingMIPs = await this.mipsDoc
       .updateMany(
         { mipName: {$in: mips}},

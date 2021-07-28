@@ -10,13 +10,8 @@
 }
 
 ::ng-deep.focusOption {
-  background-color: #2f80ed;
-  color: #ffffff !important;
+  background-color: whitesmoke;
   font-weight: 500 !important;
-
-  &:hover {
-    background-color: #2f80ed !important;
-  }
 }
 
 /* scrollbar width */
@@ -26,15 +21,15 @@
 
 /* scrollbar track */
 .autocomplete::-webkit-scrollbar-track {
-  background: #EBEDF4;
+  background: #ebedf4;
 }
 
 /* scrollbar handle */
 .autocomplete::-webkit-scrollbar-thumb {
-  background: #B8C5D3;
+  background: #b8c5d3;
 }
 
 /* Handle on hover */
 .autocomplete::-webkit-scrollbar-thumb:hover {
-  background: #748AA1;
+  background: #748aa1;
 }

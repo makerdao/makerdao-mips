@@ -50,7 +50,7 @@ export class ParseMIPsService {
     const branch = this.configService.get(Env.RepoBranch);
 
     try {
-      // this.simpleGitService.pull("origin", branch);
+      await this.simpleGitService.pull("origin", branch);
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
@@ -133,11 +133,13 @@ export class ParseMIPsService {
       if (!filesDB.has(item.filename)) {
         const dir = `${this.baseDir}/${item.filename}`;
 
+        this.logger.log(`Parse new mip item => ${item.filename}`);
+
         try {
           const fileString = await readFile(dir, "utf-8");
           const mip = this.parseLexerData(fileString, item);
           if (mip.mip === undefined || mip.mipName === undefined) {
-            console.log(mip.mip, mip.mipName, mip.filename);
+            this.logger.log(`Mips with problems to parse ==>${mip.mip, mip.mipName, mip.filename}`);
           }
 
           if (mip) {
@@ -152,6 +154,8 @@ export class ParseMIPsService {
 
         if (fileDB.hash !== item.hash) {
           const dir = `${this.baseDir}/${item.filename}`;
+
+          this.logger.log(`Parse mip item update => ${item.filename}`);
           const fileString = await readFile(dir, "utf-8");
           const mip = this.parseLexerData(fileString, item);
 
