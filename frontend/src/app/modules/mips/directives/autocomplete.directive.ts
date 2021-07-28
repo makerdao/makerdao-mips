@@ -198,7 +198,7 @@ export class AutocompleteDirective {
       maxHeight: 25 * 6,
       maxWidth: 'fit-content',
       backdropClass: '',
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      scrollStrategy: this.overlay.scrollStrategies.close(),
       positionStrategy: this.getOverlayPosition(),
     });
 
