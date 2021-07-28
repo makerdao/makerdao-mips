@@ -95,7 +95,7 @@ export class SimpleGitService {
   getLanguage(filename: string): Language {
     const defaultLang = Language.English;
 
-    if (filename.includes(`-${Language.Spanish}`)) {
+    if (filename.includes(`_${Language.Spanish}`)) {
       return Language.Spanish;
     }
 

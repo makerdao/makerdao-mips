@@ -52,7 +52,7 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "select",
-    description: `Select files to get output`,    
+    description: `Select files to get output`,
     type: String,
     required: false,
   })
@@ -60,7 +60,7 @@ export class MIPsController {
     name: "lang",
     description: `Lang files to get output`,
     enum: Language,
-    required: true,
+    required: false, // If you view this comment change to true value
   })
   @ApiQuery({
     name: "search",
@@ -127,8 +127,17 @@ export class MIPsController {
     name: "mipName",
     required: true,
   })
-  async findOneByMipName(@Query("mipName") mipName?: string) {
-    const mip = await this.mipsService.findOneByMipName(mipName);
+  @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    enum: Language,
+    required: false, // If you view this comment change to true value
+  })
+  async findOneByMipName(
+    @Query("lang") lang?: Language,
+    @Query("mipName") mipName?: string
+  ) {
+    const mip = await this.mipsService.findOneByMipName(mipName, lang);
 
     if (!mip) {
       throw new NotFoundException(`MIPs with name ${mipName} not found`);
@@ -161,12 +170,19 @@ export class MIPsController {
     name: "value",
     required: true,
   })
+  @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    enum: Language,
+    required: false, // If you view this comment change to true value
+  })
   async smartSearch(
     @Query("field") field: string,
-    @Query("value") value: string
+    @Query("value") value: string,
+    @Query("lang") lang?: Language
   ) {
     try {
-      return await this.mipsService.smartSearch(field, value);
+      return await this.mipsService.smartSearch(field, value, lang);
     } catch (error) {
       throw new HttpException(
         {
@@ -189,22 +205,29 @@ export class MIPsController {
     name: "value",
     required: true,
   })
+  @ApiQuery({
+    name: "lang",
+    description: `Lang files to get output`,
+    enum: Language,
+    required: false, // If you view this comment change to true value
+  })
   async findOneBy(
     @Query("field") field: string,
-    @Query("value") value: string
+    @Query("value") value: string,
+    @Query("lang") lang?: Language,
   ) {
     let mip;
 
     switch (field) {
       case "filename":
-        mip = await this.mipsService.findOneByFileName(value);
+        mip = await this.mipsService.findOneByFileName(value, lang);
         if (!mip) {
           throw new NotFoundException(`MIPs with ${field} ${value} not found`);
         }
         return mip;
 
       case "mipName":
-        mip = await this.mipsService.getSummaryByMipName(value);
+        mip = await this.mipsService.getSummaryByMipName(value, lang);
 
         if (!mip) {
           throw new NotFoundException(`MIPs with ${field} ${value} not found`);

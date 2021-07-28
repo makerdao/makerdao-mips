@@ -4,7 +4,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model, isValidObjectId } from "mongoose";
 import { Filters, PaginationQueryDto } from "../dto/query.dto";
 
-import { MIP, MIPsDoc } from "../entities/mips.entity";
+import { Language, MIP, MIPsDoc } from "../entities/mips.entity";
 import { IGitFile, IMIPs } from "../interfaces/mips.interface";
 import { ParseQueryService } from "./parse-query.service";
 
@@ -29,9 +29,9 @@ export class MIPsService {
     search?: string,
     filter?: Filters,
     select?: string,
-    lang?: string
+    language?: Language
   ): Promise<any> {
-    const buildFilter = await this.buildFilter(search, filter, lang);
+    const buildFilter = await this.buildFilter(search, filter, language);
     const { limit, page } = paginationQuery;
 
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
@@ -60,12 +60,18 @@ export class MIPsService {
   }
 
   // Function to build filter
-  async buildFilter(search: string, filter?: Filters, lang?: string): Promise<any> {
+  async buildFilter(
+    search: string,
+    filter?: Filters,
+    language?: Language
+  ): Promise<any> {
     let source = {};
 
-    if (lang) {
-      source = {language: lang};
-    }    
+    if (language) {
+      source = { language };
+    } else {
+      source = { language: Language.English };
+    }
 
     if (filter?.contains) {
       const field = filter.contains["field"];
@@ -281,14 +287,26 @@ export class MIPsService {
     return value;
   }
 
-  async findOneByMipName(mipName: string): Promise<MIP> {
+  async findOneByMipName(mipName: string, language: Language): Promise<MIP> {
+    if (!language) {
+      language = Language.English;
+    }
+
     return await this.mipsDoc
-      .findOne({ mipName })
+      .findOne({ mipName: mipName, language })
       .select(["-__v", "-file"])
       .exec();
   }
 
-  async smartSearch(field: string, value: string): Promise<MIP[]> {
+  async smartSearch(
+    field: string,
+    value: string,
+    language: Language
+  ): Promise<MIP[]> {
+    if (!language) {
+      language = Language.English;
+    }
+
     switch (field) {
       case "tags":
         return await this.mipsDoc.aggregate([
@@ -299,6 +317,7 @@ export class MIPsService {
                 $regex: new RegExp(`^${value}`),
                 $options: "i",
               },
+              language: language
             },
           },
           { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
@@ -312,6 +331,7 @@ export class MIPsService {
                 $regex: new RegExp(`^${value}`),
                 $options: "i",
               },
+              language: language
             },
           },
           {
@@ -328,28 +348,41 @@ export class MIPsService {
     }
   }
 
-  async findOneByFileName(filename: string): Promise<MIP> {
+  async findOneByFileName(filename: string, language: Language): Promise<MIP> {
+    if (!language) {
+      language = Language.English;
+    }
+
     const filter = {
       filename: {
         $regex: new RegExp(filename),
         $options: "i",
       },
+      language      
     };
 
     return await this.mipsDoc.findOne(filter).select(["-__v", "-file"]).exec();
   }
 
-  async getSummaryByMipName(mipName: string): Promise<MIP> {
+  async getSummaryByMipName(mipName: string, language: Language): Promise<MIP> {
+    if (!language) {
+      language = Language.English;
+    }
+
     return await this.mipsDoc
-      .findOne({ mipName })
+      .findOne({ mipName, language })
       .select(["sentenceSummary", "paragraphSummary", "title", "mipName"])
       .exec();
   }
 
-  async findOneByProposal(proposal: string): Promise<MIP[]> {
+  async findOneByProposal(proposal: string, language?: Language): Promise<MIP[]> {
+    if (!language) {
+      language = Language.English;
+    }
+    
     return await this.mipsDoc
-      .find({ proposal: proposal })
-      .select("title mipName")
+      .find({ proposal, language })
+      .select(["title", "mipName"])
       .sort("mip subproposal")
       .exec();
   }
@@ -398,8 +431,8 @@ export class MIPsService {
   async setMipsFather(mips: string[]): Promise<any> {
     const existingMIPs = await this.mipsDoc
       .updateMany(
-        { mipName: {$in: mips}},
-        { $set: {mipFather: true} },
+        { mipName: { $in: mips } },
+        { $set: { mipFather: true } },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
@@ -407,9 +440,7 @@ export class MIPsService {
     return existingMIPs;
   }
 
-  async remove(
-    id: string
-  ): Promise<{
+  async remove(id: string): Promise<{
     n: number;
     ok: number;
     deletedCount: number;
