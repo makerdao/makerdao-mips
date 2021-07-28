@@ -337,7 +337,7 @@ export class MIPsService {
   async getSummaryByMipName(mipName: string): Promise<MIP> {
     return await this.mipsDoc
       .findOne({ mipName })
-      .select(["sentenceSummary", "paragraphSummary", "title"])
+      .select(["sentenceSummary", "paragraphSummary", "title", "mipName"])
       .exec();
   }
 
