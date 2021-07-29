@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { MipsService } from '../../modules/mips/services/mips.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
 
@@ -44,16 +44,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   onRefresh() {
-    this.router.routeReuseStrategy.shouldReuseRoute = function(){return false;};
+    this.router.routeReuseStrategy.shouldReuseRoute = function (
+      future: ActivatedRouteSnapshot,
+      curr: ActivatedRouteSnapshot
+    ) {
+      if (
+        future.url.toString() === 'list' &&
+        curr.url.toString() === future.url.toString()
+      ) {
+        return false;
+      }
+      return future.routeConfig === curr.routeConfig;
+    };
 
-    let currentUrl = this.router.url + '?';
-
-    this.router.navigateByUrl(currentUrl)
-      .then(() => {
-        this.router.navigated = false;
-        this.router.navigate(['/mips/list']);
-      });
-    }
+    this.router.navigate(['/mips/list']);
+  }
 
   onMenuToggle(ev) {
     if (!ev) {
