@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -75,8 +85,8 @@ export class DetailContentComponent
   @Input() subproposals: any[];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
-  subproposalCode: string = "";
-  subproposalTitle: string = "";
+  subproposalCode: string = '';
+  subproposalTitle: string = '';
 
   constructor(
     private markdownService: MarkdownService,
@@ -117,7 +127,9 @@ export class DetailContentComponent
 
   displayPreview = (e: Event) => {
     if (!this.overlayRef) {
-      let href: string = (e.target as HTMLAnchorElement).href.split("/mips/details/")[1];
+      let href: string = (e.target as HTMLAnchorElement).href.split(
+        '/mips/details/'
+      )[1];
 
       if (href) {
         this.subscription = this.mipsService
@@ -191,7 +203,8 @@ export class DetailContentComponent
                   this.triangleLeft = true;
                 }
 
-                let element: HTMLElement = this.previewRef.nativeElement.parentElement.parentElement;
+                let element: HTMLElement = this.previewRef.nativeElement
+                  .parentElement.parentElement;
                 element.style.marginTop = '17px';
                 element.style.marginBottom = '17px';
               });
@@ -232,7 +245,7 @@ export class DetailContentComponent
       if (this.mip.proposal && this.mip.title) {
         let subProposalTitleArray: string[] = this.mip.title.split(':');
         this.subproposalCode = subProposalTitleArray[0];
-        this.subproposalTitle = subProposalTitleArray.slice(1).join("");
+        this.subproposalTitle = subProposalTitleArray.slice(1).join('');
       }
       this.titleService.setTitle(
         this.mip.proposal
@@ -294,11 +307,15 @@ export class DetailContentComponent
                   <tbody>${body}</tbody>
                 </table>
               </div>`;
-    }
+    };
   }
 
   overrideDefaultImg() {
-    this.markdownService.renderer.image = (href: string, title: string, text: string) => {
+    this.markdownService.renderer.image = (
+      href: string,
+      title: string,
+      text: string
+    ) => {
       return `<img src="${href}?raw=true">`;
     };
   }
@@ -325,9 +342,9 @@ export class DetailContentComponent
       if (
         !link.name.includes('Template') &&
         (link.link.includes(this.gitgubUrl) ||
-         link.link.includes("https://github.com/makerdao/mips/blob") ||
-         link.link.includes("https://github.com/makerdao/mips/tree") ||
-         link.link.includes("https://forum.makerdao.com"))
+          link.link.includes('https://github.com/makerdao/mips/blob') ||
+          link.link.includes('https://github.com/makerdao/mips/tree') ||
+          link.link.includes('https://forum.makerdao.com'))
       ) {
         return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
       }
@@ -359,48 +376,57 @@ export class DetailContentComponent
     this.links.forEach((link) => {
       let elem = document.getElementById(link.id);
 
-      if (!link.name.includes('Template')) {
-        if (link.link.includes(this.gitgubUrl) ||
-            link.link.includes("https://github.com/makerdao/mips/blob") ||
-            link.link.includes("https://github.com/makerdao/mips/tree") ||
-            link.link.includes("https://forum.makerdao.com")) {
-          this.mipsService.getMipByFilename(link.name.split(" ").join("")).subscribe(
-            (data) => {
-              if (data.mipName) {
-                elem.setAttribute('href', `/mips/details/${data.mipName}`);
-              } else {
-                elem.setAttribute(
-                  'href',
-                  `${this.gitgubUrl}/${this.mip.filename}`
-                );
-              }
-            },
-            (_) => {
-              if (link.link.includes('MIP')) {
-                const mip = link.link
-                  .replace(`${this.gitgubUrl}/`, '')
-                  .split('#');
 
-                if (mip.length > 0) {
-                  this.mipsService
-                    .getMipByFilename(mip[0])
-                    .subscribe((data) => {
-                      if (mip.length > 1) {
-                        elem.setAttribute(
-                          'href',
-                          `/mips/details/${data.mipName}#${mip[1]}`
-                        );
-                      } else {
-                        elem.setAttribute(
-                          'href',
-                          `/mips/details/${data.mipName}`
-                        );
-                      }
-                    });
-                }
-              }
+
+      if (!link.name.includes('Template')) {
+        if (
+          link.link.includes(this.gitgubUrl) ||
+          link.link.includes('https://github.com/makerdao/mips/blob') ||
+          link.link.includes('https://github.com/makerdao/mips/tree') ||
+          link.link.includes('https://forum.makerdao.com')
+        ) {
+          if (link.link.includes('MIP')) {
+            const mip = link.link.replace(`${this.gitgubUrl}/`, '').split('#');
+
+            if (mip.length > 0) {
+              this.mipsService
+                .getMipByFilename(mip[0], 'filename')
+                .subscribe((data) => {
+                  if (mip.length > 1) {
+                    elem.setAttribute(
+                      'href',
+                      `/mips/details/${data.mipName}#${mip[1]}`
+                    );
+                  } else {
+                    elem.setAttribute('href', `/mips/details/${data.mipName}`);
+                  }
+                });
             }
-          );
+          } else {
+            const field = 'mipName';
+            const fieldValue = link.name.trim();
+
+            this.mipsService
+              .getMipByFilename(fieldValue, field)
+              .subscribe((data) => {
+                if (data.mipName) {
+                  elem.setAttribute('href', `/mips/details/${data.mipName}`);
+                } else {
+                  elem.setAttribute(
+                    'href',
+                    `${this.gitgubUrl}/${this.mip.filename}`
+                  );
+                }
+              });
+          }
+        } else {
+
+          if (!link.link.includes('https')) {
+            elem.setAttribute(
+              'href',
+              `${this.gitgubUrl}/${this.mip.mipName}/${link.link}`
+            );
+          }
         }
       } else {
         if (link.name.includes('.md') && !link.link.includes('https')) {
@@ -413,13 +439,18 @@ export class DetailContentComponent
             'href',
             `${this.gitgubUrl}/${this.mip.mipName}/${link.name}.md`
           );
+        } else {
+          elem.setAttribute(
+            'href',
+            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}.md`
+          );
         }
       }
     });
   }
 
   ngOnDestroy() {
-    this.titleService.setTitle("MIPs Portal");
+    this.titleService.setTitle('MIPs Portal');
   }
 }
 

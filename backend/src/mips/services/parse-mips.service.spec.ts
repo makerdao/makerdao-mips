@@ -1,7 +1,7 @@
 import { ConfigService } from "@nestjs/config";
 import { getModelToken } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
-import { MIP } from "../entities/mips.entity";
+import { Language, MIP } from "../entities/mips.entity";
 import { PullRequest } from "../entities/pull-request.entity";
 import { MIPsController } from "../mips.controller";
 import { mipData, mipFile } from "./data-test/data";
@@ -92,6 +92,7 @@ describe("Parse MIPs service", () => {
           {
             hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
             filename: "MIP1/mip1.md",
+            language: Language.English
           },
         ],
         files
@@ -107,6 +108,7 @@ describe("Parse MIPs service", () => {
       const mip = service.parseLexerData("", {
         filename: "MIP0/mip0.md",
         hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+        language: Language.English
       });
 
       expect(mip).toMatchObject({
@@ -120,6 +122,7 @@ describe("Parse MIPs service", () => {
       const mip = service.parseLexerData(mipFile, {
         filename: "MIP0/mip0.md",
         hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+        language: Language.English
       });
 
       expect(mip).toMatchObject(mipData);

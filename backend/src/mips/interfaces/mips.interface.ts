@@ -1,9 +1,10 @@
-import { Reference, Section } from "../entities/mips.entity";
+import { Language, Reference, Section } from "../entities/mips.entity";
 
 export interface IMIPs {
   id?: string;
   file?: string;
   filename?: string;
+  language?: Language;
   hash?: string;
   mip?: number;
   mipName?: string;
@@ -31,6 +32,7 @@ export interface IGitFile {
   _id?: string;
   filename: string;
   hash: string;
+  language: Language;
 }
 export interface ISynchronizeData {
   creates: number;

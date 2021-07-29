@@ -21,10 +21,3 @@ const Template: Story<DetailContentComponent> = (args: DetailContentComponent) =
 });
 
 export const Default = Template.bind({});
-
-
-
-
-
-
-
