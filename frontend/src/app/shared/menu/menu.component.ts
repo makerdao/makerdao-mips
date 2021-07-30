@@ -1,5 +1,6 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import Menu from '../../data-types/menu';
@@ -25,7 +26,7 @@ export class MenuComponent implements OnInit, OnChanges {
   @Output() toggle: Subject<any> = new Subject<any>();
   yDirection = '';
 
-  constructor(private menuService: MenuService) {}
+  constructor(private menuService: MenuService, private router: Router) {}
 
   ngOnInit(): void {
     this.initPosition();
@@ -118,7 +119,7 @@ export class MenuComponent implements OnInit, OnChanges {
           this.opened.next();
         }
       } else {
-        window.location.href = this.menu.href;
+        this.goToUrl(this.menu.href);
       }
     } else {
       if (this.menu.children && this.menu.children.length > 0) {
@@ -134,9 +135,35 @@ export class MenuComponent implements OnInit, OnChanges {
           this.opened.next();
         }
       } else {
-        window.location.href = this.menu.href;
+        this.goToUrl(this.menu.href);
       }
     }
+  }
+
+  goToUrl(url: string): void {
+    const regexToExtractGithubParameters:RegExp = /^https:\/\/github.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+)\/blob\/(?<branch>[^\/]+)\/(?<address>.+\.md)/i;
+
+    const matches = url.match(regexToExtractGithubParameters);
+    const baseUrl: string = window.location.origin;
+    const internalLink: boolean = url.includes(baseUrl);
+
+    if (matches?.groups) {
+      //Github md file processing
+
+      console.log(matches?.groups);
+    } else if (internalLink) {
+      //Internal link redirect
+
+      const cleanedUrl = url.replace(baseUrl, '');
+
+      this.router.navigateByUrl(cleanedUrl);
+    } else {
+      // External link redirect
+
+      window.location.href = url;
+    }
+
+    this.closeMenu();
   }
 
   open(e?) {
