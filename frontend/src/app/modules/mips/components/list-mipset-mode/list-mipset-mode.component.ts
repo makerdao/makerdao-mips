@@ -59,7 +59,8 @@ export class ListMipsetModeComponent implements OnInit {
               return {
                 mipset: i.tag,
               };
-            });
+            })
+            .sort((a: any, b: any) => (a.mipset < b.mipset ? -1 : 1));
 
           return modifiedTags;
         })

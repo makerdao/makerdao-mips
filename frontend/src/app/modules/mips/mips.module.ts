@@ -49,6 +49,7 @@ import { FormattingMdDirective } from './directives/formatting-md.directive';
 import { ListSubsetComponent } from './components/list/list-subset/list-subset.component';
 import { ListSubproposalComponent } from './components/list/list-subproposal/list-subproposal.component';
 import { ListMipsetModeComponent } from './components/list-mipset-mode/list-mipset-mode.component';
+import { SublistComponent } from './components/sublist/sublist.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { ListMipsetModeComponent } from './components/list-mipset-mode/list-mips
     FormattingMdDirective,
     ListSubsetComponent,
     ListSubproposalComponent,
-    ListMipsetModeComponent
+    ListMipsetModeComponent,
+    SublistComponent
   ],
   imports: [
     CommonModule,

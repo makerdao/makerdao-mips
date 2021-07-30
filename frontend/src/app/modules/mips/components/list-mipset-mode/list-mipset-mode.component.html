@@ -64,16 +64,9 @@
         "
       >
         <ng-container *ngIf="element == expandedElementMipset">
-          <app-list
-            *ngIf="!mipsetMode"
-            [loading]="loading"
-            [loadingPlus]="false"
-            [moreToLoad]="false"
+          <app-list-subproposal
             [dataSource]="mips"
-            [paginationTotal]="100"
-            (send)="onSendPagination()"
-            (sendOrder)="onSendOrder($event)"
-          ></app-list>
+          ></app-list-subproposal>
         </ng-container>
       </div>
     </td>
