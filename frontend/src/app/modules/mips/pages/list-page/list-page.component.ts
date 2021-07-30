@@ -42,6 +42,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   errorMessage: string = '';
   defaultSearch: string = "$ and(not(@Obsolete), not(@Withdrawn))";
   mobileView: boolean = false;
+  mipsetMode: boolean = false;
 
   constructor(
     private mipsService: MipsService,
@@ -563,5 +564,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }
 
     this.router.navigate(['/mips/list'], {...navigationExtras});
+  }
+
+  onCheckedMipsetMode(ev) {
+    this.mipsetMode = ev;
   }
 }
