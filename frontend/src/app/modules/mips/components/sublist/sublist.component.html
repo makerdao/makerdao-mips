@@ -27,6 +27,20 @@
       </th>
     </span>
 
+    <span *ngIf="column == 'pos'">
+      <td
+        class="tooltip"
+        (click)="onNavigateToDetails(element.mipName)"
+        mat-cell
+        *matCellDef="let element"
+        style="cursor: pointer; position: relative;"
+      >
+        <br />
+
+        {{ element.proposal ? "" : element.mip }}
+      </td>
+    </span>
+
     <span *ngIf="column == 'title'">
       <td
         class="tooltip"

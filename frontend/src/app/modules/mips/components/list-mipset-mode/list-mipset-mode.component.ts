@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { MipsService } from '../../services/mips.service';
 import { SmartSearchService } from '../../services/smart-search.service';
@@ -27,7 +27,7 @@ import { IMIPsetDataElement } from '../../types/mipset';
   ],
 })
 export class ListMipsetModeComponent implements OnInit {
-  dataSourceMipsetRows: IMIPsetDataElement[];
+  dataSourceMipsetRows: IMIPsetDataElement[] = [];
   columnsToDisplayMipset = ['mipset'];
   expandedElementMipset: IMIPsetDataElement | null;
   isArrowDownOnMouseOver: boolean = false;
@@ -37,11 +37,12 @@ export class ListMipsetModeComponent implements OnInit {
   limit = 10;
   limitAux = 10;
   page = 0;
-  order: string;
-  search: string = '';
-  filter: any;
+  order: string = 'mip';
+  @Input() search: string = '';
+  @Input() filter: any;
   loading: boolean = false;
   total: number;
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
 
   constructor(
     private smartSearchService: SmartSearchService,
@@ -49,6 +50,11 @@ export class ListMipsetModeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let index = this.filter.equals.findIndex(
+      (item) => item.field === 'proposal'
+    );
+    this.filter.equals.splice(index, 1); // include subproposals in searching
+    this.loading = true;
     this.smartSearchService
       .getOptions('tags', '')
       .pipe(
@@ -65,10 +71,16 @@ export class ListMipsetModeComponent implements OnInit {
           return modifiedTags;
         })
       )
-      .subscribe((data: any) => {
-        console.log('tags', data);
-        this.dataSourceMipsetRows = data;
-      });
+      .subscribe(
+        (data: any) => {
+          this.loading = false;
+          console.log('tags', data);
+          this.dataSourceMipsetRows = data;
+        },
+        (error) => {
+          this.loading = false;
+        }
+      );
   }
 
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
@@ -82,27 +94,51 @@ export class ListMipsetModeComponent implements OnInit {
   }
 
   onExpandMipset(row) {
-    this.search = '$#' + row.mipset;
-    this.mipsService
-      .searchMips(
-        this.limit,
-        this.page,
-        this.order,
-        this.search,
-        this.filter,
-        'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
-      )
-      .subscribe(
-        (data) => {
-          console.log('data', data);
-          this.mips = data.items;
-          console.log('mips', this.mips);
+    if (this.expandedElementMipset === row) {
+      this.expandedElementMipset = null;
+    } else {
+      this.loading = true;
+      this.filter.contains.push({ field: 'tags', value: row.mipset });
+      this.mipsService
+        .searchMips(
+          this.limit,
+          this.page,
+          this.order,
+          this.search,
+          this.filter,
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+        )
+        .subscribe(
+          (data) => {
+            console.log('data', data);
+            this.mips = data.items;
+            console.log('mips', this.mips);
 
-          this.loading = false;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+            this.loading = false;
+            this.expandedElementMipset = row;
+            this.deleteFilterInarray(this.filter.contains, {
+              field: 'tags',
+              value: row.mipset,
+            });
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
+  deleteFilterInarray(array: Array<any>, data: any) {
+    let index = array.findIndex(
+      (i) => i.field === data.field && i.value === data.value
+    );
+
+    if (index !== -1) {
+      array.splice(index, 1);
+    }
+  }
+
+  onScroll() {
+    console.log('scrolling...');
   }
 }

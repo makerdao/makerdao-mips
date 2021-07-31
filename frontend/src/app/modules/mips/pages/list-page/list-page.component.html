@@ -67,7 +67,11 @@
   (send)="onSendPagination()"
   (sendOrder)="onSendOrder($event)"
 ></app-list>
-<app-list-mipset-mode *ngIf="mipsetMode"></app-list-mipset-mode>
+<app-list-mipset-mode
+  *ngIf="mipsetMode"
+  [filter]="filter"
+  [search]="search"
+></app-list-mipset-mode>
 <div class="feedback">
   <app-feedback id="feedback"></app-feedback>
 </div>

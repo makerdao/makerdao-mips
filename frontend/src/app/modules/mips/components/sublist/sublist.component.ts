@@ -1,3 +1,10 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -5,11 +12,27 @@ import { Router } from '@angular/router';
   selector: 'app-sublist',
   templateUrl: './sublist.component.html',
   styleUrls: ['./sublist.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class SublistComponent implements OnInit {
   @Input() subsetChildrenActivate: boolean = true;
   @Input() dataSource: any;
-  columnsToDisplaySubsetChildren = ['title', 'summary', 'status', 'link'];
+  columnsToDisplaySubsetChildren = [
+    'pos',
+    'title',
+    'summary',
+    'status',
+    'link',
+  ];
   selected = '-1';
   expandedElementSubsetChildren: DataElement | null;
   isArrowDownOnMouseOver: boolean = false;

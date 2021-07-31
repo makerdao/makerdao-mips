@@ -1,89 +1,120 @@
-<table
-  mat-table
-  [dataSource]="dataSourceMipsetRows"
-  multiTemplateDataRows
-  class="mipset-table"
->
-  <ng-container
-    matColumnDef="{{ column }}"
-    *ngFor="let column of columnsToDisplayMipset"
+<div class="maker-container">
+  <table mat-table [dataSource]="null" multiTemplateDataRows>
+    <ng-container
+      matColumnDef="{{ column }}"
+      *ngFor="let column of columnsToDisplay"
+    >
+      <span *ngIf="column != 'link'">
+        <span *ngIf="column != 'pos'">
+          <th mat-header-cell *matHeaderCellDef style="cursor: pointer;">
+            {{ column }}
+          </th>
+        </span>
+        <span *ngIf="column == 'pos'">
+          <th mat-header-cell *matHeaderCellDef style="cursor: pointer;">
+            #
+          </th>
+        </span>
+      </span>
+      <span *ngIf="column == 'link'">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ column }}
+        </th>
+      </span>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  </table>
+
+  <div
+    *ngIf="loading && !dataSourceMipsetRows.length"
+    class="maker-loading-shade"
   >
-    <span *ngIf="column == 'mipset'" class="mipsetColumnWrapper">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <table
+    mat-table
+    [dataSource]="dataSourceMipsetRows"
+    multiTemplateDataRows
+    class="mipset-table"
+  >
+    <ng-container
+      matColumnDef="{{ column }}"
+      *ngFor="let column of columnsToDisplayMipset"
+    >
+      <span *ngIf="column == 'mipset'" class="mipsetColumnWrapper">
+        <td
+          class="tooltip mipsetColumn"
+          mat-cell
+          *matCellDef="let element"
+          style="cursor: pointer; position: relative;"
+        >
+          {{ element[column] }}
+          <div (click)="onClickButtonCaptureEvent($event)">
+            <button
+              class="arrow-container"
+              [disabled]="element.loadingSubproposals"
+              (click)="onExpandMipset(element)"
+              (mouseover)="onMouseOverLeaveMipsetArrow(element.mipset, true)"
+              (mouseleave)="onMouseOverLeaveMipsetArrow(element.mipset, false)"
+              style="right: 0; position: relative;"
+            >
+              <div
+                class="arrow-wrapper expanded"
+                [ngClass]="{
+                  rotate: expandedElementMipset === element
+                }"
+              >
+                <img
+                  class="arrow"
+                  [src]="
+                    isArrowDownOnMouseOver && element.mipset == currentRowOver
+                      ? '../../../../../../assets/images/down_hover.svg'
+                      : '../../../../../../assets/images/down.svg'
+                  "
+                />
+              </div>
+            </button>
+          </div>
+        </td>
+      </span>
+    </ng-container>
+
+    <!-- Expanded Content Column -->
+    <ng-container matColumnDef="expandedDetail">
       <td
-        class="tooltip mipsetColumn"
         mat-cell
         *matCellDef="let element"
-        style="cursor: pointer; position: relative;"
+        [attr.colspan]="columnsToDisplayMipset.length"
       >
-        {{ element[column] }}
-        <div (click)="onClickButtonCaptureEvent($event)">
-          <button
-            class="arrow-container"
-            [disabled]="element.loadingSubproposals"
-            (click)="
-              onExpandMipset(element);
-              expandedElementMipset =
-                expandedElementMipset === element ? null : element
-            "
-            (mouseover)="onMouseOverLeaveMipsetArrow(element.mipset, true)"
-            (mouseleave)="onMouseOverLeaveMipsetArrow(element.mipset, false)"
-            style="right: 0; position: relative;"
-          >
-            <div
-              class="arrow-wrapper expanded"
-              [ngClass]="{
-                rotate: expandedElementMipset === element
-              }"
-            >
-              <img
-                class="arrow"
-                [src]="
-                  isArrowDownOnMouseOver && element.mipset == currentRowOver
-                    ? '../../../../../../assets/images/down_hover.svg'
-                    : '../../../../../../assets/images/down.svg'
-                "
-              />
-            </div>
-          </button>
+        <div
+          class="maker-element-subsetchildren-detail"
+          [@detailExpand]="
+            element == expandedElementMipset ? 'expanded' : 'collapsed'
+          "
+        >
+          <ng-container>
+            <app-sublist [dataSource]="mips"></app-sublist>
+          </ng-container>
         </div>
       </td>
-    </span>
-  </ng-container>
+    </ng-container>
 
-  <!-- Expanded Content Column -->
-  <ng-container matColumnDef="expandedDetail">
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [attr.colspan]="columnsToDisplayMipset.length"
-    >
-      <div
-        class="maker-element-subsetchildren-detail"
-        [@detailExpand]="
-          element == expandedElementMipset ? 'expanded' : 'collapsed'
-        "
-      >
-        <ng-container *ngIf="element == expandedElementMipset">
-          <app-list-subproposal
-            [dataSource]="mips"
-          ></app-list-subproposal>
-        </ng-container>
-      </div>
-    </td>
-  </ng-container>
-
-  <tr
-    mat-row
-    *matRowDef="let element; columns: columnsToDisplayMipset"
-    class="maker-element-mipset-row"
-    [class.example-expanded-row]="expandedElementMipset === element"
-    (click)="
-      expandedElementMipset = expandedElementMipset === element ? null : element
-    "
-  ></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: ['expandedDetail']"
-    class="maker-detail-mipset-row"
-  ></tr>
-</table>
+    <tr
+      mat-row
+      *matRowDef="let element; columns: columnsToDisplayMipset"
+      class="maker-element-mipset-row"
+      [class.example-expanded-row]="expandedElementMipset === element"
+      (click)="
+        expandedElementMipset =
+          expandedElementMipset === element ? null : element
+      "
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="maker-detail-mipset-row"
+    ></tr>
+  </table>
+</div>

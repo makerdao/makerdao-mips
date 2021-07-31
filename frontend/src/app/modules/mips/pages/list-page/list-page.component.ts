@@ -56,18 +56,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.mipsService.updateActiveSearch(false);
     this.order = 'mip';
     this.initParametersToLoadData();
     this.searchMips();
-
-    this.mipsService.activateSearch$
-    .subscribe(data => {
-      if (data) {
-        this.onSendPagination();
-        this.mipsService.updateActiveSearch(false);
-      }
-    });
 
     this.footerVisibleService.isFooterVisible$.subscribe(data => {
       let elementFeedback = document.getElementById('feedback');
@@ -336,7 +327,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               this.elementsRefUiService.containerRef.nativeElement.getBoundingClientRect()
                 .height <= window.innerHeight
             ) {
-              this.mipsService.updateActiveSearch(true);
+              this.onSendPagination();
             }
           },
           (error) => {
