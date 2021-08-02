@@ -1,3 +1,6 @@
+<div *ngIf="!mip" class="maker-loading-shade">
+  <mat-spinner></mat-spinner>
+</div>
 <div *ngIf="mip" class="container">
   <app-details-mobiles-buttons class="mobile" [sourceData]="sections" [mip]="mip.mip"></app-details-mobiles-buttons>
   <app-mips-pagination
@@ -39,4 +42,3 @@
     </div>
   </div>
 </div>
-

@@ -24,7 +24,7 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.elementsRefUiService.containerRef = this.container;
-    this.metadataShareService.image = window.location.origin + '/assets/images/maker-icon-big.png';
+    this.metadataShareService.image = window.location.origin + '/assets/images/logo_desktop2.png';
     this.setMetadataShareable();
   }
 
