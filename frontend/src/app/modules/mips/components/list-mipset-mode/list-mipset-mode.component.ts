@@ -25,6 +25,17 @@ const clone = require('rfdc')();
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
+    trigger('mipsetExpand', [
+      state(
+        'collapsed',
+        style({ height: '0px', minHeight: '0', overflow: 'hidden' })
+      ),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
   ],
 })
 export class ListMipsetModeComponent implements OnInit, OnChanges {
@@ -228,5 +239,60 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
     return this.mipsService
       .searchMips(1, 0, this.order, this.search, filter, 'title mipName')
       .toPromise();
+  }
+
+  // onExpandMipsetRow(itemMipset: any) {
+  //   this.expandedElementMipset =
+  //     this.expandedElementMipset == itemMipset.mipset ? null : itemMipset.mipset;
+  // }
+
+  getStatusValue(data: string): string {
+    if (data !== undefined) {
+      if (data.toLocaleLowerCase().includes('accepted')) {
+        return 'ACCEPTED';
+      }
+      if (data.toLocaleLowerCase().includes('rfc')) {
+        return 'RFC';
+      }
+      if (data.toLocaleLowerCase().includes('rejected')) {
+        return 'REJECTED';
+      }
+      if (data.toLocaleLowerCase().includes('archived')) {
+        return 'ARCHIVED';
+      }
+      if (data.toLocaleLowerCase().includes('obsolete')) {
+        return 'OBSOLETE';
+      }
+      if (data.toLocaleLowerCase().includes('submission')) {
+        return 'FORMAL SUBMISSION';
+      }
+    }
+
+    return data;
+  }
+
+  getStatusType(data: string): string {
+    if (data !== undefined) {
+      if (data.toLocaleLowerCase().includes('accepted')) {
+        return 'ACCEPTED';
+      }
+      if (data.toLocaleLowerCase().includes('rfc')) {
+        return 'RFC';
+      }
+      if (data.toLocaleLowerCase().includes('rejected')) {
+        return 'REJECTED';
+      }
+      if (data.toLocaleLowerCase().includes('archived')) {
+        return 'ARCHIVED';
+      }
+      if (data.toLocaleLowerCase().includes('obsolete')) {
+        return 'OBSOLETE';
+      }
+      if (data.toLocaleLowerCase().includes('submission')) {
+        return 'FS';
+      }
+    }
+
+    return 'DEFAULT';
   }
 }

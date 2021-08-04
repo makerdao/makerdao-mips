@@ -62,7 +62,12 @@ app-order-mobile {
 }
 
 app-md-checkbox {
+  display: block;
   margin-right: 25px;
+}
+
+app-md-checkbox-mobile {
+  display: none;
 }
 
 @media screen and (max-width: 500px) {
@@ -93,6 +98,14 @@ app-md-checkbox {
     display: none;
   }
 
+  app-md-checkbox {
+    display: none;
+  }
+
+  app-md-checkbox-mobile {
+    display: block;
+  }
+
   ::ng-deep {
     app-filter-list {
       .filter-list {
@@ -113,7 +126,7 @@ app-md-checkbox {
 
   .row-closed-input {
     display: grid;
-    grid-template-columns: 28px 28px 28px;
+    grid-template-columns: 28px 28px 28px 28px;
     column-gap: 12px;
     width: 100%;
     justify-content: flex-end;

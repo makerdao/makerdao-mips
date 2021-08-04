@@ -9,12 +9,13 @@
       'row-closed-input': !mobileSearch
     }"
   >
-    <!-- <app-md-checkbox-mobile
+    <app-md-checkbox-mobile
+      *ngIf="!mobileSearch"
       [imageNoChecked]="'assets/images/subproposals-mode-no-checked.svg'"
       [imageChecked]="'assets/images/subproposals-mode-checked.svg'"
       [ngClass]="{'hide': mobileSearch}"
-      (checked)="onCheckedSubproposalMode($event)"
-    ></app-md-checkbox-mobile> -->
+      (checked)="onCheckedMipsetMode($event)"
+    ></app-md-checkbox-mobile>
     <app-search-mobile
       class="mobile"
       (send)="onSendSearch($event)"
