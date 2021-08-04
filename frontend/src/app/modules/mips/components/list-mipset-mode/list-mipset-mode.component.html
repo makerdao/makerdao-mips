@@ -190,7 +190,7 @@
             class="arrow-container"
             [disabled]="false"
             (click)="onExpandMipset(itemMipset)"
-            style="right: 0;"
+            style="right: 0; top: 24px; transform: translateY(-50%);"
           >
             <div
               class="arrow-wrapper expanded"
@@ -218,7 +218,11 @@
       >
         <div
           *ngFor="let itemMipsetChildren of mips"
-          class="mobile-container subproposal-card"
+          class="mobile-container"
+          [ngClass]="{
+            'proposal-card': !itemMipsetChildren.proposal,
+            'subproposal-card': itemMipsetChildren.proposal
+          }"
         >
           <div style="width: calc(100% - 35px);">
             {{

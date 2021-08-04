@@ -1,8 +1,8 @@
 <label class="container">
-  <input type="checkbox" (change)="onCheck($event)">
-  <span class="text">{{label}}</span>
+  <input type="checkbox" (change)="onCheck($event)" [checked]="check" />
+  <span class="text">{{ label }}</span>
   <span class="checkmark">
-    <img class="image-no-checked" [src]="imageNoChecked">
-    <img class="image-checked" [src]="imageChecked">
+    <img class="image-no-checked" [src]="imageNoChecked" />
+    <img class="image-checked" [src]="imageChecked" />
   </span>
 </label>

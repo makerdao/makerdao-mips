@@ -11,6 +11,7 @@
   >
     <app-md-checkbox-mobile
       *ngIf="!mobileSearch"
+      [checkInput]="mipsetMode"
       [imageNoChecked]="'assets/images/subproposals-mode-no-checked.svg'"
       [imageChecked]="'assets/images/subproposals-mode-checked.svg'"
       [ngClass]="{'hide': mobileSearch}"
