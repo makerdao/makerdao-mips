@@ -5,17 +5,14 @@
   height: 500px;
 }
 
-h1 {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 30px;
-  color: #748aa1;
-  width: fit-content;
-}
-
 @media (min-width: 768px) {
   :host {
-    height: 700px;
+    height: fit-content;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    margin-bottom: -40px;
   }
 }
