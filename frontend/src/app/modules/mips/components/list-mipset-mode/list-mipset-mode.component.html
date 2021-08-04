@@ -175,10 +175,12 @@
   </table>
 
   <ng-container *ngIf="!loading">
-    <div *ngFor="let itemMipset of dataSourceMipsetRows">
+    <div *ngFor="let itemMipset of dataSourceMipsetRows" class="mobile">
       <div class="mobile-container subproposal-card-subset">
         <div style="width: calc(100% - 35px);">
-          <span class="title"> {{ itemMipset.mipset }}</span>
+          <span class="title">
+            {{ itemMipset.mipset | tagMipset | titlecase }}</span
+          >
         </div>
         <div
           class="subproposalsButtonWrapper"
@@ -199,7 +201,7 @@
               <img
                 class="arrow"
                 [src]="
-                  isArrowDownOnMouseOver && item._id == currentRowOver
+                  isArrowDownOnMouseOver
                     ? '../../../../../assets/images/down_hover.svg'
                     : '../../../../../assets/images/down.svg'
                 "
@@ -214,78 +216,76 @@
           expandedElementMipset == itemMipset ? 'expanded' : 'collapsed'
         "
       >
-
-          <div
-            *ngFor="let itemMipsetChildren of mips"
-            class="mobile-container subproposal-card"
-          >
-            <div style="width: calc(100% - 35px);">
-              {{
-                itemMipsetChildren.proposal ? "" : "# " + itemMipsetChildren.mip
-              }}
-              <img
-                *ngIf="!itemMipsetChildren.proposal"
-                src="../../../../../assets/images/circle.svg"
-              />
-              <span class="title">
-                <a routerLink="/mips/details/{{ itemMipsetChildren.mipName }}">
-                  {{
-                    itemMipsetChildren.title &&
-                    itemMipsetChildren.title.includes("-SP")
-                      ? "SP" + itemMipsetChildren.title.split("-SP")[1]
-                      : itemMipsetChildren.title
-                  }}</a
-                ></span
-              >
-            </div>
-            <div class="status">
-              <app-status
-                [type]="getStatusType(itemMipsetChildren.status)"
-                [value]="getStatusValue(itemMipsetChildren.status)"
-              ></app-status>
-            </div>
-            <div class="content">
-              <a
-                *ngIf="selected != itemMipsetChildren._id"
-                routerLink="/mips/details/{{ itemMipsetChildren.mipName }}"
-              >
-                <markdown
-                  class="variable-binding-content"
-                  [data]="itemMipsetChildren.sentenceSummary"
-                ></markdown>
-              </a>
-              <a
-                *ngIf="selected == itemMipsetChildren._id"
-                routerLink="/mips/details/{{ itemMipsetChildren.mipName }}"
-              >
-                <markdown
-                  class="variable-binding-content"
-                  [data]="itemMipsetChildren.paragraphSummary"
-                ></markdown>
-              </a>
-            </div>
-            <div style="clear: both;"></div>
-            <div
-              class="more"
-              (click)="updateSelected(itemMipsetChildren._id, $event)"
+        <div
+          *ngFor="let itemMipsetChildren of mips"
+          class="mobile-container subproposal-card"
+        >
+          <div style="width: calc(100% - 35px);">
+            {{
+              itemMipsetChildren.proposal ? "" : "# " + itemMipsetChildren.mip
+            }}
+            <img
+              *ngIf="!itemMipsetChildren.proposal"
+              src="../../../../../assets/images/circle.svg"
+            />
+            <span class="title">
+              <a routerLink="/mips/details/{{ itemMipsetChildren.mipName }}">
+                {{
+                  itemMipsetChildren.title &&
+                  itemMipsetChildren.title.includes("-SP")
+                    ? "SP" + itemMipsetChildren.title.split("-SP")[1]
+                    : itemMipsetChildren.title
+                }}</a
+              ></span
             >
-              <img
-                class="arrow"
-                [ngClass]="{
-                  rotate: selected == itemMipsetChildren._id
-                }"
-                src="../../../../../assets/images/down.svg"
-              />
-              More
-            </div>
-            <app-social
-              forumLink="#"
-              [githubLink]="itemMipsetChildren.filename"
-              mobile="true"
-            ></app-social>
-            <div style="clear: both;"></div>
           </div>
-
+          <div class="status">
+            <app-status
+              [type]="getStatusType(itemMipsetChildren.status)"
+              [value]="getStatusValue(itemMipsetChildren.status)"
+            ></app-status>
+          </div>
+          <div class="content">
+            <a
+              *ngIf="selected != itemMipsetChildren._id"
+              routerLink="/mips/details/{{ itemMipsetChildren.mipName }}"
+            >
+              <markdown
+                class="variable-binding-content"
+                [data]="itemMipsetChildren.sentenceSummary"
+              ></markdown>
+            </a>
+            <a
+              *ngIf="selected == itemMipsetChildren._id"
+              routerLink="/mips/details/{{ itemMipsetChildren.mipName }}"
+            >
+              <markdown
+                class="variable-binding-content"
+                [data]="itemMipsetChildren.paragraphSummary"
+              ></markdown>
+            </a>
+          </div>
+          <div style="clear: both;"></div>
+          <div
+            class="more"
+            (click)="updateSelected(itemMipsetChildren._id, $event)"
+          >
+            <img
+              class="arrow"
+              [ngClass]="{
+                rotate: selected == itemMipsetChildren._id
+              }"
+              src="../../../../../assets/images/down.svg"
+            />
+            More
+          </div>
+          <app-social
+            forumLink="#"
+            [githubLink]="itemMipsetChildren.filename"
+            mobile="true"
+          ></app-social>
+          <div style="clear: both;"></div>
+        </div>
       </div>
     </div>
   </ng-container>
