@@ -50,6 +50,7 @@ import { ListSubsetComponent } from './components/list/list-subset/list-subset.c
 import { ListSubproposalComponent } from './components/list/list-subproposal/list-subproposal.component';
 import { ListMipsetModeComponent } from './components/list-mipset-mode/list-mipset-mode.component';
 import { SublistComponent } from './components/sublist/sublist.component';
+import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { SublistComponent } from './components/sublist/sublist.component';
     ListSubsetComponent,
     ListSubproposalComponent,
     ListMipsetModeComponent,
-    SublistComponent
+    SublistComponent,
+    TagMipsetPipe
   ],
   imports: [
     CommonModule,

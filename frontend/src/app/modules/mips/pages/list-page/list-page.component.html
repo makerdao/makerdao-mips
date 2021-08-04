@@ -1,5 +1,7 @@
 <div class="container">
-  <p class="title" [ngClass]="{ hide: mobileSearch }">MIPs List</p>
+  <p class="title" [ngClass]="{ hide: mobileSearch }">
+    {{ mipsetMode ? "MIP-Sets" : "MIPs List" }}
+  </p>
   <div
     class="filtering"
     [ngClass]="{

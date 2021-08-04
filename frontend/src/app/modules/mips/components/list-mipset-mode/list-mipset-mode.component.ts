@@ -5,11 +5,12 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { MipsService } from '../../services/mips.service';
 import { SmartSearchService } from '../../services/smart-search.service';
 import { IMIPsetDataElement } from '../../types/mipset';
+const clone = require('rfdc')();
 
 @Component({
   selector: 'app-list-mipset-mode',
@@ -26,7 +27,7 @@ import { IMIPsetDataElement } from '../../types/mipset';
     ]),
   ],
 })
-export class ListMipsetModeComponent implements OnInit {
+export class ListMipsetModeComponent implements OnInit, OnChanges {
   dataSourceMipsetRows: IMIPsetDataElement[] = [];
   columnsToDisplayMipset = ['mipset'];
   expandedElementMipset: IMIPsetDataElement | null;
@@ -43,6 +44,13 @@ export class ListMipsetModeComponent implements OnInit {
   loading: boolean = false;
   total: number;
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  currentSortingColumn: string = '';
+  ascOrderSorting: boolean = true;
+  arrowUp: string = '../../../../../assets/images/up.svg';
+  arrowDown: string = '../../../../../assets/images/down.svg';
+  arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
+  arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
+  initialized: boolean = false;
 
   constructor(
     private smartSearchService: SmartSearchService,
@@ -54,6 +62,17 @@ export class ListMipsetModeComponent implements OnInit {
       (item) => item.field === 'proposal'
     );
     this.filter.equals.splice(index, 1); // include subproposals in searching
+    this.searchTagsMipset();
+    this.initialized = true;
+  }
+
+  ngOnChanges() {
+    if (this.initialized) {
+      this.searchTagsMipset();
+    }
+  }
+
+  searchTagsMipset() {
     this.loading = true;
     this.smartSearchService
       .getOptions('tags', '')
@@ -72,10 +91,20 @@ export class ListMipsetModeComponent implements OnInit {
         })
       )
       .subscribe(
-        (data: any) => {
+        async (data: any[]) => {
+          let promises = await data.map((item) =>
+            this.getAtLeastOneElementByTag(item.mipset)
+          );
+          let mips: any[] = await Promise.all(promises);
+          this.dataSourceMipsetRows = data.filter((_, index) => {
+            return mips[index].items && mips[index].items.length > 0;
+          });
+
+          if (this.dataSourceMipsetRows.length > 0) {
+            await this.expandFirstMipset(this.dataSourceMipsetRows[0]);
+          }
+
           this.loading = false;
-          console.log('tags', data);
-          this.dataSourceMipsetRows = data;
         },
         (error) => {
           this.loading = false;
@@ -97,34 +126,52 @@ export class ListMipsetModeComponent implements OnInit {
     if (this.expandedElementMipset === row) {
       this.expandedElementMipset = null;
     } else {
-      this.loading = true;
-      this.filter.contains.push({ field: 'tags', value: row.mipset });
+      let filter = clone(this.filter);
+      // let filter: any = { ...this.filter, contains: [this.filter.contains] };
+      filter.contains.push({ field: 'tags', value: row.mipset });
       this.mipsService
         .searchMips(
           this.limit,
           this.page,
           this.order,
           this.search,
-          this.filter,
+          filter,
           'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
         )
         .subscribe(
           (data) => {
-            console.log('data', data);
             this.mips = data.items;
-            console.log('mips', this.mips);
-
-            this.loading = false;
             this.expandedElementMipset = row;
-            this.deleteFilterInarray(this.filter.contains, {
-              field: 'tags',
-              value: row.mipset,
-            });
           },
           (error) => {
             console.log(error);
           }
         );
+    }
+  }
+
+  async expandFirstMipset(row) {
+    try {
+      let filter = clone(this.filter);
+      // let filter: any = { ...this.filter, contains: [...this.filter.contains] };
+      filter.contains.push({ field: 'tags', value: row.mipset });
+
+      let data: any = await this.mipsService
+        .searchMips(
+          this.limit,
+          this.page,
+          this.order,
+          this.search,
+          filter,
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+        )
+        .toPromise();
+      this.mips = data.items;
+      this.expandedElementMipset = row;
+
+      return;
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -138,7 +185,48 @@ export class ListMipsetModeComponent implements OnInit {
     }
   }
 
-  onScroll() {
-    console.log('scrolling...');
+  onSendOrder(value: string): void {
+    let orderPrefix = '';
+    if (this.currentSortingColumn === value) {
+      this.ascOrderSorting = !this.ascOrderSorting;
+      orderPrefix = this.ascOrderSorting ? '' : '-';
+    } else {
+      this.ascOrderSorting = true;
+      this.currentSortingColumn = value;
+    }
+
+    this.setOrder(orderPrefix + this.transforValue(value));
+  }
+
+  transforValue(value: string): string {
+    if (value === 'pos') {
+      return 'mip';
+    }
+    if (value === 'title') {
+      return 'title';
+    }
+    if (value === 'summary') {
+      return 'sentenceSummary';
+    }
+    if (value === 'status') {
+      return 'status';
+    }
+  }
+
+  setOrder(text: string): void {
+    this.mips = [];
+    this.limitAux = 10;
+    this.page = 0;
+    this.order = text;
+    this.expandedElementMipset = null;
+  }
+
+  getAtLeastOneElementByTag(tag: string): Promise<any> {
+    let filter = clone(this.filter);
+    // let filter: any = { ...this.filter};
+    filter.contains.push({ field: 'tags', value: tag });
+    return this.mipsService
+      .searchMips(1, 0, this.order, this.search, filter, 'title mipName')
+      .toPromise();
   }
 }

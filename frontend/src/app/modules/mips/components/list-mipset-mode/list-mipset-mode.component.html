@@ -6,13 +6,53 @@
     >
       <span *ngIf="column != 'link'">
         <span *ngIf="column != 'pos'">
-          <th mat-header-cell *matHeaderCellDef style="cursor: pointer;">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            style="cursor: pointer;"
+            (click)="onSendOrder(column)"
+          >
             {{ column }}
+            <img
+              class="arrow up"
+              [src]="
+                currentSortingColumn === column && ascOrderSorting
+                  ? arrowUpDark
+                  : arrowUp
+              "
+            /><img
+              class="arrow down"
+              [src]="
+                currentSortingColumn === column && !ascOrderSorting
+                  ? arrowDownDark
+                  : arrowDown
+              "
+            />
           </th>
         </span>
         <span *ngIf="column == 'pos'">
-          <th mat-header-cell *matHeaderCellDef style="cursor: pointer;">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            style="cursor: pointer;"
+            (click)="onSendOrder(column)"
+          >
             #
+            <img
+              class="arrow up"
+              [src]="
+                currentSortingColumn === column && ascOrderSorting
+                  ? arrowUpDark
+                  : arrowUp
+              "
+            /><img
+              class="arrow down"
+              [src]="
+                currentSortingColumn === column && !ascOrderSorting
+                  ? arrowDownDark
+                  : arrowDown
+              "
+            />
           </th>
         </span>
       </span>
@@ -26,14 +66,12 @@
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   </table>
 
-  <div
-    *ngIf="loading && !dataSourceMipsetRows.length"
-    class="maker-loading-shade"
-  >
+  <div *ngIf="loading" class="maker-loading-shade">
     <mat-spinner></mat-spinner>
   </div>
 
   <table
+    *ngIf="!loading"
     mat-table
     [dataSource]="dataSourceMipsetRows"
     multiTemplateDataRows
@@ -45,12 +83,15 @@
     >
       <span *ngIf="column == 'mipset'" class="mipsetColumnWrapper">
         <td
-          class="tooltip mipsetColumn"
+          class="mipsetColumn"
           mat-cell
           *matCellDef="let element"
           style="cursor: pointer; position: relative;"
+          [ngStyle]="{
+            color: expandedElementMipset === element ? '#B8C5D3' : ''
+          }"
         >
-          {{ element[column] }}
+          {{ element[column] | tagMipset | titlecase }}
           <div (click)="onClickButtonCaptureEvent($event)">
             <button
               class="arrow-container"
@@ -59,6 +100,10 @@
               (mouseover)="onMouseOverLeaveMipsetArrow(element.mipset, true)"
               (mouseleave)="onMouseOverLeaveMipsetArrow(element.mipset, false)"
               style="right: 0; position: relative;"
+              [ngClass]="{
+                'dark-expand-arrow': expandedElementMipset !== element,
+                'shine-expand-arrow': expandedElementMipset === element
+              }"
             >
               <div
                 class="arrow-wrapper expanded"
@@ -66,14 +111,25 @@
                   rotate: expandedElementMipset === element
                 }"
               >
-                <img
+                <svg
+                  width="10"
+                  height="7.14"
+                  viewBox="0 0 7 5"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                   class="arrow"
-                  [src]="
-                    isArrowDownOnMouseOver && element.mipset == currentRowOver
-                      ? '../../../../../../assets/images/down_hover.svg'
-                      : '../../../../../../assets/images/down.svg'
-                  "
-                />
+                >
+                  <path
+                    *ngIf="expandedElementMipset !== element"
+                    d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
+                    fill="#748AA1"
+                  />
+                  <path
+                    *ngIf="expandedElementMipset === element"
+                    d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
+                    fill="#B8C5D3"
+                  />
+                </svg>
               </div>
             </button>
           </div>
@@ -105,7 +161,7 @@
       mat-row
       *matRowDef="let element; columns: columnsToDisplayMipset"
       class="maker-element-mipset-row"
-      [class.example-expanded-row]="expandedElementMipset === element"
+      [class.maker-expanded-row]="expandedElementMipset === element"
       (click)="
         expandedElementMipset =
           expandedElementMipset === element ? null : element

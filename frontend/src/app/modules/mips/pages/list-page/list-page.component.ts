@@ -104,6 +104,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   initParametersToLoadData() {
     this.initQueryParams();
     this.initFiltersAndSearch();
+    this.initMipsetMode();
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
@@ -125,7 +126,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       status: status ? status : [],
       search: queryParams.params.search ? queryParams.params.search : '',
       contributor: queryParams.params.contributor,
-      author: queryParams.params.author
+      author: queryParams.params.author,
+      mipsetMode: JSON.parse(queryParams.params.mipsetMode || null)
     };
 
     this.queryParamsListService.queryParams = qp;
@@ -179,6 +181,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         value: this.queryParamsListService.queryParams.author,
       });
     }
+  }
+
+  initMipsetMode() {
+    this.mipsetMode =  this.queryParamsListService.queryParams.mipsetMode;
   }
 
   initFiltersStatus() {
@@ -524,7 +530,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: [],
-      search: this.search
+      search: this.search,
+      mipsetMode: this.mipsetMode
     };
 
     if (filterSaved.arrayStatus[0] === 1) {
@@ -559,5 +566,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onCheckedMipsetMode(ev) {
     this.mipsetMode = ev;
+    this.setQueryParams();
   }
 }
