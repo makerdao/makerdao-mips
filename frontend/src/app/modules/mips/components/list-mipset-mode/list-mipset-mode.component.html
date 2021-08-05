@@ -151,7 +151,7 @@
           "
         >
           <ng-container>
-            <app-sublist [dataSource]="mips"></app-sublist>
+            <app-sublist [dataSource]="mipSets[element.mipset]"></app-sublist>
           </ng-container>
         </div>
       </td>
@@ -217,7 +217,7 @@
         "
       >
         <div
-          *ngFor="let itemMipsetChildren of mips"
+          *ngFor="let itemMipsetChildren of mipSets[itemMipset.mipset]"
           class="mobile-container"
           [ngClass]="{
             'proposal-card': !itemMipsetChildren.proposal,
