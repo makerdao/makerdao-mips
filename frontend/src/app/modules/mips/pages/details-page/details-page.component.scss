@@ -26,6 +26,16 @@
   }
 }
 
+.maker-loading-shade {
+  margin-bottom: 56px;
+  min-height: 70vh;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 app-detail-buttons-mobile {
   z-index: 3;
 }

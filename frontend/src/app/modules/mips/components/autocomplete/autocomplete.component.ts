@@ -13,7 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
-import { merge, Subject } from 'rxjs/index';
+import { fromEvent, merge, Subject } from 'rxjs/index';
 import { OptionAutocompleteComponent } from '../option-autocomplete/option-autocomplete.component';
 import { AutocompleteContentDirective } from '../../directives/autocomplete-content.directive';
 
@@ -65,6 +65,12 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
           } else {
             child.classList.remove('focusOption');
           }
+
+          fromEvent(child as HTMLElement, 'mouseenter').subscribe(
+            (ev: MouseEvent) => {
+              this.onMouseenter(ev, index);
+            }
+          );
         });
       }
     });
@@ -202,6 +208,60 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
       this.showOptions.next();
       (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
       this.optionsChanged = false;
+    }
+  }
+
+  onMouseenter(ev: MouseEvent, index: number) {
+    if (this.autocompleteRef?.nativeElement) {
+      ev.preventDefault();
+      let size: number = this.options.length;
+      this.focusIndex = (size + index) % size;
+
+      this.options.toArray().forEach((item, index) => {
+        let child: Element = (item.element as HTMLElement).children.item(0);
+
+        if (index === this.focusIndex) {
+          child.classList.add('focusOption');
+        } else {
+          child.classList.remove('focusOption');
+        }
+      });
+
+      // scrolling settings
+      if (this.focusIndex === 0) {
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(0, 0);
+        this.topOptionIndex = 0;
+      }
+
+      const focusedElTop: number = (this.options.toArray()[this.focusIndex]
+        .element as HTMLElement).getBoundingClientRect().top;
+
+      const focusedElHeight: number = (this.options.toArray()[this.focusIndex]
+        .element as HTMLElement).getBoundingClientRect().height;
+
+      const focusedElParentTop: number = (this.autocompleteRef
+        .nativeElement as HTMLElement).getBoundingClientRect().top;
+
+      const parentElHeight: number = (this.autocompleteRef
+        .nativeElement as HTMLElement).getBoundingClientRect().height;
+
+      if (focusedElTop < focusedElParentTop) {
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(
+          0,
+          this.focusIndex * this.ITEM_OPTION_HEIGHT
+        );
+      } else if (
+        focusedElTop + focusedElHeight >
+        focusedElParentTop + parentElHeight
+      ) {
+        this.topOptionIndex++;
+
+        (this.autocompleteRef.nativeElement as HTMLElement).scrollTo(
+          0,
+          (this.focusIndex - this.maxVisibleOptions + 1) *
+            this.ITEM_OPTION_HEIGHT
+        );
+      }
     }
   }
 }
