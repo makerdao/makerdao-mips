@@ -8,12 +8,14 @@ import QueryParams from '../types/query-params';
 export class QueryParamsListService {
   private _queryParams: QueryParams = {
     status: [],
-    search: ''
+    search: '',
+    mipsetMode: false
   };
 
   private qParams: BehaviorSubject<QueryParams> = new BehaviorSubject<QueryParams>({
     status: [],
-    search: ''
+    search: '',
+    mipsetMode: false
   });
   public qParams$: Observable<QueryParams> = this.qParams.asObservable();
 

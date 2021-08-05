@@ -15,17 +15,10 @@ export class MipsService {
   total = 1;
   includeSubproposals: boolean = false;
 
-  private activateSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-  public activateSearch$: Observable<boolean> = this.activateSearch.asObservable();
-
   constructor(
     private http: HttpClient,
   ) {
    this.clearFilter();
-  }
-
-  updateActiveSearch(data: boolean): void {
-    this.activateSearch.next(data);
   }
 
   searchMips(limit: number, page: number, order: string, search: string, filter?: any, select?: string): Observable<any> {

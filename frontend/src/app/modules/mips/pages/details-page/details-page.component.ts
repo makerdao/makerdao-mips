@@ -35,7 +35,6 @@ export class DetailsPageComponent implements OnInit {
         this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
         this.loadData();
-        this.mipsService.updateActiveSearch(true);
         this.moveToElement();
       }
     });

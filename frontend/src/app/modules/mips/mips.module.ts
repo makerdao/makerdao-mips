@@ -48,6 +48,9 @@ import { ContenteditableValueAccessorModule } from '@tinkoff/angular-contentedit
 import { FormattingMdDirective } from './directives/formatting-md.directive';
 import { ListSubsetComponent } from './components/list/list-subset/list-subset.component';
 import { ListSubproposalComponent } from './components/list/list-subproposal/list-subproposal.component';
+import { ListMipsetModeComponent } from './components/list-mipset-mode/list-mipset-mode.component';
+import { SublistComponent } from './components/sublist/sublist.component';
+import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
 
 
 @NgModule({
@@ -84,7 +87,10 @@ import { ListSubproposalComponent } from './components/list/list-subproposal/lis
     FilterPipe,
     FormattingMdDirective,
     ListSubsetComponent,
-    ListSubproposalComponent
+    ListSubproposalComponent,
+    ListMipsetModeComponent,
+    SublistComponent,
+    TagMipsetPipe
   ],
   imports: [
     CommonModule,

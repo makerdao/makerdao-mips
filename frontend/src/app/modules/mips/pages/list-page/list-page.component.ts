@@ -42,6 +42,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   errorMessage: string = '';
   defaultSearch: string = "$ and(not(@Obsolete), not(@Withdrawn))";
   mobileView: boolean = false;
+  mipsetMode: boolean = false;
 
   constructor(
     private mipsService: MipsService,
@@ -55,18 +56,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.mipsService.updateActiveSearch(false);
     this.order = 'mip';
     this.initParametersToLoadData();
     this.searchMips();
-
-    this.mipsService.activateSearch$
-    .subscribe(data => {
-      if (data) {
-        this.onSendPagination();
-        this.mipsService.updateActiveSearch(false);
-      }
-    });
 
     this.footerVisibleService.isFooterVisible$.subscribe(data => {
       let elementFeedback = document.getElementById('feedback');
@@ -112,6 +104,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   initParametersToLoadData() {
     this.initQueryParams();
     this.initFiltersAndSearch();
+    this.initMipsetMode();
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
@@ -133,7 +126,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       status: status ? status : [],
       search: queryParams.params.search ? queryParams.params.search : '',
       contributor: queryParams.params.contributor,
-      author: queryParams.params.author
+      author: queryParams.params.author,
+      mipsetMode: JSON.parse(queryParams.params.mipsetMode || null)
     };
 
     this.queryParamsListService.queryParams = qp;
@@ -187,6 +181,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         value: this.queryParamsListService.queryParams.author,
       });
     }
+  }
+
+  initMipsetMode() {
+    this.mipsetMode =  this.queryParamsListService.queryParams.mipsetMode;
   }
 
   initFiltersStatus() {
@@ -335,7 +333,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               this.elementsRefUiService.containerRef.nativeElement.getBoundingClientRect()
                 .height <= window.innerHeight
             ) {
-              this.mipsService.updateActiveSearch(true);
+              this.onSendPagination();
             }
           },
           (error) => {
@@ -532,7 +530,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       status: [],
-      search: this.search
+      search: this.search,
+      mipsetMode: this.mipsetMode
     };
 
     if (filterSaved.arrayStatus[0] === 1) {
@@ -563,5 +562,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }
 
     this.router.navigate(['/mips/list'], {...navigationExtras});
+  }
+
+  onCheckedMipsetMode(ev) {
+    this.mipsetMode = ev;
+    this.setQueryParams();
   }
 }
