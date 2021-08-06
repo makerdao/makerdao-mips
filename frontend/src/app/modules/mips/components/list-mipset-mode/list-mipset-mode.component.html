@@ -90,6 +90,7 @@
           [ngStyle]="{
             color: expandedElementMipset === element ? '#B8C5D3' : ''
           }"
+          (click)="onExpandMipset(element)"
         >
           {{ element[column] | tagMipset | titlecase }}
           <div (click)="onClickButtonCaptureEvent($event)">
@@ -176,7 +177,11 @@
 
   <ng-container *ngIf="!loading">
     <div *ngFor="let itemMipset of dataSourceMipsetRows" class="mobile">
-      <div class="mobile-container subproposal-card-subset">
+      <button
+        mat-button
+        class="mobile-container subproposal-card-subset"
+        (click)="onExpandMipset(itemMipset)"
+      >
         <div style="width: calc(100% - 35px);">
           <span class="title">
             {{ itemMipset.mipset | tagMipset | titlecase }}</span
@@ -209,7 +214,7 @@
             </div>
           </button>
         </div>
-      </div>
+      </button>
 
       <div
         [@mipsetExpand]="
