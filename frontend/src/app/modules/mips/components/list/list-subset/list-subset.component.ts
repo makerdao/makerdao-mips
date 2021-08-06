@@ -32,7 +32,7 @@ import {
 export class ListSubsetComponent implements OnInit {
   @Input() dataSourceSubsetRows: any;
   columnsToDisplaySubset = ['subset'];
-  expandedElementSubset: ISubsetDataElement | null;
+  @Input() expandedElementSubset: ISubsetDataElement | null;
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
   @Input() subproposalsGroup: any;

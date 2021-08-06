@@ -324,6 +324,9 @@ const language = 'typescript';
               this.dataSourceSubsetRows = subsetRows;
               this.expandedElement = row;
               this.expandedMipFather = data.items[0].proposal;
+              if (this.dataSourceSubsetRows.length === 1) {
+                this.expandedMipSubset = this.dataSourceSubsetRows[0].subset;
+              }
               this.cdr.detectChanges();
               this.subsetChildrenActivate = true;
             },

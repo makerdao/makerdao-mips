@@ -259,6 +259,11 @@
                 *ngIf="expandedItems.subproposals"
                 [dataSourceSubsetRows]="dataSourceSubsetRows"
                 [subproposalsGroup]="subproposalsGroup"
+                [expandedElementSubset]="
+                  dataSourceSubsetRows?.length === 1
+                    ? dataSourceSubsetRows[0]
+                    : null
+                "
               ></app-list-subset>
             </div>
           </td>
