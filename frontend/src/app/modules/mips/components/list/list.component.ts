@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
+const clone = require('rfdc')();
 
 interface ExpandedItems {
   subproposals: boolean;
@@ -62,6 +63,8 @@ export class ListComponent implements OnInit, OnChanges {
   @Input() loadingPlus = false;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
+  @Input() filter: any;
+  @Input() search: string;
   expandedElement: DataElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selected = '-1';
@@ -264,9 +267,8 @@ const language = 'typescript';
       // show subproposals children
       if (index !== -1) {
         this.dataSourceTable.data[index]['loadingSubproposals'] = true;
-        let filter = {
-          equals: [],
-        };
+        let filter = clone(this.filter);
+        filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
         this.subsetChildrenActivate = false;
 
@@ -275,7 +277,7 @@ const language = 'typescript';
             100000,
             0,
             'mipName',
-            '',
+            this.search,
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )

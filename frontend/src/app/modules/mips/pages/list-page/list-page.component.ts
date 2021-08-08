@@ -307,23 +307,27 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         .searchMips(
           this.limit,
           this.page,
-          this.order,
+          this.filterOrSearch() ? 'mip mipName' : this.order,
           this.searchCopy,
           this.filter,
           'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
         )
         .subscribe(
           (data) => {
-            this.mipsAux = data.items;
-            this.mips = this.mips.concat(this.mipsAux);
-            this.total = data.total;
-            this.loading = false;
-            this.loadingPlus = false;
-
-            if (this.limitAux >= this.total) {
-              this.moreToLoad = false;
+            if (this.filterOrSearch()) {
+              this.hidingSubproposalsUnderParents(data);
             } else {
-              this.moreToLoad = true;
+              this.mipsAux = data.items;
+              this.mips = this.mips.concat(this.mipsAux);
+              this.total = data.total;
+              this.loading = false;
+              this.loadingPlus = false;
+
+              if (this.limitAux >= this.total) {
+                this.moreToLoad = false;
+              } else {
+                this.moreToLoad = true;
+              }
             }
 
             this.sintaxError = false;
@@ -351,6 +355,65 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             }
           }
         );
+    }
+  }
+
+  async hidingSubproposalsUnderParents(data): Promise<any> {
+    let newData: any[] = [];
+    const forLoop = async () => {
+      for (let index = 0; index < data.items.length; index++) {
+        const item = data.items[index];
+        if (
+          item.proposal !== this.mips[this.mips.length - 1]?.mipName &&
+          item.proposal !== newData[newData.length - 1]?.mipName
+        ) {
+          if (item.proposal) {
+            let stop: boolean = false;
+            let j = index + 1;
+            for (j; j < data.items.length && !stop; j++) {
+              const element = data.items[j];
+
+              if (element.proposal !== item.proposal) {
+                stop = true;
+              }
+              index = j - 1;
+            }
+
+            if (j === data.items.length) {
+              index = j;
+            }
+
+            let res: any = await this.mipsService
+              .searchMips(
+                1,
+                0,
+                null,
+                null,
+                { equals: [{ field: 'mipName', value: item.proposal }] },
+                'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+              )
+              .toPromise();
+            let parent: any = res.items[0];
+            newData.push(parent);
+          } else {
+            newData.push(item);
+          }
+        }
+      }
+    };
+
+    await forLoop();
+
+    this.mipsAux = newData;
+    this.mips = this.mips.concat(this.mipsAux);
+    this.total = data.total;
+    this.loading = false;
+    this.loadingPlus = false;
+
+    if (this.limitAux >= this.total) {
+      this.moreToLoad = false;
+    } else {
+      this.moreToLoad = true;
     }
   }
 
