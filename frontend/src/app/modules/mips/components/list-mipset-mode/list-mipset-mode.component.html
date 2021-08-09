@@ -90,14 +90,12 @@
           [ngStyle]="{
             color: expandedElementMipset === element ? '#B8C5D3' : ''
           }"
-          (click)="onExpandMipset(element)"
         >
           {{ element[column] | tagMipset | titlecase }}
-          <div (click)="onClickButtonCaptureEvent($event)">
+          <div>
             <button
               class="arrow-container"
               [disabled]="element.loadingSubproposals"
-              (click)="onExpandMipset(element)"
               (mouseover)="onMouseOverLeaveMipsetArrow(element.mipset, true)"
               (mouseleave)="onMouseOverLeaveMipsetArrow(element.mipset, false)"
               style="right: 0; position: relative;"
@@ -163,10 +161,7 @@
       *matRowDef="let element; columns: columnsToDisplayMipset"
       class="maker-element-mipset-row"
       [class.maker-expanded-row]="expandedElementMipset === element"
-      (click)="
-        expandedElementMipset =
-          expandedElementMipset === element ? null : element
-      "
+      (click)="onExpandMipset(element)"
     ></tr>
     <tr
       mat-row
@@ -187,14 +182,10 @@
             {{ itemMipset.mipset | tagMipset | titlecase }}</span
           >
         </div>
-        <div
-          class="subproposalsButtonWrapper"
-          (click)="onClickButtonCaptureEvent($event)"
-        >
+        <div class="subproposalsButtonWrapper">
           <button
             class="arrow-container"
             [disabled]="false"
-            (click)="onExpandMipset(itemMipset)"
             style="right: 0; top: 24px; transform: translateY(-50%);"
           >
             <div
