@@ -82,16 +82,21 @@ app-mips-pagination {
 }
 
 @media screen and (min-width: 1024px) {
+  .row-tree-column{
+    grid-template-columns: 240px auto 240px;
+  }
+
+  .row-two-column{
+    grid-template-columns: 240px auto;
+  }
+
   .row {
     display: grid !important;
-    grid-template-columns: 240px auto 240px;
+    
 
     app-detail-content {
       min-width: 61.067%;
       margin: 0 10px;
-    }
-    .column {
-      // width: 19%;
     }
   }
   .mobile {

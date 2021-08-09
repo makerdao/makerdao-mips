@@ -73,6 +73,7 @@ const preambleDataSample = [
 export class DetailContentComponent
   implements OnInit, OnChanges, AfterViewInit {
   gitgubUrl = environment.repoUrl;
+  @Input() mdUrl:string|undefined;
   @Input() mip: any;
   links: Link[] = [];
   countLinks: number = 0;
@@ -82,7 +83,7 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
-  @Input() subproposals: any[];
+  @Input() subproposals: any[]=[];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
   subproposalCode: string = '';
@@ -99,6 +100,7 @@ export class DetailContentComponent
   ) {}
 
   ngOnInit(): void {
+    console.log({mdUrl:this.mdUrl,mip:this.mip,typemd:typeof this.mdUrl})
     this.overrideDefaultHeadings();
     this.getDefaultLinks();
     this.overrideDefaultTables();
@@ -287,7 +289,7 @@ export class DetailContentComponent
 
       let style: string = '';
 
-      if (this.mip.title?.localeCompare(text) === 0) {
+      if (this.mip?.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
       }
 
