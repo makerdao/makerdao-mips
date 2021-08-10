@@ -93,7 +93,7 @@ export class ListComponent implements OnInit, OnChanges {
     this._expandedItems = { ...value };
   }
 
-  dataSourceSubsetRows: any;
+  dataSourceSubsetRows: any = [];
 
   subsetChildrenActivate: boolean = false;
   subproposalsGroup: any;

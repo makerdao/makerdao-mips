@@ -18,6 +18,7 @@ import {
   selector: 'app-list-subset',
   templateUrl: './list-subset.component.html',
   styleUrls: ['./list-subset.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -29,17 +30,26 @@ import {
     ]),
   ],
 })
-export class ListSubsetComponent implements OnInit {
+export class ListSubsetComponent implements OnInit, OnChanges {
   @Input() dataSourceSubsetRows: any;
   columnsToDisplaySubset = ['subset'];
-  @Input() expandedElementSubset: ISubsetDataElement | null;
+  expandedElementSubset: ISubsetDataElement | null;
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
   @Input() subproposalsGroup: any;
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
+
+  ngOnChanges() {
+    if (this.dataSourceSubsetRows?.length === 1) {
+      setTimeout(() => {
+        this.expandedElementSubset = this.dataSourceSubsetRows[0];
+        this.cdr.detectChanges();
+      }, 500);
+    }
+  }
 
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
   onClickButtonCaptureEvent(e: Event) {
