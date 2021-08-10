@@ -1,9 +1,16 @@
 <div class="container">
   <div class="content" #sectionLinks>
-    <p class="header">Contents</p>
+    <p class="header">{{titleSidebar}}</p>
     <div *ngFor="let element of sourceData; let index = index">
       <div>
         <p>
+          <a *ngIf="showlevelOne && element.depth == 1"
+            [id]="idBySection(element.heading)"
+            class="titleLevelOne"
+            [href]="getLinkBySection(element.heading)"
+            >
+            {{element.heading}}</a>
+
           <a *ngIf="element.depth == 2"
             [id]="idBySection(element.heading)"
             class="title"

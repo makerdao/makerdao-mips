@@ -2,6 +2,7 @@ import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { GotoService } from 'src/app/services/goto/goto.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import Menu from '../../data-types/menu';
 
@@ -26,7 +27,7 @@ export class MenuComponent implements OnInit, OnChanges {
   @Output() toggle: Subject<any> = new Subject<any>();
   yDirection = '';
 
-  constructor(private menuService: MenuService, private router:Router) {}
+  constructor(private menuService: MenuService, private goTo:GotoService) {}
 
   ngOnInit(): void {
     this.initPosition();
@@ -165,36 +166,8 @@ export class MenuComponent implements OnInit, OnChanges {
     oldY = e.pageY;
   }
 
-  goToUrl(url: string): void {
-   
-    const regexMdFileUrl: RegExp = /(([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+)[A-Za-z0-9.-]+)\.md(?:#[\w]*)?/i;
-
-    const matches: RegExpMatchArray = url.match(regexMdFileUrl);
-    const baseUrl: string = window.location.origin;
-    const internalLink: boolean = url.includes(baseUrl);
-
-    if (matches) {
-      //Md viewer
-      const route = 'mips/md-viewer?mdUrl=' + url;
-
-      // this.router.navigateByUrl(route);  no reload on redirect issue
-      window.location.href = route; //Workaround
-
-    } else if (internalLink) {
-      //Internal link redirect
-
-      const cleanedUrl = url.replace(baseUrl, '');
-
-      // this.router.navigateByUrl(cleanedUrl); no reload on redirect issue
-      window.location.href = url; //Workaround
-    } else {
-      // External link redirect
-
-      window.location.href = url;
-    
+  goToUrl(address: string): void {
+    this.goTo.url(address)
+    this.closeMenu();
   }
-this.closeMenu();
-}
-
-
 }

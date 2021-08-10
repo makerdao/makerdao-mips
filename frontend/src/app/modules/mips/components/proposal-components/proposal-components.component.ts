@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProposalComponentsComponent implements OnInit, AfterViewInit {
 
   @Input() sourceData;
+  @Input() titleSidebar="Contents"
+  @Input() showlevelOne:boolean=false;
   prefixIdLinkSection: string = "sectionLink-";
   @ViewChild('sectionLinks') sectionLinks;
 
@@ -17,6 +19,7 @@ export class ProposalComponentsComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    console.log(this.showlevelOne,typeof this.showlevelOne)
   }
 
   ngAfterViewInit() {

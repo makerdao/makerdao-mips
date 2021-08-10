@@ -1,8 +1,8 @@
-<div *ngIf="!mip && !mdUrl" class="maker-loading-shade">
+<div *ngIf="!mip&&!mdUrl " class="maker-loading-shade">
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="mip||mdUrl" class="container">
-  <app-details-mobiles-buttons class="mobile" [sourceData]="sections" [mip]="mip?.mip"></app-details-mobiles-buttons>
+  <app-details-mobiles-buttons *ngIf="mip"  class="mobile" [sourceData]="sections" [mip]="mip?.mip"></app-details-mobiles-buttons>
   <app-mips-pagination
   *ngIf="mip" 
   [mipNumber]="mip?.mip"
@@ -12,14 +12,15 @@
   [parent]="mip?.proposal"
   (send)="mipsPagination($event)"
   ></app-mips-pagination>
-  <div [ngClass]="{'row':true,'row-tree-column':mip&&!mdUrl,'row-two-column':!mip&&mdUrl}">
+  <div [ngClass]="{'row':true,'row-tree-column':mip,'row-two-column':mdUrl}">
     
     <div class="column">
       <div class="sidebar-wrapper">
-        <app-proposal-components class="no-mobile" [sourceData]="sections"></app-proposal-components>
+        <app-proposal-components *ngIf="mip" class="no-mobile" [sourceData]="sections"></app-proposal-components>
+         <app-proposal-components *ngIf="mdUrl" class="no-mobile" showlevelOne=true titleSidebar="Table of contents" [sourceData]="sections"></app-proposal-components>
       </div>
     </div>
-    <app-detail-content [mdUrl]="mdUrl" [mip]="mip" [subproposals]="subproposals"></app-detail-content>
+    <app-detail-content [mdUrl]="mdUrl" [mip]="mip" [subproposals]="subproposals" (headingListUpdate)="headingListUpdate($event)"></app-detail-content>
     <div *ngIf="mip" class="column">
       <div class="sidebar-wrapper">
         <app-mip-details

@@ -8,7 +8,10 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  EventEmitter,
+  Output,
 } from '@angular/core';
+
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +24,7 @@ import {
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { GotoService } from 'src/app/services/goto/goto.service';
 
 const preambleDataSample = [
   {
@@ -73,8 +77,13 @@ const preambleDataSample = [
 export class DetailContentComponent
   implements OnInit, OnChanges, AfterViewInit {
   gitgubUrl = environment.repoUrl;
-  @Input() mdUrl:string|undefined;
+  @Input() mdUrl: string | undefined;
+  mdFileName: string = '';
+
   @Input() mip: any;
+  @Output() headingListUpdate = new EventEmitter();
+
+  urlOriginal: string;
   links: Link[] = [];
   countLinks: number = 0;
   @ViewChild('preview') preview: TemplateRef<any>;
@@ -83,11 +92,13 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
-  @Input() subproposals: any[]=[];
+  @Input() subproposals: any[] = [];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
   subproposalCode: string = '';
   subproposalTitle: string = '';
+
+  headingStructure: Heading[] = [];
 
   constructor(
     private markdownService: MarkdownService,
@@ -96,11 +107,19 @@ export class DetailContentComponent
     private mipsService: MipsService,
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
-    private titleService: Title
+    private titleService: Title,
+    private goTo: GotoService
   ) {}
 
   ngOnInit(): void {
-    console.log({mdUrl:this.mdUrl,mip:this.mip,typemd:typeof this.mdUrl})
+    this.urlOriginal =
+      this.goTo.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
+
+    const nameMdMatch: RegExpMatchArray = this.mdUrl.match(/\/\w+\.md/g);
+    if (nameMdMatch && nameMdMatch[0]) {
+      this.mdFileName = nameMdMatch[0].replace('/', '');
+    }
+
     this.overrideDefaultHeadings();
     this.getDefaultLinks();
     this.overrideDefaultTables();
@@ -239,20 +258,20 @@ export class DetailContentComponent
   };
 
   ngOnChanges() {
-    if (this.mip && this.mip.sectionsRaw) {
-      this.content = this.mip.title
-        ? (this.mip.sectionsRaw as []).slice(1).join('\n')
-        : (this.mip.sectionsRaw as []).join('\n');
+    if (this.mip && this.mip?.sectionsRaw) {
+      this.content = this.mip?.title
+        ? (this.mip?.sectionsRaw as []).slice(1).join('\n')
+        : (this.mip?.sectionsRaw as []).join('\n');
 
-      if (this.mip.proposal && this.mip.title) {
-        let subProposalTitleArray: string[] = this.mip.title.split(':');
+      if (this.mip?.proposal && this.mip?.title) {
+        let subProposalTitleArray: string[] = this.mip?.title.split(':');
         this.subproposalCode = subProposalTitleArray[0];
         this.subproposalTitle = subProposalTitleArray.slice(1).join('');
       }
       this.titleService.setTitle(
-        this.mip.proposal
-          ? this.mip.title
-          : this.mip.mipName + ': ' + this.mip.title
+        this.mip?.proposal
+          ? this.mip?.title
+          : this.mip?.mipName + ': ' + this.mip?.title
       );
     }
 
@@ -263,6 +282,9 @@ export class DetailContentComponent
   }
 
   onReady() {
+    if (this.mdUrl) {
+      this.headingListUpdate.emit(this.headingStructure);
+    }
     if (this.route.snapshot.fragment) {
       const el = document.getElementById(
         this.route.snapshot.fragment.toString()
@@ -275,6 +297,10 @@ export class DetailContentComponent
     this.setPreviewFeature();
   }
 
+  onError(error) {
+    console.log({ error, url: this.mdUrl });
+  }
+
   moveToElement(el: HTMLElement): void {
     if (el) {
       el.scrollIntoView();
@@ -284,7 +310,11 @@ export class DetailContentComponent
   overrideDefaultHeadings() {
     let url = this.router.url.split('#')[0];
 
-    this.markdownService.renderer.heading = (text: string, level: number) => {
+    this.markdownService.renderer.heading = (
+      text: string,
+      level: number,
+      raw: string
+    ) => {
       const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
@@ -292,6 +322,8 @@ export class DetailContentComponent
       if (this.mip?.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
       }
+
+      this.headingStructure.push({ heading: raw, depth: level });
 
       return `
              <h${level} ${style}>
@@ -378,8 +410,6 @@ export class DetailContentComponent
     this.links.forEach((link) => {
       let elem = document.getElementById(link.id);
 
-
-
       if (!link.name.includes('Template')) {
         if (
           link.link.includes(this.gitgubUrl) ||
@@ -390,11 +420,11 @@ export class DetailContentComponent
           if (link.link.includes('MIP')) {
             const mip = link.link.replace(`${this.gitgubUrl}/`, '').split('#');
 
-            if (mip.length > 0) {
+            if (mip?.length > 0) {
               this.mipsService
                 .getMipByFilename(mip[0], 'filename')
                 .subscribe((data) => {
-                  if (mip.length > 1) {
+                  if (mip?.length > 1) {
                     elem.setAttribute(
                       'href',
                       `/mips/details/${data.mipName}#${mip[1]}`
@@ -416,17 +446,16 @@ export class DetailContentComponent
                 } else {
                   elem.setAttribute(
                     'href',
-                    `${this.gitgubUrl}/${this.mip.filename}`
+                    `${this.gitgubUrl}/${this.mip?.filename}`
                   );
                 }
               });
           }
         } else {
-
           if (!link.link.includes('https')) {
             elem.setAttribute(
               'href',
-              `${this.gitgubUrl}/${this.mip.mipName}/${link.link}`
+              `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
             );
           }
         }
@@ -434,17 +463,17 @@ export class DetailContentComponent
         if (link.name.includes('.md') && !link.link.includes('https')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}`
           );
         } else if (!link.link.includes('https')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}.md`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
           );
         } else {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}.md`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
           );
         }
       }
@@ -460,4 +489,9 @@ interface Link {
   id: string;
   name: string;
   link: string;
+}
+
+interface Heading {
+  heading: string;
+  depth: number;
 }

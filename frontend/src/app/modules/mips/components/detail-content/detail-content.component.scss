@@ -22,7 +22,6 @@
     }
   }
   .sub-title {
-    font-weight: bold;
     font-size: 20px;
   }
   .title-bold {
@@ -57,6 +56,12 @@
     height: 17px;
   }
 
+  img.linkIcon{
+    width: 18px;
+    height: 18px;
+    transform: translateY(0);
+  }
+
   .preamble {
     background: #f5f6fa;
     border: 1px solid #f5f6fa;
@@ -81,6 +86,10 @@
   }
 
   .social {
+    display: flex;
+    align-items: center;
+
+    white-space: nowrap;
     margin-top: 7px;
     margin-left: 10px;
   }

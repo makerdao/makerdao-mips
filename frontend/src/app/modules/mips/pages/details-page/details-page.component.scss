@@ -51,8 +51,8 @@ app-mips-pagination {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .sidebar-wrapper {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 @media screen and (max-width: 1023px) {
@@ -82,17 +82,16 @@ app-mips-pagination {
 }
 
 @media screen and (min-width: 1024px) {
-  .row-tree-column{
+  .row-tree-column {
     grid-template-columns: 240px auto 240px;
   }
 
-  .row-two-column{
+  .row-two-column {
     grid-template-columns: 240px auto;
   }
 
   .row {
     display: grid !important;
-    
 
     app-detail-content {
       min-width: 61.067%;
@@ -105,8 +104,14 @@ app-mips-pagination {
 }
 
 @media screen and (min-width: 1200px) {
+  .row-tree-column {
+    grid-template-columns: 284px auto 284px;
+  }
+
+  .row-two-column {
+    grid-template-columns: 284px auto;
+  }
   .row {
     display: grid !important;
-    grid-template-columns: 284px auto 284px;
   }
 }
