@@ -21,7 +21,11 @@ const clone = require('rfdc')();
       state('collapsed', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
       transition(
-        'expanded <=> collapsed',
+        'expanded => collapsed',
+        animate('225ms 225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+      transition(
+        'collapsed => expanded',
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
@@ -32,7 +36,11 @@ const clone = require('rfdc')();
       ),
       state('expanded', style({ height: '*' })),
       transition(
-        'expanded <=> collapsed',
+        'expanded => collapsed',
+        animate('525ms 525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+      transition(
+        'collapsed => expanded',
         animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
