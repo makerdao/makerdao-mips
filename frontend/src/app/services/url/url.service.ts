@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 export class UrlService {
   constructor(private router: Router) {}
 
+  public mdViewerRoute = 'mips/md-viewer?mdUrl=';
   private isMdUrlFile(urlFile: string): RegExpMatchArray {
     const regexMdFileUrl: RegExp = /(([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+)[A-Za-z0-9.-]+)\.md(?:#[\w]*)?/i;
 
@@ -100,5 +101,15 @@ export class UrlService {
     }
 
     return null;
+  }
+
+  transformLinkForMd(url: string): string {
+    const isValidMd = this.getMdFromGithubUrl(url);
+    if (isValidMd) {
+      return this.mdViewerRoute + isValidMd;
+    } else if (this.isMdUrlFile(url)) {
+      return this.mdViewerRoute + url;
+    }
+    return url;
   }
 }

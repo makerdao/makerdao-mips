@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import { MarkdownService } from 'ngx-markdown';
 import { MetadataShareService } from '../../services/metadata-share.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-details-page',
@@ -20,16 +21,20 @@ export class DetailsPageComponent implements OnInit {
   MAX_LIMIT: number = 1000000;
   subproposals: any[];
   referencesContent: string[];
+  loadingUrl: boolean = true;
 
   constructor(
     private mipsService: MipsService,
     private activedRoute: ActivatedRoute,
     private router: Router,
     private markdownService: MarkdownService,
-    private metadataShareService: MetadataShareService
+    private metadataShareService: MetadataShareService,
+    private urlService: UrlService
   ) {}
 
   ngOnInit(): void {
+    this.loadingUrl = true;
+
     this.activedRoute.paramMap.subscribe((paramMap) => {
       if (paramMap.has('name')) {
         this.mipName = paramMap.get('name');
@@ -41,13 +46,25 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
       if (queryParam.has('mdUrl')) {
-        this.mdUrl = queryParam.get('mdUrl');
+        this.loadingUrl = true;
+        const url = queryParam.get('mdUrl');
+        
+        const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
+
+        if(shouldUpdateUrl){
+          this.router.navigateByUrl(this.urlService.transformLinkForMd(url))
+        }
+        else
+        this.mdUrl=url
       }
     });
   }
 
   headingListUpdate(event) {
+
+    this.loadingUrl = false;
     this.sections = null;
+
     if (this.mdUrl) {
       this.sections = event;
     }
@@ -59,7 +76,6 @@ export class DetailsPageComponent implements OnInit {
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = this.mip.sections;
-      console.log(this.sections);
       let indexPreambleSection: number = (this.sections as []).findIndex(
         (i: any) => i.heading === 'Preamble'
       );

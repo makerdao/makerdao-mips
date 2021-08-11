@@ -276,7 +276,7 @@ export class DetailContentComponent
       this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
 
     const nameMdMatch: RegExpMatchArray = this.mdUrl.match(/\/[\w\s-]+\.md/g);
-    
+
     if (nameMdMatch && nameMdMatch[0]) {
       this.mdFileName = nameMdMatch[0].replace('/', '');
     }
@@ -294,12 +294,16 @@ export class DetailContentComponent
       this.moveToElement(el);
     }
     this.headingStructure = [];
-    this.searchMips();
+    if (!this.mdUrl) {
+      //On md viewer THERE IS NO NEED of THIS and may cuse a problem with md relatives links
+      this.searchMips();
+    }
     this.setPreviewFeature();
   }
 
-  onError(error) {
-    console.log({ error, url: this.mdUrl });
+  onError() {
+    //Work around for unexpected md render error
+    location.href = this.mdUrl;
   }
 
   moveToElement(el: HTMLElement): void {
@@ -382,6 +386,24 @@ export class DetailContentComponent
           link.link.includes('https://forum.makerdao.com'))
       ) {
         return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
+      }
+
+      if (this.mdUrl) {
+        //MD VIEWER BEHAVIOR
+        if (!href.includes('https://')) {
+          //I asume a github md relative link
+
+          const baseUrl = this.mdUrl.replace(/\/[\w-#\.\s]+$/g, '');
+
+          href =
+            this.urlService.mdViewerRoute +
+            baseUrl +
+            '/' +
+            href.replace(/^\//, '');
+        } else {
+          // A non relative link
+          href = this.urlService.transformLinkForMd(href);
+        }
       }
 
       return `<a name="${escapedText}" id="${link.id}" class="anchor-link" href="${href}">${text}</a>`;
