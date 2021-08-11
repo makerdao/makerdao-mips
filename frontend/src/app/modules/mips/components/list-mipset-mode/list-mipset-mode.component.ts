@@ -21,11 +21,7 @@ const clone = require('rfdc')();
       state('collapsed', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
       transition(
-        'expanded => collapsed',
-        animate('225ms 225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-      transition(
-        'collapsed => expanded',
+        'expanded <=> collapsed',
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
@@ -36,11 +32,7 @@ const clone = require('rfdc')();
       ),
       state('expanded', style({ height: '*' })),
       transition(
-        'expanded => collapsed',
-        animate('525ms 525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-      transition(
-        'collapsed => expanded',
+        'expanded <=> collapsed',
         animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
@@ -127,6 +119,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
 
           this.dataSourceMipsetRows.forEach((item: IMIPsetDataElement) => {
             this.mipSets[item.mipset] = [];
+            item.expanded = false;
           });
 
           if (this.dataSourceMipsetRows.length > 0) {
@@ -146,9 +139,9 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
     this.currentRowOver = mipset;
   }
 
-  onExpandMipset(row) {
-    if (this.expandedElementMipset === row) {
-      this.expandedElementMipset = null;
+  onExpandMipset(row: IMIPsetDataElement) {
+    if (row.expanded) {
+      row.expanded = false;
     } else {
       let filter = clone(this.filterClone);
       filter.contains.push({ field: 'tags', value: row.mipset });
@@ -164,7 +157,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
         .subscribe(
           (data) => {
             this.mipSets[row.mipset] = data.items;
-            this.expandedElementMipset = row;
+            row.expanded = true;
           },
           (error) => {
             console.log(error);
@@ -173,7 +166,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
     }
   }
 
-  async expandFirstMipset(row) {
+  async expandFirstMipset(row: IMIPsetDataElement) {
     try {
       let filter = clone(this.filterClone);
       filter.contains.push({ field: 'tags', value: row.mipset });
@@ -189,7 +182,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
         )
         .toPromise();
       this.mipSets[row.mipset] = data.items;
-      this.expandedElementMipset = row;
+      row.expanded = true;
 
       return;
     } catch (error) {
