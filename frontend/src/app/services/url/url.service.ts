@@ -49,9 +49,13 @@ export class UrlService {
       if (url.includes(hostUrl)) {
         //Internal Link
 
-        const newUrl = url.replace(hostUrl, '');
+        // const newUrl = url.replace(hostUrl, '');
 
-        this.router.navigateByUrl(newUrl);
+        // this.router.navigateByUrl(newUrl);
+
+        //SPA Behavior pending for appoval of client
+        
+        location.href=url
       } else {
         // External Link
         location.href = url;
