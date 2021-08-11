@@ -320,7 +320,8 @@ export class DetailContentComponent
       level: number,
       raw: string
     ) => {
-      const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+      const htmlCleanedText=raw.replace(/<[^<>]+>/gm,'')
+      const escapedText = htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
 
@@ -328,7 +329,7 @@ export class DetailContentComponent
         style = `style="display:none;"`;
       }
 
-      this.headingStructure.push({ heading: raw, depth: level });
+      this.headingStructure.push({ heading: htmlCleanedText, depth: level });
 
       return `
              <h${level} ${style}>
