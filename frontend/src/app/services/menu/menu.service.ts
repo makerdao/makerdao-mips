@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,9 +21,7 @@ export class MenuService {
   constructor(private http: HttpClient) {}
 
   getMenu(): Observable<any> {
-    return this.http.get(
-      'https://raw.githubusercontent.com/makerdao/mips/master/meta/menu.json'
-    );
+    return this.http.get(environment.menuURL);
   }
 
   setOpenedIndexChild(value: number) {
