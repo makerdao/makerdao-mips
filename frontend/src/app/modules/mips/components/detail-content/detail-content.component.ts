@@ -303,7 +303,7 @@ export class DetailContentComponent
 
   onError() {
     //Work around for unexpected md render error
-    location.href = this.mdUrl;
+    history.back();
   }
 
   moveToElement(el: HTMLElement): void {
@@ -393,19 +393,28 @@ export class DetailContentComponent
         if (!href.includes('https://')) {
           //I asume a github md relative link
 
-          const baseUrl = this.mdUrl.replace(/\/[\w-#\.\s]+$/g, '');
+          const baseUrl = this.mdUrl.replace(/\/?[\w-#\.\s]+$/g, '');
 
-          href =
-            this.urlService.mdViewerRoute +
-            baseUrl +
-            '/' +
-            href.replace(/^\//, '');
+          if (!href.includes('.md')) {
+            //Relarive reference only link ex: #last-thing
+            href =
+              this.urlService.mdViewerRoute +
+              baseUrl +
+              '/' +
+              this.mdFileName +
+              href;
+          } else {
+            href =
+              this.urlService.mdViewerRoute +
+              baseUrl +
+              '/' +
+              href.replace(/^\//, '');
+          }
         } else {
           // A non relative link
           href = this.urlService.transformLinkForMd(href);
         }
       }
-
       return `<a name="${escapedText}" id="${link.id}" class="anchor-link" href="${href}">${text}</a>`;
     };
   }
