@@ -9,7 +9,8 @@ export const environment = {
   // apiUrl: "https://mips-api.makerdao.com",
   repoUrl: 'https://github.com/makerdao/mips/blob/master',
   feedBackFormUrl: 'https://formspree.io/f/xyybvgej',
-  githubURL: 'https://github.com/'
+  githubURL: 'https://github.com/',
+  menuURL:'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/menu.json'
 };
 
 /*

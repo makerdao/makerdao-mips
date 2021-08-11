@@ -15,44 +15,9 @@ export class NavMenuComponent implements OnInit {
 
   constructor(private menuService: MenuService) {}
 
-  mockLinks = {
-    id: 'mock',
-    name: 'Mock Link',
-    children: [
-      {
-        id: 'mdLink',
-        name: 'Github md link',
-        href: 'https://github.com/makerdao/mips/blob/master/MIP0/mip0.md',
-      },
-      {
-        id: 'otherMdLink',
-        name: 'Other Github md link',
-        href:
-          'https://github.com/makerdao/developerguides/blob/master/README.md',
-      },
-      {
-        id: 'noMdLink',
-        name: 'NON Github MD Link',
-        href:
-          'https://gist.githubusercontent.com/rt2zz/e0a1d6ab2682d2c47746950b84c0b6ee/raw/83b8b4814c3417111b9b9bef86a552608506603e/markdown-sample.md',
-      },
-      {
-        id: 'mockLi',
-        name: 'Readme  Example',
-        href: 'https://github.com/makerdao/mips/blob/master/README.md',
-      },
-      {
-        id: 'mockLi',
-        name: 'Other Readme Example',
-        href:
-          'https://github.com/DSpotDevelopers/makerdao-mips/blob/main/README.md',
-      },
-    ],
-  };
-
   ngOnInit(): void {
     this.menuService.getMenu().subscribe((data: any) => {
-      this.menu = [...data.data, this.mockLinks];
+      this.menu = data.data;
     });
     this.menuService.openedIndexChild$.subscribe((data) => {
       this.openedIndexChild = data;

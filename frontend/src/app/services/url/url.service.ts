@@ -50,11 +50,9 @@ export class UrlService {
         //Internal Link
 
         // const newUrl = url.replace(hostUrl, '');
-
         // this.router.navigateByUrl(newUrl);
+        // SPA Behavior pending for appoval of client
 
-        //SPA Behavior pending for appoval of client
-        
         location.href=url
       } else {
         // External Link
