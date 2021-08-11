@@ -2,8 +2,8 @@ import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { GotoService } from 'src/app/services/goto/goto.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
+import { UrlService } from 'src/app/services/url/url.service';
 import Menu from '../../data-types/menu';
 
 // mouse direction
@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit, OnChanges {
   @Output() toggle: Subject<any> = new Subject<any>();
   yDirection = '';
 
-  constructor(private menuService: MenuService, private goTo:GotoService) {}
+  constructor(private menuService: MenuService, private urlService:UrlService) {}
 
   ngOnInit(): void {
     this.initPosition();
@@ -167,7 +167,7 @@ export class MenuComponent implements OnInit, OnChanges {
   }
 
   goToUrl(address: string): void {
-    this.goTo.url(address)
+    this.urlService.goToUrl(address)
     this.closeMenu();
   }
 }

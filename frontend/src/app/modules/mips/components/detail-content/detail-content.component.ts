@@ -24,7 +24,7 @@ import {
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { GotoService } from 'src/app/services/goto/goto.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 const preambleDataSample = [
   {
@@ -108,18 +108,10 @@ export class DetailContentComponent
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private goTo: GotoService
+    private urlService: UrlService
   ) {}
 
   ngOnInit(): void {
-    this.urlOriginal =
-      this.goTo.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
-
-    const nameMdMatch: RegExpMatchArray = this.mdUrl.match(/\/\w+\.md/g);
-    if (nameMdMatch && nameMdMatch[0]) {
-      this.mdFileName = nameMdMatch[0].replace('/', '');
-    }
-
     this.overrideDefaultHeadings();
     this.getDefaultLinks();
     this.overrideDefaultTables();
@@ -279,6 +271,15 @@ export class DetailContentComponent
     this.overrideDefaultHeadings();
     this.overrideDefaultTables();
     this.overrideDefaultImg();
+
+    this.urlOriginal =
+      this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
+
+    const nameMdMatch: RegExpMatchArray = this.mdUrl.match(/\/[\w\s-]+\.md/g);
+    
+    if (nameMdMatch && nameMdMatch[0]) {
+      this.mdFileName = nameMdMatch[0].replace('/', '');
+    }
   }
 
   onReady() {
@@ -292,7 +293,7 @@ export class DetailContentComponent
 
       this.moveToElement(el);
     }
-
+    this.headingStructure = [];
     this.searchMips();
     this.setPreviewFeature();
   }

@@ -40,7 +40,7 @@ export class NavMenuComponent implements OnInit {
         id: 'local',
         name: 'Local',
         href:
-          'http://localhost:4200/mips/list?&search=$AND(%23cu-mds-001,%20%23active)',
+          'http://localhost:4200/mips/list?status=RFC&search=',
       },
 
       

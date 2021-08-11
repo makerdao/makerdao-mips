@@ -4,14 +4,13 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class GotoService {
+export class UrlService {
   constructor(private router: Router) {}
 
-  private isMdUrlFile(urlFile:string):RegExpMatchArray{
+  private isMdUrlFile(urlFile: string): RegExpMatchArray {
     const regexMdFileUrl: RegExp = /(([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+)[A-Za-z0-9.-]+)\.md(?:#[\w]*)?/i;
 
     return urlFile.match(regexMdFileUrl);
-
   }
 
   private isAValidGithubMdUrl(githubUrl: string): RegExpMatchArray {
@@ -20,16 +19,14 @@ export class GotoService {
     return githubUrl.match(regexToExtractGithubParameters);
   }
 
-
   private isAValidRawMdUrl(rawUrl: string): RegExpMatchArray {
     const regexToExtractGithubParameters: RegExp = /^https:\/\/raw.githubusercontent.com\/(?<repo>[^\/]+)\/(?<user>[^\/]+)\/(?<branch>[^\/]+)\/(?<address>.+\.md(?:#.*)*)$/i;
 
     return rawUrl.match(regexToExtractGithubParameters);
   }
 
-
-  url(url: string): void {
-    const isMdFileUrl: RegExpMatchArray =this.isMdUrlFile(url)
+  goToUrl(url: string): void {
+    const isMdFileUrl: RegExpMatchArray = this.isMdUrlFile(url);
 
     if (isMdFileUrl) {
       // A valid md file
@@ -43,13 +40,23 @@ export class GotoService {
 
         this.router.navigateByUrl('/mips/md-viewer?mdUrl=' + url);
       }
-
     } else {
       //Not a md file URL
-      this.router.navigateByUrl('/');
+
+      const hostUrl = location.origin;
+
+      if (url.includes(hostUrl)) {
+        //Internal Link
+
+        const newUrl = url.replace(hostUrl, '');
+
+        this.router.navigateByUrl(newUrl);
+      } else {
+        // External Link
+        location.href = url;
+      }
     }
   }
-
 
   getMdFromGithubUrl(githubUrl: string): string | null {
     const isGitHubUrlMdFile: RegExpMatchArray = this.isAValidGithubMdUrl(
@@ -73,11 +80,8 @@ export class GotoService {
     return null;
   }
 
-
-  getGithubLinkFromMdRaw(rawUrl:string):string|null{
-    const isRawrlMdUrl: RegExpMatchArray = this.isAValidRawMdUrl(
-      rawUrl
-    );
+  getGithubLinkFromMdRaw(rawUrl: string): string | null {
+    const isRawrlMdUrl: RegExpMatchArray = this.isAValidRawMdUrl(rawUrl);
 
     if (isRawrlMdUrl) {
       //If it is a gitHub file
@@ -87,7 +91,7 @@ export class GotoService {
         [
           isRawrlMdUrl.groups.repo,
           isRawrlMdUrl.groups.user,
-          "blob",
+          'blob',
           isRawrlMdUrl.groups.branch,
           isRawrlMdUrl.groups.address,
         ].join('/');
@@ -95,7 +99,6 @@ export class GotoService {
       return routeGithub;
     }
 
-    return null
+    return null;
   }
-
 }

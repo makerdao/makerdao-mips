@@ -30,7 +30,6 @@ export class DetailsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
     this.activedRoute.paramMap.subscribe((paramMap) => {
       if (paramMap.has('name')) {
         this.mipName = paramMap.get('name');
@@ -41,19 +40,16 @@ export class DetailsPageComponent implements OnInit {
     });
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
-
       if (queryParam.has('mdUrl')) {
-        this.mdUrl = queryParam.get('mdUrl');        
+        this.mdUrl = queryParam.get('mdUrl');
       }
-      
     });
   }
 
-  headingListUpdate(event){
-    console.log({event})
-    
-    if(this.mdUrl){
-      this.sections=event
+  headingListUpdate(event) {
+    this.sections = null;
+    if (this.mdUrl) {
+      this.sections = event;
     }
   }
 
@@ -63,7 +59,7 @@ export class DetailsPageComponent implements OnInit {
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = this.mip.sections;
-      console.log(this.sections)
+      console.log(this.sections);
       let indexPreambleSection: number = (this.sections as []).findIndex(
         (i: any) => i.heading === 'Preamble'
       );
