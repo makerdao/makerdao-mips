@@ -21,7 +21,11 @@ const clone = require('rfdc')();
       state('collapsed', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
       transition(
-        'expanded <=> collapsed',
+        'expanded => collapsed',
+        animate('225ms 225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+      transition(
+        'collapsed => expanded',
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
@@ -32,7 +36,11 @@ const clone = require('rfdc')();
       ),
       state('expanded', style({ height: '*' })),
       transition(
-        'expanded <=> collapsed',
+        'expanded => collapsed',
+        animate('525ms 525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+      transition(
+        'collapsed => expanded',
         animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
@@ -44,14 +52,14 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   expandedElementMipset: IMIPsetDataElement | null;
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
-  // @Input() subproposalsGroup: any;
-  mips: any = [];
+  mipSets: any = {};
   limit = 10;
   limitAux = 10;
   page = 0;
   order: string = 'mip';
   @Input() search: string = '';
   @Input() filter: any;
+  filterClone: any;
   loading: boolean = false;
   total: number;
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
@@ -69,16 +77,22 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    let index = this.filter.equals.findIndex(
+    this.filterClone = clone(this.filter);
+    let index = this.filterClone.equals.findIndex(
       (item) => item.field === 'proposal'
     );
-    this.filter.equals.splice(index, 1); // include subproposals in searching
+    this.filterClone.equals.splice(index, 1); // include subproposals in searching
     this.searchTagsMipset();
     this.initialized = true;
   }
 
   ngOnChanges() {
     if (this.initialized) {
+      this.filterClone = clone(this.filter);
+      let index = this.filterClone.equals.findIndex(
+        (item) => item.field === 'proposal'
+      );
+      this.filterClone.equals.splice(index, 1); // include subproposals in searching
       this.searchTagsMipset();
     }
   }
@@ -111,6 +125,10 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
             return mips[index].items && mips[index].items.length > 0;
           });
 
+          this.dataSourceMipsetRows.forEach((item: IMIPsetDataElement) => {
+            this.mipSets[item.mipset] = [];
+          });
+
           if (this.dataSourceMipsetRows.length > 0) {
             await this.expandFirstMipset(this.dataSourceMipsetRows[0]);
           }
@@ -123,11 +141,6 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
       );
   }
 
-  // usefull for stop event click propagation when button for get subproposals is disabled and clicked
-  onClickButtonCaptureEvent(e: Event) {
-    e.stopPropagation();
-  }
-
   onMouseOverLeaveMipsetArrow(mipset: any, value: boolean) {
     this.isArrowDownOnMouseOver = value;
     this.currentRowOver = mipset;
@@ -137,8 +150,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
     if (this.expandedElementMipset === row) {
       this.expandedElementMipset = null;
     } else {
-      let filter = clone(this.filter);
-      // let filter: any = { ...this.filter, contains: [this.filter.contains] };
+      let filter = clone(this.filterClone);
       filter.contains.push({ field: 'tags', value: row.mipset });
       this.mipsService
         .searchMips(
@@ -151,7 +163,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
         )
         .subscribe(
           (data) => {
-            this.mips = data.items;
+            this.mipSets[row.mipset] = data.items;
             this.expandedElementMipset = row;
           },
           (error) => {
@@ -163,8 +175,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
 
   async expandFirstMipset(row) {
     try {
-      let filter = clone(this.filter);
-      // let filter: any = { ...this.filter, contains: [...this.filter.contains] };
+      let filter = clone(this.filterClone);
       filter.contains.push({ field: 'tags', value: row.mipset });
 
       let data: any = await this.mipsService
@@ -177,7 +188,7 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
           'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
         )
         .toPromise();
-      this.mips = data.items;
+      this.mipSets[row.mipset] = data.items;
       this.expandedElementMipset = row;
 
       return;
@@ -225,7 +236,6 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   }
 
   setOrder(text: string): void {
-    this.mips = [];
     this.limitAux = 10;
     this.page = 0;
     this.order = text;
@@ -233,18 +243,12 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   }
 
   getAtLeastOneElementByTag(tag: string): Promise<any> {
-    let filter = clone(this.filter);
-    // let filter: any = { ...this.filter};
+    let filter = clone(this.filterClone);
     filter.contains.push({ field: 'tags', value: tag });
     return this.mipsService
       .searchMips(1, 0, this.order, this.search, filter, 'title mipName')
       .toPromise();
   }
-
-  // onExpandMipsetRow(itemMipset: any) {
-  //   this.expandedElementMipset =
-  //     this.expandedElementMipset == itemMipset.mipset ? null : itemMipset.mipset;
-  // }
 
   getStatusValue(data: string): string {
     if (data !== undefined) {

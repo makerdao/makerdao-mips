@@ -92,11 +92,10 @@
           }"
         >
           {{ element[column] | tagMipset | titlecase }}
-          <div (click)="onClickButtonCaptureEvent($event)">
+          <div>
             <button
               class="arrow-container"
               [disabled]="element.loadingSubproposals"
-              (click)="onExpandMipset(element)"
               (mouseover)="onMouseOverLeaveMipsetArrow(element.mipset, true)"
               (mouseleave)="onMouseOverLeaveMipsetArrow(element.mipset, false)"
               style="right: 0; position: relative;"
@@ -151,7 +150,7 @@
           "
         >
           <ng-container>
-            <app-sublist [dataSource]="mips"></app-sublist>
+            <app-sublist [dataSource]="mipSets[element.mipset]"></app-sublist>
           </ng-container>
         </div>
       </td>
@@ -162,10 +161,7 @@
       *matRowDef="let element; columns: columnsToDisplayMipset"
       class="maker-element-mipset-row"
       [class.maker-expanded-row]="expandedElementMipset === element"
-      (click)="
-        expandedElementMipset =
-          expandedElementMipset === element ? null : element
-      "
+      (click)="onExpandMipset(element)"
     ></tr>
     <tr
       mat-row
@@ -176,20 +172,20 @@
 
   <ng-container *ngIf="!loading">
     <div *ngFor="let itemMipset of dataSourceMipsetRows" class="mobile">
-      <div class="mobile-container subproposal-card-subset">
+      <button
+        mat-button
+        class="mobile-container subproposal-card-subset"
+        (click)="onExpandMipset(itemMipset)"
+      >
         <div style="width: calc(100% - 35px);">
-          <span class="title">
+          <span class="title" style="font-size: 18px;">
             {{ itemMipset.mipset | tagMipset | titlecase }}</span
           >
         </div>
-        <div
-          class="subproposalsButtonWrapper"
-          (click)="onClickButtonCaptureEvent($event)"
-        >
+        <div class="subproposalsButtonWrapper">
           <button
             class="arrow-container"
             [disabled]="false"
-            (click)="onExpandMipset(itemMipset)"
             style="right: 0; top: 24px; transform: translateY(-50%);"
           >
             <div
@@ -209,7 +205,7 @@
             </div>
           </button>
         </div>
-      </div>
+      </button>
 
       <div
         [@mipsetExpand]="
@@ -217,7 +213,7 @@
         "
       >
         <div
-          *ngFor="let itemMipsetChildren of mips"
+          *ngFor="let itemMipsetChildren of mipSets[itemMipset.mipset]"
           class="mobile-container"
           [ngClass]="{
             'proposal-card': !itemMipsetChildren.proposal,
