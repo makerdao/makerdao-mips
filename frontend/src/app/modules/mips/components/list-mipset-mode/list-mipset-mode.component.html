@@ -88,7 +88,7 @@
           *matCellDef="let element"
           style="cursor: pointer; position: relative;"
           [ngStyle]="{
-            color: expandedElementMipset === element ? '#B8C5D3' : ''
+            color: element.expanded ? '#B8C5D3' : ''
           }"
         >
           {{ element[column] | tagMipset | titlecase }}
@@ -100,14 +100,14 @@
               (mouseleave)="onMouseOverLeaveMipsetArrow(element.mipset, false)"
               style="right: 0; position: relative;"
               [ngClass]="{
-                'dark-expand-arrow': expandedElementMipset !== element,
-                'shine-expand-arrow': expandedElementMipset === element
+                'dark-expand-arrow': !element.expanded,
+                'shine-expand-arrow': element.expanded
               }"
             >
               <div
                 class="arrow-wrapper expanded"
                 [ngClass]="{
-                  rotate: expandedElementMipset === element
+                  rotate: element.expanded
                 }"
               >
                 <svg
@@ -119,12 +119,12 @@
                   class="arrow"
                 >
                   <path
-                    *ngIf="expandedElementMipset !== element"
+                    *ngIf="!element.expanded"
                     d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
                     fill="#748AA1"
                   />
                   <path
-                    *ngIf="expandedElementMipset === element"
+                    *ngIf="element.expanded"
                     d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
                     fill="#B8C5D3"
                   />
@@ -145,9 +145,7 @@
       >
         <div
           class="maker-element-subsetchildren-detail"
-          [@detailExpand]="
-            element == expandedElementMipset ? 'expanded' : 'collapsed'
-          "
+          [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
         >
           <ng-container>
             <app-sublist [dataSource]="mipSets[element.mipset]"></app-sublist>
@@ -160,7 +158,7 @@
       mat-row
       *matRowDef="let element; columns: columnsToDisplayMipset"
       class="maker-element-mipset-row"
-      [class.maker-expanded-row]="expandedElementMipset === element"
+      [class.maker-expanded-row]="element.expanded"
       (click)="onExpandMipset(element)"
     ></tr>
     <tr
@@ -178,7 +176,7 @@
         (click)="onExpandMipset(itemMipset)"
       >
         <div style="width: calc(100% - 35px);">
-          <span class="title" style="font-size: 18px;">
+          <span class="title" style="font-size: 20px;">
             {{ itemMipset.mipset | tagMipset | titlecase }}</span
           >
         </div>
@@ -191,7 +189,7 @@
             <div
               class="arrow-wrapper expanded"
               [ngClass]="{
-                rotate: expandedElementMipset == itemMipset
+                rotate: itemMipset.expanded
               }"
             >
               <img
@@ -207,11 +205,7 @@
         </div>
       </button>
 
-      <div
-        [@mipsetExpand]="
-          expandedElementMipset == itemMipset ? 'expanded' : 'collapsed'
-        "
-      >
+      <div [@mipsetExpand]="itemMipset.expanded ? 'expanded' : 'collapsed'">
         <div
           *ngFor="let itemMipsetChildren of mipSets[itemMipset.mipset]"
           class="mobile-container"
