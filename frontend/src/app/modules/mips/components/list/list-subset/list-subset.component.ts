@@ -13,6 +13,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { ISubsetDataElement } from '../../../types/subset';
 
 @Component({
   selector: 'app-list-subset',
@@ -31,7 +32,7 @@ import {
   ],
 })
 export class ListSubsetComponent implements OnInit, OnChanges {
-  @Input() dataSourceSubsetRows: any;
+  @Input() dataSourceSubsetRows: ISubsetDataElement[];
   columnsToDisplaySubset = ['subset'];
   expandedElementSubset: ISubsetDataElement | null;
   isArrowDownOnMouseOver: boolean = false;
@@ -45,7 +46,7 @@ export class ListSubsetComponent implements OnInit, OnChanges {
   ngOnChanges() {
     if (this.dataSourceSubsetRows?.length === 1) {
       setTimeout(() => {
-        this.expandedElementSubset = this.dataSourceSubsetRows[0];
+        this.dataSourceSubsetRows[0].expanded = true;
         this.cdr.detectChanges();
       }, 500);
     }
@@ -60,8 +61,4 @@ export class ListSubsetComponent implements OnInit, OnChanges {
     this.isArrowDownOnMouseOver = value;
     this.currentRowOver = subset;
   }
-}
-
-export interface ISubsetDataElement {
-  subset: string;
 }

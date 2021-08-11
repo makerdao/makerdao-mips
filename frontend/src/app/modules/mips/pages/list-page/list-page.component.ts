@@ -10,6 +10,7 @@ import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
 import { fromEvent } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
+import { IMip } from "../../types/mip";
 
 @Component({
   selector: 'app-list-page',
@@ -18,8 +19,8 @@ import { MetadataShareService } from '../../services/metadata-share.service';
 })
 export class ListPageComponent implements OnInit, AfterViewInit {
 
-  mips: any = [];
-  mipsAux: any = [];
+  mips: IMip[] = [];
+  mipsAux: IMip[] = [];
   limit = 10;
   limitAux = 10;
   page = 0;
