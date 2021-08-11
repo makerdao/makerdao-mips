@@ -3,15 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import { MarkdownService } from 'ngx-markdown';
 import { MetadataShareService } from '../../services/metadata-share.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-details-page',
   templateUrl: './details-page.component.html',
-  styleUrls: ['./details-page.component.scss']
+  styleUrls: ['./details-page.component.scss'],
 })
 export class DetailsPageComponent implements OnInit {
-
   mip: any;
+  mdUrl: any;
   sections: any;
   pullrequest: any;
   mipName: string;
@@ -20,17 +21,21 @@ export class DetailsPageComponent implements OnInit {
   MAX_LIMIT: number = 1000000;
   subproposals: any[];
   referencesContent: string[];
+  loadingUrl: boolean = true;
 
   constructor(
     private mipsService: MipsService,
     private activedRoute: ActivatedRoute,
     private router: Router,
     private markdownService: MarkdownService,
-    private metadataShareService: MetadataShareService
-  ) { }
+    private metadataShareService: MetadataShareService,
+    private urlService: UrlService
+  ) {}
 
   ngOnInit(): void {
-    this.activedRoute.paramMap.subscribe(paramMap => {
+    this.loadingUrl = true;
+
+    this.activedRoute.paramMap.subscribe((paramMap) => {
       if (paramMap.has('name')) {
         this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
@@ -38,16 +43,39 @@ export class DetailsPageComponent implements OnInit {
         this.moveToElement();
       }
     });
+
+    this.activedRoute.queryParamMap.subscribe((queryParam) => {
+      if (queryParam.has('mdUrl')) {
+        this.loadingUrl = true;
+        const url = queryParam.get('mdUrl');
+        
+        const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
+
+        if(shouldUpdateUrl){
+          this.router.navigateByUrl(this.urlService.transformLinkForMd(url))
+        }
+        else
+        this.mdUrl=url
+      }
+    });
+  }
+
+  headingListUpdate(event) {
+
+    this.loadingUrl = false;
+    this.sections = null;
+
+    if (this.mdUrl) {
+      this.sections = event;
+    }
   }
 
   loadData(): void {
-    this.mipsService.getMip(this.mipName)
-    .subscribe(data => {
+    this.mipsService.getMip(this.mipName).subscribe((data) => {
       this.mip = data.mip;
       // const regEx = new RegExp('(.)*');
       // this.mip.file = this.mip.file.replace(regEx, ' ');
       this.sections = this.mip.sections;
-
       let indexPreambleSection: number = (this.sections as []).findIndex(
         (i: any) => i.heading === 'Preamble'
       );
@@ -56,12 +84,12 @@ export class DetailsPageComponent implements OnInit {
         (this.sections as []).splice(indexPreambleSection, 1);
       }
 
-      let indexPreambleHeading: number = (this.mip.sectionsRaw as []).findIndex(
-        (i: any) => (i as string).includes('Preamble')
-      );
+      let indexPreambleHeading: number = (this.mip.sectionsRaw as [
+
+      ]).findIndex((i: any) => (i as string).includes('Preamble'));
 
       if (indexPreambleHeading !== -1) {
-        (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2);  // delete Preamble heading and its content
+        (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2); // delete Preamble heading and its content
       }
 
       let indexReferencesSection: number = (this.sections as []).findIndex(
@@ -75,13 +103,13 @@ export class DetailsPageComponent implements OnInit {
       if (data.subproposals && data.subproposals.length > 0) {
         (this.sections as any[]).push({
           depth: 2,
-          heading: "Subproposals"
+          heading: 'Subproposals',
         });
       }
 
-      let indexReferencesHeading: number = (this.mip.sectionsRaw as []).findIndex(
-        (i: any) => (i as string).includes('References')
-      );
+      let indexReferencesHeading: number = (this.mip.sectionsRaw as [
+
+      ]).findIndex((i: any) => (i as string).includes('References'));
 
       if (indexReferencesHeading !== -1) {
         (this.mip.sectionsRaw as []).splice(indexReferencesHeading, 2);
@@ -98,12 +126,13 @@ export class DetailsPageComponent implements OnInit {
       }
 
       this.setMetadataShareable();
-
     });
     const data = this.mipsService.getMipsData();
 
     if (data) {
-      this.mipPosition = data.findIndex(item => item.mipName === this.mipName);
+      this.mipPosition = data.findIndex(
+        (item) => item.mipName === this.mipName
+      );
     }
   }
 
@@ -138,10 +167,10 @@ export class DetailsPageComponent implements OnInit {
       notcontains: [],
       equals: [],
       notequals: [],
-      inarray: []
+      inarray: [],
     };
 
-    filter.notequals.push({field: 'mip', value: -1});
+    filter.notequals.push({ field: 'mip', value: -1 });
 
     order = 'mip subproposal';
     this.mipsService.includeSubproposals = true;
@@ -150,14 +179,17 @@ export class DetailsPageComponent implements OnInit {
   }
 
   searchMips(limit, page, order, search, filter): void {
-    this.mipsService.searchMips(limit, page, order, search, filter, "mipName")
-    .subscribe(data => {
-      this.mipsService.setMipsData(data.items);
-      this.total = data.total;
-      this.mipsService.setTotal(this.total);
-      const mips = this.mipsService.getMipsData();
-      this.mipPosition = mips.findIndex(item => item.mipName === this.mipName);
-    });
+    this.mipsService
+      .searchMips(limit, page, order, search, filter, 'mipName')
+      .subscribe((data) => {
+        this.mipsService.setMipsData(data.items);
+        this.total = data.total;
+        this.mipsService.setTotal(this.total);
+        const mips = this.mipsService.getMipsData();
+        this.mipPosition = mips.findIndex(
+          (item) => item.mipName === this.mipName
+        );
+      });
   }
 
   ngOnDestroy() {
