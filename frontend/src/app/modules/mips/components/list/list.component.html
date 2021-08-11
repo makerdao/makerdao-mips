@@ -152,6 +152,7 @@
                       subproposals: true,
                       summary: false
                     };
+                    element.expanded = !element.expanded;
                     onGetSubproposals(element, $event)
                   "
                   (mouseover)="onMouseOverLeaveArrow(element._id, true)"
@@ -248,15 +249,26 @@
             *matCellDef="let element"
             [attr.colspan]="columnsToDisplay.length"
           >
-            <div
+            <!-- <div
               class="maker-element-subset-detail"
               [@detailExpand]="
                 element == expandedElement ? 'expanded' : 'collapsed'
               "
             >
-              <!-- subset -->
               <app-list-subset
                 *ngIf="expandedItems.subproposals"
+                [dataSourceSubsetRows]="dataSourceSubsetRows"
+                [subproposalsGroup]="subproposalsGroup"
+              ></app-list-subset>
+            </div> -->
+            <div
+              class="maker-element-subset-detail"
+              [@detailExpand]="
+                element.expanded == true ? 'expanded' : 'collapsed'
+              "
+            >
+            <h1>Subset</h1>
+              <app-list-subset
                 [dataSourceSubsetRows]="dataSourceSubsetRows"
                 [subproposalsGroup]="subproposalsGroup"
               ></app-list-subset>

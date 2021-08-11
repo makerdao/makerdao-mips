@@ -10,6 +10,7 @@ import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
 import { fromEvent } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
+import { IMip } from "../../types/mip";
 
 @Component({
   selector: 'app-list-page',
@@ -359,23 +360,28 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   async hidingSubproposalsUnderParents(data): Promise<any> {
-    let newData: any[] = [];
+    let newData: IMip[] = [];
     const forLoop = async () => {
       for (let index = 0; index < data.items.length; index++) {
-        const item = data.items[index];
+        const item: IMip = data.items[index];
         if (
           item.proposal !== this.mips[this.mips.length - 1]?.mipName &&
           item.proposal !== newData[newData.length - 1]?.mipName
         ) {
-          if (item.proposal) {
+          if (item.proposal) {  // is subproposal?
             let stop: boolean = false;
             let j = index + 1;
+
+            // search subproposals with same MIP father
             for (j; j < data.items.length && !stop; j++) {
-              const element = data.items[j];
+              const element: IMip = data.items[j];
 
               if (element.proposal !== item.proposal) {
                 stop = true;
+              } else {
+                this.addSubsetField(data.items[j - 1]);
               }
+
               index = j - 1;
             }
 
@@ -393,9 +399,36 @@ export class ListPageComponent implements OnInit, AfterViewInit {
                 'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
               )
               .toPromise();
-            let parent: any = res.items[0];
+            let parent: IMip = res.items[0];
+            parent.expanded = true;
+            parent.children = (data.items as []).slice(index - 1, j - 1);
+            console.log("data.items", data.items);
+
+            console.log("parent.children", parent.children);
+
+            let subproposalsGroup: any = this.groupBy('subset', parent.children);
+            console.log("subproposalsGroup", subproposalsGroup);
+
+              // this.sortSubproposalsGroups();
+              const subsetRows: any[] = [];
+
+              for (const key in subproposalsGroup) {
+                if (
+                  Object.prototype.hasOwnProperty.call(
+                    subproposalsGroup,
+                    key
+                  )
+                ) {
+                  subsetRows.push({ subset: key });
+                }
+              }
+            parent.subproposalsGroup = subproposalsGroup;
+            parent.subsetRows = subsetRows;
+            console.log("parent", parent);
+
             newData.push(parent);
           } else {
+            item.expanded = false;
             newData.push(item);
           }
         }
@@ -406,6 +439,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     this.mipsAux = newData;
     this.mips = this.mips.concat(this.mipsAux);
+    console.log("mis", this.mips);
+
     this.total = data.total;
     this.loading = false;
     this.loadingPlus = false;
@@ -415,6 +450,21 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     } else {
       this.moreToLoad = true;
     }
+  }
+
+  addSubsetField = (item: any) => {
+    let subset: string = (item.mipName as string).split('SP')[0];
+    item.subset = subset;
+    return item;
+  }
+
+  groupBy(field, arr: any[]): any {
+    let group: any = arr.reduce((r, a) => {
+      r[a[field]] = [...(r[a[field]] || []), a];
+      return r;
+    }, {});
+
+    return group;
   }
 
   filterOrSearch(): boolean {

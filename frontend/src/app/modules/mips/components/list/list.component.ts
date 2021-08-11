@@ -251,6 +251,8 @@ const language = 'typescript';
 
   onGetSubproposals(row: any, e: Event) {
     e.stopPropagation();
+    console.log("data source", this.dataSourceTable);
+
 
     if (
       this.expandedElement === row ||
@@ -285,11 +287,7 @@ const language = 'typescript';
             map((res) => {
               const newItems: any[] = (res.items as [])
                 .filter((i: any) => i.mipName)
-                .map((item: any) => {
-                  let subset: string = (item.mipName as string).split('SP')[0];
-                  item.subset = subset;
-                  return item;
-                });
+                .map(this.addSubsetField);
               res.items = newItems;
               return res;
             })
@@ -323,9 +321,14 @@ const language = 'typescript';
                 }
               }
 
+              console.log("subproposalsGroup", this.subproposalsGroup);
+              console.log("subsetRows", subsetRows);
+
+
+
               this.dataSourceSubsetRows = subsetRows;
               this.expandedElement = row;
-              this.expandedMipFather = data.items[0].proposal;
+              this.expandedMipFather = data.items[0]?.proposal;
               this.cdr.detectChanges();
               this.subsetChildrenActivate = true;
             },
@@ -345,6 +348,12 @@ const language = 'typescript';
     }, {});
 
     return group;
+  }
+
+  addSubsetField = (item: any) => {
+    let subset: string = (item.mipName as string).split('SP')[0];
+    item.subset = subset;
+    return item;
   }
 
   sortSubproposalsGroups() {
