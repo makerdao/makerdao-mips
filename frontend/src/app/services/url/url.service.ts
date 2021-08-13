@@ -11,19 +11,19 @@ export class UrlService {
   private isMdUrlFile(urlFile: string): RegExpMatchArray {
     const regexMdFileUrl: RegExp = /(([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+)[A-Za-z0-9.-]+)\.md(?:#[\w]*)?/i;
 
-    return urlFile.match(regexMdFileUrl);
+    return urlFile?.match(regexMdFileUrl);
   }
 
   private isAValidGithubMdUrl(githubUrl: string): RegExpMatchArray {
     const regexToExtractGithubParameters: RegExp = /^https:\/\/github.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+)\/blob\/(?<branch>[^\/]+)\/(?<address>.+\.md(?:#.*)*)$/i;
 
-    return githubUrl.match(regexToExtractGithubParameters);
+    return githubUrl?.match(regexToExtractGithubParameters);
   }
 
   private isAValidRawMdUrl(rawUrl: string): RegExpMatchArray {
     const regexToExtractGithubParameters: RegExp = /^https:\/\/raw.githubusercontent.com\/(?<repo>[^\/]+)\/(?<user>[^\/]+)\/(?<branch>[^\/]+)\/(?<address>.+\.md(?:#.*)*)$/i;
 
-    return rawUrl.match(regexToExtractGithubParameters);
+    return rawUrl?.match(regexToExtractGithubParameters);
   }
 
   goToUrl(url: string): void {

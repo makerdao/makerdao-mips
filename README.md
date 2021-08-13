@@ -20,6 +20,7 @@
         * [findall endpoint, page parameter](#findall-endpoint-page-parameter)
 * [Menu](#menu)
     * [Creating a menu](#creating-a-menu)
+
 # Introduction <a name="introduction"></a>
 This project (makerdao-mips) is a MIPs Tracker for MakerDAO Improvement Proposals. 
 
