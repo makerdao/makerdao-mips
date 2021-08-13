@@ -267,10 +267,9 @@
                 element.expanded == true ? 'expanded' : 'collapsed'
               "
             >
-            <h1>Subset</h1>
               <app-list-subset
-                [dataSourceSubsetRows]="dataSourceSubsetRows"
-                [subproposalsGroup]="subproposalsGroup"
+                [dataSourceSubsetRows]="element.subsetRows"
+                [subproposalsGroup]="element.subproposalsGroup"
               ></app-list-subset>
             </div>
           </td>

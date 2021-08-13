@@ -39,7 +39,10 @@ export class ListSubsetComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("subproposalsGroup subset", this.subproposalsGroup);
+
+  }
 
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
   onClickButtonCaptureEvent(e: Event) {

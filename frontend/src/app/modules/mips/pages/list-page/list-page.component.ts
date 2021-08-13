@@ -379,8 +379,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               if (element.proposal !== item.proposal) {
                 stop = true;
               } else {
-                this.addSubsetField(data.items[j - 1]);
+                // this.addSubsetField(data.items[j - 1]);
               }
+
+              this.addSubsetField(data.items[j - 1]);
 
               index = j - 1;
             }
@@ -407,7 +409,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             console.log("parent.children", parent.children);
 
             let subproposalsGroup: any = this.groupBy('subset', parent.children);
-            console.log("subproposalsGroup", subproposalsGroup);
+            console.log("subproposalsGroup:", subproposalsGroup);
 
               // this.sortSubproposalsGroups();
               const subsetRows: any[] = [];
@@ -419,7 +421,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
                     key
                   )
                 ) {
-                  subsetRows.push({ subset: key });
+                  subsetRows.push({ subset: key, expanded: true });
                 }
               }
             parent.subproposalsGroup = subproposalsGroup;
