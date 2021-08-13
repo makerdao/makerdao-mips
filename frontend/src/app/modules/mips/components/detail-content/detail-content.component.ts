@@ -1,4 +1,17 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+  EventEmitter,
+  Output,
+} from '@angular/core';
+
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +24,7 @@ import {
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { UrlService } from 'src/app/services/url/url.service';
 
 const preambleDataSample = [
   {
@@ -63,7 +77,13 @@ const preambleDataSample = [
 export class DetailContentComponent
   implements OnInit, OnChanges, AfterViewInit {
   gitgubUrl = environment.repoUrl;
+  @Input() mdUrl: string | undefined;
+  mdFileName: string = '';
+
   @Input() mip: any;
+  @Output() headingListUpdate = new EventEmitter();
+
+  urlOriginal: string;
   links: Link[] = [];
   countLinks: number = 0;
   @ViewChild('preview') preview: TemplateRef<any>;
@@ -72,11 +92,13 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
-  @Input() subproposals: any[];
+  @Input() subproposals: any[] = [];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
-  subproposalCode: string = "";
-  subproposalTitle: string = "";
+  subproposalCode: string = '';
+  subproposalTitle: string = '';
+
+  headingStructure: Heading[] = [];
 
   constructor(
     private markdownService: MarkdownService,
@@ -85,7 +107,8 @@ export class DetailContentComponent
     private mipsService: MipsService,
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
-    private titleService: Title
+    private titleService: Title,
+    private urlService: UrlService
   ) {}
 
   ngOnInit(): void {
@@ -117,7 +140,9 @@ export class DetailContentComponent
 
   displayPreview = (e: Event) => {
     if (!this.overlayRef) {
-      let href: string = (e.target as HTMLAnchorElement).href.split("/mips/details/")[1];
+      let href: string = (e.target as HTMLAnchorElement).href.split(
+        '/mips/details/'
+      )[1];
 
       if (href) {
         this.subscription = this.mipsService
@@ -191,7 +216,8 @@ export class DetailContentComponent
                   this.triangleLeft = true;
                 }
 
-                let element: HTMLElement = this.previewRef.nativeElement.parentElement.parentElement;
+                let element: HTMLElement = this.previewRef.nativeElement
+                  .parentElement.parentElement;
                 element.style.marginTop = '17px';
                 element.style.marginBottom = '17px';
               });
@@ -224,20 +250,20 @@ export class DetailContentComponent
   };
 
   ngOnChanges() {
-    if (this.mip && this.mip.sectionsRaw) {
-      this.content = this.mip.title
-        ? (this.mip.sectionsRaw as []).slice(1).join('\n')
-        : (this.mip.sectionsRaw as []).join('\n');
+    if (this.mip && this.mip?.sectionsRaw) {
+      this.content = this.mip?.title
+        ? (this.mip?.sectionsRaw as []).slice(1).join('\n')
+        : (this.mip?.sectionsRaw as []).join('\n');
 
-      if (this.mip.proposal && this.mip.title) {
-        let subProposalTitleArray: string[] = this.mip.title.split(':');
+      if (this.mip?.proposal && this.mip?.title) {
+        let subProposalTitleArray: string[] = this.mip?.title.split(':');
         this.subproposalCode = subProposalTitleArray[0];
-        this.subproposalTitle = subProposalTitleArray.slice(1).join("");
+        this.subproposalTitle = subProposalTitleArray.slice(1).join('');
       }
       this.titleService.setTitle(
-        this.mip.proposal
-          ? this.mip.title
-          : this.mip.mipName + ': ' + this.mip.title
+        this.mip?.proposal
+          ? this.mip?.title
+          : this.mip?.mipName + ': ' + this.mip?.title
       );
     }
 
@@ -245,9 +271,21 @@ export class DetailContentComponent
     this.overrideDefaultHeadings();
     this.overrideDefaultTables();
     this.overrideDefaultImg();
+
+    this.urlOriginal =
+      this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
+
+    const nameMdMatch: RegExpMatchArray = this.mdUrl?.match(/\/[\w\s-]+\.md/g);
+
+    if (nameMdMatch && nameMdMatch[0]) {
+      this.mdFileName = nameMdMatch[0].replace('/', '');
+    }
   }
 
   onReady() {
+    if (this.mdUrl) {
+      this.headingListUpdate.emit(this.headingStructure);
+    }
     if (this.route.snapshot.fragment) {
       const el = document.getElementById(
         this.route.snapshot.fragment.toString()
@@ -255,9 +293,17 @@ export class DetailContentComponent
 
       this.moveToElement(el);
     }
-
-    this.searchMips();
+    this.headingStructure = [];
+    if (!this.mdUrl) {
+      //On md viewer THERE IS NO NEED of THIS and may cuse a problem with md relatives links
+      this.searchMips();
+    }
     this.setPreviewFeature();
+  }
+
+  onError() {
+    //Work around for unexpected md render error
+    history.back();
   }
 
   moveToElement(el: HTMLElement): void {
@@ -269,14 +315,21 @@ export class DetailContentComponent
   overrideDefaultHeadings() {
     let url = this.router.url.split('#')[0];
 
-    this.markdownService.renderer.heading = (text: string, level: number) => {
-      const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+    this.markdownService.renderer.heading = (
+      text: string,
+      level: number,
+      raw: string
+    ) => {
+      const htmlCleanedText=raw.replace(/<[^<>]+>/gm,'')
+      const escapedText = htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
 
-      if (this.mip.title?.localeCompare(text) === 0) {
+      if (this.mip?.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
       }
+
+      this.headingStructure.push({ heading: htmlCleanedText, depth: level });
 
       return `
              <h${level} ${style}>
@@ -294,11 +347,15 @@ export class DetailContentComponent
                   <tbody>${body}</tbody>
                 </table>
               </div>`;
-    }
+    };
   }
 
   overrideDefaultImg() {
-    this.markdownService.renderer.image = (href: string, title: string, text: string) => {
+    this.markdownService.renderer.image = (
+      href: string,
+      title: string,
+      text: string
+    ) => {
       return `<img src="${href}?raw=true">`;
     };
   }
@@ -325,13 +382,40 @@ export class DetailContentComponent
       if (
         !link.name.includes('Template') &&
         (link.link.includes(this.gitgubUrl) ||
-         link.link.includes("https://github.com/makerdao/mips/blob") ||
-         link.link.includes("https://github.com/makerdao/mips/tree") ||
-         link.link.includes("https://forum.makerdao.com"))
+          link.link.includes('https://github.com/makerdao/mips/blob') ||
+          link.link.includes('https://github.com/makerdao/mips/tree') ||
+          link.link.includes('https://forum.makerdao.com'))
       ) {
         return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
       }
 
+      if (this.mdUrl) {
+        //MD VIEWER BEHAVIOR
+        if (!href.includes('https://')) {
+          //I asume a github md relative link
+
+          const baseUrl = this.mdUrl.replace(/\/?[\w-#\.\s]+$/g, '');
+
+          if (!href.includes('.md')) {
+            //Relarive reference only link ex: #last-thing
+            href =
+              this.urlService.mdViewerRoute +
+              baseUrl +
+              '/' +
+              this.mdFileName +
+              href;
+          } else {
+            href =
+              this.urlService.mdViewerRoute +
+              baseUrl +
+              '/' +
+              href.replace(/^\//, '');
+          }
+        } else {
+          // A non relative link
+          href = this.urlService.transformLinkForMd(href);
+        }
+      }
       return `<a name="${escapedText}" id="${link.id}" class="anchor-link" href="${href}">${text}</a>`;
     };
   }
@@ -360,58 +444,69 @@ export class DetailContentComponent
       let elem = document.getElementById(link.id);
 
       if (!link.name.includes('Template')) {
-        if (link.link.includes(this.gitgubUrl) ||
-            link.link.includes("https://github.com/makerdao/mips/blob") ||
-            link.link.includes("https://github.com/makerdao/mips/tree") ||
-            link.link.includes("https://forum.makerdao.com")) {
-          this.mipsService.getMipByFilename(link.name.split(" ").join("")).subscribe(
-            (data) => {
-              if (data.mipName) {
-                elem.setAttribute('href', `/mips/details/${data.mipName}`);
-              } else {
-                elem.setAttribute(
-                  'href',
-                  `${this.gitgubUrl}/${this.mip.filename}`
-                );
-              }
-            },
-            (_) => {
-              if (link.link.includes('MIP')) {
-                const mip = link.link
-                  .replace(`${this.gitgubUrl}/`, '')
-                  .split('#');
+        if (
+          link.link.includes(this.gitgubUrl) ||
+          link.link.includes('https://github.com/makerdao/mips/blob') ||
+          link.link.includes('https://github.com/makerdao/mips/tree') ||
+          link.link.includes('https://forum.makerdao.com')
+        ) {
+          if (link.link.includes('MIP')) {
+            const mip = link.link.replace(`${this.gitgubUrl}/`, '').split('#');
 
-                if (mip.length > 0) {
-                  this.mipsService
-                    .getMipByFilename(mip[0])
-                    .subscribe((data) => {
-                      if (mip.length > 1) {
-                        elem.setAttribute(
-                          'href',
-                          `/mips/details/${data.mipName}#${mip[1]}`
-                        );
-                      } else {
-                        elem.setAttribute(
-                          'href',
-                          `/mips/details/${data.mipName}`
-                        );
-                      }
-                    });
-                }
-              }
+            if (mip?.length > 0) {
+              this.mipsService
+                .getMipByFilename(mip[0], 'filename')
+                .subscribe((data) => {
+                  if (mip?.length > 1) {
+                    elem.setAttribute(
+                      'href',
+                      `/mips/details/${data.mipName}#${mip[1]}`
+                    );
+                  } else {
+                    elem.setAttribute('href', `/mips/details/${data.mipName}`);
+                  }
+                });
             }
-          );
+          } else {
+            const field = 'mipName';
+            const fieldValue = link.name.trim();
+
+            this.mipsService
+              .getMipByFilename(fieldValue, field)
+              .subscribe((data) => {
+                if (data.mipName) {
+                  elem.setAttribute('href', `/mips/details/${data.mipName}`);
+                } else {
+                  elem.setAttribute(
+                    'href',
+                    `${this.gitgubUrl}/${this.mip?.filename}`
+                  );
+                }
+              });
+          }
+        } else {
+          if (!link.link.includes('https')) {
+            elem.setAttribute(
+              'href',
+              `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
+            );
+          }
         }
       } else {
         if (link.name.includes('.md') && !link.link.includes('https')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}`
           );
         } else if (!link.link.includes('https')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip.mipName}/${link.name}.md`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
+          );
+        } else {
+          elem.setAttribute(
+            'href',
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
           );
         }
       }
@@ -419,7 +514,7 @@ export class DetailContentComponent
   }
 
   ngOnDestroy() {
-    this.titleService.setTitle("MIPs Portal");
+    this.titleService.setTitle('MIPs Portal');
   }
 }
 
@@ -427,4 +522,9 @@ interface Link {
   id: string;
   name: string;
   link: string;
+}
+
+interface Heading {
+  heading: string;
+  depth: number;
 }

@@ -1,23 +1,23 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-proposal-components',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './proposal-components.component.html',
   styleUrls: ['./proposal-components.component.scss']
 })
-export class ProposalComponentsComponent implements OnInit, AfterViewInit {
+export class ProposalComponentsComponent implements  AfterViewInit {
 
   @Input() sourceData;
+  @Input() titleSidebar="Contents"
+  @Input() showlevelOne:boolean=false;
   prefixIdLinkSection: string = "sectionLink-";
   @ViewChild('sectionLinks') sectionLinks;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute) { }
-
-  ngOnInit(): void {
-  }
 
   ngAfterViewInit() {
     this.route.fragment.subscribe(data => {

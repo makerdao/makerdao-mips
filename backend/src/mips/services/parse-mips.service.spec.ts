@@ -1,7 +1,7 @@
 import { ConfigService } from "@nestjs/config";
 import { getModelToken } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
-import { MIP } from "../entities/mips.entity";
+import { Language, MIP } from "../entities/mips.entity";
 import { PullRequest } from "../entities/pull-request.entity";
 import { MIPsController } from "../mips.controller";
 import { mipData, mipFile } from "./data-test/data";
@@ -12,9 +12,16 @@ import { MIPsService } from "./mips.service";
 import { ParseMIPsService } from "./parse-mips.service";
 import { ParseQueryService } from "./parse-query.service";
 import { PullRequestService } from "./pull-requests.service";
+import { SimpleGitService } from "./simple-git.service";
 
 describe("Parse MIPs service", () => {
   let service: ParseMIPsService;
+
+  const simpleGitService = {
+    cloneRepository: async () => '',
+    getFiles: async () => [],
+    pull: async (remote = "origin", branch = "master") => true,
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,14 +34,7 @@ describe("Parse MIPs service", () => {
         GithubService,
         MarkedService,
         PullRequestService,
-        {
-          provide: "SimpleGitService",
-          useValue: {
-            cloneRepository: jest.fn(),
-            getFiles: jest.fn(),
-            pull: jest.fn(),
-          },
-        },
+        SimpleGitService,
         {
           provide: getModelToken(MIP.name),
           useValue: {
@@ -66,7 +66,10 @@ describe("Parse MIPs service", () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideProvider(SimpleGitService)
+      .useValue(simpleGitService)
+      .compile();
 
     service = module.get<ParseMIPsService>(ParseMIPsService);
   });
@@ -89,6 +92,7 @@ describe("Parse MIPs service", () => {
           {
             hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
             filename: "MIP1/mip1.md",
+            language: Language.English
           },
         ],
         files
@@ -104,6 +108,7 @@ describe("Parse MIPs service", () => {
       const mip = service.parseLexerData("", {
         filename: "MIP0/mip0.md",
         hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+        language: Language.English
       });
 
       expect(mip).toMatchObject({
@@ -117,6 +122,7 @@ describe("Parse MIPs service", () => {
       const mip = service.parseLexerData(mipFile, {
         filename: "MIP0/mip0.md",
         hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+        language: Language.English
       });
 
       expect(mip).toMatchObject(mipData);

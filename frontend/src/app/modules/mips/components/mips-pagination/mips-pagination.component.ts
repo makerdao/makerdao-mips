@@ -104,7 +104,7 @@ export class MipsPaginationComponent implements OnInit, OnChanges {
 
   loadMipsData(): void {
     if (this.mipPosition < this.total - 1) {
-      this.mipsService.updateActiveSearch(true);
+      // this.mipsService.updateActiveSearch(true);
       this.mipPosition++;
       this.send.emit(this.mipPosition);
     }

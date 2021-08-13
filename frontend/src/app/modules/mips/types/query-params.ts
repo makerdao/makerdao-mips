@@ -3,4 +3,5 @@ export default interface QueryParams {
   search?: string;
   contributor?: string;
   author?: string;
+  mipsetMode?: boolean;
 }

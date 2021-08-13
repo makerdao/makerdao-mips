@@ -15,17 +15,12 @@
         *matCellDef="let element"
         style="cursor: pointer; position: relative;"
       >
-
-
         {{ element[column] }}
         <div (click)="onClickButtonCaptureEvent($event)">
           <button
             class="arrow-container"
             [disabled]="element.loadingSubproposals"
-            (click)="
-              expandedElementSubset =
-                expandedElementSubset === element ? null : element
-            "
+            (click)="element.expanded = !element.expanded"
             (mouseover)="onMouseOverLeaveSubsetArrow(element.subset, true)"
             (mouseleave)="onMouseOverLeaveSubsetArrow(element.subset, false)"
             style="right: 0; position: relative;"
@@ -33,7 +28,7 @@
             <div
               class="arrow-wrapper expanded"
               [ngClass]="{
-                rotate: expandedElementSubset === element
+                rotate: element.expanded
               }"
             >
               <img
@@ -60,11 +55,9 @@
     >
       <div
         class="maker-element-subsetchildren-detail"
-        [@detailExpand]="
-          element == expandedElementSubset ? 'expanded' : 'collapsed'
-        "
+        [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
       >
-        <ng-container *ngIf="element == expandedElementSubset">
+        <ng-container *ngIf="element.expanded">
           <app-list-subproposal
             [dataSource]="subproposalsGroup[element.subset]"
           ></app-list-subproposal>
@@ -77,10 +70,8 @@
     mat-row
     *matRowDef="let element; columns: columnsToDisplaySubset"
     class="maker-element-subset-row"
-    [class.example-expanded-row]="expandedElementSubset === element"
-    (click)="
-      expandedElementSubset = expandedElementSubset === element ? null : element
-    "
+    [class.example-expanded-row]="element.expanded"
+    (click)="element.expanded = !element.expanded"
   ></tr>
   <tr
     mat-row
