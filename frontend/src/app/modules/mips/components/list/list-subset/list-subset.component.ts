@@ -41,10 +41,7 @@ export class ListSubsetComponent implements OnInit, OnChanges {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
-    console.log("subproposalsGroup subset", this.subproposalsGroup);
-
-  }
+  ngOnInit(): void {}
 
   ngOnChanges() {
     if (this.dataSourceSubsetRows?.length === 1) {

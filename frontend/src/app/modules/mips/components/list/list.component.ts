@@ -245,8 +245,6 @@ const language = 'typescript';
 
   onGetSubproposals(row: IMip, e: Event) {
     e.stopPropagation();
-    console.log("data source", this.dataSourceTable);
-
 
     if (row.expanded) {
       row.expanded = false;

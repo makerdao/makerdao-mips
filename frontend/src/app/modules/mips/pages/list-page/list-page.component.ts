@@ -427,8 +427,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           item.proposal !== this.mips[this.mips.length - 1]?.mipName &&
           item.proposal !== newData[newData.length - 1]?.mipName
         ) {
-          console.log('proposal');
-
           let stop: boolean = false;
           let j = index + 1;
 
@@ -466,7 +464,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           }
 
           let subproposalsGroup: any = this.groupBy('subset', parent.children);
-          // this.sortSubproposalsGroups();
+          this.sortSubproposalsGroups(subproposalsGroup);
           const subsetRows: any[] = [];
 
           for (const key in subproposalsGroup) {
@@ -478,9 +476,94 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           parent.subproposalsGroup = subproposalsGroup;
           parent.subsetRows = subsetRows;
           newData.push(parent);
+        } else if (item.proposal) {
+          this.addSubsetField(data.items[index]);
+          let stop: boolean = false;
+          let j = index + 1;
+
+          // search subproposals with same MIP father
+          for (j; j < data.items.length && !stop; j++) {
+            const element: IMip = data.items[j];
+
+            if (
+              !element.proposal ||
+              element.proposal !== newData[newData.length - 1]?.mipName
+            ) {
+              stop = true;
+            } else {
+              this.addSubsetField(data.items[j]);
+            }
+          }
+
+          if (newData.length > 0) {
+            newData[newData.length - 1].expanded = true;
+            let top: number = stop ? j - 1 : j;
+            newData[newData.length - 1].children = (data.items as []).slice(
+              index,
+              top
+            );
+
+            if (!stop && j === data.items.length) {
+              index = j;
+            } else {
+              index = j - 2;
+            }
+
+            let subproposalsGroup: any = this.groupBy(
+              'subset',
+              newData[newData.length - 1].children
+            );
+            this.sortSubproposalsGroups(subproposalsGroup);
+            const subsetRows: any[] = [];
+
+            for (const key in subproposalsGroup) {
+              if (
+                Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
+              ) {
+                subsetRows.push({ subset: key, expanded: true });
+              }
+            }
+
+            newData[newData.length - 1].subproposalsGroup = subproposalsGroup;
+            newData[newData.length - 1].subsetRows = subsetRows;
+            newData[newData.length - 1].expanded = true;
+          } else {
+            this.mips[this.mips.length - 1].expanded = true;
+            let top: number = stop ? j - 1 : j;
+            this.mips[this.mips.length - 1].children = this.mips[
+              this.mips.length - 1
+            ].children.concat((data.items as []).slice(index, top));
+
+            if (!stop && j === data.items.length) {
+              index = j;
+            } else {
+              index = j - 2;
+            }
+
+            let subproposalsGroup: any = this.groupBy(
+              'subset',
+              this.mips[this.mips.length - 1].children
+            );
+            this.sortSubproposalsGroups(subproposalsGroup);
+            const subsetRows: any[] = [];
+
+            for (const key in subproposalsGroup) {
+              if (
+                Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
+              ) {
+                subsetRows.push({ subset: key, expanded: true });
+              }
+            }
+
+            this.mips[
+              this.mips.length - 1
+            ].subproposalsGroup = subproposalsGroup;
+            this.mips[this.mips.length - 1].subsetRows = subsetRows;
+            this.mips[this.mips.length - 1].expanded = true;
+          }
         } else {
-          console.log('no proposal');
           item.expanded = false;
+          item.children = [];
           newData.push(item);
         }
       }
@@ -513,6 +596,26 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }, {});
 
     return group;
+  }
+
+  sortSubproposalsGroups(subproposalsGroup: any) {
+    for (const key in subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+        let element: any[] = subproposalsGroup[key];
+        subproposalsGroup[key] = this.sortSubproposalGroup(element);
+      }
+    }
+  }
+
+  sortSubproposalGroup(arr: any[]) {
+    return arr.sort(function (a: any, b: any) {
+      return (a.mipName as string).includes('SP') &&
+        a.mipName.split('SP').length > 1
+        ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
+          ? -1
+          : 1
+        : 1;
+    });
   }
 
   filterOrSearch(): boolean {
