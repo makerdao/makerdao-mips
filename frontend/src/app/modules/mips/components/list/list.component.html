@@ -164,7 +164,7 @@
                     [ngClass]="{
                       rotate:
                         !element.loadingSubproposals &&
-                        expandedElement == element &&
+                        element.expanded &&
                         expandedItems.subproposals
                     }"
                   >
@@ -192,18 +192,14 @@
               (click)="onNavigateToDetails(element.mipName)"
             >
               <div style="cursor: pointer;">
-                <a
-                  class="summary"
-                  *ngIf="selected != element._id || expandedItems.subproposals"
+                <a class="summary" *ngIf="!element.expandedSummary"
                   ><br />
                   <markdown
                     class="variable-binding variable-binding-summary"
                     [data]="element.sentenceSummary"
                   ></markdown
                 ></a>
-                <a
-                  class="paragraphSummary"
-                  *ngIf="selected == element._id && expandedItems.summary"
+                <a class="paragraphSummary" *ngIf="element.expandedSummary"
                   ><br />
                   <markdown
                     class="variable-binding"
@@ -214,9 +210,8 @@
               <div
                 class="arrow-container"
                 (click)="
-                  expandedItems = { subproposals: false, summary: true };
-                  updateSelected(element._id, $event);
-                  expandedElement = expandedElement === element ? null : element
+                  element.expandedSummary = !element.expandedSummary;
+                  updateSelected(element._id, $event)
                 "
                 (mouseover)="onMouseOverLeaveArrow(element._id, true)"
                 (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
@@ -224,7 +219,7 @@
                 <div
                   class="arrow-wrapper expanded"
                   [ngClass]="{
-                    rotate: selected == element._id && expandedItems.summary
+                    rotate: element.expandedSummary
                   }"
                 >
                   <img
@@ -251,14 +246,12 @@
           >
             <!-- <div
               class="maker-element-subset-detail"
-              [@detailExpand]="
-                element == expandedElement ? 'expanded' : 'collapsed'
-              "
+              [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
             >
               <app-list-subset
                 *ngIf="expandedItems.subproposals"
-                [dataSourceSubsetRows]="dataSourceSubsetRows"
-                [subproposalsGroup]="subproposalsGroup"
+                [dataSourceSubsetRows]="element.subsetRows"
+                [subproposalsGroup]="element.subproposalsGroup"
               ></app-list-subset>
             </div> -->
             <div
@@ -280,7 +273,7 @@
           mat-row
           *matRowDef="let element; columns: columnsToDisplay"
           class="maker-element-row"
-          [class.maker-expanded-row]="expandedElement === element"
+          [class.maker-expanded-row]="element.expanded"
         ></tr>
         <tr
           mat-row
@@ -371,7 +364,7 @@
                   [ngClass]="{
                     rotate:
                       !item.loadingSubproposals &&
-                      expandedMipFather == item.mipName &&
+                      item.expanded &&
                       expandedItems.subproposals
                   }"
                 >
@@ -387,13 +380,9 @@
               </button>
             </div>
           </div>
-          <div
-            [@detailExpand]="
-              expandedMipFather === item.mipName ? 'expanded' : 'collapsed'
-            "
-          >
-            <ng-container *ngIf="expandedMipFather === item.mipName">
-              <div *ngFor="let itemSubset of dataSourceSubsetRows">
+          <div [@detailExpand]="item.expanded ? 'expanded' : 'collapsed'">
+            <ng-container *ngIf="item.expanded">
+              <div *ngFor="let itemSubset of item.subsetRows">
                 <div class="mobile-container subproposal-card-subset">
                   <div style="width: calc(100% - 35px);">
                     <span class="title"> {{ itemSubset.subset }}</span>
@@ -408,7 +397,7 @@
                       [disabled]="item.loadingSubproposals"
                       (click)="
                         expandedItems = { subproposals: true, summary: false };
-                        onExpadSubproposals(itemSubset)
+                        itemSubset.expanded = !itemSubset.expanded
                       "
                       (mouseover)="onMouseOverLeaveArrow(item._id, true)"
                       (mouseleave)="onMouseOverLeaveArrow(item._id, false)"
@@ -418,8 +407,7 @@
                         class="arrow-wrapper expanded"
                         [ngClass]="{
                           rotate:
-                            expandedMipSubset == itemSubset.subset &&
-                            expandedItems.subproposals
+                            itemSubset.expanded && expandedItems.subproposals
                         }"
                       >
                         <img
@@ -437,15 +425,13 @@
 
                 <div
                   [@subproposalExpand]="
-                    expandedMipSubset == itemSubset.subset
-                      ? 'expanded'
-                      : 'collapsed'
+                    itemSubset.expanded ? 'expanded' : 'collapsed'
                   "
                 >
-                  <ng-container *ngIf="expandedMipSubset == itemSubset.subset">
+                  <ng-container *ngIf="itemSubset.expanded">
                     <div
                       *ngFor="
-                        let itemSubsetChildren of subproposalsGroup[
+                        let itemSubsetChildren of item.subproposalsGroup[
                           itemSubset.subset
                         ]
                       "

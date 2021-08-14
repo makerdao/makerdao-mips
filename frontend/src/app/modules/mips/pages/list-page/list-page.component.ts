@@ -10,17 +10,16 @@ import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
 import { fromEvent } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
-import { IMip } from "../../types/mip";
+import { IMip } from '../../types/mip';
 
 @Component({
   selector: 'app-list-page',
   templateUrl: './list-page.component.html',
-  styleUrls: ['./list-page.component.scss']
+  styleUrls: ['./list-page.component.scss'],
 })
 export class ListPageComponent implements OnInit, AfterViewInit {
-
-  mips: any = [];
-  mipsAux: any = [];
+  mips: IMip[] = [];
+  mipsAux: IMip[] = [];
   limit = 10;
   limitAux = 10;
   page = 0;
@@ -34,14 +33,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
-  @ViewChild('filterList', {static: true}) filterList: FilterListComponent;
+  @ViewChild('filterList', { static: true }) filterList: FilterListComponent;
   showFilterList: boolean = false;
   showListSearch: boolean = false;
   listSearchMip: any[] = [];
   mipsByName: any[] = [];
   sintaxError: boolean = false;
   errorMessage: string = '';
-  defaultSearch: string = "$ and(not(@Obsolete), not(@Withdrawn))";
+  defaultSearch: string = '$ and(not(@Obsolete), not(@Withdrawn))';
   mobileView: boolean = false;
   mipsetMode: boolean = false;
 
@@ -54,18 +53,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private queryParamsListService: QueryParamsListService,
     private elementsRefUiService: ElementsRefUiService,
     private metadataShareService: MetadataShareService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.order = 'mip';
     this.initParametersToLoadData();
     this.searchMips();
 
-    this.footerVisibleService.isFooterVisible$.subscribe(data => {
+    this.footerVisibleService.isFooterVisible$.subscribe((data) => {
       let elementFeedback = document.getElementById('feedback');
       if (data === true && elementFeedback) {
         elementFeedback.style.position = 'relative';
-        elementFeedback.style.bottom = window.innerWidth >= 500 ? '0px' : '-10px';
+        elementFeedback.style.bottom =
+          window.innerWidth >= 500 ? '0px' : '-10px';
       } else {
         if (elementFeedback) {
           elementFeedback.style.position = 'fixed';
@@ -76,7 +76,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
       this.updateUrlQueryParams(data);
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -99,7 +99,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }, 200);
 
     this.metadataShareService.title = 'MIPs Portal';
-    this.metadataShareService.description = "Maker Improvement Proposals are the preferred mechanism for improving both Maker Governance and the Maker Protocol.";
+    this.metadataShareService.description =
+      'Maker Improvement Proposals are the preferred mechanism for improving both Maker Governance and the Maker Protocol.';
   }
 
   initParametersToLoadData() {
@@ -115,8 +116,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     let queryParams: any = this.route.snapshot.queryParamMap;
     let status;
 
-    if (queryParams.has("status")) {
-      if (typeof queryParams.params.status === "string") {
+    if (queryParams.has('status')) {
+      if (typeof queryParams.params.status === 'string') {
         (status = []).push(queryParams.params.status);
       } else {
         status = [...queryParams.params.status];
@@ -128,7 +129,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       search: queryParams.params.search ? queryParams.params.search : '',
       contributor: queryParams.params.contributor,
       author: queryParams.params.author,
-      mipsetMode: JSON.parse(queryParams.params.mipsetMode || null)
+      mipsetMode: JSON.parse(queryParams.params.mipsetMode || null),
     };
 
     this.queryParamsListService.queryParams = qp;
@@ -153,7 +154,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       notcontains: [],
       equals: [],
       notequals: [],
-      inarray: []
+      inarray: [],
     };
     this.initFiltersStatus();
     this.initFilterContributor();
@@ -185,29 +186,29 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   initMipsetMode() {
-    this.mipsetMode =  this.queryParamsListService.queryParams.mipsetMode;
+    this.mipsetMode = this.queryParamsListService.queryParams.mipsetMode;
   }
 
   initFiltersStatus() {
     if (this.queryParamsListService.queryParams.status) {
       this.queryParamsListService.queryParams.status.forEach((value) => {
         switch (value) {
-          case "Accepted":
+          case 'Accepted':
             this.mipsService.setFilterArrayStatus(0, 1);
             break;
-          case "Rejected":
+          case 'Rejected':
             this.mipsService.setFilterArrayStatus(1, 1);
             break;
-          case "Archive":
+          case 'Archive':
             this.mipsService.setFilterArrayStatus(2, 1);
             break;
-          case "RFC":
+          case 'RFC':
             this.mipsService.setFilterArrayStatus(3, 1);
             break;
-          case "Obsolete":
+          case 'Obsolete':
             this.mipsService.setFilterArrayStatus(4, 1);
             break;
-          case "Formal Submission":
+          case 'Formal Submission':
             this.mipsService.setFilterArrayStatus(5, 1);
             break;
           default:
@@ -216,59 +217,111 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.filter.notequals.push({field: 'mip', value: -1});
+    this.filter.notequals.push({ field: 'mip', value: -1 });
 
     this.setFiltersStatus();
-
   }
 
   setFiltersStatus() {
-    let filter = {...this.filter};
+    let filter = { ...this.filter };
 
     this.filterSaved = this.mipsService.getFilter();
 
     if (this.filterSaved.arrayStatus[0] === 1) {
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Accepted' });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Accepted',
+      });
     } else {
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Accepted'});
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Accepted',
+      });
     }
     if (this.filterSaved.arrayStatus[1] === 1) {
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Rejected' });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Rejected',
+      });
     } else {
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Rejected'});
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Rejected',
+      });
     }
     if (this.filterSaved.arrayStatus[2] === 1) {
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Archive' });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Archive',
+      });
     } else {
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Archive'});
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Archive',
+      });
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'RFC' });
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: "Request for Comments (RFC)" });
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: "Request for Comments" });
+      this.pushFilterInarray(filter.inarray, { field: 'status', value: 'RFC' });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Request for Comments (RFC)',
+      });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Request for Comments',
+      });
     } else {
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'RFC'});
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Request for Comments (RFC)'});
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Request for Comments'});
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'RFC',
+      });
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Request for Comments (RFC)',
+      });
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Request for Comments',
+      });
     }
     if (this.filterSaved.arrayStatus[4] === 1) {
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Obsolete' });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Obsolete',
+      });
     } else {
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Obsolete'});
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Obsolete',
+      });
     }
     if (this.filterSaved.arrayStatus[5] === 1) {
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'Formal Submission' });
-      this.pushFilterInarray(filter.inarray, {field: 'status', value: "Formal Submission (FS)" });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Formal Submission',
+      });
+      this.pushFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Formal Submission (FS)',
+      });
     } else {
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Formal Submission'});
-      this.deleteFilterInarray(filter.inarray, {field: 'status', value: 'Formal Submission (FS)'});
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Formal Submission',
+      });
+      this.deleteFilterInarray(filter.inarray, {
+        field: 'status',
+        value: 'Formal Submission (FS)',
+      });
     }
 
-    this.filter = {...filter};
+    this.filter = { ...filter };
   }
 
   pushFilterInarray(array: Array<any>, data: any) {
-    let item = array.find(i => i.field === data.field && i.value === data.value);
+    let item = array.find(
+      (i) => i.field === data.field && i.value === data.value
+    );
 
     if (!item) {
       array.push(data);
@@ -276,7 +329,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   deleteFilterInarray(array: Array<any>, data: any) {
-    let index = array.findIndex(i => i.field === data.field && i.value === data.value);
+    let index = array.findIndex(
+      (i) => i.field === data.field && i.value === data.value
+    );
 
     if (index !== -1) {
       array.splice(index, 1);
@@ -284,15 +339,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMips(): void {
-    let index = this.filter.equals.findIndex(item => item.field === 'proposal');
+    let index = this.filter.equals.findIndex(
+      (item) => item.field === 'proposal'
+    );
 
-    if (this.filterOrSearch()) {  // filter or search
+    if (this.filterOrSearch()) {
+      // filter or search
       if (index !== -1) {
-        this.filter.equals.splice(index, 1);  // include subproposals in searching
+        this.filter.equals.splice(index, 1); // include subproposals in searching
       }
     } else {
       if (index === -1) {
-        this.filter.equals.push({field: 'proposal', value: ""});  // no subproposals
+        this.filter.equals.push({ field: 'proposal', value: '' }); // no subproposals
       }
     }
 
@@ -365,84 +423,72 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       for (let index = 0; index < data.items.length; index++) {
         const item: IMip = data.items[index];
         if (
+          item.proposal !== '' &&
           item.proposal !== this.mips[this.mips.length - 1]?.mipName &&
           item.proposal !== newData[newData.length - 1]?.mipName
         ) {
-          if (item.proposal) {  // is subproposal?
-            let stop: boolean = false;
-            let j = index + 1;
+          console.log('proposal');
 
-            // search subproposals with same MIP father
-            for (j; j < data.items.length && !stop; j++) {
-              const element: IMip = data.items[j];
+          let stop: boolean = false;
+          let j = index + 1;
 
-              if (element.proposal !== item.proposal) {
-                stop = true;
-              } else {
-                // this.addSubsetField(data.items[j - 1]);
-              }
+          // search subproposals with same MIP father
+          for (j; j < data.items.length && !stop; j++) {
+            const element: IMip = data.items[j];
 
-              this.addSubsetField(data.items[j - 1]);
-
-              index = j - 1;
+            if (!element.proposal || element.proposal !== item.proposal) {
+              stop = true;
             }
 
-            if (j === data.items.length) {
-              index = j;
-            }
-
-            let res: any = await this.mipsService
-              .searchMips(
-                1,
-                0,
-                null,
-                null,
-                { equals: [{ field: 'mipName', value: item.proposal }] },
-                'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
-              )
-              .toPromise();
-            let parent: IMip = res.items[0];
-            parent.expanded = true;
-            parent.children = (data.items as []).slice(index - 1, j - 1);
-            console.log("data.items", data.items);
-
-            console.log("parent.children", parent.children);
-
-            let subproposalsGroup: any = this.groupBy('subset', parent.children);
-            console.log("subproposalsGroup:", subproposalsGroup);
-
-              // this.sortSubproposalsGroups();
-              const subsetRows: any[] = [];
-
-              for (const key in subproposalsGroup) {
-                if (
-                  Object.prototype.hasOwnProperty.call(
-                    subproposalsGroup,
-                    key
-                  )
-                ) {
-                  subsetRows.push({ subset: key, expanded: true });
-                }
-              }
-            parent.subproposalsGroup = subproposalsGroup;
-            parent.subsetRows = subsetRows;
-            console.log("parent", parent);
-
-            newData.push(parent);
-          } else {
-            item.expanded = false;
-            newData.push(item);
+            this.addSubsetField(data.items[j - 1]);
           }
+
+          let res: any = await this.mipsService
+            .searchMips(
+              1,
+              0,
+              null,
+              null,
+              { equals: [{ field: 'mipName', value: item.proposal }] },
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+            )
+            .toPromise();
+          let parent: IMip = res.items[0];
+          parent.expanded = true;
+          let top: number = stop ? j - 1 : j;
+          parent.children = (data.items as []).slice(index, top);
+
+          if (!stop && j === data.items.length) {
+            index = j;
+            this.addSubsetField(data.items[j - 1]);
+          } else {
+            index = j - 2;
+          }
+
+          let subproposalsGroup: any = this.groupBy('subset', parent.children);
+          // this.sortSubproposalsGroups();
+          const subsetRows: any[] = [];
+
+          for (const key in subproposalsGroup) {
+            if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+              subsetRows.push({ subset: key, expanded: true });
+            }
+          }
+
+          parent.subproposalsGroup = subproposalsGroup;
+          parent.subsetRows = subsetRows;
+          newData.push(parent);
+        } else {
+          console.log('no proposal');
+          item.expanded = false;
+          newData.push(item);
         }
       }
     };
 
     await forLoop();
-
     this.mipsAux = newData;
     this.mips = this.mips.concat(this.mipsAux);
-    console.log("mis", this.mips);
-
     this.total = data.total;
     this.loading = false;
     this.loadingPlus = false;
@@ -458,7 +504,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     let subset: string = (item.mipName as string).split('SP')[0];
     item.subset = subset;
     return item;
-  }
+  };
 
   groupBy(field, arr: any[]): any {
     let group: any = arr.reduce((r, a) => {
@@ -492,27 +538,35 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         filter,
         'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather'
       )
-    .subscribe(data => {
-      this.mipsByName = data.items;
+      .subscribe((data) => {
+        this.mipsByName = data.items;
 
-      this.showListSearch = true;
-      this.listSearchMip = this.mipsByName.map(item => {
-        return {
-          content: item.mipName + " " + (item.title !== undefined ? item.title : ""),
-          mipName: item.mipName,
-          id: item._id
-        }
+        this.showListSearch = true;
+        this.listSearchMip = this.mipsByName.map((item) => {
+          const cleanedTitle = item.title.replace(/[^\w]*/g, '');
+          const cleanedMipName = item.mipName.replace(/[^\w]*/g, '');
+
+          const titleContainsMipsName = cleanedTitle.includes(cleanedMipName);
+
+          return {
+            content:
+              (titleContainsMipsName ? '' : item.mipName) +
+              ' ' +
+              (item.title !== undefined ? item.title : ''),
+            mipName: item.mipName,
+            id: item._id,
+          };
+        });
       });
-    });
-}
+  }
 
   onSendPagination(): void {
-      this.loadingPlus = true;
-      this.page++;
-      this.limitAux += 10;
-      if (this.moreToLoad) {
-        this.searchMips();
-      }
+    this.loadingPlus = true;
+    this.page++;
+    this.limitAux += 10;
+    if (this.moreToLoad) {
+      this.searchMips();
+    }
   }
 
   onSendFilters() {
@@ -534,7 +588,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       let filter = {
         contains: [],
       };
-      filter.contains.push({field: 'mipName', value: event.target.value});
+      filter.contains.push({ field: 'mipName', value: event.target.value });
       this.searchMipsByName(0, 0, 'mipName', '', filter);
       this.limit = 0;
     } else {
@@ -580,7 +634,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   goToMipDetails(name) {
-    this.router.navigate(["/mips/details/", name]);
+    this.router.navigate(['/mips/details/', name]);
   }
 
   initFiltersList(): void {
@@ -593,7 +647,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         id: '0',
         text: 'accepted',
         value: '0',
-        color: '#27AE60'
+        color: '#27AE60',
       });
     }
     if (filterSaved.arrayStatus[1] === 1) {
@@ -601,7 +655,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         id: '1',
         text: 'rejected',
         value: '1',
-        color: '#EB5757'
+        color: '#EB5757',
       });
     }
     if (filterSaved.arrayStatus[2] === 1) {
@@ -609,7 +663,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         id: '2',
         text: 'archive',
         value: '2',
-        color: '#748AA1'
+        color: '#748AA1',
       });
     }
     if (filterSaved.arrayStatus[3] === 1) {
@@ -617,7 +671,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         id: '3',
         text: 'rfc',
         value: '3',
-        color: '#F2994A'
+        color: '#F2994A',
       });
     }
     if (filterSaved.arrayStatus[4] === 1) {
@@ -625,7 +679,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         id: '4',
         text: 'obsolete',
         value: '4',
-        color: '#B5B12A'
+        color: '#B5B12A',
       });
     }
     if (filterSaved.arrayStatus[5] === 1) {
@@ -633,7 +687,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         id: '5',
         text: 'formal submission',
         value: '5',
-        color: '#78288C'
+        color: '#78288C',
       });
     }
   }
@@ -646,7 +700,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     let qp: QueryParams = {
       status: [],
       search: this.search,
-      mipsetMode: this.mipsetMode
+      mipsetMode: this.mipsetMode,
     };
 
     if (filterSaved.arrayStatus[0] === 1) {
@@ -673,10 +727,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   updateUrlQueryParams(qp: QueryParams) {
     let navigationExtras: NavigationExtras = {
-      queryParams: qp
-    }
+      queryParams: qp,
+    };
 
-    this.router.navigate(['/mips/list'], {...navigationExtras});
+    this.router.navigate(['/mips/list'], { ...navigationExtras });
   }
 
   onCheckedMipsetMode(ev) {

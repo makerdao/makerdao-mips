@@ -1,3 +1,5 @@
+import { ISubsetDataElement } from "./subset";
+
 export interface IMip {
   _id?: string;
   title?: string;
@@ -13,5 +15,6 @@ export interface IMip {
   subset?: string;
   expanded?: boolean;
   subproposalsGroup?: any;
-  subsetRows?: any[];
+  subsetRows?: ISubsetDataElement[];
+  expandedSummary?: boolean;
 }

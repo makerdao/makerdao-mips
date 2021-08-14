@@ -15,16 +15,12 @@
         *matCellDef="let element"
         style="cursor: pointer; position: relative;"
       >
-
-
         {{ element[column] }}
         <div (click)="onClickButtonCaptureEvent($event)">
           <button
             class="arrow-container"
             [disabled]="element.loadingSubproposals"
-            (click)="
-              element.expanded = !element.expanded
-            "
+            (click)="element.expanded = !element.expanded"
             (mouseover)="onMouseOverLeaveSubsetArrow(element.subset, true)"
             (mouseleave)="onMouseOverLeaveSubsetArrow(element.subset, false)"
             style="right: 0; position: relative;"
@@ -59,9 +55,7 @@
     >
       <div
         class="maker-element-subsetchildren-detail"
-        [@detailExpand]="
-          element.expanded ? 'expanded' : 'collapsed'
-        "
+        [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
       >
         <ng-container *ngIf="element.expanded">
           <app-list-subproposal
@@ -77,9 +71,7 @@
     *matRowDef="let element; columns: columnsToDisplaySubset"
     class="maker-element-subset-row"
     [class.example-expanded-row]="element.expanded"
-    (click)="
-      element.expanded = !element.expanded
-    "
+    (click)="element.expanded = !element.expanded"
   ></tr>
   <tr
     mat-row

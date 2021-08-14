@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
+import { IMip } from '../../types/mip';
 const clone = require('rfdc')();
 
 interface ExpandedItems {
@@ -96,16 +97,9 @@ export class ListComponent implements OnInit, OnChanges {
     this._expandedItems = { ...value };
   }
 
-  dataSourceSubsetRows: any;
-
-  subsetChildrenActivate: boolean = false;
   subproposalsGroup: any;
-
   columnsToDisplaySubsetChildren = ['title', 'summary', 'status', 'link'];
   expandedElementSubsetChildren: DataElement | null;
-
-  expandedMipFather: string;
-  expandedMipSubset: string | null;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -249,19 +243,13 @@ const language = 'typescript';
     this.currentRowOver = id;
   }
 
-  onGetSubproposals(row: any, e: Event) {
+  onGetSubproposals(row: IMip, e: Event) {
     e.stopPropagation();
     console.log("data source", this.dataSourceTable);
 
 
-    if (
-      this.expandedElement === row ||
-      this.expandedMipFather === row.mipName
-    ) {
-      this.expandedElement = null;
-      this.expandedMipFather = null;
-      this.expandedMipSubset = null;
-      this.subsetChildrenActivate = false;
+    if (row.expanded) {
+      row.expanded = false;
     } else {
       let index = this.dataSourceTable.data.findIndex(
         (item) => item._id === row._id
@@ -272,7 +260,6 @@ const language = 'typescript';
         let filter = clone(this.filter);
         filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
-        this.subsetChildrenActivate = false;
 
         this.mipsService
           .searchMips(
@@ -306,16 +293,13 @@ const language = 'typescript';
                   : 1;
               });
 
-              this.subproposalsGroup = this.groupBy('subset', items);
-              this.sortSubproposalsGroups();
+              let subproposalsGroup: any = this.groupBy('subset', items);
+              this.sortSubproposalsGroups(subproposalsGroup);
               const subsetRows: ISubsetDataElement[] = [];
 
-              for (const key in this.subproposalsGroup) {
+              for (const key in subproposalsGroup) {
                 if (
-                  Object.prototype.hasOwnProperty.call(
-                    this.subproposalsGroup,
-                    key
-                  )
+                  Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
                 ) {
                   subsetRows.push({ subset: key });
                 }
@@ -326,11 +310,13 @@ const language = 'typescript';
 
 
 
-              this.dataSourceSubsetRows = subsetRows;
-              this.expandedElement = row;
-              this.expandedMipFather = data.items[0]?.proposal;
+              // this.dataSourceSubsetRows = subsetRows;
+              // this.expandedElement = row;
+              // this.expandedMipFather = data.items[0]?.proposal;
+              row.subsetRows = subsetRows;
+              row.subproposalsGroup = subproposalsGroup;
+              row.expanded = true;
               this.cdr.detectChanges();
-              this.subsetChildrenActivate = true;
             },
             (error) => {
               this.dataSourceTable.data[index]['loadingSubproposals'] = false;
@@ -354,13 +340,13 @@ const language = 'typescript';
     let subset: string = (item.mipName as string).split('SP')[0];
     item.subset = subset;
     return item;
-  }
+  };
 
-  sortSubproposalsGroups() {
-    for (const key in this.subproposalsGroup) {
-      if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
-        let element: any[] = this.subproposalsGroup[key];
-        this.subproposalsGroup[key] = this.sortSubproposalGroup(element);
+  sortSubproposalsGroups(subproposalsGroup: any) {
+    for (const key in subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+        let element: any[] = subproposalsGroup[key];
+        subproposalsGroup[key] = this.sortSubproposalGroup(element);
       }
     }
   }
@@ -379,11 +365,6 @@ const language = 'typescript';
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
   onClickButtonCaptureEvent(e: Event) {
     e.stopPropagation();
-  }
-
-  onExpadSubproposals(itemSubset: any) {
-    this.expandedMipSubset =
-      this.expandedMipSubset == itemSubset.subset ? null : itemSubset.subset;
   }
 }
 

@@ -275,7 +275,7 @@ export class DetailContentComponent
     this.urlOriginal =
       this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
 
-    const nameMdMatch: RegExpMatchArray = this.mdUrl.match(/\/[\w\s-]+\.md/g);
+    const nameMdMatch: RegExpMatchArray = this.mdUrl?.match(/\/[\w\s-]+\.md/g);
 
     if (nameMdMatch && nameMdMatch[0]) {
       this.mdFileName = nameMdMatch[0].replace('/', '');

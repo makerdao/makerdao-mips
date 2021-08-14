@@ -13,11 +13,13 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { ISubsetDataElement } from '../../../types/subset';
 
 @Component({
   selector: 'app-list-subset',
   templateUrl: './list-subset.component.html',
   styleUrls: ['./list-subset.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -29,19 +31,28 @@ import {
     ]),
   ],
 })
-export class ListSubsetComponent implements OnInit {
-  @Input() dataSourceSubsetRows: any;
+export class ListSubsetComponent implements OnInit, OnChanges {
+  @Input() dataSourceSubsetRows: ISubsetDataElement[];
   columnsToDisplaySubset = ['subset'];
   expandedElementSubset: ISubsetDataElement | null;
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
   @Input() subproposalsGroup: any;
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     console.log("subproposalsGroup subset", this.subproposalsGroup);
 
+  }
+
+  ngOnChanges() {
+    if (this.dataSourceSubsetRows?.length === 1) {
+      setTimeout(() => {
+        this.dataSourceSubsetRows[0].expanded = true;
+        this.cdr.detectChanges();
+      }, 500);
+    }
   }
 
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
@@ -53,8 +64,4 @@ export class ListSubsetComponent implements OnInit {
     this.isArrowDownOnMouseOver = value;
     this.currentRowOver = subset;
   }
-}
-
-export interface ISubsetDataElement {
-  subset: string;
 }
