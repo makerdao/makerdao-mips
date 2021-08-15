@@ -10,7 +10,7 @@ import { environment as env } from '../../../../../environments/environment';
 export class ReferencesComponent implements OnInit {
   @Input() references: any[];
   @Input() mipName: string;
-
+  mdViewerPath="/mips/md-viewer?mdUrl="
   gitHubUrl = env.repoUrl;
 
   constructor() {}

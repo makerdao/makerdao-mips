@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'details/:name',
     component: DetailsPageComponent
+  },
+  {
+    path:'md-viewer',
+    component: DetailsPageComponent    
   }
 ];
 
