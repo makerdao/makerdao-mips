@@ -11,6 +11,7 @@ import { ElementsRefUiService } from '../../../../services/elements-ref-ui/eleme
 import { fromEvent } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-page',
@@ -371,8 +372,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.filter,
           'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
         )
+        .pipe(
+          map((res) => {
+            (res.items as IMip[]).map((item) => {
+              item.showArrowExpandChildren = true;
+              return item;
+            });
+
+            return res;
+          })
+        )
         .subscribe(
-          (data) => {
+          (data: any) => {
             if (this.filterOrSearch()) {
               this.hidingSubproposalsUnderParents(data);
             } else {
@@ -453,6 +464,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             .toPromise();
           let parent: IMip = res.items[0];
           parent.expanded = true;
+          parent.showArrowExpandChildren = true;
           let top: number = stop ? j - 1 : j;
           parent.children = (data.items as []).slice(index, top);
 
@@ -527,8 +539,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             newData[newData.length - 1].subproposalsGroup = subproposalsGroup;
             newData[newData.length - 1].subsetRows = subsetRows;
             newData[newData.length - 1].expanded = true;
+            newData[newData.length - 1].showArrowExpandChildren = true;
           } else {
             this.mips[this.mips.length - 1].expanded = true;
+            this.mips[this.mips.length - 1].showArrowExpandChildren = true;
             let top: number = stop ? j - 1 : j;
             this.mips[this.mips.length - 1].children = this.mips[
               this.mips.length - 1
@@ -564,6 +578,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         } else {
           item.expanded = false;
           item.children = [];
+          item.showArrowExpandChildren = false;
           newData.push(item);
         }
       }
