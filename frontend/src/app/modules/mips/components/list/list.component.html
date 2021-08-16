@@ -144,7 +144,11 @@
               {{ element.proposal ? "" : element.mip }}
               <div (click)="onClickButtonCaptureEvent($event)">
                 <button
-                  *ngIf="!element.proposal && element.mipFather"
+                  *ngIf="
+                    !element.proposal &&
+                    element.mipFather &&
+                    element.showArrowExpandChildren
+                  "
                   class="arrow-container"
                   [disabled]="element.loadingSubproposals"
                   (click)="
@@ -243,13 +247,23 @@
             *matCellDef="let element"
             [attr.colspan]="columnsToDisplay.length"
           >
-            <div
+            <!-- <div
               class="maker-element-subset-detail"
               [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
             >
-              <!-- subset -->
               <app-list-subset
                 *ngIf="expandedItems.subproposals"
+                [dataSourceSubsetRows]="element.subsetRows"
+                [subproposalsGroup]="element.subproposalsGroup"
+              ></app-list-subset>
+            </div> -->
+            <div
+              class="maker-element-subset-detail"
+              [@detailExpand]="
+                element.expanded == true ? 'expanded' : 'collapsed'
+              "
+            >
+              <app-list-subset
                 [dataSourceSubsetRows]="element.subsetRows"
                 [subproposalsGroup]="element.subproposalsGroup"
               ></app-list-subset>
@@ -337,7 +351,11 @@
               (click)="onClickButtonCaptureEvent($event)"
             >
               <button
-                *ngIf="!item.proposal && item.mipFather"
+                *ngIf="
+                  !item.proposal &&
+                  item.mipFather &&
+                  item.showArrowExpandChildren
+                "
                 class="arrow-container"
                 [disabled]="item.loadingSubproposals"
                 (click)="

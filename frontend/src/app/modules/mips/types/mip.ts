@@ -17,4 +17,5 @@ export interface IMip {
   subproposalsGroup?: any;
   subsetRows?: ISubsetDataElement[];
   expandedSummary?: boolean;
+  showArrowExpandChildren?: boolean;
 }
