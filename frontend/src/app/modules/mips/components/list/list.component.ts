@@ -23,6 +23,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
 import { IMip } from '../../types/mip';
+const clone = require('rfdc')();
 
 interface ExpandedItems {
   subproposals: boolean;
@@ -63,6 +64,8 @@ export class ListComponent implements OnInit, OnChanges {
   @Input() loadingPlus = false;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
+  @Input() filter: any;
+  @Input() search: string;
   expandedElement: DataElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selected = '-1';
@@ -252,9 +255,8 @@ const language = 'typescript';
       // show subproposals children
       if (index !== -1) {
         this.dataSourceTable.data[index]['loadingSubproposals'] = true;
-        let filter = {
-          equals: [],
-        };
+        let filter = clone(this.filter);
+        filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
 
         this.mipsService
@@ -262,7 +264,7 @@ const language = 'typescript';
             100000,
             0,
             'mipName',
-            '',
+            this.search,
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )
@@ -301,6 +303,14 @@ const language = 'typescript';
                 }
               }
 
+              console.log("subproposalsGroup", this.subproposalsGroup);
+              console.log("subsetRows", subsetRows);
+
+
+
+              // this.dataSourceSubsetRows = subsetRows;
+              // this.expandedElement = row;
+              // this.expandedMipFather = data.items[0]?.proposal;
               row.subsetRows = subsetRows;
               row.subproposalsGroup = subproposalsGroup;
               row.expanded = true;
