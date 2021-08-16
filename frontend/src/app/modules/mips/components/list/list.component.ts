@@ -85,7 +85,7 @@ export class ListComponent implements OnInit, OnChanges {
   currentRowOver: any;
   dataSourceTable = new MatTableDataSource<any>();
   _expandedItems: ExpandedItems = {
-    subproposals: false,
+    subproposals: true,
     summary: false,
   };
 

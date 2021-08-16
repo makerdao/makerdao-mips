@@ -144,7 +144,11 @@
               {{ element.proposal ? "" : element.mip }}
               <div (click)="onClickButtonCaptureEvent($event)">
                 <button
-                  *ngIf="!element.proposal && element.mipFather"
+                  *ngIf="
+                    !element.proposal &&
+                    element.mipFather &&
+                    element.showArrowExpandChildren
+                  "
                   class="arrow-container"
                   [disabled]="element.loadingSubproposals"
                   (click)="
@@ -152,7 +156,6 @@
                       subproposals: true,
                       summary: false
                     };
-
                     onGetSubproposals(element, $event)
                   "
                   (mouseover)="onMouseOverLeaveArrow(element._id, true)"
