@@ -74,7 +74,7 @@ export class ListSubproposalComponent implements OnInit {
       }
     }
 
-    // return data;
+    return 'DEFAULT';
   }
 
   getStatusValue(data: string): string {
@@ -99,7 +99,7 @@ export class ListSubproposalComponent implements OnInit {
       }
     }
 
-    // return data;
+    return data;
   }
 
   updateSelected(index: string, event: Event): void {
