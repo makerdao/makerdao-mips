@@ -15,6 +15,14 @@ img {
   content: url("../../../../../assets/images/404-page-not-found-mobile.svg");
 }
 
+.mobile {
+  display: block;
+}
+
+.no-mobile {
+  display: none;
+}
+
 .center-card {
   position: absolute;
   top: 0;
@@ -76,6 +84,14 @@ img {
     width: 70%;
     margin-bottom: -40px;
     content: url("../../../../../assets/images/404-page-not-found.svg");
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  .no-mobile {
+    display: block;
   }
 
   .center-card {
