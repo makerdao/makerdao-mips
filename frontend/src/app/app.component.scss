@@ -1,5 +1,6 @@
 .container {
   margin: 30px 60px;
+  min-height: 75vh;
 }
 
 @media screen and (max-width: 500px) {
@@ -11,5 +12,11 @@
 @media screen and (min-width: 1920px) {
   .container {
     margin: 40px 210px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    min-height: 68vh;
   }
 }
