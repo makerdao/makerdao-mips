@@ -14,8 +14,8 @@ import { FilterItemService } from 'src/app/services/filter-item/filter-item.serv
 import { QueryParamsListService } from '../../services/query-params-list.service';
 import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
-import { fromEvent, Subscription } from 'rxjs';
-import { MetadataShareService } from '../../services/metadata-share.service';
+import { Subscription } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { IMip } from '../../types/mip';
 import { SearchService } from '../../services/search.service';
 import { FilterService } from '../../services/filter.service';
@@ -73,7 +73,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private queryParamsListService: QueryParamsListService,
     private elementsRefUiService: ElementsRefUiService,
-    private metadataShareService: MetadataShareService,
     private orderService: OrderService,
     private searchService: SearchService,
     private filterService: FilterService
@@ -120,10 +119,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         }
       });
     }, 200);
-
-    this.metadataShareService.title = 'MIPs Portal';
-    this.metadataShareService.description =
-      'Maker Improvement Proposals are the preferred mechanism for improving both Maker Governance and the Maker Protocol.';
   }
 
   initParametersToLoadData() {
