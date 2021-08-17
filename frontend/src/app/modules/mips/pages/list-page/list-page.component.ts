@@ -9,7 +9,6 @@ import { QueryParamsListService } from '../../services/query-params-list.service
 import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
 import { fromEvent } from 'rxjs';
-import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
 import { map } from 'rxjs/operators';
 
@@ -53,7 +52,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private queryParamsListService: QueryParamsListService,
     private elementsRefUiService: ElementsRefUiService,
-    private metadataShareService: MetadataShareService
   ) {}
 
   ngOnInit(): void {
@@ -98,10 +96,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         }
       });
     }, 200);
-
-    this.metadataShareService.title = 'MIPs Portal';
-    this.metadataShareService.description =
-      'Maker Improvement Proposals are the preferred mechanism for improving both Maker Governance and the Maker Protocol.';
   }
 
   initParametersToLoadData() {
