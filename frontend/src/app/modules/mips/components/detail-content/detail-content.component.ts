@@ -302,8 +302,12 @@ export class DetailContentComponent
   }
 
   onError() {
-    //Work around for unexpected md render error
-    history.back();
+    this.router.navigateByUrl('/');
+    setTimeout(() => {
+      //To avoid the race issue
+
+      this.router.navigateByUrl('page-not-found');
+    }, 0);
   }
 
   moveToElement(el: HTMLElement): void {
@@ -320,7 +324,7 @@ export class DetailContentComponent
       level: number,
       raw: string
     ) => {
-      const htmlCleanedText=raw.replace(/<[^<>]+>/gm,'')
+      const htmlCleanedText = raw.replace(/<[^<>]+>/gm, '');
       const escapedText = htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';

@@ -22,6 +22,7 @@ export class DetailsPageComponent implements OnInit {
   subproposals: any[];
   referencesContent: string[];
   loadingUrl: boolean = true;
+  references=[]
 
   constructor(
     private mipsService: MipsService,
@@ -71,6 +72,11 @@ export class DetailsPageComponent implements OnInit {
     this.mipsService.getMip(this.mipName).subscribe(
       (data) => {
         this.mip = data.mip;
+
+        this.references = data.mip?.references?.filter((item) => {
+          return item.name !== '\n';
+        });
+        
         // const regEx = new RegExp('(.)*');
         // this.mip.file = this.mip.file.replace(regEx, ' ');
         this.sections = this.mip.sections;
