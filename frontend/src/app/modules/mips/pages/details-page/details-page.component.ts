@@ -98,13 +98,6 @@ export class DetailsPageComponent implements OnInit {
           (this.sections as []).splice(indexReferencesSection, 1);
         }
 
-        if (data.subproposals && data.subproposals.length > 0) {
-          (this.sections as any[]).push({
-            depth: 2,
-            heading: 'Subproposals',
-          });
-        }
-
         let indexReferencesHeading: number = (this.mip.sectionsRaw as [
 
         ]).findIndex((i: any) => (i as string).includes('References'));

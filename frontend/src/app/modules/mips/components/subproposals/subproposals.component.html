@@ -1,17 +1,50 @@
-<h2 class="title">
-  <a
-    name="subproposals"
-    id="subproposals"
-    class="anchor"
-    href="/mips/details/MIP0#subproposals"
+<mat-accordion>
+  <mat-expansion-panel
+    [hideToggle]="true"
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+    [ngStyle]="{ borderBottomWidth: subproposals.length > 3 ? '60px' : '16px' }"
+    #expansionPanel
   >
-    <i id="subproposals" class="fas fa-link" aria-hidden="true"></i> </a
-  >Subproposals
-</h2>
-<a
-  class="link"
-  *ngFor="let item of subproposals"
-  [routerLink]="['/mips/details/', item.mipName]"
+    <mat-expansion-panel-header collapsedHeight="auto" expandedHeight="auto">
+      <mat-panel-title>
+        <h4 class="title">
+          Subproposals
+        </h4>
+        <a
+          class="link"
+          *ngFor="let item of subproposals.slice(0, 3)"
+          [routerLink]="['/mips/details/', item.mipName]"
+        >
+          <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
+        >
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <a
+        class="link"
+        *ngFor="let item of subproposals.slice(3, subproposals.length)"
+        [routerLink]="['/mips/details/', item.mipName]"
+      >
+        <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
+      >
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div
+  *ngIf="subproposals.length > 3"
+  matRipple
+  [matRippleUnbounded]="false"
+  [matRippleColor]="'rgba(26, 171, 155, 0.1)'"
+  class="expandToggle"
+  (click)="onToggleShowMore()"
 >
-  <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
->
+  {{ panelOpenState ? "Show less" : "Show more"
+  }}<img
+    class="arrowIcon"
+    src="../../../../../assets/images/arrow_indicator.svg"
+    [ngClass]="{ rotate: panelOpenState }"
+  />
+</div>
+<img class="expIcon" src="../../../../../assets/images/d_content.svg" />

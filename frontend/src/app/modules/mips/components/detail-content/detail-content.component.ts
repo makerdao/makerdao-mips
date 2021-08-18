@@ -10,6 +10,8 @@ import {
   ViewContainerRef,
   EventEmitter,
   Output,
+  ComponentFactoryResolver,
+  Injector,
 } from '@angular/core';
 
 import { environment } from '../../../../../environments/environment';
@@ -25,6 +27,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { UrlService } from 'src/app/services/url/url.service';
+import { SubproposalsComponent } from '../subproposals/subproposals.component';
 
 const preambleDataSample = [
   {
@@ -99,6 +102,7 @@ export class DetailContentComponent
   subproposalTitle: string = '';
 
   headingStructure: Heading[] = [];
+  subproposalsGroup: any = {};
 
   constructor(
     private markdownService: MarkdownService,
@@ -108,7 +112,9 @@ export class DetailContentComponent
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector,
   ) {}
 
   ngOnInit(): void {
@@ -299,6 +305,110 @@ export class DetailContentComponent
       this.searchMips();
     }
     this.setPreviewFeature();
+    this.appendSubproposalsElements();
+  }
+
+  appendSubproposalsElements() {
+    this.subproposals.map(item => {
+      let newItem = this.addSubsetField(item);
+      return newItem;
+    });
+
+    let subproposalsGroup: any = this.groupBy(
+      'subset',
+      this.subproposals
+    );
+
+    this.sortSubproposalsGroups(subproposalsGroup);
+    this.subproposalsGroup = subproposalsGroup;
+
+    // DOM manipulation
+    let m: HTMLElement = document.querySelector('.variable-binding');
+    let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName('h3');
+
+    for (const key in this.subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
+        for (let i = 0; i < h3s.length; i++) {
+          const element = h3s.item(i);
+          if (element.innerText.startsWith(key)) {
+            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+              SubproposalsComponent
+            );
+            const componentRef = componentFactory.create(this.injector);
+            componentRef.instance.subproposals = [...this.subproposalsGroup[key]];
+            componentRef.hostView.detectChanges();
+            const { nativeElement } = componentRef.location;
+
+            // search in DOM the next component section
+            let found: boolean = false;
+            let j: number = i + 1;
+            while ( j < h3s.length && !found) {
+              const nextElement: HTMLHeadingElement = h3s.item(j);
+
+              if (nextElement.innerText.startsWith(this.mip.mipName)) {
+                found = true;
+                let prev = nextElement.previousElementSibling;
+
+                if (prev.tagName ===  'HR') {
+                  prev.insertAdjacentElement('beforebegin', nativeElement);
+                } else {
+                  prev.insertAdjacentElement('afterend', nativeElement);
+                }
+
+              }
+
+              j++;
+            }
+
+            if (j >= h3s.length && !found) {
+              let lastChild = m.lastElementChild;
+
+              if (lastChild.tagName ===  'HR') {
+                lastChild.insertAdjacentElement('beforebegin', nativeElement);
+              } else {
+                lastChild.insertAdjacentElement('afterend', nativeElement);
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  addSubsetField = (item: any) => {
+    let subset: string = (item.mipName as string).split('SP')[0];
+    item.subset = subset;
+    return item;
+  };
+
+  groupBy(field, arr: any[]): any {
+    let group: any = arr.reduce((r, a) => {
+      r[a[field]] = [...(r[a[field]] || []), a];
+      return r;
+    }, {});
+
+    return group;
+  }
+
+  sortSubproposalsGroups(subproposalsGroup: any) {
+    for (const key in subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+        let element: any[] = subproposalsGroup[key];
+        subproposalsGroup[key] = this.sortSubproposalGroup(element);
+      }
+    }
+  }
+
+  sortSubproposalGroup(arr: any[]) {
+    return arr.sort(function (a: any, b: any) {
+      return (a.mipName as string).includes('SP') &&
+        a.mipName.split('SP').length > 1
+        ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
+          ? -1
+          : 1
+        : 1;
+    });
   }
 
   onError() {
