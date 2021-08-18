@@ -23,7 +23,7 @@
     <app-detail-content [mdUrl]="mdUrl" [mip]="mip" [subproposals]="subproposals" (headingListUpdate)="headingListUpdate($event)"></app-detail-content>
     <div *ngIf="mip" class="column">
       <div class="sidebar-wrapper">
-        <!-- <app-mip-details
+        <app-mip-details
           id="details-component"
           [status]="mip?.status"
           [dateProposed]="mip?.dateProposed"
@@ -38,7 +38,7 @@
           [replaces]="mip?.replaces"
           [pollAddress]="mip?.pollAddress"
           [tags]="mip?.tags"
-          ></app-mip-details> -->
+          ></app-mip-details>
         <app-references *ngIf="references && references.length > 0" [references]="mip?.references" [mipName]="mip?.mipName"></app-references>
         <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
       </div>
