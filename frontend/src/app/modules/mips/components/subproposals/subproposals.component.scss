@@ -2,6 +2,84 @@
   position: relative;
   height: fit-content;
   display: block;
+
+  .title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+    margin: 0 0 2px 0;
+    position: relative;
+  }
+
+  .expandToggle {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: #1aab9b;
+    position: absolute;
+    bottom: 17.5px;
+    left: 22px;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: rgba(184, 197, 222, 0.2);
+      transition: background-color 0.2s;
+    }
+
+    .arrowIcon {
+      margin-left: 6px;
+      transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+  }
+
+  .rotate {
+    transform: rotate(180deg);
+    transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .expIcon {
+    position: absolute;
+    right: 12px;
+    top: 13px;
+    width: 23px;
+    height: 22px;
+  }
+
+  .link {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    color: #2f80ed;
+    display: block;
+    margin-top: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    img {
+      margin-right: 9px;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 mat-expansion-panel {
@@ -23,82 +101,6 @@ mat-expansion-panel-header {
 
 :host::ng-deep.mat-expansion-panel-body {
   padding: 0 !important;
-}
-
-.expandToggle {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 14px;
-  text-align: center;
-  color: #1aab9b;
-  position: absolute;
-  bottom: 17.5px;
-  left: 22px;
-  padding: 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background: rgba(184, 197, 222, 0.2);
-    transition: background-color 0.2s;
-  }
-
-  .arrowIcon {
-    margin-left: 6px;
-    transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-  }
-}
-
-.rotate {
-  transform: rotate(180deg);
-  transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-.expIcon {
-  position: absolute;
-  right: 12px;
-  top: 13px;
-}
-
-.title {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  color: #000000;
-  margin: 0 0 2px 0;
-  position: relative;
-}
-
-:host .link {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 14px;
-  color: #2f80ed;
-  display: block;
-  margin-top: 14px;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-
-  img {
-    margin-right: 9px;
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 mat-panel-title {

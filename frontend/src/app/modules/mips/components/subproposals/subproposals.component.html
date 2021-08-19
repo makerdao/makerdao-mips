@@ -13,7 +13,7 @@
         </h4>
         <a
           class="link"
-          *ngFor="let item of subproposals.slice(0, 3)"
+          *ngFor="let item of subproposals.slice(-3)"
           [routerLink]="['/mips/details/', item.mipName]"
         >
           <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
@@ -23,7 +23,7 @@
     <ng-template matExpansionPanelContent>
       <a
         class="link"
-        *ngFor="let item of subproposals.slice(3, subproposals.length)"
+        *ngFor="let item of subproposals.slice(0, -3)"
         [routerLink]="['/mips/details/', item.mipName]"
       >
         <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
