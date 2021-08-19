@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { UrlService } from 'src/app/services/url/url.service';
 
 import { environment as env } from '../../../../../environments/environment';
 
@@ -7,19 +8,29 @@ import { environment as env } from '../../../../../environments/environment';
   templateUrl: './references.component.html',
   styleUrls: ['./references.component.scss'],
 })
-export class ReferencesComponent implements OnInit {
+export class ReferencesComponent implements OnChanges {
   @Input() references: any[];
   @Input() mipName: string;
-  mdViewerPath="/mips/md-viewer?mdUrl="
+  mdViewerPath = '/mips/md-viewer?mdUrl=';
   gitHubUrl = env.repoUrl;
+  updatedReferences: any[];
 
-  constructor() {}
+  constructor(protected urlService: UrlService) {}
 
-  ngOnInit(): void {
-    let referencesTemp: any[] = this.references.filter((item) => {
+  ngOnChanges(): void {
+
+    const temporalReferences = this.references.filter((item) => {
       return item.name !== '\n';
     });
 
-    this.references = [...referencesTemp];
+    this.updatedReferences = temporalReferences.map((reference) => {
+      const proccesedLink = this.urlService.processLink(reference.link);
+
+      return { ...reference, proccesedLink };
+    });
+  }
+
+  handleLinkClicked(link) {
+    this.urlService.goToUrl(link);
   }
 }
