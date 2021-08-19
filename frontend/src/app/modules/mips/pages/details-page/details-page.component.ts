@@ -130,6 +130,7 @@ export class DetailsPageComponent implements OnInit {
         }
 
         this.setMetadataShareable();
+        this.loadingUrl = false;
       },
       (error) => {
         if (error.error && error.error.statusCode === 404) {
