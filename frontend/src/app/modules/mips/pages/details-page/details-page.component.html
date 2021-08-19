@@ -1,7 +1,7 @@
 <div *ngIf="!mip&&loadingUrl " class="maker-loading-shade">
   <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="mip||mdUrl" class="container">
+<div *ngIf="mip||mdUrl" [ngClass]="{'container':true,'hidden':loadingUrl}">
   <app-details-mobiles-buttons *ngIf="mip"  class="mobile" [sourceData]="sections" [mip]="mip?.mip"></app-details-mobiles-buttons>
   <app-mips-pagination
   *ngIf="mip" 
@@ -39,7 +39,7 @@
           [pollAddress]="mip?.pollAddress"
           [tags]="mip?.tags"
           ></app-mip-details>
-        <app-references *ngIf="mip?.references && mip?.references.length > 0" [references]="mip?.references" [mipName]="mip?.mipName"></app-references>
+        <app-references *ngIf="references && references.length > 0" [references]="mip?.references" [mipName]="mip?.mipName"></app-references>
         <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
       </div>
     </div>
