@@ -67,6 +67,14 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   overflow: hidden;
   display: flex;
   padding-left: 68px;
+
+  @media (min-width: 2560px) {
+    padding-left: 92px;
+  }
+
+  @media (min-width: 2732px) {
+    padding-left: 110px;
+  }
 }
 
 .maker-element-subsetchildren-detail {

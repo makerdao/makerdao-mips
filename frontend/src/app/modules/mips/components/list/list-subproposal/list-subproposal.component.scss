@@ -730,11 +730,151 @@ tr.maker-element-subsetchildren-row {
   }
 }
 
+@media (min-width: 1366px) {
+  .maker-element-subsetchildren-row {
+    .mat-column-title {
+      width: 20.7%;
+    }
+
+    .mat-column-summary {
+      width: 41.9%;
+    }
+
+    .mat-column-status {
+      width: 13.9%;
+    }
+
+    .mat-column-link {
+      width: 1%;
+    }
+  }
+}
+
+@media (min-width: 1517px) {
+  .maker-element-subsetchildren-row {
+    .mat-column-title {
+      width: 23.7%;
+    }
+
+    .mat-column-summary {
+      width: 48.9%;
+    }
+
+    .mat-column-status {
+      width: 16.5%;
+    }
+
+    .mat-column-link {
+      width: 1%;
+    }
+  }
+}
+
+@media (min-width: 1707px) {
+  .maker-element-subsetchildren-row {
+    .mat-column-title {
+      width: 23.7%;
+    }
+
+    .mat-column-summary {
+      width: 46.9%;
+    }
+
+    .mat-column-status {
+      width: 15.7%;
+    }
+
+    .mat-column-link {
+      width: 1%;
+    }
+  }
+}
+
+@media (min-width: 1821px) {
+  .maker-element-subsetchildren-row {
+    .mat-column-title {
+      width: 23.7%;
+    }
+
+    .mat-column-summary {
+      width: 46.5%;
+    }
+
+    .mat-column-status {
+      width: 15.5%;
+    }
+
+    .mat-column-link {
+      width: 1%;
+    }
+  }
+}
+
+@media (min-width: 2049px) {
+  .maker-element-subsetchildren-row {
+    .mat-column-title {
+      width: 23.7%;
+    }
+
+    .mat-column-summary {
+      width: 46.5%;
+    }
+
+    .mat-column-status {
+      width: 15.5%;
+    }
+
+    .mat-column-link {
+      width: 3%;
+    }
+  }
+}
+
+@media (min-width: 2560px) {
+  .maker-element-subsetchildren-row {
+    .mat-column-title {
+      width: 23.7%;
+    }
+
+    .mat-column-summary {
+      width: 45.9%;
+    }
+
+    .mat-column-status {
+      width: 15.4%;
+    }
+
+    .mat-column-link {
+      width: 1%;
+    }
+  }
+}
+
+@media (min-width: 2732px) {
+  .maker-element-subsetchildren-row {
+    .mat-column-title {
+      width: 23.7%;
+    }
+
+    .mat-column-summary {
+      width: 46.5%;
+    }
+
+    .mat-column-status {
+      width: 15.7%;
+    }
+
+    .mat-column-link {
+      width: 1%;
+    }
+  }
+}
+
 .maker-element-subsetchildren-row {
   .mat-column-title {
     padding-right: 80px;
     max-width: 30px;
-    width: 23.7%;
+    // width: 23.7%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -743,17 +883,17 @@ tr.maker-element-subsetchildren-row {
   .mat-column-summary {
     max-width: 150px;
     padding-right: 30px;
-    width: 46.5%;
+    // width: 46.5%;
   }
 
   .mat-column-status {
-    width: 15.5%;
+    // width: 15.5%;
     max-width: 20px;
     padding-right: 30px;
   }
 
   .mat-column-link {
-    width: 3%;
+    // width: 3%;
     // max-width: 10px;
     white-space: nowrap;
     overflow: hidden;
