@@ -23,6 +23,18 @@ img {
   display: none;
 }
 
+div {
+  width: 100%;
+
+  svg {
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    margin-bottom: -40px;
+    height: auto;
+  }
+}
+
 .center-card {
   position: absolute;
   top: 0;
