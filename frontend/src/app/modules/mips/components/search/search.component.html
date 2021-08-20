@@ -31,7 +31,14 @@
       ></div>
     </div>
     <div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
-      <div class="ListSearch">
+      <div
+        class="ListSearch"
+        infiniteScroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="1"
+        [scrollWindow]="false"
+        (scrolled)="onLoadMoreMipSugestions()"
+      >
         <div
           *ngFor="let item of listSearchItems"
           class="list-search-item"
@@ -42,6 +49,13 @@
             class="arrow-go-to"
             src="../../../../../assets/images/arrow_go_to.svg"
           />
+        </div>
+        <div
+          *ngIf="loadingMipsSuggestions"
+          class="list-search-item"
+          style="justify-content: center;"
+        >
+          <mat-spinner [diameter]="20"></mat-spinner>
         </div>
       </div>
     </div>
