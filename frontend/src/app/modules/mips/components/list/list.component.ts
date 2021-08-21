@@ -303,14 +303,6 @@ const language = 'typescript';
                 }
               }
 
-              console.log("subproposalsGroup", this.subproposalsGroup);
-              console.log("subsetRows", subsetRows);
-
-
-
-              // this.dataSourceSubsetRows = subsetRows;
-              // this.expandedElement = row;
-              // this.expandedMipFather = data.items[0]?.proposal;
               row.subsetRows = subsetRows;
               row.subproposalsGroup = subproposalsGroup;
               row.expanded = true;

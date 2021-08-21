@@ -38,6 +38,7 @@
         (click)="onNavigateToDetails(element.mipName)"
         style="cursor: pointer;"
       >
+        <div class="borderBottom"></div>
         <a
           routerLink="/mips/details/{{ element.mipName }}"
           style="position: relative;"
@@ -82,6 +83,19 @@
       >
         <div class="space-status"></div>
         <app-social forumLink="#" [githubLink]="element.filename"></app-social>
+      </td>
+    </span>
+    <span *ngIf="column == 'pos'">
+      <td
+        class="tooltip"
+        (click)="onNavigateToDetails(element.mipName)"
+        mat-cell
+        *matCellDef="let element"
+        style="cursor: pointer; position: relative;"
+      >
+        <br />
+
+        {{ element.proposal ? "" : element.mip }}
       </td>
     </span>
 
@@ -159,7 +173,7 @@
   <tr
     mat-row
     *matRowDef="let element; columns: columnsToDisplaySubsetChildren"
-    class="maker-element-subsetchildren-row"
+    class="maker-element-row"
     [class.maker-expanded-row]="expandedElementSubsetChildren === element"
   ></tr>
   <tr
