@@ -8,10 +8,10 @@ import { FilterItemService } from 'src/app/services/filter-item/filter-item.serv
 import { QueryParamsListService } from '../../services/query-params-list.service';
 import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-page',
@@ -44,6 +44,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   defaultSearch: string = '$ and(not(@Obsolete), not(@Withdrawn))';
   mobileView: boolean = false;
   mipsetMode: boolean = false;
+  limitMipsSuggestions = 10;
+  pageMipsSuggestions = 0;
+  loadingMipsSuggestions = false;
+  subscriptionLoadSuggestions = new Subscription();
+  totalMipsSuggestion = 0;
 
   constructor(
     private mipsService: MipsService,
@@ -647,7 +652,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMipsByName(limit, page, order, search, filter): void {
-    this.mipsService
+    this.loadingMipsSuggestions = true;
+    this.subscriptionLoadSuggestions = this.mipsService
       .searchMips(
         limit,
         page,
@@ -660,7 +666,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         this.mipsByName = data.items;
 
         this.showListSearch = true;
-        this.listSearchMip = this.mipsByName.map((item) => {
+        let items: any[] = this.mipsByName.map((item) => {
           const cleanedTitle = item.title.replace(/[^\w]*/g, '');
           const cleanedMipName = item.mipName.replace(/[^\w]*/g, '');
 
@@ -675,6 +681,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             id: item._id,
           };
         });
+
+        this.listSearchMip = this.listSearchMip.concat(items);
+        this.loadingMipsSuggestions = false;
+        this.totalMipsSuggestion = data.total;
+      },
+      (err) => {
+        this.loadingMipsSuggestions = false;
+        console.log(err);
       });
   }
 
@@ -698,16 +712,26 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onSendSearch(event: any): void {
     let search = event.target.value.toLowerCase().trim();
+    this.search = event.target.value;
 
     if (search.startsWith('mip')) {
       if (event.keyCode == 13 && this.listSearchMip.length > 0) {
         this.goToMipDetails(this.listSearchMip[0].mipName);
       }
+      this.pageMipsSuggestions = 0;
+      this.listSearchMip = [];
       let filter = {
         contains: [],
       };
       filter.contains.push({ field: 'mipName', value: event.target.value });
-      this.searchMipsByName(0, 0, 'mipName', '', filter);
+      this.subscriptionLoadSuggestions.unsubscribe();
+      this.searchMipsByName(
+        this.limitMipsSuggestions,
+        this.pageMipsSuggestions,
+        'mipName',
+        '',
+        filter
+      );
       this.limit = 0;
     } else {
       this.showListSearch = false;
@@ -718,6 +742,23 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.search = event.target.value;
       this.searchMips();
       this.setQueryParams();
+    }
+  }
+
+  onLoadMoreMipsSuggestions() {
+    if (this.listSearchMip.length < this.totalMipsSuggestion) {
+      this.pageMipsSuggestions++;
+      let filter = {
+        contains: [],
+      };
+      filter.contains.push({ field: 'mipName', value: this.search });
+      this.searchMipsByName(
+        this.limitMipsSuggestions,
+        this.pageMipsSuggestions,
+        'mipName',
+        '',
+        filter
+      );
     }
   }
 

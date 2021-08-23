@@ -66,7 +66,7 @@ tr.maker-element-row:not(.maker-expanded-row):active {
 .maker-element-subset-detail {
   overflow: hidden;
   display: flex;
-  padding-left: 68px;
+  padding-left: 0;
 }
 
 .maker-element-subsetchildren-detail {
@@ -162,6 +162,10 @@ th {
   width: 17%;
   max-width: 20px;
   padding-right: 30px;
+}
+
+.mat-column-expandedDetail {
+  padding: 0 !important;
 }
 
 .mat-column-pos {
@@ -601,8 +605,7 @@ a {
 
 :host::ng-deep.subset-table {
   td.mat-cell {
-    border-bottom-color: #1aab9b;
-    padding-left: 14px !important;
+    border-bottom: none;
   }
 
   tr:last-child td.mat-cell {
@@ -613,7 +616,6 @@ a {
 :host::ng-deep.subset-table-children {
   td.mat-cell {
     border-bottom-color: #ebedf4;
-    padding-left: 0px !important;
   }
 
   td.mat-cell:nth-child(1) {
