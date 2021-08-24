@@ -42,7 +42,6 @@ import { ParseQueryService } from "./services/parse-query.service";
     SimpleGitService,
     ParseMIPsService,
     ParseQueryService,
-    SimpleGitService,
     MarkedService,
     GithubService,
     PullRequestService,
