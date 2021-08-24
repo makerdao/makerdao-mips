@@ -13,7 +13,7 @@ import { SimpleGitService } from "./simple-git.service";
 
 import { Env } from "@app/env";
 import { MarkedService } from "./marked.service";
-import { MIP } from "../entities/mips.entity";
+import { Component, MIP } from "../entities/mips.entity";
 import { GithubService } from "./github.service";
 import { PullRequestService } from "./pull-requests.service";
 import {
@@ -108,7 +108,7 @@ export class ParseMIPsService {
       );
 
       if (mips.length > 0) {
-        await this.mipsService.setMipsFather(mips.map(d => d._id));
+        await this.mipsService.setMipsFather(mips.map((d) => d._id));
       }
 
       return true;
@@ -139,7 +139,11 @@ export class ParseMIPsService {
           const fileString = await readFile(dir, "utf-8");
           const mip = this.parseLexerData(fileString, item);
           if (mip.mip === undefined || mip.mipName === undefined) {
-            this.logger.log(`Mips with problems to parse ==>${mip.mip, mip.mipName, mip.filename}`);
+            this.logger.log(
+              `Mips with problems to parse ==>${
+                (mip.mip, mip.mipName, mip.filename)
+              }`
+            );
           }
 
           if (mip) {
@@ -174,6 +178,7 @@ export class ParseMIPsService {
 
     // Remove remaining items
     const deleteItems: string[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [_, value] of filesDB.entries()) {
       deleteItems.push(value._id);
     }
@@ -185,6 +190,45 @@ export class ParseMIPsService {
       this.mipsService.deleteManyByIds(deleteItems),
     ]);
     return synchronizeData;
+  }
+
+  getComponentsSection(data: string): string {
+    const startDataIndex = data.search(/\*\*\s*MIP\d+[ca]1[\s:]*/gim);
+
+    if (startDataIndex === -1) {
+      return "";
+    }
+    const dataRemainingText = data.substring(startDataIndex);
+
+    const endIndex = dataRemainingText.search(/^#{2}[^#\n]*$/gim);
+
+    if (endIndex === -1) {
+      return dataRemainingText;
+    }
+
+    const componentText = dataRemainingText.substring(0, endIndex);
+
+    return componentText;
+  }
+
+  getDataFromComponentText(componentText: string): Component[] {
+    const regexComp = /^\*\*(?<cName>MIP\d+[ca]\d+):\s?(?<cTitle>.*)\*\*/im;
+    const regexToGetComponentTitle = /^\*\*MIP\d+[ca]\d+:\s?.*\*\*/gim;
+
+    const componentHeaders = componentText.match(regexToGetComponentTitle);
+    const splitedData = componentText.split(regexToGetComponentTitle);
+
+    const componentData = componentHeaders?.map((item, index) => {
+      const matches = item.match(regexComp).groups;
+
+      return {
+        cName: matches.cName.trim(),
+        cTitle: matches.cTitle.trim(),
+        cBody: splitedData[index + 1].trim(),
+      };
+    });
+
+    return componentData;
   }
 
   parseLexerData(fileString: string, item: IGitFile): MIP {
@@ -303,6 +347,14 @@ export class ParseMIPsService {
       return;
     }
 
+    if(!item.filename.includes("-")){
+      // Only the mipsFathers
+      const componentSummary:string = this.getComponentsSection(fileString);
+      const components:Component[] = this.getDataFromComponentText(componentSummary);
+  
+      mip.components = components;
+    }
+
     mip.author = preamble.author;
     mip.contributors = preamble.contributors;
     mip.dateProposed = preamble.dateProposed;
@@ -315,6 +367,7 @@ export class ParseMIPsService {
     mip.types = preamble.types;
     mip.tags = preamble.tags;
 
+  
     return mip;
   }
 

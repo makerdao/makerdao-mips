@@ -375,6 +375,18 @@ export class MIPsService {
       .exec();
   }
 
+  async getSummaryByMipComponent(mipComponent: string, language: Language): Promise<MIP> {
+    if (!language) {
+      language = Language.English;
+    }
+    const mipName=mipComponent.match(/MIP\d+/gi)[0]
+
+    return await this.mipsDoc
+      .findOne({ mipName, language })
+      .select({sentenceSummary:1,paragraphSummary:1,title:1,mipName:1,components:{$elemMatch:{cName:mipComponent}}})
+      .exec();
+  }
+  
   async findOneByProposal(proposal: string, language?: Language): Promise<MIP[]> {
     if (!language) {
       language = Language.English;

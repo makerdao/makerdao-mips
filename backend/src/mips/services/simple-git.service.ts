@@ -5,7 +5,6 @@ import simpleGit, {
   PullResult,
   Response,
   SimpleGit,
-  SimpleGitOptions,
 } from "simple-git";
 
 import { Env } from "@app/env";
