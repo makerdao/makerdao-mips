@@ -324,7 +324,7 @@ export class ParseMIPsService {
                 if (item.tokens) {
                   mip.references.push(
                     ...item.tokens.map((d) => {
-                      return { name: d.text, link: d.text };
+                      return { name: d.text, link: d.href||d.text };
                     })
                   );
                 }
