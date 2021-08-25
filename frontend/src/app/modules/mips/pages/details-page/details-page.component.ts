@@ -55,6 +55,7 @@ export class DetailsPageComponent implements OnInit {
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
         } else this.mdUrl = url;
+        this.moveToElement();
       }
     });
   }
