@@ -52,6 +52,9 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { ListMipsetModeComponent } from './components/list-mipset-mode/list-mipset-mode.component';
 import { SublistComponent } from './components/sublist/sublist.component';
 import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRippleModule } from '@angular/material/core';
+import { MdObserveVisibilityDirective } from './directives/md-observe-visibility.directive';
 
 
 @NgModule({
@@ -92,7 +95,8 @@ import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
     PageNotFoundComponent,
     ListMipsetModeComponent,
     SublistComponent,
-    TagMipsetPipe
+    TagMipsetPipe,
+    MdObserveVisibilityDirective
   ],
   imports: [
     CommonModule,
@@ -110,7 +114,9 @@ import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
     MatTooltipModule,
     MatDialogModule,
     ReactiveFormsModule,
-    ContenteditableValueAccessorModule
+    ContenteditableValueAccessorModule,
+    MatExpansionModule,
+    MatRippleModule
   ]
 })
 export class MipsModule { }
