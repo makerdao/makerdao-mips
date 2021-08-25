@@ -330,3 +330,8 @@
   padding: 0;
   opacity: 0;
 }
+
+:host::ng-deep.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #2f80ed;
+}

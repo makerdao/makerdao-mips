@@ -24,6 +24,19 @@ export class Reference {
   link: string;
 }
 
+export class Component {
+  @Prop()
+  cName: string;
+
+  @Prop()
+  cTitle: string;
+
+
+  @Prop()
+  cBody: string;
+}
+
+
 @Schema()
 export class MIP {
   @Prop()
@@ -118,6 +131,12 @@ export class MIP {
     type: [Object]
   })
   references?: Reference[];
+
+  @Prop({
+    type: [Object]
+  })
+  components?: Component[];
+
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

@@ -50,6 +50,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   selectedAutocompleteOptionByEnter: boolean = false;
   activatedLabelAutocomplete: string;
   searchOptionsSubscription: Subscription;
+  @Output() loadMoreMipSuggestions: Subject<boolean> = new Subject<boolean>();
+  @Input() loadingMipsSuggestions: boolean = false;
   format: IFormatting[] = [
     {
       pattern: /and\(/gi,
@@ -419,5 +421,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
 
     return style;
+  }
+
+  onLoadMoreMipSugestions() {
+    this.loadMoreMipSuggestions.next();
   }
 }

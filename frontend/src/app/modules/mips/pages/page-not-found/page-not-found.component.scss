@@ -23,6 +23,18 @@ img {
   display: none;
 }
 
+div {
+  width: 100%;
+
+  svg {
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    margin-bottom: -40px;
+    height: auto;
+  }
+}
+
 .center-card {
   position: absolute;
   top: 0;
@@ -66,9 +78,11 @@ img {
     color: #ffffff;
     border: none;
     outline: none;
-    padding: 7.5px 6px;
+    padding: 6.25px 5px;
     cursor: pointer;
     margin-top: 20px;
+    width: 80px;
+    height: 25px;
   }
 }
 
@@ -114,6 +128,9 @@ img {
       margin-top: 34px;
       font-size: 12px;
       line-height: 14px;
+      padding: 7.5px 6px;
+      width: 88px;
+      height: 30px;
     }
   }
 }
