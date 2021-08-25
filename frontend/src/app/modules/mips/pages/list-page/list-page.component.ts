@@ -44,6 +44,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   defaultSearch: string = '$ and(not(@Obsolete), not(@Withdrawn))';
   mobileView: boolean = false;
   mipsetMode: boolean = false;
+  activeMenuLinkName = '';
+  initActiveLinkName = "MIPs List"
 
   constructor(
     private mipsService: MipsService,
@@ -53,7 +55,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private queryParamsListService: QueryParamsListService,
     private elementsRefUiService: ElementsRefUiService,
-    private metadataShareService: MetadataShareService
+    private metadataShareService: MetadataShareService,
   ) {}
 
   ngOnInit(): void {
@@ -126,16 +128,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }
 
     let qp: QueryParams = {
-      status: status ? status : [],
-      search: queryParams.params.search ? queryParams.params.search : '',
+      ...queryParams.params,
+      status: status ? status : null,
+      search: queryParams.params.search ? queryParams.params.search : null,
       contributor: queryParams.params.contributor,
       author: queryParams.params.author,
       mipsetMode: JSON.parse(queryParams.params.mipsetMode || null),
+      customviewname: queryParams.params.customviewname
     };
 
     this.queryParamsListService.queryParams = qp;
 
     this.searchCopy = this.defaultSearch;
+    this.activeMenuLinkName = queryParams.params.customviewname || this.initActiveLinkName;
 
     for (const key in qp) {
       if (Object.prototype.hasOwnProperty.call(qp, key)) {

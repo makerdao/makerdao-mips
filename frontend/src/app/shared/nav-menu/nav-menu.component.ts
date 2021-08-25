@@ -18,6 +18,14 @@ export class NavMenuComponent implements OnInit {
   ngOnInit(): void {
     this.menuService.getMenu().subscribe((data: any) => {
       this.menu = data.data;
+      let newMenu: Menu = {
+        id: 'root',
+        name: 'Root',
+        href: '',
+        children: this.menu,
+      };
+
+      this.dfs(newMenu);
     });
     this.menuService.openedIndexChild$.subscribe((data) => {
       this.openedIndexChild = data;
@@ -36,5 +44,14 @@ export class NavMenuComponent implements OnInit {
   @HostBinding('class.activeChild')
   get activeChild() {
     return this.openedIndexChild !== -1;
+  }
+
+  dfs(menu: Menu) {
+    if (menu.href !== undefined && menu.custom_view_name) {
+      menu.href += '&customviewname=' + menu.custom_view_name;
+    }
+    menu.children?.forEach((item) => {
+      this.dfs(item);
+    });
   }
 }

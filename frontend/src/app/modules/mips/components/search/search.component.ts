@@ -192,9 +192,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   isQuery(data: string): boolean {
-    let search = data.toLowerCase().trim();
+    let search = data?.toLowerCase().trim();
 
-    return search.startsWith('$');
+    return search?.startsWith('$');
   }
 
   clear(): void {
