@@ -316,15 +316,22 @@ export class ParseMIPsService {
           if (list[i + 1]?.tokens) {
             for (const item of list[i + 1]?.tokens) {
               if (item.type === "text") {
-                mip.references.push({
-                  name: item.text,
-                  link: "",
-                });
+                if (item.text.trim()) {
+                  mip.references.push({
+                    name: item.text,
+                    link: ""
+                  });
+                }
               } else {
-                if (item.tokens) {
+                if (item.type === "link") {
+                  mip.references.push({
+                    name: item.text,
+                    link: item.href,
+                  });
+                } else if (item.tokens) {
                   mip.references.push(
                     ...item.tokens.map((d) => {
-                      return { name: d.text, link: d.href||d.text };
+                      return { name: d.text, link: d.href || d.text };
                     })
                   );
                 }
