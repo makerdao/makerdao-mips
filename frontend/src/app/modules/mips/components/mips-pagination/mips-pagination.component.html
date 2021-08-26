@@ -5,15 +5,26 @@
         <a routerLink="" (click)="clearFilterAndGoHome()">ALL MIPs </a>
       </li>
       <li *ngFor="let item of breadcrumbList; let index = index">
-        <a [routerLink]="['/mips/details/' + item.id]"
-          [ngClass]="{'active': isLastItem(index)}">{{item.name}}</a>
+        <a
+          [routerLink]="['/mips/details/' + item.id]"
+          [ngClass]="{ active: isLastItem(index) }"
+          >{{ item.name }}</a
+        >
       </li>
     </ul>
     <div class="items">
-      <strong>{{mipPosition + 1}}  </strong>
-      <span> of {{total}} items </span>
-      <span class="frame" (click)="minus()"><img src="../../../../../assets/images/left.svg" /></span>
-      <span class="frame" (click)="loadMipsData()"><img src="../../../../../assets/images/right.svg" /></span>
+      <strong>{{ mipPosition + 1 }} </strong>
+      <span style="margin-right: 5px;">&nbsp; of {{ total }} items </span>
+      <div class="arrowWrapper" matRipple [matRippleCentered]="true" (click)="minus()">
+        <span class="frame"
+          ><img src="../../../../../assets/images/left.svg"
+        /></span>
+      </div>
+      <div class="arrowWrapper" matRipple [matRippleCentered]="true" (click)="loadMipsData()">
+        <span class="frame"
+          ><img src="../../../../../assets/images/right.svg"
+        /></span>
+      </div>
     </div>
   </div>
 </div>
