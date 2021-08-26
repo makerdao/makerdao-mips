@@ -95,16 +95,6 @@
   }
 }
 
-:host::ng-deep.showAsBacktip {
-  display: inline !important;
-  overflow-wrap: break-word !important;
-  background-color: #f5f6fa !important;
-  text-decoration: none !important;
-  cursor: default !important;
-  color: initial !important;
-  padding: 0.2em 0.4em !important;
-}
-
 :host::ng-deep.variable-binding {
   color: #31394d;
   font-size: 16px;

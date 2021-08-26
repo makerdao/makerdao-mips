@@ -70,7 +70,7 @@
     <div
       *ngIf="data.components && data.components[0] && data.components[0].cName"
     >
-      <div class="previewTextTitle">{{ data.components[0].cName +":"+ data.components[0].cTitle}}   </div>
+      <div class="previewTextTitle">{{ data.components[0].cTitle}}   </div>
 
       <div class="previewTextContent">
         <markdown [data]="data.components[0].cBody"></markdown>
