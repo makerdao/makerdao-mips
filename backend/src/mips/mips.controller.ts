@@ -214,7 +214,7 @@ export class MIPsController {
   async findOneBy(
     @Query("field") field: string,
     @Query("value") value: string,
-    @Query("lang") lang?: Language,
+    @Query("lang") lang?: Language
   ) {
     let mip;
 
@@ -227,10 +227,26 @@ export class MIPsController {
         return mip;
 
       case "mipName":
+      case "mipSubproposal":
+        //Left temporaly to backward compatibilities only
         mip = await this.mipsService.getSummaryByMipName(value, lang);
 
         if (!mip) {
           throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+        }
+        return mip;
+
+      case "mipComponent":
+        if (!value.match(/MIP\d+[ac]\d+/gi)) {
+          throw new NotFoundException(
+            `MIP component not in the standart format MIP10c5 `
+          );
+        }
+
+        mip = await this.mipsService.getSummaryByMipComponent(value, lang);
+
+        if (!mip || mip.components.length !== 1) {
+          throw new NotFoundException(`MIP with ${field} ${value} not found`);
         }
         return mip;
 

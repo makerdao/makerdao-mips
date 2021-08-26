@@ -1,41 +1,64 @@
 <div class="container">
   <div class="row">
-    <div *ngIf="mip&&!mip?.proposal">
-      <span *ngIf="mip?.title" class="title-bold">{{mip?.mipName}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{mip?.title}}</span>
+    <div *ngIf="mip && !mip?.proposal">
+      <span *ngIf="mip?.title" class="title-bold"
+        >{{ mip?.mipName }}<span class="no-mobile">:</span> </span
+      ><span class="no-mobile title"> {{ mip?.title }}</span>
     </div>
     <div *ngIf="mip?.proposal">
-      <span *ngIf="mip?.title" class="title-bold">{{subproposalCode}}<span class="no-mobile">:</span> </span><span class="no-mobile title"> {{subproposalTitle}}</span>
+      <span *ngIf="mip?.title" class="title-bold"
+        >{{ subproposalCode }}<span class="no-mobile">:</span> </span
+      ><span class="no-mobile title"> {{ subproposalTitle }}</span>
     </div>
     <div *ngIf="mdUrl">
-      <span  class="title-bold">Markdown<span class="no-mobile">:</span> </span><span class="title"> {{mdFileName}} </span>
+      <span class="title-bold">Markdown<span class="no-mobile">:</span> </span
+      ><span class="title"> {{ mdFileName }} </span>
     </div>
 
     <div *ngIf="mip" class="row social">
-      <img class="github" src="../../../../../assets/images/github_dark.svg" /> <a href="{{gitgubUrl}}/{{mip?.filename}}" target="_blank">GitHub</a>
-      <img class="forum" src="../../../../../assets/images/forum.svg" /> <a class="tooltip">Forum<span class="tooltiptext">Link to the forum coming soon. <br>
-        Feel free to manually search the MIP number at <br>
-        <a href="https://forum.makerdao.com/" target="_blank">forum.makerdao.com</a>
-      </span></a>
+      <img class="github" src="../../../../../assets/images/github_dark.svg" />
+      <a href="{{ gitgubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
+      <img class="forum" src="../../../../../assets/images/forum.svg" />
+      <a class="tooltip"
+        >Forum<span class="tooltiptext"
+          >Link to the forum coming soon. <br />
+          Feel free to manually search the MIP number at <br />
+          <a href="https://forum.makerdao.com/" target="_blank"
+            >forum.makerdao.com</a
+          >
+        </span></a
+      >
     </div>
 
     <div *ngIf="mdUrl" class="row social">
-      <img class="linkIcon" src="../../../../../assets/images/open_gray.svg" /> 
-        <a href={{urlOriginal}} target="_blank">.md File</a>
+      <img class="linkIcon" src="../../../../../assets/images/open_gray.svg" />
+      <a href="{{ urlOriginal }}" target="_blank">.md File</a>
     </div>
   </div>
   <!-- <div class="mobile title margin-2"> {{mip?.title}}</div> -->
-  <div *ngIf="mip&&!mip?.proposal" class="mobile title margin-2">
-    <span class="title"> {{mip?.title}}</span>
+  <div *ngIf="mip && !mip?.proposal" class="mobile title margin-2">
+    <span class="title"> {{ mip?.title }}</span>
   </div>
 
   <div *ngIf="mip?.proposal" class="mobile title margin-2">
-    <span class="title"> {{subproposalTitle}}</span>
+    <span class="title"> {{ subproposalTitle }}</span>
   </div>
 
-  <hr>
-  <markdown *ngIf="mip&&!mdUrl" class="variable-binding" [data]="content"(error)="onError($error)" (ready)="onReady()"></markdown>
-  <markdown *ngIf="!mip&&mdUrl" class="variable-binding" [src]="mdUrl" (error)="onError($error)" (ready)="onReady()"></markdown>
-  <app-subproposals *ngIf="subproposals && subproposals.length > 0" [subproposals]="subproposals"></app-subproposals>
+  <hr />
+  <markdown
+    *ngIf="mip && !mdUrl"
+    class="variable-binding"
+    [data]="content"
+    (error)="onError($error)"
+    (ready)="onReady()"
+  ></markdown>
+  <markdown
+    *ngIf="!mip && mdUrl"
+    class="variable-binding"
+    [src]="mdUrl"
+    (error)="onError($error)"
+    (ready)="onReady()"
+  ></markdown>
 </div>
 
 <ng-template #preview let-data>
@@ -44,6 +67,16 @@
     [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp }"
     #previewRef
   >
+    <div
+      *ngIf="data.components && data.components[0] && data.components[0].cName"
+    >
+      <div class="previewTextTitle">{{ data.components[0].cTitle}}   </div>
+
+      <div class="previewTextContent">
+        <markdown [data]="data.components[0].cBody"></markdown>
+      </div>
+    <hr />
+    </div>
     <div class="previewTextTitle">{{ data.title }}</div>
     <div class="previewTextContent">{{ data.sentenceSummary }}</div>
     <div

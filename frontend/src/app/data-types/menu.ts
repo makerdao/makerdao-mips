@@ -3,4 +3,5 @@ export default interface Menu {
   name: string;
   href: string;
   children: Menu[];
+  custom_view_name?: string;
 }

@@ -10,6 +10,8 @@ import {
   ViewContainerRef,
   EventEmitter,
   Output,
+  ComponentFactoryResolver,
+  Injector,
 } from '@angular/core';
 
 import { environment } from '../../../../../environments/environment';
@@ -25,6 +27,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { UrlService } from 'src/app/services/url/url.service';
+import { SubproposalsComponent } from '../subproposals/subproposals.component';
 
 const preambleDataSample = [
   {
@@ -99,6 +102,7 @@ export class DetailContentComponent
   subproposalTitle: string = '';
 
   headingStructure: Heading[] = [];
+  subproposalsGroup: any = {};
 
   constructor(
     private markdownService: MarkdownService,
@@ -108,7 +112,9 @@ export class DetailContentComponent
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector,
   ) {}
 
   ngOnInit(): void {
@@ -138,100 +144,145 @@ export class DetailContentComponent
     }
   }
 
+  showOverview(data, posStrategy) {
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(posStrategy)
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        },
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'bottom',
+        },
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    positionStrategy.positionChanges.subscribe((pos) => {
+      if (
+        pos.connectionPair.originX === 'end' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'end' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleLeft = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'start' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleLeft = true;
+      } else if (
+        pos.connectionPair.originX === 'end' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'end' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleLeft = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'start' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleLeft = true;
+      }
+
+      let element: HTMLElement = this.previewRef.nativeElement.parentElement
+        .parentElement;
+      element.style.marginTop = '17px';
+      element.style.marginBottom = '17px';
+    });
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+    });
+
+    this.overlayRef.attach(
+      new TemplatePortal(this.preview, this.viewContainerRef, {
+        $implicit: data,
+      })
+    );
+  }
+
   displayPreview = (e: Event) => {
     if (!this.overlayRef) {
-      let href: string = (e.target as HTMLAnchorElement).href.split(
-        '/mips/details/'
-      )[1];
+      const link = e.target as HTMLAnchorElement;
 
-      if (href) {
+      let href: string = link.href.split('/mips/details/')[1];
+
+      if (link?.rel?.includes('smart-')) {
+        const type = link.rel.split('-')[1];
+
+        switch (type) {
+          case 'Mip':
+            this.subscription = this.mipsService
+              .getMipBy('mipName', href)
+              .subscribe((data) => {
+                if (data) {
+                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                  this.showOverview(data, posStrategy);
+                }
+              });
+            break;
+
+          case 'Component':
+            this.subscription = this.mipsService
+              .getMipBy('mipComponent', href)
+              .subscribe((data) => {
+                if (data) {
+                  console.log({ data });
+                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                  this.showOverview(data, posStrategy);
+                }
+              });
+            break;
+
+          case 'Subproposal':
+            this.subscription = this.mipsService
+              .getMipBy('mipSubproposal', href)
+              .subscribe((data) => {
+                if (data) {
+                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                  this.showOverview(data, posStrategy);
+                }
+              });
+            break;
+        }
+      } else if (href) {
         this.subscription = this.mipsService
           .getMipBy('mipName', href)
           .subscribe((data) => {
             if (data) {
               let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-              const positionStrategy = this.overlay
-                .position()
-                .flexibleConnectedTo(posStrategy)
-                .withPositions([
-                  {
-                    originX: 'end',
-                    originY: 'bottom',
-                    overlayX: 'end',
-                    overlayY: 'top',
-                  },
-                  {
-                    originX: 'start',
-                    originY: 'bottom',
-                    overlayX: 'start',
-                    overlayY: 'top',
-                  },
-                  {
-                    originX: 'end',
-                    originY: 'top',
-                    overlayX: 'end',
-                    overlayY: 'bottom',
-                  },
-                  {
-                    originX: 'start',
-                    originY: 'top',
-                    overlayX: 'start',
-                    overlayY: 'bottom',
-                  },
-                ]);
-
-              positionStrategy.positionChanges.subscribe((pos) => {
-                if (
-                  pos.connectionPair.originX === 'end' &&
-                  pos.connectionPair.originY === 'bottom' &&
-                  pos.connectionPair.overlayX === 'end' &&
-                  pos.connectionPair.overlayY === 'top'
-                ) {
-                  this.triangleUp = true;
-                  this.triangleLeft = false;
-                } else if (
-                  pos.connectionPair.originX === 'start' &&
-                  pos.connectionPair.originY === 'bottom' &&
-                  pos.connectionPair.overlayX === 'start' &&
-                  pos.connectionPair.overlayY === 'top'
-                ) {
-                  this.triangleUp = true;
-                  this.triangleLeft = true;
-                } else if (
-                  pos.connectionPair.originX === 'end' &&
-                  pos.connectionPair.originY === 'top' &&
-                  pos.connectionPair.overlayX === 'end' &&
-                  pos.connectionPair.overlayY === 'bottom'
-                ) {
-                  this.triangleUp = false;
-                  this.triangleLeft = false;
-                } else if (
-                  pos.connectionPair.originX === 'start' &&
-                  pos.connectionPair.originY === 'top' &&
-                  pos.connectionPair.overlayX === 'start' &&
-                  pos.connectionPair.overlayY === 'bottom'
-                ) {
-                  this.triangleUp = false;
-                  this.triangleLeft = true;
-                }
-
-                let element: HTMLElement = this.previewRef.nativeElement
-                  .parentElement.parentElement;
-                element.style.marginTop = '17px';
-                element.style.marginBottom = '17px';
-              });
-
-              this.overlayRef = this.overlay.create({
-                positionStrategy,
-                scrollStrategy: this.overlay.scrollStrategies.close(),
-              });
-
-              this.overlayRef.attach(
-                new TemplatePortal(this.preview, this.viewContainerRef, {
-                  $implicit: data,
-                })
-              );
+              this.showOverview(data, posStrategy);
             }
           });
       }
@@ -299,11 +350,119 @@ export class DetailContentComponent
       this.searchMips();
     }
     this.setPreviewFeature();
+    this.appendSubproposalsElements();
+  }
+
+  appendSubproposalsElements() {
+    this.subproposals.map(item => {
+      let newItem = this.addSubsetField(item);
+      return newItem;
+    });
+
+    let subproposalsGroup: any = this.groupBy(
+      'subset',
+      this.subproposals
+    );
+
+    this.sortSubproposalsGroups(subproposalsGroup);
+    this.subproposalsGroup = subproposalsGroup;
+
+    // DOM manipulation
+    let m: HTMLElement = document.querySelector('.variable-binding');
+    let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName('h3');
+
+    for (const key in this.subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
+        for (let i = 0; i < h3s.length; i++) {
+          const element = h3s.item(i);
+          if (element.innerText.startsWith(key)) {
+            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+              SubproposalsComponent
+            );
+            const componentRef = componentFactory.create(this.injector);
+            componentRef.instance.subproposals = [...this.subproposalsGroup[key]];
+            componentRef.hostView.detectChanges();
+            const { nativeElement } = componentRef.location;
+
+            // search in DOM the next component section
+            let found: boolean = false;
+            let j: number = i + 1;
+            while ( j < h3s.length && !found) {
+              const nextElement: HTMLHeadingElement = h3s.item(j);
+
+              if (nextElement.innerText.startsWith(this.mip.mipName)) {
+                found = true;
+                let prev = nextElement.previousElementSibling;
+
+                if (prev.tagName ===  'HR') {
+                  prev.insertAdjacentElement('beforebegin', nativeElement);
+                } else {
+                  prev.insertAdjacentElement('afterend', nativeElement);
+                }
+
+              }
+
+              j++;
+            }
+
+            if (j >= h3s.length && !found) {
+              let lastChild = m.lastElementChild;
+
+              if (lastChild.tagName ===  'HR') {
+                lastChild.insertAdjacentElement('beforebegin', nativeElement);
+              } else {
+                lastChild.insertAdjacentElement('afterend', nativeElement);
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  addSubsetField = (item: any) => {
+    let subset: string = (item.mipName as string).split('SP')[0];
+    item.subset = subset;
+    return item;
+  };
+
+  groupBy(field, arr: any[]): any {
+    let group: any = arr.reduce((r, a) => {
+      r[a[field]] = [...(r[a[field]] || []), a];
+      return r;
+    }, {});
+
+    return group;
+  }
+
+  sortSubproposalsGroups(subproposalsGroup: any) {
+    for (const key in subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+        let element: any[] = subproposalsGroup[key];
+        subproposalsGroup[key] = this.sortSubproposalGroup(element);
+      }
+    }
+  }
+
+  sortSubproposalGroup(arr: any[]) {
+    return arr.sort(function (a: any, b: any) {
+      return (a.mipName as string).includes('SP') &&
+        a.mipName.split('SP').length > 1
+        ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
+          ? -1
+          : 1
+        : 1;
+    });
   }
 
   onError() {
-    //Work around for unexpected md render error
-    history.back();
+    this.router.navigateByUrl('/');
+    setTimeout(() => {
+      //To avoid the race issue
+
+      this.router.navigateByUrl('page-not-found');
+    }, 0);
   }
 
   moveToElement(el: HTMLElement): void {
@@ -320,7 +479,7 @@ export class DetailContentComponent
       level: number,
       raw: string
     ) => {
-      const htmlCleanedText=raw.replace(/<[^<>]+>/gm,'')
+      const htmlCleanedText = raw.replace(/<[^<>]+>/gm, '');
       const escapedText = htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
@@ -382,11 +541,22 @@ export class DetailContentComponent
       if (
         !link.name.includes('Template') &&
         (link.link.includes(this.gitgubUrl) ||
+          title?.includes('smart') ||
+          link.link.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
       ) {
-        return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
+        if (title?.includes('smart')) {
+          return `<a onclick="return;" name="${
+            title?.includes('smart') ? title : escapedText
+          }" id="${link.id}" class="linkPreview showAsBacktip" rel=${
+            title?.includes('smart') ? title : ''
+          } href="${href}">${text}</a>`;
+        } else {
+          return `<a name="${escapedText}" id="${link.id}" class="linkPreview" 
+          } href="${href}">${text}</a>`;
+        }
       }
 
       if (this.mdUrl) {

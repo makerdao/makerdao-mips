@@ -1,11 +1,11 @@
 <div class="container">
   <p class="title" style="margin-bottom: 10px;">References</p>
-  <div *ngFor="let reference of references">
+  <div *ngFor="let reference of updatedReferences">
     <hr />
     <div class="data-container">
       <span class="row">
-        <a class="info" *ngIf="!reference.link.includes('https://')" [href]="mdViewerPath+gitHubUrl+'/'+mipName+'/'+reference.link">{{ reference.name }}</a>
-        <a class="info" *ngIf="reference.link.includes('https://')" [href]="reference.link">{{ reference.name }}</a>
+          <a class="info"   *ngIf="reference.proccesedLink" [href]="reference.proccesedLink" (click)="handleLinkClicked(reference.link); false" >{{ reference.name }}</a>
+          <span class="infoNoLink" *ngIf="!reference.proccesedLink">{{ reference.name }}</span>
       </span>
     </div>
   </div>

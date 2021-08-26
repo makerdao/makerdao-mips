@@ -13,7 +13,7 @@ import { SimpleGitService } from "./simple-git.service";
 
 import { Env } from "@app/env";
 import { MarkedService } from "./marked.service";
-import { MIP } from "../entities/mips.entity";
+import { Component, MIP } from "../entities/mips.entity";
 import { GithubService } from "./github.service";
 import { PullRequestService } from "./pull-requests.service";
 import {
@@ -108,7 +108,7 @@ export class ParseMIPsService {
       );
 
       if (mips.length > 0) {
-        await this.mipsService.setMipsFather(mips.map(d => d._id));
+        await this.mipsService.setMipsFather(mips.map((d) => d._id));
       }
 
       return true;
@@ -139,7 +139,11 @@ export class ParseMIPsService {
           const fileString = await readFile(dir, "utf-8");
           const mip = this.parseLexerData(fileString, item);
           if (mip.mip === undefined || mip.mipName === undefined) {
-            this.logger.log(`Mips with problems to parse ==>${mip.mip, mip.mipName, mip.filename}`);
+            this.logger.log(
+              `Mips with problems to parse ==>${
+                (mip.mip, mip.mipName, mip.filename)
+              }`
+            );
           }
 
           if (mip) {
@@ -174,6 +178,7 @@ export class ParseMIPsService {
 
     // Remove remaining items
     const deleteItems: string[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [_, value] of filesDB.entries()) {
       deleteItems.push(value._id);
     }
@@ -187,9 +192,92 @@ export class ParseMIPsService {
     return synchronizeData;
   }
 
+  getComponentsSection(data: string): string {
+    const startDataIndex = data.search(/\*\*\s*MIP\d+[ca]1[\s:]*/gim);
+
+    if (startDataIndex === -1) {
+      return "";
+    }
+    const dataRemainingText = data.substring(startDataIndex);
+
+    const endIndex = dataRemainingText.search(/^#{2}[^#\n]*$/gim);
+
+    if (endIndex === -1) {
+      return dataRemainingText;
+    }
+
+    const componentText = dataRemainingText.substring(0, endIndex);
+
+    return componentText;
+  }
+
+  getDataFromComponentText(componentText: string): Component[] {
+    const regexComp = /^\*\*(?<cName>MIP\d+[ca]\d+):\s?(?<cTitle>.*)\*\*/im;
+    const regexToGetComponentTitle = /^\*\*MIP\d+[ca]\d+:\s?.*\*\*/gim;
+
+    const componentHeaders = componentText.match(regexToGetComponentTitle);
+    const splitedData = componentText.split(regexToGetComponentTitle);
+
+    const componentData = componentHeaders?.map((item, index) => {
+      const matches = item.match(regexComp).groups;
+
+      return {
+        cName: matches.cName.trim(),
+        cTitle: matches.cTitle.trim(),
+        cBody: splitedData[index + 1].trim(),
+      };
+    });
+
+    return componentData;
+  }
+
+  parseMipsNamesComponentsSubproposals(data, isOnComponentSummary) {
+    let raw = data.raw;
+
+    if (data.type === "heading" || isOnComponentSummary) {
+      return raw;
+    } else {
+      //#region Helper functions
+      const processToken = (pattern, item, processLink) =>
+        item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
+
+      const parseMipNames = (item) =>
+        item.replace(
+          /MIP\d+/gi,
+          (item) => `[${item}](mips/details/${item} "smart-Mip")`
+        );
+
+      const parseMipComponent = (item) =>
+        item.replace(
+          /MIP\d+[ca]\d+/gi,
+          (item) => `[${item}](mips/details/${item} "smart-Component")`
+        );
+
+      const parseMipSubproposal = (item) =>
+        item.replace(
+          /MIP\d+[ca]\d+-SP\d/gi,
+          (item) => `[${item}](mips/details/${item} "smart-Subproposal")`
+        );
+      //#endregion
+
+      raw = processToken(/[\s`]MIP\d+[\s`:]/gi, raw, parseMipNames);
+
+      raw = processToken(/[\s`]MIP\d+[ca]\d+[\s`:]/gi, raw, parseMipComponent);
+
+      raw = processToken(
+        /[\s`]MIP\d+[ca]\d+-SP\d[\s`:]/gi,
+        raw,
+        parseMipSubproposal
+      );
+
+      return raw;
+    }
+  }
+
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
     let preamble: IPreamble = {};
+    let isOnComponentSummary = false;
 
     const mip: MIP = {
       hash: item.hash,
@@ -210,14 +298,23 @@ export class ParseMIPsService {
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
-      mip.sectionsRaw.push(list[i].raw);
+      const element = list[i];
 
-      if (list[i]?.type === "heading" && list[i]?.depth === 1) {
-        title = list[i]?.text;
+      if (element.type === "heading") {
+        if (element.text.toLowerCase().includes("component summary"))
+          isOnComponentSummary = true;
+        else if (isOnComponentSummary) isOnComponentSummary = false;
+      }
+
+      mip.sectionsRaw.push(element.raw);
+      // mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(element,isOnComponentSummary));
+
+      if (element?.type === "heading" && element?.depth === 1) {
+        title = element?.text;
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "Preamble" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "Preamble" &&
         i + 1 < list.length
       ) {
         if (list[i + 1]?.type === "code") {
@@ -232,23 +329,23 @@ export class ParseMIPsService {
           }
         }
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "Sentence Summary" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "Sentence Summary" &&
         i + 1 < list.length
       ) {
         mip.sentenceSummary = list[i + 1]?.raw;
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "Paragraph Summary" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "Paragraph Summary" &&
         i + 1 < list.length
       ) {
         mip.paragraphSummary = list[i + 1]?.raw;
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "References" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "References" &&
         i + 1 < list.length
       ) {
         if (list[i + 1].type === "list") {
@@ -272,15 +369,22 @@ export class ParseMIPsService {
           if (list[i + 1]?.tokens) {
             for (const item of list[i + 1]?.tokens) {
               if (item.type === "text") {
-                mip.references.push({
-                  name: item.text,
-                  link: "",
-                });
+                if (item.text.trim()) {
+                  mip.references.push({
+                    name: item.text,
+                    link: "",
+                  });
+                }
               } else {
-                if (item.tokens) {
+                if (item.type === "link") {
+                  mip.references.push({
+                    name: item.text,
+                    link: item.href,
+                  });
+                } else if (item.tokens) {
                   mip.references.push(
                     ...item.tokens.map((d) => {
-                      return { name: d.text, link: d.text };
+                      return { name: d.text, link: d.href || d.text };
                     })
                   );
                 }
@@ -290,10 +394,10 @@ export class ParseMIPsService {
         }
       }
 
-      if (list[i]?.type === "heading") {
+      if (element?.type === "heading") {
         mip.sections.push({
-          heading: list[i]?.text,
-          depth: list[i]?.depth,
+          heading: element?.text,
+          depth: element?.depth,
         });
       }
     }
@@ -301,6 +405,15 @@ export class ParseMIPsService {
     if (!preamble) {
       this.logger.log(`Preamble empty ==> ${JSON.stringify(item)}`);
       return;
+    }
+
+    if (!item.filename.includes("-")) {
+      // Only the mipsFathers
+      const componentSummary: string = this.getComponentsSection(fileString);
+      const components: Component[] =
+        this.getDataFromComponentText(componentSummary);
+
+      mip.components = components;
     }
 
     mip.author = preamble.author;
