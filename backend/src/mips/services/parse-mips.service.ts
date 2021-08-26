@@ -231,6 +231,58 @@ export class ParseMIPsService {
     return componentData;
   }
 
+  parseMipsNamesComponentsSubproposals(data) {
+    let isOnComponentSummary = false;
+    let raw = data.raw;
+    if (
+      data.type === "heading" &&
+      data.text.toLowerCase().includes("component summary")
+    ) {
+      isOnComponentSummary = true;
+    }
+
+    if (isOnComponentSummary && data.type === "heading") {
+      isOnComponentSummary = false;
+    }
+
+    if (data.type === "heading" || isOnComponentSummary) {
+      return raw;
+    } else {
+      const processToken = (pattern, item, processLink) =>
+        item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
+
+      const parseMipNames = (item) =>
+        item.replace(
+          /MIP\d+/gi,
+          (item) => `[${item}](/mips/details/${item} "smart-Mip")`
+        );
+
+      const parseMipComponent = (item) =>
+        item.replace(
+          /MIP\d+[ca]\d+/gi,
+          (item) => `[${item}](/mips/details/${item} "smart-Component")`
+        );
+
+      const parseMipSubproposal = (item) =>
+        item.replace(
+          /MIP\d+[ca]\d+-SP\d/gi,
+          (item) => `[${item}](/mips/details/${item} "smart-Subproposal")`
+        );
+
+      raw = processToken(/[\s`]MIP\d+[\s`:]/gi, raw, parseMipNames);
+
+      raw = processToken(/[\s`]MIP\d+[ca]\d+[\s`:]/gi, raw, parseMipComponent);
+
+      raw = processToken(
+        /[\s`]MIP\d+[ca]\d+-SP\d[\s`:]/gi,
+        raw,
+        parseMipSubproposal
+      );
+
+      return raw;
+    }
+  }
+
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
     let preamble: IPreamble = {};
@@ -254,7 +306,7 @@ export class ParseMIPsService {
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
-      mip.sectionsRaw.push(list[i].raw);
+      mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(list[i]));
 
       if (list[i]?.type === "heading" && list[i]?.depth === 1) {
         title = list[i]?.text;
@@ -354,11 +406,12 @@ export class ParseMIPsService {
       return;
     }
 
-    if(!item.filename.includes("-")){
+    if (!item.filename.includes("-")) {
       // Only the mipsFathers
-      const componentSummary:string = this.getComponentsSection(fileString);
-      const components:Component[] = this.getDataFromComponentText(componentSummary);
-  
+      const componentSummary: string = this.getComponentsSection(fileString);
+      const components: Component[] =
+        this.getDataFromComponentText(componentSummary);
+
       mip.components = components;
     }
 
@@ -374,7 +427,6 @@ export class ParseMIPsService {
     mip.types = preamble.types;
     mip.tags = preamble.tags;
 
-  
     return mip;
   }
 
