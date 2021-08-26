@@ -1,62 +1,112 @@
-.title {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 23px;
-  color: #000000;
-  margin: 40px 0 30px;
+:host {
   position: relative;
+  height: fit-content;
+  display: block;
 
-  &:hover {
-    a.anchor {
-      i {
-        visibility: visible;
-      }
+  .title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+    margin: 0 0 2px 0;
+    position: relative;
+  }
+
+  .expandToggle {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: #1aab9b;
+    position: absolute;
+    bottom: 17.5px;
+    left: 22px;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: rgba(184, 197, 222, 0.2);
+      transition: background-color 0.2s;
+    }
+
+    .arrowIcon {
+      margin-left: 6px;
+      transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
   }
 
-  a.anchor {
-    color: black;
-    position: absolute;
-    left: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
+  .rotate {
+    transform: rotate(180deg);
+    transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
 
-    i {
-      visibility: hidden;
+  .expIcon {
+    position: absolute;
+    right: 12px;
+    top: 22px;
+    width: 23px;
+    height: 22px;
+  }
+
+  .link {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    color: #2f80ed;
+    display: block;
+    margin-top: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    img {
+      margin-right: 9px;
     }
 
     &:hover {
-      i {
-        visibility: visible;
-      }
+      text-decoration: underline;
     }
+  }
+
+  .topSubproposal {
+    height: 9px;
   }
 }
 
-.link {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 14px;
-  color: #2f80ed;
-  display: block;
-  margin-top: 14px;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+mat-expansion-panel {
+  background: rgba(26, 171, 155, 0.05) !important;
+  border-radius: 5px !important;
+  padding: 16px 22px 0;
+  box-shadow: none !important;
+  border-bottom: 60px solid transparent;
+}
 
-  img {
-    margin-right: 9px;
-  }
+mat-expansion-panel-header {
+  padding: 0;
+  background: none !important;
 
   &:hover {
-    text-decoration: underline;
+    background: none !important;
   }
+}
+
+:host::ng-deep.mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+mat-panel-title {
+  flex-direction: column;
 }

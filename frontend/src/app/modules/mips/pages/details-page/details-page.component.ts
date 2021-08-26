@@ -55,6 +55,7 @@ export class DetailsPageComponent implements OnInit {
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
         } else this.mdUrl = url;
+        this.moveToElement();
       }
     });
   }
@@ -102,13 +103,6 @@ export class DetailsPageComponent implements OnInit {
 
         if (indexReferencesSection !== -1) {
           (this.sections as []).splice(indexReferencesSection, 1);
-        }
-
-        if (data.subproposals && data.subproposals.length > 0) {
-          (this.sections as any[]).push({
-            depth: 2,
-            heading: 'Subproposals',
-          });
         }
 
         let indexReferencesHeading: number = (this.mip.sectionsRaw as [
