@@ -231,47 +231,49 @@ export class ParseMIPsService {
     return componentData;
   }
 
-  parseMipsNamesComponentsSubproposals(data) {
-    let isOnComponentSummary = false;
-    let raw = data.raw;
-    if (
-      data.type === "heading" &&
-      data.text.toLowerCase().includes("component summary")
-    ) {
-      isOnComponentSummary = true;
-    }
 
-    if (isOnComponentSummary && data.type === "heading") {
-      isOnComponentSummary = false;
-    }
+   parseMipsNamesComponentsSubproposals(
+    data,
+    isOnComponentSummary
+  ) {
+    let raw = data.raw;
 
     if (data.type === "heading" || isOnComponentSummary) {
       return raw;
     } else {
+      
+      //#region Helper functions
       const processToken = (pattern, item, processLink) =>
-        item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
+        item.replace(pattern, (match) =>
+          processLink(match).replace(/`/g, "")
+        );
 
       const parseMipNames = (item) =>
         item.replace(
           /MIP\d+/gi,
-          (item) => `[${item}](/mips/details/${item} "smart-Mip")`
+          (item) => `[${item}](mips/details/${item} "smart-Mip")`
         );
 
       const parseMipComponent = (item) =>
         item.replace(
           /MIP\d+[ca]\d+/gi,
-          (item) => `[${item}](/mips/details/${item} "smart-Component")`
+          (item) => `[${item}](mips/details/${item} "smart-Component")`
         );
 
       const parseMipSubproposal = (item) =>
         item.replace(
           /MIP\d+[ca]\d+-SP\d/gi,
-          (item) => `[${item}](/mips/details/${item} "smart-Subproposal")`
+          (item) => `[${item}](mips/details/${item} "smart-Subproposal")`
         );
+      //#endregion
 
       raw = processToken(/[\s`]MIP\d+[\s`:]/gi, raw, parseMipNames);
 
-      raw = processToken(/[\s`]MIP\d+[ca]\d+[\s`:]/gi, raw, parseMipComponent);
+      raw = processToken(
+        /[\s`]MIP\d+[ca]\d+[\s`:]/gi,
+        raw,
+        parseMipComponent
+      );
 
       raw = processToken(
         /[\s`]MIP\d+[ca]\d+-SP\d[\s`:]/gi,
@@ -283,9 +285,11 @@ export class ParseMIPsService {
     }
   }
 
+
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
     let preamble: IPreamble = {};
+    let isOnComponentSummary=false
 
     const mip: MIP = {
       hash: item.hash,
@@ -306,14 +310,23 @@ export class ParseMIPsService {
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
-      mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(list[i]));
 
-      if (list[i]?.type === "heading" && list[i]?.depth === 1) {
-        title = list[i]?.text;
+      const element=list[i]
+      
+      if (element.type === "heading") {
+        if (element.text.toLowerCase().includes("component summary"))
+          isOnComponentSummary = true;
+        else if (isOnComponentSummary) isOnComponentSummary = false;
+      }
+
+      mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(element,isOnComponentSummary));
+
+      if (element?.type === "heading" && element?.depth === 1) {
+        title = element?.text;
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "Preamble" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "Preamble" &&
         i + 1 < list.length
       ) {
         if (list[i + 1]?.type === "code") {
@@ -328,23 +341,23 @@ export class ParseMIPsService {
           }
         }
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "Sentence Summary" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "Sentence Summary" &&
         i + 1 < list.length
       ) {
         mip.sentenceSummary = list[i + 1]?.raw;
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "Paragraph Summary" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "Paragraph Summary" &&
         i + 1 < list.length
       ) {
         mip.paragraphSummary = list[i + 1]?.raw;
       } else if (
-        list[i]?.type === "heading" &&
-        list[i]?.depth === 2 &&
-        list[i]?.text === "References" &&
+        element?.type === "heading" &&
+        element?.depth === 2 &&
+        element?.text === "References" &&
         i + 1 < list.length
       ) {
         if (list[i + 1].type === "list") {
@@ -393,10 +406,10 @@ export class ParseMIPsService {
         }
       }
 
-      if (list[i]?.type === "heading") {
+      if (element?.type === "heading") {
         mip.sections.push({
-          heading: list[i]?.text,
-          depth: list[i]?.depth,
+          heading: element?.text,
+          depth: element?.depth,
         });
       }
     }
