@@ -197,9 +197,13 @@ export class SearchMobileComponent implements OnInit {
   }
 
   isQuery(data: string): boolean {
-    let search = data.toLowerCase().trim();
+    if (data) {
+      let search = data.toLowerCase().trim();
 
-    return search.startsWith('$');
+      return search.startsWith('$');
+    }
+
+    return false;
   }
 
   clear(): void {
