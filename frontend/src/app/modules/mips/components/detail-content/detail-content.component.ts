@@ -144,100 +144,145 @@ export class DetailContentComponent
     }
   }
 
+  showOverview(data, posStrategy) {
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(posStrategy)
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        },
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'bottom',
+        },
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        },
+      ]);
+
+    positionStrategy.positionChanges.subscribe((pos) => {
+      if (
+        pos.connectionPair.originX === 'end' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'end' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleLeft = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'start' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleLeft = true;
+      } else if (
+        pos.connectionPair.originX === 'end' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'end' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleLeft = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'start' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleLeft = true;
+      }
+
+      let element: HTMLElement = this.previewRef.nativeElement.parentElement
+        .parentElement;
+      element.style.marginTop = '17px';
+      element.style.marginBottom = '17px';
+    });
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+    });
+
+    this.overlayRef.attach(
+      new TemplatePortal(this.preview, this.viewContainerRef, {
+        $implicit: data,
+      })
+    );
+  }
+
   displayPreview = (e: Event) => {
     if (!this.overlayRef) {
-      let href: string = (e.target as HTMLAnchorElement).href.split(
-        '/mips/details/'
-      )[1];
+      const link = e.target as HTMLAnchorElement;
 
-      if (href) {
+      let href: string = link.href.split('/mips/details/')[1];
+
+      if (link?.rel?.includes('smart-')) {
+        const type = link.rel.split('-')[1];
+
+        switch (type) {
+          case 'Mip':
+            this.subscription = this.mipsService
+              .getMipBy('mipName', href)
+              .subscribe((data) => {
+                if (data) {
+                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                  this.showOverview(data, posStrategy);
+                }
+              });
+            break;
+
+          case 'Component':
+            this.subscription = this.mipsService
+              .getMipBy('mipComponent', href)
+              .subscribe((data) => {
+                if (data) {
+                  console.log({ data });
+                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                  this.showOverview(data, posStrategy);
+                }
+              });
+            break;
+
+          case 'Subproposal':
+            this.subscription = this.mipsService
+              .getMipBy('mipSubproposal', href)
+              .subscribe((data) => {
+                if (data) {
+                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                  this.showOverview(data, posStrategy);
+                }
+              });
+            break;
+        }
+      } else if (href) {
         this.subscription = this.mipsService
           .getMipBy('mipName', href)
           .subscribe((data) => {
             if (data) {
               let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-              const positionStrategy = this.overlay
-                .position()
-                .flexibleConnectedTo(posStrategy)
-                .withPositions([
-                  {
-                    originX: 'end',
-                    originY: 'bottom',
-                    overlayX: 'end',
-                    overlayY: 'top',
-                  },
-                  {
-                    originX: 'start',
-                    originY: 'bottom',
-                    overlayX: 'start',
-                    overlayY: 'top',
-                  },
-                  {
-                    originX: 'end',
-                    originY: 'top',
-                    overlayX: 'end',
-                    overlayY: 'bottom',
-                  },
-                  {
-                    originX: 'start',
-                    originY: 'top',
-                    overlayX: 'start',
-                    overlayY: 'bottom',
-                  },
-                ]);
-
-              positionStrategy.positionChanges.subscribe((pos) => {
-                if (
-                  pos.connectionPair.originX === 'end' &&
-                  pos.connectionPair.originY === 'bottom' &&
-                  pos.connectionPair.overlayX === 'end' &&
-                  pos.connectionPair.overlayY === 'top'
-                ) {
-                  this.triangleUp = true;
-                  this.triangleLeft = false;
-                } else if (
-                  pos.connectionPair.originX === 'start' &&
-                  pos.connectionPair.originY === 'bottom' &&
-                  pos.connectionPair.overlayX === 'start' &&
-                  pos.connectionPair.overlayY === 'top'
-                ) {
-                  this.triangleUp = true;
-                  this.triangleLeft = true;
-                } else if (
-                  pos.connectionPair.originX === 'end' &&
-                  pos.connectionPair.originY === 'top' &&
-                  pos.connectionPair.overlayX === 'end' &&
-                  pos.connectionPair.overlayY === 'bottom'
-                ) {
-                  this.triangleUp = false;
-                  this.triangleLeft = false;
-                } else if (
-                  pos.connectionPair.originX === 'start' &&
-                  pos.connectionPair.originY === 'top' &&
-                  pos.connectionPair.overlayX === 'start' &&
-                  pos.connectionPair.overlayY === 'bottom'
-                ) {
-                  this.triangleUp = false;
-                  this.triangleLeft = true;
-                }
-
-                let element: HTMLElement = this.previewRef.nativeElement
-                  .parentElement.parentElement;
-                element.style.marginTop = '17px';
-                element.style.marginBottom = '17px';
-              });
-
-              this.overlayRef = this.overlay.create({
-                positionStrategy,
-                scrollStrategy: this.overlay.scrollStrategies.close(),
-              });
-
-              this.overlayRef.attach(
-                new TemplatePortal(this.preview, this.viewContainerRef, {
-                  $implicit: data,
-                })
-              );
+              this.showOverview(data, posStrategy);
             }
           });
       }
@@ -496,11 +541,22 @@ export class DetailContentComponent
       if (
         !link.name.includes('Template') &&
         (link.link.includes(this.gitgubUrl) ||
+          title?.includes('smart') ||
+          link.link.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
       ) {
-        return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
+        if (title?.includes('smart')) {
+          return `<a onclick="return;" name="${
+            title?.includes('smart') ? title : escapedText
+          }" id="${link.id}" class="linkPreview showAsBacktip" rel=${
+            title?.includes('smart') ? title : ''
+          } href="${href}">${text}</a>`;
+        } else {
+          return `<a name="${escapedText}" id="${link.id}" class="linkPreview" 
+          } href="${href}">${text}</a>`;
+        }
       }
 
       if (this.mdUrl) {

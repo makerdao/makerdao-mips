@@ -67,6 +67,16 @@
     [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp }"
     #previewRef
   >
+    <div
+      *ngIf="data.components && data.components[0] && data.components[0].cName"
+    >
+      <div class="previewTextTitle">{{ data.components[0].cTitle}}   </div>
+
+      <div class="previewTextContent">
+        <markdown [data]="data.components[0].cBody"></markdown>
+      </div>
+    </div>
+    <hr />
     <div class="previewTextTitle">{{ data.title }}</div>
     <div class="previewTextContent">{{ data.sentenceSummary }}</div>
     <div
