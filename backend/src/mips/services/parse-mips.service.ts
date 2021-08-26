@@ -231,22 +231,15 @@ export class ParseMIPsService {
     return componentData;
   }
 
-
-   parseMipsNamesComponentsSubproposals(
-    data,
-    isOnComponentSummary
-  ) {
+  parseMipsNamesComponentsSubproposals(data, isOnComponentSummary) {
     let raw = data.raw;
 
     if (data.type === "heading" || isOnComponentSummary) {
       return raw;
     } else {
-      
       //#region Helper functions
       const processToken = (pattern, item, processLink) =>
-        item.replace(pattern, (match) =>
-          processLink(match).replace(/`/g, "")
-        );
+        item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
 
       const parseMipNames = (item) =>
         item.replace(
@@ -269,11 +262,7 @@ export class ParseMIPsService {
 
       raw = processToken(/[\s`]MIP\d+[\s`:]/gi, raw, parseMipNames);
 
-      raw = processToken(
-        /[\s`]MIP\d+[ca]\d+[\s`:]/gi,
-        raw,
-        parseMipComponent
-      );
+      raw = processToken(/[\s`]MIP\d+[ca]\d+[\s`:]/gi, raw, parseMipComponent);
 
       raw = processToken(
         /[\s`]MIP\d+[ca]\d+-SP\d[\s`:]/gi,
@@ -285,11 +274,10 @@ export class ParseMIPsService {
     }
   }
 
-
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
     let preamble: IPreamble = {};
-    let isOnComponentSummary=false
+    let isOnComponentSummary = false;
 
     const mip: MIP = {
       hash: item.hash,
@@ -310,16 +298,16 @@ export class ParseMIPsService {
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
+      const element = list[i];
 
-      const element=list[i]
-      
       if (element.type === "heading") {
         if (element.text.toLowerCase().includes("component summary"))
           isOnComponentSummary = true;
         else if (isOnComponentSummary) isOnComponentSummary = false;
       }
 
-      mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(element,isOnComponentSummary));
+      mip.sectionsRaw.push(element.raw);
+      // mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(element,isOnComponentSummary));
 
       if (element?.type === "heading" && element?.depth === 1) {
         title = element?.text;
@@ -384,7 +372,7 @@ export class ParseMIPsService {
                 if (item.text.trim()) {
                   mip.references.push({
                     name: item.text,
-                    link: ""
+                    link: "",
                   });
                 }
               } else {
