@@ -51,6 +51,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   loadingMipsSuggestions = false;
   subscriptionLoadSuggestions = new Subscription();
   totalMipsSuggestion = 0;
+  searchSuggestions = false;
 
   constructor(
     private mipsService: MipsService,
@@ -658,6 +659,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   searchMipsByName(limit, page, order, search, filter): void {
     this.loadingMipsSuggestions = true;
+    this.loading = true;
     this.subscriptionLoadSuggestions = this.mipsService
       .searchMips(
         limit,
@@ -690,19 +692,35 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         this.listSearchMip = this.listSearchMip.concat(items);
         this.loadingMipsSuggestions = false;
         this.totalMipsSuggestion = data.total;
+        this.total = data.total;
+        this.hidingSubproposalsUnderParents(data);
+        this.loading = false;
+
+        if (this.limitAux >= this.total) {
+          this.moreToLoad = false;
+        } else {
+          this.moreToLoad = true;
+        }
       },
       (err) => {
         this.loadingMipsSuggestions = false;
+        this.loading = false;
         console.log(err);
       });
   }
 
   onSendPagination(): void {
-    this.loadingPlus = true;
-    this.page++;
-    this.limitAux += 10;
-    if (this.moreToLoad) {
-      this.searchMips();
+    if (this.searchSuggestions) {
+      if (this.moreToLoad && !this.loading) {  // while is loading we don't request for more items in order to be sure that items are displayed  in the same oreder they are requested
+        this.onLoadMoreMipsSuggestions();
+      }
+    } else {
+      this.loadingPlus = true;
+      this.page++;
+      this.limitAux += 10;
+      if (this.moreToLoad) {
+        this.searchMips();
+      }
     }
   }
 
@@ -722,23 +740,28 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (search.startsWith('mip')) {
       if (event.keyCode == 13 && this.listSearchMip.length > 0) {
         this.goToMipDetails(this.listSearchMip[0].mipName);
+      } else {
+        this.searchSuggestions = true;
+        this.pageMipsSuggestions = 0;
+        this.listSearchMip = [];
+        this.limitAux = 10;
+        this.mips = [];
+        let filter = {
+          contains: [],
+        };
+        filter.contains.push({ field: 'mipName', value: event.target.value });
+        this.subscriptionLoadSuggestions.unsubscribe();
+        this.searchMipsByName(
+          this.limitMipsSuggestions,
+          this.pageMipsSuggestions,
+          'mip mipName',
+          '',
+          filter
+        );
+        this.limit = 0;
       }
-      this.pageMipsSuggestions = 0;
-      this.listSearchMip = [];
-      let filter = {
-        contains: [],
-      };
-      filter.contains.push({ field: 'mipName', value: event.target.value });
-      this.subscriptionLoadSuggestions.unsubscribe();
-      this.searchMipsByName(
-        this.limitMipsSuggestions,
-        this.pageMipsSuggestions,
-        'mipName',
-        '',
-        filter
-      );
-      this.limit = 0;
     } else {
+      this.searchSuggestions = false;
       this.showListSearch = false;
       this.listSearchMip = [];
       this.limitAux = 10;
@@ -753,6 +776,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   onLoadMoreMipsSuggestions() {
     if (this.listSearchMip.length < this.totalMipsSuggestion) {
       this.pageMipsSuggestions++;
+      this.limitAux += 10;
       let filter = {
         contains: [],
       };
@@ -760,7 +784,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.searchMipsByName(
         this.limitMipsSuggestions,
         this.pageMipsSuggestions,
-        'mipName',
+        'mip mipName',
         '',
         filter
       );
