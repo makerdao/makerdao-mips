@@ -673,12 +673,13 @@ export class DetailContentComponent
             'href',
             `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
           );
-        } else {
-          elem.setAttribute(
-            'href',
-            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
-          );
-        }
+        } 
+        // else {
+        //   elem.setAttribute(
+        //     'href',
+        //     `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
+        //   );
+        // }
       }
     });
   }
