@@ -6,5 +6,25 @@
     (toggle)="onMenuToggle($event)"
     [isOpen]="openedIndexChild === i"
     (opened)="onOpened(i)"
-  ></app-menu>
+  >
+    <span class="underline-menu lineal">{{ item.name }}</span>
+  </app-menu>
+  <app-menu
+    [menu]="feedBackLinkMenu"
+    [levelMenu]="0"
+    (toggle)="onMenuToggle($event)"
+    [isOpen]="openedIndexChild === menu.length"
+    (opened)="onOpened(menu.length)"
+    [showArrow]="false"
+  >
+    <span>
+      <div class="imageLinkMenuWrapper" matRipple [matRippleCentered]="true">
+        <img
+          *ngIf="feedBackLinkMenu && feedBackLinkMenu.img"
+          [src]="feedBackLinkMenu.img"
+          style="margin-left: 2px; width: 30px; height: 21px;"
+        />
+      </div>
+    </span>
+  </app-menu>
 </div>

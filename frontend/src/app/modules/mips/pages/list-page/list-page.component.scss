@@ -8,7 +8,7 @@
 .title {
   font-weight: bold;
   font-size: 20px;
-  color: #31394D;
+  color: #31394d;
   float: left;
   margin: 0;
   white-space: nowrap;
@@ -22,12 +22,7 @@
   width: -webkit-fill-available;
 }
 
-// app-search {
-//   margin-right: 12px;
-// }
-
 app-filter {
-  // margin-right: 12px;
   z-index: 1;
 }
 
@@ -35,18 +30,6 @@ app-order-mobile {
   margin-right: 12px;
 }
 
-.feedback {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  height: 54.44px;
-  app-feedback {
-    z-index: 2;
-    transform: translate(24px, 20px);
-    position: fixed;
-    bottom: 40px;
-  }
-}
 .mobile {
   display: none;
 }
@@ -70,24 +53,36 @@ app-md-checkbox-mobile {
   display: none;
 }
 
-@media screen and (max-width: 500px) {
-  .feedback {
-    app-feedback {
-      transform: translate(5px, 0px);
-    }
+.iconScrollTopWrapper {
+  height: 64px;
+  width: 64px;
+  background-color: rgba(47, 128, 237, 0.3);
+  position: fixed;
+  bottom: 250px;
+  right: 40px;
+  box-shadow: none;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(47, 128, 237, 0.5);
+    transition: background-color 0.2s;
+  }
+
+  img {
+    z-index: 2;
+    top: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
 @media screen and (max-width: 539px) {
-  .title{
+  .title {
     &.hide {
       display: none;
     }
   }
-  // app-search-mobile {
-  //   // width: 100%;
-  // }
-
 }
 @media screen and (max-width: 768px) {
   .mobile {
@@ -131,12 +126,9 @@ app-md-checkbox-mobile {
     width: 100%;
     justify-content: flex-end;
   }
-}
 
-@media screen and (min-width: 1920px) {
-  .feedback {
-    app-feedback {
-      transform: translate(160px, -60px);
-    }
+  .iconScrollTopWrapper {
+    bottom: 50px;
+    right: 30px;
   }
 }

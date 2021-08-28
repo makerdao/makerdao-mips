@@ -84,6 +84,12 @@
   [filter]="filter"
   [search]="search"
 ></app-list-mipset-mode>
-<div class="feedback">
-  <app-feedback id="feedback"></app-feedback>
-</div>
+<button
+  mat-fab
+  class="iconScrollTopWrapper"
+  #scrollTopButton
+  [@slide]=" scrolled ? 'visible' : 'hidden'"
+  (click)="scrollToTop()"
+>
+  <img src="../../../../../assets/images/scroll_top.svg" />
+</button>

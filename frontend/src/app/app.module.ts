@@ -12,6 +12,11 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
 import { NavMenuComponent } from './shared/nav-menu/nav-menu.component';
 import { MenuComponent } from './shared/menu/menu.component';
 import {OverlayModule} from '@angular/cdk/overlay';
+import { MatRippleModule } from '@angular/material/core';
+import { MdFeedbackComponent } from './shared/md-feedback/md-feedback.component';
+import { MdFeedbackDialogComponent } from './shared/md-feedback/md-feedback-dialog/md-feedback-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -21,7 +26,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
     FooterComponent,
     ObserveVisibilityDirective,
     NavMenuComponent,
-    MenuComponent
+    MenuComponent,
+    MdFeedbackComponent,
+    MdFeedbackDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +36,10 @@ import {OverlayModule} from '@angular/cdk/overlay';
     AppRoutingModule,
     HttpClientModule,
     InfiniteScrollModule,
-    OverlayModule
+    OverlayModule,
+    MatRippleModule,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [
     Title

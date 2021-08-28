@@ -354,71 +354,72 @@ export class DetailContentComponent
   }
 
   appendSubproposalsElements() {
-    this.subproposals.map(item => {
-      let newItem = this.addSubsetField(item);
-      return newItem;
-    });
+    if(this.subproposals) {
+      this.subproposals.map(item => {
+        let newItem = this.addSubsetField(item);
+        return newItem;
+      });
 
-    let subproposalsGroup: any = this.groupBy(
-      'subset',
-      this.subproposals
-    );
+      let subproposalsGroup: any = this.groupBy(
+        'subset',
+        this.subproposals
+      );
 
-    this.sortSubproposalsGroups(subproposalsGroup);
-    this.subproposalsGroup = subproposalsGroup;
+      this.sortSubproposalsGroups(subproposalsGroup);
+      this.subproposalsGroup = subproposalsGroup;
 
-    // DOM manipulation
-    let m: HTMLElement = document.querySelector('.variable-binding');
-    let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName('h3');
+      // DOM manipulation
+      let m: HTMLElement = document.querySelector('.variable-binding');
+      let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName('h3');
 
-    for (const key in this.subproposalsGroup) {
-      if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
-        for (let i = 0; i < h3s.length; i++) {
-          const element = h3s.item(i);
-          if (element.innerText.startsWith(key)) {
-            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-              SubproposalsComponent
-            );
-            const componentRef = componentFactory.create(this.injector);
-            componentRef.instance.subproposals = [...this.subproposalsGroup[key]];
-            componentRef.hostView.detectChanges();
-            const { nativeElement } = componentRef.location;
+      for (const key in this.subproposalsGroup) {
+        if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
+          for (let i = 0; i < h3s.length; i++) {
+            const element = h3s.item(i);
+            if (element.innerText.startsWith(key)) {
+              const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+                SubproposalsComponent
+              );
+              const componentRef = componentFactory.create(this.injector);
+              componentRef.instance.subproposals = [...this.subproposalsGroup[key]];
+              componentRef.hostView.detectChanges();
+              const { nativeElement } = componentRef.location;
 
-            // search in DOM the next component section
-            let found: boolean = false;
-            let j: number = i + 1;
-            while ( j < h3s.length && !found) {
-              const nextElement: HTMLHeadingElement = h3s.item(j);
+              // search in DOM the next component section
+              let found: boolean = false;
+              let j: number = i + 1;
+              while ( j < h3s.length && !found) {
+                const nextElement: HTMLHeadingElement = h3s.item(j);
 
-              if (nextElement.innerText.startsWith(this.mip.mipName)) {
-                found = true;
-                let prev = nextElement.previousElementSibling;
+                if (nextElement.innerText.startsWith(this.mip.mipName)) {
+                  found = true;
+                  let prev = nextElement.previousElementSibling;
 
-                if (prev.tagName ===  'HR') {
-                  prev.insertAdjacentElement('beforebegin', nativeElement);
-                } else {
-                  prev.insertAdjacentElement('afterend', nativeElement);
+                  if (prev.tagName ===  'HR') {
+                    prev.insertAdjacentElement('beforebegin', nativeElement);
+                  } else {
+                    prev.insertAdjacentElement('afterend', nativeElement);
+                  }
+
                 }
 
+                j++;
               }
 
-              j++;
-            }
+              if (j >= h3s.length && !found) {
+                let lastChild = m.lastElementChild;
 
-            if (j >= h3s.length && !found) {
-              let lastChild = m.lastElementChild;
-
-              if (lastChild.tagName ===  'HR') {
-                lastChild.insertAdjacentElement('beforebegin', nativeElement);
-              } else {
-                lastChild.insertAdjacentElement('afterend', nativeElement);
+                if (lastChild.tagName ===  'HR') {
+                  lastChild.insertAdjacentElement('beforebegin', nativeElement);
+                } else {
+                  lastChild.insertAdjacentElement('afterend', nativeElement);
+                }
               }
             }
           }
         }
       }
     }
-
   }
 
   addSubsetField = (item: any) => {
@@ -554,7 +555,7 @@ export class DetailContentComponent
             title?.includes('smart') ? title : ''
           } href="${href}">${text}</a>`;
         } else {
-          return `<a name="${escapedText}" id="${link.id}" class="linkPreview" 
+          return `<a name="${escapedText}" id="${link.id}" class="linkPreview"
           } href="${href}">${text}</a>`;
         }
       }
@@ -673,7 +674,7 @@ export class DetailContentComponent
             'href',
             `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
           );
-        } 
+        }
         // else {
         //   elem.setAttribute(
         //     'href',
