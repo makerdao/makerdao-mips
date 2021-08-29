@@ -12,6 +12,8 @@ import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
 import { delay, map } from 'rxjs/operators';
+import { SearchService } from '../../services/search.service';
+import { FilterService } from '../../services/filter.service';
 
 @Component({
   selector: 'app-list-page',
@@ -62,6 +64,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private queryParamsListService: QueryParamsListService,
     private elementsRefUiService: ElementsRefUiService,
     private metadataShareService: MetadataShareService,
+    private searchService: SearchService,
+    private filterService: FilterService
   ) {}
 
   ngOnInit(): void {
@@ -172,11 +176,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.initFilterContributor();
     this.initFilterAuthor();
     this.initSearch();
+    this.filterService.filter.next(this.filter);
   }
 
   initSearch() {
     let queryParams: QueryParams = this.queryParamsListService.queryParams;
     this.search = queryParams.search;
+    this.searchService.search.next(queryParams.search);
   }
 
   initFilterContributor() {
@@ -328,6 +334,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }
 
     this.filter = { ...filter };
+    this.filterService.filter.next(this.filter);
   }
 
   pushFilterInarray(array: Array<any>, data: any) {
@@ -736,6 +743,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   onSendSearch(event: any): void {
     let search = event.target.value.toLowerCase().trim();
     this.search = event.target.value;
+    this.searchService.search.next(event.target.value);
 
     if (search.startsWith('mip')) {
       if (event.keyCode == 13 && this.listSearchMip.length > 0) {

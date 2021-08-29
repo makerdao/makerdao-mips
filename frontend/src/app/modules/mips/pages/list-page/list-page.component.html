@@ -74,15 +74,11 @@
   [moreToLoad]="moreToLoad"
   [dataSource]="mips"
   [paginationTotal]="total"
-  [filter]="filter"
-  [search]="search"
   (send)="onSendPagination()"
   (sendOrder)="onSendOrder($event)"
 ></app-list>
 <app-list-mipset-mode
   *ngIf="mipsetMode"
-  [filter]="filter"
-  [search]="search"
 ></app-list-mipset-mode>
 <div class="feedback">
   <app-feedback id="feedback"></app-feedback>
