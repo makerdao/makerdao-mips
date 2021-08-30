@@ -53,31 +53,6 @@ app-md-checkbox-mobile {
   display: none;
 }
 
-.iconScrollTopWrapper {
-  height: 44px;
-  width: 44px;
-  background-color: rgba(47, 128, 237, 0.3);
-  position: fixed;
-  bottom: 50px;
-  right: 40px;
-  box-shadow: none;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: rgba(47, 128, 237, 0.5);
-    transition: background-color 0.2s;
-  }
-
-  img {
-    height: 58%;
-    z-index: 2;
-    top: 50%;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
 @media screen and (max-width: 539px) {
   .title {
     &.hide {
@@ -126,10 +101,5 @@ app-md-checkbox-mobile {
     column-gap: 12px;
     width: 100%;
     justify-content: flex-end;
-  }
-
-  .iconScrollTopWrapper {
-    bottom: 50px;
-    right: 30px;
   }
 }

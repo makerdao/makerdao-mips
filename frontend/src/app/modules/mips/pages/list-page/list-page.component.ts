@@ -11,26 +11,14 @@ import { ElementsRefUiService } from '../../../../services/elements-ref-ui/eleme
 import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
-import { delay, map } from 'rxjs/operators';
-import { MatButton } from '@angular/material/button';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-page',
   templateUrl: './list-page.component.html',
   styleUrls: ['./list-page.component.scss'],
-  animations: [
-    trigger('slide', [
-      state('hidden', style({ right: '-64px' })),
-      state('visible', style({ right: '40px' })),
-      transition(
-        'hidden <=> visible',
-        animate('300ms cubic-bezier(0.0, 0.0, 0.2, 1)')
-      ),
-    ])
-  ],
 })
-export class ListPageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ListPageComponent implements OnInit, AfterViewInit {
   mips: IMip[] = [];
   mipsAux: IMip[] = [];
   limit = 10;
@@ -64,9 +52,6 @@ export class ListPageComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptionLoadSuggestions = new Subscription();
   totalMipsSuggestion = 0;
   searchSuggestions = false;
-  @ViewChild(MatButton) scrollTopButton: MatButton;
-  subscriptionScroll = new Subscription();
-  scrolled = false;
 
   constructor(
     private mipsService: MipsService,
@@ -125,20 +110,6 @@ export class ListPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.metadataShareService.title = 'MIPs Portal';
     this.metadataShareService.description =
       'Maker Improvement Proposals are the preferred mechanism for improving both Maker Governance and the Maker Protocol.';
-
-    this.scrollTopButton.ripple.color = 'rgba(47, 128, 237, 0.5)';
-    this.scrollTopButton.ripple.centered = true;
-    this.subscriptionScroll = fromEvent(window, 'scroll').subscribe(e => {
-      if (document.documentElement.scrollTop === 0) {
-        this.scrolled = false;
-      } else {
-        this.scrolled = true;
-      }
-    });
-  }
-
-  scrollToTop() {
-    document.body.scrollIntoView({behavior: 'smooth'});
   }
 
   initParametersToLoadData() {
@@ -953,9 +924,5 @@ export class ListPageComponent implements OnInit, AfterViewInit, OnDestroy {
   onCheckedMipsetMode(ev) {
     this.mipsetMode = ev;
     this.setQueryParams();
-  }
-
-  ngOnDestroy() {
-    this.subscriptionScroll.unsubscribe();
   }
 }
