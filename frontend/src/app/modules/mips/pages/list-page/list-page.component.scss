@@ -54,11 +54,11 @@ app-md-checkbox-mobile {
 }
 
 .iconScrollTopWrapper {
-  height: 64px;
-  width: 64px;
+  height: 44px;
+  width: 44px;
   background-color: rgba(47, 128, 237, 0.3);
   position: fixed;
-  bottom: 250px;
+  bottom: 50px;
   right: 40px;
   box-shadow: none;
   transition: background-color 0.2s;
@@ -69,6 +69,7 @@ app-md-checkbox-mobile {
   }
 
   img {
+    height: 58%;
     z-index: 2;
     top: 50%;
     position: absolute;
