@@ -114,7 +114,7 @@ export class DetailContentComponent
     private titleService: Title,
     private urlService: UrlService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private injector: Injector,
+    private injector: Injector
   ) {}
 
   ngOnInit(): void {
@@ -239,40 +239,56 @@ export class DetailContentComponent
 
         switch (type) {
           case 'Mip':
-            this.subscription = this.mipsService
-              .getMipBy('mipName', href)
-              .subscribe((data) => {
-                if (data) {
-                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+            const mipNameMatches = link.href.match(/MIP\d+/gi);
 
-                  this.showOverview(data, posStrategy);
-                }
-              });
+            if (mipNameMatches) {
+              const mipName = mipNameMatches[0];
+              this.subscription = this.mipsService
+                .getMipBy('mipName', mipName)
+                .subscribe((data) => {
+                  if (data) {
+                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                    this.showOverview(data, posStrategy);
+                  }
+                });
+            }
+
             break;
 
           case 'Component':
-            this.subscription = this.mipsService
-              .getMipBy('mipComponent', href)
-              .subscribe((data) => {
-                if (data) {
-                  console.log({ data });
-                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+            const mipComponentMatches = link.href.match(/MIP\d+c\d+/gi);
 
-                  this.showOverview(data, posStrategy);
-                }
-              });
+            if (mipComponentMatches) {
+              const mipComponent = mipComponentMatches[0];
+              this.subscription = this.mipsService
+                .getMipBy('mipComponent', mipComponent)
+                .subscribe((data) => {
+                  if (data) {
+                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                    this.showOverview(data, posStrategy);
+                  }
+                });
+            }
             break;
 
           case 'Subproposal':
-            this.subscription = this.mipsService
-              .getMipBy('mipSubproposal', href)
-              .subscribe((data) => {
-                if (data) {
-                  let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+            const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-SP\d+/gi);
 
-                  this.showOverview(data, posStrategy);
-                }
-              });
+            if (mipSubproposalMatch) {
+              const mipSubproposal = mipSubproposalMatch[0];
+
+              this.subscription = this.mipsService
+                .getMipBy('mipSubproposal', mipSubproposal)
+                .subscribe((data) => {
+                  if (data) {
+                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                    this.showOverview(data, posStrategy);
+                  }
+                });
+            }
             break;
         }
       } else if (href) {
@@ -346,7 +362,7 @@ export class DetailContentComponent
     }
     this.headingStructure = [];
     if (!this.mdUrl) {
-      //On md viewer THERE IS NO NEED of THIS and may cuse a problem with md relatives links
+      //On md viewer THERE IS NOT NEED of THIS and may cuse a problem with md relatives links
       this.searchMips();
     }
     this.setPreviewFeature();
@@ -354,22 +370,21 @@ export class DetailContentComponent
   }
 
   appendSubproposalsElements() {
-    this.subproposals.map(item => {
+    this.subproposals.map((item) => {
       let newItem = this.addSubsetField(item);
       return newItem;
     });
 
-    let subproposalsGroup: any = this.groupBy(
-      'subset',
-      this.subproposals
-    );
+    let subproposalsGroup: any = this.groupBy('subset', this.subproposals);
 
     this.sortSubproposalsGroups(subproposalsGroup);
     this.subproposalsGroup = subproposalsGroup;
 
     // DOM manipulation
     let m: HTMLElement = document.querySelector('.variable-binding');
-    let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName('h3');
+    let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
+      'h3'
+    );
 
     for (const key in this.subproposalsGroup) {
       if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
@@ -380,26 +395,27 @@ export class DetailContentComponent
               SubproposalsComponent
             );
             const componentRef = componentFactory.create(this.injector);
-            componentRef.instance.subproposals = [...this.subproposalsGroup[key]];
+            componentRef.instance.subproposals = [
+              ...this.subproposalsGroup[key],
+            ];
             componentRef.hostView.detectChanges();
             const { nativeElement } = componentRef.location;
 
             // search in DOM the next component section
             let found: boolean = false;
             let j: number = i + 1;
-            while ( j < h3s.length && !found) {
+            while (j < h3s.length && !found) {
               const nextElement: HTMLHeadingElement = h3s.item(j);
 
               if (nextElement.innerText.startsWith(this.mip.mipName)) {
                 found = true;
                 let prev = nextElement.previousElementSibling;
 
-                if (prev.tagName ===  'HR') {
+                if (prev.tagName === 'HR') {
                   prev.insertAdjacentElement('beforebegin', nativeElement);
                 } else {
                   prev.insertAdjacentElement('afterend', nativeElement);
                 }
-
               }
 
               j++;
@@ -408,7 +424,7 @@ export class DetailContentComponent
             if (j >= h3s.length && !found) {
               let lastChild = m.lastElementChild;
 
-              if (lastChild.tagName ===  'HR') {
+              if (lastChild.tagName === 'HR') {
                 lastChild.insertAdjacentElement('beforebegin', nativeElement);
               } else {
                 lastChild.insertAdjacentElement('afterend', nativeElement);
@@ -418,7 +434,6 @@ export class DetailContentComponent
         }
       }
     }
-
   }
 
   addSubsetField = (item: any) => {
@@ -479,8 +494,15 @@ export class DetailContentComponent
       level: number,
       raw: string
     ) => {
+      const matchMipComponentName = text?.match(
+        /^(?<mipComponent>MIP\d+[ca]\d+)\s?:/i
+      );
+      const mipComponent = matchMipComponentName?.groups?.mipComponent;
+
       const htmlCleanedText = raw.replace(/<[^<>]+>/gm, '');
-      const escapedText = htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
+      const escapedText = mipComponent
+        ? mipComponent
+        : htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
 
@@ -548,6 +570,7 @@ export class DetailContentComponent
           link.link.includes('https://forum.makerdao.com'))
       ) {
         if (title?.includes('smart')) {
+          console.log('ver', link);
           return `<a onclick="return;" name="${
             title?.includes('smart') ? title : escapedText
           }" id="${link.id}" class="linkPreview showAsBacktip" rel=${
@@ -655,7 +678,10 @@ export class DetailContentComponent
               });
           }
         } else {
-          if (!link.link.includes('https')) {
+          if (
+            !link.link.includes('https') &&
+            !link.link.match(/mips\/details\/MIP\d/gi)
+          ) {
             elem.setAttribute(
               'href',
               `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
@@ -673,7 +699,7 @@ export class DetailContentComponent
             'href',
             `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
           );
-        } 
+        }
         // else {
         //   elem.setAttribute(
         //     'href',
