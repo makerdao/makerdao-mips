@@ -250,7 +250,9 @@ export class ParseMIPsService {
       const parseMipComponent = (item) =>
         item.replace(
           /MIP\d+[ca]\d+/gi,
-          (item) => `[${item}](mips/details/${item} "smart-Component")`
+          (item) => {
+            const mipFather=item.match(/MIP\d+/gi)[0]
+            return `[${item}](mips/details/${mipFather}#${item} "smart-Component")`}
         );
 
       const parseMipSubproposal = (item) =>
@@ -260,12 +262,12 @@ export class ParseMIPsService {
         );
       //#endregion
 
-      raw = processToken(/[\s`]MIP\d+[\s`:]/gi, raw, parseMipNames);
+      raw = processToken(/[\s`(]MIP\d+[)\s`:]/gi, raw, parseMipNames);
 
-      raw = processToken(/[\s`]MIP\d+[ca]\d+[\s`:]/gi, raw, parseMipComponent);
+      raw = processToken(/[\s`(]MIP\d+[ca]\d+[)\s`:]/gi, raw, parseMipComponent);
 
       raw = processToken(
-        /[\s`]MIP\d+[ca]\d+-SP\d[\s`:]/gi,
+        /[\s`(]MIP\d+[ca]\d+-SP\d[)\s`:]/gi,
         raw,
         parseMipSubproposal
       );
@@ -306,8 +308,9 @@ export class ParseMIPsService {
         else if (isOnComponentSummary) isOnComponentSummary = false;
       }
 
-      mip.sectionsRaw.push(element.raw);
-      // mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(element,isOnComponentSummary));
+      mip.sectionsRaw.push(
+        this.parseMipsNamesComponentsSubproposals(element, isOnComponentSummary)
+      );
 
       if (element?.type === "heading" && element?.depth === 1) {
         title = element?.text;
@@ -395,10 +398,22 @@ export class ParseMIPsService {
       }
 
       if (element?.type === "heading") {
-        mip.sections.push({
-          heading: element?.text,
-          depth: element?.depth,
-        });
+        const matchMipComponentName = element?.text?.match(
+          /^(?<mipComponent>MIP\d+[ca]\d+)\s?:/i
+        );
+        const mipComponent = matchMipComponentName?.groups?.mipComponent;
+        if ( mipComponent) {
+          mip.sections.push({
+            heading: element?.text,
+            depth: element?.depth,
+            mipComponent
+          });
+        } else {
+          mip.sections.push({
+            heading: element?.text,
+            depth: element?.depth,
+          });
+        }
       }
     }
 
