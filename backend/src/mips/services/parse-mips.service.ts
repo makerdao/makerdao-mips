@@ -238,9 +238,9 @@ export class ParseMIPsService {
       return raw.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
         const mipComponent = item.match(/MIP\d+[ac]\d+/gi)[0];
 
-        const mipName = item.match(/MIP\d+/gi)[0];
+        const mipName = mipComponent.match(/MIP\d+/gi)[0];
 
-        return `**[${item}](mips/details/${mipName}#${mipComponent})**`;
+        return `[${item}](mips/details/${mipName}#${mipComponent})`;
       });
     }
 
