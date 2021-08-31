@@ -14,6 +14,9 @@ export class Section {
 
   @Prop()
   depth: string;
+
+  @Prop()
+  mipComponent?: string;
 }
 
 export class Reference {
