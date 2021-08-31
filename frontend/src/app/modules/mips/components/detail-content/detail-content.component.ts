@@ -499,15 +499,18 @@ export class DetailContentComponent
       const matchMipComponentName = text?.match(
         /^(?<mipComponent>MIP\d+[ca]\d+)\s?:/i
       );
+
       const mipComponent = matchMipComponentName?.groups?.mipComponent;
 
       const htmlCleanedText = raw.replace(/<[^<>]+>/gm, '');
+      
       const escapedText = mipComponent
         ? mipComponent
         : htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
 
+      
       if (this.mip?.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
       }
@@ -572,7 +575,6 @@ export class DetailContentComponent
           link.link.includes('https://forum.makerdao.com'))
       ) {
         if (title?.includes('smart')) {
-          console.log('ver', link);
           return `<a onclick="return;" name="${
             title?.includes('smart') ? title : escapedText
           }" id="${link.id}" class="linkPreview showAsBacktip" rel=${
