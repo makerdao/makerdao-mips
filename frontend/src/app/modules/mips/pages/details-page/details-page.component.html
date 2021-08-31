@@ -4,7 +4,7 @@
 <div *ngIf="mip||mdUrl" [ngClass]="{'container':true,'hidden':loadingUrl}">
   <app-details-mobiles-buttons *ngIf="mip"  class="mobile" [sourceData]="sections" [mip]="mip?.mip"></app-details-mobiles-buttons>
   <app-mips-pagination
-  *ngIf="mip" 
+  *ngIf="mip"
   [mipNumber]="mip?.mip"
   [mipName]="mip?.mipName"
   [mipPosition]="mipPosition"
@@ -13,7 +13,7 @@
   (send)="mipsPagination($event)"
   ></app-mips-pagination>
   <div [ngClass]="{'row':true,'row-tree-column':mip,'row-two-column':mdUrl}">
-    
+
     <div class="column">
       <div class="sidebar-wrapper">
         <app-proposal-components *ngIf="sections&&mip" class="no-mobile" [sourceData]="sections"></app-proposal-components>
@@ -45,3 +45,4 @@
     </div>
   </div>
 </div>
+<app-button-top></app-button-top>

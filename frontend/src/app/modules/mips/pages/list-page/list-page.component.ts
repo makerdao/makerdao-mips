@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
@@ -11,7 +11,7 @@ import { ElementsRefUiService } from '../../../../services/elements-ref-ui/eleme
 import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
-import { delay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-page',

@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 const YAML = require('yaml');
+import Menu from '../../data-types/menu';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +18,8 @@ export class MenuService {
   );
   public posXClicked$: Observable<number> = this.posXClicked.asObservable();
   transitionTime: number = 0.3;
+  private clicked: BehaviorSubject<Menu> = new BehaviorSubject<Menu>(null);
+  public clicked$: Observable<Menu> = this.clicked.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -61,5 +64,9 @@ export class MenuService {
 
   setposXClicked(value: number) {
     this.posXClicked.next(value);
+  }
+
+  setClicked(value: Menu) {
+    this.clicked.next(value);
   }
 }
