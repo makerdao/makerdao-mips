@@ -23,6 +23,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
 import { IMip } from '../../types/mip';
+import { ISubsetDataElement } from '../../types/subset';
+import { ComponentMip } from '../../types/component-mip';
 const clone = require('rfdc')();
 
 interface ExpandedItems {
@@ -294,12 +296,19 @@ const language = 'typescript';
               let subproposalsGroup: any = this.groupBy('subset', items);
               this.sortSubproposalsGroups(subproposalsGroup);
               const subsetRows: ISubsetDataElement[] = [];
+              const components: ComponentMip[] = this.dataSourceTable.data[index].components;
+              let indexComp: number;
+              let componentMipTitle = '';
 
               for (const key in subproposalsGroup) {
                 if (
                   Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
                 ) {
-                  subsetRows.push({ subset: key });
+                  indexComp = components.findIndex((item) => item.cName === key);
+                  if (indexComp !== -1) {
+                    componentMipTitle = components[indexComp].cTitle;
+                  }
+                  subsetRows.push({ subset: key, title: componentMipTitle });
                 }
               }
 
@@ -369,6 +378,3 @@ export interface DataElement {
   proposal: string;
 }
 
-export interface ISubsetDataElement {
-  subset: string;
-}
