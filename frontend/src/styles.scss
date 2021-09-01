@@ -5,3 +5,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background:
 // body { margin: 0; font-family: Roboto; background: #F5F6FA;}
 
 
+.mat-tooltip-green {
+  color: white;
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgba(26, 171, 155, 0.9) !important;
+}
+
+.mat-tooltip-blue {
+  color: white;
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgba(47, 128, 237, 0.8) !important;
+}
