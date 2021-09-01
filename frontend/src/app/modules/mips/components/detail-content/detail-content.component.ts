@@ -29,49 +29,6 @@ import { Title } from '@angular/platform-browser';
 import { UrlService } from 'src/app/services/url/url.service';
 import { SubproposalsComponent } from '../subproposals/subproposals.component';
 
-const preambleDataSample = [
-  {
-    key: 'MIP#',
-    value: '2',
-  },
-  {
-    key: 'Title',
-    value: 'Launch Period',
-  },
-  {
-    key: 'Author(s)',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
-  },
-  {
-    key: 'Contributors',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
-  },
-  {
-    key: 'Type',
-    value: 'Process',
-  },
-  {
-    key: 'Status',
-    value: 'Accepted',
-  },
-  {
-    key: 'Date Proposed',
-    value: '2020-04-06',
-  },
-  {
-    key: 'Date Ratified',
-    value: '2020-05-02',
-  },
-  {
-    key: 'Dependencies',
-    value: 'MIP0, MIP1',
-  },
-  {
-    key: 'Replaces',
-    value: 'n/a',
-  },
-];
-
 @Component({
   selector: 'app-detail-content',
   templateUrl: './detail-content.component.html',
@@ -242,14 +199,18 @@ export class DetailContentComponent
             const mipNameMatches = link.href.match(/MIP\d+/gi);
 
             if (mipNameMatches) {
-              const mipName = mipNameMatches[0];
+              const mipName = mipNameMatches[0].replace(/MIP/i,"MIP");
+            
               this.subscription = this.mipsService
                 .getMipBy('mipName', mipName)
                 .subscribe((data) => {
                   if (data) {
                     let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-                    this.showOverview(data, posStrategy);
+                    this.showOverview(
+                      { ...data, typeOfView: 'mipName' },
+                      posStrategy
+                    );
                   }
                 });
             }
@@ -260,14 +221,41 @@ export class DetailContentComponent
             const mipComponentMatches = link.href.match(/MIP\d+c\d+/gi);
 
             if (mipComponentMatches) {
-              const mipComponent = mipComponentMatches[0];
+              const mipComponent = mipComponentMatches[0].replace(/MIP/i,"MIP");
               this.subscription = this.mipsService
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
                   if (data) {
                     let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-                    this.showOverview(data, posStrategy);
+                    const components = data.components;
+                    const mipComponentName =
+                      components &&
+                      Array.isArray(components) &&
+                      components.length > 0 &&
+                      components[0].cName;
+
+                    const mipName =
+                      (mipComponentName &&
+                        mipComponentName.match(/MIP\d+/gi) &&
+                        mipComponentName.match(/MIP\d+/gi)[0]) ||
+                      '';
+
+                    const componentCode =
+                      (mipComponentName &&
+                        mipComponentName.match(/[ca]\d+/gi) &&
+                        mipComponentName.match(/[ca]\d+/gi)[0]) ||
+                      '';
+
+                    this.showOverview(
+                      {
+                        ...data,
+                        typeOfView: 'mipComponent',
+                        componentCode,
+                        mipName,
+                      },
+                      posStrategy
+                    );
                   }
                 });
             }
@@ -277,7 +265,7 @@ export class DetailContentComponent
             const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-SP\d+/gi);
 
             if (mipSubproposalMatch) {
-              const mipSubproposal = mipSubproposalMatch[0];
+              const mipSubproposal = mipSubproposalMatch[0].replace(/MIP/i,"MIP");
 
               this.subscription = this.mipsService
                 .getMipBy('mipSubproposal', mipSubproposal)
@@ -285,22 +273,15 @@ export class DetailContentComponent
                   if (data) {
                     let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-                    this.showOverview(data, posStrategy);
+                    this.showOverview(
+                      { ...data, typeOfView: 'mipSubproposal' },
+                      posStrategy
+                    );
                   }
                 });
             }
             break;
         }
-      } else if (href) {
-        this.subscription = this.mipsService
-          .getMipBy('mipName', href)
-          .subscribe((data) => {
-            if (data) {
-              let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
-
-              this.showOverview(data, posStrategy);
-            }
-          });
       }
     }
   };
@@ -503,14 +484,13 @@ export class DetailContentComponent
       const mipComponent = matchMipComponentName?.groups?.mipComponent;
 
       const htmlCleanedText = raw.replace(/<[^<>]+>/gm, '');
-      
+
       const escapedText = mipComponent
         ? mipComponent
         : htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
 
-      
       if (this.mip?.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
       }
@@ -569,21 +549,24 @@ export class DetailContentComponent
         !link.name.includes('Template') &&
         (link.link.includes(this.gitgubUrl) ||
           title?.includes('smart') ||
-          link.link.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
+          link.name.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
       ) {
-        if (title?.includes('smart')) {
-          return `<a onclick="return;" name="${
-            title?.includes('smart') ? title : escapedText
-          }" id="${link.id}" class="linkPreview showAsBacktip" rel=${
-            title?.includes('smart') ? title : ''
-          } href="${href}">${text}</a>`;
-        } else {
-          return `<a name="${escapedText}" id="${link.id}" class="linkPreview"
-          } href="${href}">${text}</a>`;
+        let newTitle = '';
+
+        if (link.name.match(/MIP\d+c\d+-SP\d+/gi)) {
+          newTitle = 'smart-Subproposal';
+        } else if (link.name.match(/MIP\d+c\d+/gi)) {
+          newTitle = 'smart-Component';
+        } else if (link.name.match(/MIP\d+/gi)) {
+          newTitle = 'smart-Mip';
         }
+
+        return `<a onclick="return;" id="${link.id}" class="linkPreview" rel=${
+          title?.includes('smart') ? title : newTitle
+        } href="${href}">${text}</a>`;
       }
 
       if (this.mdUrl) {
@@ -698,7 +681,7 @@ export class DetailContentComponent
             'href',
             `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}`
           );
-        } 
+        }
       }
     });
   }

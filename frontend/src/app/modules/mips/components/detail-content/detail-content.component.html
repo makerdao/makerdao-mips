@@ -68,26 +68,82 @@
     #previewRef
   >
     <div
-      *ngIf="data.components && data.components[0] && data.components[0].cName"
+      class="smartLinksContainer"
+      *ngIf="
+        data.typeOfView === 'mipComponent' &&
+        data.components &&
+        data.components[0] &&
+        data.components[0].cName
+      "
     >
-      <div class="previewTextTitle">{{ data.components[0].cTitle }}</div>
+      <div class="mipComponentMipNameContainer">
+        <div class="mipComponentLogoContainer">
+          <img
+            class="mipComponentLogo"
+            src="../../../../../assets/images/makerLogo.svg"
+          />
+        </div>
 
-      <div class="previewTextContent">
-        <markdown [data]="data.components[0].cBody"></markdown>
+        <div class="mipComponentMipName">
+          <span *ngIf="data.mipName" class="spanCodeMip"
+            >{{ data.mipName }}:</span
+          >
+          {{ data.title }}
+        </div>
       </div>
-      <hr />
+      <div class="mipComponentMipSumary">
+        <div class="rectangleContainer">
+          <div class="thinRectangle"></div>
+        </div>
+        <div class="mipSumary">
+          <markdown [data]="data.sentenceSummary"></markdown>
+        </div>
+      </div>
+      <div class="mipComponentTitleContainer">
+        <div class="rectangleContainer">
+          <div class="thinRectangle"></div>
+          <img
+            class="mipComponentLogo"
+            src=".../../../../../assets/images/mipComponentLogo.svg"
+          />
+        </div>
+        <div class="mipComponentTitle">
+          <span *ngIf="data.componentCode" class="spanCodeComponent"
+            >{{ data.componentCode }}:</span
+          >
+          {{ data.components[0].cTitle }}
+        </div>
+      </div>
+      <div class="mipComponenSumary">
+        <div class="rectangleContainer">
+          <div class="fadeThinRectangle"></div>
+        </div>
+        <div class="mipComponentSumary">
+          <markdown [data]="data.components[0].cBody"></markdown>
+        </div>
+      </div>
+      <div
+        [ngClass]="{
+          triangleUp: triangleUp,
+          triangleDown: !triangleUp,
+          left: triangleLeft,
+          right: !triangleLeft
+        }"
+      ></div>
     </div>
-    <div class="previewTextTitle">{{ data.title }}</div>
-    <div class="previewTextContent">
-      <markdown [data]="data.sentenceSummary"></markdown>
+    <div *ngIf="data.typeOfView !== 'mipComponent'">
+      <div class="previewTextTitle">{{ data.title }}</div>
+      <div class="previewTextContent">
+        <markdown [data]="data.sentenceSummary"></markdown>
+      </div>
+      <div
+        [ngClass]="{
+          triangleUp: triangleUp,
+          triangleDown: !triangleUp,
+          left: triangleLeft,
+          right: !triangleLeft
+        }"
+      ></div>
     </div>
-    <div
-      [ngClass]="{
-        triangleUp: triangleUp,
-        triangleDown: !triangleUp,
-        left: triangleLeft,
-        right: !triangleLeft
-      }"
-    ></div>
   </section>
 </ng-template>
