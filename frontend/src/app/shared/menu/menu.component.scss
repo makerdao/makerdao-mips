@@ -78,7 +78,8 @@
       align-items: center;
       box-sizing: border-box;
       transition: all 0.2s;
-      padding: 10px 40px 10px 20px;    }
+      padding: 10px 40px 10px 20px;
+    }
 
     &.subMenu {
       font-family: Roboto;
@@ -201,7 +202,7 @@
             content: "";
             height: 2px;
             width: 100%;
-            background-color: #2F80ED;
+            background-color: #2f80ed;
             position: absolute;
             display: block;
             margin-top: 5px;
@@ -215,11 +216,16 @@
         &:hover {
           color: #31394d;
 
-          span {
+          &:host::ng-deep.underline-menu {
             &::after {
               transform: rotateY(0deg);
               transition: all 0.2s ease-in-out;
             }
+          }
+
+          &:host::ng-deep.imageLinkMenuWrapper {
+            background-color: rgba(47, 128, 237, 0.15);
+            transition: background-color 0.2s ease-in-out;
           }
         }
       }
@@ -239,7 +245,7 @@
             content: "";
             height: 2px;
             width: 100%;
-            background-color: #2F80ED;
+            background-color: #2f80ed;
             position: absolute;
             display: block;
             margin-top: 5px;
@@ -253,7 +259,7 @@
         &:hover {
           color: #31394d;
 
-          span {
+          &:host::ng-deep.underline-menu {
             &::after {
               transform: rotateY(0deg);
               transition: all 0.2s ease-in-out;
@@ -298,4 +304,35 @@
     box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
       0 1px 14px 0 rgb(0 0 0 / 12%);
   }
+}
+
+:host::ng-deep.underline-menu {
+  position: relative;
+
+  &::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    background-color: #2f80ed;
+    position: absolute;
+    display: block;
+    margin-top: 5px;
+    border-radius: 1px;
+    transform: rotateY(90deg);
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+:host::ng-deep.lineal {
+  white-space: nowrap;
+}
+
+:host::ng-deep.imageLinkMenuWrapper {
+  margin-right: 23px;
+  padding: 5px;
+  border-radius: 5px;
+
+  background-color: transparent;
+  transition: background-color 0.2s ease-in-out;
 }

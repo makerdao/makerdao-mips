@@ -55,6 +55,9 @@ import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
 import { MdObserveVisibilityDirective } from './directives/md-observe-visibility.directive';
+import { MdTooltipDirective } from './directives/md-tooltip.directive';
+import { MdTooltipComponent } from './components/md-tooltip/md-tooltip.component';
+import { ButtonTopComponent } from './components/button-top/button-top.component';
 
 
 @NgModule({
@@ -96,7 +99,10 @@ import { MdObserveVisibilityDirective } from './directives/md-observe-visibility
     ListMipsetModeComponent,
     SublistComponent,
     TagMipsetPipe,
-    MdObserveVisibilityDirective
+    MdObserveVisibilityDirective,
+    MdTooltipDirective,
+    MdTooltipComponent,
+    ButtonTopComponent
   ],
   imports: [
     CommonModule,

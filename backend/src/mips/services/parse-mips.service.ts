@@ -234,44 +234,54 @@ export class ParseMIPsService {
   parseMipsNamesComponentsSubproposals(data, isOnComponentSummary) {
     let raw = data.raw;
 
-    if (data.type === "heading" || isOnComponentSummary) {
-      return raw;
-    } else {
-      //#region Helper functions
-      const processToken = (pattern, item, processLink) =>
-        item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
+    if (isOnComponentSummary) {
+      return raw.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
+        const mipComponent = item.match(/MIP\d+[ac]\d+/gi)[0];
 
-      const parseMipNames = (item) =>
-        item.replace(
-          /MIP\d+/gi,
-          (item) => `[${item}](mips/details/${item} "smart-Mip")`
-        );
+        const mipName = mipComponent.match(/MIP\d+/gi)[0];
 
-      const parseMipComponent = (item) =>
-        item.replace(
-          /MIP\d+[ca]\d+/gi,
-          (item) => `[${item}](mips/details/${item} "smart-Component")`
-        );
+        return `[${item}](mips/details/${mipName}#${mipComponent})`;
+      });
+    }
 
-      const parseMipSubproposal = (item) =>
-        item.replace(
-          /MIP\d+[ca]\d+-SP\d/gi,
-          (item) => `[${item}](mips/details/${item} "smart-Subproposal")`
-        );
-      //#endregion
-
-      raw = processToken(/[\s`]MIP\d+[\s`:]/gi, raw, parseMipNames);
-
-      raw = processToken(/[\s`]MIP\d+[ca]\d+[\s`:]/gi, raw, parseMipComponent);
-
-      raw = processToken(
-        /[\s`]MIP\d+[ca]\d+-SP\d[\s`:]/gi,
-        raw,
-        parseMipSubproposal
-      );
-
+    if (data.type === "heading") {
       return raw;
     }
+
+    //#region Helper functions
+    const processToken = (pattern, item, processLink) =>
+      item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
+
+    const parseMipNames = (item) =>
+      item.replace(
+        /MIP\d+/gi,
+        (item) => `[${item}](mips/details/${item} "smart-Mip")`
+      );
+
+    const parseMipComponent = (item) =>
+      item.replace(/MIP\d+[ca]\d+/gi, (item) => {
+        const mipFather = item.match(/MIP\d+/gi)[0];
+        return `[${item}](mips/details/${mipFather}#${item} "smart-Component")`;
+      });
+
+    const parseMipSubproposal = (item) =>
+      item.replace(
+        /MIP\d+[ca]\d+-SP\d/gi,
+        (item) => `[${item}](mips/details/${item} "smart-Subproposal")`
+      );
+    //#endregion
+
+    raw = processToken(/[\s`(]MIP\d+[)\s`:]/gi, raw, parseMipNames);
+
+    raw = processToken(/[\s`(]MIP\d+[ca]\d+[)\s`:]/gi, raw, parseMipComponent);
+
+    raw = processToken(
+      /[\s`(]MIP\d+[ca]\d+-SP\d[)\s`:]/gi,
+      raw,
+      parseMipSubproposal
+    );
+
+    return raw;
   }
 
   parseLexerData(fileString: string, item: IGitFile): MIP {
@@ -300,14 +310,15 @@ export class ParseMIPsService {
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
 
-      if (element.type === "heading") {
+      if (element.type === "heading"&&element.depth===2) {
         if (element.text.toLowerCase().includes("component summary"))
           isOnComponentSummary = true;
         else if (isOnComponentSummary) isOnComponentSummary = false;
       }
 
-      mip.sectionsRaw.push(element.raw);
-      // mip.sectionsRaw.push(this.parseMipsNamesComponentsSubproposals(element,isOnComponentSummary));
+      mip.sectionsRaw.push(
+        this.parseMipsNamesComponentsSubproposals(element, isOnComponentSummary)
+      );
 
       if (element?.type === "heading" && element?.depth === 1) {
         title = element?.text;
@@ -395,10 +406,22 @@ export class ParseMIPsService {
       }
 
       if (element?.type === "heading") {
-        mip.sections.push({
-          heading: element?.text,
-          depth: element?.depth,
-        });
+        const matchMipComponentName = element?.text?.match(
+          /^(?<mipComponent>MIP\d+[ca]\d+)\s?:/i
+        );
+        const mipComponent = matchMipComponentName?.groups?.mipComponent;
+        if (mipComponent) {
+          mip.sections.push({
+            heading: element?.text,
+            depth: element?.depth,
+            mipComponent,
+          });
+        } else {
+          mip.sections.push({
+            heading: element?.text,
+            depth: element?.depth,
+          });
+        }
       }
     }
 
@@ -455,17 +478,6 @@ export class ParseMIPsService {
     return parseInt(acumulate);
   }
 
-  // Preamble example
-  // MIP#: 0
-  // Title: The Maker Improvement Proposal Framework
-  // Author(s): Charles St.Louis (@CPSTL), Rune Christensen (@Rune23)
-  // Contributors: @LongForWisdom
-  // Type: Process
-  // Status: Accepted
-  // Date Proposed: 2020-04-06
-  // Date Ratified: 2020-05-02
-  // Dependencies: n/a
-  // Replaces: n/a
   parsePreamble(data: string, subproposal = false): IPreamble {
     const preamble: IPreamble = {};
 

@@ -3,7 +3,6 @@ import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { MenuService } from 'src/app/services/menu/menu.service';
-import { UrlService } from 'src/app/services/url/url.service';
 import Menu from '../../data-types/menu';
 
 // mouse direction
@@ -26,8 +25,9 @@ export class MenuComponent implements OnInit, OnChanges {
   @Input() index: number;
   @Output() toggle: Subject<any> = new Subject<any>();
   yDirection = '';
+  @Input() showArrow: boolean = true;
 
-  constructor(private menuService: MenuService, private urlService:UrlService) {}
+  constructor(private menuService: MenuService) {}
 
   ngOnInit(): void {
     this.initPosition();
@@ -120,7 +120,8 @@ export class MenuComponent implements OnInit, OnChanges {
           this.opened.next();
         }
       } else {
-        this.goToUrl(this.menu.href);
+        this.menuService.setClicked(this.menu);
+        this.closeMenu();
       }
     } else {
       if (this.menu.children && this.menu.children.length > 0) {
@@ -136,7 +137,8 @@ export class MenuComponent implements OnInit, OnChanges {
           this.opened.next();
         }
       } else {
-        this.goToUrl(this.menu.href);
+        this.menuService.setClicked(this.menu);
+        this.closeMenu();
       }
     }
   }
@@ -164,10 +166,5 @@ export class MenuComponent implements OnInit, OnChanges {
     }
 
     oldY = e.pageY;
-  }
-
-  goToUrl(address: string): void {
-    this.urlService.goToUrl(address)
-    this.closeMenu();
   }
 }

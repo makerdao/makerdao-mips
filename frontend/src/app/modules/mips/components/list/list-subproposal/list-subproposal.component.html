@@ -49,6 +49,7 @@
             [matTooltipClass]="{ 'mat-tooltip': true }"
             #tooltip="matTooltip"
             (mouseover)="tooltip.show()"
+            (mouseleave)="tooltip.hide()"
           ></div>
           <br />{{
             element[column] && element[column].includes("-SP")

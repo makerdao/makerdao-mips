@@ -8,7 +8,7 @@
 .title {
   font-weight: bold;
   font-size: 20px;
-  color: #31394D;
+  color: #31394d;
   float: left;
   margin: 0;
   white-space: nowrap;
@@ -22,12 +22,7 @@
   width: -webkit-fill-available;
 }
 
-// app-search {
-//   margin-right: 12px;
-// }
-
 app-filter {
-  // margin-right: 12px;
   z-index: 1;
 }
 
@@ -35,18 +30,6 @@ app-order-mobile {
   margin-right: 12px;
 }
 
-.feedback {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  height: 54.44px;
-  app-feedback {
-    z-index: 2;
-    transform: translate(24px, 20px);
-    position: fixed;
-    bottom: 40px;
-  }
-}
 .mobile {
   display: none;
 }
@@ -70,24 +53,12 @@ app-md-checkbox-mobile {
   display: none;
 }
 
-@media screen and (max-width: 500px) {
-  .feedback {
-    app-feedback {
-      transform: translate(5px, 0px);
-    }
-  }
-}
-
 @media screen and (max-width: 539px) {
-  .title{
+  .title {
     &.hide {
       display: none;
     }
   }
-  // app-search-mobile {
-  //   // width: 100%;
-  // }
-
 }
 @media screen and (max-width: 768px) {
   .mobile {
@@ -130,13 +101,5 @@ app-md-checkbox-mobile {
     column-gap: 12px;
     width: 100%;
     justify-content: flex-end;
-  }
-}
-
-@media screen and (min-width: 1920px) {
-  .feedback {
-    app-feedback {
-      transform: translate(160px, -60px);
-    }
   }
 }
