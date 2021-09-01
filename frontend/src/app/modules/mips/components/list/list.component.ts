@@ -27,6 +27,7 @@ import { IMip } from '../../types/mip';
 import { SearchService } from '../../services/search.service';
 import { FilterService } from '../../services/filter.service';
 import { Subscription } from 'rxjs';
+import { StatusService } from '../../services/status.service';
 const clone = require('rfdc')();
 
 interface ExpandedItems {
@@ -129,7 +130,8 @@ const language = 'typescript';
     private mipsService: MipsService,
     private cdr: ChangeDetectorRef,
     private searchService: SearchService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private statusService: StatusService
   ) {}
 
   ngOnInit() {
@@ -147,53 +149,11 @@ const language = 'typescript';
   }
 
   getStatusValue(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FORMAL SUBMISSION';
-      }
-    }
-
-    return data;
+    return this.statusService.getStatusValue(data);
   }
 
   getStatusType(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FS';
-      }
-    }
-
-    return 'DEFAULT';
+    return this.statusService.getStatusType(data);
   }
 
   updateSelected(index: string, event: Event): void {
