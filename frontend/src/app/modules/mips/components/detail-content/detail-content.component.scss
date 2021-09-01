@@ -550,7 +550,9 @@ p {
     display: flex;
     align-items: center;
     .mipComponentLogoContainer {
-      width: 30px;
+     
+      min-width: 30px;
+      max-width: 30px;
       height: 35px;
 
       .mipComponentLogo {

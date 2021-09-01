@@ -97,7 +97,7 @@ export class DetailContentComponent
     for (let index = 0; index < links.length; index++) {
       const element = links.item(index);
       element.addEventListener('mouseover', this.displayPreview);
-      // element.addEventListener('mouseleave', this.closePreview);
+      element.addEventListener('mouseleave', this.closePreview);
     }
   }
 
@@ -199,7 +199,8 @@ export class DetailContentComponent
             const mipNameMatches = link.href.match(/MIP\d+/gi);
 
             if (mipNameMatches) {
-              const mipName = mipNameMatches[0];
+              const mipName = mipNameMatches[0].replace(/MIP/i,"MIP");
+            
               this.subscription = this.mipsService
                 .getMipBy('mipName', mipName)
                 .subscribe((data) => {
@@ -220,7 +221,7 @@ export class DetailContentComponent
             const mipComponentMatches = link.href.match(/MIP\d+c\d+/gi);
 
             if (mipComponentMatches) {
-              const mipComponent = mipComponentMatches[0];
+              const mipComponent = mipComponentMatches[0].replace(/MIP/i,"MIP");
               this.subscription = this.mipsService
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
@@ -264,7 +265,7 @@ export class DetailContentComponent
             const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-SP\d+/gi);
 
             if (mipSubproposalMatch) {
-              const mipSubproposal = mipSubproposalMatch[0];
+              const mipSubproposal = mipSubproposalMatch[0].replace(/MIP/i,"MIP");
 
               this.subscription = this.mipsService
                 .getMipBy('mipSubproposal', mipSubproposal)
@@ -281,16 +282,6 @@ export class DetailContentComponent
             }
             break;
         }
-      } else if (href) {
-        this.subscription = this.mipsService
-          .getMipBy('mipName', href)
-          .subscribe((data) => {
-            if (data) {
-              let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
-
-              this.showOverview(data, posStrategy);
-            }
-          });
       }
     }
   };
@@ -551,30 +542,31 @@ export class DetailContentComponent
         name: text,
         link: href,
       };
-if(title?.includes("2c2")){
-  console.log(link)
-}
+
       this.links.push({ ...link });
 
       if (
         !link.name.includes('Template') &&
         (link.link.includes(this.gitgubUrl) ||
           title?.includes('smart') ||
-          link.link.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
+          link.name.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
       ) {
-        if (title?.includes('smart')) {
-          return `<a onclick="return;" name="${
-            title?.includes('smart') ? title : escapedText
-          }" id="${link.id}" class="linkPreview showAsBacktip" rel=${
-            title?.includes('smart') ? title : ''
-          } href="${href}">${text}</a>`;
-        } else {
-          return `<a name="${escapedText}" id="${link.id}" class="linkPreview"
-          } href="${href}">${text}</a>`;
+        let newTitle = '';
+
+        if (link.name.match(/MIP\d+c\d+-SP\d+/gi)) {
+          newTitle = 'smart-Subproposal';
+        } else if (link.name.match(/MIP\d+c\d+/gi)) {
+          newTitle = 'smart-Component';
+        } else if (link.name.match(/MIP\d+/gi)) {
+          newTitle = 'smart-Mip';
         }
+
+        return `<a onclick="return;" id="${link.id}" class="linkPreview" rel=${
+          title?.includes('smart') ? title : newTitle
+        } href="${href}">${text}</a>`;
       }
 
       if (this.mdUrl) {
