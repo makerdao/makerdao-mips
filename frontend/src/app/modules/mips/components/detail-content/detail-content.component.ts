@@ -97,7 +97,7 @@ export class DetailContentComponent
     for (let index = 0; index < links.length; index++) {
       const element = links.item(index);
       element.addEventListener('mouseover', this.displayPreview);
-      element.addEventListener('mouseleave', this.closePreview);
+      // element.addEventListener('mouseleave', this.closePreview);
     }
   }
 
@@ -551,7 +551,9 @@ export class DetailContentComponent
         name: text,
         link: href,
       };
-
+if(title?.includes("2c2")){
+  console.log(link)
+}
       this.links.push({ ...link });
 
       if (
