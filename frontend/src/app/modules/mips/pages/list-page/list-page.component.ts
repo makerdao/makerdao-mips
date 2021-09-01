@@ -472,7 +472,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               null,
               null,
               { equals: [{ field: 'mipName', value: item.proposal }] },
-              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
             )
             .toPromise();
           let parent: IMip = res.items[0];
@@ -497,8 +497,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
           for (const key in subproposalsGroup) {
             if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
-              indexComp = components.findIndex((item) => item.cName === key);
-                  if (indexComp !== -1) {
+              indexComp = components?.findIndex((item) => item.cName === key);
+                  if (indexComp && indexComp !== -1) {
                     componentMipTitle = components[indexComp].cTitle;
                   }
               subsetRows.push({ subset: key, expanded: true, title: componentMipTitle });
@@ -555,8 +555,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               if (
                 Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
               ) {
-                indexComp = components.findIndex((item) => item.cName === key);
-                  if (indexComp !== -1) {
+                indexComp = components?.findIndex((item) => item.cName === key);
+                  if (indexComp && indexComp !== -1) {
                     componentMipTitle = components[indexComp].cTitle;
                   }
                 subsetRows.push({ subset: key, expanded: true, title: componentMipTitle });
@@ -595,8 +595,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               if (
                 Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
               ) {
-                indexComp = components.findIndex((item) => item.cName === key);
-                  if (indexComp !== -1) {
+                indexComp = components?.findIndex((item) => item.cName === key);
+                  if (indexComp && indexComp !== -1) {
                     componentMipTitle = components[indexComp].cTitle;
                   }
                 subsetRows.push({ subset: key, expanded: true, title: componentMipTitle });
