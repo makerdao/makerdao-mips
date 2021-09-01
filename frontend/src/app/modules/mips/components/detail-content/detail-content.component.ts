@@ -29,49 +29,6 @@ import { Title } from '@angular/platform-browser';
 import { UrlService } from 'src/app/services/url/url.service';
 import { SubproposalsComponent } from '../subproposals/subproposals.component';
 
-const preambleDataSample = [
-  {
-    key: 'MIP#',
-    value: '2',
-  },
-  {
-    key: 'Title',
-    value: 'Launch Period',
-  },
-  {
-    key: 'Author(s)',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
-  },
-  {
-    key: 'Contributors',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
-  },
-  {
-    key: 'Type',
-    value: 'Process',
-  },
-  {
-    key: 'Status',
-    value: 'Accepted',
-  },
-  {
-    key: 'Date Proposed',
-    value: '2020-04-06',
-  },
-  {
-    key: 'Date Ratified',
-    value: '2020-05-02',
-  },
-  {
-    key: 'Dependencies',
-    value: 'MIP0, MIP1',
-  },
-  {
-    key: 'Replaces',
-    value: 'n/a',
-  },
-];
-
 @Component({
   selector: 'app-detail-content',
   templateUrl: './detail-content.component.html',
@@ -249,7 +206,10 @@ export class DetailContentComponent
                   if (data) {
                     let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-                    this.showOverview(data, posStrategy);
+                    this.showOverview(
+                      { ...data, typeOfView: 'mipName' },
+                      posStrategy
+                    );
                   }
                 });
             }
@@ -267,7 +227,34 @@ export class DetailContentComponent
                   if (data) {
                     let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-                    this.showOverview(data, posStrategy);
+                    const components = data.components;
+                    const mipComponentName =
+                      components &&
+                      Array.isArray(components) &&
+                      components.length > 0 &&
+                      components[0].cName;
+
+                    const mipName =
+                      (mipComponentName &&
+                        mipComponentName.match(/MIP\d+/gi) &&
+                        mipComponentName.match(/MIP\d+/gi)[0]) ||
+                      '';
+
+                    const componentCode =
+                      (mipComponentName &&
+                        mipComponentName.match(/[ca]\d+/gi) &&
+                        mipComponentName.match(/[ca]\d+/gi)[0]) ||
+                      '';
+
+                    this.showOverview(
+                      {
+                        ...data,
+                        typeOfView: 'mipComponent',
+                        componentCode,
+                        mipName,
+                      },
+                      posStrategy
+                    );
                   }
                 });
             }
@@ -285,7 +272,10 @@ export class DetailContentComponent
                   if (data) {
                     let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
-                    this.showOverview(data, posStrategy);
+                    this.showOverview(
+                      { ...data, typeOfView: 'mipSubproposal' },
+                      posStrategy
+                    );
                   }
                 });
             }
@@ -503,14 +493,13 @@ export class DetailContentComponent
       const mipComponent = matchMipComponentName?.groups?.mipComponent;
 
       const htmlCleanedText = raw.replace(/<[^<>]+>/gm, '');
-      
+
       const escapedText = mipComponent
         ? mipComponent
         : htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
 
-      
       if (this.mip?.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
       }
@@ -698,7 +687,7 @@ export class DetailContentComponent
             'href',
             `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}`
           );
-        } 
+        }
       }
     });
   }
