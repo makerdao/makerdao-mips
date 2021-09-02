@@ -393,7 +393,7 @@
               <div *ngFor="let itemSubset of item.subsetRows">
                 <div class="mobile-container subproposal-card-subset">
                   <div style="width: calc(100% - 35px);">
-                    <span class="title"> {{ itemSubset.subset }}</span>
+                    <span class="title"> {{ itemSubset.subset + " : " + itemSubset.title }}</span>
                   </div>
                   <div
                     class="subproposalsButtonWrapper"

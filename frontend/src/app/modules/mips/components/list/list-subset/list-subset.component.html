@@ -15,33 +15,7 @@
         *matCellDef="let element"
         style="cursor: pointer; position: relative;"
       >
-        {{ element[column] }}
-        <div (click)="onClickButtonCaptureEvent($event)">
-          <button
-            class="arrow-container"
-            [disabled]="element.loadingSubproposals"
-            (click)="element.expanded = !element.expanded"
-            (mouseover)="onMouseOverLeaveSubsetArrow(element.subset, true)"
-            (mouseleave)="onMouseOverLeaveSubsetArrow(element.subset, false)"
-            style="right: 0; position: relative;"
-          >
-            <div
-              class="arrow-wrapper expanded"
-              [ngClass]="{
-                rotate: element.expanded
-              }"
-            >
-              <img
-                class="arrow"
-                [src]="
-                  isArrowDownOnMouseOver && element.subset == currentRowOver
-                    ? '../../../../../../assets/images/down_hover.svg'
-                    : '../../../../../../assets/images/down.svg'
-                "
-              />
-            </div>
-          </button>
-        </div>
+        {{ element[column] + " - " + element.title }}
       </td>
     </span>
   </ng-container>
