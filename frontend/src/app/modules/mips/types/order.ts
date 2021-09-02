@@ -4,11 +4,12 @@ export interface Order {
 }
 
 export enum OrderField {
-  Number = 'mip',
-  Title = 'title',
-  Summary = 'sentenceSummary',
-  Status = 'status',
-  MostUsed = 'MostUsed',
+  pos = 'mip',
+  title = 'title',
+  summary = 'sentenceSummary',
+  status = 'status',
+  mostUsed = 'MostUsed',
+  number = 'mip'
 }
 
 export enum OrderDirection {

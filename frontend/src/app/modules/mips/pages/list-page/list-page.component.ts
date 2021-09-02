@@ -95,6 +95,12 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
       this.updateUrlQueryParams(data);
     });
+
+    this.orderService.order$.subscribe((order) => {
+      console.log("order change subscription");
+      this.order = order.direction + order.field;
+      this.onSendOrder(order.direction + order.field);
+    });
   }
 
   ngAfterViewInit() {
@@ -151,7 +157,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       author: queryParams.params.author,
       mipsetMode: JSON.parse(queryParams.params.mipsetMode || null),
       customViewName: queryParams.params.customviewname,
-      orderBy: OrderField[queryParams.params.orderBy],
+      orderBy: OrderField[(queryParams.params.orderBy as string)?.toLowerCase()],
     };
 
     this.queryParamsListService.queryParams = qp;
@@ -198,6 +204,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       field: queryParams.orderBy,
       direction: OrderDirection.ASC,
     });
+    // this.orderService.order$.subscribe((order) => {
+    //   console.log("order change subscription");
+    //   this.order = order.direction + order.field;
+    // });
   }
 
   initFilterContributor() {
@@ -819,6 +829,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   onSendOrder(text: string): void {
+    console.log("order", text);
+
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;

@@ -27,8 +27,12 @@
                 (click)="onSendOrder(column)"
                 style="cursor: pointer;"
               >
-                {{ column }}
-                <app-asc-des [direction]="currentSortingColumn === column && ascOrderSorting ? 1 : currentSortingColumn === column && !ascOrderSorting ? -1 : 0"></app-asc-des>
+                <span class="headerContent"
+                  >{{ column
+                  }}<app-asc-des
+                    [direction]="getOrderDirection(column)"
+                  ></app-asc-des
+                ></span>
               </th>
             </span>
             <span *ngIf="column == 'pos'">
@@ -38,27 +42,19 @@
                 (click)="onSendOrder(column)"
                 style="cursor: pointer;"
               >
-                #
-                <img
-                  class="arrow up"
-                  [src]="
-                    currentSortingColumn === column && ascOrderSorting
-                      ? arrowUpDark
-                      : arrowUp
-                  "
-                /><img
-                  class="arrow down"
-                  [src]="
-                    currentSortingColumn === column && !ascOrderSorting
-                      ? arrowDownDark
-                      : arrowDown
-                  "
-                />
+                <span class="headerContent"
+                  >#
+                  <app-asc-des
+                    [direction]="getOrderDirection(column)"
+                  ></app-asc-des
+                ></span>
               </th>
             </span>
           </span>
           <span *ngIf="column == 'link'">
-            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <th mat-header-cell *matHeaderCellDef>
+              <span class="headerContent"> {{ column }}</span>
+            </th>
           </span>
 
           <span *ngIf="column == 'title'">

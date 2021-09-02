@@ -23,6 +23,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
 import { IMip } from '../../types/mip';
+import { OrderService } from '../../services/order.service';
+import { OrderDirection, OrderField } from '../../types/order';
 const clone = require('rfdc')();
 
 interface ExpandedItems {
@@ -121,7 +123,8 @@ const language = 'typescript';
   constructor(
     private router: Router,
     private mipsService: MipsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private orderService: OrderService
   ) {}
 
   ngOnInit() {
@@ -201,16 +204,29 @@ const language = 'typescript';
   // }
 
   onSendOrder(value: string): void {
-    let orderPrefix = '';
+    let orderPrefix = OrderDirection.ASC;
+
     if (this.currentSortingColumn === value) {
       this.ascOrderSorting = !this.ascOrderSorting;
-      orderPrefix = this.ascOrderSorting ? '' : '-';
+      orderPrefix = this.ascOrderSorting ? OrderDirection.ASC : OrderDirection.DESC;
     } else {
       this.ascOrderSorting = true;
       this.currentSortingColumn = value;
     }
 
-    this.sendOrder.emit(orderPrefix + this.transforValue(value));
+    // this.sendOrder.emit(orderPrefix + this.transforValue(value));
+    this.orderService.order.next({field: OrderField[value], direction: orderPrefix});
+  }
+
+  getOrderDirection(column: string) {
+    let orderDirection =
+      this.currentSortingColumn === column && this.ascOrderSorting
+        ? 1
+        : this.currentSortingColumn === column && !this.ascOrderSorting
+        ? -1
+        : 0;
+
+    return orderDirection;
   }
 
   transforValue(value: string): string {
