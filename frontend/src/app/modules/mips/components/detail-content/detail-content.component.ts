@@ -19,6 +19,7 @@ import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import {
+  ConnectedPosition,
   FlexibleConnectedPositionStrategyOrigin,
   Overlay,
   OverlayRef,
@@ -52,6 +53,7 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
+  triangleCenter: boolean = false;
   @Input() subproposals: any[] = [];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
@@ -101,36 +103,86 @@ export class DetailContentComponent
     }
   }
 
-  showOverview(data, posStrategy) {
+  leftPositions: ConnectedPosition[] = [
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top',
+    },
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+    },
+  ];
+
+  rightPositions: ConnectedPosition[] = [
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top',
+    },
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+  ];
+
+  centerPositions: ConnectedPosition[] = [
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'center',
+      overlayY: 'top',
+    },
+  ];
+
+  showOverview(data, posStrategy, leftSide, center) {
+    const positionsOfTheSmartLinkWindow: ConnectedPosition[] = center
+      ? this.centerPositions
+      : leftSide
+      ? this.leftPositions
+      : this.rightPositions;
+
     const positionStrategy = this.overlay
       .position()
       .flexibleConnectedTo(posStrategy)
-      .withPositions([
-        {
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'top',
-        },
-        {
-          originX: 'start',
-          originY: 'bottom',
-          overlayX: 'start',
-          overlayY: 'top',
-        },
-        {
-          originX: 'end',
-          originY: 'top',
-          overlayX: 'end',
-          overlayY: 'bottom',
-        },
-        {
-          originX: 'start',
-          originY: 'top',
-          overlayX: 'start',
-          overlayY: 'bottom',
-        },
-      ]);
+      .withPositions(positionsOfTheSmartLinkWindow);
 
     positionStrategy.positionChanges.subscribe((pos) => {
       if (
@@ -141,6 +193,7 @@ export class DetailContentComponent
       ) {
         this.triangleUp = true;
         this.triangleLeft = false;
+        this.triangleCenter = false;
       } else if (
         pos.connectionPair.originX === 'start' &&
         pos.connectionPair.originY === 'bottom' &&
@@ -149,6 +202,7 @@ export class DetailContentComponent
       ) {
         this.triangleUp = true;
         this.triangleLeft = true;
+        this.triangleCenter = false;
       } else if (
         pos.connectionPair.originX === 'end' &&
         pos.connectionPair.originY === 'top' &&
@@ -157,6 +211,7 @@ export class DetailContentComponent
       ) {
         this.triangleUp = false;
         this.triangleLeft = false;
+        this.triangleCenter = false;
       } else if (
         pos.connectionPair.originX === 'start' &&
         pos.connectionPair.originY === 'top' &&
@@ -165,6 +220,23 @@ export class DetailContentComponent
       ) {
         this.triangleUp = false;
         this.triangleLeft = true;
+        this.triangleCenter = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'center' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleCenter = true;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'center' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleCenter = true;
       }
 
       let element: HTMLElement = this.previewRef.nativeElement.parentElement
@@ -185,11 +257,14 @@ export class DetailContentComponent
     );
   }
 
-  displayPreview = (e: Event) => {
+  displayPreview = (e: MouseEvent) => {
     if (!this.overlayRef) {
       const link = e.target as HTMLAnchorElement;
 
-      let href: string = link.href.split('/mips/details/')[1];
+      const windowWidth = window.innerWidth;
+      const mousePosW = e.screenX;
+      const leftSide = mousePosW < windowWidth / 2;
+      const center = Math.abs(mousePosW - windowWidth / 2) < 90;
 
       if (link?.rel?.includes('smart-')) {
         const type = link.rel.split('-')[1];
@@ -199,8 +274,8 @@ export class DetailContentComponent
             const mipNameMatches = link.href.match(/MIP\d+/gi);
 
             if (mipNameMatches) {
-              const mipName = mipNameMatches[0].replace(/MIP/i,"MIP");
-            
+              const mipName = mipNameMatches[0].replace(/MIP/i, 'MIP');
+
               this.subscription = this.mipsService
                 .getMipBy('mipName', mipName)
                 .subscribe((data) => {
@@ -209,7 +284,9 @@ export class DetailContentComponent
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipName' },
-                      posStrategy
+                      posStrategy,
+                      leftSide,
+                      center
                     );
                   }
                 });
@@ -221,7 +298,10 @@ export class DetailContentComponent
             const mipComponentMatches = link.href.match(/MIP\d+c\d+/gi);
 
             if (mipComponentMatches) {
-              const mipComponent = mipComponentMatches[0].replace(/MIP/i,"MIP");
+              const mipComponent = mipComponentMatches[0].replace(
+                /MIP/i,
+                'MIP'
+              );
               this.subscription = this.mipsService
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
@@ -254,7 +334,9 @@ export class DetailContentComponent
                         componentCode,
                         mipName,
                       },
-                      posStrategy
+                      posStrategy,
+                      leftSide,
+                      center
                     );
                   }
                 });
@@ -265,7 +347,10 @@ export class DetailContentComponent
             const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-SP\d+/gi);
 
             if (mipSubproposalMatch) {
-              const mipSubproposal = mipSubproposalMatch[0].replace(/MIP/i,"MIP");
+              const mipSubproposal = mipSubproposalMatch[0].replace(
+                /MIP/i,
+                'MIP'
+              );
 
               this.subscription = this.mipsService
                 .getMipBy('mipSubproposal', mipSubproposal)
@@ -275,7 +360,9 @@ export class DetailContentComponent
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipSubproposal' },
-                      posStrategy
+                      posStrategy,
+                      leftSide,
+                      center
                     );
                   }
                 });
@@ -547,7 +634,7 @@ export class DetailContentComponent
 
       if (
         !link.name.includes('Template') &&
-        !title?.includes('NON-SMART-LINK')&&
+        !title?.includes('NON-SMART-LINK') &&
         (link.link.includes(this.gitgubUrl) ||
           title?.includes('smart') ||
           link.name.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
