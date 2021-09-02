@@ -28,21 +28,7 @@
                 style="cursor: pointer;"
               >
                 {{ column }}
-                <img
-                  class="arrow up"
-                  [src]="
-                    currentSortingColumn === column && ascOrderSorting
-                      ? arrowUpDark
-                      : arrowUp
-                  "
-                /><img
-                  class="arrow down"
-                  [src]="
-                    currentSortingColumn === column && !ascOrderSorting
-                      ? arrowDownDark
-                      : arrowDown
-                  "
-                />
+                <app-asc-des [direction]="currentSortingColumn === column && ascOrderSorting ? 1 : currentSortingColumn === column && !ascOrderSorting ? -1 : 0"></app-asc-des>
               </th>
             </span>
             <span *ngIf="column == 'pos'">

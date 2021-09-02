@@ -5,4 +5,5 @@ export default interface Menu {
   img?: string;
   children: Menu[];
   custom_view_name?: string;
+  orderBy?: string;
 }

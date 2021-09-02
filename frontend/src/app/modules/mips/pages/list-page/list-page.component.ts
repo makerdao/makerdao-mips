@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
@@ -12,6 +18,8 @@ import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
 import { map } from 'rxjs/operators';
+import { OrderDirection, OrderField } from '../../types/order';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-list-page',
@@ -45,7 +53,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   mobileView: boolean = false;
   mipsetMode: boolean = false;
   activeMenuLinkName = '';
-  initActiveLinkName = "MIPs List"
+  initActiveLinkName = 'MIPs List';
   limitMipsSuggestions = 10;
   pageMipsSuggestions = 0;
   loadingMipsSuggestions = false;
@@ -62,6 +70,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private queryParamsListService: QueryParamsListService,
     private elementsRefUiService: ElementsRefUiService,
     private metadataShareService: MetadataShareService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -116,6 +125,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.initQueryParams();
     this.initFiltersAndSearch();
     this.initMipsetMode();
+    this.initOrderBy();
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
@@ -140,13 +150,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       contributor: queryParams.params.contributor,
       author: queryParams.params.author,
       mipsetMode: JSON.parse(queryParams.params.mipsetMode || null),
-      customviewname: queryParams.params.customviewname
+      customViewName: queryParams.params.customviewname,
+      orderBy: OrderField[queryParams.params.orderBy],
     };
 
     this.queryParamsListService.queryParams = qp;
 
     this.searchCopy = this.defaultSearch;
-    this.activeMenuLinkName = queryParams.params.customviewname || this.initActiveLinkName;
+    this.activeMenuLinkName =
+      queryParams.params.customviewname || this.initActiveLinkName;
 
     for (const key in qp) {
       if (Object.prototype.hasOwnProperty.call(qp, key)) {
@@ -177,6 +189,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   initSearch() {
     let queryParams: QueryParams = this.queryParamsListService.queryParams;
     this.search = queryParams.search;
+  }
+
+  initOrderBy() {
+    let queryParams: QueryParams = this.queryParamsListService.queryParams;
+    this.order = queryParams.orderBy;
+    this.orderService.order.next({
+      field: queryParams.orderBy,
+      direction: OrderDirection.ASC,
+    });
   }
 
   initFilterContributor() {
@@ -378,7 +399,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         .searchMips(
           this.limit,
           this.page,
-          this.filterOrSearch() ? 'mip mipName' : this.order,
+          this.filterOrSearch() &&
+            !this.queryParamsListService.queryParams.orderBy
+            ? 'mip mipName'
+            : this.order,
           this.searchCopy,
           this.filter,
           'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
@@ -669,49 +693,52 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         filter,
         'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather'
       )
-      .subscribe((data) => {
-        this.mipsByName = data.items;
+      .subscribe(
+        (data) => {
+          this.mipsByName = data.items;
 
-        this.showListSearch = true;
-        let items: any[] = this.mipsByName.map((item) => {
-          const cleanedTitle = item.title.replace(/[^\w]*/g, '');
-          const cleanedMipName = item.mipName.replace(/[^\w]*/g, '');
+          this.showListSearch = true;
+          let items: any[] = this.mipsByName.map((item) => {
+            const cleanedTitle = item.title.replace(/[^\w]*/g, '');
+            const cleanedMipName = item.mipName.replace(/[^\w]*/g, '');
 
-          const titleContainsMipsName = cleanedTitle.includes(cleanedMipName);
+            const titleContainsMipsName = cleanedTitle.includes(cleanedMipName);
 
-          return {
-            content:
-              (titleContainsMipsName ? '' : item.mipName) +
-              ' ' +
-              (item.title !== undefined ? item.title : ''),
-            mipName: item.mipName,
-            id: item._id,
-          };
-        });
+            return {
+              content:
+                (titleContainsMipsName ? '' : item.mipName) +
+                ' ' +
+                (item.title !== undefined ? item.title : ''),
+              mipName: item.mipName,
+              id: item._id,
+            };
+          });
 
-        this.listSearchMip = this.listSearchMip.concat(items);
-        this.loadingMipsSuggestions = false;
-        this.totalMipsSuggestion = data.total;
-        this.total = data.total;
-        this.hidingSubproposalsUnderParents(data);
-        this.loading = false;
+          this.listSearchMip = this.listSearchMip.concat(items);
+          this.loadingMipsSuggestions = false;
+          this.totalMipsSuggestion = data.total;
+          this.total = data.total;
+          this.hidingSubproposalsUnderParents(data);
+          this.loading = false;
 
-        if (this.limitAux >= this.total) {
-          this.moreToLoad = false;
-        } else {
-          this.moreToLoad = true;
+          if (this.limitAux >= this.total) {
+            this.moreToLoad = false;
+          } else {
+            this.moreToLoad = true;
+          }
+        },
+        (err) => {
+          this.loadingMipsSuggestions = false;
+          this.loading = false;
+          console.log(err);
         }
-      },
-      (err) => {
-        this.loadingMipsSuggestions = false;
-        this.loading = false;
-        console.log(err);
-      });
+      );
   }
 
   onSendPagination(): void {
     if (this.searchSuggestions) {
-      if (this.moreToLoad && !this.loading) {  // while is loading we don't request for more items in order to be sure that items are displayed  in the same oreder they are requested
+      if (this.moreToLoad && !this.loading) {
+        // while is loading we don't request for more items in order to be sure that items are displayed  in the same oreder they are requested
         this.onLoadMoreMipsSuggestions();
       }
     } else {
