@@ -764,10 +764,10 @@ export class DetailContentComponent
           }
         }
       } else {
-        if (link.name.includes('.md') && !link.link.includes('https')) {
+        if (link.link.includes('.md') && !link.link.includes('https')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
           );
         }
       }
