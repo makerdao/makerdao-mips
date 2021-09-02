@@ -547,6 +547,7 @@ export class DetailContentComponent
 
       if (
         !link.name.includes('Template') &&
+        !title?.includes('NON-SMART-LINK')&&
         (link.link.includes(this.gitgubUrl) ||
           title?.includes('smart') ||
           link.name.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||

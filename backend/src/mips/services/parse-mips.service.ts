@@ -230,57 +230,63 @@ export class ParseMIPsService {
 
     return componentData;
   }
-
+  
   parseMipsNamesComponentsSubproposals(data, isOnComponentSummary) {
     let raw = data.raw;
-
+  
     if (isOnComponentSummary) {
-      return raw.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
+      const sumaryRaw = raw.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
         const mipComponent = item.match(/MIP\d+[ac]\d+/gi)[0];
-
+  
         const mipName = mipComponent.match(/MIP\d+/gi)[0];
-
-        return `[${item}](mips/details/${mipName}#${mipComponent})`;
+        const cleanItem = item.replace(/\*\*/g, "");
+  
+        return `[${cleanItem}](mips/details/${mipName}#${mipComponent})`;
       });
+  
+      const cleaned = sumaryRaw.replace(/]\([^\)]+\)/gm, (item) =>
+        item.replace(/]\([^\)]+/gm, (ite) => ite + ` "NON-SMART-LINK"`)
+      );
+      return cleaned;
     }
-
+  
     if (data.type === "heading") {
       return raw;
     }
-
+  
     //#region Helper functions
     const processToken = (pattern, item, processLink) =>
       item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
-
+  
     const parseMipNames = (item) =>
       item.replace(
         /MIP\d+/gi,
         (item) => `[${item}](mips/details/${item} "smart-Mip")`
       );
-
+  
     const parseMipComponent = (item) =>
       item.replace(/MIP\d+[ca]\d+/gi, (item) => {
         const mipFather = item.match(/MIP\d+/gi)[0];
         return `[${item}](mips/details/${mipFather}#${item} "smart-Component")`;
       });
-
+  
     const parseMipSubproposal = (item) =>
       item.replace(
         /MIP\d+[ca]\d+-SP\d/gi,
         (item) => `[${item}](mips/details/${item} "smart-Subproposal")`
       );
     //#endregion
-
+  
     raw = processToken(/[\s`(]MIP\d+[)\s`:]/gi, raw, parseMipNames);
-
+  
     raw = processToken(/[\s`(]MIP\d+[ca]\d+[)\s`:]/gi, raw, parseMipComponent);
-
+  
     raw = processToken(
       /[\s`(]MIP\d+[ca]\d+-SP\d[)\s`:]/gi,
       raw,
       parseMipSubproposal
     );
-
+  
     return raw;
   }
 
@@ -310,7 +316,7 @@ export class ParseMIPsService {
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
 
-      if (element.type === "heading"&&element.depth===2) {
+      if (element.type === "heading" && element.depth === 2) {
         if (element.text.toLowerCase().includes("component summary"))
           isOnComponentSummary = true;
         else if (isOnComponentSummary) isOnComponentSummary = false;
