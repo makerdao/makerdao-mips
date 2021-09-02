@@ -461,8 +461,7 @@ p {
     border-right: 11px solid transparent;
     border-bottom: 15px solid #ffffff;
     position: absolute;
-    top: 0;
-    transform: translateY(-96%);
+    top: -13px;
   }
 
   .triangleDown {
@@ -481,6 +480,11 @@ p {
 
   .right {
     right: 11px;
+  }
+
+  .centerX {
+    left: 50%;
+    transform: translateX(15px);
   }
 
   .previewTextTitle {
@@ -550,7 +554,6 @@ p {
     display: flex;
     align-items: center;
     .mipComponentLogoContainer {
-     
       min-width: 30px;
       max-width: 30px;
       height: 35px;
