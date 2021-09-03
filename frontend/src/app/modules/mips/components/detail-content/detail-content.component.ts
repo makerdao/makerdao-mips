@@ -95,13 +95,23 @@ export class DetailContentComponent
     }
   }
 
-  setPreviewFeature() {
-    let links = document.getElementsByClassName('linkPreview');
+  isTouchDevice() {
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    );
+  }
 
-    for (let index = 0; index < links.length; index++) {
-      const element = links.item(index);
-      element.addEventListener('mouseover', this.displayPreview);
-      element.addEventListener('mouseleave', this.closePreview);
+  setPreviewFeature() {
+    if (!this.isTouchDevice()) {
+      let links = document.getElementsByClassName('linkPreview');
+
+      for (let index = 0; index < links.length; index++) {
+        const element = links.item(index);
+        element.addEventListener('mouseover', this.displayPreview);
+        element.addEventListener('mouseleave', this.closePreview);
+      }
     }
   }
 
@@ -305,8 +315,7 @@ export class DetailContentComponent
                 /MIP/i,
                 'MIP'
               );
-              console.log('HERE', mipComponentMatches);
-              
+
               this.subscription = this.mipsService
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
@@ -652,7 +661,7 @@ export class DetailContentComponent
         !title?.includes('NON-SMART-LINK') &&
         (link.link.includes(this.gitgubUrl) ||
           title?.includes('smart') ||
-          link.name.match(/MIP\d+(?:[ca]\d+)?(?:-?SP\d+)?/gi) ||
+          link.link.match(/MIP\d+(?:[ca]\d+)?(?:-?SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
@@ -667,9 +676,15 @@ export class DetailContentComponent
           newTitle = 'smart-Mip';
         }
 
-        return `<a id="${link.id}" class="linkPreview" rel=${
-          title?.includes('smart') ? title : newTitle
-        } href="${href}">${text}</a>`;
+        const relText = newTitle?.includes('smart')
+          ? 'rel="' + newTitle + '"'
+          : title?.includes('smart')
+          ? 'rel="' + title + '"'
+          : '';
+
+        return `<a id="${link.id}" class="linkPreview" ${relText} 
+        newTitle
+        href="${href}">${text}</a>`;
       }
 
       if (this.mdUrl) {
