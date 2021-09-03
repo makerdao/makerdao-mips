@@ -775,6 +775,7 @@ export class DetailContentComponent
                 if (data.mipName) {
                   elem.setAttribute('href', `/mips/details/${data.mipName}`);
                 } else {
+                  
                   elem.setAttribute(
                     'href',
                     `${this.gitgubUrl}/${this.mip?.filename}`
@@ -784,7 +785,7 @@ export class DetailContentComponent
           }
         } else {
           if (
-            !link.link.includes('https') &&
+            !link.link.includes('http') &&
             !link.link.match(/mips\/details\/MIP\d/gi)
           ) {
             elem.setAttribute(
@@ -794,7 +795,7 @@ export class DetailContentComponent
           }
         }
       } else {
-        if (link.link.includes('.md') && !link.link.includes('https')) {
+        if (link.link.includes('.md') && !link.link.includes('http')) {
           elem.setAttribute(
             'href',
             `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
