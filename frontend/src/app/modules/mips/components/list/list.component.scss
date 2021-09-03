@@ -341,6 +341,11 @@ a {
     font-size: 12px;
     color: #748aa1;
     float: left;
+    min-width: fit-content;
+    padding: 0;
+    min-height: 15px;
+    line-height: normal;
+
     img {
       margin-right: 8px;
     }
