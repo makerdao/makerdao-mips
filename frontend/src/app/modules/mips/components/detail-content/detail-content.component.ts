@@ -93,6 +93,7 @@ export class DetailContentComponent
 
       this.moveToElement(el);
     }
+    
   }
 
   setPreviewFeature() {
@@ -261,7 +262,6 @@ export class DetailContentComponent
   }
 
   displayPreview = (e: MouseEvent) => {
-    
     if (!this.smartLinkWindowUp) {
       const link = e.target as HTMLAnchorElement;
 
@@ -381,7 +381,6 @@ export class DetailContentComponent
   };
 
   closePreview = (e: Event) => {
-    
     if (this.subscription && !this.subscription.closed) {
       this.subscription.unsubscribe();
     }
@@ -394,7 +393,7 @@ export class DetailContentComponent
     if (this.smartLinkWindowUp) {
       setTimeout(() => {
         this.smartLinkWindowUp = false;
-      }, 200);
+      }, 50);
     }
   };
 
