@@ -93,7 +93,6 @@ export class DetailContentComponent
 
       this.moveToElement(el);
     }
-    
   }
 
   setPreviewFeature() {
@@ -349,7 +348,7 @@ export class DetailContentComponent
             break;
 
           case 'Subproposal':
-            const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-SP\d+/gi);
+            const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-?SP\d+/gi);
 
             if (mipSubproposalMatch) {
               const mipSubproposal = mipSubproposalMatch[0].replace(
@@ -392,8 +391,10 @@ export class DetailContentComponent
 
     if (this.smartLinkWindowUp) {
       setTimeout(() => {
+        //To avoid the race condition
+
         this.smartLinkWindowUp = false;
-      }, 50);
+      }, 0);
     }
   };
 
@@ -650,18 +651,18 @@ export class DetailContentComponent
         !title?.includes('NON-SMART-LINK') &&
         (link.link.includes(this.gitgubUrl) ||
           title?.includes('smart') ||
-          link.name.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
+          link.name.match(/MIP\d+(?:[ca]\d+)?(?:-?SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
       ) {
         let newTitle = '';
 
-        if (link.name.match(/MIP\d+c\d+-SP\d+/gi)) {
+        if (link.link.match(/MIP\d+c\d+-?SP\d+/gi)) {
           newTitle = 'smart-Subproposal';
-        } else if (link.name.match(/MIP\d+c\d+/gi)) {
+        } else if (link.link.match(/MIP\d+c\d+/gi)) {
           newTitle = 'smart-Component';
-        } else if (link.name.match(/MIP\d+/gi)) {
+        } else if (link.link.match(/MIP\d+/gi)) {
           newTitle = 'smart-Mip';
         }
 
