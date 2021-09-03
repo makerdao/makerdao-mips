@@ -63,6 +63,8 @@ export class DetailContentComponent
   headingStructure: Heading[] = [];
   subproposalsGroup: any = {};
 
+  smartLinkWindowUp = false;
+
   constructor(
     private markdownService: MarkdownService,
     private router: Router,
@@ -91,6 +93,7 @@ export class DetailContentComponent
 
       this.moveToElement(el);
     }
+    
   }
 
   setPreviewFeature() {
@@ -255,10 +258,11 @@ export class DetailContentComponent
         $implicit: data,
       })
     );
+    this.smartLinkWindowUp = true;
   }
 
   displayPreview = (e: MouseEvent) => {
-    if (!this.overlayRef) {
+    if (!this.smartLinkWindowUp) {
       const link = e.target as HTMLAnchorElement;
 
       const windowWidth = window.innerWidth;
@@ -302,6 +306,7 @@ export class DetailContentComponent
                 /MIP/i,
                 'MIP'
               );
+
               this.subscription = this.mipsService
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
@@ -368,6 +373,8 @@ export class DetailContentComponent
                 });
             }
             break;
+          default:
+            break;
         }
       }
     }
@@ -381,6 +388,12 @@ export class DetailContentComponent
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;
+    }
+
+    if (this.smartLinkWindowUp) {
+      setTimeout(() => {
+        this.smartLinkWindowUp = false;
+      }, 50);
     }
   };
 
@@ -652,7 +665,7 @@ export class DetailContentComponent
           newTitle = 'smart-Mip';
         }
 
-        return `<a onclick="return;" id="${link.id}" class="linkPreview" rel=${
+        return `<a id="${link.id}" class="linkPreview" rel=${
           title?.includes('smart') ? title : newTitle
         } href="${href}">${text}</a>`;
       }

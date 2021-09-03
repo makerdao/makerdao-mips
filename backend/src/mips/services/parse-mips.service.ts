@@ -277,12 +277,12 @@ export class ParseMIPsService {
       );
     //#endregion
   
-    raw = processToken(/[\s`(]MIP\d+[)\s`:]/gi, raw, parseMipNames);
+    raw = processToken(/[\s`(]MIP\d+[)\.\*,\s`:]/gi, raw, parseMipNames);
   
-    raw = processToken(/[\s`(]MIP\d+[ca]\d+[)\s`:]/gi, raw, parseMipComponent);
+    raw = processToken(/[\s`(]MIP\d+[ca]\d+[)\.\*,\s`:]/gi, raw, parseMipComponent);
   
     raw = processToken(
-      /[\s`(]MIP\d+[ca]\d+-SP\d[)\s`:]/gi,
+      /[\s`(]MIP\d+[ca]\d+-SP\d[\.\*),\s`:]/gi,
       raw,
       parseMipSubproposal
     );
