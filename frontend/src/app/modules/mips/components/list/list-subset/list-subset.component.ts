@@ -51,4 +51,14 @@ export class ListSubsetComponent implements OnInit, OnChanges {
       }, 500);
     }
   }
+
+  // usefull for stop event click propagation when button for get subproposals is disabled and clicked
+  onClickButtonCaptureEvent(e: Event) {
+    e.stopPropagation();
+  }
+
+  onMouseOverLeaveSubsetArrow(subset: any, value: boolean) {
+    this.isArrowDownOnMouseOver = value;
+    this.currentRowOver = subset;
+  }
 }

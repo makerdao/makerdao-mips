@@ -56,10 +56,16 @@
 
 <div
   class="expIcon"
-  style="z-index: 2; border-bottom: 3px solid transparent;"
+  style="z-index: 1; border-bottom: 3px solid transparent;"
   appMdTooltip="Dynamically Generated Content"
   #tooltip="appMdTooltip"
-  (click)="tooltip.toggle()"
+></div>
+<div
+  class="expIcon"
+  style="z-index: 2; border-bottom: 3px solid transparent;"
+  (click)="onClickIcon()"
+  (mouseenter)="onMouseenterIcon()"
+  (mouseleave)="onMouseleaveIcon()"
 ></div>
 <svg
   width="24"
@@ -69,6 +75,7 @@
   xmlns="http://www.w3.org/2000/svg"
   class="expIcon"
   style="z-index: 1;"
+  [ngClass]="{ active: activeIcon }"
 >
   <path
     d="M1.93944 6.3335H0V23.0127H17.8428V21.0732H1.93944V6.3335Z"
