@@ -55,13 +55,13 @@
     width: 23px;
     height: 22px;
     cursor: pointer;
+  }
 
-    &:hover+svg {
-      path,
-      rect {
-        fill: rgba(26, 171, 155, 0.7);
-        stroke: rgba(26, 171, 155, 0.7);
-      }
+  .active {
+    path,
+    rect {
+      fill: rgba(26, 171, 155, 0.7);
+      stroke: rgba(26, 171, 155, 0.7);
     }
   }
 

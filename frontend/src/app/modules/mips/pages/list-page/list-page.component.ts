@@ -690,7 +690,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         order,
         search,
         filter,
-        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather'
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components'
       )
       .subscribe((data) => {
         this.mipsByName = data.items;
