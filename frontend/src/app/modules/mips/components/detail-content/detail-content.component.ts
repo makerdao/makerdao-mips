@@ -305,7 +305,8 @@ export class DetailContentComponent
                 /MIP/i,
                 'MIP'
               );
-
+              console.log('HERE', mipComponentMatches);
+              
               this.subscription = this.mipsService
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
