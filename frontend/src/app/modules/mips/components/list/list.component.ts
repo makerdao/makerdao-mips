@@ -23,6 +23,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
 import { IMip } from '../../types/mip';
+import { ISubsetDataElement } from '../../types/subset';
+import { ComponentMip } from '../../types/component-mip';
+const clone = require('rfdc')();
 
 interface ExpandedItems {
   subproposals: boolean;
@@ -63,6 +66,8 @@ export class ListComponent implements OnInit, OnChanges {
   @Input() loadingPlus = false;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
+  @Input() filter: any;
+  @Input() search: string;
   expandedElement: DataElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selected = '-1';
@@ -82,7 +87,7 @@ export class ListComponent implements OnInit, OnChanges {
   currentRowOver: any;
   dataSourceTable = new MatTableDataSource<any>();
   _expandedItems: ExpandedItems = {
-    subproposals: false,
+    subproposals: true,
     summary: false,
   };
 
@@ -252,9 +257,8 @@ const language = 'typescript';
       // show subproposals children
       if (index !== -1) {
         this.dataSourceTable.data[index]['loadingSubproposals'] = true;
-        let filter = {
-          equals: [],
-        };
+        let filter = clone(this.filter);
+        filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
 
         this.mipsService
@@ -262,7 +266,7 @@ const language = 'typescript';
             100000,
             0,
             'mipName',
-            '',
+            this.search,
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )
@@ -292,12 +296,19 @@ const language = 'typescript';
               let subproposalsGroup: any = this.groupBy('subset', items);
               this.sortSubproposalsGroups(subproposalsGroup);
               const subsetRows: ISubsetDataElement[] = [];
+              const components: ComponentMip[] = this.dataSourceTable.data[index].components;
+              let indexComp: number;
+              let componentMipTitle = '';
 
               for (const key in subproposalsGroup) {
                 if (
                   Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
                 ) {
-                  subsetRows.push({ subset: key });
+                  indexComp = components.findIndex((item) => item.cName === key);
+                  if (indexComp !== -1) {
+                    componentMipTitle = components[indexComp].cTitle;
+                  }
+                  subsetRows.push({ subset: key, title: componentMipTitle });
                 }
               }
 
@@ -367,6 +378,3 @@ export interface DataElement {
   proposal: string;
 }
 
-export interface ISubsetDataElement {
-  subset: string;
-}

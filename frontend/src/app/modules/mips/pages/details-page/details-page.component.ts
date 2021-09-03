@@ -22,6 +22,7 @@ export class DetailsPageComponent implements OnInit {
   subproposals: any[];
   referencesContent: string[];
   loadingUrl: boolean = true;
+  references=[]
 
   constructor(
     private mipsService: MipsService,
@@ -48,20 +49,18 @@ export class DetailsPageComponent implements OnInit {
       if (queryParam.has('mdUrl')) {
         this.loadingUrl = true;
         const url = queryParam.get('mdUrl');
-        
+
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
 
-        if(shouldUpdateUrl){
-          this.router.navigateByUrl(this.urlService.transformLinkForMd(url))
-        }
-        else
-        this.mdUrl=url
+        if (shouldUpdateUrl) {
+          this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
+        } else this.mdUrl = url;
+        this.moveToElement();
       }
     });
   }
 
   headingListUpdate(event) {
-
     this.loadingUrl = false;
     this.sections = null;
 
@@ -71,62 +70,70 @@ export class DetailsPageComponent implements OnInit {
   }
 
   loadData(): void {
-    this.mipsService.getMip(this.mipName).subscribe((data) => {
-      this.mip = data.mip;
-      // const regEx = new RegExp('(.)*');
-      // this.mip.file = this.mip.file.replace(regEx, ' ');
-      this.sections = this.mip.sections;
-      let indexPreambleSection: number = (this.sections as []).findIndex(
-        (i: any) => i.heading === 'Preamble'
-      );
+    this.mipsService.getMip(this.mipName).subscribe(
+      (data) => {
+        this.mip = data.mip;
 
-      if (indexPreambleSection !== -1) {
-        (this.sections as []).splice(indexPreambleSection, 1);
-      }
-
-      let indexPreambleHeading: number = (this.mip.sectionsRaw as [
-
-      ]).findIndex((i: any) => (i as string).includes('Preamble'));
-
-      if (indexPreambleHeading !== -1) {
-        (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2); // delete Preamble heading and its content
-      }
-
-      let indexReferencesSection: number = (this.sections as []).findIndex(
-        (i: any) => i.heading === 'References'
-      );
-
-      if (indexReferencesSection !== -1) {
-        (this.sections as []).splice(indexReferencesSection, 1);
-      }
-
-      if (data.subproposals && data.subproposals.length > 0) {
-        (this.sections as any[]).push({
-          depth: 2,
-          heading: 'Subproposals',
+        this.references = data.mip?.references?.filter((item) => {
+          return item.name !== '\n';
         });
+        
+        // const regEx = new RegExp('(.)*');
+        // this.mip.file = this.mip.file.replace(regEx, ' ');
+        this.sections = this.mip.sections;
+        let indexPreambleSection: number = (this.sections as []).findIndex(
+          (i: any) => i.heading === 'Preamble'
+        );
+
+        if (indexPreambleSection !== -1) {
+          (this.sections as []).splice(indexPreambleSection, 1);
+        }
+
+        let indexPreambleHeading: number = (this.mip.sectionsRaw as [
+
+        ]).findIndex((i: any) => (i as string).includes('Preamble'));
+
+        if (indexPreambleHeading !== -1) {
+          (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2); // delete Preamble heading and its content
+        }
+
+        let indexReferencesSection: number = (this.sections as []).findIndex(
+          (i: any) => i.heading === 'References'
+        );
+
+        if (indexReferencesSection !== -1) {
+          (this.sections as []).splice(indexReferencesSection, 1);
+        }
+
+        let indexReferencesHeading: number = (this.mip.sectionsRaw as [
+
+        ]).findIndex((i: any) => (i as string).includes('References'));
+
+        if (indexReferencesHeading !== -1) {
+          (this.mip.sectionsRaw as []).splice(indexReferencesHeading, 2);
+        }
+
+        this.pullrequest = data.pullRequests;
+        this.subproposals = data.subproposals;
+
+        if (!this.mipsService.getMipsData()) {
+          this.getMips();
+        } else if (this.mip.proposal && !this.mipsService.includeSubproposals) {
+          this.mipsService.includeSubproposals = true;
+          this.getMips();
+        }
+
+        this.setMetadataShareable();
+        this.loadingUrl = false;
+      },
+      (error) => {
+        if (error.error && error.error.statusCode === 404) {
+          this.router.navigate(['page-not-found'], {
+            skipLocationChange: true,
+          });
+        }
       }
-
-      let indexReferencesHeading: number = (this.mip.sectionsRaw as [
-
-      ]).findIndex((i: any) => (i as string).includes('References'));
-
-      if (indexReferencesHeading !== -1) {
-        (this.mip.sectionsRaw as []).splice(indexReferencesHeading, 2);
-      }
-
-      this.pullrequest = data.pullRequests;
-      this.subproposals = data.subproposals;
-
-      if (!this.mipsService.getMipsData()) {
-        this.getMips();
-      } else if (this.mip.proposal && !this.mipsService.includeSubproposals) {
-        this.mipsService.includeSubproposals = true;
-        this.getMips();
-      }
-
-      this.setMetadataShareable();
-    });
+    );
     const data = this.mipsService.getMipsData();
 
     if (data) {

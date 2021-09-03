@@ -95,6 +95,7 @@
                   [matTooltipClass]="{ 'mat-tooltip': true }"
                   #tooltip="matTooltip"
                   (mouseover)="tooltip.show()"
+                  (mouseleave)="tooltip.hide()"
                 ></div>
                 <br />{{ element[column] }}</a
               >
@@ -144,7 +145,12 @@
               {{ element.proposal ? "" : element.mip }}
               <div (click)="onClickButtonCaptureEvent($event)">
                 <button
-                  *ngIf="!element.proposal && element.mipFather"
+                  mat-icon-button
+                  *ngIf="
+                    !element.proposal &&
+                    element.mipFather &&
+                    element.showArrowExpandChildren
+                  "
                   class="arrow-container"
                   [disabled]="element.loadingSubproposals"
                   (click)="
@@ -206,7 +212,8 @@
                   ></markdown>
                 </a>
               </div>
-              <div
+              <button
+                mat-icon-button
                 class="arrow-container"
                 (click)="
                   element.expandedSummary = !element.expandedSummary;
@@ -230,7 +237,7 @@
                     "
                   />
                 </div>
-              </div>
+              </button>
 
               <!-- <span class="tooltiptext">Click for more details</span> -->
             </td>
@@ -243,13 +250,23 @@
             *matCellDef="let element"
             [attr.colspan]="columnsToDisplay.length"
           >
-            <div
+            <!-- <div
               class="maker-element-subset-detail"
               [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
             >
-              <!-- subset -->
               <app-list-subset
                 *ngIf="expandedItems.subproposals"
+                [dataSourceSubsetRows]="element.subsetRows"
+                [subproposalsGroup]="element.subproposalsGroup"
+              ></app-list-subset>
+            </div> -->
+            <div
+              class="maker-element-subset-detail"
+              [@detailExpand]="
+                element.expanded == true ? 'expanded' : 'collapsed'
+              "
+            >
+              <app-list-subset
                 [dataSourceSubsetRows]="element.subsetRows"
                 [subproposalsGroup]="element.subproposalsGroup"
               ></app-list-subset>
@@ -318,14 +335,18 @@
               </a>
             </div>
             <div style="clear: both;"></div>
-            <div class="more" (click)="updateSelected(item._id, $event)">
+            <button
+              mat-button
+              class="more"
+              (click)="updateSelected(item._id, $event)"
+            >
               <img
                 class="arrow"
                 [ngClass]="{ rotate: selected == item._id }"
                 src="../../../../../assets/images/down.svg"
               />
               More
-            </div>
+            </button>
             <app-social
               forumLink="#"
               [githubLink]="item.filename"
@@ -337,7 +358,12 @@
               (click)="onClickButtonCaptureEvent($event)"
             >
               <button
-                *ngIf="!item.proposal && item.mipFather"
+                mat-icon-button
+                *ngIf="
+                  !item.proposal &&
+                  item.mipFather &&
+                  item.showArrowExpandChildren
+                "
                 class="arrow-container"
                 [disabled]="item.loadingSubproposals"
                 (click)="
@@ -374,13 +400,16 @@
               <div *ngFor="let itemSubset of item.subsetRows">
                 <div class="mobile-container subproposal-card-subset">
                   <div style="width: calc(100% - 35px);">
-                    <span class="title"> {{ itemSubset.subset }}</span>
+                    <span class="title">
+                      {{ itemSubset.subset + ": " + itemSubset.title }}</span
+                    >
                   </div>
                   <div
                     class="subproposalsButtonWrapper"
                     (click)="onClickButtonCaptureEvent($event)"
                   >
                     <button
+                      mat-icon-button
                       *ngIf="!item.proposal && item.mipFather"
                       class="arrow-container"
                       [disabled]="item.loadingSubproposals"
@@ -399,14 +428,19 @@
                             itemSubset.expanded && expandedItems.subproposals
                         }"
                       >
-                        <img
+                        <svg
+                          width="7"
+                          height="5"
+                          viewBox="0 0 7 5"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
                           class="arrow"
-                          [src]="
-                            isArrowDownOnMouseOver && item._id == currentRowOver
-                              ? '../../../../../assets/images/down_hover.svg'
-                              : '../../../../../assets/images/down.svg'
-                          "
-                        />
+                        >
+                          <path
+                            d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
+                            fill="#1aab9b"
+                          />
+                        </svg>
                       </div>
                     </button>
                   </div>
@@ -483,7 +517,8 @@
                         </a>
                       </div>
                       <div style="clear: both;"></div>
-                      <div
+                      <button
+                        mat-button
                         class="more"
                         (click)="updateSelected(itemSubsetChildren._id, $event)"
                       >
@@ -495,7 +530,7 @@
                           src="../../../../../assets/images/down.svg"
                         />
                         More
-                      </div>
+                      </button>
                       <app-social
                         forumLink="#"
                         [githubLink]="itemSubsetChildren.filename"

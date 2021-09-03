@@ -1,0 +1,134 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 370px;
+  position: relative;
+  min-height: 68vh;
+}
+
+img {
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+  margin-bottom: -40px;
+  content: url("../../../../../assets/images/404-page-not-found-mobile.svg");
+}
+
+.mobile {
+  display: block;
+}
+
+.no-mobile {
+  display: none;
+}
+
+div {
+  width: 100%;
+
+  svg {
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    margin-bottom: -40px;
+    height: auto;
+  }
+}
+
+.center-card {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  h1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 38px;
+    text-align: center;
+    color: #748aa1;
+    margin: 0;
+  }
+
+  p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 9.33px;
+    line-height: 12px;
+    text-align: center;
+    color: #748aa1;
+    margin: 11px 0 0;
+  }
+
+  button {
+    background-color: #1aab9b;
+    border-radius: 6px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    padding: 6.25px 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    height: 25px;
+  }
+}
+
+@media (min-width: 769px) {
+  :host {
+    height: fit-content;
+    min-height: 75vh;
+    margin-top: -30px;
+  }
+
+  img {
+    height: auto;
+    width: 70%;
+    margin-bottom: -40px;
+    content: url("../../../../../assets/images/404-page-not-found.svg");
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  .no-mobile {
+    display: block;
+  }
+
+  .center-card {
+    top: 92px;
+
+    h1 {
+      font-size: 64px;
+      line-height: 75px;
+      color: #1aab9b;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 24px;
+      color: #1aab9b;
+      margin: 16px 0 0;
+    }
+
+    button {
+      margin-top: 34px;
+      font-size: 12px;
+      line-height: 14px;
+      padding: 7.5px 6px;
+      height: 30px;
+    }
+  }
+}

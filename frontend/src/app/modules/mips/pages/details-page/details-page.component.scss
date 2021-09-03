@@ -26,6 +26,10 @@
   }
 }
 
+.hidden{
+  display:none;
+}
+
 .maker-loading-shade {
   margin-bottom: 56px;
   min-height: 70vh;
@@ -55,7 +59,7 @@ app-mips-pagination {
   scrollbar-width: none; /* Firefox */
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1199px) {
   .no-mobile {
     display: none;
   }
@@ -74,6 +78,7 @@ app-mips-pagination {
       overflow-y: unset;
 
       .sidebar-wrapper {
+        max-height: fit-content !important;
         height: auto !important;
         overflow-y: unset !important;
       }
@@ -81,7 +86,7 @@ app-mips-pagination {
   }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1200px) {
   .row-tree-column {
     grid-template-columns: 240px auto 240px;
   }

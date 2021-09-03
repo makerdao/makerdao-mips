@@ -163,10 +163,6 @@ export class MIPsService {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
 
-        // console.log(JSON.stringify(ast));
-        // console.log(JSON.stringify(query));
-        // console.log(JSON.stringify(source));
-
         source = {
           $and: [
             {
@@ -176,8 +172,6 @@ export class MIPsService {
           ],
         };
 
-        // console.log(JSON.stringify(ast), "<==========");
-        // console.log(JSON.stringify(query), "<==========");
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
       }
@@ -375,6 +369,18 @@ export class MIPsService {
       .exec();
   }
 
+  async getSummaryByMipComponent(mipComponent: string, language: Language): Promise<MIP> {
+    if (!language) {
+      language = Language.English;
+    }
+    const mipName=mipComponent.match(/MIP\d+/gi)[0]
+
+    return await this.mipsDoc
+      .findOne({ mipName, language })
+      .select({sentenceSummary:1,paragraphSummary:1,title:1,mipName:1,components:{$elemMatch:{cName:mipComponent}}})
+      .exec();
+  }
+  
   async findOneByProposal(proposal: string, language?: Language): Promise<MIP[]> {
     if (!language) {
       language = Language.English;

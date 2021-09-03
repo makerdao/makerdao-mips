@@ -48,9 +48,16 @@ import { ContenteditableValueAccessorModule } from '@tinkoff/angular-contentedit
 import { FormattingMdDirective } from './directives/formatting-md.directive';
 import { ListSubsetComponent } from './components/list/list-subset/list-subset.component';
 import { ListSubproposalComponent } from './components/list/list-subproposal/list-subproposal.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ListMipsetModeComponent } from './components/list-mipset-mode/list-mipset-mode.component';
 import { SublistComponent } from './components/sublist/sublist.component';
 import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRippleModule } from '@angular/material/core';
+import { MdObserveVisibilityDirective } from './directives/md-observe-visibility.directive';
+import { MdTooltipDirective } from './directives/md-tooltip.directive';
+import { MdTooltipComponent } from './components/md-tooltip/md-tooltip.component';
+import { ButtonTopComponent } from './components/button-top/button-top.component';
 
 
 @NgModule({
@@ -88,9 +95,14 @@ import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
     FormattingMdDirective,
     ListSubsetComponent,
     ListSubproposalComponent,
+    PageNotFoundComponent,
     ListMipsetModeComponent,
     SublistComponent,
-    TagMipsetPipe
+    TagMipsetPipe,
+    MdObserveVisibilityDirective,
+    MdTooltipDirective,
+    MdTooltipComponent,
+    ButtonTopComponent
   ],
   imports: [
     CommonModule,
@@ -108,7 +120,9 @@ import { TagMipsetPipe } from './pipes/tag-mipset.pipe';
     MatTooltipModule,
     MatDialogModule,
     ReactiveFormsModule,
-    ContenteditableValueAccessorModule
+    ContenteditableValueAccessorModule,
+    MatExpansionModule,
+    MatRippleModule
   ]
 })
 export class MipsModule { }

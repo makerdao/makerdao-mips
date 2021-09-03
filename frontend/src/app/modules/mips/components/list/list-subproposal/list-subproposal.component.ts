@@ -26,7 +26,7 @@ import {
 export class ListSubproposalComponent implements OnInit {
   @Input() subsetChildrenActivate: boolean = true;
   @Input() dataSource: any;
-  columnsToDisplaySubsetChildren = ['title', 'summary', 'status', 'link'];
+  columnsToDisplaySubsetChildren = ['pos', 'title', 'summary', 'status', 'link'];
   selected = '-1';
   expandedElementSubsetChildren: DataElement | null;
   isArrowDownOnMouseOver: boolean = false;
@@ -74,7 +74,7 @@ export class ListSubproposalComponent implements OnInit {
       }
     }
 
-    // return data;
+    return 'DEFAULT';
   }
 
   getStatusValue(data: string): string {
@@ -99,7 +99,7 @@ export class ListSubproposalComponent implements OnInit {
       }
     }
 
-    // return data;
+    return data;
   }
 
   updateSelected(index: string, event: Event): void {

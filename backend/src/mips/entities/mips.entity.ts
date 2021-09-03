@@ -14,6 +14,9 @@ export class Section {
 
   @Prop()
   depth: string;
+
+  @Prop()
+  mipComponent?: string;
 }
 
 export class Reference {
@@ -23,6 +26,19 @@ export class Reference {
   @Prop()
   link: string;
 }
+
+export class Component {
+  @Prop()
+  cName: string;
+
+  @Prop()
+  cTitle: string;
+
+
+  @Prop()
+  cBody: string;
+}
+
 
 @Schema()
 export class MIP {
@@ -118,6 +134,12 @@ export class MIP {
     type: [Object]
   })
   references?: Reference[];
+
+  @Prop({
+    type: [Object]
+  })
+  components?: Component[];
+
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

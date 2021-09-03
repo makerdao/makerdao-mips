@@ -2,9 +2,11 @@
   <app-header></app-header>
   <div class="container">
     <router-outlet></router-outlet>
-    <app-footer
-      appObserveVisibility
-      (visible)="onFooterVisible($event)"
-    ></app-footer>
   </div>
+  <app-footer
+    appObserveVisibility
+    (visible)="onFooterVisible($event)"
+  ></app-footer>
 </div>
+
+<app-md-feedback id="feedback"></app-md-feedback>

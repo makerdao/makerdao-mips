@@ -1,3 +1,4 @@
+import { ComponentMip } from "./component-mip";
 import { ISubsetDataElement } from "./subset";
 
 export interface IMip {
@@ -17,4 +18,6 @@ export interface IMip {
   subproposalsGroup?: any;
   subsetRows?: ISubsetDataElement[];
   expandedSummary?: boolean;
+  showArrowExpandChildren?: boolean;
+  components: ComponentMip[]
 }
