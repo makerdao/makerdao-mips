@@ -26,6 +26,7 @@ export class ReferencesComponent implements OnChanges {
     this.updatedReferences = temporalReferences.map((reference) => {
       const proccesedLink = this.urlService.processLink(reference.link);
 
+      
       return { ...reference, proccesedLink };
     });
   }
