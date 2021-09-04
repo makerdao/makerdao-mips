@@ -6,4 +6,5 @@ export default interface Menu {
   children: Menu[];
   custom_view_name?: string;
   orderBy?: string;
+  orderDirection?: string;
 }

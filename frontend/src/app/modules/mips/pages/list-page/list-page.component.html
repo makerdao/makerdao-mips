@@ -35,6 +35,9 @@
     </app-search-mobile>
     <app-order-mobile
       class="mobile"
+      (sendOrder)="onSendOrder($event)"
+      [orderByField]="orderObj.field"
+      [orderDirection]="orderObj.direction"
     ></app-order-mobile>
     <app-md-checkbox
       style="display: none;"
@@ -76,6 +79,7 @@
   [filter]="filter"
   [search]="search"
   (send)="onSendPagination()"
+  (sendOrder)="onSendOrder($event)"
 ></app-list>
 <app-list-mipset-mode
   *ngIf="mipsetMode"

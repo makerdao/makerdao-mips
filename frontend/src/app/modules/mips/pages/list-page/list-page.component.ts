@@ -18,7 +18,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
 import { map } from 'rxjs/operators';
-import { OrderDirection, OrderField } from '../../types/order';
+import { Order, OrderDirection, OrderField } from '../../types/order';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -60,6 +60,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   subscriptionLoadSuggestions = new Subscription();
   totalMipsSuggestion = 0;
   searchSuggestions = false;
+  orderObj: Order;
 
   constructor(
     private mipsService: MipsService,
@@ -74,7 +75,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.order = 'mip';
     this.initParametersToLoadData();
     this.searchMips();
 
@@ -94,12 +94,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
       this.updateUrlQueryParams(data);
-    });
-
-    this.orderService.order$.subscribe((order) => {
-      console.log("order change subscription");
-      this.order = order.direction + order.field;
-      this.onSendOrder(order.direction + order.field);
     });
   }
 
@@ -156,15 +150,16 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       contributor: queryParams.params.contributor,
       author: queryParams.params.author,
       mipsetMode: JSON.parse(queryParams.params.mipsetMode || null),
-      customViewName: queryParams.params.customviewname,
-      orderBy: OrderField[(queryParams.params.orderBy as string)?.toLowerCase()],
+      customViewName: queryParams.params.customViewName,
+      orderBy: queryParams.params.orderBy,
+      orderDirection: queryParams.params.orderDirection,
     };
 
     this.queryParamsListService.queryParams = qp;
 
     this.searchCopy = this.defaultSearch;
     this.activeMenuLinkName =
-      queryParams.params.customviewname || this.initActiveLinkName;
+      queryParams.params.customViewName || this.initActiveLinkName;
 
     for (const key in qp) {
       if (Object.prototype.hasOwnProperty.call(qp, key)) {
@@ -199,15 +194,29 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   initOrderBy() {
     let queryParams: QueryParams = this.queryParamsListService.queryParams;
-    this.order = queryParams.orderBy;
-    this.orderService.order.next({
+    let prefixDirection = '';
+    prefixDirection =
+      !queryParams.orderDirection || queryParams.orderDirection == 'ASC'
+        ? ''
+        : '-';
+    this.order = queryParams.orderBy
+      ? prefixDirection + OrderField[queryParams.orderBy]
+      : 'mip';
+    this.orderObj = {
       field: queryParams.orderBy,
-      direction: OrderDirection.ASC,
-    });
-    // this.orderService.order$.subscribe((order) => {
-    //   console.log("order change subscription");
-    //   this.order = order.direction + order.field;
-    // });
+      direction:
+        queryParams.orderBy && queryParams.orderDirection
+          ? queryParams.orderDirection
+          : 'ASC',
+    };
+
+    this.orderService.order = {
+      field: queryParams.orderBy,
+      direction:
+        queryParams.orderBy && queryParams.orderDirection
+          ? queryParams.orderDirection
+          : 'ASC',
+    };
   }
 
   initFilterContributor() {
@@ -409,10 +418,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         .searchMips(
           this.limit,
           this.page,
-          this.filterOrSearch() &&
-            !this.queryParamsListService.queryParams.orderBy
-            ? 'mip mipName'
-            : this.order,
+          // this.filterOrSearch() &&
+          //   !this.queryParamsListService.queryParams.orderBy
+          //   ? 'mip mipName'
+          //   : this.order,
+          this.order,
           this.searchCopy,
           this.filter,
           'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
@@ -828,14 +838,21 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSendOrder(text: string): void {
-    console.log("order", text);
+  onSendOrder(data: { orderText: string; orderObj: Order }): void {
+    this.orderObj = {
+      field: data.orderObj.field,
+      direction:
+        data.orderObj.field && data.orderObj.direction
+          ? data.orderObj.direction
+          : 'ASC',
+    };
 
     this.mips = [];
     this.limitAux = 10;
     this.page = 0;
-    this.order = text;
+    this.order = data.orderText;
     this.searchMips();
+    this.setQueryParams();
   }
 
   onOpenMobileSearch(open: boolean): void {
@@ -928,6 +945,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       status: [],
       search: this.search,
       mipsetMode: this.mipsetMode,
+      orderBy: this.orderObj.field,
+      orderDirection: this.orderObj.direction,
     };
 
     if (filterSaved.arrayStatus[0] === 1) {

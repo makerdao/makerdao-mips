@@ -7,5 +7,6 @@ export default interface QueryParams {
   author?: string;
   mipsetMode?: boolean;
   customViewName?: string;
-  orderBy?: OrderField;
+  orderBy?: string;
+  orderDirection?: string;
 }

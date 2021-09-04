@@ -6,8 +6,13 @@ import { Order } from '../types/order';
   providedIn: 'root',
 })
 export class OrderService {
-  public order = new BehaviorSubject<Order>(null);
-  public order$ = this.order.asObservable();
+  private _order: Order;
+  get order() {
+    return this._order;
+  }
+  set order(value: Order) {
+    this._order = { ...value };
+  }
 
   constructor() {}
 }

@@ -1,18 +1,25 @@
 export interface Order {
-  field?: OrderField;
-  direction?: OrderDirection;
+  field?: string;
+  direction?: string;
 }
 
 export enum OrderField {
-  pos = 'mip',
-  title = 'title',
-  summary = 'sentenceSummary',
-  status = 'status',
-  mostUsed = 'MostUsed',
-  number = 'mip'
+  Number = 'mip',
+  Title = 'title',
+  Summary = 'sentenceSummary',
+  Status = 'status',
+  MostUsed = 'MostUsed',
 }
 
 export enum OrderDirection {
   ASC = '',
   DESC = '-',
+}
+
+export enum OrderFieldName {
+  Number = 'Number',
+  Title = 'Title',
+  Summary = 'Summary',
+  Status = 'Status',
+  MostUsed = 'MostUsed',
 }

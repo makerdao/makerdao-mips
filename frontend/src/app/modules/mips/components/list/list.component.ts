@@ -24,7 +24,12 @@ import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
 import { IMip } from '../../types/mip';
 import { OrderService } from '../../services/order.service';
-import { OrderDirection, OrderField } from '../../types/order';
+import {
+  Order,
+  OrderDirection,
+  OrderField,
+  OrderFieldName,
+} from '../../types/order';
 const clone = require('rfdc')();
 
 interface ExpandedItems {
@@ -74,7 +79,10 @@ export class ListComponent implements OnInit, OnChanges {
   @Input() paginatorLength;
   pageEvent: PageEvent;
   @Output() send = new EventEmitter();
-  @Output() sendOrder = new EventEmitter<string>();
+  @Output() sendOrder = new EventEmitter<{
+    orderText: string;
+    orderObj: Order;
+  }>();
   timeout: any = null;
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
@@ -129,6 +137,13 @@ const language = 'typescript';
 
   ngOnInit() {
     this.dataSourceTable.data = this.dataSource;
+    this.currentSortingColumn =
+      this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
+        ? 'pos'
+        : (OrderFieldName[
+            this.orderService.order.field
+          ] as string)?.toLowerCase();
+    this.ascOrderSorting = this.orderService.order.direction == 'ASC';
   }
 
   ngOnChanges() {
@@ -208,14 +223,27 @@ const language = 'typescript';
 
     if (this.currentSortingColumn === value) {
       this.ascOrderSorting = !this.ascOrderSorting;
-      orderPrefix = this.ascOrderSorting ? OrderDirection.ASC : OrderDirection.DESC;
+      orderPrefix = this.ascOrderSorting
+        ? OrderDirection.ASC
+        : OrderDirection.DESC;
     } else {
       this.ascOrderSorting = true;
       this.currentSortingColumn = value;
     }
 
-    // this.sendOrder.emit(orderPrefix + this.transforValue(value));
-    this.orderService.order.next({field: OrderField[value], direction: orderPrefix});
+    let order: Order = {
+      field:
+        this.currentSortingColumn == 'pos'
+          ? 'Number'
+          : this.toOrderBy(this.currentSortingColumn),
+      direction: this.ascOrderSorting ? 'ASC' : 'DESC',
+    };
+
+    this.orderService.order = order;
+    this.sendOrder.emit({
+      orderText: orderPrefix + this.transforValue(value),
+      orderObj: order,
+    });
   }
 
   getOrderDirection(column: string) {
@@ -242,6 +270,33 @@ const language = 'typescript';
     if (value === 'status') {
       return 'status';
     }
+  }
+
+  toOrderBy(value: string): string {
+    let orderBy: string;
+
+    switch (value) {
+      case 'pos':
+        orderBy = OrderFieldName.Number;
+        break;
+      case 'title':
+        orderBy = OrderFieldName.Title;
+        break;
+      case 'summary':
+        orderBy = OrderFieldName.Summary;
+        break;
+      case 'status':
+        orderBy = OrderFieldName.Status;
+        break;
+      case 'mostUsed':
+        orderBy = OrderFieldName.MostUsed;
+        break;
+
+      default:
+        break;
+    }
+
+    return orderBy;
   }
 
   onScroll(): void {
