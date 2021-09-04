@@ -19,6 +19,7 @@ import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import {
+  ConnectedPosition,
   FlexibleConnectedPositionStrategyOrigin,
   Overlay,
   OverlayRef,
@@ -52,6 +53,7 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
+  triangleCenter: boolean = false;
   @Input() subproposals: any[] = [];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
@@ -60,6 +62,8 @@ export class DetailContentComponent
 
   headingStructure: Heading[] = [];
   subproposalsGroup: any = {};
+
+  smartLinkWindowUp = false;
 
   constructor(
     private markdownService: MarkdownService,
@@ -91,46 +95,106 @@ export class DetailContentComponent
     }
   }
 
-  setPreviewFeature() {
-    let links = document.getElementsByClassName('linkPreview');
+  isTouchDevice() {
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    );
+  }
 
-    for (let index = 0; index < links.length; index++) {
-      const element = links.item(index);
-      element.addEventListener('mouseover', this.displayPreview);
-      element.addEventListener('mouseleave', this.closePreview);
+  setPreviewFeature() {
+    if (!this.isTouchDevice()) {
+      let links = document.getElementsByClassName('linkPreview');
+
+      for (let index = 0; index < links.length; index++) {
+        const element = links.item(index);
+        element.addEventListener('mouseover', this.displayPreview);
+        element.addEventListener('mouseleave', this.closePreview);
+      }
     }
   }
 
-  showOverview(data, posStrategy) {
+  leftPositions: ConnectedPosition[] = [
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top',
+    },
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+    },
+  ];
+
+  rightPositions: ConnectedPosition[] = [
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top',
+    },
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+  ];
+
+  centerPositions: ConnectedPosition[] = [
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'center',
+      overlayY: 'top',
+    },
+  ];
+
+  showOverview(data, posStrategy, leftSide, center) {
+    const positionsOfTheSmartLinkWindow: ConnectedPosition[] = center
+      ? this.centerPositions
+      : leftSide
+      ? this.leftPositions
+      : this.rightPositions;
+
     const positionStrategy = this.overlay
       .position()
       .flexibleConnectedTo(posStrategy)
-      .withPositions([
-        {
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'top',
-        },
-        {
-          originX: 'start',
-          originY: 'bottom',
-          overlayX: 'start',
-          overlayY: 'top',
-        },
-        {
-          originX: 'end',
-          originY: 'top',
-          overlayX: 'end',
-          overlayY: 'bottom',
-        },
-        {
-          originX: 'start',
-          originY: 'top',
-          overlayX: 'start',
-          overlayY: 'bottom',
-        },
-      ]);
+      .withPositions(positionsOfTheSmartLinkWindow);
 
     positionStrategy.positionChanges.subscribe((pos) => {
       if (
@@ -141,6 +205,7 @@ export class DetailContentComponent
       ) {
         this.triangleUp = true;
         this.triangleLeft = false;
+        this.triangleCenter = false;
       } else if (
         pos.connectionPair.originX === 'start' &&
         pos.connectionPair.originY === 'bottom' &&
@@ -149,6 +214,7 @@ export class DetailContentComponent
       ) {
         this.triangleUp = true;
         this.triangleLeft = true;
+        this.triangleCenter = false;
       } else if (
         pos.connectionPair.originX === 'end' &&
         pos.connectionPair.originY === 'top' &&
@@ -157,6 +223,7 @@ export class DetailContentComponent
       ) {
         this.triangleUp = false;
         this.triangleLeft = false;
+        this.triangleCenter = false;
       } else if (
         pos.connectionPair.originX === 'start' &&
         pos.connectionPair.originY === 'top' &&
@@ -165,6 +232,23 @@ export class DetailContentComponent
       ) {
         this.triangleUp = false;
         this.triangleLeft = true;
+        this.triangleCenter = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'center' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleCenter = true;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'center' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleCenter = true;
       }
 
       let element: HTMLElement = this.previewRef.nativeElement.parentElement
@@ -183,13 +267,17 @@ export class DetailContentComponent
         $implicit: data,
       })
     );
+    this.smartLinkWindowUp = true;
   }
 
-  displayPreview = (e: Event) => {
-    if (!this.overlayRef) {
+  displayPreview = (e: MouseEvent) => {
+    if (!this.smartLinkWindowUp) {
       const link = e.target as HTMLAnchorElement;
 
-      let href: string = link.href.split('/mips/details/')[1];
+      const windowWidth = window.innerWidth;
+      const mousePosW = e.screenX;
+      const leftSide = mousePosW < windowWidth / 2;
+      const center = Math.abs(mousePosW - windowWidth / 2) < 90;
 
       if (link?.rel?.includes('smart-')) {
         const type = link.rel.split('-')[1];
@@ -199,8 +287,8 @@ export class DetailContentComponent
             const mipNameMatches = link.href.match(/MIP\d+/gi);
 
             if (mipNameMatches) {
-              const mipName = mipNameMatches[0].replace(/MIP/i,"MIP");
-            
+              const mipName = mipNameMatches[0].replace(/MIP/i, 'MIP');
+
               this.subscription = this.mipsService
                 .getMipBy('mipName', mipName)
                 .subscribe((data) => {
@@ -209,7 +297,9 @@ export class DetailContentComponent
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipName' },
-                      posStrategy
+                      posStrategy,
+                      leftSide,
+                      center
                     );
                   }
                 });
@@ -221,7 +311,11 @@ export class DetailContentComponent
             const mipComponentMatches = link.href.match(/MIP\d+c\d+/gi);
 
             if (mipComponentMatches) {
-              const mipComponent = mipComponentMatches[0].replace(/MIP/i,"MIP");
+              const mipComponent = mipComponentMatches[0].replace(
+                /MIP/i,
+                'MIP'
+              );
+
               this.subscription = this.mipsService
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
@@ -254,7 +348,9 @@ export class DetailContentComponent
                         componentCode,
                         mipName,
                       },
-                      posStrategy
+                      posStrategy,
+                      leftSide,
+                      center
                     );
                   }
                 });
@@ -262,10 +358,13 @@ export class DetailContentComponent
             break;
 
           case 'Subproposal':
-            const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-SP\d+/gi);
+            const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-?SP\d+/gi);
 
             if (mipSubproposalMatch) {
-              const mipSubproposal = mipSubproposalMatch[0].replace(/MIP/i,"MIP");
+              const mipSubproposal = mipSubproposalMatch[0].replace(
+                /MIP/i,
+                'MIP'
+              );
 
               this.subscription = this.mipsService
                 .getMipBy('mipSubproposal', mipSubproposal)
@@ -275,11 +374,15 @@ export class DetailContentComponent
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipSubproposal' },
-                      posStrategy
+                      posStrategy,
+                      leftSide,
+                      center
                     );
                   }
                 });
             }
+            break;
+          default:
             break;
         }
       }
@@ -294,6 +397,14 @@ export class DetailContentComponent
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;
+    }
+
+    if (this.smartLinkWindowUp) {
+      setTimeout(() => {
+        //To avoid the race condition
+
+        this.smartLinkWindowUp = false;
+      }, 0);
     }
   };
 
@@ -547,26 +658,33 @@ export class DetailContentComponent
 
       if (
         !link.name.includes('Template') &&
+        !title?.includes('NON-SMART-LINK') &&
         (link.link.includes(this.gitgubUrl) ||
           title?.includes('smart') ||
-          link.name.match(/MIP\d+(?:[ca]\d+)?(?:-SP\d+)?/gi) ||
+          link.link.match(/MIP\d+(?:[ca]\d+)?(?:-?SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
       ) {
         let newTitle = '';
 
-        if (link.name.match(/MIP\d+c\d+-SP\d+/gi)) {
+        if (link.link.match(/MIP\d+c\d+-?SP\d+/gi)) {
           newTitle = 'smart-Subproposal';
-        } else if (link.name.match(/MIP\d+c\d+/gi)) {
+        } else if (link.link.match(/MIP\d+c\d+/gi)) {
           newTitle = 'smart-Component';
-        } else if (link.name.match(/MIP\d+/gi)) {
+        } else if (link.link.match(/MIP\d+/gi)) {
           newTitle = 'smart-Mip';
         }
 
-        return `<a onclick="return;" id="${link.id}" class="linkPreview" rel=${
-          title?.includes('smart') ? title : newTitle
-        } href="${href}">${text}</a>`;
+        const relText = newTitle?.includes('smart')
+          ? 'rel="' + newTitle + '"'
+          : title?.includes('smart')
+          ? 'rel="' + title + '"'
+          : '';
+
+        return `<a id="${link.id}" class="linkPreview" ${relText} 
+        newTitle
+        href="${href}">${text}</a>`;
       }
 
       if (this.mdUrl) {
@@ -657,6 +775,7 @@ export class DetailContentComponent
                 if (data.mipName) {
                   elem.setAttribute('href', `/mips/details/${data.mipName}`);
                 } else {
+                  
                   elem.setAttribute(
                     'href',
                     `${this.gitgubUrl}/${this.mip?.filename}`
@@ -666,7 +785,7 @@ export class DetailContentComponent
           }
         } else {
           if (
-            !link.link.includes('https') &&
+            !link.link.includes('http') &&
             !link.link.match(/mips\/details\/MIP\d/gi)
           ) {
             elem.setAttribute(
@@ -676,10 +795,10 @@ export class DetailContentComponent
           }
         }
       } else {
-        if (link.name.includes('.md') && !link.link.includes('https')) {
+        if (link.link.includes('.md') && !link.link.includes('http')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
           );
         }
       }

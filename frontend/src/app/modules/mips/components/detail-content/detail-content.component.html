@@ -126,8 +126,9 @@
         [ngClass]="{
           triangleUp: triangleUp,
           triangleDown: !triangleUp,
-          left: triangleLeft,
-          right: !triangleLeft
+          centerX: triangleCenter,
+          left: !triangleCenter && triangleLeft,
+          right: !triangleCenter && !triangleLeft
         }"
       ></div>
     </div>
@@ -140,8 +141,9 @@
         [ngClass]="{
           triangleUp: triangleUp,
           triangleDown: !triangleUp,
-          left: triangleLeft,
-          right: !triangleLeft
+          centerX: triangleCenter,
+          left: !triangleCenter && triangleLeft,
+          right: !triangleCenter && !triangleLeft
         }"
       ></div>
     </div>

@@ -8,7 +8,6 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { MdTooltipComponent } from '../components/md-tooltip/md-tooltip.component';
 
 @Directive({
@@ -87,14 +86,18 @@ export class MdTooltipDirective implements OnInit {
   }
 
   hide() {
-    this.overlayRef.detach();
+    if (this.overlayRef.hasAttached()) {
+      this.overlayRef.detach();
+    }
   }
 
   show() {
-    const tooltipPortal = new ComponentPortal(MdTooltipComponent);
-    const tooltipRef: ComponentRef<MdTooltipComponent> = this.overlayRef.attach(
-      tooltipPortal
-    );
-    tooltipRef.instance.text = this.text;
+    if (!this.overlayRef.hasAttached()) {
+      const tooltipPortal = new ComponentPortal(MdTooltipComponent);
+      const tooltipRef: ComponentRef<MdTooltipComponent> = this.overlayRef.attach(
+        tooltipPortal
+      );
+      tooltipRef.instance.text = this.text;
+    }
   }
 }

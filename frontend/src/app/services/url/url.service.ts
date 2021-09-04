@@ -147,7 +147,7 @@ export class UrlService {
     const href = location.href;
 
     const isMipAddress = href.match(
-      /\/mips\/details\/(?<mipName>MIP\d+)[\w-\.]*$/i
+      /\/mips\/details\/(?<mipName>MIP\d+)[\w\-\.#]*$/i
     );
     if (isMipAddress) {
       const mipName = isMipAddress.groups.mipName;
@@ -160,6 +160,7 @@ export class UrlService {
   }
 
   processLink(link: string, fileAddress: string = ''): string {
+  
     let href = '';
     if (this.isAValidUrl(link)) {
       //Valid Url link (.md or not)
@@ -175,6 +176,7 @@ export class UrlService {
       //Is not a valid link. instead it is a Relative link
 
       const baseUrl = this.getBaseUrl();
+     
       if (baseUrl) {
         href =
           this.mdViewerRoute + this.getMdFromGithubUrl(baseUrl + '/' + link);

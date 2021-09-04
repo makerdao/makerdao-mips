@@ -220,11 +220,12 @@ export class ParseMIPsService {
 
     const componentData = componentHeaders?.map((item, index) => {
       const matches = item.match(regexComp).groups;
+      const cBody = splitedData[index + 1].trim().split(/^#/gm)[0];
 
       return {
         cName: matches.cName.trim(),
         cTitle: matches.cTitle.trim(),
-        cBody: splitedData[index + 1].trim(),
+        cBody,
       };
     });
 
@@ -235,13 +236,19 @@ export class ParseMIPsService {
     let raw = data.raw;
 
     if (isOnComponentSummary) {
-      return raw.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
+      const sumaryRaw = raw.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
         const mipComponent = item.match(/MIP\d+[ac]\d+/gi)[0];
 
         const mipName = mipComponent.match(/MIP\d+/gi)[0];
+        const cleanItem = item.replace(/\*\*/g, "");
 
-        return `[${item}](mips/details/${mipName}#${mipComponent})`;
+        return `[${cleanItem}](mips/details/${mipName}#${mipComponent})`;
       });
+
+      const cleaned = sumaryRaw.replace(/]\([^\)]+\)/gm, (item) =>
+        item.replace(/]\([^\)]+/gm, (ite) => ite + ` "NON-SMART-LINK"`)
+      );
+      return cleaned;
     }
 
     if (data.type === "heading") {
@@ -271,12 +278,16 @@ export class ParseMIPsService {
       );
     //#endregion
 
-    raw = processToken(/[\s`(]MIP\d+[)\s`:]/gi, raw, parseMipNames);
-
-    raw = processToken(/[\s`(]MIP\d+[ca]\d+[)\s`:]/gi, raw, parseMipComponent);
+    raw = processToken(/[\s`(]MIP\d+[)\.\*,\s`:]/gi, raw, parseMipNames);
 
     raw = processToken(
-      /[\s`(]MIP\d+[ca]\d+-SP\d[)\s`:]/gi,
+      /[\s`(]MIP\d+[ca]\d+[)\.\*,\s`:]/gi,
+      raw,
+      parseMipComponent
+    );
+
+    raw = processToken(
+      /[\s`(]MIP\d+[ca]\d+-SP\d[\.\*),\s`:]/gi,
       raw,
       parseMipSubproposal
     );
@@ -310,7 +321,7 @@ export class ParseMIPsService {
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
 
-      if (element.type === "heading"&&element.depth===2) {
+      if (element.type === "heading" && element.depth === 2) {
         if (element.text.toLowerCase().includes("component summary"))
           isOnComponentSummary = true;
         else if (isOnComponentSummary) isOnComponentSummary = false;
