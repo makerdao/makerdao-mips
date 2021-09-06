@@ -64,6 +64,7 @@ export class DetailContentComponent
   subproposalsGroup: any = {};
 
   smartLinkWindowUp = false;
+  titleMdFile = '';
 
   constructor(
     private markdownService: MarkdownService,
@@ -608,11 +609,16 @@ export class DetailContentComponent
 
       this.headingStructure.push({ heading: htmlCleanedText, depth: level });
 
-      return `
+      if (this.mdUrl && level ===1) {
+        this.titleMdFile = text;
+        return '';
+      } else {
+        return `
              <h${level} ${style}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
                </a>${text}</h${level}>`;
+      }
     };
   }
 
@@ -682,7 +688,7 @@ export class DetailContentComponent
           ? 'rel="' + title + '"'
           : '';
 
-        return `<a id="${link.id}" class="linkPreview" ${relText} 
+        return `<a id="${link.id}" class="linkPreview" ${relText}
         newTitle
         href="${href}">${text}</a>`;
       }
@@ -775,7 +781,7 @@ export class DetailContentComponent
                 if (data.mipName) {
                   elem.setAttribute('href', `/mips/details/${data.mipName}`);
                 } else {
-                  
+
                   elem.setAttribute(
                     'href',
                     `${this.gitgubUrl}/${this.mip?.filename}`
