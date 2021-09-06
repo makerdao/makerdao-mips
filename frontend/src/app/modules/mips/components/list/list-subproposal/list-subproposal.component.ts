@@ -7,6 +7,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { StatusService } from '../../../services/status.service';
 
 @Component({
   selector: 'app-list-subproposal',
@@ -44,7 +45,7 @@ export class ListSubproposalComponent implements OnInit {
     this._expandedItems = { ...value };
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private statusService: StatusService) {}
 
   ngOnInit(): void {}
 
@@ -52,54 +53,12 @@ export class ListSubproposalComponent implements OnInit {
     this.router.navigate(['/mips/details/', name]);
   }
 
-  getStatusType(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FS';
-      }
-    }
-
-    return 'DEFAULT';
+  getStatusValue(data: string): string {
+    return this.statusService.getStatusValue(data);
   }
 
-  getStatusValue(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FORMAL SUBMISSION';
-      }
-    }
-
-    return data;
+  getStatusType(data: string): string {
+    return this.statusService.getStatusType(data);
   }
 
   updateSelected(index: string, event: Event): void {

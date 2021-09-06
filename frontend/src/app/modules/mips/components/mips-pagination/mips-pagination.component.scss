@@ -61,17 +61,27 @@
         border-radius: 50%;
         position: relative;
         cursor: pointer;
+        border: none;
+        outline: none;
         background-color: transparent;
         transition: background-color 0.2s ease-in-out;
 
         &:hover {
           background-color: #ebedf4;
           transition: background-color 0.2s ease-in-out;
+
+          &[disabled] {
+            background-color: transparent;
+            cursor: unset;
+          }
+        }
+
+        &[disabled] {
+          opacity: 0.4;
         }
 
       .frame {
         padding: 0.5px;
-        cursor: pointer;
         position: absolute;
         top: 50%;
         left: 50%;
