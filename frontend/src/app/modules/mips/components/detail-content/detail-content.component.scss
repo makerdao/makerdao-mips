@@ -288,7 +288,8 @@
     }
   }
 
-  ol, ul {
+  ol,
+  ul {
     padding-left: 2em;
   }
 
@@ -460,8 +461,7 @@ p {
     border-right: 11px solid transparent;
     border-bottom: 15px solid #ffffff;
     position: absolute;
-    top: 0;
-    transform: translateY(-96%);
+    top: -13px;
   }
 
   .triangleDown {
@@ -480,6 +480,11 @@ p {
 
   .right {
     right: 11px;
+  }
+
+  .centerX {
+    left: 50%;
+    transform: translateX(15px);
   }
 
   .previewTextTitle {
@@ -541,5 +546,138 @@ p {
   100% {
     opacity: 1;
     transform: translateY(0px);
+  }
+}
+
+.smartLinksContainer {
+  .mipComponentMipNameContainer {
+    display: flex;
+    align-items: center;
+    .mipComponentLogoContainer {
+      min-width: 30px;
+      max-width: 30px;
+      height: 35px;
+
+      .mipComponentLogo {
+        width: 100%;
+      }
+    }
+
+    .mipComponentMipName {
+      padding: 0 8px;
+      color: #b8c5d3;
+      flex-grow: 1;
+      font-size: 16px;
+      line-height: 19px;
+      font-weight: 500;
+    }
+  }
+
+  .mipComponentMipSumary {
+    display: flex;
+
+    .rectangleContainer {
+      min-width: 30px;
+      max-width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: -1;
+      min-height: 10px;
+
+      .thinRectangle {
+        width: 2px;
+        height: 140%;
+        background-color: #76cdc3;
+      }
+    }
+    .mipSumary {
+      padding: 0 2px;
+      font-size: 12px;
+      line-height: 16px;
+      width: 100%;
+      font-weight: 400;
+      color: #b8c5d3;
+    }
+  }
+
+  .mipComponentTitleContainer {
+    display: flex;
+    margin: 10px 0 8px;
+
+    .rectangleContainer {
+      min-width: 30px;
+      max-width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: -1;
+      min-height: 10px;
+      position: relative;
+
+      .thinRectangle {
+        width: 2px;
+        height: 200%;
+        background-color: #76cdc3;
+      }
+      .mipComponentLogo {
+        position: absolute;
+        width: 20px;
+        left: 50%;
+        transform: translateX(-2px);
+      }
+    }
+
+    .mipComponentTitle {
+      padding: 0 16px;
+      color: #31394d;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 23px;
+
+      .spanCodeComponent {
+        margin-right: 2px;
+      }
+    }
+  }
+
+  .mipComponenSumary {
+    display: flex;
+
+    .rectangleContainer {
+      min-width: 30px;
+      max-width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: -1;
+      min-height: 10px;
+      position: relative;
+
+      .fadeThinRectangle {
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(#76cdc3 20%, #ffffff);
+      }
+      .mipComponentLogo {
+        position: absolute;
+        width: 20px;
+        padding-left: 17px;
+        height: 120%;
+      }
+    }
+
+    .mipComponentSumary {
+      padding: 0 8px;
+      font-size: 14px;
+      line-height: 20px;
+      width: 100%;
+      font-weight: 400;
+      color: #31394d;
+
+      .spanCodeMip {
+        margin-right: 2px;
+      }
+    }
   }
 }

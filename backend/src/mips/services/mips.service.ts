@@ -163,10 +163,6 @@ export class MIPsService {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
 
-        // console.log(JSON.stringify(ast));
-        // console.log(JSON.stringify(query));
-        // console.log(JSON.stringify(source));
-
         source = {
           $and: [
             {
@@ -176,8 +172,6 @@ export class MIPsService {
           ],
         };
 
-        // console.log(JSON.stringify(ast), "<==========");
-        // console.log(JSON.stringify(query), "<==========");
       } else {
         source["$text"] = { $search: JSON.parse(`"${search}"`) };
       }

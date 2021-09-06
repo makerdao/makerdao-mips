@@ -11,9 +11,11 @@ import { ElementsRefUiService } from '../../../../services/elements-ref-ui/eleme
 import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
-import { delay, map } from 'rxjs/operators';
 import { SearchService } from '../../services/search.service';
 import { FilterService } from '../../services/filter.service';
+import { map } from 'rxjs/operators';
+import { ComponentMip } from '../../types/component-mip';
+import { ISubsetDataElement } from '../../types/subset';
 
 @Component({
   selector: 'app-list-page',
@@ -388,7 +390,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.filterOrSearch() ? 'mip mipName' : this.order,
           this.searchCopy,
           this.filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
         )
         .pipe(
           map((res) => {
@@ -477,7 +479,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               null,
               null,
               { equals: [{ field: 'mipName', value: item.proposal }] },
-              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
             )
             .toPromise();
           let parent: IMip = res.items[0];
@@ -495,11 +497,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
           let subproposalsGroup: any = this.groupBy('subset', parent.children);
           this.sortSubproposalsGroups(subproposalsGroup);
-          const subsetRows: any[] = [];
+          const subsetRows: ISubsetDataElement[] = [];
+          const components: ComponentMip[] = parent.components;
+          let indexComp: number;
+          let componentMipTitle = '';
 
           for (const key in subproposalsGroup) {
             if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
-              subsetRows.push({ subset: key, expanded: true });
+              indexComp = components?.findIndex((item) => item.cName === key);
+                  if (indexComp && indexComp !== -1) {
+                    componentMipTitle = components[indexComp].cTitle;
+                  }
+              subsetRows.push({ subset: key, expanded: true, title: componentMipTitle });
             }
           }
 
@@ -544,13 +553,20 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               newData[newData.length - 1].children
             );
             this.sortSubproposalsGroups(subproposalsGroup);
-            const subsetRows: any[] = [];
+            const subsetRows: ISubsetDataElement[] = [];
+            const components: ComponentMip[] = newData[newData.length - 1].components;
+            let indexComp: number;
+            let componentMipTitle = '';
 
             for (const key in subproposalsGroup) {
               if (
                 Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
               ) {
-                subsetRows.push({ subset: key, expanded: true });
+                indexComp = components?.findIndex((item) => item.cName === key);
+                  if (indexComp && indexComp !== -1) {
+                    componentMipTitle = components[indexComp].cTitle;
+                  }
+                subsetRows.push({ subset: key, expanded: true, title: componentMipTitle });
               }
             }
 
@@ -577,13 +593,20 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               this.mips[this.mips.length - 1].children
             );
             this.sortSubproposalsGroups(subproposalsGroup);
-            const subsetRows: any[] = [];
+            const subsetRows: ISubsetDataElement[] = [];
+            const components: ComponentMip[] = this.mips[this.mips.length - 1].components;
+            let indexComp: number;
+            let componentMipTitle = '';
 
             for (const key in subproposalsGroup) {
               if (
                 Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
               ) {
-                subsetRows.push({ subset: key, expanded: true });
+                indexComp = components?.findIndex((item) => item.cName === key);
+                  if (indexComp && indexComp !== -1) {
+                    componentMipTitle = components[indexComp].cTitle;
+                  }
+                subsetRows.push({ subset: key, expanded: true, title: componentMipTitle });
               }
             }
 
@@ -674,7 +697,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         order,
         search,
         filter,
-        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather'
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components'
       )
       .subscribe((data) => {
         this.mipsByName = data.items;

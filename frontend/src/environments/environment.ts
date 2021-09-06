@@ -10,7 +10,8 @@ export const environment = {
   repoUrl: 'https://github.com/makerdao/mips/blob/master',
   feedBackFormUrl: 'https://formspree.io/f/xzbyjjnb',
   githubURL: 'https://github.com/',
-  menuURL:'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/menu.json'
+  menuURL:'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/menu.yaml',
+  menuURLAuxiliar:'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/menu.json'
 };
 
 /*
