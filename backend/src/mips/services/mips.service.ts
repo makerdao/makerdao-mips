@@ -59,6 +59,24 @@ export class MIPsService {
     return { items, total };
   }
 
+  async findAllAfterParse(
+    paginationQuery?: PaginationQueryDto,
+    order?: string,
+    search?: string,
+    filter?: any,
+    select?: string,
+    language?: Language
+  ): Promise<any> {
+    return this.findAll(
+      paginationQuery,
+      order,
+      search,
+      filter,
+      select,
+      language
+    );
+  }
+
   // Function to build filter
   async buildFilter(
     search: string,
