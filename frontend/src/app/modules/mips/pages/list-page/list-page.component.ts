@@ -18,7 +18,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { IMip } from '../../types/mip';
 import { map } from 'rxjs/operators';
-import { Order, OrderDirection, OrderField } from '../../types/order';
+import { Order, OrderField, OrderFieldName } from '../../types/order';
 import { OrderService } from '../../services/order.service';
 import { ComponentMip } from '../../types/component-mip';
 import { ISubsetDataElement } from '../../types/subset';
@@ -201,6 +201,11 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       !queryParams.orderDirection || queryParams.orderDirection == 'ASC'
         ? ''
         : '-';
+    prefixDirection =
+      queryParams.orderBy == OrderFieldName.MostUsed &&
+      !queryParams.orderDirection
+      ? '-'
+      : prefixDirection;
     this.order = queryParams.orderBy
       ? prefixDirection + OrderField[queryParams.orderBy]
       : 'mip';
@@ -420,14 +425,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         .searchMips(
           this.limit,
           this.page,
-          // this.filterOrSearch() &&
-          //   !this.queryParamsListService.queryParams.orderBy
-          //   ? 'mip mipName'
-          //   : this.order,
           this.order,
           this.searchCopy,
           this.filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
         )
         .pipe(
           map((res) => {
@@ -516,7 +517,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               null,
               null,
               { equals: [{ field: 'mipName', value: item.proposal }] },
-              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
             )
             .toPromise();
           let parent: IMip = res.items[0];
@@ -734,7 +735,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         order,
         search,
         filter,
-        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components'
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
       )
       .subscribe(
         (data) => {

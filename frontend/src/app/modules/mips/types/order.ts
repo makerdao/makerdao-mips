@@ -8,7 +8,7 @@ export enum OrderField {
   Title = 'title',
   Summary = 'sentenceSummary',
   Status = 'status',
-  MostUsed = 'MostUsed',
+  MostUsed = 'subproposalsCount',
 }
 
 export enum OrderDirection {
