@@ -8,6 +8,7 @@ import {
   OnChanges,
   OnInit,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import {
   animate,
@@ -30,6 +31,10 @@ import {
   OrderField,
   OrderFieldName,
 } from '../../types/order';
+import { SearchService } from '../../services/search.service';
+import { FilterService } from '../../services/filter.service';
+import { Subscription } from 'rxjs';
+import { StatusService } from '../../services/status.service';
 import { ISubsetDataElement } from '../../types/subset';
 import { ComponentMip } from '../../types/component-mip';
 const clone = require('rfdc')();
@@ -66,15 +71,15 @@ interface ExpandedItems {
     ]),
   ],
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnInit, OnChanges, OnDestroy {
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
   @Input() dataSource: any;
   @Input() loading = true;
   @Input() loadingPlus = false;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
-  @Input() filter: any;
-  @Input() search: string;
+  filter: any;
+  search: string;
   expandedElement: DataElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selected = '-1';
@@ -112,6 +117,8 @@ export class ListComponent implements OnInit, OnChanges {
   subproposalsGroup: any;
   columnsToDisplaySubsetChildren = ['title', 'summary', 'status', 'link'];
   expandedElementSubsetChildren: DataElement | null;
+  subscriptionSearchService: Subscription;
+  subscriptionFilterService: Subscription;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -134,7 +141,10 @@ const language = 'typescript';
     private router: Router,
     private mipsService: MipsService,
     private cdr: ChangeDetectorRef,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private searchService: SearchService,
+    private filterService: FilterService,
+    private statusService: StatusService
   ) {}
 
   ngOnInit() {
@@ -146,6 +156,12 @@ const language = 'typescript';
             this.orderService.order.field
           ] as string)?.toLowerCase();
     this.ascOrderSorting = this.orderService.order.direction == 'ASC';
+    this.subscriptionSearchService = this.searchService.search$.subscribe(data => {
+      this.search = data;
+    });
+    this.subscriptionFilterService = this.filterService.filter$.subscribe(data => {
+      this.filter = data;
+    });
   }
 
   ngOnChanges() {
@@ -153,53 +169,11 @@ const language = 'typescript';
   }
 
   getStatusValue(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FORMAL SUBMISSION';
-      }
-    }
-
-    return data;
+    return this.statusService.getStatusValue(data);
   }
 
   getStatusType(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FS';
-      }
-    }
-
-    return 'DEFAULT';
+    return this.statusService.getStatusType(data);
   }
 
   updateSelected(index: string, event: Event): void {
@@ -435,6 +409,11 @@ const language = 'typescript';
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
   onClickButtonCaptureEvent(e: Event) {
     e.stopPropagation();
+  }
+
+  ngOnDestroy() {
+    this.subscriptionSearchService.unsubscribe();
+    this.subscriptionFilterService.unsubscribe();
   }
 }
 

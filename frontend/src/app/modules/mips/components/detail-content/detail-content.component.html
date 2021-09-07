@@ -11,8 +11,8 @@
       ><span class="no-mobile title"> {{ subproposalTitle }}</span>
     </div>
     <div *ngIf="mdUrl">
-      <span class="title-bold">Markdown<span class="no-mobile">:</span> </span
-      ><span class="title"> {{ mdFileName }} </span>
+      <span class="title-bold">{{ titleMdFile?.split(":")[0] }}<span *ngIf="titleMdFile?.split(':')[1]">:</span></span
+      ><span class="title"> {{ titleMdFile?.split(":")[1] }} </span>
     </div>
 
     <div *ngIf="mip" class="row social">

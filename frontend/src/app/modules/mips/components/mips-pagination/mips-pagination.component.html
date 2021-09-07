@@ -14,17 +14,31 @@
     </ul>
     <div class="items">
       <strong>{{ mipPosition + 1 }} </strong>
-      <span style="margin-right: 5px;">&nbsp; of {{ total }} items </span>
-      <div class="arrowWrapper" matRipple [matRippleCentered]="true" (click)="minus()">
+      <span style="margin-right: 5px">&nbsp; of {{ total }} items </span>
+      <button
+        class="arrowWrapper"
+        matRipple
+        [matRippleCentered]="true"
+        (click)="minus()"
+        matTooltip="Previous"
+        [disabled]="mipPosition <= 0"
+      >
         <span class="frame"
           ><img src="../../../../../assets/images/left.svg"
         /></span>
-      </div>
-      <div class="arrowWrapper" matRipple [matRippleCentered]="true" (click)="loadMipsData()">
+      </button>
+      <button
+        class="arrowWrapper"
+        matRipple
+        [matRippleCentered]="true"
+        (click)="loadMipsData()"
+        matTooltip="Next"
+        [disabled]="mipPosition >= total - 1"
+      >
         <span class="frame"
           ><img src="../../../../../assets/images/right.svg"
         /></span>
-      </div>
+      </button>
     </div>
   </div>
 </div>
