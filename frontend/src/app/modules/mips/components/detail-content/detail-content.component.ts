@@ -532,7 +532,7 @@ export class DetailContentComponent
   }
 
   addSubsetField = (item: any) => {
-    let subset: string = (item.mipName as string).split('SP')[0];
+    let subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
     return item;
   };
