@@ -2,12 +2,12 @@
   <div class="row">
     <div *ngIf="mip && !mip?.proposal">
       <span *ngIf="mip?.title" class="title-bold"
-        >{{ mip?.mipName }}<span class="no-mobile">:</span> </span
+        >{{ mip?.mipName }}: </span
       ><span class="no-mobile title"> {{ mip?.title }}</span>
     </div>
     <div *ngIf="mip?.proposal">
       <span *ngIf="mip?.title" class="title-bold"
-        >{{ subproposalCode }}<span class="no-mobile">:</span> </span
+        >{{ subproposalCode }}: </span
       ><span class="no-mobile title"> {{ subproposalTitle }}</span>
     </div>
     <div *ngIf="mdUrl">
