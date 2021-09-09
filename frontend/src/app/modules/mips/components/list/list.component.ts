@@ -291,6 +291,8 @@ const language = 'typescript';
   }
 
   onGetSubproposals(row: IMip, e: Event) {
+    console.log("here");
+
     e.stopPropagation();
 
     if (row.expanded) {
@@ -305,12 +307,24 @@ const language = 'typescript';
         let filter = clone(this.filter);
         filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
+        let order: string;
+
+        console.log("direction", this.orderService.order.direction);
+        console.log("field", this.orderService.order.field);
+        if (this.orderService.order.field && this.orderService.order.direction) {
+          order = OrderDirection[this.orderService.order.direction] + OrderField[this.orderService.order.field];
+        } else {
+          order = 'mipName';
+        }
+
+        console.log("order...", order);
 
         this.mipsService
           .searchMips(
             100000,
             0,
-            'mipName',
+            // 'mipName',
+            order,
             this.search,
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
@@ -339,7 +353,11 @@ const language = 'typescript';
               });
 
               let subproposalsGroup: any = this.groupBy('subset', items);
-              this.sortSubproposalsGroups(subproposalsGroup);
+
+              if (!order || order === 'mip' || order === 'mipName') {
+                this.sortSubproposalsGroups(subproposalsGroup);
+              }
+
               const subsetRows: ISubsetDataElement[] = [];
               const components: ComponentMip[] = this.dataSourceTable.data[index].components;
               let indexComp: number;

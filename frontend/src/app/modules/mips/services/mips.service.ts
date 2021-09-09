@@ -29,6 +29,13 @@ export class MipsService {
     }
 
     if (order !== undefined && order != null && order !== '') {
+      const patt = /\b-?mip\b|\b-?mip\s|\s-?mip\s|\s-?mip\b/;
+
+      if (!patt.test(order)) {
+        order += " mip";
+      }
+
+      order += " _id";
       params = params.append('order', order);
     }
     if (search !== undefined && search != null && search !== '') {
