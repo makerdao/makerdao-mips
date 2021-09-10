@@ -191,7 +191,7 @@ export class MIPsService {
         };
 
       } else {
-        source["$text"] = { $search: JSON.parse(`"${search}"`) };
+        source["$text"] = { $search:  `"${search}"` };
       }
     }
     return source;
