@@ -75,7 +75,6 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
   @Input() dataSource: any;
   @Input() loading = true;
-  @Input() loadingPlus = false;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
   filter: any;
@@ -291,8 +290,6 @@ const language = 'typescript';
   }
 
   onGetSubproposals(row: IMip, e: Event) {
-    console.log("here");
-
     e.stopPropagation();
 
     if (row.expanded) {
@@ -309,15 +306,11 @@ const language = 'typescript';
         filter.equals.push({ field: 'proposal', value: row.mipName });
         let order: string;
 
-        console.log("direction", this.orderService.order.direction);
-        console.log("field", this.orderService.order.field);
         if (this.orderService.order.field && this.orderService.order.direction) {
           order = OrderDirection[this.orderService.order.direction] + OrderField[this.orderService.order.field];
         } else {
           order = 'mipName';
         }
-
-        console.log("order...", order);
 
         this.mipsService
           .searchMips(
@@ -325,7 +318,7 @@ const language = 'typescript';
             0,
             // 'mipName',
             order,
-            this.search,
+            row.showArrowExpandChildren ? this.search : '',
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )
