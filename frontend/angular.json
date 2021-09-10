@@ -59,8 +59,16 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "30kb"
+                }
+              ]
+            },
+            "fullstack": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.fullstack.ts"
                 }
               ]
             }
@@ -74,6 +82,9 @@
           "configurations": {
             "production": {
               "browserTarget": "frontend:build:production"
+            },
+            "fullstack": {
+              "browserTarget": "frontend:build:fullstack"
             }
           }
         },

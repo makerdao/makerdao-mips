@@ -21,6 +21,7 @@ export class DetailsPageComponent implements OnInit {
   subproposals: any[];
   referencesContent: string[];
   loadingUrl: boolean = true;
+  references=[]
 
   constructor(
     private mipsService: MipsService,
@@ -52,6 +53,7 @@ export class DetailsPageComponent implements OnInit {
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
         } else this.mdUrl = url;
+        this.moveToElement();
       }
     });
   }
@@ -69,6 +71,11 @@ export class DetailsPageComponent implements OnInit {
     this.mipsService.getMip(this.mipName).subscribe(
       (data) => {
         this.mip = data.mip;
+
+        this.references = data.mip?.references?.filter((item) => {
+          return item.name !== '\n';
+        });
+
         // const regEx = new RegExp('(.)*');
         // this.mip.file = this.mip.file.replace(regEx, ' ');
         this.sections = this.mip.sections;
@@ -96,13 +103,6 @@ export class DetailsPageComponent implements OnInit {
           (this.sections as []).splice(indexReferencesSection, 1);
         }
 
-        if (data.subproposals && data.subproposals.length > 0) {
-          (this.sections as any[]).push({
-            depth: 2,
-            heading: 'Subproposals',
-          });
-        }
-
         let indexReferencesHeading: number = (this.mip.sectionsRaw as [
 
         ]).findIndex((i: any) => (i as string).includes('References'));
@@ -120,6 +120,8 @@ export class DetailsPageComponent implements OnInit {
           this.mipsService.includeSubproposals = true;
           this.getMips();
         }
+
+        this.loadingUrl = false;
       },
       (error) => {
         if (error.error && error.error.statusCode === 404) {

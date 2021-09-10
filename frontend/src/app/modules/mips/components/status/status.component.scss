@@ -6,28 +6,32 @@
   border-radius: 5px;
   width: 136px;
   box-sizing: border-box;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  min-height: 20px;
 }
 
 .type--ACCEPTED {
-  border: 1px solid #27AE60;
-  color: #27AE60;
+  border: 1px solid #27ae60;
+  color: #27ae60;
 }
 
 .type--REJECTED {
-  border: 1px solid #EB5757;
-  color: #EB5757;
+  border: 1px solid #eb5757;
+  color: #eb5757;
 }
 
 .type--ARCHIVE {
-  border: 1px solid #748AA1;
-  color: #748AA1;
+  border: 1px solid #748aa1;
+  color: #748aa1;
 }
 
 .type--RFC {
-  border: 1px solid #F2994A;
-  color: #F2994A;
-  padding-right: 24px;
-  padding-left: 24px;
+  border: 1px solid #f2994a;
+  color: #f2994a;
 }
 
 .type--OBSOLETE {
@@ -36,17 +40,23 @@
 }
 
 .type--FS {
-  border: 1px solid #78288C;
-  color: #78288C;
+  border: 1px solid #78288c;
+  color: #78288c;
   box-sizing: border-box;
 }
 
 .type--NONE {
-  border: 1px solid #E5E9F2;
-  color: #E5E9F2;
+  border: 1px solid #e5e9f2;
+  color: #e5e9f2;
 }
 
 .type--DEFAULT {
-  border: 1px solid #8B4513;
-  color: #8B4513;
+  border: 1px solid #8b4513;
+  color: #8b4513;
+}
+
+.type--EMPTY {
+  color: #748aa1;
+  background: rgba(188, 190, 199, 0.3);
+  border: 1px solid rgba(116, 138, 161, 0.5);
 }

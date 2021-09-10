@@ -59,6 +59,24 @@ export class MIPsService {
     return { items, total };
   }
 
+  async findAllAfterParse(
+    paginationQuery?: PaginationQueryDto,
+    order?: string,
+    search?: string,
+    filter?: any,
+    select?: string,
+    language?: Language
+  ): Promise<any> {
+    return this.findAll(
+      paginationQuery,
+      order,
+      search,
+      filter,
+      select,
+      language
+    );
+  }
+
   // Function to build filter
   async buildFilter(
     search: string,
@@ -163,10 +181,6 @@ export class MIPsService {
         const ast = await this.parseQueryService.parse(search);
         const query = this.buildSmartMongoDBQuery(ast);
 
-        // console.log(JSON.stringify(ast));
-        // console.log(JSON.stringify(query));
-        // console.log(JSON.stringify(source));
-
         source = {
           $and: [
             {
@@ -175,11 +189,8 @@ export class MIPsService {
             },
           ],
         };
-
-        // console.log(JSON.stringify(ast), "<==========");
-        // console.log(JSON.stringify(query), "<==========");
       } else {
-        source["$text"] = { $search: JSON.parse(`"${search}"`) };
+        source["$text"] = { $search: `"${search}"` };
       }
     }
     return source;
@@ -317,7 +328,7 @@ export class MIPsService {
                 $regex: new RegExp(`^${value}`),
                 $options: "i",
               },
-              language: language
+              language: language,
             },
           },
           { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
@@ -331,7 +342,7 @@ export class MIPsService {
                 $regex: new RegExp(`^${value}`),
                 $options: "i",
               },
-              language: language
+              language: language,
             },
           },
           {
@@ -358,7 +369,7 @@ export class MIPsService {
         $regex: new RegExp(filename),
         $options: "i",
       },
-      language      
+      language,
     };
 
     return await this.mipsDoc.findOne(filter).select(["-__v", "-file"]).exec();
@@ -375,11 +386,35 @@ export class MIPsService {
       .exec();
   }
 
-  async findOneByProposal(proposal: string, language?: Language): Promise<MIP[]> {
+  async getSummaryByMipComponent(
+    mipComponent: string,
+    language: Language
+  ): Promise<MIP> {
     if (!language) {
       language = Language.English;
     }
-    
+    const mipName = mipComponent.match(/MIP\d+/gi)[0];
+
+    return await this.mipsDoc
+      .findOne({ mipName, language })
+      .select({
+        sentenceSummary: 1,
+        paragraphSummary: 1,
+        title: 1,
+        mipName: 1,
+        components: { $elemMatch: { cName: mipComponent } },
+      })
+      .exec();
+  }
+
+  async findOneByProposal(
+    proposal: string,
+    language?: Language
+  ): Promise<MIP[]> {
+    if (!language) {
+      language = Language.English;
+    }
+
     return await this.mipsDoc
       .find({ proposal, language })
       .select(["title", "mipName"])
@@ -412,8 +447,8 @@ export class MIPsService {
     await this.mipsDoc.deleteMany({ _id: { $in: ids } });
   }
 
-  async deleteMany(): Promise<void> {
-    await this.mipsDoc.deleteMany();
+  async dropDatabase(): Promise<void> {
+    return  await this.mipsDoc.db.dropDatabase();
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {

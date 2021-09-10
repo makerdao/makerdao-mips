@@ -1,6 +1,6 @@
 <div class="container">
   <p class="title" [ngClass]="{ hide: mobileSearch }">
-    {{ mipsetMode ? "MIP Sets" : "MIPs List" }}
+    {{ mipsetMode ? "MIP Sets" : activeMenuLinkName }}
   </p>
   <div
     class="filtering"
@@ -25,6 +25,8 @@
       [value]="search"
       [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip"
+      (loadMoreMipSuggestions)="onLoadMoreMipsSuggestions()"
+      [loadingMipsSuggestions]="loadingMipsSuggestions"
       [error]="sintaxError"
       [errorMessage]="errorMessage"
       [placeHolder]="'e.g $ AND(#process, #mip-set)'"
@@ -47,6 +49,8 @@
       [showListSearch]="showListSearch"
       [value]="search"
       [listSearchItems]="listSearchMip"
+      (loadMoreMipSuggestions)="onLoadMoreMipsSuggestions()"
+      [loadingMipsSuggestions]="loadingMipsSuggestions"
       [error]="sintaxError"
       [errorMessage]="errorMessage"
       [placeHolder]="'e.g $ AND(#process, #mip-set)'"
@@ -70,16 +74,10 @@
   [moreToLoad]="moreToLoad"
   [dataSource]="mips"
   [paginationTotal]="total"
-  [filter]="filter"
-  [search]="search"
   (send)="onSendPagination()"
   (sendOrder)="onSendOrder($event)"
 ></app-list>
 <app-list-mipset-mode
   *ngIf="mipsetMode"
-  [filter]="filter"
-  [search]="search"
 ></app-list-mipset-mode>
-<div class="feedback">
-  <app-feedback id="feedback"></app-feedback>
-</div>
+<app-button-top></app-button-top>

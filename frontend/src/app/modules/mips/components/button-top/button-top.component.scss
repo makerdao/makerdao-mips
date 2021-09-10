@@ -1,0 +1,24 @@
+button {
+  height: 44px;
+  width: 44px;
+  background-color: rgba(47, 128, 237, 0.3) !important;
+  position: fixed;
+  bottom: 50px;
+  right: 10px;
+  box-shadow: none !important;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(47, 128, 237, 0.5) !important;
+    transition: background-color 0.2s;
+  }
+
+  img {
+    height: 58%;
+    z-index: 2;
+    top: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

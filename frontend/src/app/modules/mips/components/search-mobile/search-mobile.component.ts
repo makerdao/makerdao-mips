@@ -53,6 +53,8 @@ export class SearchMobileComponent implements OnInit {
   selectedAutocompleteOptionByEnter: boolean = false;
   activatedLabelAutocomplete: string;
   searchOptionsSubscription: Subscription;
+  @Output() loadMoreMipSuggestions: Subject<boolean> = new Subject<boolean>();
+  @Input() loadingMipsSuggestions: boolean = false;
   format: IFormatting[] = [
     {
       pattern: /and\(/gi,
@@ -195,9 +197,13 @@ export class SearchMobileComponent implements OnInit {
   }
 
   isQuery(data: string): boolean {
-    let search = data.toLowerCase().trim();
+    if (data) {
+      let search = data?.toLowerCase().trim();
 
-    return search.startsWith('$');
+      return search.startsWith('$');
+    }
+
+    return false;
   }
 
   clear(): void {
@@ -430,5 +436,9 @@ export class SearchMobileComponent implements OnInit {
     }
 
     return style;
+  }
+
+  onLoadMoreMipSugestions() {
+    this.loadMoreMipSuggestions.next();
   }
 }

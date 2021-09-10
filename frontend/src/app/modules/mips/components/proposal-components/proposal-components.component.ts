@@ -1,33 +1,41 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-proposal-components',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './proposal-components.component.html',
-  styleUrls: ['./proposal-components.component.scss']
+  styleUrls: ['./proposal-components.component.scss'],
 })
-export class ProposalComponentsComponent implements  AfterViewInit {
-
+export class ProposalComponentsComponent implements AfterViewInit {
   @Input() sourceData;
-  @Input() titleSidebar="Contents"
-  @Input() showlevelOne:boolean=false;
-  prefixIdLinkSection: string = "sectionLink-";
+  @Input() titleSidebar = 'Contents';
+  @Input() showlevelOne: boolean = false;
+  prefixIdLinkSection: string = 'sectionLink-';
   @ViewChild('sectionLinks') sectionLinks;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngAfterViewInit() {
-    this.route.fragment.subscribe(data => {
+    this.route.fragment.subscribe((data) => {
       this.setActiveLinkSection(data);
     });
   }
 
-  getLinkBySection(text: string): string {
+  getLinkBySection(section): string {
     let url = this.router.url.split('#')[0];
-    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+    const escapedText = section.mipComponent
+      ? section.mipComponent
+      : section.heading.toLowerCase().replace(/[^\w]+/g, '-');
 
     return `${url}#${escapedText}`;
   }
@@ -43,13 +51,14 @@ export class ProposalComponentsComponent implements  AfterViewInit {
   }
 
   findSectionLink(str: string) {
-    let elem = document.querySelector("#" + this.prefixIdLinkSection + str);
+    let elem = document.querySelector('#' + this.prefixIdLinkSection + str);
 
     if (elem) {
       elem.classList.toggle('active');
     }
 
-    let sectionLinks = (this.sectionLinks.nativeElement as HTMLElement).getElementsByTagName('a');
+    let sectionLinks = (this.sectionLinks
+      .nativeElement as HTMLElement).getElementsByTagName('a');
 
     for (let index = 0; index < sectionLinks.length; index++) {
       if (sectionLinks.item(index) !== elem) {
@@ -57,5 +66,4 @@ export class ProposalComponentsComponent implements  AfterViewInit {
       }
     }
   }
-
 }

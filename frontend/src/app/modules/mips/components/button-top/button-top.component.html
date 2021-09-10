@@ -1,0 +1,11 @@
+<button
+  mat-fab
+  class="iconScrollTopWrapper"
+  #scrollTopButton
+  [@slide]="scrolled ? 'visible' : 'hidden'"
+  (click)="scrollToTop()"
+  matTooltip="Back to Top"
+  matTooltipClass="mat-tooltip-blue"
+>
+  <img src="../../../../../assets/images/scroll_top.svg" />
+</button>

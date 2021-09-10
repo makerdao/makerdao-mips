@@ -5,10 +5,15 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FilterService } from '../../services/filter.service';
 import { MipsService } from '../../services/mips.service';
+import { SearchService } from '../../services/search.service';
 import { SmartSearchService } from '../../services/smart-search.service';
+import { StatusService } from '../../services/status.service';
+import IFilter from '../../types/filter';
 import { IMIPsetDataElement } from '../../types/mipset';
 const clone = require('rfdc')();
 
@@ -38,7 +43,7 @@ const clone = require('rfdc')();
     ]),
   ],
 })
-export class ListMipsetModeComponent implements OnInit, OnChanges {
+export class ListMipsetModeComponent implements OnInit, OnDestroy {
   dataSourceMipsetRows: IMIPsetDataElement[] = [];
   columnsToDisplayMipset = ['mipset'];
   expandedElementMipset: IMIPsetDataElement | null;
@@ -49,8 +54,8 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   limitAux = 10;
   page = 0;
   order: string = 'mip';
-  @Input() search: string = '';
-  @Input() filter: any;
+  search: string = '';
+  filter: IFilter;
   filterClone: any;
   loading: boolean = false;
   total: number;
@@ -62,31 +67,34 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
   arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
   initialized: boolean = false;
+  subscriptionSearchService: Subscription;
+  subscriptionFilterService: Subscription;
 
   constructor(
     private smartSearchService: SmartSearchService,
-    private mipsService: MipsService
+    private mipsService: MipsService,
+    private searchService: SearchService,
+    private filterService: FilterService,
+    private statusService: StatusService
   ) {}
 
   ngOnInit(): void {
-    this.filterClone = clone(this.filter);
-    let index = this.filterClone.equals.findIndex(
-      (item) => item.field === 'proposal'
-    );
-    this.filterClone.equals.splice(index, 1); // include subproposals in searching
-    this.searchTagsMipset();
     this.initialized = true;
-  }
-
-  ngOnChanges() {
-    if (this.initialized) {
+    this.subscriptionSearchService = this.searchService.search$.subscribe(
+      (data) => {
+        this.search = data;
+        this.searchTagsMipset();
+      }
+    );
+    this.subscriptionFilterService = this.filterService.filter$.subscribe((data) => {
+      this.filter = data;
       this.filterClone = clone(this.filter);
       let index = this.filterClone.equals.findIndex(
         (item) => item.field === 'proposal'
       );
       this.filterClone.equals.splice(index, 1); // include subproposals in searching
       this.searchTagsMipset();
-    }
+    });
   }
 
   searchTagsMipset() {
@@ -244,52 +252,15 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   }
 
   getStatusValue(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FORMAL SUBMISSION';
-      }
-    }
-
-    return data;
+    return this.statusService.getStatusValue(data);
   }
 
   getStatusType(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FS';
-      }
-    }
+    return this.statusService.getStatusType(data);
+  }
 
-    return 'DEFAULT';
+  ngOnDestroy() {
+    this.subscriptionSearchService.unsubscribe();
+    this.subscriptionFilterService.unsubscribe();
   }
 }

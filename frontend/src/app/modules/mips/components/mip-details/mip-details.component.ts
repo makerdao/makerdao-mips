@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-mip-details',
@@ -21,59 +22,17 @@ export class MipDetailsComponent implements OnInit {
   @Input() pollAddress: string;
   @Input() tags: string[];
 
-  constructor() { }
+  constructor(private statusService: StatusService) { }
 
   ngOnInit(): void {
   }
 
   getStatusValue(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-          return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FORMAL SUBMISSION';
-      }
-    }
-
-    return data;
+    return this.statusService.getStatusValue(data);
   }
 
   getStatusType(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-          return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FS';
-      }
-    }
-
-    return 'DEFAULT';
+    return this.statusService.getStatusType(data);
   }
 
   isEmptyWhenReduce(array: string[]): boolean {

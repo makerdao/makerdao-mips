@@ -10,6 +10,8 @@ import {
   ViewContainerRef,
   EventEmitter,
   Output,
+  ComponentFactoryResolver,
+  Injector,
 } from '@angular/core';
 
 import { environment } from '../../../../../environments/environment';
@@ -17,6 +19,7 @@ import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import {
+  ConnectedPosition,
   FlexibleConnectedPositionStrategyOrigin,
   Overlay,
   OverlayRef,
@@ -25,49 +28,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { UrlService } from 'src/app/services/url/url.service';
-
-const preambleDataSample = [
-  {
-    key: 'MIP#',
-    value: '2',
-  },
-  {
-    key: 'Title',
-    value: 'Launch Period',
-  },
-  {
-    key: 'Author(s)',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
-  },
-  {
-    key: 'Contributors',
-    value: 'Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)',
-  },
-  {
-    key: 'Type',
-    value: 'Process',
-  },
-  {
-    key: 'Status',
-    value: 'Accepted',
-  },
-  {
-    key: 'Date Proposed',
-    value: '2020-04-06',
-  },
-  {
-    key: 'Date Ratified',
-    value: '2020-05-02',
-  },
-  {
-    key: 'Dependencies',
-    value: 'MIP0, MIP1',
-  },
-  {
-    key: 'Replaces',
-    value: 'n/a',
-  },
-];
+import { SubproposalsComponent } from '../subproposals/subproposals.component';
 
 @Component({
   selector: 'app-detail-content',
@@ -92,6 +53,7 @@ export class DetailContentComponent
   content: any;
   triangleUp: boolean;
   triangleLeft: boolean;
+  triangleCenter: boolean = false;
   @Input() subproposals: any[] = [];
   subscription: Subscription;
   @ViewChild('previewRef') previewRef: ElementRef;
@@ -99,6 +61,10 @@ export class DetailContentComponent
   subproposalTitle: string = '';
 
   headingStructure: Heading[] = [];
+  subproposalsGroup: any = {};
+
+  smartLinkWindowUp = false;
+  titleMdFile = '';
 
   constructor(
     private markdownService: MarkdownService,
@@ -108,7 +74,9 @@ export class DetailContentComponent
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
     private titleService: Title,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector
   ) {}
 
   ngOnInit(): void {
@@ -128,112 +96,296 @@ export class DetailContentComponent
     }
   }
 
-  setPreviewFeature() {
-    let links = document.getElementsByClassName('linkPreview');
+  isTouchDevice() {
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    );
+  }
 
-    for (let index = 0; index < links.length; index++) {
-      const element = links.item(index);
-      element.addEventListener('mouseover', this.displayPreview);
-      element.addEventListener('mouseleave', this.closePreview);
+  setPreviewFeature() {
+    if (!this.isTouchDevice()) {
+      let links = document.getElementsByClassName('linkPreview');
+
+      for (let index = 0; index < links.length; index++) {
+        const element = links.item(index);
+        element.addEventListener('mouseover', this.displayPreview);
+        element.addEventListener('mouseleave', this.closePreview);
+      }
     }
   }
 
-  displayPreview = (e: Event) => {
-    if (!this.overlayRef) {
-      let href: string = (e.target as HTMLAnchorElement).href.split(
-        '/mips/details/'
-      )[1];
+  leftPositions: ConnectedPosition[] = [
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top',
+    },
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+    },
+  ];
 
-      if (href) {
-        this.subscription = this.mipsService
-          .getMipBy('mipName', href)
-          .subscribe((data) => {
-            if (data) {
-              let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+  rightPositions: ConnectedPosition[] = [
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'start',
+      overlayY: 'top',
+    },
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+  ];
 
-              const positionStrategy = this.overlay
-                .position()
-                .flexibleConnectedTo(posStrategy)
-                .withPositions([
-                  {
-                    originX: 'end',
-                    originY: 'bottom',
-                    overlayX: 'end',
-                    overlayY: 'top',
-                  },
-                  {
-                    originX: 'start',
-                    originY: 'bottom',
-                    overlayX: 'start',
-                    overlayY: 'top',
-                  },
-                  {
-                    originX: 'end',
-                    originY: 'top',
-                    overlayX: 'end',
-                    overlayY: 'bottom',
-                  },
-                  {
-                    originX: 'start',
-                    originY: 'top',
-                    overlayX: 'start',
-                    overlayY: 'bottom',
-                  },
-                ]);
+  centerPositions: ConnectedPosition[] = [
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+    },
+    {
+      originX: 'start',
+      originY: 'bottom',
+      overlayX: 'center',
+      overlayY: 'top',
+    },
+  ];
 
-              positionStrategy.positionChanges.subscribe((pos) => {
-                if (
-                  pos.connectionPair.originX === 'end' &&
-                  pos.connectionPair.originY === 'bottom' &&
-                  pos.connectionPair.overlayX === 'end' &&
-                  pos.connectionPair.overlayY === 'top'
-                ) {
-                  this.triangleUp = true;
-                  this.triangleLeft = false;
-                } else if (
-                  pos.connectionPair.originX === 'start' &&
-                  pos.connectionPair.originY === 'bottom' &&
-                  pos.connectionPair.overlayX === 'start' &&
-                  pos.connectionPair.overlayY === 'top'
-                ) {
-                  this.triangleUp = true;
-                  this.triangleLeft = true;
-                } else if (
-                  pos.connectionPair.originX === 'end' &&
-                  pos.connectionPair.originY === 'top' &&
-                  pos.connectionPair.overlayX === 'end' &&
-                  pos.connectionPair.overlayY === 'bottom'
-                ) {
-                  this.triangleUp = false;
-                  this.triangleLeft = false;
-                } else if (
-                  pos.connectionPair.originX === 'start' &&
-                  pos.connectionPair.originY === 'top' &&
-                  pos.connectionPair.overlayX === 'start' &&
-                  pos.connectionPair.overlayY === 'bottom'
-                ) {
-                  this.triangleUp = false;
-                  this.triangleLeft = true;
-                }
+  showOverview(data, posStrategy, leftSide, center) {
+    const positionsOfTheSmartLinkWindow: ConnectedPosition[] = center
+      ? this.centerPositions
+      : leftSide
+      ? this.leftPositions
+      : this.rightPositions;
 
-                let element: HTMLElement = this.previewRef.nativeElement
-                  .parentElement.parentElement;
-                element.style.marginTop = '17px';
-                element.style.marginBottom = '17px';
-              });
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(posStrategy)
+      .withPositions(positionsOfTheSmartLinkWindow);
 
-              this.overlayRef = this.overlay.create({
-                positionStrategy,
-                scrollStrategy: this.overlay.scrollStrategies.close(),
-              });
+    positionStrategy.positionChanges.subscribe((pos) => {
+      if (
+        pos.connectionPair.originX === 'end' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'end' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleLeft = false;
+        this.triangleCenter = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'start' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleLeft = true;
+        this.triangleCenter = false;
+      } else if (
+        pos.connectionPair.originX === 'end' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'end' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleLeft = false;
+        this.triangleCenter = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'start' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleLeft = true;
+        this.triangleCenter = false;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'top' &&
+        pos.connectionPair.overlayX === 'center' &&
+        pos.connectionPair.overlayY === 'bottom'
+      ) {
+        this.triangleUp = false;
+        this.triangleCenter = true;
+      } else if (
+        pos.connectionPair.originX === 'start' &&
+        pos.connectionPair.originY === 'bottom' &&
+        pos.connectionPair.overlayX === 'center' &&
+        pos.connectionPair.overlayY === 'top'
+      ) {
+        this.triangleUp = true;
+        this.triangleCenter = true;
+      }
 
-              this.overlayRef.attach(
-                new TemplatePortal(this.preview, this.viewContainerRef, {
-                  $implicit: data,
-                })
-              );
+      let element: HTMLElement = this.previewRef.nativeElement.parentElement
+        .parentElement;
+      element.style.marginTop = '17px';
+      element.style.marginBottom = '17px';
+    });
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+    });
+
+    this.overlayRef.attach(
+      new TemplatePortal(this.preview, this.viewContainerRef, {
+        $implicit: data,
+      })
+    );
+    this.smartLinkWindowUp = true;
+  }
+
+  displayPreview = (e: MouseEvent) => {
+    if (!this.smartLinkWindowUp) {
+      const link = e.target as HTMLAnchorElement;
+
+      const windowWidth = window.innerWidth;
+      const mousePosW = e.screenX;
+      const leftSide = mousePosW < windowWidth / 2;
+      const center = Math.abs(mousePosW - windowWidth / 2) < 90;
+
+      if (link?.rel?.includes('smart-')) {
+        const type = link.rel.split('-')[1];
+
+        switch (type) {
+          case 'Mip':
+            const mipNameMatches = link.href.match(/MIP\d+/gi);
+
+            if (mipNameMatches) {
+              const mipName = mipNameMatches[0].replace(/MIP/i, 'MIP');
+
+              this.subscription = this.mipsService
+                .getMipBy('mipName', mipName)
+                .subscribe((data) => {
+                  if (data) {
+                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                    this.showOverview(
+                      { ...data, typeOfView: 'mipName' },
+                      posStrategy,
+                      leftSide,
+                      center
+                    );
+                  }
+                });
             }
-          });
+
+            break;
+
+          case 'Component':
+            const mipComponentMatches = link.href.match(/MIP\d+c\d+/gi);
+
+            if (mipComponentMatches) {
+              const mipComponent = mipComponentMatches[0].replace(
+                /MIP/i,
+                'MIP'
+              );
+
+              this.subscription = this.mipsService
+                .getMipBy('mipComponent', mipComponent)
+                .subscribe((data) => {
+                  if (data) {
+                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                    const components = data.components;
+                    const mipComponentName =
+                      components &&
+                      Array.isArray(components) &&
+                      components.length > 0 &&
+                      components[0].cName;
+
+                    const mipName =
+                      (mipComponentName &&
+                        mipComponentName.match(/MIP\d+/gi) &&
+                        mipComponentName.match(/MIP\d+/gi)[0]) ||
+                      '';
+
+                    const componentCode =
+                      (mipComponentName &&
+                        mipComponentName.match(/[ca]\d+/gi) &&
+                        mipComponentName.match(/[ca]\d+/gi)[0]) ||
+                      '';
+
+                    this.showOverview(
+                      {
+                        ...data,
+                        typeOfView: 'mipComponent',
+                        componentCode,
+                        mipName,
+                      },
+                      posStrategy,
+                      leftSide,
+                      center
+                    );
+                  }
+                });
+            }
+            break;
+
+          case 'Subproposal':
+            const mipSubproposalMatch = link.href.match(/MIP\d+c\d+-?SP\d+/gi);
+
+            if (mipSubproposalMatch) {
+              const mipSubproposal = mipSubproposalMatch[0].replace(
+                /MIP/i,
+                'MIP'
+              );
+
+              this.subscription = this.mipsService
+                .getMipBy('mipSubproposal', mipSubproposal)
+                .subscribe((data) => {
+                  if (data) {
+                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+
+                    this.showOverview(
+                      { ...data, typeOfView: 'mipSubproposal' },
+                      posStrategy,
+                      leftSide,
+                      center
+                    );
+                  }
+                });
+            }
+            break;
+          default:
+            break;
+        }
       }
     }
   };
@@ -246,6 +398,14 @@ export class DetailContentComponent
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;
+    }
+
+    if (this.smartLinkWindowUp) {
+      setTimeout(() => {
+        //To avoid the race condition
+
+        this.smartLinkWindowUp = false;
+      }, 0);
     }
   };
 
@@ -295,15 +455,124 @@ export class DetailContentComponent
     }
     this.headingStructure = [];
     if (!this.mdUrl) {
-      //On md viewer THERE IS NO NEED of THIS and may cuse a problem with md relatives links
+      //On md viewer THERE IS NOT NEED of THIS and may cuse a problem with md relatives links
       this.searchMips();
     }
     this.setPreviewFeature();
+    this.appendSubproposalsElements();
+  }
+
+  appendSubproposalsElements() {
+    if (this.subproposals) {
+      this.subproposals.map((item) => {
+        let newItem = this.addSubsetField(item);
+        return newItem;
+      });
+
+      let subproposalsGroup: any = this.groupBy('subset', this.subproposals);
+
+      this.sortSubproposalsGroups(subproposalsGroup);
+      this.subproposalsGroup = subproposalsGroup;
+
+      // DOM manipulation
+      let m: HTMLElement = document.querySelector('.variable-binding');
+      let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
+        'h3'
+      );
+
+      for (const key in this.subproposalsGroup) {
+        if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
+          for (let i = 0; i < h3s.length; i++) {
+            const element = h3s.item(i);
+            if (element.innerText.startsWith(key)) {
+              const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+                SubproposalsComponent
+              );
+              const componentRef = componentFactory.create(this.injector);
+              componentRef.instance.subproposals = [
+                ...this.subproposalsGroup[key],
+              ];
+              componentRef.hostView.detectChanges();
+              const { nativeElement } = componentRef.location;
+
+              // search in DOM the next component section
+              let found: boolean = false;
+              let j: number = i + 1;
+              while (j < h3s.length && !found) {
+                const nextElement: HTMLHeadingElement = h3s.item(j);
+
+                if (nextElement.innerText.startsWith(this.mip.mipName)) {
+                  found = true;
+                  let prev = nextElement.previousElementSibling;
+
+                  if (prev.tagName === 'HR') {
+                    prev.insertAdjacentElement('beforebegin', nativeElement);
+                  } else {
+                    prev.insertAdjacentElement('afterend', nativeElement);
+                  }
+                }
+
+                j++;
+              }
+
+              if (j >= h3s.length && !found) {
+                let lastChild = m.lastElementChild;
+
+                if (lastChild.tagName === 'HR') {
+                  lastChild.insertAdjacentElement('beforebegin', nativeElement);
+                } else {
+                  lastChild.insertAdjacentElement('afterend', nativeElement);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  addSubsetField = (item: any) => {
+    let subset: string = (item.mipName as string)?.split('SP')[0];
+    item.subset = subset;
+    return item;
+  };
+
+  groupBy(field, arr: any[]): any {
+    let group: any = arr.reduce((r, a) => {
+      r[a[field]] = [...(r[a[field]] || []), a];
+      return r;
+    }, {});
+
+    return group;
+  }
+
+  sortSubproposalsGroups(subproposalsGroup: any) {
+    for (const key in subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+        let element: any[] = subproposalsGroup[key];
+        subproposalsGroup[key] = this.sortSubproposalGroup(element);
+      }
+    }
+  }
+
+  sortSubproposalGroup(arr: any[]) {
+    return arr.sort(function (a: any, b: any) {
+      return (a.mipName as string).includes('SP') &&
+        a.mipName.split('SP').length > 1
+        ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
+          ? -1
+          : 1
+        : 1;
+    });
   }
 
   onError() {
-    //Work around for unexpected md render error
-    history.back();
+    this.router.navigateByUrl('/');
+    setTimeout(() => {
+      //To avoid the race issue
+
+      this.router.navigateByUrl('page-not-found');
+    }, 0);
   }
 
   moveToElement(el: HTMLElement): void {
@@ -320,8 +589,17 @@ export class DetailContentComponent
       level: number,
       raw: string
     ) => {
-      const htmlCleanedText=raw.replace(/<[^<>]+>/gm,'')
-      const escapedText = htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
+      const matchMipComponentName = text?.match(
+        /^(?<mipComponent>MIP\d+[ca]\d+)\s?:/i
+      );
+
+      const mipComponent = matchMipComponentName?.groups?.mipComponent;
+
+      const htmlCleanedText = raw.replace(/<[^<>]+>/gm, '');
+
+      const escapedText = mipComponent
+        ? mipComponent
+        : htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
       let style: string = '';
 
@@ -331,11 +609,16 @@ export class DetailContentComponent
 
       this.headingStructure.push({ heading: htmlCleanedText, depth: level });
 
-      return `
+      if (this.mdUrl && level ===1) {
+        this.titleMdFile = text;
+        return '';
+      } else {
+        return `
              <h${level} ${style}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
                </a>${text}</h${level}>`;
+      }
     };
   }
 
@@ -381,12 +664,33 @@ export class DetailContentComponent
 
       if (
         !link.name.includes('Template') &&
+        !title?.includes('NON-SMART-LINK') &&
         (link.link.includes(this.gitgubUrl) ||
+          title?.includes('smart') ||
+          link.link.match(/MIP\d+(?:[ca]\d+)?(?:-?SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com'))
       ) {
-        return `<a name="${escapedText}" id="${link.id}" class="linkPreview" href="${href}">${text}</a>`;
+        let newTitle = '';
+
+        if (link.link.match(/MIP\d+c\d+-?SP\d+/gi)) {
+          newTitle = 'smart-Subproposal';
+        } else if (link.link.match(/MIP\d+c\d+/gi)) {
+          newTitle = 'smart-Component';
+        } else if (link.link.match(/MIP\d+/gi)) {
+          newTitle = 'smart-Mip';
+        }
+
+        const relText = newTitle?.includes('smart')
+          ? 'rel="' + newTitle + '"'
+          : title?.includes('smart')
+          ? 'rel="' + title + '"'
+          : '';
+
+        return `<a id="${link.id}" class="linkPreview" ${relText}
+        newTitle
+        href="${href}">${text}</a>`;
       }
 
       if (this.mdUrl) {
@@ -477,6 +781,7 @@ export class DetailContentComponent
                 if (data.mipName) {
                   elem.setAttribute('href', `/mips/details/${data.mipName}`);
                 } else {
+
                   elem.setAttribute(
                     'href',
                     `${this.gitgubUrl}/${this.mip?.filename}`
@@ -485,7 +790,10 @@ export class DetailContentComponent
               });
           }
         } else {
-          if (!link.link.includes('https')) {
+          if (
+            !link.link.includes('http') &&
+            !link.link.match(/mips\/details\/MIP\d/gi)
+          ) {
             elem.setAttribute(
               'href',
               `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
@@ -493,20 +801,10 @@ export class DetailContentComponent
           }
         }
       } else {
-        if (link.name.includes('.md') && !link.link.includes('https')) {
+        if (link.link.includes('.md') && !link.link.includes('http')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}`
-          );
-        } else if (!link.link.includes('https')) {
-          elem.setAttribute(
-            'href',
-            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
-          );
-        } else {
-          elem.setAttribute(
-            'href',
-            `${this.gitgubUrl}/${this.mip?.mipName}/${link.name}.md`
+            `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
           );
         }
       }

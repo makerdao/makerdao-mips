@@ -57,7 +57,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return future.routeConfig === curr.routeConfig;
     };
 
-    this.router.navigate(['/mips/list']);
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/mips/list']).then(_ => {
+      this.router.onSameUrlNavigation = 'ignore';
+    });
+
   }
 
   onMenuToggle(ev) {
