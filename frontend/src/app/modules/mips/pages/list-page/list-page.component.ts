@@ -851,6 +851,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.setQueryParams();
   }
 
+  changeOrder(data: { orderText: string; orderObj: Order }) {
+    this.orderObj = {
+      field: data.orderObj.field,
+      direction:
+        data.orderObj.field && data.orderObj.direction
+          ? data.orderObj.direction
+          : 'ASC',
+    };
+
+    this.setQueryParams();
+  }
+
   onOpenMobileSearch(open: boolean): void {
     this.mobileSearch = open;
   }

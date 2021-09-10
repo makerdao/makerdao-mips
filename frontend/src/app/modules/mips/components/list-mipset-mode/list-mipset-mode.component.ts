@@ -5,16 +5,23 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FilterService } from '../../services/filter.service';
 import { MipsService } from '../../services/mips.service';
+import { OrderService } from '../../services/order.service';
 import { SearchService } from '../../services/search.service';
 import { SmartSearchService } from '../../services/smart-search.service';
 import { StatusService } from '../../services/status.service';
 import IFilter from '../../types/filter';
 import { IMIPsetDataElement } from '../../types/mipset';
+import {
+  Order,
+  OrderDirection,
+  OrderField,
+  OrderFieldName,
+} from '../../types/order';
 const clone = require('rfdc')();
 
 @Component({
@@ -69,16 +76,31 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   initialized: boolean = false;
   subscriptionSearchService: Subscription;
   subscriptionFilterService: Subscription;
+  @Output() changeOrder = new Subject<{
+    orderText: string;
+    orderObj: Order;
+  }>();
 
   constructor(
     private smartSearchService: SmartSearchService,
     private mipsService: MipsService,
     private searchService: SearchService,
     private filterService: FilterService,
-    private statusService: StatusService
+    private statusService: StatusService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
+    this.order =
+      OrderDirection[this.orderService.order.direction] +
+      OrderField[this.orderService.order.field];
+    this.currentSortingColumn =
+      this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
+        ? 'pos'
+        : (OrderFieldName[
+            this.orderService.order.field
+          ] as string)?.toLowerCase();
+    this.ascOrderSorting = this.orderService.order.direction == 'ASC';
     this.initialized = true;
     this.subscriptionSearchService = this.searchService.search$.subscribe(
       (data) => {
@@ -86,15 +108,17 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
         this.searchTagsMipset();
       }
     );
-    this.subscriptionFilterService = this.filterService.filter$.subscribe((data) => {
-      this.filter = data;
-      this.filterClone = clone(this.filter);
-      let index = this.filterClone.equals.findIndex(
-        (item) => item.field === 'proposal'
-      );
-      this.filterClone.equals.splice(index, 1); // include subproposals in searching
-      this.searchTagsMipset();
-    });
+    this.subscriptionFilterService = this.filterService.filter$.subscribe(
+      (data) => {
+        this.filter = data;
+        this.filterClone = clone(this.filter);
+        let index = this.filterClone.equals.findIndex(
+          (item) => item.field === 'proposal'
+        );
+        this.filterClone.equals.splice(index, 1); // include subproposals in searching
+        this.searchTagsMipset();
+      }
+    );
   }
 
   searchTagsMipset() {
@@ -219,6 +243,50 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
     }
 
     this.setOrder(orderPrefix + this.transforValue(value));
+
+    let order: Order = {
+      field:
+        this.currentSortingColumn == 'pos'
+          ? 'Number'
+          : this.toOrderBy(this.currentSortingColumn),
+      direction: this.ascOrderSorting ? 'ASC' : 'DESC',
+    };
+
+    this.orderService.order = order;
+
+    this.changeOrder.next({
+      orderText: orderPrefix + this.transforValue(value),
+      orderObj: order,
+    });
+
+    this.searchTagsMipset();
+  }
+
+  toOrderBy(value: string): string {
+    let orderBy: string;
+
+    switch (value) {
+      case 'pos':
+        orderBy = OrderFieldName.Number;
+        break;
+      case 'title':
+        orderBy = OrderFieldName.Title;
+        break;
+      case 'summary':
+        orderBy = OrderFieldName.Summary;
+        break;
+      case 'status':
+        orderBy = OrderFieldName.Status;
+        break;
+      case 'mostUsed':
+        orderBy = OrderFieldName.MostUsed;
+        break;
+
+      default:
+        break;
+    }
+
+    return orderBy;
   }
 
   transforValue(value: string): string {
@@ -257,6 +325,17 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
 
   getStatusType(data: string): string {
     return this.statusService.getStatusType(data);
+  }
+
+  getOrderDirection(column: string) {
+    let orderDirection =
+      this.currentSortingColumn === column && this.ascOrderSorting
+        ? 1
+        : this.currentSortingColumn === column && !this.ascOrderSorting
+        ? -1
+        : 0;
+
+    return orderDirection;
   }
 
   ngOnDestroy() {

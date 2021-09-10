@@ -80,5 +80,6 @@
 ></app-list>
 <app-list-mipset-mode
   *ngIf="mipsetMode"
+  (changeOrder)="changeOrder($event)"
 ></app-list-mipset-mode>
 <app-button-top></app-button-top>
