@@ -377,7 +377,7 @@ export class ParseMIPsService {
           paragraphSummaryArray.push(list[index].raw);
         }
 
-        mip.paragraphSummary = paragraphSummaryArray.join("");
+        mip.paragraphSummary = paragraphSummaryArray.join("").trim();
       } else if (
         element?.type === "heading" &&
         element?.depth === 2 &&
