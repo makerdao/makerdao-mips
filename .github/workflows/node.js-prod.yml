@@ -60,5 +60,6 @@ jobs:
           npm install
           npm run build
           npm run pre-start
+          npx nestjs-command drop:db
           npx nestjs-command parse:mips
           pm2 start dist/main.js --name "api-prod"
