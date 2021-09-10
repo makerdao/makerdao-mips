@@ -12,22 +12,12 @@
             style="cursor: pointer;"
             (click)="onSendOrder(column)"
           >
-            {{ column }}
-            <img
-              class="arrow up"
-              [src]="
-                currentSortingColumn === column && ascOrderSorting
-                  ? arrowUpDark
-                  : arrowUp
-              "
-            /><img
-              class="arrow down"
-              [src]="
-                currentSortingColumn === column && !ascOrderSorting
-                  ? arrowDownDark
-                  : arrowDown
-              "
-            />
+            <span class="headerContent"
+              >{{ column
+              }}<app-asc-des
+                [direction]="getOrderDirection(column)"
+              ></app-asc-des
+            ></span>
           </th>
         </span>
         <span *ngIf="column == 'pos'">
@@ -37,22 +27,11 @@
             style="cursor: pointer;"
             (click)="onSendOrder(column)"
           >
-            #
-            <img
-              class="arrow up"
-              [src]="
-                currentSortingColumn === column && ascOrderSorting
-                  ? arrowUpDark
-                  : arrowUp
-              "
-            /><img
-              class="arrow down"
-              [src]="
-                currentSortingColumn === column && !ascOrderSorting
-                  ? arrowDownDark
-                  : arrowDown
-              "
-            />
+            <span class="headerContent"
+              >#<app-asc-des
+                [direction]="getOrderDirection(column)"
+              ></app-asc-des
+            ></span>
           </th>
         </span>
       </span>

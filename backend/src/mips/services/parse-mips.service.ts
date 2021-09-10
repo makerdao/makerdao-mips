@@ -363,10 +363,21 @@ export class ParseMIPsService {
       } else if (
         element?.type === "heading" &&
         element?.depth === 2 &&
-        element?.text === "Paragraph Summary" &&
-        i + 1 < list.length
+        element?.text === "Paragraph Summary"
       ) {
-        mip.paragraphSummary = list[i + 1]?.raw;
+        const paragraphSummaryArray = [];
+
+        for (
+          let index = i + 1;
+          index < list.length &&
+          list[index].type !== "heading" &&
+          list[index].depth !== 2;
+          index++
+        ) {
+          paragraphSummaryArray.push(list[index].raw);
+        }
+
+        mip.paragraphSummary = paragraphSummaryArray.join("").trim();
       } else if (
         element?.type === "heading" &&
         element?.depth === 2 &&

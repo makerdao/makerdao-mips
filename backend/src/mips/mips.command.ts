@@ -11,12 +11,27 @@ export class ParseMIPsCommand {
   ) {}
 
   @Command({
+    command: "drop:db",
+    describe: "Clear mips database collections",
+    autoExit: true,
+  })
+  async drop() {
+    try {
+      const result = await this.mipsService.dropDatabase();
+
+      console.log("Database Droped: ",result);
+    } catch (error) {
+      console.log("An Error happend on Droping the Database");
+      console.log(error);
+    }
+  }
+
+  @Command({
     command: "parse:mips",
     describe: "Parse mips of makerDao repository",
     autoExit: true, // defaults to `true`, but you can use `false` if you need more control
   })
   async parse() {
-    // await this.mipsService.deleteMany();
     await this.parseMIPsService.parse();
   }
 }

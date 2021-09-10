@@ -1,0 +1,12 @@
+.orderContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.active {
+  fill: #31394d;
+}
+
+svg:first-child {
+  margin-bottom: 2px;
+}
