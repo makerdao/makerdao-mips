@@ -15,4 +15,5 @@ export enum StatusType {
   OBSOLETE = 'OBSOLETE',
   FORMAL_SUBMISSION = 'FS',
   DEFAULT = 'DEFAULT',
+  EMPTY = 'EMPTY',
 }

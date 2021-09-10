@@ -140,6 +140,8 @@ export class MIP {
   })
   components?: Component[];
 
+  @Prop()
+  subproposalsCount?: number;
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

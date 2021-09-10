@@ -27,6 +27,9 @@ export class StatusService {
       if (data.toLocaleLowerCase().includes('submission')) {
         return Status.FORMAL_SUBMISSION;
       }
+      if (!data) {
+        return 'EMPTY';
+      }
     }
 
     return data;
@@ -51,6 +54,9 @@ export class StatusService {
       }
       if (data.toLocaleLowerCase().includes('submission')) {
         return StatusType.FORMAL_SUBMISSION;
+      }
+      if (!data) {
+        return StatusType.EMPTY;
       }
     }
 

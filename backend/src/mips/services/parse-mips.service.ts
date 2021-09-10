@@ -22,6 +22,7 @@ import {
   pullRequestsCount,
   pullRequestsLast,
 } from "../graphql/definitions.graphql";
+import { PaginationQueryDto } from "../dto/query.dto";
 
 @Injectable()
 export class ParseMIPsService {
@@ -110,6 +111,8 @@ export class ParseMIPsService {
       if (mips.length > 0) {
         await this.mipsService.setMipsFather(mips.map((d) => d._id));
       }
+
+      await this.updateSubproposalCountField();
 
       return true;
     } catch (error) {
@@ -461,6 +464,7 @@ export class ParseMIPsService {
     mip.title = preamble.preambleTitle || title;
     mip.types = preamble.types;
     mip.tags = preamble.tags;
+    mip.subproposalsCount = 0;
 
     return mip;
   }
@@ -589,5 +593,53 @@ export class ParseMIPsService {
 
   async parseSections(file: string): Promise<any> {
     return this.markedService.markedLexer(file);
+  }
+
+  async updateSubproposalCountField() {
+    try {
+      const paginationQueryDto: PaginationQueryDto = {
+        limit: 0,
+        page: 0,
+      };
+      const filter = {
+        equals: {
+          field: "proposal",
+          value: "",
+        },
+      };
+      const mips: { items: any[]; total: number } =
+        await this.mipsService.findAllAfterParse(
+          paginationQueryDto,
+          "",
+          "",
+          filter,
+          "_id mipName proposal"
+        );
+
+      const forLoop = async () => {
+        for (let i = 0; i < mips.items.length; i++) {
+          const element = mips.items[i];
+          const filterSubp = {
+            equals: {
+              field: "proposal",
+              value: element.mipName,
+            },
+          };
+          const subproposals: { items: any[]; total: number } =
+            await this.mipsService.findAllAfterParse(
+              paginationQueryDto,
+              "",
+              "",
+              filterSubp,
+              "_id mipName proposal"
+            );
+          element.subproposalsCount = subproposals.total;
+          this.mipsService.update(element._id, element as MIP);
+        }
+      };
+      await forLoop();
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 }
