@@ -36,6 +36,8 @@
     <app-order-mobile
       class="mobile"
       (sendOrder)="onSendOrder($event)"
+      [orderByField]="orderObj.field"
+      [orderDirection]="orderObj.direction"
     ></app-order-mobile>
     <app-md-checkbox
       style="display: none;"
@@ -70,7 +72,6 @@
 <app-list
   *ngIf="!mipsetMode"
   [loading]="loading"
-  [loadingPlus]="loadingPlus"
   [moreToLoad]="moreToLoad"
   [dataSource]="mips"
   [paginationTotal]="total"
@@ -79,5 +80,6 @@
 ></app-list>
 <app-list-mipset-mode
   *ngIf="mipsetMode"
+  (changeOrder)="changeOrder($event)"
 ></app-list-mipset-mode>
 <app-button-top></app-button-top>

@@ -24,6 +24,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
 import { IMip } from '../../types/mip';
+import { OrderService } from '../../services/order.service';
+import {
+  Order,
+  OrderDirection,
+  OrderField,
+  OrderFieldName,
+} from '../../types/order';
 import { SearchService } from '../../services/search.service';
 import { FilterService } from '../../services/filter.service';
 import { Subscription } from 'rxjs';
@@ -68,7 +75,6 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
   @Input() dataSource: any;
   @Input() loading = true;
-  @Input() loadingPlus = false;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
   filter: any;
@@ -79,7 +85,10 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() paginatorLength;
   pageEvent: PageEvent;
   @Output() send = new EventEmitter();
-  @Output() sendOrder = new EventEmitter<string>();
+  @Output() sendOrder = new EventEmitter<{
+    orderText: string;
+    orderObj: Order;
+  }>();
   timeout: any = null;
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
@@ -131,6 +140,7 @@ const language = 'typescript';
     private router: Router,
     private mipsService: MipsService,
     private cdr: ChangeDetectorRef,
+    private orderService: OrderService,
     private searchService: SearchService,
     private filterService: FilterService,
     private statusService: StatusService
@@ -138,6 +148,13 @@ const language = 'typescript';
 
   ngOnInit() {
     this.dataSourceTable.data = this.dataSource;
+    this.currentSortingColumn =
+      this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
+        ? 'pos'
+        : (OrderFieldName[
+            this.orderService.order.field
+          ] as string)?.toLowerCase();
+    this.ascOrderSorting = this.orderService.order.direction == 'ASC';
     this.subscriptionSearchService = this.searchService.search$.subscribe(data => {
       this.search = data;
     });
@@ -177,16 +194,58 @@ const language = 'typescript';
   // }
 
   onSendOrder(value: string): void {
-    let orderPrefix = '';
-    if (this.currentSortingColumn === value) {
-      this.ascOrderSorting = !this.ascOrderSorting;
-      orderPrefix = this.ascOrderSorting ? '' : '-';
-    } else {
-      this.ascOrderSorting = true;
-      this.currentSortingColumn = value;
-    }
+    let orderPrefix = OrderDirection.ASC;
 
-    this.sendOrder.emit(orderPrefix + this.transforValue(value));
+    if (this.ascOrderSorting === true || this.currentSortingColumn !== value) {
+      if (this.currentSortingColumn === value) {
+        this.ascOrderSorting = !this.ascOrderSorting;
+        orderPrefix = this.ascOrderSorting
+          ? OrderDirection.ASC
+          : OrderDirection.DESC;
+      } else {
+        this.ascOrderSorting = true;
+        this.currentSortingColumn = value;
+      }
+
+      let order: Order = {
+        field:
+          this.currentSortingColumn == 'pos'
+            ? 'Number'
+            : this.toOrderBy(this.currentSortingColumn),
+        direction: this.ascOrderSorting ? 'ASC' : 'DESC',
+      };
+
+      this.orderService.order = order;
+      this.sendOrder.emit({
+        orderText: orderPrefix + this.transforValue(value),
+        orderObj: order,
+      });
+    } else {
+      this.currentSortingColumn = '';
+      this.ascOrderSorting = true;
+
+      let order: Order = {
+        field: 'Number',
+        direction: 'ASC',
+      };
+
+      this.orderService.order = order;
+      this.sendOrder.emit({
+        orderText: 'mip mipName',
+        orderObj: order,
+      });
+    }
+  }
+
+  getOrderDirection(column: string) {
+    let orderDirection =
+      this.currentSortingColumn === column && this.ascOrderSorting
+        ? 1
+        : this.currentSortingColumn === column && !this.ascOrderSorting
+        ? -1
+        : 0;
+
+    return orderDirection;
   }
 
   transforValue(value: string): string {
@@ -202,6 +261,33 @@ const language = 'typescript';
     if (value === 'status') {
       return 'status';
     }
+  }
+
+  toOrderBy(value: string): string {
+    let orderBy: string;
+
+    switch (value) {
+      case 'pos':
+        orderBy = OrderFieldName.Number;
+        break;
+      case 'title':
+        orderBy = OrderFieldName.Title;
+        break;
+      case 'summary':
+        orderBy = OrderFieldName.Summary;
+        break;
+      case 'status':
+        orderBy = OrderFieldName.Status;
+        break;
+      case 'mostUsed':
+        orderBy = OrderFieldName.MostUsed;
+        break;
+
+      default:
+        break;
+    }
+
+    return orderBy;
   }
 
   onScroll(): void {
@@ -234,13 +320,21 @@ const language = 'typescript';
         let filter = clone(this.filter);
         filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
+        let order: string;
+
+        if (this.orderService.order.field && this.orderService.order.direction) {
+          order = OrderDirection[this.orderService.order.direction] + OrderField[this.orderService.order.field];
+        } else {
+          order = 'mipName';
+        }
 
         this.mipsService
           .searchMips(
             100000,
             0,
-            'mipName',
-            this.search,
+            // 'mipName',
+            order,
+            row.showArrowExpandChildren ? this.search : '',
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )
@@ -268,7 +362,11 @@ const language = 'typescript';
               });
 
               let subproposalsGroup: any = this.groupBy('subset', items);
-              this.sortSubproposalsGroups(subproposalsGroup);
+
+              if (!order || order === 'mip' || order === 'mipName') {
+                this.sortSubproposalsGroups(subproposalsGroup);
+              }
+
               const subsetRows: ISubsetDataElement[] = [];
               const components: ComponentMip[] = this.dataSourceTable.data[index].components;
               let indexComp: number;

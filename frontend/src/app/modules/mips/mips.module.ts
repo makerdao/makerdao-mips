@@ -58,6 +58,7 @@ import { MdObserveVisibilityDirective } from './directives/md-observe-visibility
 import { MdTooltipDirective } from './directives/md-tooltip.directive';
 import { MdTooltipComponent } from './components/md-tooltip/md-tooltip.component';
 import { ButtonTopComponent } from './components/button-top/button-top.component';
+import { AscDesComponent } from './components/asc-des/asc-des.component';
 
 
 @NgModule({
@@ -102,7 +103,8 @@ import { ButtonTopComponent } from './components/button-top/button-top.component
     MdObserveVisibilityDirective,
     MdTooltipDirective,
     MdTooltipComponent,
-    ButtonTopComponent
+    ButtonTopComponent,
+    AscDesComponent
   ],
   imports: [
     CommonModule,
