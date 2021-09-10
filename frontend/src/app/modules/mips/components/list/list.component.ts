@@ -196,29 +196,45 @@ const language = 'typescript';
   onSendOrder(value: string): void {
     let orderPrefix = OrderDirection.ASC;
 
-    if (this.currentSortingColumn === value) {
-      this.ascOrderSorting = !this.ascOrderSorting;
-      orderPrefix = this.ascOrderSorting
-        ? OrderDirection.ASC
-        : OrderDirection.DESC;
+    if (this.ascOrderSorting === true || this.currentSortingColumn !== value) {
+      if (this.currentSortingColumn === value) {
+        this.ascOrderSorting = !this.ascOrderSorting;
+        orderPrefix = this.ascOrderSorting
+          ? OrderDirection.ASC
+          : OrderDirection.DESC;
+      } else {
+        this.ascOrderSorting = true;
+        this.currentSortingColumn = value;
+      }
+
+      let order: Order = {
+        field:
+          this.currentSortingColumn == 'pos'
+            ? 'Number'
+            : this.toOrderBy(this.currentSortingColumn),
+        direction: this.ascOrderSorting ? 'ASC' : 'DESC',
+      };
+
+      this.orderService.order = order;
+      this.sendOrder.emit({
+        orderText: orderPrefix + this.transforValue(value),
+        orderObj: order,
+      });
     } else {
+      this.currentSortingColumn = '';
       this.ascOrderSorting = true;
-      this.currentSortingColumn = value;
+
+      let order: Order = {
+        field: 'Number',
+        direction: 'ASC',
+      };
+
+      this.orderService.order = order;
+      this.sendOrder.emit({
+        orderText: 'mip mipName',
+        orderObj: order,
+      });
     }
-
-    let order: Order = {
-      field:
-        this.currentSortingColumn == 'pos'
-          ? 'Number'
-          : this.toOrderBy(this.currentSortingColumn),
-      direction: this.ascOrderSorting ? 'ASC' : 'DESC',
-    };
-
-    this.orderService.order = order;
-    this.sendOrder.emit({
-      orderText: orderPrefix + this.transforValue(value),
-      orderObj: order,
-    });
   }
 
   getOrderDirection(column: string) {

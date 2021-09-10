@@ -234,32 +234,57 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
 
   onSendOrder(value: string): void {
     let orderPrefix = '';
-    if (this.currentSortingColumn === value) {
-      this.ascOrderSorting = !this.ascOrderSorting;
-      orderPrefix = this.ascOrderSorting ? '' : '-';
+    if (this.ascOrderSorting === true || this.currentSortingColumn !== value) {
+      if (this.currentSortingColumn === value) {
+        this.ascOrderSorting = !this.ascOrderSorting;
+        orderPrefix = this.ascOrderSorting ? '' : '-';
+      } else {
+        this.ascOrderSorting = true;
+        this.currentSortingColumn = value;
+      }
+
+      this.setOrder(orderPrefix + this.transforValue(value));
+
+      let order: Order = {
+        field:
+          this.currentSortingColumn == 'pos'
+            ? 'Number'
+            : this.toOrderBy(this.currentSortingColumn),
+        direction: this.ascOrderSorting ? 'ASC' : 'DESC',
+      };
+
+      this.orderService.order = order;
+
+      this.changeOrder.next({
+        orderText: orderPrefix + this.transforValue(value),
+        orderObj: order,
+      });
+      this.order =
+        OrderDirection[this.orderService.order.direction] +
+        OrderField[this.orderService.order.field];
+
+      this.searchTagsMipset();
     } else {
+      this.currentSortingColumn = '';
       this.ascOrderSorting = true;
-      this.currentSortingColumn = value;
+
+      let order: Order = {
+        field: 'Number',
+        direction: 'ASC',
+      };
+
+      this.orderService.order = order;
+      this.changeOrder.next({
+        orderText: 'mip mipName',
+        orderObj: order,
+      });
+      this.order =
+        OrderDirection[this.orderService.order.direction] +
+        OrderField[this.orderService.order.field] +
+        ' mipName';
+
+      this.searchTagsMipset();
     }
-
-    this.setOrder(orderPrefix + this.transforValue(value));
-
-    let order: Order = {
-      field:
-        this.currentSortingColumn == 'pos'
-          ? 'Number'
-          : this.toOrderBy(this.currentSortingColumn),
-      direction: this.ascOrderSorting ? 'ASC' : 'DESC',
-    };
-
-    this.orderService.order = order;
-
-    this.changeOrder.next({
-      orderText: orderPrefix + this.transforValue(value),
-      orderObj: order,
-    });
-
-    this.searchTagsMipset();
   }
 
   toOrderBy(value: string): string {
