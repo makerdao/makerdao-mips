@@ -515,39 +515,41 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
             )
             .toPromise();
-          let parent: IMip = res.items[0];
-          parent.expanded = true;
-          parent.showArrowExpandChildren = true;
-          parent.children = [];
-          parent.children.push(item);
-          let subproposalsGroup: any = this.groupBy('subset', parent.children);
+          if (res.items[0]) {
+            let parent: IMip = res.items[0];
+            parent.expanded = true;
+            parent.showArrowExpandChildren = true;
+            parent.children = [];
+            parent.children.push(item);
+            let subproposalsGroup: any = this.groupBy('subset', parent.children);
 
-          if (this.order === 'mip' || this.order === 'mip mipName') {
-            this.sortSubproposalsGroups(subproposalsGroup);
-          }
-
-          const subsetRows: ISubsetDataElement[] = [];
-          const components: ComponentMip[] = parent.components;
-          let indexComp: number;
-          let componentMipTitle = '';
-
-          for (const key in subproposalsGroup) {
-            if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
-              indexComp = components?.findIndex((item) => item.cName === key);
-              if (indexComp && indexComp !== -1) {
-                componentMipTitle = components[indexComp].cTitle;
-              }
-              subsetRows.push({
-                subset: key,
-                expanded: true,
-                title: componentMipTitle,
-              });
+            if (this.order === 'mip' || this.order === 'mip mipName') {
+              this.sortSubproposalsGroups(subproposalsGroup);
             }
-          }
 
-          parent.subproposalsGroup = subproposalsGroup;
-          parent.subsetRows = subsetRows;
-          newData.push(parent);
+            const subsetRows: ISubsetDataElement[] = [];
+            const components: ComponentMip[] = parent.components;
+            let indexComp: number;
+            let componentMipTitle = '';
+
+            for (const key in subproposalsGroup) {
+              if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+                indexComp = components?.findIndex((item) => item.cName === key);
+                if (indexComp && indexComp !== -1) {
+                  componentMipTitle = components[indexComp].cTitle;
+                }
+                subsetRows.push({
+                  subset: key,
+                  expanded: true,
+                  title: componentMipTitle,
+                });
+              }
+            }
+
+            parent.subproposalsGroup = subproposalsGroup;
+            parent.subsetRows = subsetRows;
+            newData.push(parent);
+          }
         } else if (item.proposal && indexFatherInNewData !== -1) {
           this.addSubsetField(data.items[index]);
           newData[indexFatherInNewData].children.push(item);
