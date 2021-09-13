@@ -20,6 +20,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LangInterceptor } from './interceptors/lang.interceptor';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    MatButtonModule
   ],
   providers: [
     Title,
