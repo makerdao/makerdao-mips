@@ -350,17 +350,7 @@ const language = 'typescript';
           .subscribe(
             (data) => {
               this.dataSourceTable.data[index]['loadingSubproposals'] = false;
-              // sort by subset
-              let items: any[] = (data.items as []).sort(function (
-                a: any,
-                b: any
-              ) {
-                return +(a.subset as string).split(a.proposal + 'c')[1] <
-                  +(b.subset as string).split(b.proposal + 'c')[1]
-                  ? -1
-                  : 1;
-              });
-
+              let items: any[] = data.items;
               let subproposalsGroup: any = this.groupBy('subset', items);
 
               if (!order || order === 'mip' || order === 'mipName') {
@@ -384,7 +374,17 @@ const language = 'typescript';
                 }
               }
 
-              row.subsetRows = subsetRows;
+              let subsetSortedRows: any[] = (subsetRows as []).sort(function (
+                a: any,
+                b: any
+              ) {
+                return +(a.subset as string).split('c')[1] <
+                  +(b.subset as string).split('c')[1]
+                  ? -1
+                  : 1;
+              });
+
+              row.subsetRows = subsetSortedRows;
               row.subproposalsGroup = subproposalsGroup;
               row.expanded = true;
               this.cdr.detectChanges();
