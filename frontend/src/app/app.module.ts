@@ -17,6 +17,7 @@ import { MdFeedbackComponent } from './shared/md-feedback/md-feedback.component'
 import { MdFeedbackDialogComponent } from './shared/md-feedback/md-feedback-dialog/md-feedback-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     OverlayModule,
     MatRippleModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [
     Title

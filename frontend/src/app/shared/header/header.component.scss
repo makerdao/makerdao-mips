@@ -15,10 +15,36 @@
     background-color: #ffffff;
   }
 
+  .scrollMenuButton {
+    background-color: transparent;
+    box-shadow: none;
+
+    &:nth-child(1) {
+      left: 0;
+    }
+
+    &:nth-child(2) {
+      right: 0;
+    }
+
+    img {
+      margin: 0;
+    }
+
+    &:hover {
+      svg {
+        path {
+          fill: #31394d;
+        }
+      }
+    }
+  }
+
   .menu-wrapper {
     height: 100%;
     scroll-behavior: smooth;
     overflow-x: auto;
+    padding: 0 5px;
 
     /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {
@@ -98,6 +124,10 @@
         scrollbar-width: none; /* Firefox */
       }
     }
+  }
+
+  .scrollMenuButton {
+    display: none;
   }
 }
 
