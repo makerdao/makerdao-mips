@@ -52,7 +52,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   mipsByName: any[] = [];
   sintaxError: boolean = false;
   errorMessage: string = '';
-  defaultSearch: string = '$ and(not(@Obsolete), not(@Withdrawn))';
+  defaultSearch: string = '$ and(not(@Obsolete), not(@Withdrawn), not(@Rejected))';
   mobileView: boolean = false;
   mipsetMode: boolean = false;
   activeMenuLinkName = '';
