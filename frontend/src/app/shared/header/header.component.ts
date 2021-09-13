@@ -21,6 +21,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   transitionStyle: string;
   positionX: number = 0;
   showScrollRightButton = false;
+  showScrollLeftButton = false;
+  @ViewChild('outerRight') outerRight: ElementRef;
+  @ViewChild('outerLeft') outerLeft: ElementRef;
 
   constructor(
     private router: Router,
@@ -45,35 +48,25 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     let options = {
       root: this.navMenu.nativeElement,
       rootMargin: '0px',
-      threshold: 1.0,
+      threshold: 0.1,
     };
 
     let observer = new IntersectionObserver(this.callback, options);
-    let target1 = document.querySelector('#lastChild');
+    let target1 = document.querySelector('#outerRight');
     observer.observe(target1);
-    let target2 = document.querySelector('#firstChild');
+    let target2 = document.querySelector('#outerLeft');
     observer.observe(target2);
   }
 
   callback = (entries, observer) => {
     entries.forEach((entry) => {
-      // if (entry.intersecting) {
-      //   this.lastChildVisible.next(true);
-      // } else {
-      //   this.lastChildVisible.next(false);
-      // }
+      if (entry.target === this.outerRight.nativeElement) {
+        this.showScrollRightButton = !entry.isIntersecting;
+      }
 
-      // this.lastChildVisible.next(entry.isIntersecting);
-      this.showScrollRightButton = entry.isIntersecting;
-      // Cada entry describe un cambio en la intersección para
-      // un elemento observado
-      //   entry.boundingClientRect
-      //   entry.intersectionRatio
-      //   entry.intersectionRect
-      //   entry.isIntersecting
-      //   entry.rootBounds
-      //   entry.target
-      //   entry.time
+      if (entry.target === this.outerLeft.nativeElement) {
+        this.showScrollLeftButton = !entry.isIntersecting;
+      }
     });
   };
 
