@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   transitionTime: number;
   transitionStyle: string;
   positionX: number = 0;
+  showScrollRightButton = false;
 
   constructor(
     private router: Router,
@@ -36,7 +37,45 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.menuService.posXClicked$.subscribe((data) => {
       (this.navMenu.nativeElement as HTMLElement).scrollLeft += data;
     });
+
+    this.initIntersectionObserver();
   }
+
+  initIntersectionObserver() {
+    let options = {
+      root: this.navMenu.nativeElement,
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+
+    let observer = new IntersectionObserver(this.callback, options);
+    let target1 = document.querySelector('#lastChild');
+    observer.observe(target1);
+    let target2 = document.querySelector('#firstChild');
+    observer.observe(target2);
+  }
+
+  callback = (entries, observer) => {
+    entries.forEach((entry) => {
+      // if (entry.intersecting) {
+      //   this.lastChildVisible.next(true);
+      // } else {
+      //   this.lastChildVisible.next(false);
+      // }
+
+      // this.lastChildVisible.next(entry.isIntersecting);
+      this.showScrollRightButton = entry.isIntersecting;
+      // Cada entry describe un cambio en la intersección para
+      // un elemento observado
+      //   entry.boundingClientRect
+      //   entry.intersectionRatio
+      //   entry.intersectionRect
+      //   entry.isIntersecting
+      //   entry.rootBounds
+      //   entry.target
+      //   entry.time
+    });
+  };
 
   clearFilterAndGoHome(): void {
     this.mipsService.clearFilter();
@@ -58,10 +97,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     };
 
     this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['/mips/list']).then(_ => {
+    this.router.navigate(['/mips/list']).then((_) => {
       this.router.onSameUrlNavigation = 'ignore';
     });
-
   }
 
   onMenuToggle(ev) {
@@ -70,5 +108,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
 
     this.menuOpen = ev;
+  }
+
+  scrollNavMenu(steps: number) {
+    (this.navMenu.nativeElement as HTMLElement).scrollBy(steps, 0);
+  }
+
+  visibilityScrollRightButton(value: boolean) {
+    this.showScrollRightButton = value;
   }
 }
