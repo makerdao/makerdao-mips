@@ -45,6 +45,7 @@
     scroll-behavior: smooth;
     overflow-x: auto;
     padding: 0 5px;
+    display: flex;
 
     /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {
@@ -55,6 +56,13 @@
     & {
       -ms-overflow-style: none; /* IE and Edge */
       scrollbar-width: none; /* Firefox */
+    }
+
+    .outer {
+      height: 1px;
+      min-width: 1px;
+      background-color: transparent;
+      display: inline-block;
     }
   }
 
@@ -112,6 +120,7 @@
       width: 100vw;
       overflow-x: auto;
       height: 100%;
+      padding: 0;
 
       /* Hide scrollbar for Chrome, Safari and Opera */
       &::-webkit-scrollbar {

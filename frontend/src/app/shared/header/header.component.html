@@ -12,7 +12,12 @@
     <img class="no-mobile" src="../../../assets/images/logo_desktop.svg" />
     <img class="mobile" src="../../../assets/images/logo_mobile.svg" />
   </a>
-  <!-- <button mat-mini-fab class="scrollMenuButton" (click)="scrollNavMenu(-100)">
+  <button
+    mat-mini-fab
+    class="scrollMenuButton"
+    (click)="scrollNavMenu(-100)"
+    [ngStyle]="{ visibility: showScrollLeftButton ? 'visible' : 'hidden' }"
+  >
     <svg
       width="8"
       height="13"
@@ -25,21 +30,21 @@
         fill="#748AA1"
       />
     </svg>
-  </button> -->
+  </button>
   <div class="menu-wrapper" #navMenu>
-    <div id="firstChild"></div>
+    <div id="outerLeft" class="outer" #outerLeft></div>
     <app-nav-menu
       (menuOpen)="onMenuToggle($event)"
       [ngStyle]="{ transition: transitionStyle }"
     ></app-nav-menu>
-    <div id="lastChild"></div>
+    <div id="outerRight" class="outer" #outerRight></div>
   </div>
-  <!-- <button
+  <button
     mat-fab
     class="scrollMenuButton"
     (click)="scrollNavMenu(100)"
     (mousedown)="scrollNavMenu(100)"
-    [ngStyle]="{ visibility: showScrollRightButton ? 'hidden' : 'visible' }"
+    [ngStyle]="{ visibility: showScrollRightButton ? 'visible' : 'hidden' }"
   >
     <svg
       width="8"
@@ -53,5 +58,5 @@
         fill="#748AA1"
       />
     </svg>
-  </button> -->
+  </button>
 </div>
