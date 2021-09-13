@@ -313,10 +313,12 @@ export class ParseMIPsService {
       references: [],
     };
 
+      const folderLevels=item.filename.split("/");
+
     if (item.filename.includes("-")) {
-      mip.proposal = item.filename.split("/")[0];
+      mip.proposal =folderLevels [folderLevels.length-2];
     } else {
-      mip.mipName = item.filename.split("/")[0];
+      mip.mipName = folderLevels [folderLevels.length-2];
     }
 
     let title: string;

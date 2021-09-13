@@ -1,11 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
-import simpleGit, {
-  PullResult,
-  Response,
-  SimpleGit,
-} from "simple-git";
+import simpleGit, { PullResult, Response, SimpleGit } from "simple-git";
 
 import { Env } from "@app/env";
 
@@ -46,45 +42,58 @@ export class SimpleGitService {
   async getFiles(): Promise<IGitFile[]> {
     const folderPattern = this.configService.get<string>(Env.FolderPattern);
 
+    const i18nPattern = "I18N";
+
     try {
-      const info: string = await this.git.raw([
+      const englishVersion: string = await this.git.raw([
         "ls-files",
         "-s",
         folderPattern,
       ]);
 
-      return info
-        .split("\n")
-        .filter(
-          (data) =>
-            data.length > 3 &&
-            !data.includes("placeholder.md") &&
-            !data.includes("Template") &&
-            data.includes(".md")
-        )
-        .map((data) => {
-          const newData = data.replace("\t", " ").split(" ");
+      const internalization: string = await this.git.raw([
+        "ls-files",
+        "-s",
+        i18nPattern,
+      ]);
 
-          if (newData.length > 4) {
-            let filename = newData[3];
+      const info: string = internalization + "\n" + englishVersion;
 
-            for (let i = 4; i < newData.length; i++) {
-              filename = `${filename} ${newData[i]}`;
-            }
+      const files = info.split("\n");
 
-            return {
-              filename: filename,
-              hash: newData[1].trim(),
-              language: this.getLanguage(filename)
-            };
+      const filesFiltered = files.filter(
+        (data) =>
+          data.length > 3 &&
+          !data.includes("placeholder.md") &&
+          !data.includes("Template") &&
+          data.includes(".md")
+      );
+
+      const filesFormated = filesFiltered.map((data) => {
+        const newData = data.replace("\t", " ").split(" ");
+
+        if (newData.length > 4) {
+          let filename = newData[3];
+
+          for (let i = 4; i < newData.length; i++) {
+            filename = `${filename} ${newData[i]}`;
           }
 
           return {
-            filename: newData[3].trim(),
+            filename: filename,
             hash: newData[1].trim(),
-            language: this.getLanguage(newData[3].trim())
+            language: this.getLanguage(filename),
           };
-        });
+        }
+
+        return {
+          filename: newData[3].trim(),
+          hash: newData[1].trim(),
+          language: this.getLanguage(newData[3].trim()),
+        };
+      });
+
+      return filesFormated;
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -94,10 +103,16 @@ export class SimpleGitService {
   getLanguage(filename: string): Language {
     const defaultLang = Language.English;
 
-    if (filename.includes(`_${Language.Spanish}`)) {
-      return Language.Spanish;
+    const filenameMatch = filename.match(/I18N\/(?<language>\w\w)\//i);
+
+    if (filenameMatch) {
+      const languageCode = filenameMatch.groups.language.toLowerCase();
+
+      if (Object.values(Language).includes(languageCode as Language)) {
+        return languageCode as Language;
+      }
     }
 
-    return defaultLang;    
+    return defaultLang;
   }
 }
