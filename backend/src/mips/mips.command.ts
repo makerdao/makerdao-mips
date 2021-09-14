@@ -29,7 +29,7 @@ export class ParseMIPsCommand {
   @Command({
     command: "parse:mips",
     describe: "Parse mips of makerDao repository",
-    autoExit: true, // defaults to `true`, but you can use `false` if you need more control
+    autoExit: true, 
   })
   async parse() {
     await this.parseMIPsService.parse();
