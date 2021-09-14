@@ -34,6 +34,7 @@
       expandInput: showInput,
       shrinkInput: !showInput
     }"
+    #textBoxWrapper
   >
     <div
       class="contentEditableInput"
@@ -56,7 +57,7 @@
     <img src="../../../../../assets/images/close.svg" class="imageClose" />
   </div>
 </div>
-<div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
+<ng-template #mipsSugestions>
   <div
     class="ListSearch"
     infiniteScroll
@@ -84,7 +85,7 @@
       <mat-spinner [diameter]="20"></mat-spinner>
     </div>
   </div>
-</div>
+</ng-template>
 <!-- <div *ngIf="!isQueryMode" class="close-container">
   <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
 </div> -->
