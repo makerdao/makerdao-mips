@@ -34,4 +34,22 @@ export class ParseMIPsCommand {
   async parse() {
     await this.parseMIPsService.parse();
   }
+
+  @Command({
+    command: "dropUp:db",
+    describe: "Drop db and Parse mips of makerDao repository",
+    autoExit: true, 
+  })
+  async dropUp() {
+    try {
+      const result = await this.mipsService.dropDatabase();
+
+      console.log("Database Droped: ",result);
+
+      await this.parseMIPsService.parse();
+    } catch (error) {
+      console.log("An Error happend on Droping the Database");
+      console.log(error);
+    }
+  }
 }
