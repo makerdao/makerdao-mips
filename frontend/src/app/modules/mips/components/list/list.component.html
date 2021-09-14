@@ -301,7 +301,7 @@
                 routerLink="/mips/details/{{ item.mipName }}"
               >
                 <markdown
-                  class="variable-binding-content"
+                  class="variable-binding-content sentenceSummaryMobile"
                   [data]="item.sentenceSummary"
                 ></markdown>
               </a>
@@ -342,8 +342,7 @@
                 mat-icon-button
                 *ngIf="
                   !item.proposal &&
-                  item.mipFather &&
-                  item.showArrowExpandChildren
+                  item.mipFather
                 "
                 class="arrow-container"
                 [disabled]="item.loadingSubproposals"
