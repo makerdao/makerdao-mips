@@ -8,14 +8,19 @@ import {
   HostBinding,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  SimpleChanges,
+  TemplateRef,
+  ElementRef,
+  ViewContainerRef,
 } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
-import { ConnectedPosition } from '@angular/cdk/overlay';
+import { fromEvent, Subject, Subscription } from 'rxjs';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { SmartSearchService } from '../../services/smart-search.service';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import IFormatting from '../../types/formatting';
 import { position } from 'caret-pos';
+import { TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-search-mobile',
@@ -102,10 +107,15 @@ export class SearchMobileComponent implements OnInit {
       replace: "@<span style='font-weight:500;color:#8B4513'>Withdrawn</span>",
     },
   ];
+  private overlayRef: OverlayRef;
+  @ViewChild('mipsSugestions') mipsSugestions: TemplateRef<any>;
+  @ViewChild('textBoxWrapper') textBoxWrapper: ElementRef;
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private smartSearchService: SmartSearchService
+    private smartSearchService: SmartSearchService,
+    private overlay: Overlay,
+    public viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
@@ -122,6 +132,28 @@ export class SearchMobileComponent implements OnInit {
 
     this.isQueryMode = this.isQuery(this.value);
     this.cdr.detectChanges();
+    this.initMipSuggestions();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if (propName === 'listSearchItems') {
+        const chng = changes[propName];
+
+        if (
+          ((chng.currentValue?.length && !chng.previousValue?.length) ||
+            (!chng.currentValue?.length && chng.previousValue?.length)) &&
+          this.overlayRef &&
+          !this.overlayRef?.hasAttached()
+        ) {
+          this.onDisplayMipsSugestion();
+        }
+
+        if (!this.listSearchItems.length) {
+          this.overlayRef?.detach();
+        }
+      }
+    }
   }
 
   initPositionHelpPopup() {
@@ -441,4 +473,63 @@ export class SearchMobileComponent implements OnInit {
   onLoadMoreMipSugestions() {
     this.loadMoreMipSuggestions.next();
   }
+
+  initMipSuggestions() {
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(this.textBoxWrapper)
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+      ])
+      .withFlexibleDimensions(true);
+    const width = (this.textBoxWrapper
+      .nativeElement as HTMLDivElement).getBoundingClientRect().width;
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+      width: width,
+      minWidth: width,
+    });
+  }
+
+  onDisplayMipsSugestion() {
+    const template = new TemplatePortal(
+      this.mipsSugestions,
+      this.viewContainerRef
+    );
+    this.overlayRef.attach(template);
+    const widthTextBoxWrapper = (this.textBoxWrapper
+      .nativeElement as HTMLDivElement).getBoundingClientRect().width;
+    this.overlayRef.updateSize({ width: widthTextBoxWrapper });
+
+    overlayClickOutside(
+      this.overlayRef,
+      this.textBoxWrapper.nativeElement
+    ).subscribe(() => {
+      this.overlayRef.detach();
+    });
+  }
+}
+
+export function overlayClickOutside(
+  overlayRef: OverlayRef,
+  origin: HTMLElement
+) {
+  return fromEvent<MouseEvent>(document, 'click').pipe(
+    filter((event) => {
+      const clickTarget = event.target as HTMLElement;
+      const notOrigin = clickTarget !== origin;
+      const notOverlay =
+        !!overlayRef &&
+        overlayRef.overlayElement.contains(clickTarget) === false;
+      return notOrigin && notOverlay;
+    }),
+    takeUntil(overlayRef.detachments())
+  );
 }
