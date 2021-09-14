@@ -98,6 +98,7 @@ export class OrderMobileComponent implements OnInit, OnChanges {
       direction: this.pos1 === 1 ? 'ASC' : 'DESC',
     };
     this.orderService.order = orderObj;
+    this.orderService.orderObs.next(orderObj);
 
     this.sendOrder.emit({
       orderText: this.order,
