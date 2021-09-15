@@ -102,7 +102,7 @@ export class OrderMobileComponent implements OnInit, OnChanges {
     this.orderService.orderObs.next(orderObj);
 
     this.sendOrder.emit({
-      orderText: this.order,
+      orderText: this.order || "mip mipName",
       orderObj: orderObj,
     });
 
