@@ -15,7 +15,7 @@
   <button
     mat-mini-fab
     class="scrollMenuButton"
-    (click)="scrollNavMenu(-100)"
+    (click)="scrollNavMenuToLeft()"
     [ngStyle]="{ visibility: showScrollLeftButton ? 'visible' : 'hidden' }"
   >
     <svg
@@ -42,8 +42,7 @@
   <button
     mat-fab
     class="scrollMenuButton"
-    (click)="scrollNavMenu(100)"
-    (mousedown)="scrollNavMenu(100)"
+    (click)="scrollNavMenuToRight()"
     [ngStyle]="{ visibility: showScrollRightButton ? 'visible' : 'hidden' }"
   >
     <svg

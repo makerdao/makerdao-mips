@@ -103,8 +103,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.menuOpen = ev;
   }
 
-  scrollNavMenu(steps: number) {
-    (this.navMenu.nativeElement as HTMLElement).scrollBy(steps, 0);
+  scrollNavMenuToLeft() {
+    const x = (this.navMenu.nativeElement as HTMLElement).scrollWidth;
+    (this.navMenu.nativeElement as HTMLElement).scrollBy(-x, 0);
+  }
+
+  scrollNavMenuToRight() {
+    const x = (this.navMenu.nativeElement as HTMLElement).scrollWidth;
+    (this.navMenu.nativeElement as HTMLElement).scrollBy(x, 0);
   }
 
   visibilityScrollRightButton(value: boolean) {
