@@ -13,6 +13,8 @@ export class OrderService {
   set order(value: Order) {
     this._order = { ...value };
   }
+  public orderObs = new BehaviorSubject<Order>(null);
+  public orderObs$ = this.orderObs.asObservable();
 
   constructor() {}
 }
