@@ -76,6 +76,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   initialized: boolean = false;
   subscriptionSearchService: Subscription;
   subscriptionFilterService: Subscription;
+  subscriptionOrderService: Subscription;
   @Output() changeOrder = new Subject<{
     orderText: string;
     orderObj: Order;
@@ -117,6 +118,26 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
         );
         this.filterClone.equals.splice(index, 1); // include subproposals in searching
         this.searchTagsMipset();
+      }
+    );
+
+    this.subscriptionOrderService = this.orderService.orderObs$.subscribe(
+      (data) => {
+        if (this.initialized) {
+          this.order =
+            OrderDirection[this.orderService.order.direction] +
+            OrderField[this.orderService.order.field];
+          this.currentSortingColumn =
+            this.orderService.order.field ==
+            OrderFieldName[OrderFieldName.Number]
+              ? 'pos'
+              : (OrderFieldName[
+                  this.orderService.order.field
+                ] as string)?.toLowerCase();
+          this.ascOrderSorting = this.orderService.order.direction == 'ASC';
+
+          this.searchTagsMipset();
+        }
       }
     );
   }
@@ -366,5 +387,6 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptionSearchService.unsubscribe();
     this.subscriptionFilterService.unsubscribe();
+    this.subscriptionOrderService.unsubscribe();
   }
 }

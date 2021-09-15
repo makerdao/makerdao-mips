@@ -99,6 +99,8 @@ export class OrderMobileComponent implements OnInit, OnChanges {
     };
     this.orderService.order = orderObj;
 
+    this.orderService.orderObs.next(orderObj);
+
     this.sendOrder.emit({
       orderText: this.order,
       orderObj: orderObj,
@@ -108,6 +110,7 @@ export class OrderMobileComponent implements OnInit, OnChanges {
   }
   reset(): void {
     this.pos = 0;
+    this.pos1 = 1;
     this.up = true;
     this.apply();
     this.pos = 1;
