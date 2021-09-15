@@ -7,7 +7,7 @@
   <img (click)="updateData(2)" [ngClass]="{'hight-c': showData == 2}" src="../../../../../assets/images/more.svg" />
   <div class="more" [ngClass]="{'hight-c': showData == 2}" *ngIf="mip && showData == 2">
     <div (click)="updateSelected(1, 'Preamble')" [ngClass]="{selected: selected == 1}" class="info">MIP{{mip}}: Info</div>
-    <div (click)="updateSelected(2, 'Details')" [ngClass]="{selected: selected == 2}" class="info">Details</div>
+    <div (click)="updateSelected(2, 'Details')" [ngClass]="{selected: selected == 2}" class="info">{{"Details"|translate}}</div>
     <div (click)="updateSelected(3, 'Pull Requests History')" [ngClass]="{selected: selected == 3}" class="info">Pull Requests History</div>
   </div>
 </div>

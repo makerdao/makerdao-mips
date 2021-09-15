@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FeedbackService } from 'src/app/modules/mips/services/feedback.service';
+import { LangService } from 'src/app/services/lang/lang.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import Menu from '../../data-types/menu';
@@ -14,6 +15,8 @@ export class NavMenuComponent implements OnInit {
   @Output() menuOpen: Subject<boolean> = new Subject<boolean>();
   openedIndexChild: number = -1;
   menu: Menu[] = [];
+  menuLang: Menu = null;
+
   feedBackLinkMenu: Menu = {
     id: 'feedbacklink',
     name: '',
@@ -25,7 +28,8 @@ export class NavMenuComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private urlService: UrlService,
-    private feedbackService: FeedbackService
+    private feedbackService: FeedbackService,
+    private langService: LangService
   ) {}
 
   ngOnInit(): void {
@@ -48,13 +52,58 @@ export class NavMenuComponent implements OnInit {
       if (data) {
         if (data.href) {
           this.urlService.goToUrl(data.href);
-        } else {
-          if (data.id === this.feedBackLinkMenu.id) {
-            this.feedbackService.showFeedbackDialog.next(true);
+        } else if (data.id === this.feedBackLinkMenu.id) {
+          this.feedbackService.showFeedbackDialog.next(true);
+        } else if (data.id !== this.menuLang.id) {
+          let index: number = this.menuLang.children.findIndex(
+            (i) => i.id === data.id
+          );
+
+          if (index !== -1) {
+            this.langService.setCurrentLang(this.menuLang.children[index].id);
+            this.swapLang(index);
+            this.sortLangItems();
           }
         }
       }
     });
+
+    this.menuService.getMenuLang().subscribe((data: any) => {
+      this.menuLang = data;
+
+      if (!this.langService.lang) {
+        this.langService.setCurrentLang(this.menuLang.id);
+      } else if (this.langService.lang !== this.menuLang.id) {
+        let index: number = this.menuLang.children.findIndex(
+          (i) => i.id === this.langService.lang
+        );
+
+        if (index !== -1) {
+          this.swapLang(index);
+          this.sortLangItems();
+        }
+      }
+      this.sortLangItems();
+    });
+  }
+
+  swapLang(index: number) {
+    const dataTemp: Menu = { ...this.menuLang.children[index] };
+    this.menuLang.children[index] = {
+      id: this.menuLang.id,
+      img: this.menuLang.img,
+      name: this.menuLang.name,
+    };
+
+    this.menuLang.id = dataTemp.id;
+    this.menuLang.img = dataTemp.img;
+    this.menuLang.name = dataTemp.name;
+  }
+
+  sortLangItems() {
+    this.menuLang.children.sort((a: Menu, b: Menu) =>
+      a.name < b.name ? -1 : 1
+    );
   }
 
   onMenuToggle(ev) {
