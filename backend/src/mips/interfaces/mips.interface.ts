@@ -26,6 +26,7 @@ export interface IMIPs {
   sections?: Section[];
   sectionsRaw?: string[];
   references?: Reference[];
+  subproposalsCount?: number;
 }
 
 export interface IGitFile {

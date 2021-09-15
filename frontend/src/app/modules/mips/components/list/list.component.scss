@@ -58,6 +58,17 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   }
 }
 
+.headerContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
+  app-asc-des {
+    margin-left: 6px;
+  }
+}
+
 .maker-element-detail {
   overflow: hidden;
   display: flex;
@@ -102,6 +113,13 @@ th {
   font-style: normal;
   font-size: 12px;
   color: #748aa1;
+
+  &:hover {
+    .headerContent {
+      color: #31394d;
+    }
+
+  }
 }
 
 .up {
@@ -643,6 +661,22 @@ a {
   }
   .no-mobile {
     display: none;
+  }
+
+  ::ng-deep.sentenceSummaryMobile {
+    p {
+      font-style: normal;
+      font-weight: normal;
+      margin: 0;
+      font-size: 12px;
+      color: #31394d;
+      margin-top: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
 }
 

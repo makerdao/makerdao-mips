@@ -6,7 +6,7 @@
     <div
       infiniteScroll
       [infiniteScrollDistance]="0"
-      [infiniteScrollThrottle]="1"
+      [infiniteScrollThrottle]="0"
       (scrolled)="onScroll()"
     >
       <table
@@ -27,22 +27,12 @@
                 (click)="onSendOrder(column)"
                 style="cursor: pointer;"
               >
-                {{ column }}
-                <img
-                  class="arrow up"
-                  [src]="
-                    currentSortingColumn === column && ascOrderSorting
-                      ? arrowUpDark
-                      : arrowUp
-                  "
-                /><img
-                  class="arrow down"
-                  [src]="
-                    currentSortingColumn === column && !ascOrderSorting
-                      ? arrowDownDark
-                      : arrowDown
-                  "
-                />
+                <span class="headerContent"
+                  >{{ column
+                  }}<app-asc-des
+                    [direction]="getOrderDirection(column)"
+                  ></app-asc-des
+                ></span>
               </th>
             </span>
             <span *ngIf="column == 'pos'">
@@ -52,27 +42,19 @@
                 (click)="onSendOrder(column)"
                 style="cursor: pointer;"
               >
-                #
-                <img
-                  class="arrow up"
-                  [src]="
-                    currentSortingColumn === column && ascOrderSorting
-                      ? arrowUpDark
-                      : arrowUp
-                  "
-                /><img
-                  class="arrow down"
-                  [src]="
-                    currentSortingColumn === column && !ascOrderSorting
-                      ? arrowDownDark
-                      : arrowDown
-                  "
-                />
+                <span class="headerContent"
+                  >#
+                  <app-asc-des
+                    [direction]="getOrderDirection(column)"
+                  ></app-asc-des
+                ></span>
               </th>
             </span>
           </span>
           <span *ngIf="column == 'link'">
-            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <th mat-header-cell *matHeaderCellDef>
+              <span class="headerContent"> {{ column }}</span>
+            </th>
           </span>
 
           <span *ngIf="column == 'title'">
@@ -148,8 +130,7 @@
                   mat-icon-button
                   *ngIf="
                     !element.proposal &&
-                    element.mipFather &&
-                    element.showArrowExpandChildren
+                    element.mipFather
                   "
                   class="arrow-container"
                   [disabled]="element.loadingSubproposals"
@@ -320,7 +301,7 @@
                 routerLink="/mips/details/{{ item.mipName }}"
               >
                 <markdown
-                  class="variable-binding-content"
+                  class="variable-binding-content sentenceSummaryMobile"
                   [data]="item.sentenceSummary"
                 ></markdown>
               </a>
@@ -361,8 +342,7 @@
                 mat-icon-button
                 *ngIf="
                   !item.proposal &&
-                  item.mipFather &&
-                  item.showArrowExpandChildren
+                  item.mipFather
                 "
                 class="arrow-container"
                 [disabled]="item.loadingSubproposals"

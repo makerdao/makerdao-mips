@@ -5,11 +5,23 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FilterService } from '../../services/filter.service';
 import { MipsService } from '../../services/mips.service';
+import { OrderService } from '../../services/order.service';
+import { SearchService } from '../../services/search.service';
 import { SmartSearchService } from '../../services/smart-search.service';
+import { StatusService } from '../../services/status.service';
+import IFilter from '../../types/filter';
 import { IMIPsetDataElement } from '../../types/mipset';
+import {
+  Order,
+  OrderDirection,
+  OrderField,
+  OrderFieldName,
+} from '../../types/order';
 const clone = require('rfdc')();
 
 @Component({
@@ -38,7 +50,7 @@ const clone = require('rfdc')();
     ]),
   ],
 })
-export class ListMipsetModeComponent implements OnInit, OnChanges {
+export class ListMipsetModeComponent implements OnInit, OnDestroy {
   dataSourceMipsetRows: IMIPsetDataElement[] = [];
   columnsToDisplayMipset = ['mipset'];
   expandedElementMipset: IMIPsetDataElement | null;
@@ -49,8 +61,8 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   limitAux = 10;
   page = 0;
   order: string = 'mip';
-  @Input() search: string = '';
-  @Input() filter: any;
+  search: string = '';
+  filter: IFilter;
   filterClone: any;
   loading: boolean = false;
   total: number;
@@ -62,31 +74,72 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
   arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
   initialized: boolean = false;
+  subscriptionSearchService: Subscription;
+  subscriptionFilterService: Subscription;
+  subscriptionOrderService: Subscription;
+  @Output() changeOrder = new Subject<{
+    orderText: string;
+    orderObj: Order;
+  }>();
 
   constructor(
     private smartSearchService: SmartSearchService,
-    private mipsService: MipsService
+    private mipsService: MipsService,
+    private searchService: SearchService,
+    private filterService: FilterService,
+    private statusService: StatusService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
-    this.filterClone = clone(this.filter);
-    let index = this.filterClone.equals.findIndex(
-      (item) => item.field === 'proposal'
-    );
-    this.filterClone.equals.splice(index, 1); // include subproposals in searching
-    this.searchTagsMipset();
+    this.order =
+      OrderDirection[this.orderService.order.direction] +
+      OrderField[this.orderService.order.field];
+    this.currentSortingColumn =
+      this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
+        ? 'pos'
+        : (OrderFieldName[
+            this.orderService.order.field
+          ] as string)?.toLowerCase();
+    this.ascOrderSorting = this.orderService.order.direction == 'ASC';
     this.initialized = true;
-  }
+    this.subscriptionSearchService = this.searchService.search$.subscribe(
+      (data) => {
+        this.search = data;
+        this.searchTagsMipset();
+      }
+    );
+    this.subscriptionFilterService = this.filterService.filter$.subscribe(
+      (data) => {
+        this.filter = data;
+        this.filterClone = clone(this.filter);
+        let index = this.filterClone.equals.findIndex(
+          (item) => item.field === 'proposal'
+        );
+        this.filterClone.equals.splice(index, 1); // include subproposals in searching
+        this.searchTagsMipset();
+      }
+    );
 
-  ngOnChanges() {
-    if (this.initialized) {
-      this.filterClone = clone(this.filter);
-      let index = this.filterClone.equals.findIndex(
-        (item) => item.field === 'proposal'
-      );
-      this.filterClone.equals.splice(index, 1); // include subproposals in searching
-      this.searchTagsMipset();
-    }
+    this.subscriptionOrderService = this.orderService.orderObs$.subscribe(
+      (data) => {
+        if (this.initialized) {
+          this.order =
+            OrderDirection[this.orderService.order.direction] +
+            OrderField[this.orderService.order.field];
+          this.currentSortingColumn =
+            this.orderService.order.field ==
+            OrderFieldName[OrderFieldName.Number]
+              ? 'pos'
+              : (OrderFieldName[
+                  this.orderService.order.field
+                ] as string)?.toLowerCase();
+          this.ascOrderSorting = this.orderService.order.direction == 'ASC';
+
+          this.searchTagsMipset();
+        }
+      }
+    );
   }
 
   searchTagsMipset() {
@@ -202,15 +255,84 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
 
   onSendOrder(value: string): void {
     let orderPrefix = '';
-    if (this.currentSortingColumn === value) {
-      this.ascOrderSorting = !this.ascOrderSorting;
-      orderPrefix = this.ascOrderSorting ? '' : '-';
+    if (this.ascOrderSorting === true || this.currentSortingColumn !== value) {
+      if (this.currentSortingColumn === value) {
+        this.ascOrderSorting = !this.ascOrderSorting;
+        orderPrefix = this.ascOrderSorting ? '' : '-';
+      } else {
+        this.ascOrderSorting = true;
+        this.currentSortingColumn = value;
+      }
+
+      this.setOrder(orderPrefix + this.transforValue(value));
+
+      let order: Order = {
+        field:
+          this.currentSortingColumn == 'pos'
+            ? 'Number'
+            : this.toOrderBy(this.currentSortingColumn),
+        direction: this.ascOrderSorting ? 'ASC' : 'DESC',
+      };
+
+      this.orderService.order = order;
+
+      this.changeOrder.next({
+        orderText: orderPrefix + this.transforValue(value),
+        orderObj: order,
+      });
+      this.order =
+        OrderDirection[this.orderService.order.direction] +
+        OrderField[this.orderService.order.field];
+
+      this.searchTagsMipset();
     } else {
+      this.currentSortingColumn = '';
       this.ascOrderSorting = true;
-      this.currentSortingColumn = value;
+
+      let order: Order = {
+        field: 'Number',
+        direction: 'ASC',
+      };
+
+      this.orderService.order = order;
+      this.changeOrder.next({
+        orderText: 'mip mipName',
+        orderObj: order,
+      });
+      this.order =
+        OrderDirection[this.orderService.order.direction] +
+        OrderField[this.orderService.order.field] +
+        ' mipName';
+
+      this.searchTagsMipset();
+    }
+  }
+
+  toOrderBy(value: string): string {
+    let orderBy: string;
+
+    switch (value) {
+      case 'pos':
+        orderBy = OrderFieldName.Number;
+        break;
+      case 'title':
+        orderBy = OrderFieldName.Title;
+        break;
+      case 'summary':
+        orderBy = OrderFieldName.Summary;
+        break;
+      case 'status':
+        orderBy = OrderFieldName.Status;
+        break;
+      case 'mostUsed':
+        orderBy = OrderFieldName.MostUsed;
+        break;
+
+      default:
+        break;
     }
 
-    this.setOrder(orderPrefix + this.transforValue(value));
+    return orderBy;
   }
 
   transforValue(value: string): string {
@@ -244,52 +366,27 @@ export class ListMipsetModeComponent implements OnInit, OnChanges {
   }
 
   getStatusValue(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FORMAL SUBMISSION';
-      }
-    }
-
-    return data;
+    return this.statusService.getStatusValue(data);
   }
 
   getStatusType(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FS';
-      }
-    }
+    return this.statusService.getStatusType(data);
+  }
 
-    return 'DEFAULT';
+  getOrderDirection(column: string) {
+    let orderDirection =
+      this.currentSortingColumn === column && this.ascOrderSorting
+        ? 1
+        : this.currentSortingColumn === column && !this.ascOrderSorting
+        ? -1
+        : 0;
+
+    return orderDirection;
+  }
+
+  ngOnDestroy() {
+    this.subscriptionSearchService.unsubscribe();
+    this.subscriptionFilterService.unsubscribe();
+    this.subscriptionOrderService.unsubscribe();
   }
 }

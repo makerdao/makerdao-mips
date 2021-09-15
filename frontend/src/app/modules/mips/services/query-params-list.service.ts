@@ -3,23 +3,29 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import QueryParams from '../types/query-params';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QueryParamsListService {
   private _queryParams: QueryParams = {
     status: [],
     search: '',
-    mipsetMode: false
+    mipsetMode: false,
+    orderBy: '',
+    orderDirection: '',
   };
 
-  private qParams: BehaviorSubject<QueryParams> = new BehaviorSubject<QueryParams>({
+  private qParams: BehaviorSubject<QueryParams> = new BehaviorSubject<
+    QueryParams
+  >({
     status: [],
     search: '',
-    mipsetMode: false
+    mipsetMode: false,
+    orderBy: '',
+    orderDirection: '',
   });
   public qParams$: Observable<QueryParams> = this.qParams.asObservable();
 
-  constructor() { }
+  constructor() {}
 
   get queryParams() {
     return this._queryParams;
@@ -39,6 +45,14 @@ export class QueryParamsListService {
     this._queryParams.search = value;
     this.qParams.next(this._queryParams);
   }
+
+  setOrderBy(value: string) {
+    this._queryParams.orderBy = value;
+    this.qParams.next(this._queryParams);
+  }
+
+  setOrderDirection(value: string) {
+    this._queryParams.orderDirection = value;
+    this.qParams.next(this._queryParams);
+  }
 }
-
-

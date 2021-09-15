@@ -72,8 +72,18 @@ export class NavMenuComponent implements OnInit {
   }
 
   dfs(menu: Menu) {
-    if (menu.href !== undefined && menu.custom_view_name) {
-      menu.href += '&customviewname=' + menu.custom_view_name;
+    if (menu.href !== undefined) {
+      if (menu.custom_view_name) {
+        menu.href += '&customViewName=' + menu.custom_view_name;
+      }
+
+      if (menu.orderBy) {
+        menu.href += '&orderBy=' + menu.orderBy;
+      }
+
+      if (menu.orderDirection) {
+        menu.href += '&orderDirection=' + menu.orderDirection;
+      }
     }
     menu.children?.forEach((item) => {
       this.dfs(item);

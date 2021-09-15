@@ -8,6 +8,7 @@ import {
   OnChanges,
   OnInit,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import {
   animate,
@@ -23,6 +24,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MipsService } from '../../services/mips.service';
 import { map } from 'rxjs/operators';
 import { IMip } from '../../types/mip';
+import { OrderService } from '../../services/order.service';
+import {
+  Order,
+  OrderDirection,
+  OrderField,
+  OrderFieldName,
+} from '../../types/order';
+import { SearchService } from '../../services/search.service';
+import { FilterService } from '../../services/filter.service';
+import { Subscription } from 'rxjs';
+import { StatusService } from '../../services/status.service';
 import { ISubsetDataElement } from '../../types/subset';
 import { ComponentMip } from '../../types/component-mip';
 const clone = require('rfdc')();
@@ -59,22 +71,24 @@ interface ExpandedItems {
     ]),
   ],
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnInit, OnChanges, OnDestroy {
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
   @Input() dataSource: any;
   @Input() loading = true;
-  @Input() loadingPlus = false;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
-  @Input() filter: any;
-  @Input() search: string;
+  filter: any;
+  search: string;
   expandedElement: DataElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selected = '-1';
   @Input() paginatorLength;
   pageEvent: PageEvent;
   @Output() send = new EventEmitter();
-  @Output() sendOrder = new EventEmitter<string>();
+  @Output() sendOrder = new EventEmitter<{
+    orderText: string;
+    orderObj: Order;
+  }>();
   timeout: any = null;
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
@@ -102,6 +116,8 @@ export class ListComponent implements OnInit, OnChanges {
   subproposalsGroup: any;
   columnsToDisplaySubsetChildren = ['title', 'summary', 'status', 'link'];
   expandedElementSubsetChildren: DataElement | null;
+  subscriptionSearchService: Subscription;
+  subscriptionFilterService: Subscription;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -123,11 +139,28 @@ const language = 'typescript';
   constructor(
     private router: Router,
     private mipsService: MipsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private orderService: OrderService,
+    private searchService: SearchService,
+    private filterService: FilterService,
+    private statusService: StatusService
   ) {}
 
   ngOnInit() {
     this.dataSourceTable.data = this.dataSource;
+    this.currentSortingColumn =
+      this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
+        ? 'pos'
+        : (OrderFieldName[
+            this.orderService.order.field
+          ] as string)?.toLowerCase();
+    this.ascOrderSorting = this.orderService.order.direction == 'ASC';
+    this.subscriptionSearchService = this.searchService.search$.subscribe(data => {
+      this.search = data;
+    });
+    this.subscriptionFilterService = this.filterService.filter$.subscribe(data => {
+      this.filter = data;
+    });
   }
 
   ngOnChanges() {
@@ -135,53 +168,11 @@ const language = 'typescript';
   }
 
   getStatusValue(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FORMAL SUBMISSION';
-      }
-    }
-
-    return data;
+    return this.statusService.getStatusValue(data);
   }
 
   getStatusType(data: string): string {
-    if (data !== undefined) {
-      if (data.toLocaleLowerCase().includes('accepted')) {
-        return 'ACCEPTED';
-      }
-      if (data.toLocaleLowerCase().includes('rfc')) {
-        return 'RFC';
-      }
-      if (data.toLocaleLowerCase().includes('rejected')) {
-        return 'REJECTED';
-      }
-      if (data.toLocaleLowerCase().includes('archived')) {
-        return 'ARCHIVED';
-      }
-      if (data.toLocaleLowerCase().includes('obsolete')) {
-        return 'OBSOLETE';
-      }
-      if (data.toLocaleLowerCase().includes('submission')) {
-        return 'FS';
-      }
-    }
-
-    return 'DEFAULT';
+    return this.statusService.getStatusType(data);
   }
 
   updateSelected(index: string, event: Event): void {
@@ -203,16 +194,58 @@ const language = 'typescript';
   // }
 
   onSendOrder(value: string): void {
-    let orderPrefix = '';
-    if (this.currentSortingColumn === value) {
-      this.ascOrderSorting = !this.ascOrderSorting;
-      orderPrefix = this.ascOrderSorting ? '' : '-';
-    } else {
-      this.ascOrderSorting = true;
-      this.currentSortingColumn = value;
-    }
+    let orderPrefix = OrderDirection.ASC;
 
-    this.sendOrder.emit(orderPrefix + this.transforValue(value));
+    if (this.ascOrderSorting === true || this.currentSortingColumn !== value) {
+      if (this.currentSortingColumn === value) {
+        this.ascOrderSorting = !this.ascOrderSorting;
+        orderPrefix = this.ascOrderSorting
+          ? OrderDirection.ASC
+          : OrderDirection.DESC;
+      } else {
+        this.ascOrderSorting = true;
+        this.currentSortingColumn = value;
+      }
+
+      let order: Order = {
+        field:
+          this.currentSortingColumn == 'pos'
+            ? 'Number'
+            : this.toOrderBy(this.currentSortingColumn),
+        direction: this.ascOrderSorting ? 'ASC' : 'DESC',
+      };
+
+      this.orderService.order = order;
+      this.sendOrder.emit({
+        orderText: orderPrefix + this.transforValue(value),
+        orderObj: order,
+      });
+    } else {
+      this.currentSortingColumn = '';
+      this.ascOrderSorting = true;
+
+      let order: Order = {
+        field: 'Number',
+        direction: 'ASC',
+      };
+
+      this.orderService.order = order;
+      this.sendOrder.emit({
+        orderText: 'mip mipName',
+        orderObj: order,
+      });
+    }
+  }
+
+  getOrderDirection(column: string) {
+    let orderDirection =
+      this.currentSortingColumn === column && this.ascOrderSorting
+        ? 1
+        : this.currentSortingColumn === column && !this.ascOrderSorting
+        ? -1
+        : 0;
+
+    return orderDirection;
   }
 
   transforValue(value: string): string {
@@ -228,6 +261,33 @@ const language = 'typescript';
     if (value === 'status') {
       return 'status';
     }
+  }
+
+  toOrderBy(value: string): string {
+    let orderBy: string;
+
+    switch (value) {
+      case 'pos':
+        orderBy = OrderFieldName.Number;
+        break;
+      case 'title':
+        orderBy = OrderFieldName.Title;
+        break;
+      case 'summary':
+        orderBy = OrderFieldName.Summary;
+        break;
+      case 'status':
+        orderBy = OrderFieldName.Status;
+        break;
+      case 'mostUsed':
+        orderBy = OrderFieldName.MostUsed;
+        break;
+
+      default:
+        break;
+    }
+
+    return orderBy;
   }
 
   onScroll(): void {
@@ -260,13 +320,21 @@ const language = 'typescript';
         let filter = clone(this.filter);
         filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
+        let order: string;
+
+        if (this.orderService.order.field && this.orderService.order.direction) {
+          order = OrderDirection[this.orderService.order.direction] + OrderField[this.orderService.order.field];
+        } else {
+          order = 'mipName';
+        }
 
         this.mipsService
           .searchMips(
             100000,
             0,
-            'mipName',
-            this.search,
+            // 'mipName',
+            order,
+            row.showArrowExpandChildren ? this.search : '',
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )
@@ -282,19 +350,13 @@ const language = 'typescript';
           .subscribe(
             (data) => {
               this.dataSourceTable.data[index]['loadingSubproposals'] = false;
-              // sort by subset
-              let items: any[] = (data.items as []).sort(function (
-                a: any,
-                b: any
-              ) {
-                return +(a.subset as string).split(a.proposal + 'c')[1] <
-                  +(b.subset as string).split(b.proposal + 'c')[1]
-                  ? -1
-                  : 1;
-              });
-
+              let items: any[] = data.items;
               let subproposalsGroup: any = this.groupBy('subset', items);
-              this.sortSubproposalsGroups(subproposalsGroup);
+
+              if (!order || order === 'mip' || order === 'mipName') {
+                this.sortSubproposalsGroups(subproposalsGroup);
+              }
+
               const subsetRows: ISubsetDataElement[] = [];
               const components: ComponentMip[] = this.dataSourceTable.data[index].components;
               let indexComp: number;
@@ -312,7 +374,17 @@ const language = 'typescript';
                 }
               }
 
-              row.subsetRows = subsetRows;
+              let subsetSortedRows: any[] = (subsetRows as []).sort(function (
+                a: any,
+                b: any
+              ) {
+                return +(a.subset as string).split('c')[1] <
+                  +(b.subset as string).split('c')[1]
+                  ? -1
+                  : 1;
+              });
+
+              row.subsetRows = subsetSortedRows;
               row.subproposalsGroup = subproposalsGroup;
               row.expanded = true;
               this.cdr.detectChanges();
@@ -364,6 +436,11 @@ const language = 'typescript';
   // usefull for stop event click propagation when button for get subproposals is disabled and clicked
   onClickButtonCaptureEvent(e: Event) {
     e.stopPropagation();
+  }
+
+  ngOnDestroy() {
+    this.subscriptionSearchService.unsubscribe();
+    this.subscriptionFilterService.unsubscribe();
   }
 }
 
