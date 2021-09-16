@@ -51,7 +51,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     })
   ],
   providers: [
-    Title
+    Title,
+    { provide: HTTP_INTERCEPTORS, useClass: LangInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

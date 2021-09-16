@@ -63,6 +63,8 @@ export class NavMenuComponent implements OnInit {
             this.langService.setCurrentLang(this.menuLang.children[index].id);
             this.swapLang(index);
             this.sortLangItems();
+
+            location.reload(); // TODO: make it SPA
           }
         }
       }
