@@ -312,11 +312,16 @@ export class ParseMIPsService {
       sectionsRaw: [],
       references: [],
     };
+    const mipNumberMatch = item.filename.match(/(?<mipNumber>MIP\d+)\//i);
+    if(!mipNumberMatch){
+      throw(new Error('MIP filename not inside a MIP folder'));
+    }
+    const mipFatherNumber = mipNumberMatch.groups.mipNumber.toUpperCase();
 
     if (item.filename.includes("-")) {
-      mip.proposal = item.filename.split("/")[0];
+      mip.proposal = mipFatherNumber;
     } else {
-      mip.mipName = item.filename.split("/")[0];
+      mip.mipName = mipFatherNumber;
     }
 
     let title: string;

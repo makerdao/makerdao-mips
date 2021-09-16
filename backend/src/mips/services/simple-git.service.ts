@@ -1,11 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
-import simpleGit, {
-  PullResult,
-  Response,
-  SimpleGit,
-} from "simple-git";
+import simpleGit, { PullResult, Response, SimpleGit } from "simple-git";
 
 import { Env } from "@app/env";
 
@@ -46,12 +42,22 @@ export class SimpleGitService {
   async getFiles(): Promise<IGitFile[]> {
     const folderPattern = this.configService.get<string>(Env.FolderPattern);
 
+    const patternI18N = "I18N";
+
     try {
-      const info: string = await this.git.raw([
+      const englishFiles: string = await this.git.raw([
         "ls-files",
         "-s",
         folderPattern,
       ]);
+
+      const internationalsFiles: string = await this.git.raw([
+        "ls-files",
+        "-s",
+        patternI18N,
+      ]);
+
+      const info = englishFiles + "\n" + internationalsFiles;
 
       return info
         .split("\n")
@@ -75,14 +81,14 @@ export class SimpleGitService {
             return {
               filename: filename,
               hash: newData[1].trim(),
-              language: this.getLanguage(filename)
+              language: this.getLanguage(filename),
             };
           }
 
           return {
             filename: newData[3].trim(),
             hash: newData[1].trim(),
-            language: this.getLanguage(newData[3].trim())
+            language: this.getLanguage(newData[3].trim()),
           };
         });
     } catch (error) {
@@ -93,11 +99,16 @@ export class SimpleGitService {
 
   getLanguage(filename: string): Language {
     const defaultLang = Language.English;
+    const languageMatch = filename.match(/I18N\/(?<language>\w\w)\//i);
 
-    if (filename.includes(`_${Language.Spanish}`)) {
-      return Language.Spanish;
+    if (languageMatch) {
+      const languageString = languageMatch.groups.language.toLowerCase();
+
+      if (Object.values(Language).includes(languageString as Language)) {
+        return languageString as Language;
+      }
     }
 
-    return defaultLang;    
+    return defaultLang;
   }
 }
