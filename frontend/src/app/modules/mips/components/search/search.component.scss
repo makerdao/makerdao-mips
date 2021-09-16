@@ -243,7 +243,7 @@ input {
     font-weight: 500;
     background-color: #fff;
     white-space: nowrap;
-    overflow-x: auto;
+    overflow-x: hidden;
     width: 100%;
 
     &:empty::before {
