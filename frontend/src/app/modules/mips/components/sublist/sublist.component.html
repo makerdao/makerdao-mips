@@ -38,6 +38,43 @@
         <br />
 
         {{ element.proposal ? "" : element.mip }}
+        <div (click)="onClickButtonCaptureEvent($event)">
+          <button
+            mat-icon-button
+            *ngIf="!element.proposal && element.mipFather"
+            class="arrow-container"
+            [disabled]="element.loadingSubproposals"
+            (click)="
+              expandedItems = {
+                subproposals: true,
+                summary: false
+              };
+              onGetSubproposals(element, $event)
+            "
+            (mouseover)="onMouseOverLeaveArrow(element._id, true)"
+            (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
+            style="right: 0;"
+          >
+            <div
+              class="arrow-wrapper expanded"
+              [ngClass]="{
+                rotate:
+                  !element.loadingSubproposals &&
+                  element.expanded &&
+                  expandedItems.subproposals
+              }"
+            >
+              <img
+                class="arrow"
+                [src]="
+                  isArrowDownOnMouseOver && element._id == currentRowOver
+                    ? '../../../../../assets/images/down_hover.svg'
+                    : '../../../../../assets/images/down.svg'
+                "
+              />
+            </div>
+          </button>
+        </div>
       </td>
     </span>
 
@@ -163,11 +200,16 @@
       [attr.colspan]="columnsToDisplaySubsetChildren.length"
     >
       <div
-        class="example-element-detail"
+        class="maker-element-subset-detail"
         [@detailExpand]="
-          element == expandedElementSubsetChildren ? 'expanded' : 'collapsed'
+        element.expanded ? 'expanded' : 'collapsed'
         "
-      ></div>
+      >
+        <app-list-subset
+          [dataSourceSubsetRows]="element.subsetRows"
+          [subproposalsGroup]="element.subproposalsGroup"
+        ></app-list-subset>
+      </div>
     </td>
   </ng-container>
 

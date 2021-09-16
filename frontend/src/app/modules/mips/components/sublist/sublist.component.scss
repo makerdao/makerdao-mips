@@ -1,7 +1,3 @@
-:host {
-  width: 100%;
-}
-
 table {
   width: 100%;
 }
@@ -62,6 +58,17 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   }
 }
 
+.headerContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
+  app-asc-des {
+    margin-left: 6px;
+  }
+}
+
 .maker-element-detail {
   overflow: hidden;
   display: flex;
@@ -70,7 +77,7 @@ tr.maker-element-row:not(.maker-expanded-row):active {
 .maker-element-subset-detail {
   overflow: hidden;
   display: flex;
-  padding-left: 68px;
+  padding-left: 0;
 }
 
 .maker-element-subsetchildren-detail {
@@ -106,6 +113,13 @@ th {
   font-style: normal;
   font-size: 12px;
   color: #748aa1;
+
+  &:hover {
+    .headerContent {
+      color: #31394d;
+    }
+
+  }
 }
 
 .up {
@@ -168,6 +182,10 @@ th {
   padding-right: 30px;
 }
 
+.mat-column-expandedDetail {
+  padding: 0 !important;
+}
+
 .mat-column-pos {
   width: 7%;
   max-width: 10px;
@@ -194,6 +212,7 @@ th {
 
 /* Structure */
 .maker-container {
+  min-height: 50vh;
   position: relative;
   box-shadow: 0px 1px 4px #e5e9f2;
 }
@@ -340,6 +359,11 @@ a {
     font-size: 12px;
     color: #748aa1;
     float: left;
+    min-width: fit-content;
+    padding: 0;
+    min-height: 15px;
+    line-height: normal;
+
     img {
       margin-right: 8px;
     }
@@ -604,8 +628,7 @@ a {
 
 :host::ng-deep.subset-table {
   td.mat-cell {
-    border-bottom-color: #1aab9b;
-    padding-left: 14px !important;
+    border-bottom: none;
   }
 
   tr:last-child td.mat-cell {
@@ -616,11 +639,10 @@ a {
 :host::ng-deep.subset-table-children {
   td.mat-cell {
     border-bottom-color: #ebedf4;
-    padding-left: 0px !important;
   }
 
   td.mat-cell:nth-child(1) {
-    padding-left: 22px !important;
+    // padding-left: 22px !important;
   }
 }
 
@@ -639,6 +661,22 @@ a {
   }
   .no-mobile {
     display: none;
+  }
+
+  ::ng-deep.sentenceSummaryMobile {
+    p {
+      font-style: normal;
+      font-weight: normal;
+      margin: 0;
+      font-size: 12px;
+      color: #31394d;
+      margin-top: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
 }
 
@@ -746,8 +784,6 @@ tr.maker-element-subsetchildren-row {
     width: 46.5%;
   }
 
-
-
   .mat-column-status {
     width: 15.5%;
     max-width: 20px;
@@ -760,7 +796,6 @@ tr.maker-element-subsetchildren-row {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 0;
   }
 }
 
