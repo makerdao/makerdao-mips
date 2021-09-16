@@ -102,7 +102,7 @@ export class MIPsController {
         page: +page,
       };
 
-      return await this.mipsService.findAll(
+      let allMips = await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
@@ -110,6 +110,18 @@ export class MIPsController {
         select,
         lang
       );
+      if (allMips.total === 0) {
+        allMips = await this.mipsService.findAll(
+          paginationQueryDto,
+          order,
+          search,
+          filter,
+          select,
+          Language.English
+        );
+      }
+
+      return allMips;
     } catch (error) {
       throw new HttpException(
         {
@@ -137,10 +149,14 @@ export class MIPsController {
     @Query("lang") lang?: Language,
     @Query("mipName") mipName?: string
   ) {
-    const mip = await this.mipsService.findOneByMipName(mipName, lang);
+    let mip = await this.mipsService.findOneByMipName(mipName, lang);
 
     if (!mip) {
-      throw new NotFoundException(`MIPs with name ${mipName} not found`);
+      mip = await this.mipsService.findOneByMipName(mipName, Language.English);
+
+      if (!mip) {
+        throw new NotFoundException(`MIPs with name ${mipName} not found`);
+      }
     }
 
     let subproposals = [];
@@ -222,7 +238,15 @@ export class MIPsController {
       case "filename":
         mip = await this.mipsService.findOneByFileName(value, lang);
         if (!mip) {
-          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+          mip = await this.mipsService.findOneByFileName(
+            value,
+            Language.English
+          );
+          if (!mip) {
+            throw new NotFoundException(
+              `MIPs with ${field} ${value} not found`
+            );
+          }
         }
         return mip;
 
@@ -232,7 +256,15 @@ export class MIPsController {
         mip = await this.mipsService.getSummaryByMipName(value, lang);
 
         if (!mip) {
-          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+          mip = await this.mipsService.getSummaryByMipName(
+            value,
+            Language.English
+          );
+          if (!mip) {
+            throw new NotFoundException(
+              `MIPs with ${field} ${value} not found`
+            );
+          }
         }
         return mip;
 
@@ -246,7 +278,13 @@ export class MIPsController {
         mip = await this.mipsService.getSummaryByMipComponent(value, lang);
 
         if (!mip || mip.components.length !== 1) {
-          throw new NotFoundException(`MIP with ${field} ${value} not found`);
+          mip = await this.mipsService.getSummaryByMipComponent(
+            value,
+            Language.English
+          );
+          if (!mip || mip.components.length !== 1) {
+            throw new NotFoundException(`MIP with ${field} ${value} not found`);
+          }
         }
         return mip;
 
