@@ -38,7 +38,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.menuService.posXClicked$.subscribe((data) => {
-      (this.navMenu.nativeElement as HTMLElement).scrollLeft += data;
+      if (window.innerWidth <= 768) {
+        (this.navMenu.nativeElement as HTMLElement).scrollLeft += data;
+      }
     });
 
     this.initIntersectionObserver();
