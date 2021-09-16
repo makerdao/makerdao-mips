@@ -14,7 +14,9 @@ import { OrderService } from '../../services/order.service';
 import { SearchService } from '../../services/search.service';
 import { SmartSearchService } from '../../services/smart-search.service';
 import { StatusService } from '../../services/status.service';
+import { ComponentMip } from '../../types/component-mip';
 import IFilter from '../../types/filter';
+import { IMip } from '../../types/mip';
 import { IMIPsetDataElement } from '../../types/mipset';
 import {
   Order,
@@ -22,6 +24,7 @@ import {
   OrderField,
   OrderFieldName,
 } from '../../types/order';
+import { ISubsetDataElement } from '../../types/subset';
 const clone = require('rfdc')();
 
 @Component({
@@ -48,12 +51,25 @@ const clone = require('rfdc')();
         animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
+    trigger('subproposalExpand', [
+      state(
+        'collapsed',
+        style({ height: '0px', minHeight: '0', overflow: 'hidden' })
+      ),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
   ],
 })
 export class ListMipsetModeComponent implements OnInit, OnDestroy {
   dataSourceMipsetRows: IMIPsetDataElement[] = [];
   columnsToDisplayMipset = ['mipset'];
   expandedElementMipset: IMIPsetDataElement | null;
+  isArrowMipsetDownOnMouseOver = false;
+  currentMipsetRowOver: any;
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
   mipSets: any = {};
@@ -81,6 +97,19 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
     orderText: string;
     orderObj: Order;
   }>();
+  selected = '-1';
+  _expandedItems: ExpandedItems = {
+    subproposals: true,
+    summary: false,
+  };
+
+  get expandedItems() {
+    return this._expandedItems;
+  }
+
+  set expandedItems(value) {
+    this._expandedItems = { ...value };
+  }
 
   constructor(
     private smartSearchService: SmartSearchService,
@@ -188,8 +217,13 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   }
 
   onMouseOverLeaveMipsetArrow(mipset: any, value: boolean) {
+    this.isArrowMipsetDownOnMouseOver = value;
+    this.currentMipsetRowOver = mipset;
+  }
+
+  onMouseOverLeaveArrow(id: any, value: boolean) {
     this.isArrowDownOnMouseOver = value;
-    this.currentRowOver = mipset;
+    this.currentRowOver = id;
   }
 
   onExpandMipset(row: IMIPsetDataElement) {
@@ -205,7 +239,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
           this.order,
           this.search,
           filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
         )
         .subscribe(
           (data) => {
@@ -231,7 +265,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
           this.order,
           this.search,
           filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
         )
         .toPromise();
       this.mipSets[row.mipset] = data.items;
@@ -384,9 +418,160 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
     return orderDirection;
   }
 
+  onGetSubproposals(row: IMip, mipset: string, e: Event) {
+    e.stopPropagation();
+
+    if (row.expanded) {
+      row.expanded = false;
+    } else {
+      let index = this.mipSets[mipset].findIndex(
+        (item) => item._id === row._id
+      );
+      // show subproposals children
+      if (index !== -1) {
+        this.mipSets[mipset][index]['loadingSubproposals'] = true;
+        let filter = clone(this.filter);
+        filter['equals'] = [];
+        filter.equals.push({ field: 'proposal', value: row.mipName });
+        let order: string;
+
+        if (
+          this.orderService.order.field &&
+          this.orderService.order.direction
+        ) {
+          order =
+            OrderDirection[this.orderService.order.direction] +
+            OrderField[this.orderService.order.field];
+        } else {
+          order = 'mipName';
+        }
+
+        this.mipsService
+          .searchMips(
+            100000,
+            0,
+            // 'mipName',
+            order,
+            row.showArrowExpandChildren ? this.search : '',
+            filter,
+            'title proposal mipName filename paragraphSummary sentenceSummary mip status'
+          )
+          .pipe(
+            map((res) => {
+              const newItems: any[] = (res.items as [])
+                .filter((i: any) => i.mipName)
+                .map(this.addSubsetField);
+              res.items = newItems;
+              return res;
+            })
+          )
+          .subscribe(
+            (data) => {
+              this.mipSets[mipset][index]['loadingSubproposals'] = false;
+              let items: any[] = data.items;
+              let subproposalsGroup: any = this.groupBy('subset', items);
+
+              if (!order || order === 'mip' || order === 'mipName') {
+                this.sortSubproposalsGroups(subproposalsGroup);
+              }
+
+              const subsetRows: ISubsetDataElement[] = [];
+              const components: ComponentMip[] = this.mipSets[mipset][index]
+                .components;
+              let indexComp: number;
+              let componentMipTitle = '';
+
+              for (const key in subproposalsGroup) {
+                if (
+                  Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
+                ) {
+                  indexComp = components.findIndex(
+                    (item) => item.cName === key
+                  );
+                  if (indexComp !== -1) {
+                    componentMipTitle = components[indexComp].cTitle;
+                  }
+                  subsetRows.push({ subset: key, title: componentMipTitle });
+                }
+              }
+
+              let subsetSortedRows: any[] = (subsetRows as []).sort(function (
+                a: any,
+                b: any
+              ) {
+                return +(a.subset as string).split('c')[1] <
+                  +(b.subset as string).split('c')[1]
+                  ? -1
+                  : 1;
+              });
+
+              row.subsetRows = subsetSortedRows;
+              row.subproposalsGroup = subproposalsGroup;
+              row.expanded = true;
+              // this.cdr.detectChanges();
+            },
+            (error) => {
+              this.mipSets[mipset][index]['loadingSubproposals'] = false;
+              console.log(error);
+            }
+          );
+      }
+    }
+  }
+
+  groupBy(field, arr: any[]): any {
+    let group: any = arr.reduce((r, a) => {
+      r[a[field]] = [...(r[a[field]] || []), a];
+      return r;
+    }, {});
+
+    return group;
+  }
+
+  addSubsetField = (item: any) => {
+    let subset: string = (item.mipName as string).split('SP')[0];
+    item.subset = subset;
+    return item;
+  };
+
+  sortSubproposalsGroups(subproposalsGroup: any) {
+    for (const key in subproposalsGroup) {
+      if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+        let element: any[] = subproposalsGroup[key];
+        subproposalsGroup[key] = this.sortSubproposalGroup(element);
+      }
+    }
+  }
+
+  sortSubproposalGroup(arr: any[]) {
+    return arr.sort(function (a: any, b: any) {
+      return (a.mipName as string).includes('SP') &&
+        a.mipName.split('SP').length > 1
+        ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
+          ? -1
+          : 1
+        : 1;
+    });
+  }
+
+  updateSelected(index: string, event: Event): void {
+    event.stopPropagation();
+
+    if (this.selected === index) {
+      this.selected = '-1';
+    } else {
+      this.selected = index;
+    }
+  }
+
   ngOnDestroy() {
     this.subscriptionSearchService.unsubscribe();
     this.subscriptionFilterService.unsubscribe();
     this.subscriptionOrderService.unsubscribe();
   }
+}
+
+interface ExpandedItems {
+  subproposals: boolean;
+  summary: boolean;
 }
