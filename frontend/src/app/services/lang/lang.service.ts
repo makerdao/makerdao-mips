@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Language } from 'src/app/data-types/languages';
 
 @Injectable({
   providedIn: 'root',
@@ -27,11 +28,14 @@ export class LangService {
   }
 
   setCurrentLang(value: string, saveToLocalStorage = true) {
+
+    if(Object.values(Language).includes(value as Language)){
     if (saveToLocalStorage) {
       localStorage.setItem('language', value);
     }
 
     this.lang = value;
     this.currentLang.next(value);
+  }
   }
 }
