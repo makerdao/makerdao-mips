@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './shared/header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FooterComponent } from './shared/footer/footer.component';
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
 import { NavMenuComponent } from './shared/nav-menu/nav-menu.component';
@@ -17,7 +17,9 @@ import { MdFeedbackComponent } from './shared/md-feedback/md-feedback.component'
 import { MdFeedbackDialogComponent } from './shared/md-feedback/md-feedback-dialog/md-feedback-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { LangInterceptor } from './interceptors/lang.interceptor';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   declarations: [
@@ -39,11 +41,23 @@ import { MatDialogModule } from '@angular/material/dialog';
     OverlayModule,
     MatRippleModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
-    Title
+    Title,
+    { provide: HTTP_INTERCEPTORS, useClass: LangInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

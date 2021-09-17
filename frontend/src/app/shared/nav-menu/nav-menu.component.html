@@ -27,4 +27,25 @@
       </div>
     </span>
   </app-menu>
+  <app-menu
+    [menu]="menuLang"
+    [levelMenu]="0"
+    (toggle)="onMenuToggle($event)"
+    [isOpen]="openedIndexChild === menu.length"
+    (opened)="onOpened(menu.length)"
+    [showArrow]="false"
+  >
+    <span>
+      <img
+        *ngIf="menuLang && menuLang.img"
+        [src]="menuLang.img"
+        style="
+          margin-right: 23px;
+          margin-left: 2px;
+          width: 30px;
+          height: 21px;
+        "
+      />
+    </span>
+  </app-menu>
 </div>

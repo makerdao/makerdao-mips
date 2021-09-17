@@ -1,0 +1,32 @@
+{
+  "id": "en",
+  "name": "English",
+  "img": "../../../assets/images/en-flag.svg",
+  "children": [
+    {
+      "id": "de",
+      "name": "German",
+      "img": "../../../assets/images/de-flag.svg"
+    },
+    {
+      "id": "jp",
+      "name": "Japanese",
+      "img": "../../../assets/images/jp-flag.svg"
+    },
+    {
+      "id": "cn",
+      "name": "Chinese",
+      "img": "../../../assets/images/cn-flag.svg"
+    },
+    {
+      "id": "ru",
+      "name": "Russian",
+      "img": "../../../assets/images/ru-flag.svg"
+    },
+    {
+      "id": "es",
+      "name": "Spanish",
+      "img": "../../../assets/images/es-flag.svg"
+    }
+  ]
+}

@@ -54,6 +54,10 @@ export class MenuService {
     return new Observable(g);
   }
 
+  getMenuLang(): Observable<any> {
+    return this.http.get('../../assets/data/menuLang.json');
+  }
+
   async getAuxiliarMenuJson() {
     return this.http.get(environment.menuURLAuxiliar).toPromise();
   }

@@ -59,6 +59,9 @@ import { MdTooltipDirective } from './directives/md-tooltip.directive';
 import { MdTooltipComponent } from './components/md-tooltip/md-tooltip.component';
 import { ButtonTopComponent } from './components/button-top/button-top.component';
 import { AscDesComponent } from './components/asc-des/asc-des.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -124,7 +127,20 @@ import { AscDesComponent } from './components/asc-des/asc-des.component';
     ReactiveFormsModule,
     ContenteditableValueAccessorModule,
     MatExpansionModule,
-    MatRippleModule
+    MatRippleModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
+
   ]
 })
 export class MipsModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

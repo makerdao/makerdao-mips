@@ -37,6 +37,9 @@ import { Subscription } from 'rxjs';
 import { StatusService } from '../../services/status.service';
 import { ISubsetDataElement } from '../../types/subset';
 import { ComponentMip } from '../../types/component-mip';
+import { TranslateService } from '@ngx-translate/core';
+import { LangService } from 'src/app/services/lang/lang.service';
+
 const clone = require('rfdc')();
 
 interface ExpandedItems {
@@ -143,11 +146,20 @@ const language = 'typescript';
     private orderService: OrderService,
     private searchService: SearchService,
     private filterService: FilterService,
-    private statusService: StatusService
-  ) {}
+    private statusService: StatusService,
+    private translate: TranslateService,
+    private langService: LangService
+  ) {
+    this.translate.setDefaultLang('en');
+  }
 
   ngOnInit() {
     this.dataSourceTable.data = this.dataSource;
+    
+    this.langService.currentLang$.subscribe((language: string) => {
+      this.translate.use(language);
+    });
+
     this.currentSortingColumn =
       this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
         ? 'pos'

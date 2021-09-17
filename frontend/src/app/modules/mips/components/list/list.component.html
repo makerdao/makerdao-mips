@@ -28,7 +28,7 @@
                 style="cursor: pointer;"
               >
                 <span class="headerContent"
-                  >{{ column
+                  >{{ column | translate
                   }}<app-asc-des
                     [direction]="getOrderDirection(column)"
                   ></app-asc-des
@@ -526,7 +526,7 @@
         </div>
       </div>
       <div class="load-more" *ngIf="moreToLoad">
-        <p>Scroll to load More</p>
+        <p>{{'Scroll to load More' | translate}}</p>
         <img src="../../../../../assets/images/scroll.svg" />
       </div>
       <div class="loading-plus" *ngIf="loading">
@@ -537,7 +537,7 @@
   <div class="no-result" *ngIf="dataSource.length == 0">
     <div *ngIf="dataSource.length == 0 && !loading">
       <img src="../../../../../assets/images/no_results.svg" />
-      <p>No results found</p>
+      <p>{{'No results found' | translate}}</p>
     </div>
   </div>
 </div>
