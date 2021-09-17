@@ -6,6 +6,7 @@ import { IVarsYaml } from 'src/app/data-types/vars-yaml';
 import { environment } from '../../../environments/environment';
 const YAML = require('yaml');
 import Menu from '../../data-types/menu';
+import { LangService } from '../lang/lang.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,8 +24,9 @@ export class MenuService {
   transitionTime: number = 0.3;
   private clicked: BehaviorSubject<Menu> = new BehaviorSubject<Menu>(null);
   public clicked$: Observable<Menu> = this.clicked.asObservable();
+  varsURL = environment.varsURL;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private langService: LangService) {}
 
   getMenu(): Observable<any> {
     return this.getMenuFile();
@@ -75,9 +77,14 @@ export class MenuService {
   }
 
   getVarsYAML(): Promise<any> {
-    return this.http
-      .get(environment.varsURL, { responseType: 'text' })
-      .toPromise();
+    if (this.langService.lang !== 'en') {
+      this.varsURL = this.varsURL.replace(
+        'meta',
+        `I18N/${this.langService.lang.toUpperCase()}/meta`
+      );
+    }
+
+    return this.http.get(this.varsURL, { responseType: 'text' }).toPromise();
   }
 
   parseVarsYAML(dataVars: string, dataMenu: string): string {
