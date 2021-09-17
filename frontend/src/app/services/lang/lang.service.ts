@@ -13,8 +13,16 @@ export class LangService {
 
   constructor() {
     const savedLanguage = localStorage.getItem('language');
+    const userLanguage =
+      window.navigator['userLanguage'] || window.navigator.language;
+    const languageCodeMatch = userLanguage.match(/^(?<language>\w\w)\b/);
+
     if (savedLanguage) {
       this.setCurrentLang(savedLanguage, false);
+    } else if (languageCodeMatch) {
+      const languageCode = languageCodeMatch.groups.language.toLowerCase();
+
+      this.setCurrentLang(languageCode, false);
     }
   }
 
