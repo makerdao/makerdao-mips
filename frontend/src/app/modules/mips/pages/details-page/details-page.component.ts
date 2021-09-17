@@ -49,10 +49,8 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
       if (queryParam.has('mdUrl')) {
-        this.loadingUrl = true;
         const url = queryParam.get('mdUrl');
 
-        const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
 
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
@@ -80,8 +78,6 @@ export class DetailsPageComponent implements OnInit {
           return item.name !== '\n';
         });
 
-        // const regEx = new RegExp('(.)*');
-        // this.mip.file = this.mip.file.replace(regEx, ' ');
         this.sections = this.mip.sections;
         let indexPreambleSection: number = (this.sections as []).findIndex(
           (i: any) => i.heading === 'Preamble'
