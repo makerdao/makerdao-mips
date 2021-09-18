@@ -14,7 +14,7 @@
 
   svg.active {
     path {
-      fill: #2F80ED;
+      fill: #2f80ed;
     }
   }
 }
@@ -23,9 +23,9 @@
   position: absolute;
   width: 142px;
   z-index: 2;
-  padding: 30px 20px;
-  background: #FFFFFF;
-  box-shadow: 0px 30px 60px #E5E9F2;
+  padding: 30px 20px 20px;
+  background: #ffffff;
+  box-shadow: 0px 30px 60px #e5e9f2;
   border-radius: 5px;
   text-align: left;
   margin-top: 6px;
@@ -35,40 +35,17 @@
   p {
     font-weight: bold;
     font-size: 12px;
-    color: #748AA1;
+    color: #748aa1;
     margin-bottom: 30px;
+    margin-top: 0;
+    padding-left: 10px;
   }
-  hr {
-    border: 1px solid #B8C5D3;
-    margin-bottom: 20px;
-  }
-  img {
-    cursor: pointer;
-    float: right;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 20px;
-    width: 20px;
-    -webkit-transition: 300ms ease all;
-    -moz-transition: 300ms ease all;
-    -o-transition: 300ms ease all;
-    transition: 300ms ease all;
 
-  }
-  .option {
-    // margin-top: 5px;
-    font-style: normal;
-    cursor: pointer;
-    font-size: 12px;
-    color: #748AA1;
+  hr {
+    border: 1px solid #b8c5d3;
     margin-bottom: 20px;
-    &.selected {
-      color: #31394D;
-    }
-    position: relative;
   }
+
   .buttons {
     margin-top: 36px;
     display: flex;
@@ -76,7 +53,7 @@
   }
 
   .btn {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     font-weight: bold;
     font-size: 12px;
     font-family: Roboto;
@@ -88,41 +65,35 @@
   }
 
   .reset {
-    box-shadow: 0px 30px 60px #E5E9F2;
-    color: #31394D;
-    border: 1px solid #31394D;
+    box-shadow: 0px 30px 60px #e5e9f2;
+    color: #31394d;
+    border: 1px solid #31394d;
   }
 
-  .apply  {
-    background-color: #2F80ED;
-    border: 1px solid #2F80ED;
+  .apply {
+    background-color: #2f80ed;
+    border: 1px solid #2f80ed;
     box-sizing: border-box;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 }
 
-.arrow-down {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #B8C5D3;
-  position: absolute;
-  transform: translate(22px, 5px);
-  &.selected-arrow {
-    border-top: 5px solid #31394D;
-  }
+app-md-radio-button {
+  display: block;
+  margin-bottom: 17px;
 }
 
-.arrow-up {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid #B8C5D3;;
+.arrow {
   position: absolute;
-  transform: translate(16px, 5px);
-  &.selected-arrow {
-    border-bottom: 5px solid #31394D;
+  left: 58%;
+}
+
+.up {
+  transform: rotate(180deg);
+}
+
+input:checked ~ .arrow {
+  path {
+    fill: #31394d;
   }
 }
