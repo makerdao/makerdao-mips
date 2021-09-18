@@ -9,4 +9,5 @@ export default interface QueryParams {
   customViewName?: string;
   orderBy?: string;
   orderDirection?: string;
+  lang?:string;
 }

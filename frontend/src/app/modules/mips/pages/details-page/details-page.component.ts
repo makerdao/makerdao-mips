@@ -4,6 +4,7 @@ import { MipsService } from '../../services/mips.service';
 import { MarkdownService } from 'ngx-markdown';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { UrlService } from 'src/app/services/url/url.service';
+import { LangService } from 'src/app/services/lang/lang.service';
 
 @Component({
   selector: 'app-details-page',
@@ -30,7 +31,8 @@ export class DetailsPageComponent implements OnInit {
     private router: Router,
     private markdownService: MarkdownService,
     private metadataShareService: MetadataShareService,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private langService: LangService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +45,11 @@ export class DetailsPageComponent implements OnInit {
         this.loadData();
         this.moveToElement();
       }
+    });
+
+    this.langService.currentLang$.subscribe((language: string) => {
+      // this.translate.use(language);
+      this.loadData();
     });
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {

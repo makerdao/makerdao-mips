@@ -1,0 +1,22 @@
+[
+  {
+    "id": "de",
+    "name": "German",
+    "img": "../../../assets/images/de-flag.svg"
+  },
+  {
+    "id": "jp",
+    "name": "Japanese",
+    "img": "../../../assets/images/jp-flag.svg"
+  },
+  {
+    "id": "cn",
+    "name": "Chinese",
+    "img": "../../../assets/images/cn-flag.svg"
+  },
+  {
+    "id": "ru",
+    "name": "Russian",
+    "img": "../../../assets/images/ru-flag.svg"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "id": "en",
+  "name": "English",
+  "img": "../../../assets/images/en-flag.svg",
+  "children": [
+    {
+      "id": "es",
+      "name": "Spanish",
+      "img": "../../../assets/images/es-flag.svg"
+    }
+  ]
+}

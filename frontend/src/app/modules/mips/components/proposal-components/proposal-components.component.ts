@@ -8,6 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { LangService } from 'src/app/services/lang/lang.service';
 
 @Component({
   selector: 'app-proposal-components',
@@ -22,8 +24,21 @@ export class ProposalComponentsComponent implements AfterViewInit {
   prefixIdLinkSection: string = 'sectionLink-';
   @ViewChild('sectionLinks') sectionLinks;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute,
+    private translate: TranslateService,
+    private langService: LangService
+  ) {
+    this.translate.setDefaultLang('en');
+  }
 
+  ngOnInit(): void {
+    this.langService.currentLang$.subscribe((language: string) => {
+      this.translate.use(language);
+    });
+  }
+  
   ngAfterViewInit() {
     this.route.fragment.subscribe((data) => {
       this.setActiveLinkSection(data);

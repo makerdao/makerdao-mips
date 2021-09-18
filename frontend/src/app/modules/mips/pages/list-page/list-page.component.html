@@ -1,6 +1,6 @@
 <div class="container">
   <p class="title" [ngClass]="{ hide: mobileSearch }">
-    {{ mipsetMode ? "MIP Sets" : activeMenuLinkName }}
+    {{ (mipsetMode ? "MIP Sets" : activeMenuLinkName) | translate }}
   </p>
   <div
     class="filtering"
