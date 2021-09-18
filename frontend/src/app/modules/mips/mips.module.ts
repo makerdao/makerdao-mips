@@ -62,6 +62,7 @@ import { AscDesComponent } from './components/asc-des/asc-des.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MdRadioButtonComponent } from './components/md-radio-button/md-radio-button.component';
 
 
 @NgModule({
@@ -107,7 +108,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     MdTooltipDirective,
     MdTooltipComponent,
     ButtonTopComponent,
-    AscDesComponent
+    AscDesComponent,
+    MdRadioButtonComponent
   ],
   imports: [
     CommonModule,
