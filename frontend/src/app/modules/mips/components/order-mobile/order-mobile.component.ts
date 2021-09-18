@@ -1,3 +1,5 @@
+import { animate, style, transition, trigger } from '@angular/animations';
+import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, OnInit, EventEmitter, Output, Input, ElementRef, HostListener, OnChanges } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { Order, OrderFieldName } from '../../types/order';
@@ -7,41 +9,41 @@ import { Order, OrderFieldName } from '../../types/order';
 @Component({
   selector: 'app-order-mobile',
   templateUrl: './order-mobile.component.html',
-  styleUrls: ['./order-mobile.component.scss']
+  styleUrls: ['./order-mobile.component.scss'],
+  animations: [
+    trigger('enterLeaveSmooth', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.9)' }),
+        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [animate(100, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class OrderMobileComponent implements OnInit, OnChanges {
 
   pos = 1;
   pos1 = 1;
-  showFrame = false;
   @Output() sendOrder = new EventEmitter<{
     orderText: string;
     orderObj: Order;
   }>();
   up = true;
-  inside = false;
   orderBy: OrderFieldName;
   order = '';
   @Input() orderByField: OrderFieldName;
   @Input() orderDirection: string;
-
-  @HostListener('document:click', ['$event'])
-  clickout(event): void {
-    if (!this.eRef.nativeElement.contains(event.target)) {
-      if (this.inside && this.showFrame) {
-        this.inside = false;
-      } else {
-        this.showFrame = false;
-      }
-    }
-  }
+  open = false;
+  positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
 
   constructor(
     private eRef: ElementRef,
     private orderService: OrderService
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initPositionPopup();
+  }
 
   ngOnChanges() {
     let p = 0;
@@ -106,7 +108,7 @@ export class OrderMobileComponent implements OnInit, OnChanges {
       orderObj: orderObj,
     });
 
-    this.showFrame = false;
+    this.open = false;
   }
   reset(): void {
     this.pos = 0;
@@ -136,12 +138,19 @@ export class OrderMobileComponent implements OnInit, OnChanges {
     }
   }
 
-  showHideFrame(): void {
-    if (!this.showFrame) {
-      this.inside = true;
-    }
-
-    this.showFrame = !this.showFrame;
+  initPositionPopup() {
+    this.positionPopup = [
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      },
+    ];
   }
 
+  onClickOutside(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.open = false;
+  }
 }

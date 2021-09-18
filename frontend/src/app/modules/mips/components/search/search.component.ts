@@ -16,12 +16,22 @@ import { SmartSearchService } from '../../services/smart-search.service';
 import { debounceTime, map } from 'rxjs/operators';
 import { position, offset } from 'caret-pos';
 import IFormatting from '../../types/formatting';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('enterLeaveSmooth', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.9)' }),
+        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [animate(100, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class SearchComponent implements OnInit, AfterViewInit {
   @Input() placeHolder? = 'Search on the list';
