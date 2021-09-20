@@ -82,8 +82,7 @@ export class AutocompleteDirective {
           !this.overlayRef &&
           ev.key !== 'ArrowLeft' &&
           ev.key !== 'ArrowRight' &&
-          ev.key !== 'Delete' &&
-          ev.key !== 'Backspace'
+          ev.key !== 'Delete'
         ) {
           this.appAutocomplete.activatedLabel.next(
             this.appAutocomplete.labels[indexLabel]
