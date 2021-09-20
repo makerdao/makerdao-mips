@@ -22,8 +22,15 @@
           *ngFor="let item of subproposals.slice(-3).reverse()"
           [routerLink]="['/mips/details/', item.mipName]"
         >
-          <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
-        >
+          <span>
+            <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}
+          </span>
+          <app-status
+            [type]="getStatusType(item.status)"
+            [value]="getStatusValue(item.status)"
+            style="cursor: pointer;"
+          ></app-status>
+        </a>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
@@ -32,8 +39,15 @@
         *ngFor="let item of subproposals.slice(0, -3).reverse()"
         [routerLink]="['/mips/details/', item.mipName]"
       >
-        <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}</a
-      >
+        <span>
+          <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}
+        </span>
+        <app-status
+          [type]="getStatusType(item.status)"
+          [value]="getStatusValue(item.status)"
+          style="cursor: pointer;"
+        ></app-status>
+      </a>
     </ng-template>
   </mat-expansion-panel>
 </mat-accordion>

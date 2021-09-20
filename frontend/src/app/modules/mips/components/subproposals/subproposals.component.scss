@@ -78,8 +78,9 @@
     text-decoration: none;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #ebedf4;
 
     img {
       margin-right: 9px;
@@ -98,7 +99,7 @@
 mat-expansion-panel {
   background: rgba(26, 171, 155, 0.05) !important;
   border-radius: 5px !important;
-  padding: 16px 22px 0;
+  padding: 16px 16px 0 22px;
   box-shadow: none !important;
   border-bottom: 60px solid transparent;
 }
@@ -118,4 +119,10 @@ mat-expansion-panel-header {
 
 mat-panel-title {
   flex-direction: column;
+  margin-right: 0;
+}
+
+app-status {
+  min-width: 150px;
+  margin-left: 10px;
 }
