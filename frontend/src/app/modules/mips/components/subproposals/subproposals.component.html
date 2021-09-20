@@ -23,7 +23,9 @@
           [routerLink]="['/mips/details/', item.mipName]"
         >
           <span>
-            <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}
+            <ul>
+              <li>{{ item.title }}</li>
+            </ul>
           </span>
           <app-status
             [type]="getStatusType(item.status)"
@@ -40,7 +42,9 @@
         [routerLink]="['/mips/details/', item.mipName]"
       >
         <span>
-          <img src="/assets/images/subproposal_icon.svg" />{{ item.title }}
+          <ul>
+            <li>{{ item.title }}</li>
+          </ul>
         </span>
         <app-status
           [type]="getStatusType(item.status)"

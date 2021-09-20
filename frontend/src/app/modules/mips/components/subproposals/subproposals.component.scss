@@ -24,7 +24,7 @@
     color: #1aab9b;
     position: absolute;
     bottom: 17.5px;
-    left: 22px;
+    right: 16px;
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
@@ -73,14 +73,14 @@
     line-height: 14px;
     color: #2f80ed;
     display: block;
-    margin-top: 14px;
+    margin-top: 16px;
     cursor: pointer;
     text-decoration: none;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ebedf4;
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(188, 190, 199, 0.3);
 
     img {
       margin-right: 9px;
@@ -88,6 +88,22 @@
 
     &:hover {
       text-decoration: underline;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+
+      li {
+        list-style-image: url("/assets/images/subproposal_icon.svg");
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 14px;
+        color: #2f80ed;
+        cursor: pointer;
+      }
     }
   }
 
@@ -124,5 +140,22 @@ mat-panel-title {
 
 app-status {
   min-width: 150px;
-  margin-left: 10px;
+  margin: 8px 0 15px 0;
+}
+
+@media (min-width: 768px) {
+  :host {
+    .link {
+      flex-direction: row;
+    }
+
+    .expandToggle {
+      left: 22px;
+      right: unset;
+    }
+  }
+
+  app-status {
+    margin: 0 0 0 10px;
+  }
 }
