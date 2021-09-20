@@ -143,6 +143,14 @@ app-status {
   margin: 8px 0 15px 0;
 }
 
+:host::ng-deep {
+  app-status {
+    .status-container {
+      font-size: 10px;
+    }
+  }
+}
+
 @media (min-width: 768px) {
   :host {
     .link {
