@@ -77,14 +77,16 @@ export class MenuService {
   }
 
   getVarsYAML(): Promise<any> {
+    let varsURL = this.varsURL;
+
     if (this.langService.lang !== 'en') {
-      this.varsURL = this.varsURL.replace(
+      varsURL = this.varsURL.replace(
         'meta',
         `I18N/${this.langService.lang.toUpperCase()}/meta`
       );
     }
 
-    return this.http.get(this.varsURL, { responseType: 'text' }).toPromise();
+    return this.http.get(varsURL, { responseType: 'text' }).toPromise();
   }
 
   parseVarsYAML(dataVars: string, dataMenu: string): string {
