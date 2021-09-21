@@ -58,7 +58,7 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "lang",
-    description: `Lang files to get output`,
+    description: `Lang files to get output. If file language not found, it default to english version`,
     enum: Language,
     required: false, // If you view this comment change to true value
   })
@@ -102,7 +102,7 @@ export class MIPsController {
         page: +page,
       };
 
-      let allMips = await this.mipsService.findAll(
+      const allMips = await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
@@ -110,16 +110,7 @@ export class MIPsController {
         select,
         lang
       );
-      if (allMips.total === 0) {
-        allMips = await this.mipsService.findAll(
-          paginationQueryDto,
-          order,
-          search,
-          filter,
-          select,
-          Language.English
-        );
-      }
+  
 
       return allMips;
     } catch (error) {
@@ -169,7 +160,10 @@ export class MIPsController {
       const pullRequests = await this.pullRequestService.aggregate(
         mip.filename
       );
-      return { mip, pullRequests, subproposals };
+
+      const languagesAvailables=await this.mipsService.getMipLanguagesAvailables(mipName)
+
+      return { mip, pullRequests, subproposals ,languagesAvailables};
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
@@ -298,6 +292,11 @@ export class MIPsController {
         );
     }
   }
+
+@Get("test")
+async test( @Query("mipName") mipName: string){
+  return this.mipsService.getMipLanguagesAvailables(mipName)
+}
 
   @Post("callback")
   async callback(@Req() { headers, body }: any): Promise<boolean> {
