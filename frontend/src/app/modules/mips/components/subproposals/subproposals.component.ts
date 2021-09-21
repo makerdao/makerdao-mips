@@ -8,6 +8,7 @@ import {
 import { Component, Input, OnInit } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { MdTooltipDirective } from '../../directives/md-tooltip.directive';
+import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-subproposals',
@@ -27,7 +28,10 @@ export class SubproposalsComponent implements OnInit, AfterViewInit {
   startTime: number;
   endTime: number;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private statusService: StatusService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -92,5 +96,13 @@ export class SubproposalsComponent implements OnInit, AfterViewInit {
 
   cleanSubscription() {
     this.scrollSubcription.unsubscribe();
+  }
+
+  getStatusValue(data: string): string {
+    return this.statusService.getStatusValue(data);
+  }
+
+  getStatusType(data: string): string {
+    return this.statusService.getStatusType(data);
   }
 }

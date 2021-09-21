@@ -462,14 +462,17 @@ export class DetailContentComponent
     this.appendSubproposalsElements();
   }
 
-  appendSubproposalsElements() {
+  async appendSubproposalsElements() {
     if (this.subproposals) {
-      this.subproposals.map((item) => {
+      let subData = await this.getSubproposals();
+      let subproposals: any[] = subData.items;
+
+      subproposals.map((item) => {
         let newItem = this.addSubsetField(item);
         return newItem;
       });
 
-      let subproposalsGroup: any = this.groupBy('subset', this.subproposals);
+      let subproposalsGroup: any = this.groupBy('subset', subproposals);
 
       this.sortSubproposalsGroups(subproposalsGroup);
       this.subproposalsGroup = subproposalsGroup;
@@ -564,6 +567,31 @@ export class DetailContentComponent
           : 1
         : 1;
     });
+  }
+
+  getSubproposals() {
+    let order = 'mip mipName';
+    let filter = {
+      contains: [],
+      notcontains: [],
+      equals: [],
+      notequals: [],
+      inarray: [],
+    };
+
+    filter.notequals.push({ field: 'mip', value: -1 });
+    filter.equals.push({ field: 'proposal', value: this.mip.mipName });
+
+    return this.mipsService
+      .searchMips(
+        100000,
+        0,
+        order,
+        '',
+        filter,
+        'title proposal mipName mip status'
+      )
+      .toPromise();
   }
 
   onError() {
