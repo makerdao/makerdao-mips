@@ -24,6 +24,7 @@ export class DetailsPageComponent implements OnInit {
   referencesContent: string[];
   loadingUrl: boolean = true;
   references = [];
+  languagesAvailables: any[];
 
   constructor(
     private mipsService: MipsService,
@@ -73,7 +74,8 @@ export class DetailsPageComponent implements OnInit {
     this.mipsService.getMip(this.mipName).subscribe(
       (data) => {
         this.mip = data.mip;
-
+        this.languagesAvailables = data.languagesAvailables;
+        
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });

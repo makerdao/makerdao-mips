@@ -63,6 +63,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MdRadioButtonComponent } from './components/md-radio-button/md-radio-button.component';
+import { LanguageDocumentComponent } from './components/language-document/language-document.component';
 
 
 @NgModule({
@@ -109,7 +110,8 @@ import { MdRadioButtonComponent } from './components/md-radio-button/md-radio-bu
     MdTooltipComponent,
     ButtonTopComponent,
     AscDesComponent,
-    MdRadioButtonComponent
+    MdRadioButtonComponent,
+    LanguageDocumentComponent
   ],
   imports: [
     CommonModule,
