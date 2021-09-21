@@ -20,6 +20,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   transitionTime: number;
   transitionStyle: string;
   positionX: number = 0;
+  showScrollRightButton = false;
+  showScrollLeftButton = false;
+  @ViewChild('outerRight') outerRight: ElementRef;
+  @ViewChild('outerLeft') outerLeft: ElementRef;
 
   constructor(
     private router: Router,
@@ -34,9 +38,39 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.menuService.posXClicked$.subscribe((data) => {
-      (this.navMenu.nativeElement as HTMLElement).scrollLeft += data;
+      if (window.innerWidth <= 768) {
+        (this.navMenu.nativeElement as HTMLElement).scrollLeft += data;
+      }
     });
+
+    this.initIntersectionObserver();
   }
+
+  initIntersectionObserver() {
+    let options = {
+      root: this.navMenu.nativeElement,
+      rootMargin: '0px',
+      threshold: 0.1,
+    };
+
+    let observer = new IntersectionObserver(this.callback, options);
+    let target1 = document.querySelector('#outerRight');
+    observer.observe(target1);
+    let target2 = document.querySelector('#outerLeft');
+    observer.observe(target2);
+  }
+
+  callback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.target === this.outerRight.nativeElement) {
+        this.showScrollRightButton = !entry.isIntersecting;
+      }
+
+      if (entry.target === this.outerLeft.nativeElement) {
+        this.showScrollLeftButton = !entry.isIntersecting;
+      }
+    });
+  };
 
   clearFilterAndGoHome(): void {
     this.mipsService.clearFilter();
@@ -58,10 +92,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     };
 
     this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['/mips/list']).then(_ => {
+    this.router.navigate(['/mips/list']).then((_) => {
       this.router.onSameUrlNavigation = 'ignore';
     });
-
   }
 
   onMenuToggle(ev) {
@@ -70,5 +103,19 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
 
     this.menuOpen = ev;
+  }
+
+  scrollNavMenuToLeft() {
+    const x = (this.navMenu.nativeElement as HTMLElement).scrollWidth;
+    (this.navMenu.nativeElement as HTMLElement).scrollBy(-x, 0);
+  }
+
+  scrollNavMenuToRight() {
+    const x = (this.navMenu.nativeElement as HTMLElement).scrollWidth;
+    (this.navMenu.nativeElement as HTMLElement).scrollBy(x, 0);
+  }
+
+  visibilityScrollRightButton(value: boolean) {
+    this.showScrollRightButton = value;
   }
 }
