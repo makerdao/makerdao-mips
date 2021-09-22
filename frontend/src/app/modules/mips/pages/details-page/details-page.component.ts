@@ -6,6 +6,7 @@ import { MetadataShareService } from '../../services/metadata-share.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 import { Language } from 'src/app/data-types/languages';
+const YAML = require('yaml');
 
 @Component({
   selector: 'app-details-page',
@@ -73,6 +74,25 @@ export class DetailsPageComponent implements OnInit {
     }
   }
 
+  translateKeywords(sectionRaw: string[], metaVars: any[]) {
+    const translationToUse = metaVars.find(
+      (item) => item.language === this.documentLanguage
+    );
+    const keywords = translationToUse?.translations?.reserved;
+    if (keywords) {
+      const updatedSectionsRaw = sectionRaw.map((item) => {
+        Object.keys(keywords).forEach((key) => {
+          item = item.replace(key, keywords[key]);
+        });
+        return item;
+      });
+
+      return updatedSectionsRaw;
+    }
+
+    return sectionRaw;
+  }
+
   loadData(): void {
     const lang: Language =
       this.documentLanguage ||
@@ -81,7 +101,16 @@ export class DetailsPageComponent implements OnInit {
 
     this.mipsService.getMipWithLanguage(this.mipName, lang).subscribe(
       (data) => {
-        this.mip = data.mip;
+        const metaVars = data.metaVars.map((item) => ({
+          ...item,
+          translations: YAML.parse(item.translations),
+        }));
+
+        this.mip = {
+          ...data.mip,
+          sectionsRaw: this.translateKeywords(data.mip.sectionsRaw, metaVars),
+        };
+
         if (Object.values(Language).includes(data.mip.language)) {
           this.documentLanguage = data.mip.language as Language;
         }
@@ -90,7 +119,7 @@ export class DetailsPageComponent implements OnInit {
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });
-console.log(data.mip.sectionsRaw)
+
         this.sections = this.mip.sections;
         let indexPreambleSection: number = (this.sections as []).findIndex(
           (i: any) => i.heading === 'Preamble'
