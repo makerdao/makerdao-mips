@@ -38,7 +38,6 @@ export class LanguageDocumentComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    
     this.languagesList = this.languagesAvailables.reduce(
       (acc, item) =>
         item.language === this.documentLanguage ? acc : [...acc, item.language],

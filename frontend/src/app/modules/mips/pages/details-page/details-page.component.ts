@@ -82,6 +82,9 @@ export class DetailsPageComponent implements OnInit {
     this.mipsService.getMipWithLanguage(this.mipName, lang).subscribe(
       (data) => {
         this.mip = data.mip;
+        if (Object.values(Language).includes(data.mip.language)) {
+          this.documentLanguage = data.mip.language as Language;
+        }
         this.languagesAvailables = data.languagesAvailables;
 
         this.references = data.mip?.references?.filter((item) => {
