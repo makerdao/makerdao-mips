@@ -47,12 +47,6 @@ export class DetailsPageComponent implements OnInit {
       }
     });
 
-    this.langService.currentLang$.subscribe((language: string) => {
-      if ( this.mipName ) {
-        this.loadData();
-      }
-    });
-
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
       if (queryParam.has('mdUrl')) {
         this.loadingUrl = true;
