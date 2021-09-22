@@ -13,6 +13,7 @@ import { PullRequest, PullRequestSchema } from "./entities/pull-request.entity";
 import { PullRequestService } from "./services/pull-requests.service";
 import { ParseMIPsCommand } from "./mips.command";
 import { ParseQueryService } from "./services/parse-query.service";
+import { Meta, MetaSchema } from "./entities/meta.entity";
 
 @Module({
   imports: [
@@ -31,6 +32,14 @@ import { ParseQueryService } from "./services/parse-query.service";
         collection: PullRequest.name,
         useFactory: () => {
           const schema = PullRequestSchema;
+          return schema;
+        },
+      },
+      {
+        name: Meta.name,
+        collection: Meta.name,
+        useFactory: () => {
+          const schema = MetaSchema;
           return schema;
         },
       },

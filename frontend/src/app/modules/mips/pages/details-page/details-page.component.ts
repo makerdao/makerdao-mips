@@ -90,7 +90,7 @@ export class DetailsPageComponent implements OnInit {
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });
-
+console.log(data.mip.sectionsRaw)
         this.sections = this.mip.sections;
         let indexPreambleSection: number = (this.sections as []).findIndex(
           (i: any) => i.heading === 'Preamble'
