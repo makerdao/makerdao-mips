@@ -23,7 +23,7 @@ export class DetailsPageComponent implements OnInit {
   subproposals: any[];
   referencesContent: string[];
   loadingUrl: boolean = true;
-  references=[]
+  references = [];
 
   constructor(
     private mipsService: MipsService,
@@ -48,8 +48,9 @@ export class DetailsPageComponent implements OnInit {
     });
 
     this.langService.currentLang$.subscribe((language: string) => {
-      // this.translate.use(language);
-      this.loadData();
+      if ( this.mipName ) {
+        this.loadData();
+      }
     });
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
@@ -84,7 +85,7 @@ export class DetailsPageComponent implements OnInit {
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });
-        
+
         // const regEx = new RegExp('(.)*');
         // this.mip.file = this.mip.file.replace(regEx, ' ');
         this.sections = this.mip.sections;
