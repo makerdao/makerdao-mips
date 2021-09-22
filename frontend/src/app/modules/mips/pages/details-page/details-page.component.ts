@@ -32,8 +32,7 @@ export class DetailsPageComponent implements OnInit {
     private router: Router,
     private markdownService: MarkdownService,
     private metadataShareService: MetadataShareService,
-    private urlService: UrlService,
-    private langService: LangService
+    private urlService: UrlService
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +51,7 @@ export class DetailsPageComponent implements OnInit {
       if (queryParam.has('mdUrl')) {
         const url = queryParam.get('mdUrl');
 
-
+        const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
         } else this.mdUrl = url;
