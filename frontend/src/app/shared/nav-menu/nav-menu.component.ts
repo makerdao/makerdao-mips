@@ -5,6 +5,7 @@ import { LangService } from '../../services/lang/lang.service';
 import { MenuService } from '../../services/menu/menu.service';
 import { UrlService } from '../../services/url/url.service';
 import Menu from '../../data-types/menu';
+import { HttpUrlEncodingCodec } from '@angular/common/http';
 
 @Component({
   selector: 'app-nav-menu',
@@ -16,6 +17,7 @@ export class NavMenuComponent implements OnInit {
   openedIndexChild: number = -1;
   menu: Menu[] = [];
   menuLang: Menu = null;
+  codec = new HttpUrlEncodingCodec();
 
   feedBackLinkMenu: Menu = {
     id: 'feedbacklink',
@@ -124,6 +126,10 @@ export class NavMenuComponent implements OnInit {
 
   dfs(menu: Menu) {
     if (menu.href !== undefined) {
+      if (!menu.href.includes('?')) {
+        menu.href = menu.href + '?';
+      }
+
       if (menu.custom_view_name) {
         menu.href += '&customViewName=' + menu.custom_view_name;
       }
@@ -134,6 +140,13 @@ export class NavMenuComponent implements OnInit {
 
       if (menu.orderDirection) {
         menu.href += '&orderDirection=' + menu.orderDirection;
+      }
+
+      if (menu.queries) {
+        menu.queries.forEach((query) => {
+          menu.href +=
+            '&_' + query.id + '=' + this.codec.encodeValue(query.query);
+        });
       }
     }
     menu.children?.forEach((item) => {
