@@ -24,6 +24,8 @@
       <div class="sidebar-wrapper">
         <app-language-document
         *ngIf="languagesAvailables&&mip" 
+        (updateDocumentLanguage)="updateDocumentLanguage($event)"
+        [documentLanguage]="documentLanguage"
           [languagesAvailables]="languagesAvailables"
         ></app-language-document>
 

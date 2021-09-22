@@ -3,6 +3,7 @@ import { HttpClient, HttpParams  } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import FilterData from '../components/filter/filter.data';
+import { Language } from 'src/app/data-types/languages';
 
 
 @Injectable({
@@ -72,6 +73,10 @@ export class MipsService {
 
   getMip(name?: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/mips/findone?mipName=${name}`);
+  }
+
+  getMipWithLanguage(name: string,lang:Language): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/mips/findone?mipName=${name}&lang=${lang}`);
   }
 
   getMipByFilename(filename?: string, field?: string): Observable<any> {

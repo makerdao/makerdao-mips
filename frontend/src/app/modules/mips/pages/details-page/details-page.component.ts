@@ -5,6 +5,7 @@ import { MarkdownService } from 'ngx-markdown';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
+import { Language } from 'src/app/data-types/languages';
 
 @Component({
   selector: 'app-details-page',
@@ -25,6 +26,7 @@ export class DetailsPageComponent implements OnInit {
   loadingUrl: boolean = true;
   references = [];
   languagesAvailables: any[];
+  documentLanguage: Language;
 
   constructor(
     private mipsService: MipsService,
@@ -32,11 +34,13 @@ export class DetailsPageComponent implements OnInit {
     private router: Router,
     private markdownService: MarkdownService,
     private metadataShareService: MetadataShareService,
+    private langService: LangService,
     private urlService: UrlService
   ) {}
 
   ngOnInit(): void {
     this.loadingUrl = true;
+    this.documentLanguage = this.langService.lang as Language;
 
     this.activedRoute.paramMap.subscribe((paramMap) => {
       if (paramMap.has('name')) {
@@ -70,11 +74,16 @@ export class DetailsPageComponent implements OnInit {
   }
 
   loadData(): void {
-    this.mipsService.getMip(this.mipName).subscribe(
+    const lang: Language =
+      this.documentLanguage ||
+      (this.langService.lang as Language) ||
+      Language.English;
+
+    this.mipsService.getMipWithLanguage(this.mipName, lang).subscribe(
       (data) => {
         this.mip = data.mip;
         this.languagesAvailables = data.languagesAvailables;
-        
+
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });
@@ -140,6 +149,13 @@ export class DetailsPageComponent implements OnInit {
         (item) => item.mipName === this.mipName
       );
     }
+  }
+
+  updateDocumentLanguage(newLang: Language) {
+    this.mip = null;
+    this.loadingUrl = true;
+    this.documentLanguage = newLang;
+    this.loadData();
   }
 
   setMetadataShareable() {
