@@ -25,5 +25,12 @@
   "Replaces":"Replaces",
   "Type":"Tipo",
   "Poll Address":"Dirección de encuesta",
-  "Last Opened":"Abierto por última vez"
+  "Last Opened":"Abierto por última vez",
+  "Open":"Abiertos",
+  "Closed":"Cerrados",
+  "was merged":"fue mezclado",
+  "today":"hoy",
+  "1 day ago":"ayer",
+  "days ago":"días atrás",
+  "by":"por"
 }
