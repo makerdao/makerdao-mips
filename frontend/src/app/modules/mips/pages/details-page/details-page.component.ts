@@ -67,30 +67,46 @@ export class DetailsPageComponent implements OnInit {
 
   headingListUpdate(event) {
     this.loadingUrl = false;
-    this.sections = null;
-
     if (this.mdUrl) {
+      this.sections = null;
       this.sections = event;
     }
   }
 
-  translateKeywords(sectionRaw: string[], metaVars: any[]) {
+  translateKeywords(
+    sectionsRaw: any[],
+    metaVars: any[],
+    sections: Boolean = false
+  ) {
     const translationToUse = metaVars.find(
       (item) => item.language === this.documentLanguage
     );
     const keywords = translationToUse?.translations?.reserved;
     if (keywords) {
-      const updatedSectionsRaw = sectionRaw.map((item) => {
-        Object.keys(keywords).forEach((key) => {
-          item = item.replace(key, keywords[key]);
+      if (sections) {
+        // Translation of the keywords for heading for the lateral menu
+        const updatedSections = sectionsRaw.map((item) => {
+          let heading = item.heading;
+          Object.keys(keywords).forEach((key) => {
+            heading = heading.replace(key, keywords[key]);
+          });
+          return { ...item, heading };
         });
-        return item;
-      });
 
-      return updatedSectionsRaw;
+        return updatedSections;
+      } else {
+        // Translation of the keywords for heading for the main Document
+        const updatedSectionsRaw = sectionsRaw.map((item) => {
+          Object.keys(keywords).forEach((key) => {
+            item = item.replace(key, keywords[key]);
+          });
+          return item;
+        });
+
+        return updatedSectionsRaw;
+      }
     }
-
-    return sectionRaw;
+    return sectionsRaw;
   }
 
   loadData(): void {
@@ -120,7 +136,12 @@ export class DetailsPageComponent implements OnInit {
           return item.name !== '\n';
         });
 
-        this.sections = this.mip.sections;
+        this.sections = this.translateKeywords(
+          this.mip.sections,
+          metaVars,
+          true
+        );
+        
         let indexPreambleSection: number = (this.sections as []).findIndex(
           (i: any) => i.heading === 'Preamble'
         );
