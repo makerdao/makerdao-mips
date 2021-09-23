@@ -5,6 +5,8 @@ import { MarkdownService } from 'ngx-markdown';
 import { MetadataShareService } from '../../services/metadata-share.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
+import { Language } from 'src/app/data-types/languages';
+const YAML = require('yaml');
 
 @Component({
   selector: 'app-details-page',
@@ -24,6 +26,8 @@ export class DetailsPageComponent implements OnInit {
   referencesContent: string[];
   loadingUrl: boolean = true;
   references = [];
+  languagesAvailables: any[];
+  documentLanguage: Language;
 
   constructor(
     private mipsService: MipsService,
@@ -31,12 +35,13 @@ export class DetailsPageComponent implements OnInit {
     private router: Router,
     private markdownService: MarkdownService,
     private metadataShareService: MetadataShareService,
-    private urlService: UrlService,
-    private langService: LangService
+    private langService: LangService,
+    private urlService: UrlService
   ) {}
 
   ngOnInit(): void {
     this.loadingUrl = true;
+    this.documentLanguage = this.langService.lang as Language;
 
     this.activedRoute.paramMap.subscribe((paramMap) => {
       if (paramMap.has('name')) {
@@ -49,11 +54,9 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
       if (queryParam.has('mdUrl')) {
-        this.loadingUrl = true;
         const url = queryParam.get('mdUrl');
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
-
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
         } else this.mdUrl = url;
@@ -64,25 +67,81 @@ export class DetailsPageComponent implements OnInit {
 
   headingListUpdate(event) {
     this.loadingUrl = false;
-    this.sections = null;
-
     if (this.mdUrl) {
+      this.sections = null;
       this.sections = event;
     }
   }
 
+  translateKeywords(
+    sectionsRaw: any[],
+    metaVars: any[],
+    sections: Boolean = false
+  ) {
+    const translationToUse = metaVars.find(
+      (item) => item.language === this.documentLanguage
+    );
+    const keywords = translationToUse?.translations?.reserved;
+    if (keywords) {
+      if (sections) {
+        // Translation of the keywords for heading for the lateral menu
+        const updatedSections = sectionsRaw.map((item) => {
+          let heading = item.heading;
+          Object.keys(keywords).forEach((key) => {
+            heading = heading.replace(key, keywords[key]);
+          });
+          return { ...item, heading };
+        });
+
+        return updatedSections;
+      } else {
+        // Translation of the keywords for heading for the main Document
+        const updatedSectionsRaw = sectionsRaw.map((item) => {
+          Object.keys(keywords).forEach((key) => {
+            item = item.replace(key, keywords[key]);
+          });
+          return item;
+        });
+
+        return updatedSectionsRaw;
+      }
+    }
+    return sectionsRaw;
+  }
+
   loadData(): void {
-    this.mipsService.getMip(this.mipName).subscribe(
+    const lang: Language =
+      this.documentLanguage ||
+      (this.langService.lang as Language) ||
+      Language.English;
+
+    this.mipsService.getMipWithLanguage(this.mipName, lang).subscribe(
       (data) => {
-        this.mip = data.mip;
+        const metaVars = data.metaVars.map((item) => ({
+          ...item,
+          translations: YAML.parse(item.translations),
+        }));
+
+        this.mip = {
+          ...data.mip,
+          sectionsRaw: this.translateKeywords(data.mip.sectionsRaw, metaVars),
+        };
+
+        if (Object.values(Language).includes(data.mip.language)) {
+          this.documentLanguage = data.mip.language as Language;
+        }
+        this.languagesAvailables = data.languagesAvailables;
 
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });
 
-        // const regEx = new RegExp('(.)*');
-        // this.mip.file = this.mip.file.replace(regEx, ' ');
-        this.sections = this.mip.sections;
+        this.sections = this.translateKeywords(
+          this.mip.sections,
+          metaVars,
+          true
+        );
+        
         let indexPreambleSection: number = (this.sections as []).findIndex(
           (i: any) => i.heading === 'Preamble'
         );
@@ -143,6 +202,13 @@ export class DetailsPageComponent implements OnInit {
         (item) => item.mipName === this.mipName
       );
     }
+  }
+
+  updateDocumentLanguage(newLang: Language) {
+    this.mip = null;
+    this.loadingUrl = true;
+    this.documentLanguage = newLang;
+    this.loadData();
   }
 
   setMetadataShareable() {

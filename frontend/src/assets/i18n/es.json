@@ -1,4 +1,7 @@
 {
+  "Languages":"Idiomas",
+  "Spanish":"Español",
+  "English":"Inglés",
   "title": "título",
   "summary": "resumen",
   "status": "estado",
@@ -10,5 +13,24 @@
   "Details": "Detalles",
   "References": "Referencias",
   "See all": "Ver todos",
-  "Recent Changes": "Cambios Recientes"
+  "Recent Changes": "Cambios Recientes",
+  "Title":"Título",
+  "Status":"Estatus",
+  "Tags":"Etiquetas",
+  "Date Proposed":"Fecha propuesta",
+  "Date Ratified":"Fecha de ratificación",
+  "Author":"Autor",
+  "Contributor":"Contribuyente",
+  "Dependencies":"Dependencias",
+  "Replaces":"Replaces",
+  "Type":"Tipo",
+  "Poll Address":"Dirección de encuesta",
+  "Last Opened":"Abierto por última vez",
+  "Open":"Abiertos",
+  "Closed":"Cerrados",
+  "was merged":"fue mezclado",
+  "today":"hoy",
+  "1 day ago":"ayer",
+  "days ago":"días atrás",
+  "by":"por"
 }

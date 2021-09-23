@@ -1,9 +1,9 @@
 import { Component, HostBinding, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { FeedbackService } from 'src/app/modules/mips/services/feedback.service';
-import { LangService } from 'src/app/services/lang/lang.service';
-import { MenuService } from 'src/app/services/menu/menu.service';
-import { UrlService } from 'src/app/services/url/url.service';
+import { FeedbackService } from '../../modules/mips/services/feedback.service';
+import { LangService } from '../../services/lang/lang.service';
+import { MenuService } from '../../services/menu/menu.service';
+import { UrlService } from '../../services/url/url.service';
 import Menu from '../../data-types/menu';
 
 @Component({

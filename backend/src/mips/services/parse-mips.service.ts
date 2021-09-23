@@ -65,6 +65,8 @@ export class ParseMIPsService {
         result[1]
       );
 
+      await this.simpleGitService.saveMetaVars();
+
       if (result[2] === 0) {
         let data = await this.githubService.pullRequests(pullRequests);
         await this.pullRequestService.create(
@@ -313,8 +315,8 @@ export class ParseMIPsService {
       references: [],
     };
     const mipNumberMatch = item.filename.match(/(?<mipNumber>MIP\d+)\//i);
-    if(!mipNumberMatch){
-      throw(new Error('MIP filename not inside a MIP folder'));
+    if (!mipNumberMatch) {
+      throw new Error("MIP filename not inside a MIP folder");
     }
     const mipFatherNumber = mipNumberMatch.groups.mipNumber.toUpperCase();
 

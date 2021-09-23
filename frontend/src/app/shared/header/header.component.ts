@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { MipsService } from '../../modules/mips/services/mips.service';
-import { MenuService } from 'src/app/services/menu/menu.service';
+import { MenuService } from '../../services/menu/menu.service';
 
 @Component({
   selector: 'app-header',

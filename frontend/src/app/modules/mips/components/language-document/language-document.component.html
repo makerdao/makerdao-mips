@@ -1,0 +1,19 @@
+<div class="container">
+  <p class="title" style="margin-bottom: 10px;">
+    {{ "Languages" | translate }}
+  </p>
+  <hr />
+  <span class="row data-container">
+    <span class="infoNoLink">{{ languagesNames[documentLanguage] }}</span>
+  </span>
+  <div *ngFor="let item of languagesList">
+    <hr />
+    <div *ngIf="languagesNames[item]" class="data-container">
+      <span class="row">
+        <span class="info" (click)="handleLinkClicked(item); (false)">{{
+          languagesNames[item]
+        }}</span>
+      </span>
+    </div>
+  </div>
+</div>

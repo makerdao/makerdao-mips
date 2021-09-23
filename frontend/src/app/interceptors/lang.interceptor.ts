@@ -16,10 +16,15 @@ export class LangInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const modifiedRequest = request.clone({
-      params: request.params.append('lang', this.langService.lang),
-    });
 
-    return next.handle(modifiedRequest);
+    if (!request?.url?.includes('lang=')) {
+      const modifiedRequest = request.clone({
+        params: request.params.append('lang', this.langService.lang),
+      });
+
+      return next.handle(modifiedRequest);
+    }
+
+    return next.handle(request);
   }
 }
