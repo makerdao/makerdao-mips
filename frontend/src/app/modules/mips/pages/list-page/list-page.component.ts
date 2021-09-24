@@ -64,6 +64,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   totalMipsSuggestion = 0;
   searchSuggestions = false;
   orderObj: Order;
+  multipleQueries = false;
 
   constructor(
     private mipsService: MipsService,
@@ -97,6 +98,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     });
 
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
+      console.log("qParams$.subscribe");
+
       this.updateUrlQueryParams(data);
     });
   }
@@ -154,6 +157,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
     };
+
+    for(const key in queryParams.params) {
+      if (key.startsWith("_")) {
+        qp[key] = queryParams.params[key];
+        this.multipleQueries = true;
+      }
+    }
 
     this.queryParamsListService.queryParams = qp;
 
@@ -621,10 +631,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.mips[indexFatherInMips].subsetRows = subsetRows;
           this.mips[indexFatherInMips].expanded = true;
         } else if (!item.proposal) {
-          item.expanded = false;
-          item.children = [];
-          item.showArrowExpandChildren = false;
-          newData.push(item);
+          const indexItemInLoadedMips = this.indexItemInLoadedMips(item, this.mips);
+          const indexItemInLoadedNewdata = this.indexItemInLoadedMips(item, newData);
+
+          if (indexItemInLoadedMips === -1 && indexItemInLoadedNewdata === -1) {
+            item.expanded = false;
+            item.children = [];
+            item.showArrowExpandChildren = false;
+            newData.push(item);
+          }
         }
       }
     };
@@ -644,6 +659,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   indexFather(mip: IMip, mips: IMip[]) {
     return mips.findIndex(item => mip.proposal === item.mipName);
+  }
+
+  indexItemInLoadedMips(mip: IMip, mips: IMip[]) {
+    return mips.findIndex(item => mip.mipName === item.mipName);
   }
 
   addSubsetField = (item: any) => {
@@ -947,6 +966,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     let filterSaved = this.mipsService.getFilter();
 
     let qp: QueryParams = {
+      ...this.queryParamsListService.queryParams,
       status: [],
       search: this.search,
       mipsetMode: this.mipsetMode,
@@ -981,7 +1001,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       queryParams: qp,
     };
 
-    this.router.navigate(['/mips/list'], { ...navigationExtras });
+    this.router.navigate([], { ...navigationExtras });
   }
 
   onCheckedMipsetMode(ev) {

@@ -145,7 +145,7 @@ export class NavMenuComponent implements OnInit {
       if (menu.queries) {
         menu.queries.forEach((query) => {
           menu.href +=
-            '&_' + query.id + '=' + this.codec.encodeValue(query.query);
+            '&_' + query.id + '=$' + this.codec.encodeValue(query.query);
         });
       }
     }

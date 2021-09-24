@@ -2,7 +2,7 @@
   <div *ngIf="loading && !dataSource.length" class="maker-loading-shade">
     <mat-spinner></mat-spinner>
   </div>
-  <div *ngIf="dataSource.length > 0">
+  <div *ngIf="dataSource?.length > 0">
     <div
       infiniteScroll
       [infiniteScrollDistance]="0"
@@ -255,7 +255,9 @@
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <ng-container *ngIf="showHead">
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        </ng-container>
         <tr
           mat-row
           *matRowDef="let element; columns: columnsToDisplay"
@@ -534,7 +536,7 @@
       </div>
     </div>
   </div>
-  <div class="no-result" *ngIf="dataSource.length == 0">
+  <div class="no-result" *ngIf="dataSource?.length == 0">
     <div *ngIf="dataSource.length == 0 && !loading">
       <img src="../../../../../assets/images/no_results.svg" />
       <p>{{'No results found' | translate}}</p>

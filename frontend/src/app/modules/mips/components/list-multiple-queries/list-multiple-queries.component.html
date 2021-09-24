@@ -1,0 +1,488 @@
+<div class="maker-container">
+  <table mat-table [dataSource]="null" multiTemplateDataRows class="no-mobile">
+    <ng-container
+      matColumnDef="{{ column }}"
+      *ngFor="let column of columnsToDisplay"
+    >
+      <span *ngIf="column != 'link'">
+        <span *ngIf="column != 'pos'">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            style="cursor: pointer;"
+            (click)="onSendOrder(column)"
+          >
+            <span class="headerContent"
+              >{{ column
+              }}<app-asc-des
+                [direction]="getOrderDirection(column)"
+              ></app-asc-des
+            ></span>
+          </th>
+        </span>
+        <span *ngIf="column == 'pos'">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            style="cursor: pointer;"
+            (click)="onSendOrder(column)"
+          >
+            <span class="headerContent"
+              >#<app-asc-des
+                [direction]="getOrderDirection(column)"
+              ></app-asc-des
+            ></span>
+          </th>
+        </span>
+      </span>
+      <span *ngIf="column == 'link'">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ column }}
+        </th>
+      </span>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  </table>
+
+  <div *ngIf="loading" class="maker-loading-shade">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <table
+    *ngIf="!loading"
+    mat-table
+    [dataSource]="dataSourceMultiQueriesRows"
+    multiTemplateDataRows
+    class="mipset-table no-mobile"
+  >
+    <ng-container
+      matColumnDef="{{ column }}"
+      *ngFor="let column of columnsToDisplayMultiQueries"
+    >
+      <span *ngIf="column == 'queryName'" class="mipsetColumnWrapper">
+        <td
+          class="mipsetColumn"
+          mat-cell
+          *matCellDef="let element"
+          style="cursor: pointer; position: relative;"
+          [ngStyle]="{
+            color: element.expanded ? '#B8C5D3' : ''
+          }"
+        >
+          {{ element[column].split("_").join(" ") | titlecase }}
+          <div>
+            <button
+              class="arrow-container"
+              (mouseover)="onMouseOverLeaveMipsetArrow(element.queryName, true)"
+              (mouseleave)="
+                onMouseOverLeaveMipsetArrow(element.queryName, false)
+              "
+              style="right: 0; position: relative;"
+              [ngClass]="{
+                'dark-expand-arrow': !element.expanded,
+                'shine-expand-arrow': element.expanded
+              }"
+            >
+              <div
+                class="arrow-wrapper expanded"
+                [ngClass]="{
+                  rotate: element.expanded
+                }"
+              >
+                <svg
+                  width="10"
+                  height="7.14"
+                  viewBox="0 0 7 5"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="arrow"
+                >
+                  <path
+                    *ngIf="!element.expanded"
+                    d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
+                    fill="#748AA1"
+                  />
+                  <path
+                    *ngIf="element.expanded"
+                    d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
+                    fill="#B8C5D3"
+                  />
+                </svg>
+              </div>
+            </button>
+          </div>
+        </td>
+      </span>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [attr.colspan]="columnsToDisplayMultiQueries.length"
+      >
+        <div
+          class="maker-element-subsetchildren-detail"
+          [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
+        >
+          <ng-container>
+            <app-list
+              [loading]="element.loading"
+              [moreToLoad]="element.moreToLoad"
+              [dataSource]="element.mips"
+              [paginationTotal]="element.total"
+              (send)="onSendPagination(element)"
+              (sendOrder)="onSendOrder($event)"
+              [showHead]="false"
+              [query]="element.query"
+            ></app-list>
+            <!-- <app-list
+              *ngIf="!mipsetMode && !multipleQueries"
+              [loading]="loading"
+              [moreToLoad]="moreToLoad"
+              [dataSource]="mips"
+              [paginationTotal]="total"
+              (send)="onSendPagination()"
+              (sendOrder)="onSendOrder($event)"
+              [showHead]="true"
+            ></app-list> -->
+          </ng-container>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr
+      mat-row
+      *matRowDef="let element; columns: columnsToDisplayMultiQueries"
+      class="maker-element-mipset-row"
+      [class.maker-expanded-row]="element.expanded"
+      (click)="onExpandQuery(element)"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="maker-detail-mipset-row"
+    ></tr>
+  </table>
+
+  <!-- <ng-container *ngIf="!loading">
+    <div *ngFor="let itemMipset of dataSourceMipsetRows" class="mobile">
+      <button
+        mat-button
+        class="mobile-container subproposal-card-mipsetMode"
+        (click)="onExpandMipset(itemMipset)"
+      >
+        <div style="width: calc(100% - 35px);">
+          <span class="title" style="font-size: 20px;">
+            {{ itemMipset.mipset | tagMipset | titlecase }}</span
+          >
+        </div>
+        <div class="subproposalsButtonWrapper">
+          <button
+            class="arrow-container"
+            [disabled]="false"
+            style="right: 0; top: 24px; transform: translateY(-50%);"
+          >
+            <div
+              class="arrow-wrapper expanded"
+              [ngClass]="{
+                rotate: itemMipset.expanded
+              }"
+            >
+              <img
+                class="arrow"
+                [src]="
+                  isArrowMipsetDownOnMouseOver
+                    ? '../../../../../assets/images/down_hover.svg'
+                    : '../../../../../assets/images/down.svg'
+                "
+              />
+            </div>
+          </button>
+        </div>
+      </button>
+
+      <div [@mipsetExpand]="itemMipset.expanded ? 'expanded' : 'collapsed'">
+        <div
+          *ngFor="let itemMipsetChildren of mipSets[itemMipset.mipset]"
+          style="width: 100%;"
+        >
+          <div
+            class="mobile-container"
+            [ngClass]="{
+              'proposal-card': !itemMipsetChildren.proposal,
+              'subproposal-card': itemMipsetChildren.proposal
+            }"
+          >
+            <div style="width: calc(100% - 35px);">
+              {{
+                itemMipsetChildren.proposal ? "" : "# " + itemMipsetChildren.mip
+              }}
+              <img
+                *ngIf="!itemMipsetChildren.proposal"
+                src="../../../../../assets/images/circle.svg"
+              />
+              <span class="title">
+                <a routerLink="/mips/details/{{ itemMipsetChildren.mipName }}">
+                  {{
+                    itemMipsetChildren.title &&
+                    itemMipsetChildren.title.includes("-SP")
+                      ? "SP" + itemMipsetChildren.title.split("-SP")[1]
+                      : itemMipsetChildren.title
+                  }}</a
+                ></span
+              >
+            </div>
+            <div class="status">
+              <app-status
+                [type]="getStatusType(itemMipsetChildren.status)"
+                [value]="getStatusValue(itemMipsetChildren.status)"
+              ></app-status>
+            </div>
+            <div class="content">
+              <a
+                *ngIf="selected != itemMipsetChildren._id"
+                routerLink="/mips/details/{{ itemMipsetChildren.mipName }}"
+              >
+                <markdown
+                  class="variable-binding-content"
+                  [data]="itemMipsetChildren.sentenceSummary"
+                ></markdown>
+              </a>
+              <a
+                *ngIf="selected == itemMipsetChildren._id"
+                routerLink="/mips/details/{{ itemMipsetChildren.mipName }}"
+              >
+                <markdown
+                  class="variable-binding-content"
+                  [data]="itemMipsetChildren.paragraphSummary"
+                ></markdown>
+              </a>
+            </div>
+            <div style="clear: both;"></div>
+            <div
+              class="more"
+              (click)="updateSelected(itemMipsetChildren._id, $event)"
+            >
+              <img
+                class="arrow"
+                [ngClass]="{
+                  rotate: selected == itemMipsetChildren._id
+                }"
+                src="../../../../../assets/images/down.svg"
+              />
+              More
+            </div>
+            <app-social
+              forumLink="#"
+              [githubLink]="itemMipsetChildren.filename"
+              mobile="true"
+            ></app-social>
+            <div style="clear: both;"></div>
+            <div class="subproposalsButtonWrapper">
+              <button
+                mat-icon-button
+                *ngIf="
+                  !itemMipsetChildren.proposal && itemMipsetChildren.mipFather
+                "
+                class="arrow-container"
+                [disabled]="itemMipsetChildren.loadingSubproposals"
+                (click)="
+                  expandedItems = { subproposals: true, summary: false };
+                  onGetSubproposals(
+                    itemMipsetChildren,
+                    itemMipset.mipset,
+                    $event
+                  )
+                "
+                (mouseover)="
+                  onMouseOverLeaveArrow(itemMipsetChildren._id, true)
+                "
+                (mouseleave)="
+                  onMouseOverLeaveArrow(itemMipsetChildren._id, false)
+                "
+                style="right: 0;"
+              >
+                <div
+                  class="arrow-wrapper expanded"
+                  [ngClass]="{
+                    rotate:
+                      !itemMipsetChildren.loadingSubproposals &&
+                      itemMipsetChildren.expanded &&
+                      expandedItems.subproposals
+                  }"
+                >
+                  <img
+                    class="arrow"
+                    [src]="
+                      isArrowDownOnMouseOver &&
+                      itemMipsetChildren._id == currentRowOver
+                        ? '../../../../../assets/images/down_hover.svg'
+                        : '../../../../../assets/images/down.svg'
+                    "
+                  />
+                </div>
+              </button>
+            </div>
+          </div>
+          <div
+            [@detailExpand]="
+              itemMipsetChildren.expanded ? 'expanded' : 'collapsed'
+            "
+          >
+            <ng-container *ngIf="itemMipsetChildren.expanded">
+              <div *ngFor="let itemSubset of itemMipsetChildren.subsetRows">
+                <div class="mobile-container subproposal-card-subset">
+                  <div style="width: calc(100% - 35px);">
+                    <span class="title">
+                      {{ itemSubset.subset + ": " + itemSubset.title }}</span
+                    >
+                  </div>
+                  <div class="subproposalsButtonWrapper">
+                    <button
+                      mat-icon-button
+                      *ngIf="
+                        !itemMipsetChildren.proposal &&
+                        itemMipsetChildren.mipFather
+                      "
+                      class="arrow-container"
+                      [disabled]="itemMipsetChildren.loadingSubproposals"
+                      (click)="
+                        expandedItems = { subproposals: true, summary: false };
+                        itemSubset.expanded = !itemSubset.expanded
+                      "
+                      (mouseover)="
+                        onMouseOverLeaveArrow(itemMipsetChildren._id, true)
+                      "
+                      (mouseleave)="
+                        onMouseOverLeaveArrow(itemMipsetChildren._id, false)
+                      "
+                      style="right: 0;"
+                    >
+                      <div
+                        class="arrow-wrapper expanded"
+                        [ngClass]="{
+                          rotate:
+                            itemSubset.expanded && expandedItems.subproposals
+                        }"
+                      >
+                        <svg
+                          width="7"
+                          height="5"
+                          viewBox="0 0 7 5"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="arrow"
+                        >
+                          <path
+                            d="M3.91278 4.79436C3.70724 5.06854 3.29276 5.06854 3.08722 4.79436L0.102225 0.812461C-0.149574 0.476568 0.0925517 -6.03868e-07 0.515005 -5.66936e-07L6.485 -4.50231e-08C6.90745 -8.09104e-09 7.14957 0.476568 6.89778 0.812461L3.91278 4.79436Z"
+                            fill="#1aab9b"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  [@subproposalExpand]="
+                    itemSubset.expanded ? 'expanded' : 'collapsed'
+                  "
+                >
+                  <ng-container *ngIf="itemSubset.expanded">
+                    <div
+                      *ngFor="
+                        let itemSubsetChildren of itemMipsetChildren
+                          .subproposalsGroup[itemSubset.subset]
+                      "
+                      class="mobile-container subproposal-card"
+                    >
+                      <div style="width: calc(100% - 35px);">
+                        {{
+                          itemSubsetChildren.proposal
+                            ? ""
+                            : "# " + itemSubsetChildren.mip
+                        }}
+                        <img
+                          *ngIf="!itemSubsetChildren.proposal"
+                          src="../../../../../assets/images/circle.svg"
+                        />
+                        <span class="title">
+                          <a
+                            routerLink="/mips/details/{{
+                              itemSubsetChildren.mipName
+                            }}"
+                          >
+                            {{
+                              itemSubsetChildren.title &&
+                              itemSubsetChildren.title.includes("-SP")
+                                ? "SP" +
+                                  itemSubsetChildren.title.split("-SP")[1]
+                                : itemSubsetChildren.title
+                            }}</a
+                          ></span
+                        >
+                      </div>
+                      <div class="status">
+                        <app-status
+                          [type]="getStatusType(itemSubsetChildren.status)"
+                          [value]="getStatusValue(itemSubsetChildren.status)"
+                        ></app-status>
+                      </div>
+                      <div class="content">
+                        <a
+                          *ngIf="selected != itemSubsetChildren._id"
+                          routerLink="/mips/details/{{
+                            itemSubsetChildren.mipName
+                          }}"
+                        >
+                          <markdown
+                            class="variable-binding-content"
+                            [data]="itemSubsetChildren.sentenceSummary"
+                          ></markdown>
+                        </a>
+                        <a
+                          *ngIf="selected == itemSubsetChildren._id"
+                          routerLink="/mips/details/{{
+                            itemSubsetChildren.mipName
+                          }}"
+                        >
+                          <markdown
+                            class="variable-binding-content"
+                            [data]="itemSubsetChildren.paragraphSummary"
+                          ></markdown>
+                        </a>
+                      </div>
+                      <div style="clear: both;"></div>
+                      <button
+                        mat-button
+                        class="more"
+                        (click)="updateSelected(itemSubsetChildren._id, $event)"
+                      >
+                        <img
+                          class="arrow"
+                          [ngClass]="{
+                            rotate: selected == itemSubsetChildren._id
+                          }"
+                          src="../../../../../assets/images/down.svg"
+                        />
+                        More
+                      </button>
+                      <app-social
+                        forumLink="#"
+                        [githubLink]="itemSubsetChildren.filename"
+                        mobile="true"
+                      ></app-social>
+                      <div style="clear: both;"></div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container> -->
+</div>
