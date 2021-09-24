@@ -1,11 +1,11 @@
 import {
   animate,
+  AnimationEvent,
   state,
   style,
   transition,
   trigger,
 } from '@angular/animations';
-import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -143,8 +143,6 @@ export class ListMultipleQueriesComponent implements OnInit {
     this.subscriptionOrderService = this.orderService.orderObs$.subscribe(
       (data) => {
         if (this.initialized) {
-          console.log('heree');
-
           this.order = this.orderService.order.field
             ? OrderDirection[this.orderService.order.direction] +
               OrderField[this.orderService.order.field]
@@ -159,19 +157,13 @@ export class ListMultipleQueriesComponent implements OnInit {
           this.ascOrderSorting = this.orderService.order.direction == 'ASC';
 
           this.queryRows();
-          if (this.dataSourceMultiQueriesRows.length) {
-            this.onExpandQuery(this.dataSourceMultiQueriesRows[0]);
-          }
         }
       }
     );
-
-    // this.queryRows();
   }
 
   queryRows() {
     this.dataSourceMultiQueriesRows = [];
-    // this.loading = true;
     const queryParams = this.queryParamsListService.queryParams;
 
     for (const key in queryParams) {
@@ -186,25 +178,14 @@ export class ListMultipleQueriesComponent implements OnInit {
             page: 0,
             mips: [],
             loading: false,
+            limitAux: 10,
           });
         }
       }
     }
-
-    console.log(
-      'this.dataSourceMultiQueriesRows',
-      this.dataSourceMultiQueriesRows
-    );
-
-    // this.loading = false;
   }
 
   onSendOrder(value: string): void {
-    console.log('onSendOrder');
-
-    // location.search += "name=Humberto";
-    // Location.normalizeQueryParams("name=Humberto")
-
     let orderPrefix = '';
     if (this.ascOrderSorting === true || this.currentSortingColumn !== value) {
       if (this.currentSortingColumn === value) {
@@ -236,8 +217,6 @@ export class ListMultipleQueriesComponent implements OnInit {
         OrderField[this.orderService.order.field];
 
       this.orderService.orderObs.next(order);
-
-      // this.searchTagsMipset();
     } else {
       this.currentSortingColumn = '';
       this.ascOrderSorting = true;
@@ -258,8 +237,6 @@ export class ListMultipleQueriesComponent implements OnInit {
         ' mipName';
 
       this.orderService.orderObs.next(order);
-
-      // this.searchTagsMipset();
     }
   }
 
@@ -335,7 +312,6 @@ export class ListMultipleQueriesComponent implements OnInit {
   onExpandQuery(row: IMultipleQueryDataElement) {
     if (row.expanded) {
       row.expanded = false;
-      this.resetQueryData(row);
     } else {
       this.searchMips(row);
     }
@@ -370,18 +346,7 @@ export class ListMultipleQueriesComponent implements OnInit {
             row.expanded = true;
           },
           (error) => {
-            if (
-              error.error &&
-              error.error.error &&
-              ((error.error.error as string).includes('Parse error') ||
-                (error.error.error as string).includes('Lexical error'))
-            ) {
-              // this.sintaxError = true;
-              // this.errorMessage = 'Syntax error.';
-            } else {
-              // this.sintaxError = false;
-              // this.errorMessage = '';
-            }
+            console.log(error);
           }
         );
     }
@@ -560,6 +525,7 @@ export class ListMultipleQueriesComponent implements OnInit {
     } else {
       row.moreToLoad = true;
     }
+
     this.cdr.detectChanges();
   }
 
@@ -621,6 +587,12 @@ export class ListMultipleQueriesComponent implements OnInit {
     row.loading = false;
     row.moreToLoad = false;
     row.total = 0;
+  }
+
+  onAnimationEvent(event: AnimationEvent, row: IMultipleQueryDataElement) {
+    if (event.fromState === 'expanded') {
+      this.resetQueryData(row);
+    }
   }
 }
 

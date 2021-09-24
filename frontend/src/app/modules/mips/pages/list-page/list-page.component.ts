@@ -98,8 +98,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     });
 
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
-      console.log("qParams$.subscribe");
-
       this.updateUrlQueryParams(data);
     });
   }

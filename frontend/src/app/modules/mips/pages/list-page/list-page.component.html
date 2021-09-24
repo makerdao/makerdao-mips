@@ -19,6 +19,7 @@
       (checked)="onCheckedMipsetMode($event)"
     ></app-md-checkbox-mobile>
     <app-search-mobile
+      *ngIf="!multipleQueries"
       class="mobile"
       (send)="onSendSearch($event)"
       (open)="onOpenMobileSearch($event)"
@@ -46,6 +47,7 @@
       [checkInput]="mipsetMode"
     ></app-md-checkbox>
     <app-search
+      *ngIf="!multipleQueries"
       class="no-mobile"
       (send)="onSendSearch($event)"
       [showListSearch]="showListSearch"

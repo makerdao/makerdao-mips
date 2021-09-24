@@ -125,6 +125,7 @@
         <div
           class="maker-element-subsetchildren-detail"
           [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
+          (@detailExpand.done)="onAnimationEvent($event, element)"
         >
           <ng-container>
             <app-list
