@@ -45,6 +45,7 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.paramMap.subscribe((paramMap) => {
       if (paramMap.has('name')) {
+        this.documentLanguage=this.langService.lang as Language
         this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
         this.loadData();
@@ -141,7 +142,7 @@ export class DetailsPageComponent implements OnInit {
           metaVars,
           true
         );
-        
+
         let indexPreambleSection: number = (this.sections as []).findIndex(
           (i: any) => i.heading === 'Preamble'
         );
