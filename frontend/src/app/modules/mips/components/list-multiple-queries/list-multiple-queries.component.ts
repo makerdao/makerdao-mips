@@ -10,18 +10,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MipsService } from '../../services/mips.service';
 import { OrderService } from '../../services/order.service';
 import { QueryParamsListService } from '../../services/query-params-list.service';
-import { StatusService } from '../../services/status.service';
 import { ComponentMip } from '../../types/component-mip';
-import IFilter from '../../types/filter';
 import { IMip } from '../../types/mip';
 import { IMultipleQueryDataElement } from '../../types/multiple-query-data-item';
 import {
@@ -31,7 +29,6 @@ import {
   OrderFieldName,
 } from '../../types/order';
 import { ISubsetDataElement } from '../../types/subset';
-const clone = require('rfdc')();
 
 @Component({
   selector: 'app-list-multiple-queries',
@@ -58,68 +55,29 @@ const clone = require('rfdc')();
         animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
-    trigger('subproposalExpand', [
-      state(
-        'collapsed',
-        style({ height: '0px', minHeight: '0', overflow: 'hidden' })
-      ),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('525ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
   ],
 })
-export class ListMultipleQueriesComponent implements OnInit {
+export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   mipsAux: IMip[] = [];
   dataSourceMultiQueriesRows: IMultipleQueryDataElement[] = [];
   columnsToDisplayMultiQueries = ['queryName'];
-  expandedElementMipset: IMultipleQueryDataElement | null;
   isArrowMipsetDownOnMouseOver = false;
-  currentMipsetRowOver: any;
-  isArrowDownOnMouseOver: boolean = false;
-  currentRowOver: any;
-  mipSets: any = {};
   limit = 10;
-  page = 0;
   order: string = 'mip';
-  search: string = '';
-  filter: IFilter;
-  filterClone: any;
   loading: boolean = false;
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
-  arrowUp: string = '../../../../../assets/images/up.svg';
-  arrowDown: string = '../../../../../assets/images/down.svg';
-  arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
-  arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
   initialized: boolean = false;
-  subscriptionSearchService: Subscription;
-  subscriptionFilterService: Subscription;
+  displayWidth: number = window.innerWidth;
   subscriptionOrderService: Subscription;
   @Output() changeOrder = new Subject<{
     orderText: string;
     orderObj: Order;
   }>();
-  selected = '-1';
-  _expandedItems: ExpandedItems = {
-    subproposals: true,
-    summary: false,
-  };
-
-  get expandedItems() {
-    return this._expandedItems;
-  }
-
-  set expandedItems(value) {
-    this._expandedItems = { ...value };
-  }
 
   constructor(
     private mipsService: MipsService,
-    private statusService: StatusService,
     private orderService: OrderService,
     private queryParamsListService: QueryParamsListService,
     private cdr: ChangeDetectorRef
@@ -160,6 +118,11 @@ export class ListMultipleQueriesComponent implements OnInit {
         }
       }
     );
+
+    window.onresize = () => {
+      this.displayWidth = window.innerWidth;
+      this.cdr.detectChanges();
+    };
   }
 
   queryRows() {
@@ -301,12 +264,10 @@ export class ListMultipleQueriesComponent implements OnInit {
       item.page = 0;
     });
     this.order = text;
-    this.expandedElementMipset = null;
   }
 
   onMouseOverLeaveMipsetArrow(mipset: any, value: boolean) {
     this.isArrowMipsetDownOnMouseOver = value;
-    this.currentMipsetRowOver = mipset;
   }
 
   onExpandQuery(row: IMultipleQueryDataElement) {
@@ -318,7 +279,6 @@ export class ListMultipleQueriesComponent implements OnInit {
   }
 
   searchMips(row: IMultipleQueryDataElement) {
-    let filter = clone(this.filterClone);
     if (!row.loading) {
       row.loading = true;
       this.mipsService
@@ -327,7 +287,7 @@ export class ListMultipleQueriesComponent implements OnInit {
           row.page,
           this.order,
           row.query,
-          filter,
+          null,
           'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
         )
         .pipe(
@@ -594,9 +554,8 @@ export class ListMultipleQueriesComponent implements OnInit {
       this.resetQueryData(row);
     }
   }
-}
 
-interface ExpandedItems {
-  subproposals: boolean;
-  summary: boolean;
+  ngOnDestroy() {
+    this.subscriptionOrderService.unsubscribe();
+  }
 }
