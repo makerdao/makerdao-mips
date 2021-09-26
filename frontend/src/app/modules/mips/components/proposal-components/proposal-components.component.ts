@@ -1,7 +1,9 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnInit,
@@ -23,12 +25,14 @@ export class ProposalComponentsComponent implements AfterViewInit {
   @Input() showlevelOne: boolean = false;
   prefixIdLinkSection: string = 'sectionLink-';
   @ViewChild('sectionLinks') sectionLinks;
+  active: any;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private langService: LangService
+    private langService: LangService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.translate.setDefaultLang('en');
   }
@@ -38,7 +42,7 @@ export class ProposalComponentsComponent implements AfterViewInit {
       this.translate.use(language);
     });
   }
-  
+
   ngAfterViewInit() {
     this.route.fragment.subscribe((data) => {
       this.setActiveLinkSection(data);
@@ -56,6 +60,11 @@ export class ProposalComponentsComponent implements AfterViewInit {
   }
 
   idBySection(text: string): string {
+    const pattern = /\bmip[0-9]+c[0-9]+:/i;
+    if (pattern.test(text)) {
+      return this.prefixIdLinkSection + text.split(':')[0];
+    }
+
     const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
 
     return this.prefixIdLinkSection + escapedText;
@@ -69,16 +78,13 @@ export class ProposalComponentsComponent implements AfterViewInit {
     let elem = document.querySelector('#' + this.prefixIdLinkSection + str);
 
     if (elem) {
-      elem.classList.toggle('active');
+      this.active = elem.id;
     }
 
-    let sectionLinks = (this.sectionLinks
-      .nativeElement as HTMLElement).getElementsByTagName('a');
+    this.cdr.detectChanges();
+  }
 
-    for (let index = 0; index < sectionLinks.length; index++) {
-      if (sectionLinks.item(index) !== elem) {
-        sectionLinks.item(index).classList.remove('active');
-      }
-    }
+  scroll(url: string) {
+    location.href = url;
   }
 }

@@ -1,56 +1,72 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { ConnectedPosition } from '@angular/cdk/overlay';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-details-mobiles-buttons',
   templateUrl: './details-mobiles-buttons.component.html',
-  styleUrls: ['./details-mobiles-buttons.component.scss']
+  styleUrls: ['./details-mobiles-buttons.component.scss'],
+  animations: [
+    trigger('enterLeaveSmooth', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.9)' }),
+        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [animate(100, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class DetailsMobilesButtonsComponent implements OnInit {
-
-  showData = -1;
+  open = false;
+  openMore = false;
   selected = 1;
   @Input() sourceData;
   @Input() mip;
+  positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
+  active: string;
 
-  constructor(
-    private myElement: ElementRef
-  ) { }
+  constructor() {}
 
   ngOnInit(): void {
+    this.initPositionPopup();
   }
 
-  updateData(pos: number): void {
-    if (this.showData === pos) {
-      this.showData = -1;
-    } else {
-      this.showData = pos;
-    }
+  initPositionPopup() {
+    this.positionPopup = [
+      {
+        originX: 'start',
+        originY: 'bottom',
+        overlayX: 'start',
+        overlayY: 'top',
+      },
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      },
+    ];
   }
 
-  updateSelected(pos: number, text: string): void {
-    this.selected = pos;
-    this.showData = -1;
-    if (text !== '') {
-      const tag = pos === 1 ? 'h2' : 'p';
-      this.findElement(text, tag);
-    }
-  }
+  scrollTo(id?: string) {
+    if (id) {
+      const elem = document.querySelector('#' + id);
 
-  moveToElement(el: HTMLElement): void {
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  findElement(text: string, tag: string): void {
-    const aTags = document.getElementsByTagName(tag);
-    let found;
-
-    for (let i = 0; i < aTags.length; i++) {
-      if (aTags[i].textContent === text) {
-        found = aTags[i];
-        break;
+      if (elem) {
+        elem.scrollIntoView();
       }
     }
-    this.moveToElement(found);
+
+    this.closePopup();
   }
 
+  closePopup() {
+    this.open = false;
+    this.openMore = false;
+  }
+
+  onClickOutside(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.closePopup();
+  }
 }
