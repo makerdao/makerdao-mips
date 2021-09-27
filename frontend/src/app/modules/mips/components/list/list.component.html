@@ -109,7 +109,7 @@
             >
               <div class="space-status"></div>
               <app-social
-                forumLink="#"
+                forumLink="{{element?.forumLink}}"
                 [githubLink]="element.filename"
               ></app-social>
             </td>
@@ -331,7 +331,7 @@
               More
             </button>
             <app-social
-              forumLink="#"
+              forumLink="{{item?.forumLink}}"
               [githubLink]="item.filename"
               mobile="true"
             ></app-social>
@@ -514,7 +514,7 @@
                         More
                       </button>
                       <app-social
-                        forumLink="#"
+                        forumLink="{{itemSubsetChildren?.forumLink}}"
                         [githubLink]="itemSubsetChildren.filename"
                         mobile="true"
                       ></app-social>

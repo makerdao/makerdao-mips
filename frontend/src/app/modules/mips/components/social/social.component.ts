@@ -6,17 +6,14 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './social.component.html',
   styleUrls: ['./social.component.scss']
 })
-export class SocialComponent implements OnInit {
+export class SocialComponent {
 
-  @Input() githubLink: 'OK';
-  @Input() forumLink: 'OK';
+  @Input() githubLink: string;
+  @Input() forumLink: string;
   gitgubUrl = environment.repoUrl;
   @Input() mobile = false;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   stopPropagation(event: Event) {
     event.stopPropagation();

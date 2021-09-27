@@ -437,7 +437,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.order,
           this.searchCopy,
           this.filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink'
         )
         .pipe(
           map((res) => {
@@ -515,7 +515,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               null,
               null,
               { equals: [{ field: 'mipName', value: item.proposal }] },
-              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink'
             )
             .toPromise();
           if (res.items[0]) {
@@ -721,7 +721,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         order,
         search,
         filter,
-        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink'
       )
       .subscribe(
         (data) => {
