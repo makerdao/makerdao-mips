@@ -417,8 +417,14 @@ export class DetailContentComponent
 
       if (this.mip?.proposal && this.mip?.title) {
         let subProposalTitleArray: string[] = this.mip?.title.split(':');
-        this.subproposalCode = subProposalTitleArray[0];
-        this.subproposalTitle = subProposalTitleArray.slice(1).join('');
+
+        if (subProposalTitleArray.length > 1) {
+          this.subproposalCode = subProposalTitleArray[0];
+          this.subproposalTitle = subProposalTitleArray.slice(1).join('');
+        } else {
+          this.subproposalCode = this.mip?.mipName;
+          this.subproposalTitle = this.mip?.title;
+        }
       }
       this.titleService.setTitle(
         this.mip?.proposal
@@ -637,7 +643,7 @@ export class DetailContentComponent
 
       this.headingStructure.push({ heading: htmlCleanedText, depth: level });
 
-      if (this.mdUrl && level ===1) {
+      if (this.mdUrl && level === 1) {
         this.titleMdFile = text;
         return '';
       } else {
@@ -809,7 +815,6 @@ export class DetailContentComponent
                 if (data.mipName) {
                   elem.setAttribute('href', `/mips/details/${data.mipName}`);
                 } else {
-
                   elem.setAttribute(
                     'href',
                     `${this.gitgubUrl}/${this.mip?.filename}`
