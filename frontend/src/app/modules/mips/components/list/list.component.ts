@@ -121,6 +121,8 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   expandedElementSubsetChildren: DataElement | null;
   subscriptionSearchService: Subscription;
   subscriptionFilterService: Subscription;
+  @Input() showHead: boolean = true;
+  @Input() query: string;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -155,7 +157,7 @@ const language = 'typescript';
 
   ngOnInit() {
     this.dataSourceTable.data = this.dataSource;
-    
+
     this.langService.currentLang$.subscribe((language: string) => {
       this.translate.use(language);
     });
@@ -346,7 +348,7 @@ const language = 'typescript';
             0,
             // 'mipName',
             order,
-            row.showArrowExpandChildren ? this.search : '',
+            row.showArrowExpandChildren ? this.query ? this.query : this.search : '',
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )

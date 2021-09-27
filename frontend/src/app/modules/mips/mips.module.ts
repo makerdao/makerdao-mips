@@ -64,6 +64,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MdRadioButtonComponent } from './components/md-radio-button/md-radio-button.component';
 import { LanguageDocumentComponent } from './components/language-document/language-document.component';
+import { ListMultipleQueriesComponent } from './components/list-multiple-queries/list-multiple-queries.component';
 
 
 @NgModule({
@@ -111,7 +112,8 @@ import { LanguageDocumentComponent } from './components/language-document/langua
     ButtonTopComponent,
     AscDesComponent,
     MdRadioButtonComponent,
-    LanguageDocumentComponent
+    LanguageDocumentComponent,
+    ListMultipleQueriesComponent
   ],
   imports: [
     CommonModule,
