@@ -142,6 +142,15 @@ export class MIP {
 
   @Prop()
   subproposalsCount?: number;
+
+  @Prop()
+  votingPortalLink?: string;
+
+  @Prop()
+  forumLink?: string;
+
+  @Prop()
+  ratifiedData?: string;
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);
