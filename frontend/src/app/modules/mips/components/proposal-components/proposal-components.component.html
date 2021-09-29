@@ -7,21 +7,24 @@
           <a *ngIf="showlevelOne && element.depth == 1"
             [id]="idBySection(element.heading)"
             class="titleLevelOne"
-            [href]="getLinkBySection(element)"
+            (click)="scroll(getLinkBySection(element))"
+            [ngClass]="{active: active === idBySection(element.heading)}"
             >
             {{element.heading}}</a>
 
           <a *ngIf="element.depth == 2"
             [id]="idBySection(element.heading)"
             class="title"
-            [href]="getLinkBySection(element)"
+            [ngClass]="{active: active === idBySection(element.heading)}"
+            (click)="scroll(getLinkBySection(element))"
             >
             {{element.heading}}</a>
 
           <a *ngIf="element.depth == 3"
             [id]="idBySection(element.heading)"
             class="sub-title"
-            [href]="getLinkBySection(element)"
+            (click)="scroll(getLinkBySection(element))"
+            [ngClass]="{active: active === idBySection(element.heading)}"
             >
             {{element.heading}}</a>
         </p>

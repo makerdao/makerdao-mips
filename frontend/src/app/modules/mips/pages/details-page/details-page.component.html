@@ -23,7 +23,7 @@
     <div *ngIf="mip" class="column">
       <div class="sidebar-wrapper">
         <app-language-document
-        *ngIf="languagesAvailables&&mip" 
+        *ngIf="languagesAvailables&&mip"
         (updateDocumentLanguage)="updateDocumentLanguage($event)"
         [documentLanguage]="documentLanguage"
           [languagesAvailables]="languagesAvailables"
@@ -46,7 +46,7 @@
           [tags]="mip?.tags"
           ></app-mip-details>
         <app-references *ngIf="references && references.length > 0" [references]="mip?.references" [mipName]="mip?.mipName"></app-references>
-        <app-pull-request-history [pullrequest]="pullrequest"></app-pull-request-history>
+        <app-pull-request-history id="pull-request-history" [pullrequest]="pullrequest"></app-pull-request-history>
       </div>
     </div>
   </div>
