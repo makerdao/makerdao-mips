@@ -484,6 +484,10 @@ export class ParseMIPsService {
     mip.tags = preamble.tags;
     mip.subproposalsCount = 0;
 
+    mip.votingPortalLink = preamble.votingPortalLink;
+    mip.forumLink = preamble.forumLink;
+    mip.ratifiedData = preamble.ratifiedData;
+
     return mip;
   }
 
@@ -600,6 +604,17 @@ export class ParseMIPsService {
         case "Date Ratified":
           preamble.dateRatified = keyValue[1].trim();
           break;
+
+        case "votingPortalLink":
+          preamble.votingPortalLink = keyValue.slice(1).join(':').trim();
+          break;
+        case "forumLink":
+          preamble.forumLink = keyValue.slice(1).join(':').trim();
+          break;
+        case "ratifiedData":
+          preamble.ratifiedData = keyValue.slice(1).join(':').trim();
+          break;
+
         default:
           return false;
       }

@@ -51,9 +51,9 @@
               </th>
             </span>
           </span>
-          <span *ngIf="column == 'link'">
+          <span *ngIf="column == 'link'" >
             <th mat-header-cell *matHeaderCellDef>
-              <span class="headerContent"> {{ column }}</span>
+              <span class="headerContent linkHeader"> {{ column }}</span>
             </th>
           </span>
 
@@ -109,7 +109,8 @@
             >
               <div class="space-status"></div>
               <app-social
-                forumLink="#"
+                votingPortalLink="{{element?.votingPortalLink}}"
+                forumLink="{{element?.forumLink}}"
                 [githubLink]="element.filename"
               ></app-social>
             </td>
@@ -331,7 +332,8 @@
               More
             </button>
             <app-social
-              forumLink="#"
+              votingPortalLink="{{item?.votingPortalLink}}"
+              forumLink="{{item?.forumLink}}"
               [githubLink]="item.filename"
               mobile="true"
             ></app-social>
@@ -514,7 +516,8 @@
                         More
                       </button>
                       <app-social
-                        forumLink="#"
+                        votingPortalLink="{{itemSubsetChildren?.votingPortalLink}}"
+                        forumLink="{{itemSubsetChildren?.forumLink}}"
                         [githubLink]="itemSubsetChildren.filename"
                         mobile="true"
                       ></app-social>

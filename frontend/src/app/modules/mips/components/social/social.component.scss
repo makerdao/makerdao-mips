@@ -9,13 +9,12 @@ a {
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 310px;
-  color: #748AA1;
+  color: #748aa1;
   font-size: 14px;
   height: auto;
-  
 
   text-align: center;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 5px 0;
@@ -29,4 +28,8 @@ a {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.votingIcon {
+  width: 1rem;
 }
