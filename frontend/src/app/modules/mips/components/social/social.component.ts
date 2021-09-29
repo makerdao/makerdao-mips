@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
@@ -6,10 +6,11 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './social.component.html',
   styleUrls: ['./social.component.scss']
 })
-export class SocialComponent {
+export class SocialComponent  {
 
   @Input() githubLink: string;
   @Input() forumLink: string;
+  @Input() votingPortalLink: string;
   gitgubUrl = environment.repoUrl;
   @Input() mobile = false;
 

@@ -69,6 +69,10 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   }
 }
 
+.linkHeader.headerContent {
+  justify-content: center;
+}
+
 .maker-element-detail {
   overflow: hidden;
   display: flex;
@@ -118,7 +122,6 @@ th {
     .headerContent {
       color: #31394d;
     }
-
   }
 }
 
