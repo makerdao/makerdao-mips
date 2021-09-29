@@ -11,6 +11,7 @@ export class MipDetailsComponent implements OnInit {
   @Input() status: string;
   @Input() dateProposed: string;
   @Input() dateRatified: string;
+  @Input() ratifiedDataLink:string;
   @Input() mipName: string;
   @Input() title: string;
   @Input() authors: string[];

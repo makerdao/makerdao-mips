@@ -1,33 +1,62 @@
 <div class="container">
   <div class="row">
     <div *ngIf="mip && !mip?.proposal">
-      <span *ngIf="mip?.title" class="title-bold"
-        >{{ mip?.mipName }}: </span
+      <span *ngIf="mip?.title" class="title-bold">{{ mip?.mipName }}: </span
       ><span class="no-mobile title"> {{ mip?.title }}</span>
     </div>
     <div *ngIf="mip?.proposal">
-      <span *ngIf="mip?.title" class="title-bold"
-        >{{ subproposalCode }}: </span
+      <span *ngIf="mip?.title" class="title-bold">{{ subproposalCode }}: </span
       ><span class="no-mobile title"> {{ subproposalTitle }}</span>
     </div>
     <div *ngIf="mdUrl">
-      <span class="title-bold">{{ titleMdFile?.split(":")[0] }}<span *ngIf="titleMdFile?.split(':')[1]">:</span></span
-      ><span class="title"> {{ titleMdFile?.split(":")[1] }} </span>
+      <span class="title-bold"
+        >{{ (titleMdFile?.split(":"))[0]
+        }}<span *ngIf="(titleMdFile?.split(':'))[1]">:</span></span
+      ><span class="title"> {{ (titleMdFile?.split(":"))[1] }} </span>
     </div>
 
     <div *ngIf="mip" class="row social">
       <img class="github" src="../../../../../assets/images/github_dark.svg" />
       <a href="{{ gitgubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
-      <img class="forum" src="../../../../../assets/images/forum.svg" />
-      <a class="tooltip"
-        >Forum<span class="tooltiptext"
-          >Link to the forum coming soon. <br />
-          Feel free to manually search the MIP number at <br />
-          <a href="https://forum.makerdao.com/" target="_blank"
-            >forum.makerdao.com</a
-          >
-        </span></a
-      >
+
+      <div class="tooltip">
+        <img class="forum" src="../../../../../assets/images/forum.svg" />
+        <a *ngIf="!mip?.forumLink">
+          {{ "Forum" | translate
+          }}<span class="tooltiptext"
+            >{{ "Link to the forum coming soon." | translate }} <br />
+            {{ "Feel free to manually search the MIP number at " | translate
+            }}<br />
+            <a href="https://forum.makerdao.com/" target="_blank"
+              >forum.makerdao.com</a
+            >
+          </span>
+        </a>
+        <a *ngIf="mip?.forumLink" href="{{ mip?.forumLink }}">
+          {{ "Forum" | translate }}
+        </a>
+      </div>
+
+      <div class="tooltip">
+        <img
+          class="votingIcon"
+          src="../../../../../assets/images/open_gray.svg"
+        />
+        <a *ngIf="!mip?.votingPortalLink">
+          {{ "Voting" | translate
+          }}<span class="tooltiptext"
+            >{{ "Link to the voting coming soon." | translate }}<br />
+            {{ "Feel free to manually search the MIP number at " | translate
+            }}<br />
+            <a href="https://vote.makerdao.com/" target="_blank"
+              >vote.makerdao.com</a
+            >
+          </span>
+        </a>
+        <a *ngIf="mip?.votingPortalLink" href="{{ mip?.votingPortalLink }}">
+          {{ "Voting" | translate }}
+        </a>
+      </div>
     </div>
 
     <div *ngIf="mdUrl" class="row social">
