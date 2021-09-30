@@ -63,10 +63,7 @@ app-mips-pagination {
   .no-mobile {
     display: none;
   }
-  .mobile {
-    display: block;
-  }
-
+ 
   .row {
     flex-wrap: wrap;
     app-detail-content {
@@ -102,9 +99,6 @@ app-mips-pagination {
       min-width: 61.067%;
       margin: 0 10px;
     }
-  }
-  .mobile {
-    display: none;
   }
 }
 

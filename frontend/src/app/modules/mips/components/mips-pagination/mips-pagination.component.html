@@ -1,3 +1,5 @@
+<div class="wrapper">
+
 <div class="container">
   <div class="row space">
     <ul class="links">
@@ -14,7 +16,7 @@
     </ul>
     <div class="items">
       <strong>{{ mipPosition + 1 }} </strong>
-      <span style="margin-right: 5px">&nbsp; of {{ total }} items </span>
+      <span style="margin-right: 5px">&nbsp; {{'of' | translate}} {{ total }} <span class="itemsWord">{{'items' | translate}}</span> </span>
       <button
         class="arrowWrapper"
         matRipple
@@ -41,4 +43,7 @@
       </button>
     </div>
   </div>
+</div>
+
+<app-details-mobiles-buttons *ngIf="sections"  class="mobileIndex" [sourceData]="sections" [mip]="mip"></app-details-mobiles-buttons>
 </div>

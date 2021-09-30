@@ -2,13 +2,14 @@
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="mip||mdUrl" [ngClass]="{'container':true,'hidden':loadingUrl}">
-  <app-details-mobiles-buttons *ngIf="mip"  class="mobile" [sourceData]="sections" [mip]="mip?.mip"></app-details-mobiles-buttons>
   <app-mips-pagination
   *ngIf="mip"
   [mipName]="mip?.mipName"
   [mipPosition]="mipPosition"
   [total]="total"
   [parent]="mip?.proposal"
+  [sections]="sections" 
+  [mip]="mip?.mip"
   (send)="mipsPagination($event)"
   ></app-mips-pagination>
   <div [ngClass]="{'row':true,'row-tree-column':mip,'row-two-column':mdUrl}">
