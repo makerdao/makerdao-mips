@@ -43,12 +43,12 @@
 </span>
 <span *ngIf="votingPortalLink">
   <a target="_blank" (click)="stopPropagation($event)" href="{{ votingPortalLink }}"
-    ><img src="../../../../../assets/images/open_gray.svg" class="votingIcon"
+    ><img src="../../../../../assets/images/voting_icon.svg" [ngClass]="mobile?'votingIconSmall':'votingIcon'"
   /></a>
 </span>
 <span class="tooltip" *ngIf="!votingPortalLink">
   <a
-    ><img src="../../../../../assets/images/open_gray.svg" class="votingIcon"
+    ><img src="../../../../../assets/images/voting_icon.svg" [ngClass]="mobile?'votingIconSmall':'votingIcon'"
   /></a>
   <span class="tooltiptext"
     >{{ "Link to the voting coming soon." | translate }} <br />

@@ -32,7 +32,7 @@
             >
           </span>
         </a>
-        <a *ngIf="mip?.forumLink" href="{{ mip?.forumLink }}">
+        <a *ngIf="mip?.forumLink" href="{{ mip?.forumLink }}" target="_blank">
           {{ "Forum" | translate }}
         </a>
       </div>
@@ -40,7 +40,7 @@
       <div class="tooltip">
         <img
           class="votingIcon"
-          src="../../../../../assets/images/open_gray.svg"
+          src="../../../../../assets/images/voting_icon.svg"
         />
         <a *ngIf="!mip?.votingPortalLink">
           {{ "Voting" | translate
@@ -53,7 +53,7 @@
             >
           </span>
         </a>
-        <a *ngIf="mip?.votingPortalLink" href="{{ mip?.votingPortalLink }}">
+        <a *ngIf="mip?.votingPortalLink" href="{{ mip?.votingPortalLink }}" target="_blank">
           {{ "Voting" | translate }}
         </a>
       </div>
