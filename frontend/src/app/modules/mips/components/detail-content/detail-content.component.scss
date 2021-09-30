@@ -44,6 +44,12 @@
   img {
     transform: translateY(-3px);
   }
+  
+  img.votingIcon {
+    margin-left: 30px;
+    width: 16px;
+    height: 16px;
+  }
 
   img.forum {
     margin-left: 30px;
@@ -385,6 +391,10 @@ p {
 
 .mobile {
   display: none;
+}
+
+.tooltip {
+  display: flex;
 }
 
 .tooltip .tooltiptext {

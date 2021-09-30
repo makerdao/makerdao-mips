@@ -63,6 +63,9 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .row {
@@ -80,7 +83,7 @@ input {
 }
 
 .ListSearch {
-  width: 100%;
+  width: inherit;
   background-color: #fff;
   box-shadow: 0px 1px 4px #e5e9f2;
   z-index: 100;
@@ -159,7 +162,6 @@ input {
   background: #ffffff;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
-  animation: fadeInHelpPopup 0.2s;
 
   .head-help-popup {
     font-family: Roboto;
@@ -209,15 +211,6 @@ input {
   color: #dc3545;
 }
 
-@keyframes fadeInHelpPopup {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .textBoxWrapper {
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -243,7 +236,7 @@ input {
     font-weight: 500;
     background-color: #fff;
     white-space: nowrap;
-    overflow-x: auto;
+    overflow-x: hidden;
     width: 100%;
 
     &:empty::before {

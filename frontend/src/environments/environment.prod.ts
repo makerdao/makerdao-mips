@@ -5,5 +5,6 @@ export const environment = {
   feedBackFormUrl: 'https://formspree.io/f/xvodvpze',
   githubURL: 'https://github.com/',
   menuURL:'https://raw.githubusercontent.com/makerdao/mips/master/meta/menu.yaml',
-  menuURLAuxiliar:'https://raw.githubusercontent.com/makerdao/mips/master/meta/menu.json'
+  menuURLAuxiliar:'https://raw.githubusercontent.com/makerdao/mips/master/meta/menu.json',
+  varsURL: 'https://raw.githubusercontent.com/makerdao/mips/master/meta/vars.yaml'
 };

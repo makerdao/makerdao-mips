@@ -1,20 +1,105 @@
-<div class="img-container" (click)="showHideFrame()">
-  <img *ngIf="!showFrame" src="../../../../../assets/images/oder_frame.svg" />
-  <img *ngIf="showFrame" src="../../../../../assets/images/order_frame_blue.svg" />
+<div
+  class="img-container"
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  (click)="open = !open"
+>
+  <svg
+    width="8"
+    height="14"
+    viewBox="0 0 8 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    [ngClass]="{ active: open }"
+  >
+    <path
+      d="M4.47175 13.7532C4.23685 14.0823 3.76315 14.0823 3.52825 13.7532L0.116827 8.97495C-0.170943 8.57188 0.105773 8 0.588576 8L7.41142 8C7.89423 8 8.17094 8.57188 7.88317 8.97495L4.47175 13.7532Z"
+      fill="#748AA1"
+    />
+    <path
+      d="M3.52825 0.246762C3.76315 -0.082254 4.23685 -0.0822541 4.47175 0.246762L7.88317 5.02505C8.17094 5.42812 7.89423 6 7.41142 6L0.588576 6C0.105772 6 -0.170942 5.42812 0.116828 5.02505L3.52825 0.246762Z"
+      fill="#748AA1"
+    />
+  </svg>
 </div>
 
-<div  class="content" *ngIf="showFrame">
-  <p>SORT BY</p>
-  <div class="option" (click)="updatePos(1)" [ngClass]="{'selected': pos == 1}">Number # <img *ngIf="pos == 1" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
-  <div class="option" (click)="updatePos(2)" [ngClass]="{'selected': pos == 2}">Title <img *ngIf="pos == 2" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
-  <div class="option" (click)="updatePos(3)" [ngClass]="{'selected': pos == 3}">Summary <img *ngIf="pos == 3" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
-  <div class="option" (click)="updatePos(4)" [ngClass]="{'selected': pos == 4}">Status <img *ngIf="pos == 4" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
-  <hr>
-  <div class="option" (click)="updatePosDown(1)" [ngClass]="{'selected': pos1 == 1}">Ascendent <span class="arrow-down" [ngClass]="{'selected-arrow': pos1 == 1}"></span><img *ngIf="pos1 == 1" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
-  <div class="option" (click)="updatePosDown(2)" [ngClass]="{'selected': pos1 == 2}">Descendent <span class="arrow-up" [ngClass]="{'selected-arrow': pos1 == 2}"></span><img *ngIf="pos1 == 2" style="float: right;" src="../../../../../assets/images/check.svg" /></div>
-  <div class="buttons">
-    <button class="reset btn" (click)="reset()">Reset</button>
-    <button class="apply btn" (click)="apply()">Apply</button>
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="open"
+  [cdkConnectedOverlayPositions]="positionPopup"
+  (overlayOutsideClick)="onClickOutside($event)"
+>
+  <div class="content" @enterLeaveSmooth>
+    <p>
+      SORT BY
+    </p>
+    <form [formGroup]="orderByForm" style="padding: 0 10px;">
+      <app-md-radio-button [label]="'Number #'">
+        <input type="radio" id="number" formControlName="order" value="mip" />
+      </app-md-radio-button>
+      <app-md-radio-button [label]="'Title'">
+        <input type="radio" id="title" formControlName="order" value="title" />
+      </app-md-radio-button>
+      <app-md-radio-button [label]="'Summary'">
+        <input
+          type="radio"
+          id="summary"
+          formControlName="order"
+          value="sentenceSummary"
+        />
+      </app-md-radio-button>
+      <app-md-radio-button [label]="'Status'">
+        <input
+          type="radio"
+          id="status"
+          formControlName="order"
+          value="status"
+        />
+      </app-md-radio-button>
+    </form>
+    <hr />
+    <form [formGroup]="orderDirectionForm" style="padding: 0 10px;">
+      <app-md-radio-button [label]="'Ascendent'">
+        <input type="radio" id="asc" value="" formControlName="direction" />
+        <svg
+          width="7"
+          height="6"
+          viewBox="0 0 7 6"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="arrow"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M6.35247 0.932579C6.77304 0.932572 7.00572 1.42019 6.74115 1.74712L3.85632 5.31189C3.6562 5.55917 3.27909 5.55917 3.07897 5.31189L0.194242 1.7472C-0.0703177 1.42028 0.162353 0.932672 0.58291 0.932665L6.35247 0.932579Z"
+            fill="#B8C5D3"
+          />
+        </svg>
+      </app-md-radio-button>
+      <app-md-radio-button [label]="'Descendent'">
+        <input type="radio" id="asc" value="-" formControlName="direction" />
+        <svg
+          width="7"
+          height="6"
+          viewBox="0 0 7 6"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="arrow up"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M6.35247 0.932579C6.77304 0.932572 7.00572 1.42019 6.74115 1.74712L3.85632 5.31189C3.6562 5.55917 3.27909 5.55917 3.07897 5.31189L0.194242 1.7472C-0.0703177 1.42028 0.162353 0.932672 0.58291 0.932665L6.35247 0.932579Z"
+            fill="#B8C5D3"
+          />
+        </svg>
+      </app-md-radio-button>
+    </form>
+    <div class="buttons">
+      <button mat-button class="reset btn" (click)="reset()">Reset</button>
+      <button mat-button class="apply btn" (click)="apply()">Apply</button>
+    </div>
   </div>
-</div>
-
+</ng-template>

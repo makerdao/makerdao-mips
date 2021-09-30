@@ -16,6 +16,7 @@
       class="textBoxWrapper"
       [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
       [ngClass]="{ error: error }"
+      #textBoxWrapper
     >
       <div
         class="contentEditableInput"
@@ -30,7 +31,7 @@
         [activate]="isQueryMode"
       ></div>
     </div>
-    <div *ngIf="showListSearch && search.value" class="ListSearchWrapper">
+    <ng-template #mipsSugestions>
       <div
         class="ListSearch"
         infiniteScroll
@@ -58,7 +59,7 @@
           <mat-spinner [diameter]="20"></mat-spinner>
         </div>
       </div>
-    </div>
+    </ng-template>
   </div>
   <div *ngIf="showClose && !isQueryMode" class="close-container">
     <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
@@ -87,7 +88,7 @@
   [cdkConnectedOverlayPositions]="positionHelpPopup"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div class="help-popup">
+  <div class="help-popup" @enterLeaveSmooth>
     <div class="head-help-popup">
       <span>You can use:</span>
     </div>

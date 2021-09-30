@@ -27,6 +27,9 @@ export interface IMIPs {
   sectionsRaw?: string[];
   references?: Reference[];
   subproposalsCount?: number;
+  votingPortalLink?: string;
+  forumLink?: string;
+  ratifiedData?: string;
 }
 
 export interface IGitFile {
@@ -41,16 +44,6 @@ export interface ISynchronizeData {
   deletes: number;
 }
 
-// MIP#: 0
-// Title: The Maker Improvement Proposal Framework
-// Author(s): Charles St.Louis (@CPSTL), Rune Christensen (@Rune23)
-// Contributors: @LongForWisdom
-// Type: Process
-// Status: Accepted
-// Date Proposed: 2020-04-06
-// Date Ratified: 2020-05-02
-// Dependencies: n/a
-// Replaces: n/a
 export interface IPreamble {
   mip?: number;
   title?: string;
@@ -65,4 +58,7 @@ export interface IPreamble {
   dateRatified?: string;
   dependencies?: string[];
   replaces?: string;
+  votingPortalLink?: string;
+  forumLink?: string;
+  ratifiedData?: string;
 }

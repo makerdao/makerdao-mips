@@ -2,7 +2,7 @@
   <div *ngIf="loading && !dataSource.length" class="maker-loading-shade">
     <mat-spinner></mat-spinner>
   </div>
-  <div *ngIf="dataSource.length > 0">
+  <div *ngIf="dataSource?.length > 0">
     <div
       infiniteScroll
       [infiniteScrollDistance]="0"
@@ -28,7 +28,7 @@
                 style="cursor: pointer;"
               >
                 <span class="headerContent"
-                  >{{ column
+                  >{{ column | translate
                   }}<app-asc-des
                     [direction]="getOrderDirection(column)"
                   ></app-asc-des
@@ -51,9 +51,9 @@
               </th>
             </span>
           </span>
-          <span *ngIf="column == 'link'">
+          <span *ngIf="column == 'link'" >
             <th mat-header-cell *matHeaderCellDef>
-              <span class="headerContent"> {{ column }}</span>
+              <span class="headerContent linkHeader"> {{ column }}</span>
             </th>
           </span>
 
@@ -109,7 +109,8 @@
             >
               <div class="space-status"></div>
               <app-social
-                forumLink="#"
+                votingPortalLink="{{element?.votingPortalLink}}"
+                forumLink="{{element?.forumLink}}"
                 [githubLink]="element.filename"
               ></app-social>
             </td>
@@ -255,7 +256,9 @@
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <ng-container *ngIf="showHead">
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        </ng-container>
         <tr
           mat-row
           *matRowDef="let element; columns: columnsToDisplay"
@@ -329,7 +332,8 @@
               More
             </button>
             <app-social
-              forumLink="#"
+              votingPortalLink="{{item?.votingPortalLink}}"
+              forumLink="{{item?.forumLink}}"
               [githubLink]="item.filename"
               mobile="true"
             ></app-social>
@@ -512,7 +516,8 @@
                         More
                       </button>
                       <app-social
-                        forumLink="#"
+                        votingPortalLink="{{itemSubsetChildren?.votingPortalLink}}"
+                        forumLink="{{itemSubsetChildren?.forumLink}}"
                         [githubLink]="itemSubsetChildren.filename"
                         mobile="true"
                       ></app-social>
@@ -526,7 +531,7 @@
         </div>
       </div>
       <div class="load-more" *ngIf="moreToLoad">
-        <p>Scroll to load More</p>
+        <p>{{'Scroll to load More' | translate}}</p>
         <img src="../../../../../assets/images/scroll.svg" />
       </div>
       <div class="loading-plus" *ngIf="loading">
@@ -534,10 +539,10 @@
       </div>
     </div>
   </div>
-  <div class="no-result" *ngIf="dataSource.length == 0">
+  <div class="no-result" *ngIf="dataSource?.length == 0">
     <div *ngIf="dataSource.length == 0 && !loading">
       <img src="../../../../../assets/images/no_results.svg" />
-      <p>No results found</p>
+      <p>{{'No results found' | translate}}</p>
     </div>
   </div>
 </div>

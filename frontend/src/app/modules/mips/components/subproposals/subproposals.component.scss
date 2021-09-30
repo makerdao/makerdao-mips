@@ -24,7 +24,7 @@
     color: #1aab9b;
     position: absolute;
     bottom: 17.5px;
-    left: 22px;
+    right: 16px;
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
@@ -73,13 +73,14 @@
     line-height: 14px;
     color: #2f80ed;
     display: block;
-    margin-top: 14px;
+    margin-top: 16px;
     cursor: pointer;
     text-decoration: none;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(188, 190, 199, 0.3);
 
     img {
       margin-right: 9px;
@@ -87,6 +88,22 @@
 
     &:hover {
       text-decoration: underline;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+
+      li {
+        list-style-image: url("/assets/images/subproposal_icon.svg");
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 14px;
+        color: #2f80ed;
+        cursor: pointer;
+      }
     }
   }
 
@@ -98,7 +115,7 @@
 mat-expansion-panel {
   background: rgba(26, 171, 155, 0.05) !important;
   border-radius: 5px !important;
-  padding: 16px 22px 0;
+  padding: 16px 16px 0 22px;
   box-shadow: none !important;
   border-bottom: 60px solid transparent;
 }
@@ -118,4 +135,35 @@ mat-expansion-panel-header {
 
 mat-panel-title {
   flex-direction: column;
+  margin-right: 0;
+}
+
+app-status {
+  min-width: 150px;
+  margin: 8px 0 15px 0;
+}
+
+:host::ng-deep {
+  app-status {
+    .status-container {
+      font-size: 10px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  :host {
+    .link {
+      flex-direction: row;
+    }
+
+    .expandToggle {
+      left: 22px;
+      right: unset;
+    }
+  }
+
+  app-status {
+    margin: 0 0 0 10px;
+  }
 }

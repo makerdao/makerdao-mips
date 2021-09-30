@@ -1,6 +1,6 @@
 <div class="container">
   <p class="title" [ngClass]="{ hide: mobileSearch }">
-    {{ mipsetMode ? "MIP Sets" : activeMenuLinkName }}
+    {{ (mipsetMode ? "MIP Sets" : activeMenuLinkName) | translate }}
   </p>
   <div
     class="filtering"
@@ -19,6 +19,7 @@
       (checked)="onCheckedMipsetMode($event)"
     ></app-md-checkbox-mobile>
     <app-search-mobile
+      *ngIf="!multipleQueries"
       class="mobile"
       (send)="onSendSearch($event)"
       (open)="onOpenMobileSearch($event)"
@@ -46,6 +47,7 @@
       [checkInput]="mipsetMode"
     ></app-md-checkbox>
     <app-search
+      *ngIf="!multipleQueries"
       class="no-mobile"
       (send)="onSendSearch($event)"
       [showListSearch]="showListSearch"
@@ -70,16 +72,21 @@
   #filterList
 ></app-filter-list>
 <app-list
-  *ngIf="!mipsetMode"
+  *ngIf="!mipsetMode && !multipleQueries"
   [loading]="loading"
   [moreToLoad]="moreToLoad"
   [dataSource]="mips"
   [paginationTotal]="total"
   (send)="onSendPagination()"
   (sendOrder)="onSendOrder($event)"
+  [showHead]="true"
 ></app-list>
 <app-list-mipset-mode
   *ngIf="mipsetMode"
   (changeOrder)="changeOrder($event)"
 ></app-list-mipset-mode>
+<app-list-multiple-queries
+  *ngIf="!mipsetMode && multipleQueries"
+  (changeOrder)="changeOrder($event)"
+></app-list-multiple-queries>
 <app-button-top></app-button-top>

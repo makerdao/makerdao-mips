@@ -1,23 +1,29 @@
+import { readFile } from "fs/promises";
+
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
-import simpleGit, {
-  PullResult,
-  Response,
-  SimpleGit,
-} from "simple-git";
+import simpleGit, { PullResult, Response, SimpleGit } from "simple-git";
 
 import { Env } from "@app/env";
 
 import { IGitFile } from "../interfaces/mips.interface";
 import { Language } from "../entities/mips.entity";
+import { Meta, MetaDocument } from "../entities/meta.entity";
+import { Model } from "mongoose";
+import { InjectModel } from "@nestjs/mongoose";
 
 @Injectable()
 export class SimpleGitService {
   git: SimpleGit;
   private readonly logger = new Logger(SimpleGitService.name);
+  baseDir: string;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    @InjectModel(Meta.name)
+    private readonly metaDocument: Model<MetaDocument>,
+    private configService: ConfigService
+  ) {
     const options: any = {
       baseDir: `${process.cwd()}/${this.configService.get<string>(
         Env.FolderRepositoryName
@@ -27,6 +33,10 @@ export class SimpleGitService {
     };
 
     this.git = simpleGit(options);
+
+    this.baseDir = `${process.cwd()}/${this.configService.get<string>(
+      Env.FolderRepositoryName
+    )}`;
   }
 
   cloneRepository(): Response<string> {
@@ -46,12 +56,22 @@ export class SimpleGitService {
   async getFiles(): Promise<IGitFile[]> {
     const folderPattern = this.configService.get<string>(Env.FolderPattern);
 
+    const patternI18N = "I18N";
+
     try {
-      const info: string = await this.git.raw([
+      const englishFiles: string = await this.git.raw([
         "ls-files",
         "-s",
         folderPattern,
       ]);
+
+      const internationalsFiles: string = await this.git.raw([
+        "ls-files",
+        "-s",
+        patternI18N,
+      ]);
+
+      const info = englishFiles + "\n" + internationalsFiles;
 
       return info
         .split("\n")
@@ -75,14 +95,14 @@ export class SimpleGitService {
             return {
               filename: filename,
               hash: newData[1].trim(),
-              language: this.getLanguage(filename)
+              language: this.getLanguage(filename),
             };
           }
 
           return {
             filename: newData[3].trim(),
             hash: newData[1].trim(),
-            language: this.getLanguage(newData[3].trim())
+            language: this.getLanguage(newData[3].trim()),
           };
         });
     } catch (error) {
@@ -93,11 +113,60 @@ export class SimpleGitService {
 
   getLanguage(filename: string): Language {
     const defaultLang = Language.English;
+    const languageMatch = filename.match(/I18N\/(?<language>\w\w)\//i);
 
-    if (filename.includes(`_${Language.Spanish}`)) {
-      return Language.Spanish;
+    if (languageMatch) {
+      const languageString = languageMatch.groups.language.toLowerCase();
+
+      if (Object.values(Language).includes(languageString as Language)) {
+        return languageString as Language;
+      }
     }
 
-    return defaultLang;    
+    return defaultLang;
+  }
+
+  async saveMetaVars() {
+    const baseVars = "meta/vars.yaml";
+
+    const varsI18NPattern = "I18N/*/meta/vars.yaml";
+
+    const varsI18N: string = await this.git.raw([
+      "ls-files",
+      "-s",
+      varsI18NPattern,
+    ]);
+
+    const languagesFiles = varsI18N.match(/I18N\/\w\w\/meta\/vars\.yaml/gi);
+
+    const translationsFiles = languagesFiles
+      ? [...languagesFiles, baseVars]
+      : [baseVars];
+
+    const translationContent = await Promise.all(
+      translationsFiles.map((item) =>
+        readFile(this.baseDir + "/" + item, "utf-8")
+      )
+    );
+
+    const languagesArray = translationsFiles.map((item) => {
+      const match = item.match(
+        /I18N\/(?<languageCode>\w\w)\/meta\/vars\.yaml/i
+      );
+
+      return match ? match.groups.languageCode.toLowerCase() : Language.English;
+    });
+
+    const translationMeta = translationContent.map((item, index) => ({
+      language: languagesArray[index],
+      translations: item,
+    }));
+
+    await this.metaDocument.deleteMany({});
+    await this.metaDocument.insertMany(translationMeta);
+  }
+
+  async getMetaVars() {
+    return await this.metaDocument.find({});
   }
 }

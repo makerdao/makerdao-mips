@@ -1,147 +1,164 @@
-import { Component, OnInit, EventEmitter, Output, Input, ElementRef, HostListener, OnChanges } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { ConnectedPosition } from '@angular/cdk/overlay';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges,
+} from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { Order, OrderFieldName } from '../../types/order';
-
-
 
 @Component({
   selector: 'app-order-mobile',
   templateUrl: './order-mobile.component.html',
-  styleUrls: ['./order-mobile.component.scss']
+  styleUrls: ['./order-mobile.component.scss'],
+  animations: [
+    trigger('enterLeaveSmooth', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.9)' }),
+        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [animate(100, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class OrderMobileComponent implements OnInit, OnChanges {
-
-  pos = 1;
-  pos1 = 1;
-  showFrame = false;
   @Output() sendOrder = new EventEmitter<{
     orderText: string;
     orderObj: Order;
   }>();
-  up = true;
-  inside = false;
   orderBy: OrderFieldName;
   order = '';
   @Input() orderByField: OrderFieldName;
   @Input() orderDirection: string;
+  open = false;
+  positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
 
-  @HostListener('document:click', ['$event'])
-  clickout(event): void {
-    if (!this.eRef.nativeElement.contains(event.target)) {
-      if (this.inside && this.showFrame) {
-        this.inside = false;
-      } else {
-        this.showFrame = false;
-      }
-    }
+  orderByForm = new FormGroup({
+    order: new FormControl('mip'),
+  });
+
+  orderDirectionForm = new FormGroup({
+    direction: new FormControl(''),
+  });
+
+  constructor(private orderService: OrderService) {}
+
+  ngOnInit(): void {
+    this.initPositionPopup();
   }
 
-  constructor(
-    private eRef: ElementRef,
-    private orderService: OrderService
-  ) { }
-
-  ngOnInit(): void {}
-
   ngOnChanges() {
-    let p = 0;
+    let field: string;
+
     switch (this.orderByField) {
       case undefined:
-        p = 1;
+        field = 'mip';
         break;
       case OrderFieldName.Number:
-        p = 1;
+        field = 'mip';
         break;
       case OrderFieldName.Title:
-        p = 2;
+        field = 'title';
         break;
       case OrderFieldName.Summary:
-        p = 3;
+        field = 'sentenceSummary';
         break;
       case OrderFieldName.Status:
-        p = 4;
+        field = 'status';
         break;
       default:
         break;
     }
 
-    this.pos = p;
+    this.orderByForm.get('order').setValue(field);
 
     switch (this.orderDirection) {
       case undefined:
-        this.pos1 = 1;
+        this.orderDirectionForm.get('direction').setValue('');
         break;
       case 'ASC':
-        this.pos1 = 1;
+        this.orderDirectionForm.get('direction').setValue('');
         break;
       case 'DESC':
-        this.pos1 = 2;
+        this.orderDirectionForm.get('direction').setValue('-');
         break;
       default:
         break;
     }
   }
 
-  updatePos(pos: number): void {
-    this.pos = pos;
-  }
-
-  updatePosDown(pos: number): void {
-    this.pos1 = pos;
-  }
-
   apply(): void {
-    let orderPrefix = this.pos1 === 1 ? '' : '-';
-    this.order = orderPrefix + this.transforValue(this.pos);
+    let orderPrefix = this.orderDirectionForm.get('direction').value;
+    this.order = orderPrefix + this.orderByForm.get('order').value;
+    this.orderBy = this.getOrderByFieldName(
+      this.orderByForm.get('order').value
+    );
+
     let orderObj: Order = {
       field: this.orderBy,
-      direction: this.pos1 === 1 ? 'ASC' : 'DESC',
+      direction:
+        this.orderDirectionForm.get('direction').value === '' ? 'ASC' : 'DESC',
     };
-    this.orderService.order = orderObj;
 
+    this.orderService.order = orderObj;
     this.orderService.orderObs.next(orderObj);
 
     this.sendOrder.emit({
-      orderText: this.order || "mip mipName",
+      orderText: this.order || 'mip mipName',
       orderObj: orderObj,
     });
 
-    this.showFrame = false;
+    this.open = false;
   }
+
   reset(): void {
-    this.pos = 0;
-    this.pos1 = 1;
-    this.up = true;
+    this.orderByForm.get('order').reset('mip');
+    this.orderDirectionForm.get('direction').reset('');
     this.apply();
-    this.pos = 1;
   }
 
-  transforValue(pos: number): string {
-    switch (pos) {
-      case 0:
-        this.orderBy = OrderFieldName.Number;
-        return '';
-      case 1:
-        this.orderBy = OrderFieldName.Number;
-        return 'mip';
-      case 2:
-        this.orderBy = OrderFieldName.Title;
-        return 'title';
-      case 3:
-        this.orderBy = OrderFieldName.Summary;
-        return 'sentenceSummary';
-      case 4:
-        this.orderBy = OrderFieldName.Status;
-        return 'status';
-    }
-  }
+  getOrderByFieldName(field: string): OrderFieldName {
+    let fieldName: OrderFieldName;
 
-  showHideFrame(): void {
-    if (!this.showFrame) {
-      this.inside = true;
+    switch (field) {
+      case '':
+        fieldName = OrderFieldName.Number;
+        break;
+      case 'mip':
+        fieldName = OrderFieldName.Number;
+        break;
+      case 'title':
+        fieldName = OrderFieldName.Title;
+        break;
+      case 'sentenceSummary':
+        fieldName = OrderFieldName.Summary;
+        break;
+      case 'status':
+        fieldName = OrderFieldName.Status;
+        break;
     }
 
-    this.showFrame = !this.showFrame;
+    return fieldName;
   }
 
+  initPositionPopup() {
+    this.positionPopup = [
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      },
+    ];
+  }
+
+  onClickOutside(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.open = false;
+  }
 }

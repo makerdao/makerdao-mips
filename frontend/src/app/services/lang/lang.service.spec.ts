@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MetadataShareService } from './metadata-share.service';
+import { LangService } from './lang.service';
 
-describe('MetadataShareService', () => {
-  let service: MetadataShareService;
+describe('LangService', () => {
+  let service: LangService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MetadataShareService);
+    service = TestBed.inject(LangService);
   });
 
   it('should be created', () => {

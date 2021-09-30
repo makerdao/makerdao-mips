@@ -1,11 +1,58 @@
-<a *ngIf="!mobile" target="_blank" (click)="stopPropagation($event)" href="{{gitgubUrl}}/{{githubLink}}"><img src="../../../../../assets/images/social_github.svg" /></a>
-<a *ngIf="mobile" target="_blank" (click)="stopPropagation($event)" href="{{gitgubUrl}}/{{githubLink}}"><img src="../../../../../assets/images/github_mobile.svg" /></a>
-<span class="tooltip">
-  <a *ngIf="!mobile"><img src="../../../../../assets/images/social_forum.svg" class="forum" /></a>
-  <a *ngIf="mobile"><img src="../../../../../assets/images/forum_mobile.svg" class="forum" /></a>
-  <span class="tooltiptext">Link to the forum coming soon. <br>
-    Feel free to manually search the MIP number at <br>
+<a
+  *ngIf="!mobile"
+  target="_blank"
+  (click)="stopPropagation($event)"
+  href="{{ gitgubUrl }}/{{ githubLink }}"
+  ><img src="../../../../../assets/images/social_github.svg"
+/></a>
+<a
+  *ngIf="mobile"
+  target="_blank"
+  (click)="stopPropagation($event)"
+  href="{{ gitgubUrl }}/{{ githubLink }}"
+  ><img src="../../../../../assets/images/github_mobile.svg"
+/></a>
+<span *ngIf="forumLink">
+  <a
+    *ngIf="!mobile"
+    target="_blank"
+    (click)="stopPropagation($event)"
+    href="{{ forumLink }}"
+    ><img src="../../../../../assets/images/social_forum.svg" class="forum"
+  /></a>
+  <a
+    *ngIf="mobile"
+    target="_blank"
+    (click)="stopPropagation($event)"
+    href="{{ forumLink }}"
+    ><img src="../../../../../assets/images/forum_mobile.svg" class="forum"
+  /></a>
+</span>
+<span class="tooltip" *ngIf="!forumLink">
+  <a *ngIf="!mobile"
+    ><img src="../../../../../assets/images/social_forum.svg" class="forum"
+  /></a>
+  <a *ngIf="mobile"
+    ><img src="../../../../../assets/images/forum_mobile.svg" class="forum"
+  /></a>
+  <span class="tooltiptext"
+    >{{ "Link to the forum coming soon." | translate }} <br />
+    {{ "Feel free to manually search the MIP number at" | translate }}<br />
     <a href="https://forum.makerdao.com/" target="_blank">forum.makerdao.com</a>
   </span>
 </span>
-
+<span *ngIf="votingPortalLink">
+  <a target="_blank" (click)="stopPropagation($event)" href="{{ votingPortalLink }}"
+    ><img src="../../../../../assets/images/voting_icon.svg" [ngClass]="mobile?'votingIconSmall':'votingIcon'"
+  /></a>
+</span>
+<span class="tooltip" *ngIf="!votingPortalLink">
+  <a
+    ><img src="../../../../../assets/images/voting_icon.svg" [ngClass]="mobile?'votingIconSmall':'votingIcon'"
+  /></a>
+  <span class="tooltiptext"
+    >{{ "Link to the voting coming soon." | translate }} <br />
+    {{ "Feel free to manually search the MIP number at" | translate }}<br />
+    <a href="https://vote.makerdao.com/" target="_blank">https://vote.makerdao.com/</a>
+  </span>
+</span>

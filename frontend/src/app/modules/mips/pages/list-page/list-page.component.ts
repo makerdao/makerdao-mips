@@ -14,8 +14,8 @@ import { FilterItemService } from 'src/app/services/filter-item/filter-item.serv
 import { QueryParamsListService } from '../../services/query-params-list.service';
 import QueryParams from '../../types/query-params';
 import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
-import { fromEvent, Subscription } from 'rxjs';
-import { MetadataShareService } from '../../services/metadata-share.service';
+import { Subscription } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { IMip } from '../../types/mip';
 import { SearchService } from '../../services/search.service';
 import { FilterService } from '../../services/filter.service';
@@ -64,6 +64,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   totalMipsSuggestion = 0;
   searchSuggestions = false;
   orderObj: Order;
+  multipleQueries = false;
 
   constructor(
     private mipsService: MipsService,
@@ -73,7 +74,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private queryParamsListService: QueryParamsListService,
     private elementsRefUiService: ElementsRefUiService,
-    private metadataShareService: MetadataShareService,
     private orderService: OrderService,
     private searchService: SearchService,
     private filterService: FilterService
@@ -120,10 +120,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         }
       });
     }, 200);
-
-    this.metadataShareService.title = 'MIPs Portal';
-    this.metadataShareService.description =
-      'Maker Improvement Proposals are the preferred mechanism for improving both Maker Governance and the Maker Protocol.';
   }
 
   initParametersToLoadData() {
@@ -159,6 +155,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
     };
+
+    for(const key in queryParams.params) {
+      if (key.startsWith("_")) {
+        qp[key] = queryParams.params[key];
+        this.multipleQueries = true;
+      }
+    }
 
     this.queryParamsListService.queryParams = qp;
 
@@ -434,7 +437,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.order,
           this.searchCopy,
           this.filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
         )
         .pipe(
           map((res) => {
@@ -512,42 +515,44 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               null,
               null,
               { equals: [{ field: 'mipName', value: item.proposal }] },
-              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink'
             )
             .toPromise();
-          let parent: IMip = res.items[0];
-          parent.expanded = true;
-          parent.showArrowExpandChildren = true;
-          parent.children = [];
-          parent.children.push(item);
-          let subproposalsGroup: any = this.groupBy('subset', parent.children);
+          if (res.items[0]) {
+            let parent: IMip = res.items[0];
+            parent.expanded = true;
+            parent.showArrowExpandChildren = true;
+            parent.children = [];
+            parent.children.push(item);
+            let subproposalsGroup: any = this.groupBy('subset', parent.children);
 
-          if (this.order === 'mip' || this.order === 'mip mipName') {
-            this.sortSubproposalsGroups(subproposalsGroup);
-          }
-
-          const subsetRows: ISubsetDataElement[] = [];
-          const components: ComponentMip[] = parent.components;
-          let indexComp: number;
-          let componentMipTitle = '';
-
-          for (const key in subproposalsGroup) {
-            if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
-              indexComp = components?.findIndex((item) => item.cName === key);
-              if (indexComp && indexComp !== -1) {
-                componentMipTitle = components[indexComp].cTitle;
-              }
-              subsetRows.push({
-                subset: key,
-                expanded: true,
-                title: componentMipTitle,
-              });
+            if (this.order === 'mip' || this.order === 'mip mipName') {
+              this.sortSubproposalsGroups(subproposalsGroup);
             }
-          }
 
-          parent.subproposalsGroup = subproposalsGroup;
-          parent.subsetRows = subsetRows;
-          newData.push(parent);
+            const subsetRows: ISubsetDataElement[] = [];
+            const components: ComponentMip[] = parent.components;
+            let indexComp: number;
+            let componentMipTitle = '';
+
+            for (const key in subproposalsGroup) {
+              if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
+                indexComp = components?.findIndex((item) => item.cName === key);
+                if (indexComp && indexComp !== -1) {
+                  componentMipTitle = components[indexComp].cTitle;
+                }
+                subsetRows.push({
+                  subset: key,
+                  expanded: true,
+                  title: componentMipTitle,
+                });
+              }
+            }
+
+            parent.subproposalsGroup = subproposalsGroup;
+            parent.subsetRows = subsetRows;
+            newData.push(parent);
+          }
         } else if (item.proposal && indexFatherInNewData !== -1) {
           this.addSubsetField(data.items[index]);
           newData[indexFatherInNewData].children.push(item);
@@ -624,10 +629,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.mips[indexFatherInMips].subsetRows = subsetRows;
           this.mips[indexFatherInMips].expanded = true;
         } else if (!item.proposal) {
-          item.expanded = false;
-          item.children = [];
-          item.showArrowExpandChildren = false;
-          newData.push(item);
+          const indexItemInLoadedMips = this.indexItemInLoadedMips(item, this.mips);
+          const indexItemInLoadedNewdata = this.indexItemInLoadedMips(item, newData);
+
+          if (indexItemInLoadedMips === -1 && indexItemInLoadedNewdata === -1) {
+            item.expanded = false;
+            item.children = [];
+            item.showArrowExpandChildren = false;
+            newData.push(item);
+          }
         }
       }
     };
@@ -647,6 +657,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   indexFather(mip: IMip, mips: IMip[]) {
     return mips.findIndex(item => mip.proposal === item.mipName);
+  }
+
+  indexItemInLoadedMips(mip: IMip, mips: IMip[]) {
+    return mips.findIndex(item => mip.mipName === item.mipName);
   }
 
   addSubsetField = (item: any) => {
@@ -707,7 +721,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         order,
         search,
         filter,
-        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount'
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink'
       )
       .subscribe(
         (data) => {
@@ -950,6 +964,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     let filterSaved = this.mipsService.getFilter();
 
     let qp: QueryParams = {
+      ...this.queryParamsListService.queryParams,
       status: [],
       search: this.search,
       mipsetMode: this.mipsetMode,
@@ -984,7 +999,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       queryParams: qp,
     };
 
-    this.router.navigate(['/mips/list'], { ...navigationExtras });
+    this.router.navigate([], { ...navigationExtras });
   }
 
   onCheckedMipsetMode(ev) {

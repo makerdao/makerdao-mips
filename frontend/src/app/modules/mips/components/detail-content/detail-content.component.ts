@@ -417,8 +417,14 @@ export class DetailContentComponent
 
       if (this.mip?.proposal && this.mip?.title) {
         let subProposalTitleArray: string[] = this.mip?.title.split(':');
-        this.subproposalCode = subProposalTitleArray[0];
-        this.subproposalTitle = subProposalTitleArray.slice(1).join('');
+
+        if (subProposalTitleArray.length > 1) {
+          this.subproposalCode = subProposalTitleArray[0];
+          this.subproposalTitle = subProposalTitleArray.slice(1).join('');
+        } else {
+          this.subproposalCode = this.mip?.mipName;
+          this.subproposalTitle = this.mip?.title;
+        }
       }
       this.titleService.setTitle(
         this.mip?.proposal
@@ -462,14 +468,17 @@ export class DetailContentComponent
     this.appendSubproposalsElements();
   }
 
-  appendSubproposalsElements() {
+  async appendSubproposalsElements() {
     if (this.subproposals) {
-      this.subproposals.map((item) => {
+      let subData = await this.getSubproposals();
+      let subproposals: any[] = subData.items;
+
+      subproposals.map((item) => {
         let newItem = this.addSubsetField(item);
         return newItem;
       });
 
-      let subproposalsGroup: any = this.groupBy('subset', this.subproposals);
+      let subproposalsGroup: any = this.groupBy('subset', subproposals);
 
       this.sortSubproposalsGroups(subproposalsGroup);
       this.subproposalsGroup = subproposalsGroup;
@@ -566,6 +575,31 @@ export class DetailContentComponent
     });
   }
 
+  getSubproposals() {
+    let order = 'mip mipName';
+    let filter = {
+      contains: [],
+      notcontains: [],
+      equals: [],
+      notequals: [],
+      inarray: [],
+    };
+
+    filter.notequals.push({ field: 'mip', value: -1 });
+    filter.equals.push({ field: 'proposal', value: this.mip.mipName });
+
+    return this.mipsService
+      .searchMips(
+        100000,
+        0,
+        order,
+        '',
+        filter,
+        'title proposal mipName mip status'
+      )
+      .toPromise();
+  }
+
   onError() {
     this.router.navigateByUrl('/');
     setTimeout(() => {
@@ -609,7 +643,7 @@ export class DetailContentComponent
 
       this.headingStructure.push({ heading: htmlCleanedText, depth: level });
 
-      if (this.mdUrl && level ===1) {
+      if (this.mdUrl && level === 1) {
         this.titleMdFile = text;
         return '';
       } else {
@@ -781,7 +815,6 @@ export class DetailContentComponent
                 if (data.mipName) {
                   elem.setAttribute('href', `/mips/details/${data.mipName}`);
                 } else {
-
                   elem.setAttribute(
                     'href',
                     `${this.gitgubUrl}/${this.mip?.filename}`

@@ -1,13 +1,111 @@
-<div *ngIf="showData != -1" class="maker-loading-shade"></div>
 <div class="row up">
-  <img (click)="updateData(1)" [ngClass]="{'hight-c': showData == 1}" src="../../../../../assets/images/filter_mobile.svg" />
-  <div class="proposal" [ngClass]="{'hight-c': showData == 1}" *ngIf="showData == 1">
-    <app-proposal-components (click)="updateData(1)" [sourceData]="sourceData"></app-proposal-components>
+  <div
+    class="iconWrapper"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+    (click)="open = !open"
+    [ngStyle]="{ 'z-index': open ? 1001 : 'auto' }"
+  >
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="16" height="3" rx="1.5" fill="#748AA1" />
+      <rect y="6.5" width="16" height="3" rx="1.5" fill="#748AA1" />
+      <rect y="13" width="7" height="3" rx="1.5" fill="#748AA1" />
+    </svg>
   </div>
-  <img (click)="updateData(2)" [ngClass]="{'hight-c': showData == 2}" src="../../../../../assets/images/more.svg" />
-  <div class="more" [ngClass]="{'hight-c': showData == 2}" *ngIf="mip && showData == 2">
-    <div (click)="updateSelected(1, 'Preamble')" [ngClass]="{selected: selected == 1}" class="info">MIP{{mip}}: Info</div>
-    <div (click)="updateSelected(2, 'Details')" [ngClass]="{selected: selected == 2}" class="info">Details</div>
-    <div (click)="updateSelected(3, 'Pull Requests History')" [ngClass]="{selected: selected == 3}" class="info">Pull Requests History</div>
+
+  <div
+    class="iconWrapper"
+    cdkOverlayOrigin
+    #triggerMore="cdkOverlayOrigin"
+    (click)="openMore = !openMore"
+    [ngStyle]="{ 'z-index': openMore ? 1001 : 'auto' }"
+  >
+    <svg
+      width="4"
+      height="18"
+      viewBox="0 0 4 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="2" cy="2" r="2" fill="#748AA1" />
+      <circle cx="2" cy="9" r="2" fill="#748AA1" />
+      <circle cx="2" cy="16" r="2" fill="#748AA1" />
+    </svg>
   </div>
 </div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="open"
+  [cdkConnectedOverlayPositions]="positionPopup"
+  [cdkConnectedOverlayWidth]="284"
+  [cdkConnectedOverlayHeight]="540"
+  [cdkConnectedOverlayPanelClass]="'MipContentOverlayPanelClass'"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayBackdropClass]="'MipContentOverlayBackdropClass'"
+  (overlayOutsideClick)="onClickOutside($event)"
+>
+  <div class="content" @enterLeaveSmooth>
+    <app-proposal-components
+      (click)="open = false"
+      [sourceData]="sourceData"
+    ></app-proposal-components>
+  </div>
+</ng-template>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="triggerMore"
+  [cdkConnectedOverlayOpen]="openMore"
+  [cdkConnectedOverlayPositions]="positionPopup"
+  [cdkConnectedOverlayWidth]="214"
+  [cdkConnectedOverlayHeight]="200"
+  [cdkConnectedOverlayPanelClass]="'MipContentOverlayPanelClass'"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayBackdropClass]="'MipContentOverlayBackdropClass'"
+  (overlayOutsideClick)="onClickOutside($event)"
+>
+  <div @enterLeaveSmooth style="width: 100%;">
+    <div class="container">
+      <div class="content" #sectionLinks>
+        <p>
+          <a
+            id="mipInfo"
+            class="titleLevelOne"
+            (click)="scrollTo(''); active = 'mipInfo'"
+            [ngClass]="{ active: active === 'mipInfo' }"
+          >
+            MIP{{ mip }}: Info</a
+          >
+
+          <a
+            id="mipDetails"
+            class="titleLevelOne"
+            (click)="scrollTo('details-component'); active = 'mipDetails'"
+            [ngClass]="{ active: active === 'mipDetails' }"
+          >
+            {{ "Details" | translate }}</a
+          >
+
+          <a
+            id="mipPullRequest"
+            class="titleLevelOne"
+            (click)="
+              scrollTo('pull-request-history'); active = 'mipPullRequest'
+            "
+            [ngClass]="{ active: active === 'mipPullRequest' }"
+          >
+            {{ "Pull Requests History" | translate }}</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>

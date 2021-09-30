@@ -9,7 +9,7 @@ table {
 .headerContent {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 
   app-asc-des {
@@ -81,7 +81,7 @@ tr.maker-element-row:not(.maker-expanded-row):active {
 .maker-element-subset-detail {
   overflow: hidden;
   display: flex;
-  padding-left: 68px;
+  padding-left: 0;
 }
 
 .maker-element-subsetchildren-detail {
@@ -518,7 +518,7 @@ a {
 }
 
 .subproposal-card {
-  width: 91.05%;
+  width: 84%;
   color: #2f80ed;
   margin-right: 0;
   margin-left: auto;
@@ -529,6 +529,19 @@ a {
 }
 
 .subproposal-card-subset {
+  width: 86%;
+  color: #748aa1;
+  margin-right: 0;
+  margin-left: auto;
+  line-height: normal;
+  text-align: left;
+
+  .title {
+    color: #1aab9b;
+  }
+}
+
+.subproposal-card-mipsetMode {
   width: 100%;
   color: #748aa1;
   margin-right: 0;
@@ -640,7 +653,6 @@ a {
 :host::ng-deep.mipset-table {
   td.mat-cell {
     border-bottom-color: #748aa1;
-    padding-left: 14px !important;
   }
 
   tr:last-child td.mat-cell {
@@ -814,5 +826,9 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 }
 
 app-list {
+  width: 100%;
+}
+
+app-sublist {
   width: 100%;
 }

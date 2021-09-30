@@ -23,6 +23,46 @@ export class MIPsService {
     ]);
   }
 
+  async searchAll({
+    paginationQuery,
+    order,
+    search,
+    filter,
+    select,
+    language,
+  }) {
+    const buildFilter = await this.buildFilter(search, filter, language);
+
+    const { limit, page } = paginationQuery;
+
+    const selectedLanguageItems = await this.mipsDoc
+      .find(buildFilter)
+      .select(select)
+      .sort(order)
+      .skip(page * limit)
+      .limit(limit)
+      .exec();
+
+    if (language === Language.English) return selectedLanguageItems;
+
+    const defaultLanguageItems = await this.searchAll({
+      paginationQuery,
+      order,
+      search,
+      filter,
+      select,
+      language: Language.English,
+    });
+
+    const errorProofItems = defaultLanguageItems.map((item) => {
+      const existingItem = selectedLanguageItems.find(
+        (selectedItem) => selectedItem.mipName === item.mipName
+      );
+      return existingItem || item;
+    });
+    return errorProofItems
+  }
+
   async findAll(
     paginationQuery?: PaginationQueryDto,
     order?: string,
@@ -31,30 +71,33 @@ export class MIPsService {
     select?: string,
     language?: Language
   ): Promise<any> {
-    const buildFilter = await this.buildFilter(search, filter, language);
-    const { limit, page } = paginationQuery;
+    const buildFilter = await this.buildFilter(search, filter, Language.English);
 
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
 
     if (select) {
-      const items = await this.mipsDoc
-        .find(buildFilter)
-        .select(select)
-        .sort(order)
-        .skip(page * limit)
-        .limit(limit)
-        .exec();
+      const items = await this.searchAll({
+        paginationQuery,
+        order,
+        search,
+        filter,
+        select,
+        language,
+      });
 
       return { items, total };
     }
 
-    const items = await this.mipsDoc
-      .find(buildFilter)
-      .select(["-file", "-__v", "-sections", "-sectionsRaw"])
-      .sort(order)
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+    const customSelect = ["-file", "-__v", "-sections", "-sectionsRaw"];
+
+    const items = await this.searchAll({
+      paginationQuery,
+      order,
+      search,
+      filter,
+      select: customSelect,
+      language,
+    });
 
     return { items, total };
   }
@@ -448,7 +491,7 @@ export class MIPsService {
   }
 
   async dropDatabase(): Promise<void> {
-    return  await this.mipsDoc.db.dropDatabase();
+    return await this.mipsDoc.db.dropDatabase();
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {
@@ -481,5 +524,9 @@ export class MIPsService {
     deletedCount: number;
   }> {
     return await this.mipsDoc.deleteOne({ _id: id }).lean(true);
+  }
+
+  async getMipLanguagesAvailables(mipName: string): Promise<any> {
+    return await this.mipsDoc.find({ mipName }, "mipName language").exec();
   }
 }

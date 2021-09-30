@@ -595,10 +595,10 @@ a {
 // }
 
 :host::ng-deep.subset-table {
-  td.mat-cell {
-    // border-bottom-color: rgba(26, 171, 155, 0.3);
-    // padding-left: 14px !important;
-  }
+  // td.mat-cell {
+  //    border-bottom-color: rgba(26, 171, 155, 0.3);
+  //    padding-left: 14px !important;
+  // }
 
   tr:last-child td.mat-cell {
     border-bottom-color: transparent;

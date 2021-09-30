@@ -37,6 +37,9 @@ import { Subscription } from 'rxjs';
 import { StatusService } from '../../services/status.service';
 import { ISubsetDataElement } from '../../types/subset';
 import { ComponentMip } from '../../types/component-mip';
+import { TranslateService } from '@ngx-translate/core';
+import { LangService } from 'src/app/services/lang/lang.service';
+
 const clone = require('rfdc')();
 
 interface ExpandedItems {
@@ -118,6 +121,8 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   expandedElementSubsetChildren: DataElement | null;
   subscriptionSearchService: Subscription;
   subscriptionFilterService: Subscription;
+  @Input() showHead: boolean = true;
+  @Input() query: string;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -143,11 +148,20 @@ const language = 'typescript';
     private orderService: OrderService,
     private searchService: SearchService,
     private filterService: FilterService,
-    private statusService: StatusService
-  ) {}
+    private statusService: StatusService,
+    private translate: TranslateService,
+    private langService: LangService
+  ) {
+    this.translate.setDefaultLang('en');
+  }
 
   ngOnInit() {
     this.dataSourceTable.data = this.dataSource;
+
+    this.langService.currentLang$.subscribe((language: string) => {
+      this.translate.use(language);
+    });
+
     this.currentSortingColumn =
       this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
         ? 'pos'
@@ -334,7 +348,7 @@ const language = 'typescript';
             0,
             // 'mipName',
             order,
-            row.showArrowExpandChildren ? this.search : '',
+            row.showArrowExpandChildren ? this.query ? this.query : this.search : '',
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status'
           )

@@ -1,0 +1,61 @@
+:host {
+  display: inline-block;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:host::ng-deep input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+}
+
+:host::ng-deep input ~ .checkmark {
+  visibility: hidden;
+}
+
+:host::ng-deep input:checked ~ .checkmark {
+  visibility: visible;
+  animation-name: inCheckmark;
+  animation-duration: 0.2s;
+}
+
+@keyframes inCheckmark {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.label {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  color: #748aa1;
+}
+
+:host::ng-deep input:checked ~ .label {
+  font-weight: bold;
+  color: #31394d;
+}

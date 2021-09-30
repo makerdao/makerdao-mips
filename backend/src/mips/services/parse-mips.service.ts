@@ -65,6 +65,8 @@ export class ParseMIPsService {
         result[1]
       );
 
+      await this.simpleGitService.saveMetaVars();
+
       if (result[2] === 0) {
         let data = await this.githubService.pullRequests(pullRequests);
         await this.pullRequestService.create(
@@ -312,11 +314,16 @@ export class ParseMIPsService {
       sectionsRaw: [],
       references: [],
     };
+    const mipNumberMatch = item.filename.match(/(?<mipNumber>MIP\d+)\//i);
+    if (!mipNumberMatch) {
+      throw new Error("MIP filename not inside a MIP folder");
+    }
+    const mipFatherNumber = mipNumberMatch.groups.mipNumber.toUpperCase();
 
     if (item.filename.includes("-")) {
-      mip.proposal = item.filename.split("/")[0];
+      mip.proposal = mipFatherNumber;
     } else {
-      mip.mipName = item.filename.split("/")[0];
+      mip.mipName = mipFatherNumber;
     }
 
     let title: string;
@@ -477,6 +484,10 @@ export class ParseMIPsService {
     mip.tags = preamble.tags;
     mip.subproposalsCount = 0;
 
+    mip.votingPortalLink = preamble.votingPortalLink;
+    mip.forumLink = preamble.forumLink;
+    mip.ratifiedData = preamble.ratifiedData;
+
     return mip;
   }
 
@@ -593,6 +604,17 @@ export class ParseMIPsService {
         case "Date Ratified":
           preamble.dateRatified = keyValue[1].trim();
           break;
+
+        case "votingPortalLink":
+          preamble.votingPortalLink = keyValue.slice(1).join(':').trim();
+          break;
+        case "forumLink":
+          preamble.forumLink = keyValue.slice(1).join(':').trim();
+          break;
+        case "ratifiedData":
+          preamble.ratifiedData = keyValue.slice(1).join(':').trim();
+          break;
+
         default:
           return false;
       }

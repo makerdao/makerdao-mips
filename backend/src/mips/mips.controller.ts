@@ -21,6 +21,7 @@ import { PullRequestService } from "./services/pull-requests.service";
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
 import { Language } from "./entities/mips.entity";
+import { SimpleGitService } from "./services/simple-git.service";
 
 @Controller("mips")
 export class MIPsController {
@@ -28,6 +29,7 @@ export class MIPsController {
     private mipsService: MIPsService,
     private parseMIPsService: ParseMIPsService,
     private pullRequestService: PullRequestService,
+    private simpleGitService: SimpleGitService,
     private configService: ConfigService
   ) {}
 
@@ -58,7 +60,7 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "lang",
-    description: `Lang files to get output`,
+    description: `Lang files to get output. If file language not found, it default to english version`,
     enum: Language,
     required: false, // If you view this comment change to true value
   })
@@ -102,7 +104,7 @@ export class MIPsController {
         page: +page,
       };
 
-      return await this.mipsService.findAll(
+      const allMips = await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
@@ -110,6 +112,8 @@ export class MIPsController {
         select,
         lang
       );
+
+      return allMips;
     } catch (error) {
       throw new HttpException(
         {
@@ -137,10 +141,14 @@ export class MIPsController {
     @Query("lang") lang?: Language,
     @Query("mipName") mipName?: string
   ) {
-    const mip = await this.mipsService.findOneByMipName(mipName, lang);
+    let mip = await this.mipsService.findOneByMipName(mipName, lang);
 
     if (!mip) {
-      throw new NotFoundException(`MIPs with name ${mipName} not found`);
+      mip = await this.mipsService.findOneByMipName(mipName, Language.English);
+
+      if (!mip) {
+        throw new NotFoundException(`MIPs with name ${mipName} not found`);
+      }
     }
 
     let subproposals = [];
@@ -153,7 +161,13 @@ export class MIPsController {
       const pullRequests = await this.pullRequestService.aggregate(
         mip.filename
       );
-      return { mip, pullRequests, subproposals };
+
+      const languagesAvailables =
+        await this.mipsService.getMipLanguagesAvailables(mipName);
+
+      const metaVars = await this.simpleGitService.getMetaVars();
+
+      return { mip, pullRequests, subproposals, languagesAvailables, metaVars };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
@@ -222,7 +236,15 @@ export class MIPsController {
       case "filename":
         mip = await this.mipsService.findOneByFileName(value, lang);
         if (!mip) {
-          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+          mip = await this.mipsService.findOneByFileName(
+            value,
+            Language.English
+          );
+          if (!mip) {
+            throw new NotFoundException(
+              `MIPs with ${field} ${value} not found`
+            );
+          }
         }
         return mip;
 
@@ -232,7 +254,15 @@ export class MIPsController {
         mip = await this.mipsService.getSummaryByMipName(value, lang);
 
         if (!mip) {
-          throw new NotFoundException(`MIPs with ${field} ${value} not found`);
+          mip = await this.mipsService.getSummaryByMipName(
+            value,
+            Language.English
+          );
+          if (!mip) {
+            throw new NotFoundException(
+              `MIPs with ${field} ${value} not found`
+            );
+          }
         }
         return mip;
 
@@ -246,7 +276,13 @@ export class MIPsController {
         mip = await this.mipsService.getSummaryByMipComponent(value, lang);
 
         if (!mip || mip.components.length !== 1) {
-          throw new NotFoundException(`MIP with ${field} ${value} not found`);
+          mip = await this.mipsService.getSummaryByMipComponent(
+            value,
+            Language.English
+          );
+          if (!mip || mip.components.length !== 1) {
+            throw new NotFoundException(`MIP with ${field} ${value} not found`);
+          }
         }
         return mip;
 

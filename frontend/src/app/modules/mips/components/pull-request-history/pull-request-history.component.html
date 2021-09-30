@@ -1,10 +1,10 @@
 <div class="container">
-  <p class="title">Recent Changes</p>
+  <p class="title">{{'Recent Changes' | translate}}</p>
   <div class="space-1">
     <img class="logo" src="../../../../../assets/images/pull.svg" />
-    <span class="label">{{pullrequest.open}} Open</span>
+    <span class="label">{{pullrequest.open}} {{'Open' | translate}}</span>
     <img class="logo check" src="../../../../../assets/images/check.png" />
-    <span class="label">{{pullrequest.close}} Closed</span>
+    <span class="label">{{pullrequest.close}} {{'Closed'| translate}}</span>
   </div>
   <hr>
   <div *ngFor="let item of pullrequest.items.slice(0, 3)">
@@ -12,15 +12,15 @@
       <div class="info">{{item.title}} </div>
       <a href="{{item.url}}" target="_blank"><img class="open" src="../../../../../assets/images/open.svg" /></a>
     </span>
-      <p class="sub">#{{getPullNumber(item.url)}} by <a href="{{githubURL+item.author.login}}" target="_blank">{{item.author.login}}</a>  was merged
-      <span *ngIf="getDifferenceInDays(item.createdAt) == 0"> today</span>
-      <span *ngIf="getDifferenceInDays(item.createdAt) == 1"> 1 day ago</span>
-      <span *ngIf="getDifferenceInDays(item.createdAt) > 1"> {{getDifferenceInDays(item.createdAt)}} days ago</span>
+      <p class="sub">#{{getPullNumber(item.url)}} {{"by" | translate}} <a href="{{githubURL+item.author.login}}" target="_blank">{{item.author.login}}</a>  {{'was merged' | translate}}
+      <span *ngIf="getDifferenceInDays(item.createdAt) == 0"> {{'today' | translate}}</span>
+      <span *ngIf="getDifferenceInDays(item.createdAt) == 1"> {{'1 day ago' | translate}}</span>
+      <span *ngIf="getDifferenceInDays(item.createdAt) > 1"> {{getDifferenceInDays(item.createdAt)}} {{"days ago" | translate}}</span>
     </p>
     <hr>
   </div>
   <a href="https://github.com/makerdao/mips/pulls" target="_blank" class="github-link">
-    <img src="../../../../../assets/images/github_dark.svg" /> <span class="text">See all</span>
+    <img src="../../../../../assets/images/github_dark.svg" /> <span class="text">{{'See all' | translate}}</span>
   </a>
 </div>
 
