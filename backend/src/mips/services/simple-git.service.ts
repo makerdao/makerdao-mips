@@ -143,12 +143,18 @@ export class SimpleGitService {
       ? [...languagesFiles, baseVars]
       : [baseVars];
 
-    const translationContent = await Promise.all(
+    let translationContent = []
+    try {
+      translationContent=await Promise.all(
       translationsFiles.map((item) =>
         readFile(this.baseDir + "/" + item, "utf-8")
       )
     );
 
+    } catch (error) {
+      console.log({error})
+    }
+    
     const languagesArray = translationsFiles.map((item) => {
       const match = item.match(
         /I18N\/(?<languageCode>\w\w)\/meta\/vars\.yaml/i
