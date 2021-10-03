@@ -15,7 +15,7 @@
       ><span class="title"> {{ (titleMdFile?.split(":"))[1] }} </span>
     </div>
 
-    <div *ngIf="mip && false" class="row social">
+    <div *ngIf="mip" class="row social linksIconsWrapper">
       <img class="github" src="../../../../../assets/images/github_dark.svg" />
       <a href="{{ gitgubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
 
@@ -64,7 +64,7 @@
     </div>
 
     <div
-      class="iconWrapper"
+      class="linksIconsWrapperMobile"
       cdkOverlayOrigin
       #triggerMore="cdkOverlayOrigin"
       (click)="openMore = !openMore"

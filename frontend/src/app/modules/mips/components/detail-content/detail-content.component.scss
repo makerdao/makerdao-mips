@@ -93,8 +93,6 @@
 
   .social {
     display: flex;
-    align-items: center;
-
     white-space: nowrap;
     margin-top: 7px;
     margin-left: 10px;
@@ -693,11 +691,11 @@ p {
   }
 }
 
-.iconWrapper {
+.linksIconsWrapperMobile {
   cursor: pointer;
   background-color: white;
   border-radius: 5px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   width: 28px;
@@ -727,4 +725,13 @@ p {
 
 .textGray {
   color: #748aa1 !important;
+}
+
+@media screen and (max-width: 768px) {
+  .linksIconsWrapper {
+    display: none !important;
+  }
+  .linksIconsWrapperMobile {
+    display: flex;
+  }
 }
