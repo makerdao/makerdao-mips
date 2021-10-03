@@ -727,7 +727,11 @@ p {
   color: #748aa1 !important;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1199px) {
+.container{
+  margin-top: 20px;
+}
+
   .linksIconsWrapper {
     display: none !important;
   }
