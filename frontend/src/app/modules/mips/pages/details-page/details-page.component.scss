@@ -114,9 +114,9 @@ app-mips-pagination {
   app-detail-content {
     order: 2;
   }
+  
   .details-column {
     position: static !important;
-    margin-bottom: 20px;
   }
 
   .tabs-container {
@@ -148,7 +148,6 @@ app-mips-pagination {
     .tab-active {
       background-color: #1aab9b;
       color: white;
-      margin-bottom: 20px;
     }
   }
 }
