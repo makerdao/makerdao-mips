@@ -44,7 +44,7 @@
   img {
     transform: translateY(-3px);
   }
-  
+
   img.votingIcon {
     margin-left: 30px;
     width: 16px;
@@ -398,6 +398,7 @@ p {
 }
 
 .tooltip .tooltiptext {
+  z-index: 2000;
   visibility: hidden;
   width: 310px;
   color: #748aa1;
@@ -690,4 +691,40 @@ p {
       }
     }
   }
+}
+
+.iconWrapper {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.container.popup {
+  padding: 0;
+
+  .menuContainer {
+    background-color: white;
+    border-radius: 5px;
+    padding: 13px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+
+    .tooltip {
+      margin: 15px 0;
+    }
+    img.votingIcon,
+    img.forum {
+      margin-left: 0;
+    }
+  }
+}
+
+.textGray {
+  color: #748aa1 !important;
 }
