@@ -26,8 +26,8 @@
   }
 }
 
-.hidden{
-  display:none;
+.hidden {
+  display: none;
 }
 
 .maker-loading-shade {
@@ -63,9 +63,6 @@ app-mips-pagination {
   .no-mobile {
     display: none;
   }
-  .mobile {
-    display: block;
-  }
 
   .row {
     flex-wrap: wrap;
@@ -88,11 +85,11 @@ app-mips-pagination {
 
 @media screen and (min-width: 1200px) {
   .row-tree-column {
-    grid-template-columns: 240px auto 240px;
+    grid-template-columns: 284px auto 284px;
   }
 
   .row-two-column {
-    grid-template-columns: 240px auto;
+    grid-template-columns: 284px auto;
   }
 
   .row {
@@ -103,20 +100,49 @@ app-mips-pagination {
       margin: 0 10px;
     }
   }
-  .mobile {
+
+  .tabs-container {
     display: none;
   }
 }
 
-@media screen and (min-width: 1200px) {
-  .row-tree-column {
-    grid-template-columns: 284px auto 284px;
+@media screen and (max-width: 1199px) {
+  app-detail-content {
+    order: 2;
+  }
+  .details-column {
+    position: static !important;
+    margin-bottom: 20px;
   }
 
-  .row-two-column {
-    grid-template-columns: 284px auto;
-  }
-  .row {
-    display: grid !important;
+  .tabs-container {
+    display: flex;
+    overflow-x: auto;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* for Chrome, Safari, and Opera */
+    }
+
+    .tabs-item{
+      background-color: white;
+      white-space: nowrap;
+      padding: 7px 8px;
+      border-radius: 5px;
+      margin-right:10px;
+      cursor: pointer;
+      color: #748AA1;
+
+      box-shadow: 0px 1px 4px #E5E9F2;
+      &:last-of-type{
+        margin-right: 0;
+      }
+    }
+
+    .tab-active{
+      background-color: #1AAB9B;
+      color: white;
+
+    }
   }
 }

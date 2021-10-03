@@ -1,35 +1,64 @@
-<div *ngIf="!mip&&loadingUrl " class="maker-loading-shade">
+<div *ngIf="!mip && loadingUrl" class="maker-loading-shade">
   <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="mip||mdUrl" [ngClass]="{'container':true,'hidden':loadingUrl}">
-  <app-details-mobiles-buttons *ngIf="mip"  class="mobile" [sourceData]="sections" [mip]="mip?.mip"></app-details-mobiles-buttons>
+<div *ngIf="mip || mdUrl" [ngClass]="{ container: true, hidden: loadingUrl }">
   <app-mips-pagination
-  *ngIf="mip"
-  [mipName]="mip?.mipName"
-  [mipPosition]="mipPosition"
-  [total]="total"
-  [parent]="mip?.proposal"
-  (send)="mipsPagination($event)"
+    *ngIf="mip"
+    [mipName]="mip?.mipName"
+    [mipPosition]="mipPosition"
+    [total]="total"
+    [parent]="mip?.proposal"
+    [sections]="sections"
+    [mip]="mip?.mip"
+    (send)="mipsPagination($event)"
   ></app-mips-pagination>
-  <div [ngClass]="{'row':true,'row-tree-column':mip,'row-two-column':mdUrl}">
 
+  <div class="tabs-container">
+    <div
+      *ngFor="let tab of TABS_OPTIONS"
+      [ngClass]="{ 'tabs-item': true, 'tab-active': selectedTab === tab }"
+      (click)="selectedTab = selectedTab === tab ? null : tab"
+    >
+      {{ tab | translate }}
+    </div>
+  </div>
+
+  <div
+    [ngClass]="{ row: true, 'row-tree-column': mip, 'row-two-column': mdUrl }"
+  >
     <div class="column">
       <div class="sidebar-wrapper">
-        <app-proposal-components *ngIf="sections&&mip" class="no-mobile" [sourceData]="sections"></app-proposal-components>
-         <app-proposal-components *ngIf="sections&&mdUrl" class="no-mobile" showlevelOne=true titleSidebar="Table of contents" [sourceData]="sections"></app-proposal-components>
+        <app-proposal-components
+          *ngIf="sections && mip"
+          class="no-mobile"
+          [sourceData]="sections"
+        ></app-proposal-components>
+        <app-proposal-components
+          *ngIf="sections && mdUrl"
+          class="no-mobile"
+          showlevelOne="true"
+          titleSidebar="Table of contents"
+          [sourceData]="sections"
+        ></app-proposal-components>
       </div>
     </div>
-    <app-detail-content [mdUrl]="mdUrl" [mip]="mip" [subproposals]="subproposals" (headingListUpdate)="headingListUpdate($event)"></app-detail-content>
-    <div *ngIf="mip" class="column">
+    <app-detail-content
+      [mdUrl]="mdUrl"
+      [mip]="mip"
+      [subproposals]="subproposals"
+      (headingListUpdate)="headingListUpdate($event)"
+    ></app-detail-content>
+    <div *ngIf="mip" class="column details-column">
       <div class="sidebar-wrapper">
         <app-language-document
-        *ngIf="languagesAvailables&&mip"
-        (updateDocumentLanguage)="updateDocumentLanguage($event)"
-        [documentLanguage]="documentLanguage"
+          *ngIf="selectedTab === 'Languages' && languagesAvailables && mip"
+          (updateDocumentLanguage)="updateDocumentLanguage($event)"
+          [documentLanguage]="documentLanguage"
           [languagesAvailables]="languagesAvailables"
         ></app-language-document>
 
         <app-mip-details
+          *ngIf="selectedTab === 'Details'"
           id="details-component"
           [status]="mip?.status"
           [dateProposed]="mip?.dateProposed"
@@ -45,9 +74,19 @@
           [replaces]="mip?.replaces"
           [pollAddress]="mip?.pollAddress"
           [tags]="mip?.tags"
-          ></app-mip-details>
-        <app-references *ngIf="references && references.length > 0" [references]="mip?.references" [mipName]="mip?.mipName"></app-references>
-        <app-pull-request-history id="pull-request-history" [pullrequest]="pullrequest"></app-pull-request-history>
+        ></app-mip-details>
+        <app-references
+          *ngIf="
+            selectedTab === 'References' && references && references.length > 0
+          "
+          [references]="mip?.references"
+          [mipName]="mip?.mipName"
+        ></app-references>
+        <app-pull-request-history
+          *ngIf="selectedTab === 'Recent Changes'"
+          id="pull-request-history"
+          [pullrequest]="pullrequest"
+        ></app-pull-request-history>
       </div>
     </div>
   </div>

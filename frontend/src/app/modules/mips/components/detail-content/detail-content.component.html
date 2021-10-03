@@ -15,7 +15,7 @@
       ><span class="title"> {{ (titleMdFile?.split(":"))[1] }} </span>
     </div>
 
-    <div *ngIf="mip" class="row social">
+    <div *ngIf="mip" class="row social linksIconsWrapper">
       <img class="github" src="../../../../../assets/images/github_dark.svg" />
       <a href="{{ gitgubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
 
@@ -53,10 +53,49 @@
             >
           </span>
         </a>
-        <a *ngIf="mip?.votingPortalLink" href="{{ mip?.votingPortalLink }}" target="_blank">
+        <a
+          *ngIf="mip?.votingPortalLink"
+          href="{{ mip?.votingPortalLink }}"
+          target="_blank"
+        >
           {{ "Voting" | translate }}
         </a>
       </div>
+    </div>
+
+    <div
+      class="linksIconsWrapperMobile"
+      cdkOverlayOrigin
+      #triggerMore="cdkOverlayOrigin"
+      (click)="openMore = !openMore"
+      [ngStyle]="{ 'z-index': openMore ? 1001 : 'auto' }"
+    >
+      <svg
+        width="4"
+        height="18"
+        viewBox="0 0 4 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="2"
+          cy="2"
+          r="2"
+          attr.fill="{{ openMore ? '#748AA1' : '#2F80ED' }}"
+        />
+        <circle
+          cx="2"
+          cy="9"
+          r="2"
+          attr.fill="{{ openMore ? '#748AA1' : '#2F80ED' }}"
+        />
+        <circle
+          cx="2"
+          cy="16"
+          r="2"
+          attr.fill="{{ openMore ? '#748AA1' : '#2F80ED' }}"
+        />
+      </svg>
     </div>
 
     <div *ngIf="mdUrl" class="row social">
@@ -177,4 +216,72 @@
       ></div>
     </div>
   </section>
+</ng-template>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="triggerMore"
+  [cdkConnectedOverlayOpen]="openMore"
+  [cdkConnectedOverlayPositions]="positionPopup"
+  [cdkConnectedOverlayPanelClass]="'IconsOverlayPanelClass'"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayWidth]="'auto'"
+  [cdkConnectedOverlayHeight]="'auto'"
+  [cdkConnectedOverlayBackdropClass]="'MipContentOverlayBackdropClass'"
+  (overlayOutsideClick)="onClickOutside($event)"
+>
+  <div @enterLeaveSmooth style="width: 100%;" class="container popup">
+    <div class="menuContainer row social">
+      <div class="tooltip">
+        <img
+          class="github"
+          src="../../../../../assets/images/github_dark.svg"
+        />
+        <a href="{{ gitgubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
+      </div>
+
+      <div class="tooltip">
+        <img class="forum" src="../../../../../assets/images/forum.svg" />
+        <a *ngIf="!mip?.forumLink" class="textGray">
+          {{ "Forum" | translate
+          }}<span class="tooltiptext"
+            >{{ "Link to the forum coming soon." | translate }} <br />
+            {{ "Feel free to manually search the MIP number at " | translate
+            }}<br />
+            <a href="https://forum.makerdao.com/" target="_blank"
+              >forum.makerdao.com</a
+            >
+          </span>
+        </a>
+        <a *ngIf="mip?.forumLink" href="{{ mip?.forumLink }}" target="_blank">
+          {{ "Forum" | translate }}
+        </a>
+      </div>
+
+      <div class="tooltip">
+        <img
+          class="votingIcon"
+          src="../../../../../assets/images/voting_icon.svg"
+        />
+        <a *ngIf="!mip?.votingPortalLink" class="textGray">
+          {{ "Voting" | translate
+          }}<span class="tooltiptext"
+            >{{ "Link to the voting coming soon." | translate }}<br />
+            {{ "Feel free to manually search the MIP number at " | translate
+            }}<br />
+            <a href="https://vote.makerdao.com/" target="_blank"
+              >vote.makerdao.com</a
+            >
+          </span>
+        </a>
+        <a
+          *ngIf="mip?.votingPortalLink"
+          href="{{ mip?.votingPortalLink }}"
+          target="_blank"
+        >
+          {{ "Voting" | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
 </ng-template>

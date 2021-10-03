@@ -1,16 +1,20 @@
+.wrapper {
+  display: flex;
+  margin-bottom: 10px;
+}
 
 .container {
   height: 46px;
-  background: #FFFFFF;
+  background: #ffffff;
   opacity: 0.5;
-  box-shadow: 0px 1px 4px #E5E9F2;
+  box-shadow: 0px 1px 4px #e5e9f2;
   border-radius: 5px;
-  color: #748AA1;
+  color: #748aa1;
   padding: 0 11px 0 30px;
-  margin-bottom: 10px;
   z-index: 0;
   display: flex;
   align-items: center;
+  flex-grow: 1;
 
   .row {
     display: flex;
@@ -20,7 +24,7 @@
     width: 100%;
 
     strong {
-      color: #31394D;
+      color: #31394d;
     }
     .links {
       font-size: 14px;
@@ -31,17 +35,17 @@
       li {
         display: inline-block;
 
-        &+li::before {
+        & + li::before {
           padding: 4px;
           content: "/\00a0";
         }
 
         a {
           text-decoration: none;
-          color: #748AA1;
+          color: #748aa1;
 
           &.active {
-            color: #31394D;
+            color: #31394d;
             font-weight: bold;
           }
         }
@@ -80,35 +84,53 @@
           opacity: 0.4;
         }
 
-      .frame {
-        padding: 0.5px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        .frame {
+          padding: 0.5px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
 
-        img {
-          transform: translateY(2px);
+          img {
+            transform: translateY(2px);
+          }
         }
       }
     }
-    }
-  }
-
-  .space {
-    // padding-top: 14px;
   }
 }
 
 @media screen and (max-width: 768px) {
+  .wrapper {
+    margin-bottom: 20px;
+  }
+
   .container {
     padding: 0 11px 0 20px;
-    margin-bottom: 13px;
 
     .row {
       .links {
         width: 45%;
       }
     }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .mobileIndex {
+    display: none;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .mobileIndex {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .itemsWord{
+    display: none;
   }
 }

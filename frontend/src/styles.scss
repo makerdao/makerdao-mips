@@ -1,9 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background: #F5F6FA;}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #f5f6fa;
+}
 // body { margin: 0; font-family: Roboto; background: #F5F6FA;}
-
 
 .mat-tooltip-green {
   color: white;
@@ -22,6 +28,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background:
 .MipContentOverlayPanelClass {
   overflow-y: auto;
   border-radius: 5px;
+  margin-top: 10px;
+}
+
+.IconsOverlayPanelClass {
   margin-top: 10px;
 }
 
