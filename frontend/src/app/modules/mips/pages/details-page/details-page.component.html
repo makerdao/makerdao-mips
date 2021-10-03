@@ -51,14 +51,15 @@
     <div *ngIf="mip" class="column details-column">
       <div class="sidebar-wrapper">
         <app-language-document
-          *ngIf="selectedTab === 'Languages' && languagesAvailables && mip"
+          *ngIf="languagesAvailables && mip"
+          [ngClass]="{'hide-on-mobile':selectedTab!=='Languages'}"
           (updateDocumentLanguage)="updateDocumentLanguage($event)"
           [documentLanguage]="documentLanguage"
           [languagesAvailables]="languagesAvailables"
         ></app-language-document>
 
         <app-mip-details
-          *ngIf="selectedTab === 'Details'"
+          [ngClass]="{'hide-on-mobile':selectedTab!=='Details'}"
           id="details-component"
           [status]="mip?.status"
           [dateProposed]="mip?.dateProposed"
@@ -76,14 +77,13 @@
           [tags]="mip?.tags"
         ></app-mip-details>
         <app-references
-          *ngIf="
-            selectedTab === 'References' && references && references.length > 0
-          "
+          *ngIf="references && references.length > 0"
+          [ngClass]="{'hide-on-mobile':selectedTab!=='References'}"
           [references]="mip?.references"
           [mipName]="mip?.mipName"
         ></app-references>
         <app-pull-request-history
-          *ngIf="selectedTab === 'Recent Changes'"
+          [ngClass]="{'hide-on-mobile':selectedTab!=='Recent Changes'}"
           id="pull-request-history"
           [pullrequest]="pullrequest"
         ></app-pull-request-history>
