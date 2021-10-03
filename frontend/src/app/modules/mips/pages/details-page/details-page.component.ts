@@ -6,7 +6,6 @@ import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 import { Language } from 'src/app/data-types/languages';
 const YAML = require('yaml');
-
 @Component({
   selector: 'app-details-page',
   templateUrl: './details-page.component.html',
@@ -27,6 +26,8 @@ export class DetailsPageComponent implements OnInit {
   references = [];
   languagesAvailables: any[];
   documentLanguage: Language;
+  TABS_OPTIONS = ['Languages', 'Details', 'Recent Changes', 'References'];
+  selectedTab:'Languages'| 'Details'| 'Recent Changes'| 'References'|null=null;
 
   constructor(
     private mipsService: MipsService,
@@ -43,7 +44,7 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.paramMap.subscribe((paramMap) => {
       if (paramMap.has('name')) {
-        this.documentLanguage=this.langService.lang as Language
+        this.documentLanguage = this.langService.lang as Language;
         this.mipName = paramMap.get('name');
         this.total = this.mipsService.getTotal();
         this.loadData();
