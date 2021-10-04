@@ -16,7 +16,7 @@
   <div *ngIf="mip" class="tabs-container">
     <div
       *ngFor="let tab of TABS_OPTIONS"
-      [ngClass]="{ 'tabs-item': true, 'tab-active': selectedTab === tab }"
+      [ngClass]="{ 'tabs-item': true, 'tab-active': selectedTab === tab,'hide':tab==='References'&&!references?.length }"
       (click)="selectedTab = selectedTab === tab ? null : tab"
     >
       {{ tab | translate }}
