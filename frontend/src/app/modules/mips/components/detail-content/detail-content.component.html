@@ -64,7 +64,7 @@
     </div>
 
     <div
-      class="linksIconsWrapperMobile"
+      [ngClass]="{'linksIconsWrapperMobile':true,'hide':!mip}"
       cdkOverlayOrigin
       #triggerMore="cdkOverlayOrigin"
       (click)="openMore = !openMore"

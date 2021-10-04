@@ -387,8 +387,9 @@ p {
   margin-bottom: 16px;
 }
 
-.mobile {
-  display: none;
+.mobile,
+.hide {
+  display: none !important;
 }
 
 .tooltip {
