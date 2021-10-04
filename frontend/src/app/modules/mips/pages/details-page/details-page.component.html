@@ -13,7 +13,7 @@
     (send)="mipsPagination($event)"
   ></app-mips-pagination>
 
-  <div class="tabs-container">
+  <div *ngIf="mip" class="tabs-container">
     <div
       *ngFor="let tab of TABS_OPTIONS"
       [ngClass]="{ 'tabs-item': true, 'tab-active': selectedTab === tab }"
