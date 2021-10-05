@@ -669,6 +669,8 @@ p {
 
       .fadeThinRectangle {
         width: 2px;
+        position: relative;
+        top: -5px;
         height: 100%;
         background: linear-gradient(#76cdc3 20%, #ffffff);
       }
@@ -729,6 +731,14 @@ p {
 
 .textGray {
   color: #748aa1 !important;
+}
+
+.mipName {
+  padding: 0 16px;
+  color: #31394d;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
 }
 
 @media screen and (max-width: 1199px) {
