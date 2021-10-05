@@ -3,7 +3,7 @@
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0px 1px 4px #e5e9f2;
-  margin: 25px 0 0;
+  margin: 25px auto 0;
 }
 
 :host(.activeChild) {
@@ -40,7 +40,6 @@
     background-color: transparent;
     box-shadow: none;
     margin-top: 0;
-    margin-left: 0px;
   }
 
   .NavMenu {
@@ -54,7 +53,7 @@
 
     app-menu:first-child {
       ::ng-deep a {
-        padding-left: 40px;
+        padding-left: 16px;
       }
     }
 
