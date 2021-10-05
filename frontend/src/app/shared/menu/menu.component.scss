@@ -148,7 +148,7 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  left: 0;
+  left: 15px;
   // padding: 5px 0;
   box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
     0 1px 14px 0 rgb(0 0 0 / 12%);
@@ -304,6 +304,12 @@
     // padding: 5px 0;
     box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
       0 1px 14px 0 rgb(0 0 0 / 12%);
+  }
+}
+
+@media (min-width: 500px) {
+  .dropdown-content-first-level {
+    left: 60px;
   }
 }
 
