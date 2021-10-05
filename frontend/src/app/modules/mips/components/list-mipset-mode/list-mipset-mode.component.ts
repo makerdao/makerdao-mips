@@ -204,9 +204,9 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
             item.expanded = false;
           });
 
-          if (this.dataSourceMipsetRows.length > 0) {
-            await this.expandFirstMipset(this.dataSourceMipsetRows[0]);
-          }
+          // if (this.dataSourceMipsetRows.length > 0) {
+          //   await this.expandFirstMipset(this.dataSourceMipsetRows[0]);
+          // }
 
           this.loading = false;
         },
