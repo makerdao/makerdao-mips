@@ -9,7 +9,7 @@ export class StatusComponent implements OnInit {
 
   @Input() type: 'ACCEPTED' | 'REJECTED' | 'ARCHIVE' | 'RFC' | 'NONE' | 'OBSOLETE' | 'FS' | 'DEFAULT';
   @Input() value: string;
-
+  @Input() isOnSubproposal?:boolean=false
   constructor() { }
 
   public get classes(): string[] {

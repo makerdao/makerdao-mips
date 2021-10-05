@@ -1,5 +1,6 @@
-<div [ngClass]="classes">
+<div
+  [ngClass]="classes"
+  [ngStyle]="{ 'font-size': isOnSubproposal ? '9px' : '12px' }"
+>
   {{ value }}
 </div>
-
-
