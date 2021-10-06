@@ -15,6 +15,7 @@
 }
 
 .logo {
+  border-radius: 5px;
   margin: 0 0 40px 0;
   display: flex;
   flex-direction: row;
@@ -158,8 +159,8 @@
   // }
 }
 
-@media screen and (min-width: 1920px) {
-  .logo {
-    padding: 0 210px;
-  }
-}
+// @media screen and (min-width: 1920px) {
+//   .logo {
+//     padding: 0 210px;
+//   }
+// }
