@@ -75,7 +75,6 @@
 .row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   position: relative;
 }
@@ -102,6 +101,16 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #748aa1;
+}
+
+.checkmark {
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 1199px) {
