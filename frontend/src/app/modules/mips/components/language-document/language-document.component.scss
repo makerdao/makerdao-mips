@@ -111,6 +111,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  img{
+    cursor: default !important;
+  }
 }
 
 @media screen and (max-width: 1199px) {
