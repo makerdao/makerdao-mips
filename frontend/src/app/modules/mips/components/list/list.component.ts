@@ -80,7 +80,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() loading = true;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
-  @Input() listSearchMip;
+  
   filter: any;
   search: string;
   expandedElement: DataElement | null;
