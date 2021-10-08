@@ -741,11 +741,27 @@ p {
   line-height: 23px;
 }
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1024px) {
   .container:not(.popup) {
     margin-top: 20px;
   }
 
+  .linksIconsWrapper {
+    display: none !important;
+  }
+  .linksIconsWrapperMobile {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .container:not(.popup) {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 1023px),
+  screen and (min-width: 1200px) and (max-width: 1600px) {
   .linksIconsWrapper {
     display: none !important;
   }
