@@ -1,4 +1,4 @@
-<div class="maker-container">
+<div class="maker-container" [ngClass]="{'loading-height-fixed':loading}">
   <div *ngIf="loading && !dataSource.length" class="maker-loading-shade">
     <mat-spinner></mat-spinner>
   </div>
@@ -539,7 +539,7 @@
       </div>
     </div>
   </div>
-  <div class="no-result" *ngIf="dataSource?.length == 0">
+  <div class="no-result" *ngIf="!loading && dataSource?.length == 0">
     <div *ngIf="dataSource.length == 0 && !loading">
       <img src="../../../../../assets/images/no_results.svg" />
       <p>{{'No results found' | translate}}</p>
