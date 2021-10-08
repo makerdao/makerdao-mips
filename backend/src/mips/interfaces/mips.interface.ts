@@ -30,6 +30,7 @@ export interface IMIPs {
   votingPortalLink?: string;
   forumLink?: string;
   ratifiedData?: string;
+  mipCodeNumber?:string;
 }
 
 export interface IGitFile {

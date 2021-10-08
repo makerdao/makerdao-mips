@@ -151,6 +151,9 @@ export class MIP {
 
   @Prop()
   ratifiedData?: string;
+
+  @Prop()
+  mipCodeNumber?: string;
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);

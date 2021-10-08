@@ -465,8 +465,9 @@ export class ParseMIPsService {
     if (!item.filename.includes("-")) {
       // Only the mipsFathers
       const componentSummary: string = this.getComponentsSection(fileString);
-      const components: Component[] =
-        this.getDataFromComponentText(componentSummary);
+      const components: Component[] = this.getDataFromComponentText(
+        componentSummary
+      );
 
       mip.components = components;
     }
@@ -487,6 +488,19 @@ export class ParseMIPsService {
     mip.votingPortalLink = preamble.votingPortalLink;
     mip.forumLink = preamble.forumLink;
     mip.ratifiedData = preamble.ratifiedData;
+
+    mip.mipCodeNumber = mip.mipName.replace(/\d+/g, (number: string) => {
+      const numb = parseInt(number);// avoid the starter 0 problem
+      const decimalPlaces = 4;
+
+      if (!isNaN(numb)) {
+        const parsed = numb.toString();
+
+        return "0".repeat(decimalPlaces - parsed.length) + parsed;
+      }
+
+      return number;
+    });
 
     return mip;
   }
@@ -606,13 +620,13 @@ export class ParseMIPsService {
           break;
 
         case "votingPortalLink":
-          preamble.votingPortalLink = keyValue.slice(1).join(':').trim();
+          preamble.votingPortalLink = keyValue.slice(1).join(":").trim();
           break;
         case "forumLink":
-          preamble.forumLink = keyValue.slice(1).join(':').trim();
+          preamble.forumLink = keyValue.slice(1).join(":").trim();
           break;
         case "ratifiedData":
-          preamble.ratifiedData = keyValue.slice(1).join(':').trim();
+          preamble.ratifiedData = keyValue.slice(1).join(":").trim();
           break;
 
         default:
@@ -640,14 +654,16 @@ export class ParseMIPsService {
           value: "",
         },
       };
-      const mips: { items: any[]; total: number } =
-        await this.mipsService.findAllAfterParse(
-          paginationQueryDto,
-          "",
-          "",
-          filter,
-          "_id mipName proposal"
-        );
+      const mips: {
+        items: any[];
+        total: number;
+      } = await this.mipsService.findAllAfterParse(
+        paginationQueryDto,
+        "",
+        "",
+        filter,
+        "_id mipName proposal"
+      );
 
       const forLoop = async () => {
         for (let i = 0; i < mips.items.length; i++) {
@@ -658,14 +674,16 @@ export class ParseMIPsService {
               value: element.mipName,
             },
           };
-          const subproposals: { items: any[]; total: number } =
-            await this.mipsService.findAllAfterParse(
-              paginationQueryDto,
-              "",
-              "",
-              filterSubp,
-              "_id mipName proposal"
-            );
+          const subproposals: {
+            items: any[];
+            total: number;
+          } = await this.mipsService.findAllAfterParse(
+            paginationQueryDto,
+            "",
+            "",
+            filterSubp,
+            "_id mipName proposal"
+          );
           element.subproposalsCount = subproposals.total;
           this.mipsService.update(element._id, element as MIP);
         }
