@@ -101,7 +101,7 @@ export class MenuComponent implements OnInit, OnChanges {
       const positionX = (ev.currentTarget as HTMLElement).getClientRects()[0].left;
 
       const movePositionX =
-        window.innerWidth > 500 ? positionX - 60 : positionX - 15;
+        window.innerWidth > 500 ? positionX - 90 : positionX - 60;
 
       this.menuService.setposXClicked(movePositionX);
     }
