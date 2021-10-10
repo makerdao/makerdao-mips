@@ -25,3 +25,21 @@
     min-height: 68vh;
   }
 }
+
+.dark-mode-toggler{
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  border: 2px solid blue;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: cadetblue;
+  color: black;
+  z-index: 2000;
+
+  &.dark-mode-toggler-dark{
+    color: white;
+    background-color: black;
+  }
+}

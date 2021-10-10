@@ -8,5 +8,9 @@
     (visible)="onFooterVisible($event)"
   ></app-footer>
 </div>
-
+<div
+(click)="toggleDarkMode()"
+class='dark-mode-toggler'
+[ngClass]="{'dark-mode-toggler-dark':darkModeService.getDarkMode()}"
+>{{darkModeService.getDarkMode() ? 'Dark':'Light' }}</div>
 <app-md-feedback id="feedback"></app-md-feedback>
