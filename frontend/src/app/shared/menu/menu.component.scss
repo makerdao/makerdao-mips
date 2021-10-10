@@ -154,6 +154,18 @@
     0 1px 14px 0 rgb(0 0 0 / 12%);
 }
 
+.firstFadeInMenuDownAnimation {
+  transform: translateY(20px);
+  animation: firstFadeInMenuDown 0.2s;
+}
+
+@media screen and (max-width: 1024px) {
+  .firstFadeInMenuDownAnimation {
+    transform: translateY(4px);
+    animation: firstFadeInMenuDownMobile 0.2s;
+  }
+}
+
 .fadeInMenuDownAnimation {
   animation: fadeInMenuDown 0.2s;
 }
@@ -166,10 +178,22 @@
   opacity: 0.5;
 }
 
-.panelClass {
-  transition: all 0.4s ease-in-out;
-  height: auto;
-  transform: translateY(20px);
+@keyframes firstFadeInMenuDownMobile {
+  0% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes firstFadeInMenuDown {
+  0% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(20px);
+  }
 }
 
 @keyframes fadeInMenuDown {
