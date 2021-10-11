@@ -827,7 +827,17 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         let filter = {
           contains: [],
         };
-        filter.contains.push({ field: 'title', value: event.target.value });
+        const search = event.target.value;
+
+        if (search.match(/^mip/i)) {
+          filter.contains.push({
+            field: 'mipName',
+            value: search.replace(/[-:\s]/g, ''),
+          });
+        } else {
+          filter.contains.push({ field: 'title', value: search });
+        }
+
         this.subscriptionLoadSuggestions.unsubscribe();
         this.searchMipsByName(
           this.limitMipsSuggestions,
