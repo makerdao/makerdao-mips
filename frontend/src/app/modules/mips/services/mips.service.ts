@@ -36,7 +36,7 @@ export class MipsService {
 
     if (order !== undefined && order != null && order !== '') {
       const patt = /\b-?mip\b|\b-?mip\s|\s-?mip\s|\s-?mip\b/;
-
+      order="mipCodeNumber "+order
       if (!patt.test(order)) {
         order += ' mip';
       }
@@ -90,9 +90,11 @@ export class MipsService {
   }
 
   getMipByFilename(filename?: string, field?: string): Observable<any> {
+   
     return this.http.get(
       `${environment.apiUrl}/mips/findone-by?field=${field}&value=${filename}`
     );
+
   }
 
   getMipBy(field: string, value: string): Observable<any> {

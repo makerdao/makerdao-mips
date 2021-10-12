@@ -215,9 +215,12 @@ th {
 
 /* Structure */
 .maker-container {
-  min-height: 50vh;
   position: relative;
   box-shadow: 0px 1px 4px #e5e9f2;
+}
+
+.loading-height-fixed{
+  min-height: 50vh;
 }
 
 .maker-table-container {
@@ -234,7 +237,7 @@ table {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 56px;
+  bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.15);
   z-index: 1;

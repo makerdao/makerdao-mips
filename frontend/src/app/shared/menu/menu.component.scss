@@ -148,10 +148,22 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  left: 0;
+  left: 15px;
   // padding: 5px 0;
   box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
     0 1px 14px 0 rgb(0 0 0 / 12%);
+}
+
+.firstFadeInMenuDownAnimation {
+  transform: translateY(20px);
+  animation: firstFadeInMenuDown 0.2s;
+}
+
+@media screen and (max-width: 1024px) {
+  .firstFadeInMenuDownAnimation {
+    transform: translateY(4px);
+    animation: firstFadeInMenuDownMobile 0.2s;
+  }
 }
 
 .fadeInMenuDownAnimation {
@@ -166,9 +178,22 @@
   opacity: 0.5;
 }
 
-.panelClass {
-  transition: all 0.4s ease-in-out;
-  height: auto;
+@keyframes firstFadeInMenuDownMobile {
+  0% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes firstFadeInMenuDown {
+  0% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(20px);
+  }
 }
 
 @keyframes fadeInMenuDown {
@@ -304,6 +329,12 @@
     // padding: 5px 0;
     box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 5px 8px 0 rgb(0 0 0 / 14%),
       0 1px 14px 0 rgb(0 0 0 / 12%);
+  }
+}
+
+@media (min-width: 500px) {
+  .dropdown-content-first-level {
+    left: 60px;
   }
 }
 

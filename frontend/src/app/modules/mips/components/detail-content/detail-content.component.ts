@@ -13,7 +13,7 @@ import {
   ComponentFactoryResolver,
   Injector,
 } from '@angular/core';
-
+import { animate, style, transition, trigger } from '@angular/animations';
 import { environment } from '../../../../../environments/environment';
 import { MarkdownService } from 'ngx-markdown';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,12 +34,23 @@ import { SubproposalsComponent } from '../subproposals/subproposals.component';
   selector: 'app-detail-content',
   templateUrl: './detail-content.component.html',
   styleUrls: ['./detail-content.component.scss'],
+  animations: [
+    trigger('enterLeaveSmooth', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.9)' }),
+        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [animate(100, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class DetailContentComponent
   implements OnInit, OnChanges, AfterViewInit {
   gitgubUrl = environment.repoUrl;
   @Input() mdUrl: string | undefined;
   mdFileName: string = '';
+  openMore:boolean;
+  positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
 
   @Input() mip: any;
   @Output() headingListUpdate = new EventEmitter();
@@ -84,6 +95,8 @@ export class DetailContentComponent
     this.getDefaultLinks();
     this.overrideDefaultTables();
     this.overrideDefaultImg();
+
+    this.initPositionPopup()
   }
 
   ngAfterViewInit() {
@@ -842,6 +855,26 @@ export class DetailContentComponent
         }
       }
     });
+  }
+
+  initPositionPopup() {
+    this.positionPopup = [
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      },
+    ];
+  }
+
+  closePopup() {
+    this.openMore = false;
+  }
+
+  onClickOutside(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.closePopup();
   }
 
   ngOnDestroy() {

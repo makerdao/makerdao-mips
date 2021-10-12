@@ -1,3 +1,19 @@
+@media (hover: hover) {
+  .logo {
+    &:hover {
+      background-color: #ffffff;
+    }
+
+    .scrollMenuButton:hover {
+      svg {
+        path {
+          fill: #31394d;
+        }
+      }
+    }
+  }
+}
+
 .logo {
   margin: 0 0 40px 0;
   display: flex;
@@ -5,15 +21,11 @@
   justify-content: space-between;
   align-items: center;
   height: 86px;
-  padding: 0 60px;
+  // padding: 0 60px;
   background-color: transparent;
   position: relative;
   z-index: 1000;
   transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #ffffff;
-  }
 
   .scrollMenuButton {
     background-color: transparent;
@@ -30,17 +42,12 @@
     img {
       margin: 0;
     }
-
-    &:hover {
-      svg {
-        path {
-          fill: #31394d;
-        }
-      }
-    }
   }
 
-  .menu-wrapper {
+  .menu-wrapper{
+    background-color:white ;
+    border-radius: 5px;
+    box-shadow: 0px 1px 4px #e5e9f2;
     height: 100%;
     scroll-behavior: smooth;
     overflow-x: auto;
@@ -84,6 +91,24 @@
   display: none;
 }
 
+.width-full{
+  width: 100%;
+}
+
+.menu-container {
+  background-color: transparent;
+  border-radius: 5px;
+  display: flex;
+  overflow-x: auto;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .menu-container {
+    margin-top: 25px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .logo {
     text-align: center;
@@ -117,7 +142,7 @@
     padding-top: 19px;
 
     .menu-wrapper {
-      width: 100vw;
+      width: 100%;
       overflow-x: auto;
       height: 100%;
       padding: 0;
@@ -135,13 +160,13 @@
     }
   }
 
-  .scrollMenuButton {
-    display: none;
-  }
+  // .scrollMenuButton {
+  //   display: none;
+  // }
 }
 
-@media screen and (min-width: 1920px) {
-  .logo {
-    padding: 0 210px;
-  }
-}
+// @media screen and (min-width: 1920px) {
+//   .logo {
+//     padding: 0 210px;
+//   }
+// }

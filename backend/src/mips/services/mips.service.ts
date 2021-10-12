@@ -60,7 +60,7 @@ export class MIPsService {
       );
       return existingItem || item;
     });
-    return errorProofItems
+    return errorProofItems;
   }
 
   async findAll(
@@ -71,7 +71,11 @@ export class MIPsService {
     select?: string,
     language?: Language
   ): Promise<any> {
-    const buildFilter = await this.buildFilter(search, filter, Language.English);
+    const buildFilter = await this.buildFilter(
+      search,
+      filter,
+      Language.English
+    );
 
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
 
@@ -333,12 +337,17 @@ export class MIPsService {
       case "mipFather":
         flag = true;
         break;
+      case "title":
+        flag = true;
+        break;
     }
 
     if (!flag) {
       throw new Error(`Invalid filter field (${field})`);
     }
-    return value;
+     
+    return (field==='title') ? this.escapeRegExp(value) : value;
+    
   }
 
   async findOneByMipName(mipName: string, language: Language): Promise<MIP> {
@@ -518,7 +527,9 @@ export class MIPsService {
     return existingMIPs;
   }
 
-  async remove(id: string): Promise<{
+  async remove(
+    id: string
+  ): Promise<{
     n: number;
     ok: number;
     deletedCount: number;
@@ -528,5 +539,9 @@ export class MIPsService {
 
   async getMipLanguagesAvailables(mipName: string): Promise<any> {
     return await this.mipsDoc.find({ mipName }, "mipName language").exec();
+  }
+
+  escapeRegExp(input: string): string {
+    return input.replace(/[-.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
   }
 }

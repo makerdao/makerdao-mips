@@ -90,14 +90,14 @@ app-md-checkbox-mobile {
 
   .row {
     display: grid;
-    grid-template-columns: calc(100% - 80px) 28px 28px;
+    grid-template-columns: calc(100% - 40px) 28px;
     column-gap: 12px;
     width: 100%;
   }
 
   .row-closed-input {
     display: grid;
-    grid-template-columns: 28px 28px 28px 28px;
+    grid-template-columns: 28px 28px;
     column-gap: 12px;
     width: 100%;
     justify-content: flex-end;

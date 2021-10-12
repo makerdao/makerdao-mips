@@ -44,7 +44,7 @@
   img {
     transform: translateY(-3px);
   }
-  
+
   img.votingIcon {
     margin-left: 30px;
     width: 16px;
@@ -93,8 +93,6 @@
 
   .social {
     display: flex;
-    align-items: center;
-
     white-space: nowrap;
     margin-top: 7px;
     margin-left: 10px;
@@ -393,11 +391,16 @@ p {
   display: none;
 }
 
+.hide {
+  display: none !important;
+}
+
 .tooltip {
   display: flex;
 }
 
 .tooltip .tooltiptext {
+  z-index: 2000;
   visibility: hidden;
   width: 310px;
   color: #748aa1;
@@ -666,6 +669,8 @@ p {
 
       .fadeThinRectangle {
         width: 2px;
+        position: relative;
+        top: -5px;
         height: 100%;
         background: linear-gradient(#76cdc3 20%, #ffffff);
       }
@@ -689,5 +694,78 @@ p {
         margin-right: 2px;
       }
     }
+  }
+}
+
+.linksIconsWrapperMobile {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 5px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.container.popup {
+  padding: 0;
+
+  .menuContainer {
+    background-color: white;
+    border-radius: 5px;
+    padding: 13px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+
+    .tooltip {
+      margin: 15px 0;
+    }
+    img.votingIcon,
+    img.forum {
+      margin-left: 0;
+    }
+  }
+}
+
+.textGray {
+  color: #748aa1 !important;
+}
+
+.mipName {
+  padding: 0 16px;
+  color: #31394d;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+}
+
+@media screen and (max-width: 1024px) {
+  .container:not(.popup) {
+    margin-top: 20px;
+  }
+
+  .linksIconsWrapper {
+    display: none !important;
+  }
+  .linksIconsWrapperMobile {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .container:not(.popup) {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 1023px),
+  screen and (min-width: 1200px) and (max-width: 1600px) {
+  .linksIconsWrapper {
+    display: none !important;
+  }
+  .linksIconsWrapperMobile {
+    display: flex;
   }
 }

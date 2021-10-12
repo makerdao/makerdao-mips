@@ -21,6 +21,8 @@ export class MipsPaginationComponent implements OnInit, OnChanges {
   timeout: any = null;
   @Input() mipName: string;
   @Input() parent: string;
+  @Input() sections: any;
+  @Input() mip: any;
   breadcrumbList: BreadcrumbItem[] = [];
 
   constructor(private mipsService: MipsService, private router: Router) {}
