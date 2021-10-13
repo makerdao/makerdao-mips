@@ -351,7 +351,7 @@ const language = 'typescript';
             order,
             row.showArrowExpandChildren ? this.query ? this.query : this.search : '',
             filter,
-            'title proposal mipName filename paragraphSummary sentenceSummary mip status'
+            'title proposal mipName filename paragraphSummary sentenceSummary mip status forumLink votingPortalLink'
           )
           .pipe(
             map((res) => {

@@ -46,7 +46,7 @@ import { SubproposalsComponent } from '../subproposals/subproposals.component';
 })
 export class DetailContentComponent
   implements OnInit, OnChanges, AfterViewInit {
-  gitgubUrl = environment.repoUrl;
+  gitHubUrl = environment.repoUrl;
   @Input() mdUrl: string | undefined;
   mdFileName: string = '';
   openMore:boolean;
@@ -712,7 +712,7 @@ export class DetailContentComponent
       if (
         !link.name.includes('Template') &&
         !title?.includes('NON-SMART-LINK') &&
-        (link.link.includes(this.gitgubUrl) ||
+        (link.link.includes(this.gitHubUrl) ||
           title?.includes('smart') ||
           link.link.match(/MIP\d+(?:[ca]\d+)?(?:-?SP\d+)?/gi) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
@@ -796,13 +796,13 @@ export class DetailContentComponent
 
       if (!link.name.includes('Template')) {
         if (
-          link.link.includes(this.gitgubUrl) ||
+          link.link.includes(this.gitHubUrl) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
           link.link.includes('https://github.com/makerdao/mips/tree') ||
           link.link.includes('https://forum.makerdao.com')
         ) {
           if (link.link.includes('MIP')) {
-            const mip = link.link.replace(`${this.gitgubUrl}/`, '').split('#');
+            const mip = link.link.replace(`${this.gitHubUrl}/`, '').split('#');
 
             if (mip?.length > 0) {
               this.mipsService
@@ -830,7 +830,7 @@ export class DetailContentComponent
                 } else {
                   elem.setAttribute(
                     'href',
-                    `${this.gitgubUrl}/${this.mip?.filename}`
+                    `${this.gitHubUrl}/${this.mip?.filename}`
                   );
                 }
               });
@@ -842,7 +842,7 @@ export class DetailContentComponent
           ) {
             elem.setAttribute(
               'href',
-              `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
+              `${this.gitHubUrl}/${this.mip?.mipName}/${link.link}`
             );
           }
         }
@@ -850,7 +850,7 @@ export class DetailContentComponent
         if (link.link.includes('.md') && !link.link.includes('http')) {
           elem.setAttribute(
             'href',
-            `${this.gitgubUrl}/${this.mip?.mipName}/${link.link}`
+            `${this.gitHubUrl}/${this.mip?.mipName}/${link.link}`
           );
         }
       }

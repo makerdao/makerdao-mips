@@ -165,7 +165,7 @@ export class SublistComponent implements OnInit, OnChanges {
             order,
             row.showArrowExpandChildren ? this.search : '',
             filter,
-            'title proposal mipName filename paragraphSummary sentenceSummary mip status'
+            'title proposal mipName filename paragraphSummary sentenceSummary mip status  forumLink votingPortalLink'
           )
           .pipe(
             map((res) => {
