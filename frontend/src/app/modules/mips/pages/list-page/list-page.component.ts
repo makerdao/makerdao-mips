@@ -740,7 +740,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         order,
         search,
         filter,
-        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink'
+        'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
       )
       .subscribe(
         (data) => {

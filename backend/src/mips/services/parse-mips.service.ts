@@ -487,7 +487,6 @@ export class ParseMIPsService {
 
     mip.votingPortalLink = preamble.votingPortalLink;
     mip.forumLink = preamble.forumLink;
-    mip.ratifiedData = preamble.ratifiedData;
 
     mip.mipCodeNumber = mip.mipName.replace(/\d+/g, (number: string) => {
       const numb = parseInt(number);// avoid the starter 0 problem
@@ -619,16 +618,12 @@ export class ParseMIPsService {
           preamble.dateRatified = keyValue[1].trim();
           break;
 
-        case "votingPortalLink":
+        case "Ratification Poll URL":
           preamble.votingPortalLink = keyValue.slice(1).join(":").trim();
           break;
-        case "forumLink":
+        case "Forum URL":
           preamble.forumLink = keyValue.slice(1).join(":").trim();
           break;
-        case "ratifiedData":
-          preamble.ratifiedData = keyValue.slice(1).join(":").trim();
-          break;
-
         default:
           return false;
       }

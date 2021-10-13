@@ -83,7 +83,10 @@
         style="cursor: pointer;"
       >
         <div class="space-status"></div>
-        <app-social forumLink="#" [githubLink]="element.filename"></app-social>
+        <app-social 
+        votingPortalLink="{{element?.votingPortalLink}}"
+        forumLink="{{element?.forumLink}}"
+        [githubLink]="element.filename"></app-social>
       </td>
     </span>
     <span *ngIf="column == 'pos'">

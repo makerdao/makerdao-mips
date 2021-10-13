@@ -11,7 +11,7 @@ export class SocialComponent  {
   @Input() githubLink: string;
   @Input() forumLink: string;
   @Input() votingPortalLink: string;
-  gitgubUrl = environment.repoUrl;
+  gitHubUrl = environment.repoUrl;
   @Input() mobile = false;
 
   constructor() { }

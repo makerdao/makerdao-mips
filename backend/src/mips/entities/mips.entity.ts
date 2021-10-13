@@ -150,9 +150,6 @@ export class MIP {
   forumLink?: string;
 
   @Prop()
-  ratifiedData?: string;
-
-  @Prop()
   mipCodeNumber?: string;
 }
 

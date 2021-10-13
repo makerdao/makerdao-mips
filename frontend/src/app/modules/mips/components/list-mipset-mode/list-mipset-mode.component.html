@@ -256,7 +256,8 @@
               More
             </div>
             <app-social
-              forumLink="#"
+              votingPortalLink="{{itemMipsetChildren?.votingPortalLink}}"
+              forumLink="{{itemMipsetChildren?.forumLink}}"
               [githubLink]="itemMipsetChildren.filename"
               mobile="true"
             ></app-social>
@@ -451,7 +452,8 @@
                         More
                       </button>
                       <app-social
-                        forumLink="#"
+                        votingPortalLink="{{itemSubsetChildren?.votingPortalLink}}"
+                        forumLink="{{itemSubsetChildren?.forumLink}}"
                         [githubLink]="itemSubsetChildren.filename"
                         mobile="true"
                       ></app-social>

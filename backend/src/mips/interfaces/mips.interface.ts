@@ -29,7 +29,6 @@ export interface IMIPs {
   subproposalsCount?: number;
   votingPortalLink?: string;
   forumLink?: string;
-  ratifiedData?: string;
   mipCodeNumber?:string;
 }
 
@@ -61,5 +60,4 @@ export interface IPreamble {
   replaces?: string;
   votingPortalLink?: string;
   forumLink?: string;
-  ratifiedData?: string;
 }
