@@ -619,10 +619,10 @@ export class ParseMIPsService {
           preamble.dateRatified = keyValue[1].trim();
           break;
 
-        case "votingPortalLink":
+        case "Ratification Poll URL":
           preamble.votingPortalLink = keyValue.slice(1).join(":").trim();
           break;
-        case "forumLink":
+        case "Forum URL":
           preamble.forumLink = keyValue.slice(1).join(":").trim();
           break;
         case "ratifiedData":
