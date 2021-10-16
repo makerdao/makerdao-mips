@@ -1067,7 +1067,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       queryParams: qp,
     };
 
-    if (!qp?.search?.includes('$')) {
+    if (!qp?.search?.includes('$') || qp?.mipsetMode == true) {
       delete qp.hideParents;
       this.hideParentValue = false;
       this.hideParent = true;
