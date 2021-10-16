@@ -46,6 +46,11 @@
       (checked)="onCheckedMipsetMode($event)"
       [checkInput]="mipsetMode"
     ></app-md-checkbox>
+
+    <app-md-checkbox *ngIf="!hideParent" style="margin-right: 10px;" [label]="'Hide Parents'"
+    (checked)="onCheckedHideParents($event)"
+    [checkInput]="hideParentValue"></app-md-checkbox>
+
     <app-search
       *ngIf="!multipleQueries"
       class="no-mobile"
@@ -75,18 +80,19 @@
   *ngIf="!mipsetMode && !multipleQueries"
   [loading]="loading"
   [moreToLoad]="moreToLoad"
+  [hideParent]="hideParentValue"
   [dataSource]="mips"
   [paginationTotal]="total"
   (send)="onSendPagination()"
   (sendOrder)="onSendOrder($event)"
   [showHead]="true"
 ></app-list>
-<app-list-mipset-mode
+<!-- <app-list-mipset-mode
   *ngIf="mipsetMode"
   (changeOrder)="changeOrder($event)"
 ></app-list-mipset-mode>
 <app-list-multiple-queries
   *ngIf="!mipsetMode && multipleQueries"
   (changeOrder)="changeOrder($event)"
-></app-list-multiple-queries>
+></app-list-multiple-queries> -->
 <app-button-top></app-button-top>
