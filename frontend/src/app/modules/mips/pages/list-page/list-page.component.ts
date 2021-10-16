@@ -1067,7 +1067,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       queryParams: qp,
     };
 
-    if (qp.hideParents) {
+    if (!qp?.search?.includes('$')) {
+      delete qp.hideParents;
+      this.hideParentValue = false;
+      this.hideParent = true;
+    } else {
+      if (!qp.hideParents) {
+        qp.hideParents = false;
+      }
       this.hideParentValue = JSON.parse(qp.hideParents.toString());
       this.hideParent = false;
     }
