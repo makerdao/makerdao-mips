@@ -80,7 +80,9 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() loading = true;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
-  
+
+  @Input() hideParent = false;
+
   filter: any;
   search: string;
   expandedElement: DataElement | null;
@@ -97,10 +99,10 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
   sortClicked: boolean = false;
-  arrowUp: string = '../../../../../assets/images/up.svg';
-  arrowDown: string = '../../../../../assets/images/down.svg';
-  arrowUpDark: string = '../../../../../assets/images/up_dark.svg';
-  arrowDownDark: string = '../../../../../assets/images/down_dark.svg';
+  arrowUp: string = './assets/images/up.svg';
+  arrowDown: string = './assets/images/down.svg';
+  arrowUpDark: string = './assets/images/up_dark.svg';
+  arrowDownDark: string = './assets/images/down_dark.svg';
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
   dataSourceTable = new MatTableDataSource<any>();

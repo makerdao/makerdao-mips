@@ -15,6 +15,7 @@ export interface IMip {
   children?: IMip[];
   subset?: string;
   expanded?: boolean;
+  hide?: boolean;
   subproposalsGroup?: any;
   subsetRows?: ISubsetDataElement[];
   expandedSummary?: boolean;

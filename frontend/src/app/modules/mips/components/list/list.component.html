@@ -159,8 +159,8 @@
                       class="arrow"
                       [src]="
                         isArrowDownOnMouseOver && element._id == currentRowOver
-                          ? '../../../../../assets/images/down_hover.svg'
-                          : '../../../../../assets/images/down.svg'
+                          ? './assets/images/down_hover.svg'
+                          : './assets/images/down.svg'
                       "
                     />
                   </div>
@@ -214,8 +214,8 @@
                     class="arrow"
                     [src]="
                       isArrowDownOnMouseOver && element._id == currentRowOver
-                        ? '../../../../../assets/images/down_hover.svg'
-                        : '../../../../../assets/images/down.svg'
+                        ? './assets/images/down_hover.svg'
+                        : './assets/images/down.svg'
                     "
                   />
                 </div>
@@ -264,6 +264,8 @@
           *matRowDef="let element; columns: columnsToDisplay"
           class="maker-element-row"
           [class.maker-expanded-row]="element.expanded"
+          [class.maker-hide-row]="(hideParent && element.hide)"
+
         ></tr>
         <tr
           mat-row
@@ -277,14 +279,15 @@
             class="mobile-container"
             [ngClass]="{
               'proposal-card': !item.proposal,
-              'subproposal-card': item.proposal
+              'subproposal-card': item.proposal,
+              'maker-hide-row': (hideParent && item.hide)
             }"
           >
             <div style="width: calc(100% - 35px);">
               {{ item.proposal ? "" : "# " + item.mip }}
               <img
                 *ngIf="!item.proposal"
-                src="../../../../../assets/images/circle.svg"
+                src="./assets/images/circle.svg"
               />
               <span class="title">
                 <a routerLink="/mips/details/{{ item.mipName }}">
@@ -327,7 +330,7 @@
               <img
                 class="arrow"
                 [ngClass]="{ rotate: selected == item._id }"
-                src="../../../../../assets/images/down.svg"
+                src="./assets/images/down.svg"
               />
               More
             </button>
@@ -371,8 +374,8 @@
                     class="arrow"
                     [src]="
                       isArrowDownOnMouseOver && item._id == currentRowOver
-                        ? '../../../../../assets/images/down_hover.svg'
-                        : '../../../../../assets/images/down.svg'
+                        ? './assets/images/down_hover.svg'
+                        : './assets/images/down.svg'
                     "
                   />
                 </div>
@@ -452,7 +455,7 @@
                         }}
                         <img
                           *ngIf="!itemSubsetChildren.proposal"
-                          src="../../../../../assets/images/circle.svg"
+                          src="./assets/images/circle.svg"
                         />
                         <span class="title">
                           <a
@@ -511,7 +514,7 @@
                           [ngClass]="{
                             rotate: selected == itemSubsetChildren._id
                           }"
-                          src="../../../../../assets/images/down.svg"
+                          src="./assets/images/down.svg"
                         />
                         More
                       </button>
@@ -532,7 +535,7 @@
       </div>
       <div class="load-more" *ngIf="moreToLoad">
         <p>{{'Scroll to load More' | translate}}</p>
-        <img src="../../../../../assets/images/scroll.svg" />
+        <img src="./assets/images/scroll.svg" />
       </div>
       <div class="loading-plus" *ngIf="loading">
         <mat-spinner [diameter]="50"></mat-spinner>
@@ -541,7 +544,7 @@
   </div>
   <div class="no-result" *ngIf="!loading && dataSource?.length == 0">
     <div *ngIf="dataSource.length == 0 && !loading">
-      <img src="../../../../../assets/images/no_results.svg" />
+      <img src="./assets/images/no_results.svg" />
       <p>{{'No results found' | translate}}</p>
     </div>
   </div>
