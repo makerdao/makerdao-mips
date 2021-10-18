@@ -16,11 +16,11 @@
     </div>
 
     <div *ngIf="mip" class="row social linksIconsWrapper">
-      <img class="github" src="../../../../../assets/images/github_dark.svg" />
+      <img class="github" src="./assets/images/github_dark.svg" />
       <a href="{{ gitHubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
 
       <div class="tooltip">
-        <img class="forum" src="../../../../../assets/images/forum.svg" />
+        <img class="forum" src="./assets/images/forum.svg" />
         <a *ngIf="!mip?.forumLink">
           {{ "Forum" | translate
           }}<span class="tooltiptext"
@@ -40,7 +40,7 @@
       <div class="tooltip">
         <img
           class="votingIcon"
-          src="../../../../../assets/images/voting_icon.svg"
+          src="./assets/images/voting_icon.svg"
         />
         <a *ngIf="!mip?.votingPortalLink">
           {{ "Voting" | translate
@@ -99,7 +99,7 @@
     </div>
 
     <div *ngIf="mdUrl" class="row social">
-      <img class="linkIcon" src="../../../../../assets/images/open_gray.svg" />
+      <img class="linkIcon" src="./assets/images/open_gray.svg" />
       <a href="{{ urlOriginal }}" target="_blank">.md File</a>
     </div>
   </div>
@@ -148,7 +148,7 @@
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            src="../../../../../assets/images/makerLogo.svg"
+            src="./assets/images/makerLogo.svg"
           />
         </div>
 
@@ -172,7 +172,7 @@
           <div class="thinRectangle"></div>
           <img
             class="mipComponentLogo"
-            src=".../../../../../assets/images/mipComponentLogo.svg"
+            src="../assets/images/mipComponentLogo.svg"
           />
         </div>
         <div class="mipComponentTitle">
@@ -206,7 +206,7 @@
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            src="../../../../../assets/images/makerLogo.svg"
+            src="./assets/images/makerLogo.svg"
           />
         </div>
 
@@ -242,7 +242,7 @@
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            src="../../../../../assets/images/mipsSubProposalLogo.svg"
+            src="./assets/images/mipsSubProposalLogo.svg"
           />
         </div>
 
@@ -288,13 +288,13 @@
       <div class="tooltip">
         <img
           class="github"
-          src="../../../../../assets/images/github_dark.svg"
+          src="./assets/images/github_dark.svg"
         />
         <a href="{{ gitHubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
       </div>
 
       <div class="tooltip">
-        <img class="forum" src="../../../../../assets/images/forum.svg" />
+        <img class="forum" src="./assets/images/forum.svg" />
         <a *ngIf="!mip?.forumLink" class="textGray">
           {{ "Forum" | translate
           }}<span class="tooltiptext"
@@ -314,7 +314,7 @@
       <div class="tooltip">
         <img
           class="votingIcon"
-          src="../../../../../assets/images/voting_icon.svg"
+          src="./assets/images/voting_icon.svg"
         />
         <a *ngIf="!mip?.votingPortalLink" class="textGray">
           {{ "Voting" | translate
