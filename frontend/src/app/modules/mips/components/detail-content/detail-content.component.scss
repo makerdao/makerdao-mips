@@ -804,6 +804,7 @@ p {
   &.container-dark {
     background: #1a202b;
     box-shadow: none;
+    padding: 0;
 
     .title-bold {
       color: #5c99f0;
@@ -821,11 +822,7 @@ p {
       ul,
       ol,
       & {
-        color: #b8c5d3;
-      }
-
-      code {
-        background-color: transparent;
+        color: #B8C5D3;
       }
 
       h1,

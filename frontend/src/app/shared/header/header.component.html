@@ -55,7 +55,7 @@
         (menuOpen)="onMenuToggle($event)"
         [ngStyle]="{ transition: transitionStyle }"
         class="width-full"
-        [ngClass]="{ 'app-nav-dark': darkModeService.getDarkMode() }"
+        [ngClass]="{'app-nav-dark':darkModeService.getDarkMode()}"
       ></app-nav-menu>
       <div id="outerRight" class="outer" #outerRight></div>
     </div>
