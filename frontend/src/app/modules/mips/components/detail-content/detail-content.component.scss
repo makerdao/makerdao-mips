@@ -770,3 +770,45 @@ p {
     display: flex;
   }
 }
+
+//Dark Mode
+
+.container {
+  &.container-dark {
+    background: #1a202b;
+    box-shadow: none;
+    padding: 0;
+
+    .title-bold {
+      color: #5c99f0;
+    }
+    .title {
+      color: #98c0f5;
+    }
+
+    &::ng-deep.variable-binding {
+      hr {
+        background-color: #3e4a60;
+      }
+
+      p,
+      ul,
+      ol,
+      & {
+        color: #B8C5D3;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        .anchor,
+        & {
+          color: #5c99f0;
+        }
+      }
+    }
+  }
+}

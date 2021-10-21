@@ -15,7 +15,7 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private footerVisibleService: FooterVisibleService,
     private elementsRefUiService: ElementsRefUiService,
-    private darkModeService:DarkModeService,
+    public darkModeService:DarkModeService,
   ) {}
 
   onFooterVisible(event) {

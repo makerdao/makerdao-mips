@@ -51,7 +51,7 @@ export class DetailContentComponent
   mdFileName: string = '';
   openMore:boolean;
   positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
-
+  @Input() darkMode: boolean;
   @Input() mip: any;
   @Output() headingListUpdate = new EventEmitter();
 

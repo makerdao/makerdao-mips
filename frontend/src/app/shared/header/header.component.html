@@ -3,65 +3,78 @@
   id="logo"
   [ngClass]="{
     logoBackgroundColor: menuOpen,
-    logoBackgroundTransparent: !menuOpen
+    logoBackgroundTransparent: !menuOpen,
+    logoDarkMode: darkModeService.getDarkMode()
   }"
   (click)="onMenuToggle(false)"
   [ngStyle]="{ zIndex: menuOpen ? '1001' : '1000' }"
 >
-<div>
-  <a (click)="clearFilterAndGoHome()" style="cursor: pointer;">
-    <img class="no-mobile" src="../../../assets/images/logo_desktop.svg" />
-    <img class="mobile" src="../../../assets/images/logo_mobile.svg" />
-  </a>
-</div>
-  <div class="menu-container">
-  <button
-    mat-mini-fab
-    class="scrollMenuButton"
-    (click)="scrollNavMenuToLeft()"
-    [ngStyle]="{ display: (!showScrollLeftButton) && (!showScrollRightButton) ? 'none' : 'block' }"
-    [disabled]="!showScrollLeftButton"
-  >
-    <svg
-      width="8"
-      height="13"
-      viewBox="0 0 8 13"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M7.41 11.09L2.83 6.5L7.41 1.91L6 0.5L0 6.5L6 12.5L7.41 11.09Z"
-        [style.fill]="showScrollLeftButton ? '#748AA1' : '#DEE3E9'"
-      />
-    </svg>
-  </button>
-  <div class="menu-wrapper" #navMenu>
-    <div id="outerLeft" class="outer" #outerLeft></div>
-    <app-nav-menu
-      (menuOpen)="onMenuToggle($event)"
-      [ngStyle]="{ transition: transitionStyle }"
-    ></app-nav-menu>
-    <div id="outerRight" class="outer" #outerRight></div>
+  <div>
+    <a (click)="clearFilterAndGoHome()" style="cursor: pointer;">
+      <img class="no-mobile" src="../../../assets/images/logo_desktop.svg" />
+      <img class="mobile" src="../../../assets/images/logo_mobile.svg" />
+    </a>
   </div>
-  <button
-    mat-fab
-    class="scrollMenuButton"
-    (click)="scrollNavMenuToRight()"
-    [ngStyle]="{ display: (!showScrollLeftButton) && (!showScrollRightButton) ? 'none' : 'block' }"
-    [disabled]="!showScrollRightButton"
-  >
-    <svg
-      width="8"
-      height="13"
-      viewBox="0 0 8 13"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+  <div class="menu-container">
+    <button
+      mat-mini-fab
+      class="scrollMenuButton"
+      (click)="scrollNavMenuToLeft()"
+      [ngStyle]="{
+        display:
+          !showScrollLeftButton && !showScrollRightButton ? 'none' : 'block'
+      }"
+      [disabled]="!showScrollLeftButton"
     >
-      <path
-        d="M0.340942 11.34L4.92094 6.75L0.340942 2.16L1.75094 0.75L7.75094 6.75L1.75094 12.75L0.340942 11.34Z"
-        [style.fill]="showScrollRightButton ? '#748AA1' : '#DEE3E9'"
-      />
-    </svg>
-  </button>
-</div>
+      <svg
+        width="8"
+        height="13"
+        viewBox="0 0 8 13"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.41 11.09L2.83 6.5L7.41 1.91L6 0.5L0 6.5L6 12.5L7.41 11.09Z"
+          [style.fill]="showScrollLeftButton ? '#748AA1' : '#DEE3E9'"
+        />
+      </svg>
+    </button>
+    <div
+      class="menu-wrapper"
+      [ngClass]="{ 'menu-wrapper-dark': darkModeService.getDarkMode() }"
+      #navMenu
+    >
+      <div id="outerLeft" class="outer" #outerLeft></div>
+      <app-nav-menu
+        (menuOpen)="onMenuToggle($event)"
+        [ngStyle]="{ transition: transitionStyle }"
+        class="width-full"
+        [ngClass]="{'app-nav-dark':darkModeService.getDarkMode()}"
+      ></app-nav-menu>
+      <div id="outerRight" class="outer" #outerRight></div>
+    </div>
+    <button
+      mat-fab
+      class="scrollMenuButton"
+      (click)="scrollNavMenuToRight()"
+      [ngStyle]="{
+        display:
+          !showScrollLeftButton && !showScrollRightButton ? 'none' : 'block'
+      }"
+      [disabled]="!showScrollRightButton"
+    >
+      <svg
+        width="8"
+        height="13"
+        viewBox="0 0 8 13"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0.340942 11.34L4.92094 6.75L0.340942 2.16L1.75094 0.75L7.75094 6.75L1.75094 12.75L0.340942 11.34Z"
+          [style.fill]="showScrollRightButton ? '#748AA1' : '#DEE3E9'"
+        />
+      </svg>
+    </button>
+  </div>
 </div>

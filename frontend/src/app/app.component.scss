@@ -1,5 +1,5 @@
 .container {
-  margin: 30px 60px;
+  margin: 0 60px 30px;
   min-height: 75vh;
 }
 
@@ -10,13 +10,14 @@
 
 @media screen and (max-width: 500px) {
   .container {
-    margin: 19px 15px;
+    margin:0 15px 19px;
   }
 }
 
 @media screen and (min-width: 1920px) {
   .container {
-    margin: 40px 210px;
+    margin:0 210px 40px;
+
   }
 }
 
