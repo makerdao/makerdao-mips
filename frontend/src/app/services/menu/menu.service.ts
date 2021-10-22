@@ -96,7 +96,8 @@ export class MenuService {
     for (const key in varObj.strings) {
       if (Object.prototype.hasOwnProperty.call(varObj.strings, key)) {
         const element = varObj.strings[key];
-        newDataMenu = newDataMenu.replace('$' + key, element);
+        const patt = new RegExp(`\\$${key}`, 'g');
+        newDataMenu = newDataMenu.replace(patt, element);
       }
     }
 
