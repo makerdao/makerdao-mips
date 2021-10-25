@@ -25,8 +25,4 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.elementsRefUiService.containerRef = this.container;
   }
-
-  toggleDarkMode(){
-    this.darkModeService.toggleDarkMode();
-  }
 }

@@ -154,6 +154,7 @@ app-status {
 @media (min-width: 768px) {
   :host {
     .link {
+      padding-bottom: 5px;
       flex-direction: row;
     }
 

@@ -698,6 +698,11 @@ p {
   }
 }
 
+.container-dark .linksIconsWrapperMobile {
+  background-color: #31394d !important;
+  color: #adccf7 !important;
+}
+
 .linksIconsWrapperMobile {
   cursor: pointer;
   background-color: white;
@@ -707,10 +712,25 @@ p {
   justify-content: center;
   width: 28px;
   height: 28px;
+  padding: 0 5px;
 }
 
 .container.popup {
   padding: 0;
+
+  &.popup-dark {
+    .menuContainer {
+      background-color: #31394d !important;
+      color: #adccf7 !important;
+      box-shadow: none !important;
+    }
+
+    .tooltip .tooltiptext{
+      background-color: #31394d !important;
+      color: #adccf7 !important;
+      box-shadow: none !important;
+    }
+  }
 
   .menuContainer {
     background-color: white;
@@ -723,6 +743,7 @@ p {
     .tooltip {
       margin: 15px 0;
     }
+    
     img.votingIcon,
     img.forum {
       margin-left: 0;
@@ -759,6 +780,10 @@ p {
   .container:not(.popup) {
     margin-top: 20px;
   }
+
+  .container.container-dark {
+    padding: 0;
+  }
 }
 
 @media screen and (max-width: 1023px),
@@ -777,7 +802,6 @@ p {
   &.container-dark {
     background: #1a202b;
     box-shadow: none;
-    padding: 0;
 
     .title-bold {
       color: #5c99f0;
@@ -795,7 +819,11 @@ p {
       ul,
       ol,
       & {
-        color: #B8C5D3;
+        color: #b8c5d3;
+      }
+
+      code {
+        background-color: transparent;
       }
 
       h1,

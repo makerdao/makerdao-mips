@@ -2,7 +2,7 @@
   display: inline-block;
   background-color: #fff;
   border-radius: 5px;
-  margin: 0 auto ;
+  margin: 0 auto;
 }
 
 :host(.activeChild) {
@@ -64,6 +64,25 @@
       ::ng-deep a {
         padding-right: initial;
       }
+    }
+  }
+}
+
+.darkModeToggler {
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  .hoverIcon {
+    display: none;
+  }
+
+  &:hover {
+    .hoverIcon {
+      display: block;
+    }
+    .defaultIcon {
+      display: none;
     }
   }
 }

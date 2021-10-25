@@ -1,5 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-md-tooltip',
@@ -18,7 +19,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class MdTooltipComponent implements OnInit {
   @Input() text = '';
 
-  constructor() {}
+  constructor(public darkModeService:DarkModeService) {}
 
   ngOnInit(): void {}
 }

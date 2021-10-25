@@ -1,6 +1,79 @@
 .container {
   margin: 0 60px 30px;
   min-height: 75vh;
+
+  &.container-dark {
+    ::ng-deep {
+      & {
+        .type--ACCEPTED {
+          border: 1px solid #5bda90 !important;
+          color: #5bda90 !important;
+        }
+
+        .type--REJECTED {
+          border: 1px solid #fd8787 !important;
+          color: #fd8787 !important;
+        }
+
+        .type--ARCHIVE {
+          border: 1px solid #748aa1 !important;
+          color: #748aa1 !important;
+        }
+
+        .type--RFC {
+          border: 1px solid #f2994a !important;
+          color: #f2994a !important;
+        }
+
+        .type--OBSOLETE {
+          border: 1px solid #b5b12a !important;
+          color: #b5b12a !important;
+        }
+
+        .type--FS {
+          border: 1px solid #9b51e0 !important;
+          color: #9b51e0 !important;
+        }
+
+        .type--NONE {
+          border: 1px solid #e5e9f2 !important;
+          color: #e5e9f2 !important;
+        }
+
+        .type--DEFAULT {
+          border: 1px solid #8b4513 !important;
+          color: #8b4513 !important;
+        }
+
+        .type--EMPTY {
+          color: #b8c5d3 !important;
+          background: rgba(188, 190, 199, 0.3);
+          border: 1px solid rgba(116, 138, 161, 0.5);
+        }
+      }
+
+      .tooltiptext {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+      }
+
+      .tabs-container .tabs-item {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+        box-shadow: none;
+      }
+
+      .iconWrapper {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+      }
+
+      .container.proposal {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+      }
+    }
+  }
 }
 
 #feedback {
@@ -10,37 +83,18 @@
 
 @media screen and (max-width: 500px) {
   .container {
-    margin:0 15px 19px;
+    margin: 0 15px 19px;
   }
 }
 
 @media screen and (min-width: 1920px) {
   .container {
-    margin:0 210px 40px;
-
+    margin: 0 210px 40px;
   }
 }
 
 @media (max-width: 768px) {
   .container {
     min-height: 68vh;
-  }
-}
-
-.dark-mode-toggler{
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  cursor: pointer;
-  border: 2px solid blue;
-  padding: 10px;
-  border-radius: 10px;
-  background-color: cadetblue;
-  color: black;
-  z-index: 2000;
-
-  &.dark-mode-toggler-dark{
-    color: white;
-    background-color: black;
   }
 }

@@ -830,6 +830,24 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         color: #b8c5d3 !important;
       }
 
+      tr.maker-element-row:not(.maker-expanded-row):hover {
+        .mat-column-pos {
+          background: #1a202b !important;
+        }
+      
+        .mat-column-title,
+        .mat-column-summary,
+        .mat-column-status,
+        .mat-column-link {
+          background: #202733 !important;
+        }
+      }
+      
+      tr.maker-element-row:not(.maker-expanded-row):active {
+        background: #202733 !important;
+        
+      }
+      
       tr {
         &.maker-element-subset-row,
         &.maker-element-row {

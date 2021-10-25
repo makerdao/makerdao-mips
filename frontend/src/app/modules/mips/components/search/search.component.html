@@ -104,7 +104,9 @@
   [cdkConnectedOverlayPositions]="positionHelpPopup"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div class="help-popup" @enterLeaveSmooth>
+  <div class="help-popup" @enterLeaveSmooth
+  [ngClass]="{ 'help-popup-dark': darkMode }"
+  >
     <div class="head-help-popup">
       <span>You can use:</span>
     </div>

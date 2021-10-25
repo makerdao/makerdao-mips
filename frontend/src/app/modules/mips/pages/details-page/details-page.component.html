@@ -1,7 +1,14 @@
 <div *ngIf="!mip && loadingUrl" class="maker-loading-shade">
   <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="mip || mdUrl" [ngClass]="{ container: true, hidden: loadingUrl }">
+<div
+  *ngIf="mip || mdUrl"
+  [ngClass]="{
+    container: true,
+    'container-dark': darkModeService.getDarkMode(),
+    hidden: loadingUrl
+  }"
+>
   <app-mips-pagination
     *ngIf="mip"
     [mipName]="mip?.mipName"
@@ -11,12 +18,17 @@
     [sections]="sections"
     [mip]="mip?.mip"
     (send)="mipsPagination($event)"
+    [darkMode]="darkModeService.getDarkMode()"
   ></app-mips-pagination>
 
   <div *ngIf="mip" class="tabs-container">
     <div
       *ngFor="let tab of TABS_OPTIONS"
-      [ngClass]="{ 'tabs-item': true, 'tab-active': selectedTab === tab,'hide':tab==='References'&&!references?.length }"
+      [ngClass]="{
+        'tabs-item': true,
+        'tab-active': selectedTab === tab,
+        hide: tab === 'References' && !references?.length
+      }"
       (click)="selectedTab = selectedTab === tab ? null : tab"
     >
       {{ tab | translate }}
@@ -47,20 +59,21 @@
       [mip]="mip"
       [subproposals]="subproposals"
       (headingListUpdate)="headingListUpdate($event)"
-      [darkMode]=" darkModeService.getDarkMode()"
+      [darkMode]="darkModeService.getDarkMode()"
     ></app-detail-content>
     <div *ngIf="mip" class="column details-column">
       <div class="sidebar-wrapper">
         <app-language-document
           *ngIf="languagesAvailables && mip"
-          [ngClass]="{'hide-on-mobile':selectedTab!=='Languages'}"
+          [ngClass]="{ 'hide-on-mobile': selectedTab !== 'Languages' }"
           (updateDocumentLanguage)="updateDocumentLanguage($event)"
           [documentLanguage]="documentLanguage"
           [languagesAvailables]="languagesAvailables"
+          [darkMode]="darkModeService.getDarkMode()"
         ></app-language-document>
 
         <app-mip-details
-          [ngClass]="{'hide-on-mobile':selectedTab!=='Details'}"
+          [ngClass]="{ 'hide-on-mobile': selectedTab !== 'Details' }"
           id="details-component"
           [status]="mip?.status"
           [dateProposed]="mip?.dateProposed"
@@ -76,15 +89,16 @@
           [replaces]="mip?.replaces"
           [pollAddress]="mip?.pollAddress"
           [tags]="mip?.tags"
+          [darkMode]="darkModeService.getDarkMode()"
         ></app-mip-details>
         <app-references
           *ngIf="references && references.length > 0"
-          [ngClass]="{'hide-on-mobile':selectedTab!=='References'}"
+          [ngClass]="{ 'hide-on-mobile': selectedTab !== 'References' }"
           [references]="mip?.references"
           [mipName]="mip?.mipName"
         ></app-references>
         <app-pull-request-history
-          [ngClass]="{'hide-on-mobile':selectedTab!=='Recent Changes'}"
+          [ngClass]="{ 'hide-on-mobile': selectedTab !== 'Recent Changes' }"
           id="pull-request-history"
           [pullrequest]="pullrequest"
         ></app-pull-request-history>
