@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { LangService } from 'src/app/services/lang/lang.service';
 
 @Component({
   selector: 'app-md-feedback-dialog',
@@ -16,10 +18,16 @@ export class MdFeedbackDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<MdFeedbackDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private langService: LangService,
+    private translate: TranslateService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.langService.currentLang$.subscribe((language: string) => {
+      this.translate.use(language);
+    });
+  }
 
   onCancel(): void {
     this.dialogRef.close();

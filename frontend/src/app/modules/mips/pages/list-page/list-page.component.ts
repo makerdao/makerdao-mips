@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -48,6 +47,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   @ViewChild('filterList', { static: true }) filterList: FilterListComponent;
   showFilterList: boolean = false;
   showListSearch: boolean = false;
+
+  hideParent: boolean = true;
+  hideParentValue: boolean = false;
+
   listSearchMip: any[] = [];
   mipsByName: any[] = [];
   sintaxError: boolean = false;
@@ -156,6 +159,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
     };
+
+    this.hideParentValue = (qp.hideParents) ? JSON.parse(qp.hideParents.toString()) : false;
 
     for (const key in queryParams.params) {
       if (key.startsWith('_')) {
@@ -444,6 +449,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           map((res) => {
             (res.items as IMip[]).map((item) => {
               item.showArrowExpandChildren = true;
+
+              if (item.mipFather) {
+                item.hide = false;
+              }
               return item;
             });
 
@@ -508,6 +517,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           indexFatherInMips === -1 &&
           indexFatherInNewData === -1
         ) {
+
           this.addSubsetField(data.items[index]);
           let res: any = await this.mipsService
             .searchMips(
@@ -522,6 +532,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           if (res.items[0]) {
             let parent: IMip = res.items[0];
             parent.expanded = true;
+            parent.hide = true;
             parent.showArrowExpandChildren = true;
             parent.children = [];
             parent.children.push(item);
@@ -665,6 +676,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     } else {
       this.moreToLoad = true;
     }
+  }
+
+  onCheckedHideParents($event): void {
+    let queryParams: any = this.route.snapshot.queryParamMap;
+
+    let qp: QueryParams = {
+      ...queryParams.params,
+      hideParents: $event
+    };
+
+    this.hideParentValue = $event;
+    this.queryParamsListService.queryParams = qp;
+    this.updateUrlQueryParams(qp);
   }
 
   indexFather(mip: IMip, mips: IMip[]) {
@@ -1004,6 +1028,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderDirection: this.orderObj.direction,
     };
 
+    if (!qp?.search.includes('$')) {
+      delete qp.hideParents;
+      this.hideParentValue = false;
+      this.hideParent = true;
+    } else {
+      if (!qp.hideParents) {
+        qp.hideParents = false;
+      }
+      this.hideParentValue = JSON.parse(qp.hideParents.toString());
+      this.hideParent = false;
+    }
+
     if (filterSaved.arrayStatus[0] === 1) {
       qp.status.push('Accepted');
     }
@@ -1030,6 +1066,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     let navigationExtras: NavigationExtras = {
       queryParams: qp,
     };
+
+    if (!qp?.search?.includes('$') || qp?.mipsetMode == true) {
+      delete qp.hideParents;
+      this.hideParentValue = false;
+      this.hideParent = true;
+    } else {
+      if (!qp.hideParents) {
+        qp.hideParents = false;
+      }
+      this.hideParentValue = JSON.parse(qp.hideParents.toString());
+      this.hideParent = false;
+    }
 
     this.router.navigate([], { ...navigationExtras });
   }
