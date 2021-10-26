@@ -65,6 +65,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MdRadioButtonComponent } from './components/md-radio-button/md-radio-button.component';
 import { LanguageDocumentComponent } from './components/language-document/language-document.component';
 import { ListMultipleQueriesComponent } from './components/list-multiple-queries/list-multiple-queries.component';
+import { NewsComponent } from './components/news/news.component';
 
 
 @NgModule({
@@ -113,7 +114,8 @@ import { ListMultipleQueriesComponent } from './components/list-multiple-queries
     AscDesComponent,
     MdRadioButtonComponent,
     LanguageDocumentComponent,
-    ListMultipleQueriesComponent
+    ListMultipleQueriesComponent,
+    NewsComponent
   ],
   imports: [
     CommonModule,

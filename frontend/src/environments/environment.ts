@@ -12,7 +12,8 @@ export const environment = {
   githubURL: 'https://github.com/',
   menuURL:'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/menu.yaml',
   menuURLAuxiliar:'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/menu.json',
-  varsURL: 'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/vars.yaml'
+  varsURL: 'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/vars.yaml',
+  newsURL: 'https://raw.githubusercontent.com/DSpotDevelopers/mips/master/meta/news.yaml'
 };
 
 /*
