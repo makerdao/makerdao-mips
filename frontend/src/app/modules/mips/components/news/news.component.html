@@ -1,0 +1,29 @@
+<ng-container *ngFor="let item of news; let i = index">
+
+  <div class="container"
+    [ngClass]="{'container-green': item.type === 'GREEN', 'container-yellow': item.type === 'YELLOW', 'container-red': item.type === 'RED'}">
+
+    <div class="item-icon"
+      [ngClass]="{'item-icon-green': item.type === 'GREEN', 'item-icon-yellow': item.type === 'YELLOW', 'item-icon-red': item.type === 'RED'}">
+      <img *ngIf="item.type === 'GREEN'" src="./assets/images/circle.png" />
+      <img *ngIf="item.type === 'RED'" src="./assets/images/triangle.png" />
+      <img *ngIf="item.type === 'YELLOW'" src="./assets/images/tip.png" />
+    </div>
+
+    <div class="item" style="width: 25%;">
+      <h3 class="title">{{item.title}}</h3>
+    </div>
+
+    <div class="item" style="width: 67%;">
+      <h3 class="description">{{item.description}}</h3>
+    </div>
+
+    <div class="icon" (click)="removeItem(i, item.id)">
+      <img src="./assets/images/close-news.png" />
+    </div>
+
+  </div>
+
+</ng-container>
+
+<div style="margin-bottom: 45px;"></div>
