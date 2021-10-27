@@ -33,12 +33,19 @@ export class NewsService {
       );
     }
 
+    const oldNews: string[] = JSON.parse(localStorage.getItem('OLD-NEWS'));
+
     return forkJoin([this.getNews(), this.getVars(url)]).pipe(map(data => {
       const news = [];
       const vars = data[1].news;
 
       for (const item of data[0].data) {
+        if (oldNews?.some(d => d === item.id)) {
+          continue;
+        }
+
         news.push({
+          id: item.id,
           title: vars[item.title.replace('\$', '')],
           description: vars[item.description.replace('\$', '')],
           type: item.type,

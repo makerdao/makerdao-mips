@@ -23,8 +23,17 @@ export class NewsComponent implements OnInit, OnDestroy {
     );
   }
 
-  removeItem(i: number): void {
+  removeItem(i: number, id: string): void {
     this.news = this.news.filter((v, index) => index !== i);
+
+    const oldNews: string[] = JSON.parse(localStorage.getItem('OLD-NEWS'));
+
+    if (oldNews) {
+      localStorage.setItem('OLD-NEWS', JSON.stringify([...oldNews, id]));
+    } else {
+      localStorage.setItem('OLD-NEWS', JSON.stringify([id]));
+    }
+
   }
 
   ngOnDestroy(): void {
