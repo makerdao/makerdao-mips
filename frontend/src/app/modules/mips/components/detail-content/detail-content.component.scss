@@ -719,16 +719,18 @@ p {
   padding: 0;
 
   &.popup-dark {
+    &,
     .menuContainer {
       background-color: #31394d !important;
       color: #adccf7 !important;
-      box-shadow: none !important;
+      box-shadow: 0px 6px 20px 0px #0000004D !important;
+
     }
 
-    .tooltip .tooltiptext{
+    .tooltip .tooltiptext {
       background-color: #31394d !important;
       color: #adccf7 !important;
-      box-shadow: none !important;
+      box-shadow: 0px 6px 20px 0px #0000004D !important;
     }
   }
 
@@ -743,7 +745,7 @@ p {
     .tooltip {
       margin: 15px 0;
     }
-    
+
     img.votingIcon,
     img.forum {
       margin-left: 0;
