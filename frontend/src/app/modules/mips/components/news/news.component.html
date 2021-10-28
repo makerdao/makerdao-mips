@@ -5,16 +5,16 @@
 
     <div class="item-icon"
       [ngClass]="{'item-icon-green': item.type === 'GREEN', 'item-icon-yellow': item.type === 'YELLOW', 'item-icon-red': item.type === 'RED'}">
-      <img *ngIf="item.type === 'GREEN'" src="./assets/images/circle.png" />
-      <img *ngIf="item.type === 'RED'" src="./assets/images/triangle.png" />
-      <img *ngIf="item.type === 'YELLOW'" src="./assets/images/tip.png" />
+      <img *ngIf="item.type === 'GREEN'" src="./assets/images/notification/circle.png" />
+      <img *ngIf="item.type === 'RED'" src="./assets/images/notification/triangle.png" />
+      <img *ngIf="item.type === 'YELLOW'" src="./assets/images/notification/tip.png" />
     </div>
 
     <div class="item" style="width: 25%;">
       <h3 class="title">{{item.title}}</h3>
     </div>
 
-    <div class="item" style="width: 67%;">
+    <div class="item" style="width: 68%;">
       <h3 class="description">{{item.description}}</h3>
     </div>
 
@@ -26,4 +26,4 @@
 
 </ng-container>
 
-<div style="margin-bottom: 45px;"></div>
+<div style="margin-bottom: 39px;"></div>

@@ -1,10 +1,25 @@
 .container {
   background: rgba(255, 255, 255, 0.8);
   box-sizing: border-box;
+  min-height: 62px;
   border-radius: 10px;
   // padding: 11px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.container-dark {
+  background: #202733;
+  /* Positive dark */
+
+  border: 2px solid #1AB759;
+
+  box-sizing: border-box;
+  min-height: 62px;
+  border-radius: 10px;
+  // padding: 11px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: row;
 }
@@ -35,10 +50,16 @@
 }
 
 .item-icon {
-  width: 5%;
+  width: 4%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .icon {
