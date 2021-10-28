@@ -3,18 +3,38 @@
   box-sizing: border-box;
   min-height: 62px;
   border-radius: 10px;
-  // padding: 11px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
+
+  .item-icon-yellow {
+    border-right: 2px solid rgba(242, 201, 76, 0.5);
+  }
+
+  .item-icon-green {
+    border-right: 2px solid #8cd5cd;
+  }
+
+  .item-icon-red {
+    border-right: 2px solid rgba(251, 78, 78, 0.5);
+  }
+
+  &.container-yellow {
+    border: 2px solid rgba(242, 201, 76, 0.5);
+  }
+
+  &.container-green {
+    border: 2px solid #8cd5cd;
+  }
+
+  &.container-red {
+    border: 2px solid rgba(251, 78, 78, 0.5);
+  }
 }
 
 .container-dark {
   background: #202733;
   /* Positive dark */
-
-  border: 2px solid #1AB759;
-
   box-sizing: border-box;
   min-height: 62px;
   border-radius: 10px;
@@ -22,6 +42,30 @@
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
+
+  .item-icon-yellow {
+    border-right: 2px solid #B5B12A;
+  }
+
+  .item-icon-green {
+    border-right: 2px solid #1ab759;
+  }
+
+  .item-icon-red {
+    border-right: 2px solid #FB4E4E;
+  }
+
+  &.container-yellow {
+    border: 2px solid #B5B12A;
+  }
+
+  &.container-green {
+    border: 2px solid #1ab759;
+  }
+
+  &.container-red {
+    border: 2px solid #FB4E4E;
+  }
 }
 
 .title {
@@ -62,6 +106,13 @@
   justify-content: flex-start;
 }
 
+.item-mobile {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .icon {
   width: 2%;
   display: flex;
@@ -70,37 +121,22 @@
   cursor: pointer;
 }
 
-.item-icon-yellow {
-  border-right: 2px solid rgba(242, 201, 76, 0.5);
+.title-mobile {
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: center;
 }
 
-.item-icon-green {
-  border-right: 2px solid #8CD5CD;
-}
-
-.item-icon-red {
-  border-right: 2px solid rgba(251, 78, 78, 0.5);
-}
-
-.container-yellow {
-  border: 2px solid rgba(242, 201, 76, 0.5);
-}
-
-.container-green {
-  border: 2px solid #8CD5CD;
-}
-
-.container-red {
-  border: 2px solid rgba(251, 78, 78, 0.5);
-}
-
-
-@media screen and (max-width: 720px) {
-  .icon {
-    width: 8%;
-  }
-
-  .item-icon {
-    width: 10%;
-  }
+.description-mobile {
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: left;
 }
