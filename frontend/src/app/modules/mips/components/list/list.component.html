@@ -546,7 +546,8 @@
   </div>
   <div class="no-result" *ngIf="!loading && dataSource?.length == 0">
     <div *ngIf="dataSource.length == 0 && !loading">
-      <img src="./assets/images/no_results.svg" />
+      <img *ngIf="!darkMode" src="./assets/images/no_results.svg" />
+      <img *ngIf="darkMode" src="./assets/images/no_results_dark.svg" />
       <p>{{'No results found' | translate}}</p>
     </div>
   </div>
