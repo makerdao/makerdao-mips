@@ -23,6 +23,7 @@ import { Order, OrderField, OrderFieldName } from '../../types/order';
 import { OrderService } from '../../services/order.service';
 import { ComponentMip } from '../../types/component-mip';
 import { ISubsetDataElement } from '../../types/subset';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-list-page',
@@ -80,6 +81,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private elementsRefUiService: ElementsRefUiService,
     private orderService: OrderService,
     private searchService: SearchService,
+    public darkModeService:DarkModeService,
     private filterService: FilterService
   ) {}
 

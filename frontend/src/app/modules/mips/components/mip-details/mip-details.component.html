@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'container-dark':darkMode}" >
   <p class="title" style="margin-bottom: 10px;">{{ "Details" | translate }}</p>
   <hr *ngIf="mipName" />
   <div *ngIf="mipName" class="data-container">

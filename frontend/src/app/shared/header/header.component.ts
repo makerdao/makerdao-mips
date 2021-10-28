@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 import { MipsService } from '../../modules/mips/services/mips.service';
 import { MenuService } from '../../services/menu/menu.service';
 
@@ -28,7 +29,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private mipsService: MipsService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    public darkModeService:DarkModeService,
   ) {}
 
   ngOnInit(): void {

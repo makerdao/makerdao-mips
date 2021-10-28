@@ -16,6 +16,26 @@
   align-items: center;
   flex-grow: 1;
 
+  &.container-dark {
+    background: #31394d;
+    box-shadow: 0px 1px 4px 0px #000000;
+
+    strong,
+    & {
+      color: #aeb6d6 !important;
+    }
+
+    .row {
+      .links li a {
+        color: #b8c5d3 !important;
+
+        &.active {
+          color: #5c99f0 !important;
+        }
+      }
+    }
+  }
+
   .row {
     display: flex;
     flex-direction: row;
@@ -130,7 +150,7 @@
 }
 
 @media screen and (max-width: 500px) {
-  .itemsWord{
+  .itemsWord {
     display: none;
   }
 }

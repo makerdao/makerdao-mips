@@ -12,14 +12,19 @@
       [appAutocomplete]="autocomplete"
       [formControl]="control"
     /> -->
+
     <div
       class="textBoxWrapper"
       [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
-      [ngClass]="{ error: error }"
+      [ngClass]="{
+        error: error,
+        'textBoxWrapper-dark': darkMode
+      }"
       #textBoxWrapper
     >
       <div
         class="contentEditableInput"
+        [ngClass]="{ 'contentEditableInput-dark': darkMode }"
         type="text"
         #search
         (keyup)="onKeySearch($event)"
@@ -34,6 +39,7 @@
     <ng-template #mipsSugestions>
       <div
         class="ListSearch"
+        [ngClass]="{ 'ListSearch-dark': darkMode }"
         infiniteScroll
         [infiniteScrollDistance]="1"
         [infiniteScrollThrottle]="1"
@@ -71,9 +77,19 @@
     (click)="openHelpPopup()"
     [ngStyle]="{ visibility: !showClose ? 'visible' : 'hidden' }"
   >
-    <a class="help-container" type="button">
+    <a
+      class="help-container"
+      type="button"
+      [ngClass]="{ 'help-container-dark': darkMode }"
+    >
       <img
-        [src]="isOpenHelpPopup ? helpIconBlue : helpIconDark"
+        [src]="
+          isOpenHelpPopup
+            ? helpIconBlue
+            : darkModeService.getDarkMode()
+            ? helpIconDark
+            : helpIconGray
+        "
         class="imageHelp"
       />
     </a>
@@ -88,7 +104,9 @@
   [cdkConnectedOverlayPositions]="positionHelpPopup"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div class="help-popup" @enterLeaveSmooth>
+  <div class="help-popup" @enterLeaveSmooth
+  [ngClass]="{ 'help-popup-dark': darkMode }"
+  >
     <div class="head-help-popup">
       <span>You can use:</span>
     </div>

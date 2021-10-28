@@ -21,7 +21,7 @@
   justify-content: space-between;
   align-items: center;
   height: 86px;
-  // padding: 0 60px;
+  border-radius: 5px;
   background-color: transparent;
   position: relative;
   z-index: 1000;
@@ -45,7 +45,6 @@
   }
 
   .menu-wrapper{
-    background-color:white ;
     border-radius: 5px;
     box-shadow: 0px 1px 4px #e5e9f2;
     height: 100%;
@@ -73,10 +72,21 @@
     }
   }
 
+  .menu-wrapper-dark{
+    background-color: #0E1521 !important;
+    box-shadow: none;
+  }
+
   img {
     margin-right: 14px;
+    margin-left: 24px;
     width: auto;
   }
+}
+
+.logoDarkMode{
+  background-color: #0E1521 !important;
+
 }
 
 .logoBackgroundColor {
@@ -91,10 +101,6 @@
   display: none;
 }
 
-.width-full{
-  width: 100%;
-}
-
 .menu-container {
   background-color: transparent;
   border-radius: 5px;
@@ -104,20 +110,22 @@
 }
 
 @media screen and (max-width: 768px) {
-  .menu-container {
-    margin-top: 25px;
-  }
-}
-
-@media screen and (max-width: 768px) {
   .logo {
+    display: flex;
+    justify-content: center;
     text-align: center;
     margin: 0 0 36px 0;
     display: block;
   }
+  
+  .menu-container {
+    margin-top: 25px;
+  }
+
   .mobile {
     display: inherit;
   }
+
   .no-mobile {
     display: none;
   }
@@ -146,6 +154,8 @@
       overflow-x: auto;
       height: 100%;
       padding: 0;
+      background-color:white ;
+      border-radius: 5px;
 
       /* Hide scrollbar for Chrome, Safari and Opera */
       &::-webkit-scrollbar {

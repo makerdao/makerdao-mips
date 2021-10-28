@@ -2,6 +2,7 @@ import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import Menu from '../../data-types/menu';
 
@@ -27,7 +28,10 @@ export class MenuComponent implements OnInit, OnChanges {
   yDirection = '';
   @Input() showArrow: boolean = true;
 
-  constructor(private menuService: MenuService) {}
+  constructor(
+    private menuService: MenuService,
+    public darkModeService: DarkModeService
+  ) {}
 
   ngOnInit(): void {
     this.initPosition();
@@ -98,7 +102,8 @@ export class MenuComponent implements OnInit, OnChanges {
 
   onClick(ev: Event) {
     if (this.levelMenu === 0) {
-      const positionX = (ev.currentTarget as HTMLElement).getClientRects()[0].left;
+      const positionX = (ev.currentTarget as HTMLElement).getClientRects()[0]
+        .left;
 
       const movePositionX =
         window.innerWidth > 500 ? positionX - 90 : positionX - 30;

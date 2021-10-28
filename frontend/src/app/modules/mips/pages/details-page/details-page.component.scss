@@ -24,6 +24,40 @@
       top: 10px;
     }
   }
+
+  &.container-dark {
+    &::ng-deep {
+      app-proposal-components,
+      app-language-document,
+      app-mip-details,
+      app-references,
+      app-pull-request-history {
+        .container {
+          box-shadow: none !important;
+          background-color: #31394d !important;
+          color: #b8c5d3 !important;
+
+          .header
+          {
+            color: #5c99f0 !important;
+          }
+
+          .info {
+            color: #b8c5d3 !important;
+          }
+        }
+      }
+
+      app-language-document,
+      app-mip-details,
+      app-references,
+      app-pull-request-history{
+        .title{
+          color: #5c99f0 !important;
+        }
+      }
+    }
+  }
 }
 
 .hidden {
@@ -114,7 +148,7 @@ app-mips-pagination {
   app-detail-content {
     order: 2;
   }
-  
+
   .details-column {
     position: static !important;
   }
@@ -152,6 +186,6 @@ app-mips-pagination {
   }
 }
 
-.hide{
+.hide {
   display: none !important;
 }

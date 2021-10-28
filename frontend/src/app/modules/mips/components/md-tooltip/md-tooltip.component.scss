@@ -8,4 +8,11 @@ div {
   font-size: 16px;
   line-height: 19px;
   color: #ffffff;
+
+  &.dark-tooltips{
+    background-color: #31394D;
+    color: #ADCCF7;
+    box-shadow: 0px 6px 20px 0px #0000004D;
+
+  }
 }

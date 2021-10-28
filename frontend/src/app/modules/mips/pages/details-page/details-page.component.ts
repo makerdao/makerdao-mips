@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
-import { MarkdownService } from 'ngx-markdown';
 import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 import { Language } from 'src/app/data-types/languages';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 const YAML = require('yaml');
 @Component({
   selector: 'app-details-page',
@@ -27,13 +27,18 @@ export class DetailsPageComponent implements OnInit {
   languagesAvailables: any[];
   documentLanguage: Language;
   TABS_OPTIONS = ['Languages', 'Details', 'Recent Changes', 'References'];
-  selectedTab:'Languages'| 'Details'| 'Recent Changes'| 'References'|null=null;
+  selectedTab:
+    | 'Languages'
+    | 'Details'
+    | 'Recent Changes'
+    | 'References'
+    | null = null;
 
   constructor(
     private mipsService: MipsService,
     private activedRoute: ActivatedRoute,
     private router: Router,
-    private markdownService: MarkdownService,
+    public darkModeService:DarkModeService,
     private langService: LangService,
     private urlService: UrlService
   ) {}
@@ -124,23 +129,13 @@ export class DetailsPageComponent implements OnInit {
 
         this.mip = {
           ...data.mip,
-          sectionsRaw: this.translateKeywords(data.mip.sectionsRaw, metaVars),
         };
-
-        if (Object.values(Language).includes(data.mip.language)) {
-          this.documentLanguage = data.mip.language as Language;
-        }
-        this.languagesAvailables = data.languagesAvailables;
-
+        
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });
 
-        this.sections = this.translateKeywords(
-          this.mip.sections,
-          metaVars,
-          true
-        );
+        this.sections = this.mip.sections;
 
         let indexPreambleSection: number = (this.sections as []).findIndex(
           (i: any) => i.heading === 'Preamble'
@@ -150,12 +145,14 @@ export class DetailsPageComponent implements OnInit {
           (this.sections as []).splice(indexPreambleSection, 1);
         }
 
-        let indexPreambleHeading: number = (this.mip.sectionsRaw as [
-
-        ]).findIndex((i: any) => (i as string).includes('Preamble'));
+        let indexPreambleHeading: number = data.mip.sectionsRaw.findIndex(
+          (i: any) => (i as string).includes('Preamble')
+        );
+        
+        let sectionsRaw = [...(this.mip.sectionsRaw as [])];
 
         if (indexPreambleHeading !== -1) {
-          (this.mip.sectionsRaw as []).splice(indexPreambleHeading, 2); // delete Preamble heading and its content
+          sectionsRaw.splice(indexPreambleHeading, 2); // delete Preamble heading and its content
         }
 
         let indexReferencesSection: number = (this.sections as []).findIndex(
@@ -165,14 +162,30 @@ export class DetailsPageComponent implements OnInit {
         if (indexReferencesSection !== -1) {
           (this.sections as []).splice(indexReferencesSection, 1);
         }
-
-        let indexReferencesHeading: number = (this.mip.sectionsRaw as [
+        
+        let indexReferencesHeading: number = (sectionsRaw as [
 
         ]).findIndex((i: any) => (i as string).includes('References'));
 
         if (indexReferencesHeading !== -1) {
-          (this.mip.sectionsRaw as []).splice(indexReferencesHeading, 2);
+          (sectionsRaw as []).splice(indexReferencesHeading, 2);
         }
+        
+        this.mip = {
+          ...this.mip,
+          sectionsRaw: this.translateKeywords(sectionsRaw, metaVars),
+        };
+        
+        this.sections = this.translateKeywords(
+          [...this.sections],
+          metaVars,
+          true
+        );
+
+        if (Object.values(Language).includes(data.mip.language)) {
+          this.documentLanguage = data.mip.language as Language;
+        }
+        this.languagesAvailables = data.languagesAvailables;
 
         this.pullrequest = data.pullRequests;
         this.subproposals = data.subproposals;

@@ -1,4 +1,10 @@
-<div class="maker-container" [ngClass]="{'loading-height-fixed':loading}">
+<div
+  class="maker-container"
+  [ngClass]="{
+    'loading-height-fixed': loading,
+    'maker-container-dark': darkMode
+  }"
+>
   <div *ngIf="loading && !dataSource.length" class="maker-loading-shade">
     <mat-spinner></mat-spinner>
   </div>
@@ -51,7 +57,7 @@
               </th>
             </span>
           </span>
-          <span *ngIf="column == 'link'" >
+          <span *ngIf="column == 'link'">
             <th mat-header-cell *matHeaderCellDef>
               <span class="headerContent linkHeader"> {{ column }}</span>
             </th>
@@ -109,8 +115,8 @@
             >
               <div class="space-status"></div>
               <app-social
-                votingPortalLink="{{element?.votingPortalLink}}"
-                forumLink="{{element?.forumLink}}"
+                votingPortalLink="{{ element?.votingPortalLink }}"
+                forumLink="{{ element?.forumLink }}"
                 [githubLink]="element.filename"
               ></app-social>
             </td>
@@ -129,10 +135,7 @@
               <div (click)="onClickButtonCaptureEvent($event)">
                 <button
                   mat-icon-button
-                  *ngIf="
-                    !element.proposal &&
-                    element.mipFather
-                  "
+                  *ngIf="!element.proposal && element.mipFather"
                   class="arrow-container"
                   [disabled]="element.loadingSubproposals"
                   (click)="
@@ -190,7 +193,7 @@
                   ><br />
                   <markdown
                     class="variable-binding"
-                    [data]="element.paragraphSummary"
+                    [data]="element.paragraphSummary || element.sentenceSummary"
                   ></markdown>
                 </a>
               </div>
@@ -335,8 +338,8 @@
               More
             </button>
             <app-social
-              votingPortalLink="{{item?.votingPortalLink}}"
-              forumLink="{{item?.forumLink}}"
+              votingPortalLink="{{ item?.votingPortalLink }}"
+              forumLink="{{ item?.forumLink }}"
               [githubLink]="item.filename"
               mobile="true"
             ></app-social>
@@ -347,10 +350,7 @@
             >
               <button
                 mat-icon-button
-                *ngIf="
-                  !item.proposal &&
-                  item.mipFather
-                "
+                *ngIf="!item.proposal && item.mipFather"
                 class="arrow-container"
                 [disabled]="item.loadingSubproposals"
                 (click)="
@@ -519,8 +519,10 @@
                         More
                       </button>
                       <app-social
-                        votingPortalLink="{{itemSubsetChildren?.votingPortalLink}}"
-                        forumLink="{{itemSubsetChildren?.forumLink}}"
+                        votingPortalLink="{{
+                          itemSubsetChildren?.votingPortalLink
+                        }}"
+                        forumLink="{{ itemSubsetChildren?.forumLink }}"
                         [githubLink]="itemSubsetChildren.filename"
                         mobile="true"
                       ></app-social>

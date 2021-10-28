@@ -1,5 +1,6 @@
 table {
   width: 100%;
+  background-color: transparent;
 }
 
 mat-paginator {
@@ -218,12 +219,8 @@ th {
 //----- test
 
 /* Structure */
-.maker-container {
-  position: relative;
-  box-shadow: 0px 1px 4px #e5e9f2;
-}
 
-.loading-height-fixed{
+.loading-height-fixed {
   min-height: 50vh;
 }
 
@@ -231,10 +228,6 @@ th {
   position: relative;
   max-height: 400px;
   overflow: auto;
-}
-
-table {
-  width: 100%;
 }
 
 .maker-loading-shade {
@@ -821,4 +814,74 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 .shrinkedSubset {
   height: 0;
   overflow: hidden;
+}
+
+// Dark Mode
+.maker-container {
+  position: relative;
+
+  &.maker-container-dark {
+    box-shadow: none;
+
+    ::ng-deep {
+      a,
+      div,
+      td {
+        color: #b8c5d3 !important;
+      }
+
+      tr.maker-element-row:not(.maker-expanded-row):hover {
+        .mat-column-pos {
+          background: #1a202b !important;
+        }
+      
+        .mat-column-title,
+        .mat-column-summary,
+        .mat-column-status,
+        .mat-column-link {
+          background: #202733 !important;
+        }
+      }
+      
+      tr.maker-element-row:not(.maker-expanded-row):active {
+        background: #202733 !important;
+        
+      }
+      
+      tr {
+        &.maker-element-subset-row,
+        &.maker-element-row {
+          &:hover,
+          &:active {
+            background: #202733 !important;
+
+            .mat-column-link {
+              background: #202733 !important;
+            }
+
+            // .mat-column-pos {
+            //   background: #1a202b !important;
+            // }
+          }
+        }
+      }
+
+      thead {
+        background-color: #31394d;
+        span {
+          color: #98c0f5 !important;
+        }
+      }
+
+      table {
+        background-color: #1a202b;
+      }
+
+      .variable-binding {
+        p {
+          color: #b8c5d3 !important;
+        }
+      }
+    }
+  }
 }
