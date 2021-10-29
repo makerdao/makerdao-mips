@@ -13,14 +13,7 @@ import {
   TemplateRef,
   SimpleChanges,
 } from '@angular/core';
-import {
-  from,
-  fromEvent,
-  Observable,
-  ObservableInput,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { SmartSearchService } from '../../services/smart-search.service';
@@ -30,6 +23,7 @@ import IFormatting from '../../types/formatting';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { DarkModeService } from '../../../../services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-search',
@@ -58,11 +52,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
   @Input() listSearchItems = [];
   @Output() clickSearchItem = new Subject<any>();
   @Input() value: string;
+  @Input() darkMode: boolean;
   isQueryMode: boolean = false;
   positionHelpPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
   isOpenHelpPopup: boolean = false;
-  helpIconDark: string = '../../../../../assets/images/help_icon.svg';
+  helpIconGray: string = '../../../../../assets/images/help_icon.svg';
   helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
+  helpIconDark: string = '../../../../../assets/images/help_icon_dark.svg';
+
   @Input() error: boolean = false;
   @Input() errorMessage: string = '';
   options = [];
@@ -130,6 +127,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private smartSearchService: SmartSearchService,
     private overlay: Overlay,
+    public darkModeService: DarkModeService,
     public viewContainerRef: ViewContainerRef
   ) {}
 
@@ -155,7 +153,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
       if (propName === 'listSearchItems') {
         const chng = changes[propName];
 
-        if (((chng.currentValue?.length && !chng.previousValue?.length) || (!chng.currentValue?.length && chng.previousValue?.length)) && this.overlayRef && !this.overlayRef?.hasAttached()) {
+        if (
+          ((chng.currentValue?.length && !chng.previousValue?.length) ||
+            (!chng.currentValue?.length && chng.previousValue?.length)) &&
+          this.overlayRef &&
+          !this.overlayRef?.hasAttached()
+        ) {
           this.onDisplayMipsSugestion();
         }
 
@@ -482,7 +485,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
           originY: 'bottom',
           overlayX: 'start',
           overlayY: 'top',
-        }
+        },
       ]);
     const width = (this.textBoxWrapper
       .nativeElement as HTMLDivElement).getBoundingClientRect().width;
@@ -500,7 +503,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.viewContainerRef
     );
     this.overlayRef.attach(template);
-    overlayClickOutside(this.overlayRef, this.textBoxWrapper.nativeElement).subscribe(() => {
+    overlayClickOutside(
+      this.overlayRef,
+      this.textBoxWrapper.nativeElement
+    ).subscribe(() => {
       this.overlayRef.detach();
     });
   }

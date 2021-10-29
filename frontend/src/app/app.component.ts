@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FooterVisibleService } from './services/footer-visible/footer-visible.service';
 import { ElementsRefUiService } from './services/elements-ref-ui/elements-ref-ui.service';
+import { DarkModeService } from './services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     private footerVisibleService: FooterVisibleService,
-    private elementsRefUiService: ElementsRefUiService
+    private elementsRefUiService: ElementsRefUiService,
+    public darkModeService:DarkModeService,
   ) {}
 
   onFooterVisible(event) {

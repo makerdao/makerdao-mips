@@ -68,6 +68,11 @@ input {
   cursor: pointer;
 }
 
+.help-container-dark {
+  box-shadow: none;
+  background: #aeb6d6 !important;
+}
+
 .row {
   display: flex;
   flex: row;
@@ -93,6 +98,20 @@ input {
   overflow-y: auto;
   max-height: 225px;
   height: fit-content;
+}
+
+.ListSearch-dark {
+  background-color: #1a202b !important;
+  box-shadow: none;
+  border: none;
+
+  .list-search-item {
+    border-top: 1px solid #31394d !important;
+
+    &:hover {
+      background-color: #0e1521 !important;
+    }
+  }
 }
 
 .list-search-item {
@@ -163,6 +182,15 @@ input {
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
 
+  &.help-popup-dark {
+    background-color: #31394d !important;
+    color: #adccf7 !important;
+
+    .dark {
+      color: #adccf7 !important;
+    }
+  }
+
   .head-help-popup {
     font-family: Roboto;
     font-style: normal;
@@ -211,6 +239,12 @@ input {
   color: #dc3545;
 }
 
+.textBoxWrapper-dark {
+  background-color: #31394d !important;
+  box-shadow: 0px 1px 4px #000000 !important;
+  color: #aeb6d6 !important;
+}
+
 .textBoxWrapper {
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -228,6 +262,11 @@ input {
   display: flex;
   align-items: center;
   cursor: text;
+
+  .contentEditableInput-dark {
+    color: #aeb6d6 !important;
+    background: transparent !important;
+  }
 
   .contentEditableInput {
     box-sizing: border-box;

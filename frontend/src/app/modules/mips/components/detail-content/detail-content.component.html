@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'container-dark':darkMode}">
   <div class="row">
     <div *ngIf="mip && !mip?.proposal">
       <span *ngIf="mip?.title" class="title-bold">{{ mip?.mipName }}: </span
@@ -283,7 +283,9 @@
   [cdkConnectedOverlayBackdropClass]="'MipContentOverlayBackdropClass'"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div @enterLeaveSmooth style="width: 100%;" class="container popup">
+  <div @enterLeaveSmooth style="width: 100%;" class="container popup"
+  [ngClass]="{'popup-dark':darkMode}"
+  >
     <div class="menuContainer row social">
       <div class="tooltip">
         <img

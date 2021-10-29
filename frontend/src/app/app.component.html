@@ -1,4 +1,8 @@
-<div #container class="container">
+<div
+  #container
+  class="container"
+  [ngClass]="{ 'container-dark': darkModeService.getDarkMode() }"
+>
   <app-header></app-header>
   <div>
     <router-outlet></router-outlet>
@@ -8,5 +12,4 @@
     (visible)="onFooterVisible($event)"
   ></app-footer>
 </div>
-
 <app-md-feedback id="feedback"></app-md-feedback>

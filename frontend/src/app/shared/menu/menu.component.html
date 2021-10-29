@@ -6,6 +6,7 @@
   #trigger="cdkOverlayOrigin"
   class="dropdown"
   [ngClass]="{
+    'dropdown-dark':darkModeService.getDarkMode(),
     firstLevel: levelMenu === 0 && !isOpen,
     noFirstLevel: levelMenu !== 0 && !isOpen,
     firstLevelActive: levelMenu === 0 && isOpen,
@@ -25,9 +26,18 @@
     class="arrowContainer"
   >
     <img
-      class="arrow"
+      class="arrow arrow-light"
       [ngClass]="{ rotateUp: isOpen, rotateDown: !isOpen }"
-      src="../../../../../assets/images/down.svg"
+      [src]="darkModeService.getDarkMode()
+      ? '../../../../../assets/images/down.svg'
+      : '../../../../../assets/images/down_dark.svg' "
+    />
+    <img
+      *ngIf="!isOpen"
+      class="arrow arrow-dark rotateDown"
+      [src]="darkModeService.getDarkMode()
+      ? '../../../../../assets/images/down_dark.svg'
+      : '../../../../../assets/images/down.svg' "
     />
   </div>
   <div
@@ -51,7 +61,8 @@
       'dropdown-content': levelMenu > 0,
       firstFadeInMenuDownAnimation:levelMenu === 0,
       fadeInMenuDownAnimation: yDirection === 'down' && levelMenu != 0,
-      fadeInMenuUpAnimation: yDirection === 'up' && levelMenu != 0
+      fadeInMenuUpAnimation: yDirection === 'up' && levelMenu != 0,
+      'dropdown-content-dark':darkModeService.getDarkMode()
     }"
   >
     <app-menu
@@ -66,26 +77,10 @@
     >
       <span
         *ngIf="child.img"
-        style="
-          display: flex;
-          align-items: center;
-          font-family: Roboto;
-          font-style: normal;
-          font-weight: normal;
-          font-size: 14px;
-          line-height: 16px;
-          color: #000000;
-        "
+        class="imageMenuWrapper"
         ><img
           [src]="child.img"
-          style="
-            margin-right: 23px;
-            margin-left: 2px;
-            width: 30px;
-            height: 21px;
-            background-color: #b8c5c3;
-            border-radius: 5px;
-          "
+          class="imageMenu"
         />{{ child.name }}</span
       >
       <span *ngIf="!child.img">{{ child.name }}</span>
