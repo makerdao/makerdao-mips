@@ -71,6 +71,10 @@ input {
 .help-container-dark {
   box-shadow: none;
   background: #aeb6d6 !important;
+
+  &.help-open{
+    background: #EBEDF4 !important;
+  }
 }
 
 .row {
@@ -184,10 +188,11 @@ input {
 
   &.help-popup-dark {
     background-color: #31394d !important;
-    color: #adccf7 !important;
+    color: #B8C5D3  !important;
 
     .dark {
-      color: #adccf7 !important;
+      
+      color: #B8C5D3  !important;
     }
   }
 

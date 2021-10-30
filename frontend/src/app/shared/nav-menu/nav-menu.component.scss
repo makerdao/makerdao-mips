@@ -86,3 +86,9 @@
     }
   }
 }
+
+::ng-deep .tooltip-darkmode-toggler {
+  background-color:#31394D !important;
+  color: #ADCCF7 !important;
+  border-radius: 6px !important;
+}

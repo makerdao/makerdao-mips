@@ -40,6 +40,14 @@
   transform: translateY(-50%);
 }
 
+.container-dark{
+  .checkmark{
+    background: #31394D;
+    border: 1px solid #98C0F5;
+    box-shadow: 0px 1px 4px #000000;
+    border-radius: 4px;
+  }
+}
 /* When the checkbox is checked, change border color and icon visibility */
 .container input:checked ~ .checkmark {
   border-color: #748aa1;

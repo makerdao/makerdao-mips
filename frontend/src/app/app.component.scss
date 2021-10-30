@@ -21,8 +21,8 @@
         }
 
         .type--RFC {
-          border: 1px solid #f2994a !important;
-          color: #f2994a !important;
+          border: 1px solid #FFBA88 !important;
+          color: #FFBA88 !important;
         }
 
         .type--OBSOLETE {
@@ -52,6 +52,15 @@
         }
       }
 
+      .iconScrollTopWrapper{
+        background: #2F80ED !important;
+        .darkArrow{
+          display: block !important;
+        }
+        .lightArrow{
+          display: none !important;
+        }
+      }
       .tooltiptext {
         background-color: #31394d !important;
         color: #adccf7 !important;

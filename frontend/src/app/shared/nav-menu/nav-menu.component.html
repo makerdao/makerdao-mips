@@ -43,7 +43,10 @@
       />
     </span>
   </app-menu>
-  <div class="darkModeToggler" (click)="toggleDarkMode()">
+  <div class="darkModeToggler" (click)="toggleDarkMode()"
+  [matTooltip]="darkModeService.getDarkMode()? 'Turn on the light' : 'Turn off the light'"
+  [matTooltipClass]="{'tooltip-darkmode-toggler': darkModeService.getDarkMode()}"
+  >
     <img
       *ngIf="!darkModeService.getDarkMode()"
       alt="lighMode"

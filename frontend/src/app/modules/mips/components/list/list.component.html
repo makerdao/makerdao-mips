@@ -80,7 +80,7 @@
                 <div
                   class="cover"
                   [matTooltip]="element[column]"
-                  [matTooltipClass]="{ 'mat-tooltip': true }"
+                  [matTooltipClass]="{ 'mat-tooltip': true,'tooltip-darkmode':darkMode}"
                   #tooltip="matTooltip"
                   (mouseover)="tooltip.show()"
                   (mouseleave)="tooltip.hide()"
@@ -252,6 +252,7 @@
               "
             >
               <app-list-subset
+                [darkMode]="darkMode"
                 [dataSourceSubsetRows]="element.subsetRows"
                 [subproposalsGroup]="element.subproposalsGroup"
               ></app-list-subset>

@@ -65,6 +65,7 @@
       >
         <ng-container *ngIf="element.expanded">
           <app-list-subproposal
+            [darkMode]="darkMode"
             [dataSource]="subproposalsGroup[element.subset]"
           ></app-list-subproposal>
         </ng-container>
