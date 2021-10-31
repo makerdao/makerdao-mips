@@ -152,6 +152,7 @@
   (closedOptions)="onClosedOptionsAutocomplete()"
 >
   <ng-template appAutocompleteContent>
+    
     <app-option-autocomplete
       *ngFor="let option of options"
       [value]="option.label"

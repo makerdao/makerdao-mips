@@ -5,7 +5,6 @@
   height: 100%;
   position: relative;
   min-height: 68vh;
-  background-color:#202733;
   margin: -40px 0;
 }
 
@@ -18,6 +17,7 @@
 }
 
 img {
+  z-index: -10;
   width: 100%;
   bottom: 0;
   position: absolute;
@@ -47,7 +47,7 @@ div {
 
 .center-card {
   position: absolute;
-  top: 0;
+  top: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -129,7 +129,7 @@ div {
   }
 
   .center-card {
-    top: 20px;
+    top: 60px;
 
     h1 {
       font-size: 60px;

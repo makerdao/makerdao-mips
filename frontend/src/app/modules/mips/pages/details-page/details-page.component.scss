@@ -26,34 +26,40 @@
   }
 
   &.container-dark {
+    .tabs-item {
+      background: #31394d !important;
+      color: #748aa1 !important;
+
+      &.tab-active {
+        background: #478ded !important;
+        color: white !important;
+      }
+    }
+
     &::ng-deep {
       app-proposal-components,
       app-language-document,
       app-mip-details,
       app-references,
       app-pull-request-history {
+        .title {
+          color: #98c0f5 !important;
+        }
+
         .container {
           box-shadow: none !important;
           background-color: #31394d !important;
           color: #b8c5d3 !important;
 
-          .header
-          {
+          .header {
             color: #5c99f0 !important;
           }
 
-          .info {
-            color: #b8c5d3 !important;
+          .info,
+          .info a {
+            color: #f5f6fa !important;
+            font-weight: 500 !important;
           }
-        }
-      }
-
-      app-language-document,
-      app-mip-details,
-      app-references,
-      app-pull-request-history{
-        .title{
-          color: #5c99f0 !important;
         }
       }
     }
@@ -138,6 +144,10 @@ app-mips-pagination {
   .tabs-container {
     display: none;
   }
+}
+
+.details-column {
+  padding-left: 30px;
 }
 
 @media screen and (max-width: 1199px) {

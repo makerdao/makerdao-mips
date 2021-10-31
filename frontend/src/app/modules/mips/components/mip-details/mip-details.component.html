@@ -34,6 +34,7 @@
       <p class="info">
         <span *ngFor="let tag of tags; let i = index">
           <a
+          
             [routerLink]="['/mips/list']"
             [queryParams]="{ search: '$ #' + tag }"
             >{{ tag }}</a

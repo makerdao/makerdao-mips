@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 
 @Component({
@@ -27,14 +26,14 @@ export class ProposalComponentsComponent implements AfterViewInit {
   prefixIdLinkSection: string = 'sectionLink-';
   @ViewChild('sectionLinks') sectionLinks;
   active: any;
-
+  @Input() darkMode:boolean = false;
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
     private langService: LangService,
-    private cdr: ChangeDetectorRef,
-    public darkModeService:DarkModeService,
+    private cdr: ChangeDetectorRef
   ) {
     this.translate.setDefaultLang('en');
   }

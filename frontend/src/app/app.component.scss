@@ -21,8 +21,8 @@
         }
 
         .type--RFC {
-          border: 1px solid #FFBA88 !important;
-          color: #FFBA88 !important;
+          border: 1px solid #ffba88 !important;
+          color: #ffba88 !important;
         }
 
         .type--OBSOLETE {
@@ -52,15 +52,25 @@
         }
       }
 
-      .iconScrollTopWrapper{
-        background: #2F80ED !important;
-        .darkArrow{
+      code,
+      pre {
+        background: #202733 !important;
+        color: #98c0f5 !important;
+        box-shadow: none !important;
+      }
+
+      .iconScrollTopWrapper {
+        background: #2f80ed !important;
+
+        .darkArrow {
           display: block !important;
         }
-        .lightArrow{
+
+        .lightArrow {
           display: none !important;
         }
       }
+
       .tooltiptext {
         background-color: #31394d !important;
         color: #adccf7 !important;
@@ -92,13 +102,13 @@
 
 @media screen and (max-width: 500px) {
   .container {
-    margin:0 15px 19px;
+    margin: 0 15px 19px;
   }
 }
 
 @media screen and (min-width: 1920px) {
   .container {
-    margin:0 210px 40px;
+    margin: 0 210px 40px;
   }
 }
 
