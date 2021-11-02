@@ -1,6 +1,8 @@
 <app-news></app-news>
 
-<div class="container">
+<div class="container"
+[ngClass]="{  'list-page-container-dark': darkModeService.getDarkMode()}"
+>
   <p
     class="title"
     [ngClass]="{
