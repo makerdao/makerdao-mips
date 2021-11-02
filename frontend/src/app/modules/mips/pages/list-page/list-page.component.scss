@@ -4,22 +4,99 @@
   justify-content: space-between;
   align-items: center;
 
-  &.list-page-container-dark {
+  &.list-page-container-dark::ng-deep {
     .title {
       color: #98c0f5;
     }
 
-    &::ng-deep {
-      app-search-mobile,
-      app-order-mobile {
+    & ~ app-list-mipset-mode,
+    & ~ app-list-multiple-queries {
+      .maker-container {
         box-shadow: none;
-        & > div {
-          box-shadow: none;
-          background-color: #31394d;
-          
-          &>svg.active>path{
-            fill: #70A7F2;
 
+        .mobile-container {
+          background: #31394d;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+
+          a,
+          p,
+          em {
+            color: #b8c5d3;
+          }
+          
+          .title > a {
+            color: #d6daea;
+          }
+
+          &:not(.proposal-card) .title {
+            &,
+            a {
+              color: #478ded;
+            }
+          }
+        }
+
+        table,
+        tr {
+          background: #31394d;
+          border-bottom-color: #31394d;
+          a,
+          p,
+          em {
+            color: #b8c5d3;
+          }
+        }
+
+        .maker-element-subset-row td {
+          color: #478ded;
+
+          .arrow-wrapper svg > path {
+            fill: #478ded;
+          }
+        }
+
+        .subset-table-children td.mat-cell {
+          border-bottom-color: #31394d !important;
+
+          .borderBottom {
+            background: #31394d !important;
+          }
+        }
+
+        tr.maker-element-row:hover {
+          .mat-column-title,
+          .mat-column-summary,
+          .mat-column-status,
+          .mat-column-link {
+            background: #202733 !important;
+          }
+        }
+      }
+    }
+    app-search-mobile,
+    app-order-mobile {
+      background: none;
+      box-shadow: none;
+
+      & > div {
+        box-shadow: none;
+        background-color: #31394d;
+
+        & > svg.active > path {
+          fill: #478ded;
+        }
+      }
+
+      .textBoxWrapper {
+        background: #31394d;
+        box-shadow: none;
+
+        .contentEditableInput {
+          background: transparent;
+          color: #b8c5d3;
+
+          &::before {
+            color: #b8c5d3;
           }
         }
       }
