@@ -1,12 +1,19 @@
 <img
+  *ngIf="!darkModeService.getDarkMode()"
   class="mobile"
   src="../../../../../assets/images/404-page-not-found-mobile.svg"
 />
 <img
+  *ngIf="!darkModeService.getDarkMode()"
   class="no-mobile"
   src="../../../../../assets/images/404-page-not-found.svg"
 />
-<div class="center-card">
+<img
+  *ngIf="darkModeService.getDarkMode()"
+  class="background"
+  src="../../../../../assets/images/404-page-not-found-dark.png"
+/>
+<div class="center-card" [ngClass]="{'card-center-dark':darkModeService.getDarkMode()}">
   <h1>OOPS!</h1>
   <p>{{ "The Page you requested could not be found" }}</p>
   <button mat-button (click)="goHome()">{{ "Back to Home" }}</button>

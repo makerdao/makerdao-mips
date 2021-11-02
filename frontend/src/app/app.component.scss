@@ -21,8 +21,8 @@
         }
 
         .type--RFC {
-          border: 1px solid #f2994a !important;
-          color: #f2994a !important;
+          border: 1px solid #ffba88 !important;
+          color: #ffba88 !important;
         }
 
         .type--OBSOLETE {
@@ -49,6 +49,25 @@
           color: #b8c5d3 !important;
           background: rgba(188, 190, 199, 0.3);
           border: 1px solid rgba(116, 138, 161, 0.5);
+        }
+      }
+
+      code,
+      pre {
+        background: #202733 !important;
+        color: #98c0f5 !important;
+        box-shadow: none !important;
+      }
+
+      .iconScrollTopWrapper {
+        background: #2f80ed !important;
+
+        .darkArrow {
+          display: block !important;
+        }
+
+        .lightArrow {
+          display: none !important;
         }
       }
 

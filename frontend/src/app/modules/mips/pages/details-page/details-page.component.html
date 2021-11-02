@@ -44,6 +44,7 @@
           *ngIf="sections && mip"
           class="no-mobile"
           [sourceData]="sections"
+          [darkMode]="darkMode"
         ></app-proposal-components>
         <app-proposal-components
           *ngIf="sections && mdUrl"
@@ -51,6 +52,7 @@
           showlevelOne="true"
           titleSidebar="Table of contents"
           [sourceData]="sections"
+          [darkMode]="darkMode"
         ></app-proposal-components>
       </div>
     </div>
@@ -59,7 +61,7 @@
       [mip]="mip"
       [subproposals]="subproposals"
       (headingListUpdate)="headingListUpdate($event)"
-      [darkMode]="darkModeService.getDarkMode()"
+      [darkMode]=" darkModeService.getDarkMode()"
     ></app-detail-content>
     <div *ngIf="mip" class="column details-column">
       <div class="sidebar-wrapper">

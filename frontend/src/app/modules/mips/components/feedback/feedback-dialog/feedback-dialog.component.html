@@ -1,24 +1,24 @@
-<div class="dialogHead">
-  <img src="../../../../../../assets/images/feedback_dialog_icon.svg" />
-  <span class="headTextFeedback">LEAVE YOUR FEEDBACK feedback_dialog</span>
-</div>
-<form [formGroup]="feedbackForm">
-  <input formControlName="subject" type="text" #input placeholder="Subject" />
-  <textarea
-    formControlName="description"
-    #textarea
-    placeholder="Description"
-  ></textarea>
-</form>
+  <div class="dialogHead">
+    <img src="../../../../../../assets/images/feedback_dialog_icon.svg" />
+    <span class="headTextFeedback">LEAVE YOUR FEEDBACK feedback_dialog</span>
+  </div>
+  <form [formGroup]="feedbackForm">
+    <input formControlName="subject" type="text" #input placeholder="Subject" />
+    <textarea
+      formControlName="description"
+      #textarea
+      placeholder="Description"
+    ></textarea>
+  </form>
 
-<div class="buttons">
-  <button mat-button (click)="onCancel()" class="reset btn">Cancel</button>
-  <button
-    mat-button
-    (click)="sendFeedback()"
-    class="apply btn"
-    [disabled]="!feedbackForm.valid"
-  >
-    Send
-  </button>
-</div>
+  <div class="buttons">
+    <button mat-button (click)="onCancel()" class="reset btn">Cancel</button>
+    <button
+      mat-button
+      (click)="sendFeedback()"
+      class="apply btn"
+      [disabled]="!feedbackForm.valid"
+    >
+      Send
+    </button>
+  </div>

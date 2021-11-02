@@ -1,6 +1,7 @@
 :host {
   font-style: normal;
   font-weight: 500;
+  padding-left: 30px;
 }
 
 .container {
@@ -723,14 +724,13 @@ p {
     .menuContainer {
       background-color: #31394d !important;
       color: #adccf7 !important;
-      box-shadow: 0px 6px 20px 0px #0000004D !important;
-
+      box-shadow: 0px 6px 20px 0px #0000004d !important;
     }
 
     .tooltip .tooltiptext {
       background-color: #31394d !important;
       color: #adccf7 !important;
-      box-shadow: 0px 6px 20px 0px #0000004D !important;
+      box-shadow: 0px 6px 20px 0px #0000004d !important;
     }
   }
 
@@ -804,6 +804,7 @@ p {
   &.container-dark {
     background: #1a202b;
     box-shadow: none;
+    padding: 0;
 
     .title-bold {
       color: #5c99f0;
@@ -817,6 +818,25 @@ p {
         background-color: #3e4a60;
       }
 
+      th,
+      th * {
+        color: #5c99f0 !important;
+      }
+
+      tr:nth-child(odd),
+      tr:nth-child(odd)>td {
+        color: #b8c5d3 !important;
+        background-color: #1a202b !important;
+
+        
+      }
+
+      tr:nth-child(even),
+      tr:nth-child(even)>td {
+        color: #b8c5d3 !important;
+        background-color: #0e1521 !important;
+      }
+
       p,
       ul,
       ol,
@@ -824,19 +844,21 @@ p {
         color: #b8c5d3;
       }
 
-      code {
-        background-color: transparent;
+      h1,
+      h2 {
+        .anchor,
+        & {
+          color: #5c99f0;
+        }
       }
 
-      h1,
-      h2,
       h3,
       h4,
       h5,
       h6 {
         .anchor,
         & {
-          color: #5c99f0;
+          color: #98c0f5;
         }
       }
     }

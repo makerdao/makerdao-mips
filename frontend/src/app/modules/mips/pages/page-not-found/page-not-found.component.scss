@@ -2,12 +2,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 370px;
+  height: 100%;
   position: relative;
   min-height: 68vh;
+  margin: -40px 0;
+}
+
+.background{
+  content: url("../../../../../assets/images/404-page-not-found-dark.png");
+  width: 100%;
+  object-fit: cover;
+  top: 0;
+  height: 100%;
 }
 
 img {
+  z-index: -10;
   width: 100%;
   bottom: 0;
   position: absolute;
@@ -37,12 +47,23 @@ div {
 
 .center-card {
   position: absolute;
-  top: 0;
+  top: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
+
+  &.card-center-dark {
+    h1,
+    p {
+      color: #EBEDF4;
+    }
+
+    button {
+      background-color: #478ded;
+    }
+  }
 
   h1 {
     font-family: Roboto;
@@ -89,7 +110,7 @@ div {
   :host {
     height: fit-content;
     min-height: 75vh;
-    margin-top: -30px;
+    margin: -40px 0;
   }
 
   img {
@@ -108,10 +129,17 @@ div {
   }
 
   .center-card {
-    top: 92px;
+    top: 60px;
+
+    &.card-center-dark {
+      h1,
+      p {
+        color: #478ded !important;
+      }
+    }
 
     h1 {
-      font-size: 64px;
+      font-size: 60px;
       line-height: 75px;
       color: #1aab9b;
     }

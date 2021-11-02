@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class MdFeedbackDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private langService: LangService,
+    public darkModeService:DarkModeService,
     private translate: TranslateService
   ) {}
 

@@ -16,6 +16,7 @@ import { switchMap } from 'rxjs/operators';
 import { fromEvent, merge, Subject } from 'rxjs/index';
 import { OptionAutocompleteComponent } from '../option-autocomplete/option-autocomplete.component';
 import { AutocompleteContentDirective } from '../../directives/autocomplete-content.directive';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-autocomplete',
@@ -45,7 +46,7 @@ export class AutocompleteComponent implements OnInit, AfterViewInit {
   @Output() closedOptions: Subject<any> = new Subject<any>();
   optionsChanged: boolean = false;
 
-  constructor() {}
+  constructor(public darkModeService:DarkModeService) {}
 
   ngOnInit() {}
 

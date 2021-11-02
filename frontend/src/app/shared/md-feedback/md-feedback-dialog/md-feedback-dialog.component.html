@@ -4,28 +4,30 @@
     "Leave your feedback" | translate | uppercase
   }}</span>
 </div>
-<form [formGroup]="feedbackForm">
-  <input
-    formControlName="subject"
-    type="text"
-    placeholder="{{ 'Subject' | translate }}"
-  />
-  <textarea
-    formControlName="description"
-    placeholder="{{ 'Description' | translate }}"
-  ></textarea>
-</form>
+<div [ngClass]="{ feedbackFormDark: darkModeService.getDarkMode() }">
+  <form [formGroup]="feedbackForm">
+    <input
+      formControlName="subject"
+      type="text"
+      placeholder="{{ 'Subject' | translate }}"
+    />
+    <textarea
+      formControlName="description"
+      placeholder="{{ 'Description' | translate }}"
+    ></textarea>
+  </form>
 
-<div class="buttons">
-  <button mat-button (click)="onCancel()" class="reset btn">
-    {{ "Cancel" | translate }}
-  </button>
-  <button
-    mat-button
-    (click)="sendFeedback()"
-    class="apply btn"
-    [disabled]="!feedbackForm.valid"
-  >
-    {{ "Send" | translate }}
-  </button>
+  <div class="buttons">
+    <button mat-button (click)="onCancel()" class="reset btn">
+      {{ "Cancel" | translate }}
+    </button>
+    <button
+      mat-button
+      (click)="sendFeedback()"
+      class="apply btn"
+      [disabled]="!feedbackForm.valid"
+    >
+      {{ "Send" | translate }}
+    </button>
+  </div>
 </div>

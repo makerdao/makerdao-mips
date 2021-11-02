@@ -38,6 +38,7 @@ export class ListSubsetComponent implements OnInit, OnChanges {
   isArrowDownOnMouseOver: boolean = false;
   currentRowOver: any;
   @Input() subproposalsGroup: any;
+  @Input() darkMode=false;
 
   constructor(private cdr: ChangeDetectorRef) {}
 

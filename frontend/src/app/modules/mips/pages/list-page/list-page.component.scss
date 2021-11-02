@@ -3,6 +3,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &.list-page-container-dark {
+    .title {
+      color: #98c0f5;
+    }
+
+    &::ng-deep {
+      app-search-mobile,
+      app-order-mobile {
+        box-shadow: none;
+        & > div {
+          box-shadow: none;
+          background-color: #31394d;
+          
+          &>svg.active>path{
+            fill: #70A7F2;
+
+          }
+        }
+      }
+    }
+  }
 }
 
 .title {
@@ -12,10 +34,6 @@
   float: left;
   margin: 0;
   white-space: nowrap;
-}
-
-.title-dark {
-  color: #98c0f5;
 }
 
 .row {

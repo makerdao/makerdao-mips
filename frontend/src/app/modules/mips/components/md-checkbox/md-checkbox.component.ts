@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-md-checkbox',
@@ -12,7 +13,9 @@ export class MdCheckboxComponent implements OnInit, AfterViewInit {
   @Input() checkInput: boolean;
   check: boolean = false;
 
-  constructor() { }
+  constructor(
+    public darkModeService:DarkModeService
+  ) { }
 
   ngOnInit(): void {
   }

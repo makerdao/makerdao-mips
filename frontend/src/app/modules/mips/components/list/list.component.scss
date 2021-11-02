@@ -599,6 +599,12 @@ a {
   font-size: 14px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: rgba(26, 171, 155, 0.9);
+
+  &.tooltip-darkmode {
+    background-color: #31394d !important;
+    color: #adccf7 !important;
+    border-radius: 6px !important;
+  }
 }
 
 .cover {
@@ -820,8 +826,89 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 .maker-container {
   position: relative;
 
-  &.maker-container-dark {
+  &.maker-container-dark::ng-deep {
     box-shadow: none;
+
+    .no-result {
+      background-color: #31394d;
+      box-shadow: 0px 1px 4px 0px #e5e9f2;
+      p {
+        color: #748aa1 !important;
+      }
+    }
+
+    .mobile-container {
+      background: #31394d;
+      box-shadow: 0px 4px 4px rgb(0 0 0 / 30%);
+
+      .title,
+      .title a {
+        color: #d6daea;
+      }
+
+      .content {
+        color: #b8c5d3;
+
+        markdown {
+          p,
+          em {
+            color: #b8c5d3;
+          }
+        }
+      }
+
+      &.subproposal-card{
+        .title{
+
+          &,
+          a{
+            color: #2F80ED !important;
+          }
+        }
+      }
+
+      &.subproposal-card-subset {
+        span,
+        span>* {
+          color: #478DED;
+        }
+
+        .arrow-wrapper {
+          svg > path {
+            fill: #478ded !important;
+          }
+        }
+      }
+    }
+
+    //   .content {
+    //     font-weight: normal;
+    //     font-size: 12px;
+    //     color: #31394d;
+    //     margin-top: 20px;
+    //   }
+    //   .more {
+    //     cursor: pointer;
+    //     margin-top: 14px;
+    //     font-weight: bold;
+    //     font-size: 12px;
+    //     color: #748aa1;
+    //     float: left;
+    //     min-width: fit-content;
+    //     padding: 0;
+    //     min-height: 15px;
+    //     line-height: normal;
+
+    //     img {
+    //       margin-right: 8px;
+    //     }
+    //   }
+
+    //   app-social {
+    //     float: right;
+    //     margin-top: 14px;
+    //   }
+    // }
 
     ::ng-deep {
       a,
@@ -834,7 +921,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         .mat-column-pos {
           background: #1a202b !important;
         }
-      
+
         .mat-column-title,
         .mat-column-summary,
         .mat-column-status,
@@ -842,12 +929,11 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
           background: #202733 !important;
         }
       }
-      
+
       tr.maker-element-row:not(.maker-expanded-row):active {
         background: #202733 !important;
-        
       }
-      
+
       tr {
         &.maker-element-subset-row,
         &.maker-element-row {
