@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{ 'search-mobile-container-dark': darkMode }">
   <img
     class="main"
     *ngIf="!showInput"
@@ -152,7 +152,6 @@
   (closedOptions)="onClosedOptionsAutocomplete()"
 >
   <ng-template appAutocompleteContent>
-    
     <app-option-autocomplete
       *ngFor="let option of options"
       [value]="option.label"

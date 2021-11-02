@@ -59,7 +59,7 @@ export class SearchMobileComponent implements OnInit {
   @Input() error: boolean = false;
   @Input() errorMessage: string = '';
   @Input() imageClose? = '../../../../../assets/images/close.png';
-
+  @Input() darkMode:boolean = false;
   options = [];
   control = new FormControl();
   indexCaretPositionStart: number;

@@ -22,7 +22,8 @@
       (open)="onOpenMobileSearch($event)" [value]="search" [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip" (loadMoreMipSuggestions)="onLoadMoreMipsSuggestions()"
       [loadingMipsSuggestions]="loadingMipsSuggestions" [error]="sintaxError" [errorMessage]="errorMessage"
-      [placeHolder]="'e.g $ AND(#process, #mip-set)'" (clickSearchItem)="onNavigateToMipDetails($event)">
+      [placeHolder]="'e.g $ AND(#process, #mip-set)'" (clickSearchItem)="onNavigateToMipDetails($event)"
+      [darkMode]="darkModeService.getDarkMode()">
     </app-search-mobile>
     <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)" [orderByField]="orderObj.field"
       [orderDirection]="orderObj.direction"></app-order-mobile>

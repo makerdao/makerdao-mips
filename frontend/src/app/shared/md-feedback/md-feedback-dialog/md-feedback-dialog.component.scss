@@ -23,14 +23,20 @@
     }
   }
 
-  .feedbackFormDark  {
+  .feedbackFormDark {
     input,
     textarea {
       border: 1px solid #202733;
       box-sizing: border-box;
       border-radius: 4px;
       background-color: #0e1521 !important;
-      color: #bcbec7;
+      color: #748aa1 !important;
+
+      &:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        border: 1px solid #505f7c !important;
+      }
 
       &::placeholder {
         color: #31394d;
@@ -38,12 +44,12 @@
       }
     }
 
-    button .btn{
-      background-color: red;
+    .buttons .btn {
+      color: #505f7c;
 
       &.reset {
-        color: #31394d;
-        border: 1px solid #748aa1;
+        background-color: #0e1521;
+        border: 1px solid #505f7c;
       }
 
       &.apply {
@@ -51,10 +57,12 @@
         border: 1px solid #2f80ed;
         box-sizing: border-box;
         color: #ffffff;
+
         &:disabled {
           cursor: not-allowed;
-          background-color: #bcbec7;
-          border: 1px solid #bcbec7;
+          color: #505f7c;
+          background-color: #31394d;
+          border: 1px solid #31394d;
         }
       }
     }

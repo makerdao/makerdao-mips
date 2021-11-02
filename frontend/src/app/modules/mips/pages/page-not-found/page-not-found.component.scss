@@ -57,7 +57,7 @@ div {
   &.card-center-dark {
     h1,
     p {
-      color: #478ded;
+      color: #EBEDF4;
     }
 
     button {
@@ -130,6 +130,13 @@ div {
 
   .center-card {
     top: 60px;
+
+    &.card-center-dark {
+      h1,
+      p {
+        color: #478ded !important;
+      }
+    }
 
     h1 {
       font-size: 60px;
