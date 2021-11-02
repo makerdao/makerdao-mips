@@ -9,6 +9,7 @@ import {
   OnChanges,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 import { OrderService } from '../../services/order.service';
 import { Order, OrderFieldName } from '../../types/order';
 
@@ -46,7 +47,10 @@ export class OrderMobileComponent implements OnInit, OnChanges {
     direction: new FormControl(''),
   });
 
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    public darkModeService: DarkModeService
+  ) {}
 
   ngOnInit(): void {
     this.initPositionPopup();

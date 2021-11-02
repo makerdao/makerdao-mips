@@ -30,7 +30,9 @@
   [cdkConnectedOverlayPositions]="positionPopup"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div class="content" @enterLeaveSmooth>
+  <div class="content" @enterLeaveSmooth
+  [ngClass]="{'content-dark':darkModeService.getDarkMode()}"
+  >
     <p>
       SORT BY
     </p>
