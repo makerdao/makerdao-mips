@@ -132,6 +132,18 @@ export class SearchComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.darkMode) {
+      this.format = this.format.map((item) => {
+        if (item.pattern.source === '@rfc') {
+          return ({
+            ...item,
+            replace: item.replace.replace('#F2994A', '#FFBA88'),
+          });
+        } else {
+          return item;
+        }
+      });
+    }
     this.control.setValue(this.value);
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();

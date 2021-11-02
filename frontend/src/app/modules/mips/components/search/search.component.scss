@@ -72,8 +72,8 @@ input {
   box-shadow: none;
   background: #aeb6d6 !important;
 
-  &.help-open{
-    background: #EBEDF4 !important;
+  &.help-open {
+    background: #ebedf4 !important;
   }
 }
 
@@ -188,11 +188,10 @@ input {
 
   &.help-popup-dark {
     background-color: #31394d !important;
-    color: #B8C5D3  !important;
+    color: #b8c5d3 !important;
 
     .dark {
-      
-      color: #B8C5D3  !important;
+      color: #b8c5d3 !important;
     }
   }
 
@@ -269,8 +268,12 @@ input {
   cursor: text;
 
   .contentEditableInput-dark {
-    color: #aeb6d6 !important;
+    color: #b8c5d3 !important;
     background: transparent !important;
+
+    &::before {
+      color: #505f7c !important;
+    }
   }
 
   .contentEditableInput {

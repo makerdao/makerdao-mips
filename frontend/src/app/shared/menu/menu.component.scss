@@ -83,23 +83,23 @@
             display: none;
           }
         }
-      }    
+      }
     }
 
     &.dropdown-dark {
-
-        &.subMenu,
-        &.subMenuActive{
-            background-color: #0E1521 !important;
-        }
+      &.subMenu,
+      &.subMenuActive {
+        background-color: #0e1521 !important;
+      }
 
       &.subMenuActive,
       &.firstLevelActive {
-        color: #f1f3f8 !important;
-
+        color: #b8c5d3 !important;
+        font-weight: 500;
+        
         &.subMenu,
-        &.subMenuActive{
-            background-color: #31394d !important;
+        &.subMenuActive {
+          background-color: #31394d !important;
         }
 
         .arrowContainer {
