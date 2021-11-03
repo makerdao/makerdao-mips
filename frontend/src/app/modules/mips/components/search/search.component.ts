@@ -87,11 +87,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
     },
     {
       pattern: /@accepted/gi,
-      replace: "@<span style='font-weight:500;color:#27AE60'>Accepted</span>",
+      replace: "@<span style='font-weight:500;color:#27AE60'>ACCEPTED</span>",
     },
     {
       pattern: /@rejected/gi,
-      replace: "@<span style='font-weight:500;color:#EB5757'>Rejected</span>",
+      replace: "@<span style='font-weight:500;color:#EB5757'>REJECTED</span>",
     },
     {
       pattern: /@rfc/gi,
@@ -99,24 +99,24 @@ export class SearchComponent implements OnInit, AfterViewInit {
     },
     {
       pattern: /@archive/gi,
-      replace: "@<span style='font-weight:500;color:#748AA1'>Archive</span>",
+      replace: "@<span style='font-weight:500;color:#748AA1'>ARCHIVE</span>",
     },
     {
       pattern: /@obsolete/gi,
-      replace: "@<span style='font-weight:500;color:#CBAB48'>Obsolete</span>",
+      replace: "@<span style='font-weight:500;color:#CBAB48'>OBSOLETE</span>",
     },
     {
       pattern: /@Formal\sSubmission/gi,
       replace:
-        "@<span style='font-weight:500;color:#9B51E0'>Formal Submission</span>",
+        "@<span style='font-weight:500;color:#9B51E0'>FORMAL SUBMISSION</span>",
     },
     {
       pattern: /@proposed/gi,
-      replace: "@<span style='font-weight:500;color:#8B4513'>Proposed</span>",
+      replace: "@<span style='font-weight:500;color:#8B4513'>PROPOSED</span>",
     },
     {
       pattern: /@withdrawn/gi,
-      replace: "@<span style='font-weight:500;color:#8B4513'>Withdrawn</span>",
+      replace: "@<span style='font-weight:500;color:#8B4513'>WITHDRAWN</span>",
     },
   ];
   private overlayRef: OverlayRef;
