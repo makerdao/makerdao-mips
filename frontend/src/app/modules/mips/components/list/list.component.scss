@@ -843,7 +843,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 
       .title,
       .title a {
-        color: #d6daea;
+        color: #d6daea !important;
       }
 
       .content {
@@ -880,35 +880,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         }
       }
     }
-
-    //   .content {
-    //     font-weight: normal;
-    //     font-size: 12px;
-    //     color: #31394d;
-    //     margin-top: 20px;
-    //   }
-    //   .more {
-    //     cursor: pointer;
-    //     margin-top: 14px;
-    //     font-weight: bold;
-    //     font-size: 12px;
-    //     color: #748aa1;
-    //     float: left;
-    //     min-width: fit-content;
-    //     padding: 0;
-    //     min-height: 15px;
-    //     line-height: normal;
-
-    //     img {
-    //       margin-right: 8px;
-    //     }
-    //   }
-
-    //   app-social {
-    //     float: right;
-    //     margin-top: 14px;
-    //   }
-    // }
 
     ::ng-deep {
       a,
