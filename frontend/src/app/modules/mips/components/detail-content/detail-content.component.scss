@@ -449,6 +449,33 @@ p {
 }
 
 .preview {
+  &.preview-dark {
+    background: #0e1521 !important;
+
+    .triangleUp,
+    .triangleDown {
+      border-color: #0e1521 !important;
+    }
+
+    .mipComponentTitle,
+    .mipName {
+      color: #c9cee4 !important;
+    }
+
+    .mipSumary,
+    .mipComponentSumary,
+    .mipComponentMipName {
+      color: #849aaf !important;
+    }
+
+    .thinRectangle {
+      background-color: #478ded !important;
+    }
+    .fadeThinRectangle {
+      background: linear-gradient(#478ded 20%, #0e1521) !important;
+    }
+  }
+
   width: 410px;
   height: auto;
   text-align: left;
@@ -824,15 +851,13 @@ p {
       }
 
       tr:nth-child(odd),
-      tr:nth-child(odd)>td {
+      tr:nth-child(odd) > td {
         color: #b8c5d3 !important;
         background-color: #1a202b !important;
-
-        
       }
 
       tr:nth-child(even),
-      tr:nth-child(even)>td {
+      tr:nth-child(even) > td {
         color: #b8c5d3 !important;
         background-color: #0e1521 !important;
       }

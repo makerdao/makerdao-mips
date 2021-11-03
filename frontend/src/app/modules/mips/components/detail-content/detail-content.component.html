@@ -132,7 +132,7 @@
 <ng-template #preview let-data>
   <section
     class="preview"
-    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp }"
+    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp,'preview-dark':darkMode }"
     #previewRef
   >
     <div
@@ -148,7 +148,7 @@
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            src="./assets/images/makerLogo.svg"
+            [src]="darkMode? './assets/images/makerLogo_dark.svg': './assets/images/makerLogo.svg'"
           />
         </div>
 
@@ -172,7 +172,7 @@
           <div class="thinRectangle"></div>
           <img
             class="mipComponentLogo"
-            src="../assets/images/mipComponentLogo.svg"
+            [src]="darkMode? '../assets/images/mipComponentLogo_dark.svg':'../assets/images/mipComponentLogo.svg'"
           />
         </div>
         <div class="mipComponentTitle">
@@ -206,7 +206,7 @@
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            src="./assets/images/makerLogo.svg"
+            [src]="darkMode? './assets/images/makerLogo_dark.svg': './assets/images/makerLogo.svg'"
           />
         </div>
 
