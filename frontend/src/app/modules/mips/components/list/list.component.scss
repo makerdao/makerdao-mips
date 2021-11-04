@@ -870,7 +870,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       &.subproposal-card-subset {
         span,
         span>* {
-          color: #478DED;
+          color: #478DED !important;
         }
 
         .arrow-wrapper {
