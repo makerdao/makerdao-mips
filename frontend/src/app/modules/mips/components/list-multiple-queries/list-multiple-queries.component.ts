@@ -10,6 +10,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -75,7 +76,8 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     orderText: string;
     orderObj: Order;
   }>();
-
+  @Input() darkMode: boolean = false;
+  
   constructor(
     private mipsService: MipsService,
     private orderService: OrderService,

@@ -50,6 +50,6 @@
   [hideParent]="hideParentValue" [dataSource]="mips" [paginationTotal]="total" (send)="onSendPagination()"
   (sendOrder)="onSendOrder($event)" [showHead]="true" [darkMode]="darkModeService.getDarkMode()"></app-list>
 <app-list-mipset-mode *ngIf="mipsetMode" (changeOrder)="changeOrder($event)"></app-list-mipset-mode>
-<app-list-multiple-queries *ngIf="!mipsetMode && multipleQueries" (changeOrder)="changeOrder($event)">
+<app-list-multiple-queries *ngIf="!mipsetMode && multipleQueries" (changeOrder)="changeOrder($event)"[darkMode]="darkModeService.getDarkMode()">
 </app-list-multiple-queries>
 <app-button-top></app-button-top>
