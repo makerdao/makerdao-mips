@@ -26,7 +26,7 @@
     class="arrowContainer"
   >
     <img
-    *ngIf="!(isOpen && darkModeService.getDarkMode())"
+      *ngIf="!(isOpen && darkModeService.getDarkMode())"
       class="arrow arrow-light"
       [ngClass]="{ rotateUp: isOpen, rotateDown: !isOpen }"
       [src]="
@@ -85,7 +85,10 @@
       [openedIndex]="openedIndexChild"
       [isOpen]="openedIndexChild === i"
     >
-      <span *ngIf="child.img" class="imageMenuWrapper"
+      <span
+        *ngIf="child.img"
+        class="imageMenuWrapper"
+        [ngClass]="{ 'imageMenuWrapperDark': darkModeService.getDarkMode() }"
         ><img [src]="child.img" class="imageMenu" />{{ child.name }}</span
       >
       <span *ngIf="!child.img">{{ child.name }}</span>

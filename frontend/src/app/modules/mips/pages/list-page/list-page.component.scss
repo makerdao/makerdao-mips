@@ -9,6 +9,12 @@
       color: #98c0f5;
     }
 
+    & ~ app-list-subset {
+      .subsetColumn {
+        border-color: #2f80ed !important;
+      }
+    }
+
     & ~ app-list-mipset-mode,
     & ~ app-list-multiple-queries {
       .maker-container {
@@ -62,6 +68,11 @@
 
           .borderBottom {
             background: #31394d !important;
+            width: 100%;
+            height: 1px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
           }
         }
 
@@ -222,4 +233,3 @@ app-md-checkbox-mobile {
     justify-content: flex-end;
   }
 }
-

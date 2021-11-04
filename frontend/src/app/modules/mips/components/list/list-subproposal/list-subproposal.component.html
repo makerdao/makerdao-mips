@@ -46,7 +46,10 @@
           <div
             class="cover"
             [matTooltip]="element[column]"
-            [matTooltipClass]="{ 'mat-tooltip': true,'tooltip-darkmode':darkModeService.getDarkMode() }"
+            [matTooltipClass]="{
+              'mat-tooltip': true,
+              'tooltip-darkmode': darkModeService.getDarkMode()
+            }"
             #tooltip="matTooltip"
             (mouseover)="tooltip.show()"
             (mouseleave)="tooltip.hide()"
@@ -65,8 +68,9 @@
         mat-cell
         *matCellDef="let element"
         (click)="onNavigateToDetails(element.mipName)"
-        style="cursor: pointer;"
+        style="cursor: pointer;position:relative;"
       >
+        <div class="borderBottom"></div>
         <div class="space-status"></div>
         <app-status
           [type]="getStatusType(element.status)"
@@ -80,13 +84,15 @@
         mat-cell
         *matCellDef="let element"
         (click)="onNavigateToDetails(element.mipName)"
-        style="cursor: pointer;"
+        style="cursor: pointer;position: relative;"
       >
+      <div class="borderBottom"></div>
         <div class="space-status"></div>
-        <app-social 
-        votingPortalLink="{{element?.votingPortalLink}}"
-        forumLink="{{element?.forumLink}}"
-        [githubLink]="element.filename"></app-social>
+        <app-social
+          votingPortalLink="{{ element?.votingPortalLink }}"
+          forumLink="{{ element?.forumLink }}"
+          [githubLink]="element.filename"
+        ></app-social>
       </td>
     </span>
     <span *ngIf="column == 'pos'">
@@ -111,6 +117,7 @@
         *matCellDef="let element"
         (click)="onNavigateToDetails(element.mipName)"
       >
+        <div class="borderBottom"></div>
         <div style="cursor: pointer;">
           <a class="summary" *ngIf="selected != element._id"
             ><br />
