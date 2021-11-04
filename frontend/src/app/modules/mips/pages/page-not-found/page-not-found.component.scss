@@ -9,12 +9,11 @@
 }
 
 .background {
-  content: url("../../../../../assets/images/404-page-not-found-dark.png");
+  content: url("../../../../../assets/images/404-page-not-found-dark-mobile.png");
   width: 100%;
   object-fit: cover;
   top: 0;
   height: 100%;
-  object-position: calc(50% - 110px);
 }
 
 img {
@@ -107,17 +106,15 @@ div {
   }
 }
 
-@media (min-width: 500px) {
-  .background {
-    object-position: center !important;
-  }
-}
-
 @media (min-width: 769px) {
   :host {
     height: fit-content;
     min-height: 75vh;
     margin: -40px 0;
+  }
+
+  .background {
+    content: url("../../../../../assets/images/404-page-not-found-dark.png");
   }
 
   img {
