@@ -1,4 +1,4 @@
-<div class="footer">
+<div class="footer" [ngClass]="{'footer-dark':darkModeService.getDarkMode()}">
   <div class="logo">
     <img src="../../../assets/images/logo_l.svg" />
     <img src="../../../assets/images/logo_r.svg" />
@@ -15,6 +15,12 @@
       <a class="social" href="https://forum.makerdao.com/" target="_blank">
       <img class="forum" src="../../../assets/images/forum_white.svg" />
       Forum
+      </a>      
+    </span>
+    <span>
+      <a class="social" href="https://vote.makerdao.com/" target="_blank">
+      <img class="vote" src="../../../assets/images/voters-dark.svg" />
+      Voters
       </a>      
     </span>
   </div>
