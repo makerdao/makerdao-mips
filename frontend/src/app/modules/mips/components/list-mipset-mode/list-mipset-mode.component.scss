@@ -6,6 +6,11 @@ table {
   width: 100%;
 }
 
+.centerVertically{
+  display: flex;
+  align-items: center;
+}
+
 .headerContent {
   display: flex;
   flex-direction: row;

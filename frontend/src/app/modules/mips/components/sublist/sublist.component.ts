@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 import { FilterService } from '../../services/filter.service';
 import { MipsService } from '../../services/mips.service';
 import { OrderService } from '../../services/order.service';
@@ -81,6 +82,7 @@ export class SublistComponent implements OnInit, OnChanges {
     private mipsService: MipsService,
     private cdr: ChangeDetectorRef,
     private searchService: SearchService,
+    public darkModeService:DarkModeService,
     private filterService: FilterService
   ) {}
 

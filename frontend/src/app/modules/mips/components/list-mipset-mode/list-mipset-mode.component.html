@@ -71,7 +71,7 @@
           }"
         >
           {{ element[column] | tagMipset | titlecase }}
-          <div>
+          <div class="centerVertically">
             <button
               class="arrow-container"
               [disabled]="element.loadingSubproposals"
@@ -159,7 +159,7 @@
             {{ itemMipset.mipset | tagMipset | titlecase }}</span
           >
         </div>
-        <div class="subproposalsButtonWrapper">
+        <div class="subproposalsButtonWrapper centerVertically">
           <button
             class="arrow-container"
             [disabled]="false"
@@ -262,7 +262,7 @@
               mobile="true"
             ></app-social>
             <div style="clear: both;"></div>
-            <div class="subproposalsButtonWrapper">
+            <div class="subproposalsButtonWrapper centerVertically">
               <button
                 mat-icon-button
                 *ngIf="
@@ -321,7 +321,7 @@
                       {{ itemSubset.subset + ": " + itemSubset.title }}</span
                     >
                   </div>
-                  <div class="subproposalsButtonWrapper">
+                  <div class="subproposalsButtonWrapper centerVertically">
                     <button
                       mat-icon-button
                       *ngIf="
