@@ -10,8 +10,13 @@
 />
 <img
   *ngIf="darkModeService.getDarkMode()"
-  class="background"
+  class="background mobile"
   src="../../../../../assets/images/404-page-not-found-dark.png"
+/>
+<img
+  *ngIf="darkModeService.getDarkMode()"
+  class="background no-mobile"
+  src="../../../../../assets/images/404-page-not-found-dark-mobile.png"
 />
 <div class="center-card" [ngClass]="{'card-center-dark':darkModeService.getDarkMode()}">
   <h1>OOPS!</h1>

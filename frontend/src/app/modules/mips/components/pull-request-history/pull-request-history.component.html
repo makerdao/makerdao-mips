@@ -1,9 +1,9 @@
 <div class="container">
   <p class="title">{{'Recent Changes' | translate}}</p>
   <div class="space-1">
-    <img class="logo" src="../../../../../assets/images/pull.svg" />
+    <img class="logo" [src]="darkModeService.getDarkMode?'../../../../../assets/images/pull_dark.svg':'../../../../../assets/images/pull.svg'" />
     <span class="label">{{pullrequest.open}} {{'Open' | translate}}</span>
-    <img class="logo check" src="../../../../../assets/images/check.png" />
+    <img class="logo check" [src]="darkModeService.getDarkMode?'../../../../../assets/images/check_dark.svg':'../../../../../assets/images/check.png'" />
     <span class="label">{{pullrequest.close}} {{'Closed'| translate}}</span>
   </div>
   <hr>

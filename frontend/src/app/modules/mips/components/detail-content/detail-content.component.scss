@@ -449,7 +449,7 @@ p {
 }
 
 .preview {
-  &.preview-dark {
+  &.preview-dark::ng-deep {
     background: #0e1521 !important;
 
     .triangleUp {
@@ -461,12 +461,17 @@ p {
     }
 
     .mipComponentTitle,
-    .mipName {
-      color: #c9cee4 !important;
-    }
-
-    .mipSumary,
     .mipComponentSumary,
+    .mipName{
+      color: #c9cee4 !important;
+
+    }
+    .smartLinksContainer.mipName .mipSumary{
+      color: #c9cee4 !important;
+      font-size: 14px !important;
+      font-weight: normal !important;
+    }
+    .mipSumary,
     .mipComponentMipName {
       color: #849aaf !important;
     }

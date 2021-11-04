@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 import {environment as env} from 'src/environments/environment';
 
@@ -14,7 +15,9 @@ export class PullRequestHistoryComponent implements OnInit {
 
   githubURL: string;
 
-  constructor() {
+  constructor(
+    public darkModeService:DarkModeService
+  ) {
     this.githubURL = env.githubURL;
   }
 

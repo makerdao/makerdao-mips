@@ -51,6 +51,10 @@
           background-color: #31394d !important;
           color: #b8c5d3 !important;
 
+          hr {
+            background-color: #505f7c !important;
+          }
+
           .header {
             color: #5c99f0 !important;
           }
@@ -64,10 +68,6 @@
       }
       app-references {
         .container {
-          hr{
-            background-color: #505F7C !important;
-          }
-
           .info,
           .info a {
             color: #2f80ed !important;

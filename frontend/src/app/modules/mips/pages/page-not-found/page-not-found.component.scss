@@ -9,7 +9,7 @@
 }
 
 .background{
-  content: url("../../../../../assets/images/404-page-not-found-dark.png");
+  content: url("../../../../../assets/images/404-page-not-found-dark-mobile.svg");
   width: 100%;
   object-fit: cover;
   top: 0;
@@ -103,6 +103,12 @@ div {
     cursor: pointer;
     margin-top: 20px;
     height: 25px;
+  }
+}
+
+@media (min-width: 500px) {
+ .background{
+    content: url("../../../../../assets/images/404-page-not-found-dark.png");
   }
 }
 
