@@ -1,5 +1,15 @@
-<div class="container">
-  <p class="title" [ngClass]="{ hide: mobileSearch }">
+<app-news></app-news>
+
+<div class="container"
+[ngClass]="{  'list-page-container-dark': darkModeService.getDarkMode()}"
+>
+  <p
+    class="title"
+    [ngClass]="{
+      hide: mobileSearch,
+      'title-dark': darkModeService.getDarkMode()
+    }"
+  >
     {{ (mipsetMode ? "MIP Sets" : activeMenuLinkName) | translate }}
   </p>
   <div class="filtering" [ngClass]="{
@@ -14,7 +24,8 @@
       (open)="onOpenMobileSearch($event)" [value]="search" [showListSearch]="showListSearch"
       [listSearchItems]="listSearchMip" (loadMoreMipSuggestions)="onLoadMoreMipsSuggestions()"
       [loadingMipsSuggestions]="loadingMipsSuggestions" [error]="sintaxError" [errorMessage]="errorMessage"
-      [placeHolder]="'e.g $ AND(#process, #mip-set)'" (clickSearchItem)="onNavigateToMipDetails($event)">
+      [placeHolder]="'e.g $ AND(#process, #mip-set)'" (clickSearchItem)="onNavigateToMipDetails($event)"
+      [darkMode]="darkModeService.getDarkMode()">
     </app-search-mobile>
     <app-order-mobile class="mobile" (sendOrder)="onSendOrder($event)" [orderByField]="orderObj.field"
       [orderDirection]="orderObj.direction"></app-order-mobile>
@@ -28,7 +39,7 @@
       [showListSearch]="showListSearch" [value]="search" [listSearchItems]="listSearchMip"
       (loadMoreMipSuggestions)="onLoadMoreMipsSuggestions()" [loadingMipsSuggestions]="loadingMipsSuggestions"
       [error]="sintaxError" [errorMessage]="errorMessage" [placeHolder]="'e.g $ AND(#process, #mip-set)'"
-      (clickSearchItem)="onNavigateToMipDetails($event)">
+      (clickSearchItem)="onNavigateToMipDetails($event)" [darkMode]=" darkModeService.getDarkMode()">
     </app-search>
     <app-filter style="display: none;" (send)="onSendFilters()"></app-filter>
   </div>
@@ -37,8 +48,8 @@
   [ngStyle]="{ display: showFilterList ? 'block' : 'none' }" #filterList></app-filter-list>
 <app-list *ngIf="!mipsetMode && !multipleQueries" [loading]="loading" [moreToLoad]="moreToLoad"
   [hideParent]="hideParentValue" [dataSource]="mips" [paginationTotal]="total" (send)="onSendPagination()"
-  (sendOrder)="onSendOrder($event)" [showHead]="true"></app-list>
+  (sendOrder)="onSendOrder($event)" [showHead]="true" [darkMode]="darkModeService.getDarkMode()"></app-list>
 <app-list-mipset-mode *ngIf="mipsetMode" (changeOrder)="changeOrder($event)"></app-list-mipset-mode>
-<app-list-multiple-queries *ngIf="!mipsetMode && multipleQueries" (changeOrder)="changeOrder($event)">
+<app-list-multiple-queries *ngIf="!mipsetMode && multipleQueries" (changeOrder)="changeOrder($event)"[darkMode]="darkModeService.getDarkMode()">
 </app-list-multiple-queries>
 <app-button-top></app-button-top>

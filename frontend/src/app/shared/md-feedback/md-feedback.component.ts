@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FeedbackService } from 'src/app/modules/mips/services/feedback.service';
 import { MipsService } from 'src/app/modules/mips/services/mips.service';
 import IFeedback from 'src/app/modules/mips/types/feedback';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 import { MdFeedbackDialogComponent } from './md-feedback-dialog/md-feedback-dialog.component';
 
 @Component({
@@ -21,6 +22,7 @@ export class MdFeedbackComponent implements OnInit {
   constructor(
     private mipsService: MipsService,
     public dialog: MatDialog,
+    public darkModeService:DarkModeService,
     private feedbackService: FeedbackService
   ) {}
 
@@ -53,7 +55,7 @@ export class MdFeedbackComponent implements OnInit {
         top: '30px',
         right: window.innerWidth <= 500 ? '' : '40px',
       },
-      panelClass: 'feedbackPanelClass',
+      panelClass: this.darkModeService.getDarkMode() ? 'darkModeFeddbackPanelClass':'feedbackPanelClass',
       maxWidth: '90vw',
     });
 

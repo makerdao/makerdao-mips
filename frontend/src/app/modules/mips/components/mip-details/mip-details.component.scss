@@ -10,6 +10,12 @@
   padding: 30px 30px 10px;
   margin-bottom: 10px;
 
+  &.container-dark{
+    .label{
+      color: #B8C5D3 !important;
+    }
+  }
+
   .title {
     font-size: 16px;
     color: #000000;

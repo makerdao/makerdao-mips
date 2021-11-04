@@ -21,7 +21,7 @@ import { LangInterceptor } from './interceptors/lang.interceptor';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -51,6 +51,7 @@ import { MatButtonModule } from '@angular/material/button';
         deps: [HttpClient]
       }
     }),
+    MatTooltipModule,
     MatButtonModule
   ],
   providers: [

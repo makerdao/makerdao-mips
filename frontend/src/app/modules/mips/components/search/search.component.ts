@@ -13,14 +13,7 @@ import {
   TemplateRef,
   SimpleChanges,
 } from '@angular/core';
-import {
-  from,
-  fromEvent,
-  Observable,
-  ObservableInput,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { SmartSearchService } from '../../services/smart-search.service';
@@ -58,11 +51,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
   @Input() listSearchItems = [];
   @Output() clickSearchItem = new Subject<any>();
   @Input() value: string;
+  @Input() darkMode: boolean;
   isQueryMode: boolean = false;
   positionHelpPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
   isOpenHelpPopup: boolean = false;
-  helpIconDark: string = '../../../../../assets/images/help_icon.svg';
+  helpIconGray: string = '../../../../../assets/images/help_icon.svg';
   helpIconBlue: string = '../../../../../assets/images/help_icon_blue.svg';
+  helpIconDark: string = '../../../../../assets/images/help_icon_dark.svg';
+
   @Input() error: boolean = false;
   @Input() errorMessage: string = '';
   options = [];
@@ -90,11 +86,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
     },
     {
       pattern: /@accepted/gi,
-      replace: "@<span style='font-weight:500;color:#27AE60'>Accepted</span>",
+      replace: "@<span style='font-weight:500;color:#27AE60'>ACCEPTED</span>",
     },
     {
       pattern: /@rejected/gi,
-      replace: "@<span style='font-weight:500;color:#EB5757'>Rejected</span>",
+      replace: "@<span style='font-weight:500;color:#EB5757'>REJECTED</span>",
     },
     {
       pattern: /@rfc/gi,
@@ -102,24 +98,24 @@ export class SearchComponent implements OnInit, AfterViewInit {
     },
     {
       pattern: /@archive/gi,
-      replace: "@<span style='font-weight:500;color:#748AA1'>Archive</span>",
+      replace: "@<span style='font-weight:500;color:#748AA1'>ARCHIVE</span>",
     },
     {
       pattern: /@obsolete/gi,
-      replace: "@<span style='font-weight:500;color:#CBAB48'>Obsolete</span>",
+      replace: "@<span style='font-weight:500;color:#CBAB48'>OBSOLETE</span>",
     },
     {
       pattern: /@Formal\sSubmission/gi,
       replace:
-        "@<span style='font-weight:500;color:#9B51E0'>Formal Submission</span>",
+        "@<span style='font-weight:500;color:#9B51E0'>FORMAL SUBMISSION</span>",
     },
     {
       pattern: /@proposed/gi,
-      replace: "@<span style='font-weight:500;color:#8B4513'>Proposed</span>",
+      replace: "@<span style='font-weight:500;color:#8B4513'>PROPOSED</span>",
     },
     {
       pattern: /@withdrawn/gi,
-      replace: "@<span style='font-weight:500;color:#8B4513'>Withdrawn</span>",
+      replace: "@<span style='font-weight:500;color:#8B4513'>WITHDRAWN</span>",
     },
   ];
   private overlayRef: OverlayRef;
@@ -134,6 +130,18 @@ export class SearchComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.darkMode) {
+      this.format = this.format.map((item) => {
+        if (item.pattern.source === '@rfc') {
+          return {
+            ...item,
+            replace: item.replace.replace('#F2994A', '#FFBA88'),
+          };
+        } else {
+          return item;
+        }
+      });
+    }
     this.control.setValue(this.value);
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
@@ -155,7 +163,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
       if (propName === 'listSearchItems') {
         const chng = changes[propName];
 
-        if (((chng.currentValue?.length && !chng.previousValue?.length) || (!chng.currentValue?.length && chng.previousValue?.length)) && this.overlayRef && !this.overlayRef?.hasAttached()) {
+        if (
+          ((chng.currentValue?.length && !chng.previousValue?.length) ||
+            (!chng.currentValue?.length && chng.previousValue?.length)) &&
+          this.overlayRef &&
+          !this.overlayRef?.hasAttached()
+        ) {
           this.onDisplayMipsSugestion();
         }
 
@@ -437,28 +450,28 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     switch (val) {
       case 'accepted':
-        style.color = '#27AE60';
+        style.color = this.darkMode ? '#5BDA90' : '#27AE60';
         break;
       case 'rejected':
-        style.color = '#EB5757';
+        style.color = this.darkMode ? '#FD8787' : '#EB5757';
         break;
       case 'rfc':
-        style.color = '#F2994A';
+        style.color = this.darkMode ? '#FFBA88' : '#F2994A';
         break;
       case 'obsolete':
-        style.color = '#CBAB48';
+        style.color = this.darkMode ? '#B5B12A' : '#CBAB48';
         break;
       case 'formal submission':
-        style.color = '#9B51E0';
+        style.color = this.darkMode ? '#9B51E0' : '#9B51E0';
         break;
       case 'archive':
-        style.color = '#748AA1';
+        style.color = this.darkMode ? '#748AA1' : '#748AA1';
         break;
       case 'proposed':
         style.color = '#8B4513';
         break;
       case 'withdrawn':
-        style.color = '#8B4513';
+        style.color = this.darkMode ? '#8B4513' : '#8B4513';
         break;
 
       default:
@@ -482,7 +495,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
           originY: 'bottom',
           overlayX: 'start',
           overlayY: 'top',
-        }
+        },
       ]);
     const width = (this.textBoxWrapper
       .nativeElement as HTMLDivElement).getBoundingClientRect().width;
@@ -500,7 +513,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.viewContainerRef
     );
     this.overlayRef.attach(template);
-    overlayClickOutside(this.overlayRef, this.textBoxWrapper.nativeElement).subscribe(() => {
+    overlayClickOutside(
+      this.overlayRef,
+      this.textBoxWrapper.nativeElement
+    ).subscribe(() => {
       this.overlayRef.detach();
     });
   }

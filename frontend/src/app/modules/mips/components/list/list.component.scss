@@ -1,5 +1,6 @@
 table {
   width: 100%;
+  background-color: transparent;
 }
 
 mat-paginator {
@@ -218,12 +219,8 @@ th {
 //----- test
 
 /* Structure */
-.maker-container {
-  position: relative;
-  box-shadow: 0px 1px 4px #e5e9f2;
-}
 
-.loading-height-fixed{
+.loading-height-fixed {
   min-height: 50vh;
 }
 
@@ -231,10 +228,6 @@ th {
   position: relative;
   max-height: 400px;
   overflow: auto;
-}
-
-table {
-  width: 100%;
 }
 
 .maker-loading-shade {
@@ -606,6 +599,12 @@ a {
   font-size: 14px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: rgba(26, 171, 155, 0.9);
+
+  &.tooltip-darkmode {
+    background-color: #31394d !important;
+    color: #adccf7 !important;
+    border-radius: 6px !important;
+  }
 }
 
 .cover {
@@ -629,12 +628,6 @@ a {
   line-height: 16px;
   color: #1aab9b;
 }
-
-// :host::ng-deep {
-//   td.mat-cell {
-//     border-bottom-color: #1aab9b;
-//   }
-// }
 
 :host::ng-deep.subset-table {
   td.mat-cell {
@@ -821,4 +814,156 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 .shrinkedSubset {
   height: 0;
   overflow: hidden;
+}
+
+// Dark Mode
+.maker-container {
+  position: relative;
+
+  &.maker-container-dark::ng-deep {
+    box-shadow: none;
+
+    .no-result {
+      background-color: #31394d;
+      box-shadow: 0px 1px 4px 0px #e5e9f2;
+      p {
+        color: #748aa1 !important;
+      }
+    }
+
+    .mobile-container {
+      background: #31394d;
+      box-shadow: 0px 4px 4px rgb(0 0 0 / 30%);
+
+      .title,
+      .title a {
+        color: #d6daea !important;
+      }
+
+      .content {
+        color: #b8c5d3;
+
+        markdown {
+          p,
+          em {
+            color: #b8c5d3;
+          }
+        }
+      }
+
+      &.subproposal-card {
+        .title {
+          &,
+          a {
+            color: #2f80ed !important;
+          }
+        }
+      }
+
+      &.subproposal-card-subset {
+        span,
+        span > * {
+          color: #478ded !important;
+        }
+
+        .arrow-wrapper {
+          svg > path {
+            fill: #478ded !important;
+          }
+        }
+      }
+    }
+
+    ::ng-deep {
+      a,
+      div,
+      td {
+        color: #b8c5d3 !important;
+      }
+
+      .mainTable > tbody > tr > td:first-child {
+        border-bottom: 1px solid #31394d !important;
+      }
+
+      .mat-column-title,
+      .mat-column-summary,
+      .mat-column-status,
+      .mat-column-link {
+        border-bottom: 1px solid #31394d !important;
+      }
+
+      tr.maker-element-row:not(.maker-expanded-row):hover {
+        .mat-column-pos {
+          background: #1a202b !important;
+        }
+
+        .mat-column-title,
+        .mat-column-summary,
+        .mat-column-status,
+        .mat-column-link {
+          background: #202733 !important;
+        }
+      }
+
+      tr.maker-element-row:not(.maker-expanded-row):active {
+        background: #202733 !important;
+      }
+
+      tr {
+        &.maker-element-subset-row {
+          border-bottom-color: #2f80ed !important;
+
+          td {
+            color: #2f80ed !important;
+            border: none;
+          }
+
+          svg > path {
+            fill: #2f80ed !important;
+          }
+        }
+
+        &.maker-element-row td.subproposal-title * {
+          color: #2f80ed !important;
+        }
+
+        .mat-column-title .borderBottom {
+          display: none !important;
+        }
+
+        &.maker-element-subset-row,
+        &.maker-element-row {
+          &:hover,
+          &:active {
+            background: #202733 !important;
+
+            .mat-column-link {
+              background: #202733 !important;
+            }
+
+            // .mat-column-pos {
+            //   background: #1a202b !important;
+            // }
+          }
+        }
+      }
+
+      thead {
+        background-color: #31394d;
+        span {
+          color: #98c0f5 !important;
+        }
+      }
+
+      table {
+        background-color: #1a202b;
+      }
+
+      .variable-binding {
+        p {
+          color: #b8c5d3 !important;
+        }
+      }
+    }
+  }
 }

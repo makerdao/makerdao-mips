@@ -1,6 +1,6 @@
 <div class="wrapper">
 
-<div class="container">
+<div class="container" [ngClass]="{'container-dark':darkMode}">
   <div class="row space">
     <ul class="links">
       <li>
@@ -45,5 +45,5 @@
   </div>
 </div>
 
-<app-details-mobiles-buttons *ngIf="sections"  class="mobileIndex" [sourceData]="sections" [mip]="mip"></app-details-mobiles-buttons>
+<app-details-mobiles-buttons *ngIf="sections" [darkMode]="darkMode" class="mobileIndex" [sourceData]="sections" [mip]="mip"></app-details-mobiles-buttons>
 </div>

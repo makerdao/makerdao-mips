@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
-import { MarkdownService } from 'ngx-markdown';
 import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 import { Language } from 'src/app/data-types/languages';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 const YAML = require('yaml');
 @Component({
   selector: 'app-details-page',
@@ -38,7 +38,7 @@ export class DetailsPageComponent implements OnInit {
     private mipsService: MipsService,
     private activedRoute: ActivatedRoute,
     private router: Router,
-    private markdownService: MarkdownService,
+    public darkModeService:DarkModeService,
     private langService: LangService,
     private urlService: UrlService
   ) {}

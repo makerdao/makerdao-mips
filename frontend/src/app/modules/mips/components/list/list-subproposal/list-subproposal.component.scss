@@ -177,14 +177,14 @@ th {
   max-width: 150px;
   padding-right: 30px;
   width: 50%;
-  border-bottom: 1px solid #ebedf4 !important;
+  border-bottom: 1px solid #ebedf4 ;
 }
 
 .mat-column-status {
   width: 17%;
   max-width: 20px;
   padding-right: 30px;
-  border-bottom: 1px solid #ebedf4 !important;
+  border-bottom: 1px solid #ebedf4 ;
 }
 
 .mat-column-pos {
@@ -205,7 +205,7 @@ th {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-bottom: 1px solid #ebedf4 !important;
+  border-bottom: 1px solid #ebedf4 ;
 }
 
 //---------------End Expand oficial
@@ -592,6 +592,12 @@ a {
   font-size: 14px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: rgba(26, 171, 155, 0.9);
+  
+  &.tooltip-darkmode{
+    background-color:#31394D !important;
+    color: #ADCCF7 !important;
+    border-radius: 6px !important;
+  }
 }
 
 .cover {

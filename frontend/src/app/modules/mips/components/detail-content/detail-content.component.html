@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'container-dark':darkMode}">
   <div class="row">
     <div *ngIf="mip && !mip?.proposal">
       <span *ngIf="mip?.title" class="title-bold">{{ mip?.mipName }}: </span
@@ -132,7 +132,7 @@
 <ng-template #preview let-data>
   <section
     class="preview"
-    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp }"
+    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp,'preview-dark':darkMode }"
     #previewRef
   >
     <div
@@ -148,7 +148,7 @@
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            src="./assets/images/makerLogo.svg"
+            [src]="darkMode? './assets/images/makerLogo_dark.svg': './assets/images/makerLogo.svg'"
           />
         </div>
 
@@ -172,7 +172,7 @@
           <div class="thinRectangle"></div>
           <img
             class="mipComponentLogo"
-            src="../assets/images/mipComponentLogo.svg"
+            [src]="darkMode? '../assets/images/mipComponentLogo_dark.svg':'../assets/images/mipComponentLogo.svg'"
           />
         </div>
         <div class="mipComponentTitle">
@@ -201,12 +201,12 @@
       ></div>
     </div>
 
-    <div *ngIf="data.typeOfView === 'mipName'" class="smartLinksContainer">
+    <div *ngIf="data.typeOfView === 'mipName'" class="smartLinksContainer mipName">
       <div class="mipComponentMipNameContainer">
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            src="./assets/images/makerLogo.svg"
+            [src]="darkMode? './assets/images/makerLogo_dark.svg': './assets/images/makerLogo.svg'"
           />
         </div>
 
@@ -283,7 +283,9 @@
   [cdkConnectedOverlayBackdropClass]="'MipContentOverlayBackdropClass'"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div @enterLeaveSmooth style="width: 100%;" class="container popup">
+  <div @enterLeaveSmooth style="width: 100%;" class="container popup"
+  [ngClass]="{'popup-dark':darkMode}"
+  >
     <div class="menuContainer row social">
       <div class="tooltip">
         <img

@@ -11,6 +11,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-feedback-dialog',
@@ -26,6 +27,7 @@ export class FeedbackDialogComponent implements OnInit {
   });
 
   constructor(
+    public darkModeService:DarkModeService,
     public dialogRef: MatDialogRef<FeedbackDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder

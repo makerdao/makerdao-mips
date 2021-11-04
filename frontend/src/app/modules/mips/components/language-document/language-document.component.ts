@@ -16,6 +16,7 @@ import { Language } from 'src/app/data-types/languages';
 export class LanguageDocumentComponent implements OnChanges {
   @Input() languagesAvailables: any[];
   @Input() documentLanguage: Language;
+  @Input() darkMode: boolean;
   @Output('updateDocumentLanguage') updateDocumentLanguage: EventEmitter<
     any
   > = new EventEmitter();

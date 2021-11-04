@@ -1,6 +1,7 @@
 :host {
   font-style: normal;
   font-weight: 500;
+  padding-left: 30px;
 }
 
 .container {
@@ -448,6 +449,47 @@ p {
 }
 
 .preview {
+  &.preview-dark::ng-deep {
+    background: #0e1521 !important;
+
+    .triangleUp {
+      border-bottom-color: #0e1521 !important;
+    }
+
+    .triangleDown {
+      border-top-color: #0e1521 !important;
+    }
+
+    .mipComponentTitle,
+    .mipComponentSumary,
+    .mipName {
+      font-style: normal !important;
+      color: #c9cee4 !important;
+
+      em{
+
+      font-style: normal !important;
+      }
+    }
+    .smartLinksContainer.mipName .mipSumary {
+      font-style: normal !important;
+      color: #c9cee4 !important;
+      font-size: 14px !important;
+      font-weight: normal !important;
+    }
+    .mipSumary,
+    .mipComponentMipName {
+      color: #849aaf !important;
+    }
+
+    .thinRectangle {
+      background-color: #478ded !important;
+    }
+    .fadeThinRectangle {
+      background: linear-gradient(#478ded 20%, #0e1521) !important;
+    }
+  }
+
   width: 410px;
   height: auto;
   text-align: left;
@@ -684,6 +726,8 @@ p {
     }
 
     .mipComponentSumary {
+
+      font-style: normal !important;
       padding: 0 8px;
       font-size: 14px;
       line-height: 20px;
@@ -698,6 +742,11 @@ p {
   }
 }
 
+.container-dark .linksIconsWrapperMobile {
+  background-color: #31394d !important;
+  color: #adccf7 !important;
+}
+
 .linksIconsWrapperMobile {
   cursor: pointer;
   background-color: white;
@@ -707,10 +756,26 @@ p {
   justify-content: center;
   width: 28px;
   height: 28px;
+  padding: 0 5px;
 }
 
 .container.popup {
   padding: 0;
+
+  &.popup-dark {
+    &,
+    .menuContainer {
+      background-color: #31394d !important;
+      color: #adccf7 !important;
+      box-shadow: 0px 6px 20px 0px #0000004d !important;
+    }
+
+    .tooltip .tooltiptext {
+      background-color: #31394d !important;
+      color: #adccf7 !important;
+      box-shadow: 0px 6px 20px 0px #0000004d !important;
+    }
+  }
 
   .menuContainer {
     background-color: white;
@@ -723,6 +788,7 @@ p {
     .tooltip {
       margin: 15px 0;
     }
+
     img.votingIcon,
     img.forum {
       margin-left: 0;
@@ -759,6 +825,10 @@ p {
   .container:not(.popup) {
     margin-top: 20px;
   }
+
+  .container.container-dark {
+    padding: 0;
+  }
 }
 
 @media screen and (max-width: 1023px),
@@ -768,5 +838,77 @@ p {
   }
   .linksIconsWrapperMobile {
     display: flex;
+  }
+}
+
+//Dark Mode
+
+.container {
+  &.container-dark {
+    background: #1a202b;
+    box-shadow: none;
+    padding: 0;
+
+    .title-bold {
+      color: #5c99f0;
+    }
+    .title {
+      color: #98c0f5;
+    }
+
+    &::ng-deep.variable-binding {
+      hr {
+        background-color: #3e4a60;
+      }
+
+      th,
+      th * {
+        color: #5c99f0 !important;
+      }
+
+      tr:nth-child(odd),
+      tr:nth-child(odd) > td {
+        color: #b8c5d3 !important;
+        background-color: #1a202b !important;
+      }
+
+      tr:nth-child(even),
+      tr:nth-child(even) > td {
+        color: #b8c5d3 !important;
+        background-color: #0e1521 !important;
+      }
+
+      p,
+      ul,
+      ol,
+      & {
+        color: #b8c5d3;
+      }
+
+      h1,
+      h2 {
+        .anchor,
+        & {
+          color: #5c99f0;
+        }
+      }
+
+      h3,
+      h4,
+      h5,
+      h6 {
+        .anchor,
+        & {
+          color: #98c0f5;
+        }
+      }
+    }
+  }
+}
+
+:host::ng-deep .smartLinksContainer .mipComponenSumary .mipComponentSumary {
+  p,
+  em {
+    font-style: normal !important;
   }
 }

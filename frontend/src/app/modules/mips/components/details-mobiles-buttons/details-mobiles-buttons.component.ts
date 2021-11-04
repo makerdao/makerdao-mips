@@ -24,7 +24,7 @@ export class DetailsMobilesButtonsComponent implements OnInit {
   @Input() mip;
   positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
   active: string;
-
+  @Input() darkMode: boolean = false;
   constructor() {}
 
   ngOnInit(): void {

@@ -2,12 +2,15 @@
   display: inline-block;
   background-color: #fff;
   border-radius: 5px;
-  // box-shadow: 0px 1px 4px #e5e9f2;
   margin: 0 auto ;
 }
 
 :host(.activeChild) {
   box-shadow: none;
+}
+
+:host(.app-nav-dark) {
+  background-color: transparent !important;
 }
 
 .NavMenu {
@@ -63,4 +66,30 @@
       }
     }
   }
+}
+
+.darkModeToggler {
+  height: 30px;
+  border-radius: 50%;
+  margin-left: 20px;
+  cursor: pointer;
+
+  .hoverIcon {
+    display: none;
+  }
+
+  &:hover {
+    .hoverIcon {
+      display: block;
+    }
+    .defaultIcon {
+      display: none;
+    }
+  }
+}
+
+::ng-deep .tooltip-darkmode-toggler {
+  background-color:#31394D !important;
+  color: #ADCCF7 !important;
+  border-radius: 6px !important;
 }

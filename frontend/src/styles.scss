@@ -11,6 +11,13 @@ body {
 }
 // body { margin: 0; font-family: Roboto; background: #F5F6FA;}
 
+.dark-body {
+  color: #f5f6fa !important;
+  background: #1A202B !important;
+
+ 
+}
+
 .mat-tooltip-green {
   color: white;
   font-size: 14px;
@@ -42,4 +49,10 @@ body {
 .panelClass {
   transition: all 0.4s ease-in-out;
   height: auto;
+}
+
+@media (max-width: 768px) {
+  .panelClass{
+    transform: translateY(-5px);
+  }
 }

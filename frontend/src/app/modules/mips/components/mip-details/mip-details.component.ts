@@ -22,7 +22,8 @@ export class MipDetailsComponent implements OnInit {
   @Input() replaces: string;
   @Input() pollAddress: string;
   @Input() tags: string[];
-
+  @Input() darkMode: boolean;
+  
   constructor(private statusService: StatusService) { }
 
   ngOnInit(): void {

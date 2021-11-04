@@ -4,6 +4,7 @@ import { FeedbackService } from '../../modules/mips/services/feedback.service';
 import { LangService } from '../../services/lang/lang.service';
 import { MenuService } from '../../services/menu/menu.service';
 import { UrlService } from '../../services/url/url.service';
+import { DarkModeService } from '../../services/dark-mode/dark-mode.service';
 import Menu from '../../data-types/menu';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 
@@ -31,6 +32,7 @@ export class NavMenuComponent implements OnInit {
     private menuService: MenuService,
     private urlService: UrlService,
     private feedbackService: FeedbackService,
+    public darkModeService: DarkModeService,
     private langService: LangService
   ) {}
 
@@ -89,6 +91,10 @@ export class NavMenuComponent implements OnInit {
       }
       this.sortLangItems();
     });
+  }
+
+  toggleDarkMode(){
+    this.darkModeService.toggleDarkMode();
   }
 
   swapLang(index: number) {

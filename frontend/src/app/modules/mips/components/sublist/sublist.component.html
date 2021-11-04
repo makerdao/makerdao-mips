@@ -96,7 +96,7 @@
           <div
             class="cover"
             [matTooltip]="element[column]"
-            [matTooltipClass]="{ 'mat-tooltip': true }"
+            [matTooltipClass]="{ 'mat-tooltip': true,'tooltip-darkmode':darkModeService.getDarkMode() }"
             #tooltip="matTooltip"
             (mouseover)="tooltip.show()"
             (mouseleave)="tooltip.hide()"
@@ -160,7 +160,7 @@
             ><br />
             <markdown
               class="variable-binding"
-              [data]="element.paragraphSummary"
+              [data]="element.paragraphSummary || element.sentenceSummary"
             ></markdown>
           </a>
         </div>
@@ -209,6 +209,7 @@
         "
       >
         <app-list-subset
+          [darkMode]="darkMode"
           [dataSourceSubsetRows]="element.subsetRows"
           [subproposalsGroup]="element.subproposalsGroup"
         ></app-list-subset>

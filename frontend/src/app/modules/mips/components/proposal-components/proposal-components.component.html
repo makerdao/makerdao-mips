@@ -1,37 +1,43 @@
-<div class="container">
+<div
+  class="container"
+  [ngClass]="{ 'container-dark': darkMode }"
+>
   <div class="content" #sectionLinks>
-    <p class="header">{{titleSidebar | translate}}</p>
+    <p class="header">{{ titleSidebar | translate }}</p>
     <div *ngFor="let element of sourceData; let index = index">
       <div>
         <p>
-          <a *ngIf="showlevelOne && element.depth == 1"
+          <a
+            *ngIf="showlevelOne && element.depth == 1"
             [id]="idBySection(element.heading)"
             class="titleLevelOne"
             (click)="scroll(getLinkBySection(element))"
-            [ngClass]="{active: active === idBySection(element.heading)}"
-            >
-            {{element.heading}}</a>
+            [ngClass]="{ active: active === idBySection(element.heading) }"
+          >
+            {{ element.heading }}</a
+          >
 
-          <a *ngIf="element.depth == 2"
+          <a
+            *ngIf="element.depth == 2"
             [id]="idBySection(element.heading)"
             class="title"
-            [ngClass]="{active: active === idBySection(element.heading)}"
+            [ngClass]="{ active: active === idBySection(element.heading) }"
             (click)="scroll(getLinkBySection(element))"
-            >
-            {{element.heading}}</a>
+          >
+            {{ element.heading }}</a
+          >
 
-          <a *ngIf="element.depth == 3"
+          <a
+            *ngIf="element.depth == 3"
             [id]="idBySection(element.heading)"
             class="sub-title"
             (click)="scroll(getLinkBySection(element))"
-            [ngClass]="{active: active === idBySection(element.heading)}"
-            >
-            {{element.heading}}</a>
+            [ngClass]="{ active: active === idBySection(element.heading) }"
+          >
+            {{ element.heading }}</a
+          >
         </p>
       </div>
     </div>
   </div>
 </div>
-
-
-

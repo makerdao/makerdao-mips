@@ -1,6 +1,99 @@
 .container {
-  margin: 30px 60px;
+  margin: 0 60px 30px;
   min-height: 75vh;
+
+  &.container-dark {
+    ::ng-deep {
+      & {
+        .type--ACCEPTED {
+          border: 1px solid #5bda90 !important;
+          color: #5bda90 !important;
+        }
+
+        .type--REJECTED {
+          border: 1px solid #fd8787 !important;
+          color: #fd8787 !important;
+        }
+
+        .type--ARCHIVE {
+          border: 1px solid #748aa1 !important;
+          color: #748aa1 !important;
+        }
+
+        .type--RFC {
+          border: 1px solid #ffba88 !important;
+          color: #ffba88 !important;
+        }
+
+        .type--OBSOLETE {
+          border: 1px solid #b5b12a !important;
+          color: #b5b12a !important;
+        }
+
+        .type--FS {
+          border: 1px solid #9b51e0 !important;
+          color: #9b51e0 !important;
+        }
+
+        .type--NONE {
+          border: 1px solid #e5e9f2 !important;
+          color: #e5e9f2 !important;
+        }
+
+        .type--DEFAULT {
+          border: 1px solid #8b4513 !important;
+          color: #8b4513 !important;
+        }
+
+        .type--EMPTY {
+          color: #b8c5d3 !important;
+          background: rgba(188, 190, 199, 0.3);
+          border: 1px solid rgba(116, 138, 161, 0.5);
+        }
+      }
+
+      code,
+      pre {
+        background: #31394D  !important;
+        color: #849AAF !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      .iconScrollTopWrapper {
+        background: #2f80ed !important;
+
+        .darkArrow {
+          display: block !important;
+        }
+
+        .lightArrow {
+          display: none !important;
+        }
+      }
+
+      .tooltiptext {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+      }
+
+      .tabs-container .tabs-item {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+        box-shadow: none;
+      }
+
+      .iconWrapper {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+      }
+
+      .container.proposal {
+        background-color: #31394d !important;
+        color: #adccf7 !important;
+      }
+    }
+  }
 }
 
 #feedback {
@@ -10,13 +103,13 @@
 
 @media screen and (max-width: 500px) {
   .container {
-    margin: 19px 15px;
+    margin: 0 15px 19px;
   }
 }
 
 @media screen and (min-width: 1920px) {
   .container {
-    margin: 40px 210px;
+    margin: 0 210px 40px;
   }
 }
 

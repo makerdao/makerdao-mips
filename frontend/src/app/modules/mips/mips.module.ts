@@ -41,7 +41,6 @@ import { AutocompleteContentDirective } from './directives/autocomplete-content.
 import { AutocompleteDirective } from './directives/autocomplete.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from './pipes/filter.pipe';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import { FeedbackDialogComponent } from './components/feedback/feedback-dialog/feedback-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ContenteditableValueAccessorModule } from '@tinkoff/angular-contenteditable-accessor';
@@ -65,7 +64,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MdRadioButtonComponent } from './components/md-radio-button/md-radio-button.component';
 import { LanguageDocumentComponent } from './components/language-document/language-document.component';
 import { ListMultipleQueriesComponent } from './components/list-multiple-queries/list-multiple-queries.component';
-
+import { NewsComponent } from './components/news/news.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -113,7 +113,8 @@ import { ListMultipleQueriesComponent } from './components/list-multiple-queries
     AscDesComponent,
     MdRadioButtonComponent,
     LanguageDocumentComponent,
-    ListMultipleQueriesComponent
+    ListMultipleQueriesComponent,
+    NewsComponent
   ],
   imports: [
     CommonModule,
@@ -124,11 +125,11 @@ import { ListMultipleQueriesComponent } from './components/list-multiple-queries
     MatPaginatorModule,
     InfiniteScrollModule,
     MatIconModule,
+    MatTooltipModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),
     OverlayModule,
-    MatTooltipModule,
     MatDialogModule,
     ReactiveFormsModule,
     ContenteditableValueAccessorModule,

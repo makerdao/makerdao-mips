@@ -1,12 +1,12 @@
-<div class="container">
+<div class="container" [ngClass]="{'container-dark':darkMode}" >
   <p class="title" style="margin-bottom: 10px;">
     {{ "Languages" | translate }}
   </p>
   <hr />
   <span class="row data-container">
-    <span class="infoNoLink">{{ languagesNames[documentLanguage] }}</span>
+    <span class="infoNoLink itemSeleced">{{ languagesNames[documentLanguage] }}</span>
     <span class="checkmark">
-      <img src="assets/images/check.svg">
+      <img src="assets/images/check.svg" />
     </span>
   </span>
   <div *ngFor="let item of languagesList">

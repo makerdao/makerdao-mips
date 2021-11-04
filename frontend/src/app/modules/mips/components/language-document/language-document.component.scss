@@ -10,6 +10,16 @@
   padding: 30px 30px 16px;
   margin-bottom: 10px;
 
+  &.container-dark {
+    .itemSeleced {
+      color: #f5f6fa !important;
+    }
+
+    .info {
+      color: #2f80ed !important;
+    }
+  }
+
   .title {
     font-size: 16px;
     color: #000000;
@@ -111,8 +121,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  img{
+
+  img {
     cursor: default !important;
   }
 }

@@ -111,6 +111,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     summary: false,
   };
 
+
   get expandedItems() {
     return this._expandedItems;
   }
@@ -126,6 +127,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   subscriptionFilterService: Subscription;
   @Input() showHead: boolean = true;
   @Input() query: string;
+  @Input() darkMode=false;
 
   markdown = `## Markdown __rulez__!
 ---

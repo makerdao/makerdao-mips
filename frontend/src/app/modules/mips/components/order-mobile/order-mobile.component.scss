@@ -32,6 +32,34 @@
   top: 100%;
   right: 0;
 
+  &.content-dark::ng-deep {
+    background: #0e1521;
+    box-shadow: none;
+
+    input:checked ~ svg > path {
+      fill: #ebedf4 !important;
+    }
+
+    input:checked ~ .label {
+      color: #ebedf4 !important;
+    }
+
+    input:not(:checked) ~ svg > path {
+      fill: #748aa1 !important;
+    }
+
+    input:not(:checked) ~ .label {
+      color: #748aa1 !important;
+    }
+
+    .reset {
+      box-shadow: none !important;
+      background-color: #0e1521 !important;
+      color: #505f7c !important;
+      border: 1px solid #505f7c !important;
+    }
+  }
+
   p {
     font-weight: bold;
     font-size: 12px;

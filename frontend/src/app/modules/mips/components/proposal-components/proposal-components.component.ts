@@ -26,13 +26,14 @@ export class ProposalComponentsComponent implements AfterViewInit {
   prefixIdLinkSection: string = 'sectionLink-';
   @ViewChild('sectionLinks') sectionLinks;
   active: any;
-
+  @Input() darkMode:boolean = false;
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
     private langService: LangService,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.translate.setDefaultLang('en');
   }

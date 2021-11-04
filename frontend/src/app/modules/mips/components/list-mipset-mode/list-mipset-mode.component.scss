@@ -6,6 +6,11 @@ table {
   width: 100%;
 }
 
+.centerVertically{
+  display: flex;
+  align-items: center;
+}
+
 .headerContent {
   display: flex;
   flex-direction: row;
@@ -560,8 +565,8 @@ a {
   position: absolute;
   right: 30px;
   cursor: pointer;
-  // top: 24px;
-  // transform: translateY(-50%);
+  top: 24px;
+  transform: translateY(-50%);
   background: none;
   border: none;
   outline: none;
@@ -831,4 +836,16 @@ app-list {
 
 app-sublist {
   width: 100%;
+}
+
+:host::ng-deep {
+  .maker-container-dark {
+    tr.mat-header-row {
+      background-color: #31394d !important;
+    }
+
+    .maker-element-mipset-row {
+      background-color: #0e1521 !important;
+    }
+  }
 }

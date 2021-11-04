@@ -8,6 +8,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { StatusService } from '../../../services/status.service';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-list-subproposal',
@@ -27,6 +28,7 @@ import { StatusService } from '../../../services/status.service';
 export class ListSubproposalComponent implements OnInit {
   @Input() subsetChildrenActivate: boolean = true;
   @Input() dataSource: any;
+  @Input() darkMode:boolean=false;
   columnsToDisplaySubsetChildren = ['pos', 'title', 'summary', 'status', 'link'];
   selected = '-1';
   expandedElementSubsetChildren: DataElement | null;
@@ -45,7 +47,12 @@ export class ListSubproposalComponent implements OnInit {
     this._expandedItems = { ...value };
   }
 
-  constructor(private router: Router, private statusService: StatusService) {}
+  constructor(private router: Router, private statusService: StatusService,
+    public darkModeService:DarkModeService
+    ) {
+
+    console.log({darkMode:this.darkMode})
+  }
 
   ngOnInit(): void {}
 

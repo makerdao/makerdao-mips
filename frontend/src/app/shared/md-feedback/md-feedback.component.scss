@@ -2,11 +2,23 @@
   opacity: 0 !important;
 }
 
-::ng-deep .feedbackPanelClass {
-  .mat-dialog-container {
-    padding: 28px 32px 30px;
-    border-radius: 5px;
-    height: fit-content;
-    width: 359px;
+::ng-deep {
+  .feedbackPanelClass {
+    .mat-dialog-container {
+      padding: 28px 32px 30px;
+      border-radius: 5px;
+      height: fit-content;
+      width: 359px;
+    }
+  }
+
+  .darkModeFeddbackPanelClass{
+    .mat-dialog-container {
+      padding: 28px 32px 30px;
+      border-radius: 5px;
+      height: fit-content;
+      width: 359px;
+      background: #0E1521 !important;
+    }
   }
 }

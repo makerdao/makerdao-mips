@@ -24,6 +24,58 @@
       top: 10px;
     }
   }
+
+  &.container-dark {
+    .tabs-item {
+      background: #31394d !important;
+      color: #748aa1 !important;
+
+      &.tab-active {
+        background: #478ded !important;
+        color: white !important;
+      }
+    }
+
+    &::ng-deep {
+      app-proposal-components,
+      app-language-document,
+      app-mip-details,
+      app-references,
+      app-pull-request-history {
+        .title {
+          color: #98c0f5 !important;
+        }
+
+        .container {
+          box-shadow: none !important;
+          background-color: #31394d !important;
+          color: #b8c5d3 !important;
+
+          hr {
+            background-color: #505f7c !important;
+          }
+
+          .header {
+            color: #5c99f0 !important;
+          }
+
+          .info,
+          .info a {
+            color: #f5f6fa !important;
+            font-weight: 500 !important;
+          }
+        }
+      }
+      app-references {
+        .container {
+          .info,
+          .info a {
+            color: #2f80ed !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 .hidden {
@@ -106,6 +158,10 @@ app-mips-pagination {
   }
 }
 
+.details-column {
+  padding-left: 30px;
+}
+
 @media screen and (max-width: 1199px) {
   .hide-on-mobile {
     display: none !important;
@@ -114,7 +170,7 @@ app-mips-pagination {
   app-detail-content {
     order: 2;
   }
-  
+
   .details-column {
     position: static !important;
   }
@@ -152,6 +208,6 @@ app-mips-pagination {
   }
 }
 
-.hide{
+.hide {
   display: none !important;
 }
