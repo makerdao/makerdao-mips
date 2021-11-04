@@ -629,12 +629,6 @@ a {
   color: #1aab9b;
 }
 
-// :host::ng-deep {
-//   td.mat-cell {
-//     border-bottom-color: #1aab9b;
-//   }
-// }
-
 :host::ng-deep.subset-table {
   td.mat-cell {
     border-bottom: none;
@@ -857,20 +851,19 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         }
       }
 
-      &.subproposal-card{
-        .title{
-
+      &.subproposal-card {
+        .title {
           &,
-          a{
-            color: #2F80ED !important;
+          a {
+            color: #2f80ed !important;
           }
         }
       }
 
       &.subproposal-card-subset {
         span,
-        span>* {
-          color: #478DED !important;
+        span > * {
+          color: #478ded !important;
         }
 
         .arrow-wrapper {
@@ -886,6 +879,17 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       div,
       td {
         color: #b8c5d3 !important;
+      }
+
+      .mainTable > tbody > tr > td:first-child {
+        border-bottom: 1px solid #31394d !important;
+      }
+
+      .mat-column-title,
+      .mat-column-summary,
+      .mat-column-status,
+      .mat-column-link {
+        border-bottom: 1px solid #31394d !important;
       }
 
       tr.maker-element-row:not(.maker-expanded-row):hover {
@@ -906,6 +910,27 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       }
 
       tr {
+        &.maker-element-subset-row {
+          border-bottom-color: #2f80ed !important;
+
+          td {
+            color: #2f80ed !important;
+            border: none;
+          }
+
+          svg > path {
+            fill: #2f80ed !important;
+          }
+        }
+
+        &.maker-element-row td.subproposal-title * {
+          color: #2f80ed !important;
+        }
+
+        .mat-column-title .borderBottom {
+          display: none !important;
+        }
+
         &.maker-element-subset-row,
         &.maker-element-row {
           &:hover,
