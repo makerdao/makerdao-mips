@@ -911,7 +911,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 
       tr {
         &.maker-element-subset-row {
-          border-bottom-color: #2f80ed !important;
+          border-bottom:1px solid #2f80ed !important;
 
           td {
             color: #2f80ed !important;
@@ -927,9 +927,9 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
           color: #2f80ed !important;
         }
 
-        .mat-column-title .borderBottom {
-          display: none !important;
-        }
+        // .mat-column-title .borderBottom {
+        //   display: none !important;
+        // }
 
         &.maker-element-subset-row,
         &.maker-element-row {

@@ -96,7 +96,7 @@
       &.firstLevelActive {
         color: #b8c5d3 !important;
         font-weight: 500;
-        
+
         &.subMenu,
         &.subMenuActive {
           background-color: #31394d !important;
@@ -272,7 +272,6 @@
 
 @media (min-width: 768px) {
   :host {
-    
     a {
       &.firstLevel {
         padding: 10px 0px 10px 40px;
@@ -436,6 +435,10 @@
   font-size: 14px;
   line-height: 16px;
   color: #000000;
+
+  &.imageMenuWrapperDark {
+    color: #f5f6fa;
+  }
 
   .imageMenu {
     object-fit: cover;
