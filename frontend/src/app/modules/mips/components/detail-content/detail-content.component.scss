@@ -452,9 +452,12 @@ p {
   &.preview-dark {
     background: #0e1521 !important;
 
-    .triangleUp,
+    .triangleUp {
+      border-bottom-color: #0e1521 !important;
+    }
+    
     .triangleDown {
-      border-color: #0e1521 !important;
+      border-top-color: #0e1521 !important;
     }
 
     .mipComponentTitle,

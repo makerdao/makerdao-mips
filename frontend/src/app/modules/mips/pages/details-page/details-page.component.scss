@@ -62,6 +62,18 @@
           }
         }
       }
+      app-references {
+        .container {
+          hr{
+            background-color: #505F7C !important;
+          }
+
+          .info,
+          .info a {
+            color: #2f80ed !important;
+          }
+        }
+      }
     }
   }
 }
