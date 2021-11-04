@@ -8,12 +8,13 @@
   margin: -40px 0;
 }
 
-.background{
-  content: url("../../../../../assets/images/404-page-not-found-dark-mobile.svg");
+.background {
+  content: url("../../../../../assets/images/404-page-not-found-dark.png");
   width: 100%;
   object-fit: cover;
   top: 0;
   height: 100%;
+  object-position: calc(50% - 110px);
 }
 
 img {
@@ -57,7 +58,7 @@ div {
   &.card-center-dark {
     h1,
     p {
-      color: #EBEDF4;
+      color: #ebedf4;
     }
 
     button {
@@ -107,8 +108,8 @@ div {
 }
 
 @media (min-width: 500px) {
- .background{
-    content: url("../../../../../assets/images/404-page-not-found-dark.png");
+  .background {
+    object-position: center !important;
   }
 }
 
