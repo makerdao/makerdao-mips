@@ -8,6 +8,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { StatusService } from '../../../services/status.service';
+import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-list-subproposal',
@@ -46,7 +47,9 @@ export class ListSubproposalComponent implements OnInit {
     this._expandedItems = { ...value };
   }
 
-  constructor(private router: Router, private statusService: StatusService) {
+  constructor(private router: Router, private statusService: StatusService,
+    public darkModeService:DarkModeService
+    ) {
 
     console.log({darkMode:this.darkMode})
   }

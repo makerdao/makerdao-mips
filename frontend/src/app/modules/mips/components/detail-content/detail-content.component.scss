@@ -463,7 +463,13 @@ p {
     .mipComponentTitle,
     .mipComponentSumary,
     .mipName {
+      font-style: normal !important;
       color: #c9cee4 !important;
+
+      em{
+
+      font-style: normal !important;
+      }
     }
     .smartLinksContainer.mipName .mipSumary {
       font-style: normal !important;
@@ -720,6 +726,8 @@ p {
     }
 
     .mipComponentSumary {
+
+      font-style: normal !important;
       padding: 0 8px;
       font-size: 14px;
       line-height: 20px;
