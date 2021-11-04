@@ -837,3 +837,15 @@ app-list {
 app-sublist {
   width: 100%;
 }
+
+:host::ng-deep {
+  .maker-container-dark {
+    tr.mat-header-row {
+      background-color: #31394d !important;
+    }
+
+    .maker-element-mipset-row {
+      background-color: #0e1521 !important;
+    }
+  }
+}

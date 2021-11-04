@@ -1,4 +1,4 @@
-<div class="maker-container">
+<div class="maker-container" [ngClass]="{'maker-container-dark':darkModeService.getDarkMode()}">
   <table mat-table [dataSource]="null" multiTemplateDataRows class="no-mobile">
     <ng-container
       matColumnDef="{{ column }}"
