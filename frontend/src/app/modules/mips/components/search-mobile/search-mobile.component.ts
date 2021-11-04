@@ -449,28 +449,28 @@ export class SearchMobileComponent implements OnInit {
 
     switch (val) {
       case 'accepted':
-        style.color = '#27AE60';
+        style.color = this.darkMode ? '#5BDA90' : '#27AE60';
         break;
       case 'rejected':
-        style.color = '#EB5757';
+        style.color = this.darkMode ? '#FD8787' : '#EB5757';
         break;
       case 'rfc':
-        style.color = '#F2994A';
+        style.color = this.darkMode ? '#FFBA88' : '#F2994A';
         break;
       case 'obsolete':
-        style.color = '#CBAB48';
+        style.color = this.darkMode ? '#B5B12A' : '#CBAB48';
         break;
       case 'formal submission':
-        style.color = '#9B51E0';
+        style.color = this.darkMode ? '#9B51E0' : '#9B51E0';
         break;
       case 'archive':
-        style.color = '#748AA1';
+        style.color = this.darkMode ? '#748AA1' : '#748AA1';
         break;
       case 'proposed':
         style.color = '#8B4513';
         break;
       case 'withdrawn':
-        style.color = '#8B4513';
+        style.color = this.darkMode ? '#8B4513' : '#8B4513';
         break;
 
       default:

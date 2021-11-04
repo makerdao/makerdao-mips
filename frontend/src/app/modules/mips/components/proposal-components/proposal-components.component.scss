@@ -27,6 +27,12 @@
         color: white !important;
       }
     }
+
+    .content {
+      p.header {
+        color: #5c99f0;
+      }
+    }
   }
 
   .content {
@@ -102,6 +108,20 @@
 
     &.active {
       display: block;
+    }
+  }
+}
+
+.container.container-dark {
+  .titleLevelOne,
+  .title,
+  .sub-title {
+    &.active {
+      color: #ffffff !important;
+
+      &::before {
+        background-color: #ffffff !important;
+      }
     }
   }
 }
