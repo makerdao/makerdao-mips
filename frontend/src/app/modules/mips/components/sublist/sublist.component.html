@@ -96,7 +96,7 @@
           <div
             class="cover"
             [matTooltip]="element[column]"
-            [matTooltipClass]="{ 'mat-tooltip': true,'tooltip-darkmode':darkMode }"
+            [matTooltipClass]="{ 'mat-tooltip': true,'tooltip-darkmode':darkModeService.getDarkMode() }"
             #tooltip="matTooltip"
             (mouseover)="tooltip.show()"
             (mouseleave)="tooltip.hide()"

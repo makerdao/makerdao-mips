@@ -559,18 +559,24 @@ a {
   }
 }
 
+.dark-body ::ng-deep.mat-tooltip {
+  background-color: #31394d !important;
+  color: #adccf7 !important;
+  border-radius: 6px !important;
+}
+
 ::ng-deep.mat-tooltip {
   color: white;
   font-size: 14px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: rgba(26, 171, 155, 0.9);
 
-    &.tooltip-darkmode{
-      background-color:#31394D !important;
-      color: #ADCCF7 !important;
-      border-radius: 6px !important;
-    }
+  &.tooltip-darkmode {
+    background-color: #31394d !important;
+    color: #adccf7 !important;
+    border-radius: 6px !important;
   }
+}
 
 .cover {
   position: absolute;
