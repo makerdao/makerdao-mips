@@ -51,7 +51,6 @@ export class ListSubproposalComponent implements OnInit {
     public darkModeService:DarkModeService
     ) {
 
-    console.log({darkMode:this.darkMode})
   }
 
   ngOnInit(): void {}
