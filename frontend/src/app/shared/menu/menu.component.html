@@ -6,6 +6,7 @@
   #trigger="cdkOverlayOrigin"
   class="dropdown"
   [ngClass]="{
+    'language-menu':isLanguageMenu,
     'dropdown-dark': darkModeService.getDarkMode(),
     firstLevel: levelMenu === 0 && !isOpen,
     noFirstLevel: levelMenu !== 0 && !isOpen,
@@ -67,6 +68,7 @@
 >
   <div
     [ngClass]="{
+      'language-menu':isLanguageMenu,
       'dropdown-content-first-level': levelMenu === 0,
       'dropdown-content': levelMenu > 0,
       firstFadeInMenuDownAnimation: levelMenu === 0,
@@ -90,7 +92,9 @@
         class="imageMenuWrapper"
         [ngClass]="{ 'imageMenuWrapperDark': darkModeService.getDarkMode(),
         'selected-language':child.activeLangue }"
-        ><img [src]="child.img" class="imageMenu" />{{ child.name }}</span
+        >
+        <!-- <img [src]="child.img" class="imageMenu" /> -->
+        {{ child.name }}</span
       >
       <span *ngIf="!child.img">{{ child.name }}</span>
     </app-menu>

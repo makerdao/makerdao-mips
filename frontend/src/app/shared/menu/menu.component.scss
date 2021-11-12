@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
 
-  a {
+  a{
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
@@ -88,17 +88,17 @@
 
     &.dropdown-dark {
       &.subMenu,
-      &.subMenuActive {
+      &.subMenuActive  {
         background-color: #0e1521 !important;
       }
 
-      &.subMenuActive,
-      &.firstLevelActive {
+      &.subMenuActive ,
+      &.firstLevelActive  {
         color: #b8c5d3 !important;
         font-weight: 500;
 
         &.subMenu,
-        &.subMenuActive {
+        &.subMenuActive  {
           background-color: #31394d !important;
         }
 
@@ -122,7 +122,7 @@
       }
     }
 
-    &.firstLevelActive {
+    &.firstLevelActive  {
       height: 100%;
       display: flex;
       align-items: center;
@@ -213,12 +213,21 @@
 .firstFadeInMenuDownAnimation {
   transform: translateY(20px);
   animation: firstFadeInMenuDown 0.2s;
+  &.language-menu {
+    transform: translateY(15px);
+    animation-duration: 0s;
+  }
 }
 
 @media screen and (max-width: 1024px) {
   .firstFadeInMenuDownAnimation {
     transform: translateY(4px);
     animation: firstFadeInMenuDownMobile 0.2s;
+
+    &.language-menu {
+      transform: translateY(0px);
+      animation-duration: 0s;
+    }
   }
 }
 
@@ -427,21 +436,22 @@
 }
 
 .imageMenuWrapper {
-  display: flex;
-  align-items: center;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
-  color: #000000;
-
+  // display: flex;
+  // align-items: center;
+  // font-family: Roboto;
+  // font-style: normal;
+  font-weight: bold;
+  // font-size: 14px;
+  line-height: 14px;
+  // color: #000000;
+  color: #748AA1;
   &.imageMenuWrapperDark {
     color: #748aa1;
   }
 
   &.selected-language {
     color: #31394d;
+
     &.imageMenuWrapperDark {
       color: #f5f6fa;
     }

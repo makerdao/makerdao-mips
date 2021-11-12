@@ -67,7 +67,7 @@ export class NavMenuComponent implements OnInit {
             this.langService.setCurrentLang(this.menuLang.children[index].id);
             this.swapLang(data);
 
-            // location.reload(); // TODO: make it SPA
+            location.reload(); // TODO: make it SPA
           }
         }
       }
@@ -102,7 +102,7 @@ export class NavMenuComponent implements OnInit {
       }
     });
 
-    console.log(children)
+    console.log(children);
     this.menuLang = {
       ...this.menuLang,
       children,
