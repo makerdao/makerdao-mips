@@ -1,5 +1,6 @@
-:host, a {
-  color: #EBEDF4;
+:host,
+a {
+  color: #ebedf4;
   font-size: 16px;
   font-style: normal;
   &.social {
@@ -8,13 +9,13 @@
 }
 .footer {
   height: 175px;
-  background-color: #31394D;
+  background-color: #31394d;
   text-align: center;
   padding-top: 44px;
   margin-top: 40px;
 
-  &.footer-dark{
-    background-color: #0E1521;
+  &.footer-dark {
+    background-color: #0e1521;
   }
 }
 
@@ -44,13 +45,13 @@
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 310px;
-  color: #748AA1;
-  font-size: 14px;  
+  color: #748aa1;
+  font-size: 14px;
   height: auto;
   text-align: center;
-  
+
   text-align: center;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 5px 0;
@@ -64,4 +65,28 @@
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+@media screen and (max-width: 500px) {
+  .footer {
+    margin-left: -15px;
+    margin-right: -15px;
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 1920px) {
+  .footer {
+    margin-left: -60px;
+    margin-right: -60px;
+    border-radius: 0;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .footer {
+    margin-left: -210px;
+    margin-right: -210px;
+    border-radius: 0;
+  }
 }

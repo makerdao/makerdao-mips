@@ -2,7 +2,7 @@
   display: inline-block;
   background-color: #fff;
   border-radius: 5px;
-  margin: 0 auto ;
+  margin: 0 auto;
 }
 
 :host(.activeChild) {
@@ -11,6 +11,15 @@
 
 :host(.app-nav-dark) {
   background-color: transparent !important;
+}
+
+.internalizationIconDark:hover {
+  border-color: #1e3556;
+}
+
+.internalizationIcon {
+  border-radius: 200px;
+  border: 3px solid transparent;
 }
 
 .NavMenu {
@@ -89,7 +98,7 @@
 }
 
 ::ng-deep .tooltip-darkmode-toggler {
-  background-color:#31394D !important;
-  color: #ADCCF7 !important;
+  background-color: #31394d !important;
+  color: #adccf7 !important;
   border-radius: 6px !important;
 }

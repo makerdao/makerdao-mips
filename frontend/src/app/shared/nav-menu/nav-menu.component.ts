@@ -62,52 +62,34 @@ export class NavMenuComponent implements OnInit {
           let index: number = this.menuLang.children.findIndex(
             (i) => i.id === data.id
           );
+          console.log({ index, data });
+          // if (index !== -1) {
+          //   this.langService.setCurrentLang(this.menuLang.children[index].id);
+          //   this.swapLang(index);
+          //   this.sortLangItems();
 
-          if (index !== -1) {
-            this.langService.setCurrentLang(this.menuLang.children[index].id);
-            this.swapLang(index);
-            this.sortLangItems();
-
-            location.reload(); // TODO: make it SPA
-          }
+          //   location.reload(); // TODO: make it SPA
+          // }
         }
       }
     });
 
     this.menuService.getMenuLang().subscribe((data: any) => {
-      this.menuLang = data;
+      const currentLang = this.langService.lang;
 
-      if (!this.langService.lang) {
-        this.langService.setCurrentLang(this.menuLang.id);
-      } else if (this.langService.lang !== this.menuLang.id) {
-        let index: number = this.menuLang.children.findIndex(
-          (i) => i.id === this.langService.lang
-        );
+      const children = data.children.map((item) =>
+        item.id === currentLang ? { ...item, activeLangue: true } : item
+      );
 
-        if (index !== -1) {
-          this.swapLang(index);
-          this.sortLangItems();
-        }
-      }
-      this.sortLangItems();
+      this.menuLang = {
+        ...data,
+        children,
+      };
     });
   }
 
-  toggleDarkMode(){
+  toggleDarkMode() {
     this.darkModeService.toggleDarkMode();
-  }
-
-  swapLang(index: number) {
-    const dataTemp: Menu = { ...this.menuLang.children[index] };
-    this.menuLang.children[index] = {
-      id: this.menuLang.id,
-      img: this.menuLang.img,
-      name: this.menuLang.name,
-    };
-
-    this.menuLang.id = dataTemp.id;
-    this.menuLang.img = dataTemp.img;
-    this.menuLang.name = dataTemp.name;
   }
 
   sortLangItems() {
