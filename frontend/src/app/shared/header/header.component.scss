@@ -85,8 +85,8 @@
 
 .logoDarkMode {
   background-color: #1a202b !important;
-  &.logoBackgroundColor{
-    background-color: #0E1521 !important;    
+  &.logoBackgroundColor {
+    background-color: #0e1521 !important;
   }
 }
 
@@ -97,7 +97,11 @@
 .logoBackgroundTransparent {
   background-color: transparent;
   &:hover {
-    background-color: #0E1521 !important;
+    background-color: white !important;
+
+    &.logoDarkMode {
+      background-color: #0e1521 !important;
+    }
   }
 }
 

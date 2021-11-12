@@ -63,13 +63,12 @@ export class NavMenuComponent implements OnInit {
             (i) => i.id === data.id
           );
           console.log({ index, data });
-          // if (index !== -1) {
-          //   this.langService.setCurrentLang(this.menuLang.children[index].id);
-          //   this.swapLang(index);
-          //   this.sortLangItems();
+          if (index !== -1) {
+            this.langService.setCurrentLang(this.menuLang.children[index].id);
+            this.swapLang(data);
 
-          //   location.reload(); // TODO: make it SPA
-          // }
+            // location.reload(); // TODO: make it SPA
+          }
         }
       }
     });
@@ -86,6 +85,28 @@ export class NavMenuComponent implements OnInit {
         children,
       };
     });
+  }
+
+  swapLang(data: Menu) {
+    const children = this.menuLang.children.map((item) => {
+      if (item.id === data.id) {
+        return {
+          ...item,
+          activeLangue: true,
+        };
+      } else {
+        return {
+          ...item,
+          activeLangue: false,
+        };
+      }
+    });
+
+    console.log(children)
+    this.menuLang = {
+      ...this.menuLang,
+      children,
+    };
   }
 
   toggleDarkMode() {

@@ -437,11 +437,19 @@
   color: #000000;
 
   &.imageMenuWrapperDark {
-    color: #f5f6fa;
+    color: #748aa1;
+  }
+
+  &.selected-language {
+    color: #31394d;
+    &.imageMenuWrapperDark {
+      color: #f5f6fa;
+    }
   }
 
   .imageMenu {
     object-fit: cover;
+    object-position: top;
     margin-right: 23px;
     margin-left: 2px;
     width: 30px;
