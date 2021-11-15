@@ -1,4 +1,4 @@
-<div class="NavMenu">
+<div class="NavMenu"  (touchstart)="closeMenuOnScroll()" >
   <app-menu
     *ngFor="let item of menu; let i = index"
     [menu]="item"
@@ -36,7 +36,7 @@
     [showArrow]="false"
     [isLanguageMenu]="true"
   >
-    <span>
+    <span style="display: flex;">
       <img
         *ngIf="menuLang"
         class="internalizationIcon"

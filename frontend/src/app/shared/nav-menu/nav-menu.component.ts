@@ -62,7 +62,7 @@ export class NavMenuComponent implements OnInit {
           let index: number = this.menuLang.children.findIndex(
             (i) => i.id === data.id
           );
-          console.log({ index, data });
+          
           if (index !== -1) {
             this.langService.setCurrentLang(this.menuLang.children[index].id);
             this.swapLang(data);
@@ -102,7 +102,6 @@ export class NavMenuComponent implements OnInit {
       }
     });
 
-    console.log(children);
     this.menuLang = {
       ...this.menuLang,
       children,
@@ -161,5 +160,9 @@ export class NavMenuComponent implements OnInit {
     menu.children?.forEach((item) => {
       this.dfs(item);
     });
+  }
+
+  closeMenuOnScroll(){
+    this.openedIndexChild = (-1)
   }
 }

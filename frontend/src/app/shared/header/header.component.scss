@@ -94,13 +94,16 @@
   background-color: white;
 }
 
-.logoBackgroundTransparent {
-  background-color: transparent;
-  &:hover {
-    background-color: white !important;
+@media (hover: hover) {
+  .logoBackgroundTransparent {
+    background-color: transparent;
 
-    &.logoDarkMode {
-      background-color: #0e1521 !important;
+    &:hover {
+      background-color: white !important;
+
+      &.logoDarkMode {
+        background-color: #0e1521 !important;
+      }
     }
   }
 }

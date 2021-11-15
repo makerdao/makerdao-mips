@@ -97,6 +97,17 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .NavMenu {
+    height: 29px;
+  }
+
+  .internalizationIcon {
+    height: 23px !important;
+    width: 23px !important;
+  }
+}
+
 ::ng-deep .tooltip-darkmode-toggler {
   background-color: #31394d !important;
   color: #adccf7 !important;

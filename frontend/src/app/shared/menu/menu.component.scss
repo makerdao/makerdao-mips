@@ -67,7 +67,7 @@
       align-items: center;
       box-sizing: border-box;
       transition: all 0.2s;
-      padding: 14px 0px 14px 28px;
+      padding: 0px 0px 0px 28px;
     }
 
     &.dropdown-dark {
@@ -164,6 +164,7 @@
 
     span {
       position: relative;
+      display: flex;
       width: max-content;
     }
 
@@ -398,11 +399,11 @@
   }
 }
 
-@media (min-width: 500px) {
-  .dropdown-content-first-level {
-    left: 60px;
-  }
-}
+// @media (min-width: 500px) {
+//   .dropdown-content-first-level {
+//     left: 60px;
+//   }
+// }
 
 :host::ng-deep.underline-menu {
   position: relative;
