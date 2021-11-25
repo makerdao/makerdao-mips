@@ -378,13 +378,13 @@ export class MIPsService {
     value: string,
     language: Language
   ): Promise<MIP[]> {
-    if (!language) {
+
       language = Language.English;
-    }
+
 
     switch (field) {
       case "tags":
-        const search = await this.mipsDoc.aggregate([
+       return await this.mipsDoc.aggregate([
           { $unwind: "$tags" },
           {
             $match: {
@@ -398,26 +398,9 @@ export class MIPsService {
           { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
           { $project: { _id: 0, tag: "$tag" } },
         ]);
-    
-        const defaultEnglishResults = await this.mipsDoc.aggregate([
-          { $unwind: "$tags" },
-          {
-            $match: {
-              tags: {
-                $regex: new RegExp(`^${value}`),
-                $options: "i",
-              },
-              language: Language.English,
-            },
-          },
-          { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
-          { $project: { _id: 0, tag: "$tag" } },
-        ]);
-    
-        return this.errorProofCleanArrays(search, defaultEnglishResults);
 
       case "status":
-        const searchStatus= await this.mipsDoc.aggregate([
+        return await this.mipsDoc.aggregate([
           {
             $match: {
               status: {
@@ -436,26 +419,6 @@ export class MIPsService {
           { $project: { _id: 0, status: "$status" } },
         ]);
 
-        const defaultEnglishResultsStatus= await this.mipsDoc.aggregate([
-          {
-            $match: {
-              status: {
-                $regex: new RegExp(`^${value}`),
-                $options: "i",
-              },
-              language: Language.English,
-            },
-          },
-          {
-            $group: {
-              _id: { status: "$status" },
-              status: { $first: "$status" },
-            },
-          },
-          { $project: { _id: 0, status: "$status" } },
-        ]);
-
-        return this.errorProofCleanArrays(searchStatus, defaultEnglishResultsStatus);
       default:
         throw new Error(`Field ${field} invalid`);
     }
