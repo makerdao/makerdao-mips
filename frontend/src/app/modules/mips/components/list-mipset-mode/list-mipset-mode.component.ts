@@ -241,7 +241,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
           this.order,
           this.search,
           filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
         )
         .subscribe(
           (data) => {
@@ -267,7 +267,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
           this.order,
           this.search,
           filter,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
         )
         .toPromise();
       this.mipSets[row.mipset] = data.items;

@@ -852,5 +852,18 @@ app-sublist {
     .maker-element-mipset-row {
       background-color: #0e1521 !important;
     }
+
+    th {
+      &.cdk-column-link,
+      .headerContent {
+        color: #98C0F5;
+      }
+
+      &:hover {
+        .headerContent {
+          color: #98C0F5;
+        }
+      }
+    }
   }
 }
