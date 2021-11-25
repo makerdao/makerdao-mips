@@ -243,6 +243,18 @@ export class MIPsService {
     return source;
   }
 
+  errorProofCleanArrays(testArray:any[], defaultArray: any[]) : any[]{
+
+    const errorProofItems = defaultArray.map((item) => {
+      const existingItem = testArray.find(
+        (selectedItem) => selectedItem._id === item._id
+      );
+      return existingItem || item;
+    });
+
+    return errorProofItems
+  }
+
   buildSmartMongoDBQuery(ast: any): any {
     const or = new RegExp("or", "gi");
     const and = new RegExp("and", "gi");
@@ -372,7 +384,7 @@ export class MIPsService {
 
     switch (field) {
       case "tags":
-        return await this.mipsDoc.aggregate([
+        const search = await this.mipsDoc.aggregate([
           { $unwind: "$tags" },
           {
             $match: {
@@ -386,8 +398,26 @@ export class MIPsService {
           { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
           { $project: { _id: 0, tag: "$tag" } },
         ]);
+    
+        const defaultEnglishResults = await this.mipsDoc.aggregate([
+          { $unwind: "$tags" },
+          {
+            $match: {
+              tags: {
+                $regex: new RegExp(`^${value}`),
+                $options: "i",
+              },
+              language: Language.English,
+            },
+          },
+          { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
+          { $project: { _id: 0, tag: "$tag" } },
+        ]);
+    
+        return this.errorProofCleanArrays(search, defaultEnglishResults);
+
       case "status":
-        return await this.mipsDoc.aggregate([
+        const searchStatus= await this.mipsDoc.aggregate([
           {
             $match: {
               status: {
@@ -406,9 +436,33 @@ export class MIPsService {
           { $project: { _id: 0, status: "$status" } },
         ]);
 
+        const defaultEnglishResultsStatus= await this.mipsDoc.aggregate([
+          {
+            $match: {
+              status: {
+                $regex: new RegExp(`^${value}`),
+                $options: "i",
+              },
+              language: Language.English,
+            },
+          },
+          {
+            $group: {
+              _id: { status: "$status" },
+              status: { $first: "$status" },
+            },
+          },
+          { $project: { _id: 0, status: "$status" } },
+        ]);
+
+        return this.errorProofCleanArrays(searchStatus, defaultEnglishResultsStatus);
       default:
         throw new Error(`Field ${field} invalid`);
     }
+
+  
+
+
   }
 
   async findOneByFileName(filename: string, language: Language): Promise<MIP> {
