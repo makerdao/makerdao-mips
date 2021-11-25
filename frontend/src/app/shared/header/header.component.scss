@@ -224,3 +224,13 @@
     border-radius: 0;
   }
 }
+
+
+@media screen and (min-width: 1025px) {
+  .logo {
+  .menu-wrapper-dark {
+    background-color: transparent !important;
+    box-shadow: none;
+  }
+}
+}
