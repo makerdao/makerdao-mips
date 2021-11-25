@@ -559,14 +559,19 @@ a {
   }
 }
 
+@media (max-width: 768px) {
+  .arrow-container {
+    top: 24px;
+    transform: translateY(-50%);
+  }
+}
+
 .arrow-container {
   height: 35px;
   width: 35px;
   position: absolute;
   right: 30px;
   cursor: pointer;
-  top: 24px;
-  transform: translateY(-50%);
   background: none;
   border: none;
   outline: none;

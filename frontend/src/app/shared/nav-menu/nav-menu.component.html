@@ -1,4 +1,4 @@
-<div class="NavMenu">
+<div class="NavMenu"  (touchstart)="closeMenuOnScroll()" >
   <app-menu
     *ngFor="let item of menu; let i = index"
     [menu]="item"
@@ -34,12 +34,15 @@
     [isOpen]="openedIndexChild === menu.length"
     (opened)="onOpened(menu.length)"
     [showArrow]="false"
+    [isLanguageMenu]="true"
   >
-    <span>
+    <span style="display: flex;">
       <img
-        *ngIf="menuLang && menuLang.img"
-        [src]="menuLang.img"
-        style="margin-right: 23px; margin-left: 2px; width: 30px; height: 21px;"
+        *ngIf="menuLang"
+        class="internalizationIcon"
+        [ngClass]="darkModeService.getDarkMode()?'internalizationIconDark':''"
+        src="./assets/images/internalization-icon.svg"
+        style="margin-right: 23px; margin-left: 2px; width: 26px; height: 26px;"
       />
     </span>
   </app-menu>
