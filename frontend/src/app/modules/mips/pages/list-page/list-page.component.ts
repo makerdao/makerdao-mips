@@ -528,7 +528,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               null,
               null,
               { equals: [{ field: 'mipName', value: item.proposal }] },
-              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink'
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
             )
             .toPromise();
           if (res.items[0]) {
@@ -777,7 +777,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             const cleanedTitle = item.title.replace(/[^\w]*/g, '');
             const cleanedMipName = item.mipName.replace(/[^\w]*/g, '');
 
-            const titleContainsMipsName = cleanedTitle.includes(cleanedMipName);
+            const titleContainsMipsName = cleanedTitle?.includes(cleanedMipName);
 
             return {
               content:
@@ -1030,7 +1030,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderDirection: this.orderObj.direction,
     };
 
-    if (!qp?.search.includes('$')) {
+    if (!qp?.search?.includes('$')) {
       delete qp.hideParents;
       this.hideParentValue = false;
       this.hideParent = true;

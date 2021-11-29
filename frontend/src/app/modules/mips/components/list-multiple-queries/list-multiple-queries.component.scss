@@ -559,14 +559,19 @@ a {
   }
 }
 
+@media (max-width: 768px) {
+  .arrow-container {
+    top: 24px;
+    transform: translateY(-50%);
+  }
+}
+
 .arrow-container {
   height: 35px;
   width: 35px;
   position: absolute;
   right: 30px;
   cursor: pointer;
-  top: 24px;
-  transform: translateY(-50%);
   background: none;
   border: none;
   outline: none;
@@ -846,6 +851,19 @@ app-sublist {
 
     .maker-element-mipset-row {
       background-color: #0e1521 !important;
+    }
+
+    th {
+      &.cdk-column-link,
+      .headerContent {
+        color: #98C0F5;
+      }
+
+      &:hover {
+        .headerContent {
+          color: #98C0F5;
+        }
+      }
     }
   }
 }

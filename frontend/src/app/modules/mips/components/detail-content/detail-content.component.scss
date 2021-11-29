@@ -17,14 +17,17 @@
     color: #31394d;
     font-size: 2em;
     font-weight: normal;
+
     &.mobile {
       margin-top: 10px;
       font-size: 20px;
     }
   }
+
   .sub-title {
     font-size: 20px;
   }
+
   .title-bold {
     font-weight: bold;
     font-size: 2em;
@@ -37,6 +40,7 @@
     font-size: 12px;
     color: #2f80ed;
     margin-left: 7px;
+
     &.a-file {
       font-size: 14px;
     }
@@ -95,7 +99,7 @@
   .social {
     display: flex;
     white-space: nowrap;
-    margin-top: 7px;
+    margin-top: 10px;
     margin-left: 10px;
   }
 }
@@ -286,6 +290,7 @@
     li {
       overflow-wrap: break-word;
     }
+
     overflow-wrap: break-word;
 
     code {
@@ -349,7 +354,7 @@
     background-color: #f5f6fa;
   }
 
-  li + li {
+  li+li {
     margin-top: 0.25em;
   }
 
@@ -426,23 +431,29 @@ p {
 @media screen and (max-width: 768px) {
   .container {
     padding: 25px;
+
     hr {
       margin-top: 20px;
     }
+
     .preamble {
       margin: 0 12px;
       padding: 8px;
     }
   }
+
   .space-3 {
     margin-top: 20px;
   }
+
   .space-4 {
     margin-top: 25px;
   }
+
   .no-mobile {
     display: none;
   }
+
   .mobile {
     display: block;
   }
@@ -466,17 +477,19 @@ p {
       font-style: normal !important;
       color: #c9cee4 !important;
 
-      em{
+      em {
 
-      font-style: normal !important;
+        font-style: normal !important;
       }
     }
+
     .smartLinksContainer.mipName .mipSumary {
       font-style: normal !important;
       color: #c9cee4 !important;
       font-size: 14px !important;
       font-weight: normal !important;
     }
+
     .mipSumary,
     .mipComponentMipName {
       color: #849aaf !important;
@@ -485,6 +498,7 @@ p {
     .thinRectangle {
       background-color: #478ded !important;
     }
+
     .fadeThinRectangle {
       background: linear-gradient(#478ded 20%, #0e1521) !important;
     }
@@ -580,10 +594,12 @@ p {
     opacity: 0;
     transform: translateY(35px);
   }
+
   50% {
     opacity: 0.5;
     transform: translateY(25px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0px);
@@ -595,10 +611,12 @@ p {
     opacity: 0;
     transform: translateY(-35px);
   }
+
   50% {
     opacity: 0.5;
     transform: translateY(-25px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0px);
@@ -609,6 +627,7 @@ p {
   .mipComponentMipNameContainer {
     display: flex;
     align-items: center;
+
     .mipComponentLogoContainer {
       min-width: 30px;
       max-width: 30px;
@@ -647,6 +666,7 @@ p {
         background-color: #76cdc3;
       }
     }
+
     .mipSumary {
       padding: 0 2px;
       font-size: 12px;
@@ -676,6 +696,7 @@ p {
         height: 200%;
         background-color: #76cdc3;
       }
+
       .mipComponentLogo {
         position: absolute;
         width: 20px;
@@ -717,6 +738,7 @@ p {
         height: 100%;
         background: linear-gradient(#76cdc3 20%, #ffffff);
       }
+
       .mipComponentLogo {
         position: absolute;
         width: 20px;
@@ -757,12 +779,14 @@ p {
   width: 28px;
   height: 28px;
   padding: 0 5px;
+  margin-top: 7px;
 }
 
 .container.popup {
   padding: 0;
 
   &.popup-dark {
+
     &,
     .menuContainer {
       background-color: #31394d !important;
@@ -808,6 +832,13 @@ p {
   line-height: 23px;
 }
 
+@media screen and (max-width: 768px) {
+  .linksIconsWrapperMobile {
+    padding: 0;
+    margin-top: 0;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .container:not(.popup) {
     margin-top: 20px;
@@ -816,12 +847,17 @@ p {
   .linksIconsWrapper {
     display: none !important;
   }
+
   .linksIconsWrapperMobile {
     display: flex;
   }
 }
 
 @media screen and (max-width: 1199px) {
+  :host {
+    padding-left: 0;
+  }
+
   .container:not(.popup) {
     margin-top: 20px;
   }
@@ -832,11 +868,13 @@ p {
 }
 
 @media screen and (max-width: 1023px),
-  screen and (min-width: 1200px) and (max-width: 1600px) {
+screen and (min-width: 1200px) and (max-width: 1600px) {
   .linksIconsWrapper {
     display: none !important;
   }
+
   .linksIconsWrapperMobile {
+    padding: 0;
     display: flex;
   }
 }
@@ -852,6 +890,7 @@ p {
     .title-bold {
       color: #5c99f0;
     }
+
     .title {
       color: #98c0f5;
     }
@@ -867,13 +906,13 @@ p {
       }
 
       tr:nth-child(odd),
-      tr:nth-child(odd) > td {
+      tr:nth-child(odd)>td {
         color: #b8c5d3 !important;
         background-color: #1a202b !important;
       }
 
       tr:nth-child(even),
-      tr:nth-child(even) > td {
+      tr:nth-child(even)>td {
         color: #b8c5d3 !important;
         background-color: #0e1521 !important;
       }
@@ -887,6 +926,7 @@ p {
 
       h1,
       h2 {
+
         .anchor,
         & {
           color: #5c99f0;
@@ -897,6 +937,7 @@ p {
       h4,
       h5,
       h6 {
+
         .anchor,
         & {
           color: #98c0f5;
@@ -907,6 +948,7 @@ p {
 }
 
 :host::ng-deep .smartLinksContainer .mipComponenSumary .mipComponentSumary {
+
   p,
   em {
     font-style: normal !important;

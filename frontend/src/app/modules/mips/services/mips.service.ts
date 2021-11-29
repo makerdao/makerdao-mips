@@ -36,9 +36,9 @@ export class MipsService {
 
     if (order !== undefined && order != null && order !== '') {
       const patt = /\b-?mip\b|\b-?mip\s|\s-?mip\s|\s-?mip\b/;
-      order="mipCodeNumber "+order
+ 
       if (!patt.test(order)) {
-        order += ' mip';
+        order += ' mipCodeNumber';
       }
 
       order += ' _id';

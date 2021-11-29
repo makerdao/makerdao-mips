@@ -27,7 +27,8 @@ export class MenuComponent implements OnInit, OnChanges {
   @Output() toggle: Subject<any> = new Subject<any>();
   yDirection = '';
   @Input() showArrow: boolean = true;
-
+  @Input() isLanguageMenu?:boolean=false;
+  
   constructor(
     private menuService: MenuService,
     public darkModeService: DarkModeService

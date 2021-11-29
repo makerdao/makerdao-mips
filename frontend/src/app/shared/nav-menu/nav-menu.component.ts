@@ -62,11 +62,10 @@ export class NavMenuComponent implements OnInit {
           let index: number = this.menuLang.children.findIndex(
             (i) => i.id === data.id
           );
-
+          
           if (index !== -1) {
             this.langService.setCurrentLang(this.menuLang.children[index].id);
-            this.swapLang(index);
-            this.sortLangItems();
+            this.swapLang(data);
 
             location.reload(); // TODO: make it SPA
           }
@@ -75,39 +74,42 @@ export class NavMenuComponent implements OnInit {
     });
 
     this.menuService.getMenuLang().subscribe((data: any) => {
-      this.menuLang = data;
+      const currentLang = this.langService.lang;
 
-      if (!this.langService.lang) {
-        this.langService.setCurrentLang(this.menuLang.id);
-      } else if (this.langService.lang !== this.menuLang.id) {
-        let index: number = this.menuLang.children.findIndex(
-          (i) => i.id === this.langService.lang
-        );
+      const children = data.children.map((item) =>
+        item.id === currentLang ? { ...item, activeLangue: true } : item
+      );
 
-        if (index !== -1) {
-          this.swapLang(index);
-          this.sortLangItems();
-        }
-      }
-      this.sortLangItems();
+      this.menuLang = {
+        ...data,
+        children,
+      };
     });
   }
 
-  toggleDarkMode(){
-    this.darkModeService.toggleDarkMode();
+  swapLang(data: Menu) {
+    const children = this.menuLang.children.map((item) => {
+      if (item.id === data.id) {
+        return {
+          ...item,
+          activeLangue: true,
+        };
+      } else {
+        return {
+          ...item,
+          activeLangue: false,
+        };
+      }
+    });
+
+    this.menuLang = {
+      ...this.menuLang,
+      children,
+    };
   }
 
-  swapLang(index: number) {
-    const dataTemp: Menu = { ...this.menuLang.children[index] };
-    this.menuLang.children[index] = {
-      id: this.menuLang.id,
-      img: this.menuLang.img,
-      name: this.menuLang.name,
-    };
-
-    this.menuLang.id = dataTemp.id;
-    this.menuLang.img = dataTemp.img;
-    this.menuLang.name = dataTemp.name;
+  toggleDarkMode() {
+    this.darkModeService.toggleDarkMode();
   }
 
   sortLangItems() {
@@ -158,5 +160,9 @@ export class NavMenuComponent implements OnInit {
     menu.children?.forEach((item) => {
       this.dfs(item);
     });
+  }
+
+  closeMenuOnScroll(){
+    this.openedIndexChild = (-1)
   }
 }

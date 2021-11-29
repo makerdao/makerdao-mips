@@ -243,6 +243,18 @@ export class MIPsService {
     return source;
   }
 
+  errorProofCleanArrays(testArray:any[], defaultArray: any[]) : any[]{
+
+    const errorProofItems = defaultArray.map((item) => {
+      const existingItem = testArray.find(
+        (selectedItem) => selectedItem._id === item._id
+      );
+      return existingItem || item;
+    });
+
+    return errorProofItems
+  }
+
   buildSmartMongoDBQuery(ast: any): any {
     const or = new RegExp("or", "gi");
     const and = new RegExp("and", "gi");
@@ -366,13 +378,13 @@ export class MIPsService {
     value: string,
     language: Language
   ): Promise<MIP[]> {
-    if (!language) {
+
       language = Language.English;
-    }
+
 
     switch (field) {
       case "tags":
-        return await this.mipsDoc.aggregate([
+       return await this.mipsDoc.aggregate([
           { $unwind: "$tags" },
           {
             $match: {
@@ -386,6 +398,7 @@ export class MIPsService {
           { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
           { $project: { _id: 0, tag: "$tag" } },
         ]);
+
       case "status":
         return await this.mipsDoc.aggregate([
           {
@@ -409,6 +422,10 @@ export class MIPsService {
       default:
         throw new Error(`Field ${field} invalid`);
     }
+
+  
+
+
   }
 
   async findOneByFileName(filename: string, language: Language): Promise<MIP> {
