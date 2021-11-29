@@ -67,14 +67,6 @@ a {
   visibility: visible;
 }
 
-@media screen and (max-width: 500px) {
-  .footer {
-    margin-left: -15px;
-    margin-right: -15px;
-    border-radius: 0;
-  }
-}
-
 @media screen and (max-width: 1920px) {
   .footer {
     margin-left: -60px;
@@ -87,6 +79,14 @@ a {
   .footer {
     margin-left: -210px;
     margin-right: -210px;
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .footer {
+    margin-left: 0;
+    margin-right: 0;
     border-radius: 0;
   }
 }
