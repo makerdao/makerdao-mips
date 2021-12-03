@@ -43,39 +43,12 @@ import { SubproposalsComponent } from '../subproposals/subproposals.component';
       transition(':leave', [animate(100, style({ opacity: 0 }))]),
     ]),
   ],
+    host: {
+     "[class]" : "darkMode ? 'hostDarkMode':''",
+    }
 })
 export class DetailContentComponent
   implements OnInit, OnChanges, AfterViewInit {
-  gitHubUrl = environment.repoUrl;
-  @Input() mdUrl: string | undefined;
-  mdFileName: string = '';
-  openMore:boolean;
-  positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
-  @Input() darkMode: boolean;
-  @Input() mip: any;
-  @Output() headingListUpdate = new EventEmitter();
-
-  urlOriginal: string;
-  links: Link[] = [];
-  countLinks: number = 0;
-  @ViewChild('preview') preview: TemplateRef<any>;
-  overlayRef: OverlayRef | null;
-  templatePortal: TemplatePortal<any>;
-  content: any;
-  triangleUp: boolean;
-  triangleLeft: boolean;
-  triangleCenter: boolean = false;
-  @Input() subproposals: any[] = [];
-  subscription: Subscription;
-  @ViewChild('previewRef') previewRef: ElementRef;
-  subproposalCode: string = '';
-  subproposalTitle: string = '';
-
-  headingStructure: Heading[] = [];
-  subproposalsGroup: any = {};
-
-  smartLinkWindowUp = false;
-  titleMdFile = '';
 
   constructor(
     private markdownService: MarkdownService,
@@ -89,44 +62,36 @@ export class DetailContentComponent
     private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector
   ) {}
+  gitHubUrl = environment.repoUrl;
+  @Input() mdUrl: string | undefined;
+  mdFileName = '';
+  openMore: boolean;
+  positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
+  @Input() darkMode: boolean;
+  @Input() mip: any;
+  @Output() headingListUpdate = new EventEmitter();
 
-  ngOnInit(): void {
-    this.overrideDefaultHeadings();
-    this.getDefaultLinks();
-    this.overrideDefaultTables();
-    this.overrideDefaultImg();
+  urlOriginal: string;
+  links: Link[] = [];
+  countLinks = 0;
+  @ViewChild('preview') preview: TemplateRef<any>;
+  overlayRef: OverlayRef | null;
+  templatePortal: TemplatePortal<any>;
+  content: any;
+  triangleUp: boolean;
+  triangleLeft: boolean;
+  triangleCenter = false;
+  @Input() subproposals: any[] = [];
+  subscription: Subscription;
+  @ViewChild('previewRef') previewRef: ElementRef;
+  subproposalCode = '';
+  subproposalTitle = '';
 
-    this.initPositionPopup()
-  }
+  headingStructure: Heading[] = [];
+  subproposalsGroup: any = {};
 
-  ngAfterViewInit() {
-    if (this.route.snapshot.fragment) {
-      const el = document.getElementById(
-        this.route.snapshot.fragment.toString()
-      );
-
-      this.moveToElement(el);
-    }
-  }
-
-  isTouchDevice() {
-    return (
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0 
-    );
-  }
-
-  setPreviewFeature() {
-    if (!this.isTouchDevice()) {
-      let links = document.getElementsByClassName('linkPreview');
-
-      for (let index = 0; index < links.length; index++) {
-        const element = links.item(index);
-        element.addEventListener('mouseover', this.displayPreview);
-        element.addEventListener('mouseleave', this.closePreview);
-      }
-    }
-  }
+  smartLinkWindowUp = false;
+  titleMdFile = '';
 
   leftPositions: ConnectedPosition[] = [
     {
@@ -197,6 +162,44 @@ export class DetailContentComponent
     },
   ];
 
+  ngOnInit(): void {
+    this.overrideDefaultHeadings();
+    this.getDefaultLinks();
+    this.overrideDefaultTables();
+    this.overrideDefaultImg();
+
+    this.initPositionPopup();
+  }
+
+  ngAfterViewInit() {
+    if (this.route.snapshot.fragment) {
+      const el = document.getElementById(
+        this.route.snapshot.fragment.toString()
+      );
+
+      this.moveToElement(el);
+    }
+  }
+
+  isTouchDevice() {
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0
+    );
+  }
+
+  setPreviewFeature() {
+    if (!this.isTouchDevice()) {
+      const links = document.getElementsByClassName('linkPreview');
+
+      for (let index = 0; index < links.length; index++) {
+        const element = links.item(index);
+        element.addEventListener('mouseover', this.displayPreview);
+        element.addEventListener('mouseleave', this.closePreview);
+      }
+    }
+  }
+
   showOverview(data, posStrategy, leftSide, center) {
     const positionsOfTheSmartLinkWindow: ConnectedPosition[] = center
       ? this.centerPositions
@@ -264,7 +267,7 @@ export class DetailContentComponent
         this.triangleCenter = true;
       }
 
-      let element: HTMLElement = this.previewRef.nativeElement.parentElement
+      const element: HTMLElement = this.previewRef.nativeElement.parentElement
         .parentElement;
       element.style.marginTop = '17px';
       element.style.marginBottom = '17px';
@@ -306,7 +309,7 @@ export class DetailContentComponent
                 .getMipBy('mipName', mipName)
                 .subscribe((data) => {
                   if (data) {
-                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipName' },
@@ -333,7 +336,7 @@ export class DetailContentComponent
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
                   if (data) {
-                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
                     const components = data.components;
                     const mipComponentName =
@@ -383,7 +386,7 @@ export class DetailContentComponent
                 .getMipBy('mipSubproposal', mipSubproposal)
                 .subscribe((data) => {
                   if (data) {
-                    let posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipSubproposal' },
@@ -400,7 +403,7 @@ export class DetailContentComponent
         }
       }
     }
-  };
+  }
 
   closePreview = (e: Event) => {
     if (this.subscription && !this.subscription.closed) {
@@ -414,12 +417,12 @@ export class DetailContentComponent
 
     if (this.smartLinkWindowUp) {
       setTimeout(() => {
-        //To avoid the race condition
+        // To avoid the race condition
 
         this.smartLinkWindowUp = false;
       }, 0);
     }
-  };
+  }
 
   ngOnChanges() {
     if (this.mip && this.mip?.sectionsRaw) {
@@ -428,7 +431,7 @@ export class DetailContentComponent
         : (this.mip?.sectionsRaw as []).join('\n');
 
       if (this.mip?.proposal && this.mip?.title) {
-        let subProposalTitleArray: string[] = this.mip?.title.split(':');
+        const subProposalTitleArray: string[] = this.mip?.title.split(':');
 
         if (subProposalTitleArray.length > 1) {
           this.subproposalCode = subProposalTitleArray[0];
@@ -473,7 +476,7 @@ export class DetailContentComponent
     }
     this.headingStructure = [];
     if (!this.mdUrl) {
-      //On md viewer THERE IS NOT NEED of THIS and may cuse a problem with md relatives links
+      // On md viewer THERE IS NOT NEED of THIS and may cuse a problem with md relatives links
       this.searchMips();
     }
     this.setPreviewFeature();
@@ -482,22 +485,22 @@ export class DetailContentComponent
 
   async appendSubproposalsElements() {
     if (this.subproposals) {
-      let subData = await this.getSubproposals();
-      let subproposals: any[] = subData.items;
+      const subData = await this.getSubproposals();
+      const subproposals: any[] = subData.items;
 
       subproposals.map((item) => {
-        let newItem = this.addSubsetField(item);
+        const newItem = this.addSubsetField(item);
         return newItem;
       });
 
-      let subproposalsGroup: any = this.groupBy('subset', subproposals);
+      const subproposalsGroup: any = this.groupBy('subset', subproposals);
 
       this.sortSubproposalsGroups(subproposalsGroup);
       this.subproposalsGroup = subproposalsGroup;
 
       // DOM manipulation
-      let m: HTMLElement = document.querySelector('.variable-binding');
-      let h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
+      const m: HTMLElement = document.querySelector('.variable-binding');
+      const h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
         'h3'
       );
 
@@ -517,14 +520,14 @@ export class DetailContentComponent
               const { nativeElement } = componentRef.location;
 
               // search in DOM the next component section
-              let found: boolean = false;
+              let found = false;
               let j: number = i + 1;
               while (j < h3s.length && !found) {
                 const nextElement: HTMLHeadingElement = h3s.item(j);
 
                 if (nextElement.innerText.startsWith(this.mip.mipName)) {
                   found = true;
-                  let prev = nextElement.previousElementSibling;
+                  const prev = nextElement.previousElementSibling;
 
                   if (prev.tagName === 'HR') {
                     prev.insertAdjacentElement('beforebegin', nativeElement);
@@ -537,7 +540,7 @@ export class DetailContentComponent
               }
 
               if (j >= h3s.length && !found) {
-                let lastChild = m.lastElementChild;
+                const lastChild = m.lastElementChild;
 
                 if (lastChild.tagName === 'HR') {
                   lastChild.insertAdjacentElement('beforebegin', nativeElement);
@@ -553,13 +556,13 @@ export class DetailContentComponent
   }
 
   addSubsetField = (item: any) => {
-    let subset: string = (item.mipName as string)?.split('SP')[0];
+    const subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
     return item;
-  };
+  }
 
   groupBy(field, arr: any[]): any {
-    let group: any = arr.reduce((r, a) => {
+    const group: any = arr.reduce((r, a) => {
       r[a[field]] = [...(r[a[field]] || []), a];
       return r;
     }, {});
@@ -570,14 +573,14 @@ export class DetailContentComponent
   sortSubproposalsGroups(subproposalsGroup: any) {
     for (const key in subproposalsGroup) {
       if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
-        let element: any[] = subproposalsGroup[key];
+        const element: any[] = subproposalsGroup[key];
         subproposalsGroup[key] = this.sortSubproposalGroup(element);
       }
     }
   }
 
   sortSubproposalGroup(arr: any[]) {
-    return arr.sort(function (a: any, b: any) {
+    return arr.sort(function(a: any, b: any) {
       return (a.mipName as string).includes('SP') &&
         a.mipName.split('SP').length > 1
         ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
@@ -588,8 +591,8 @@ export class DetailContentComponent
   }
 
   getSubproposals() {
-    let order = 'mip mipName';
-    let filter = {
+    const order = 'mip mipName';
+    const filter = {
       contains: [],
       notcontains: [],
       equals: [],
@@ -615,7 +618,7 @@ export class DetailContentComponent
   onError() {
     this.router.navigateByUrl('/');
     setTimeout(() => {
-      //To avoid the race issue
+      // To avoid the race issue
 
       this.router.navigateByUrl('page-not-found');
     }, 0);
@@ -628,7 +631,7 @@ export class DetailContentComponent
   }
 
   overrideDefaultHeadings() {
-    let url = this.router.url.split('#')[0];
+    const url = this.router.url.split('#')[0];
 
     this.markdownService.renderer.heading = (
       text: string,
@@ -647,7 +650,7 @@ export class DetailContentComponent
         ? mipComponent
         : htmlCleanedText.toLowerCase().replace(/[^\w]+/g, '-');
 
-      let style: string = '';
+      let style = '';
 
       if (this.mip?.title?.localeCompare(text) === 0) {
         style = `style="display:none;"`;
@@ -698,10 +701,10 @@ export class DetailContentComponent
       text: string
     ) => {
       const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
-      let id: string = `md-${escapedText}${this.countLinks++}`;
+      const id = `md-${escapedText}${this.countLinks++}`;
 
-      let link: Link = {
-        id: id,
+      const link: Link = {
+        id,
         name: text,
         link: href,
       };
@@ -740,14 +743,14 @@ export class DetailContentComponent
       }
 
       if (this.mdUrl) {
-        //MD VIEWER BEHAVIOR
+        // MD VIEWER BEHAVIOR
         if (!href.includes('https://')) {
-          //I asume a github md relative link
+          // I asume a github md relative link
 
           const baseUrl = this.mdUrl.replace(/\/?[\w-#\.\s]+$/g, '');
 
           if (!href.includes('.md')) {
-            //Relarive reference only link ex: #last-thing
+            // Relarive reference only link ex: #last-thing
             href =
               this.urlService.mdViewerRoute +
               baseUrl +
@@ -783,7 +786,7 @@ export class DetailContentComponent
       .subscribe((data) => {
         if (data.items && data.items[0]) {
           // override link in DOM
-          let elem = document.getElementById(link.id);
+          const elem = document.getElementById(link.id);
           elem.setAttribute('href', '/mips/details/' + data.items[0].mipName);
         }
       });
@@ -791,7 +794,7 @@ export class DetailContentComponent
 
   searchMips() {
     this.links.forEach((link) => {
-      let elem = document.getElementById(link.id);
+      const elem = document.getElementById(link.id);
 
       if (!link.name.includes('Template')) {
         if (

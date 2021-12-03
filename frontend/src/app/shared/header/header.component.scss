@@ -203,6 +203,17 @@
   // .scrollMenuButton {
   //   display: none;
   // }
+
+  //.logoDarkMode {
+  //  background-color: #1a202b !important;
+  //  &.logoBackgroundColor {
+  //    background-color: #0e1521 !important;
+  //  }
+  //}
+
+  .logoBackgroundColor {
+    background-color: #f5f6fa;
+  }
 }
 
 @media screen and (max-width: 1920px) {
@@ -242,6 +253,7 @@
     box-shadow: none;
   }
 }
+
 }
 
 @media screen and (max-width: 1920px) {

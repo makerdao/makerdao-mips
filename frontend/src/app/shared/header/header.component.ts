@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild('navMenu') navMenu: ElementRef;
   transitionTime: number;
   transitionStyle: string;
-  positionX: number = 0;
+  positionX = 0;
   showScrollRightButton = false;
   showScrollLeftButton = false;
   @ViewChild('outerRight') outerRight: ElementRef;
@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private router: Router,
     private mipsService: MipsService,
     private menuService: MenuService,
-    public darkModeService:DarkModeService,
+    public darkModeService: DarkModeService,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.transitionStyle = 'transform ' + this.transitionTime + 's ease-in-out';
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.menuService.posXClicked$.subscribe((data) => {
       if (window.innerWidth <= 768) {
         (this.navMenu.nativeElement as HTMLElement).scrollLeft += data;
@@ -48,17 +48,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.initIntersectionObserver();
   }
 
-  initIntersectionObserver() {
-    let options = {
+  initIntersectionObserver(): void {
+    const options = {
       root: this.navMenu.nativeElement,
       rootMargin: '0px',
       threshold: 0.1,
     };
 
-    let observer = new IntersectionObserver(this.callback, options);
-    let target1 = document.querySelector('#outerRight');
+    const observer = new IntersectionObserver(this.callback, options);
+    const target1 = document.querySelector('#outerRight');
     observer.observe(target1);
-    let target2 = document.querySelector('#outerLeft');
+    const target2 = document.querySelector('#outerLeft');
     observer.observe(target2);
   }
 
@@ -72,18 +72,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.showScrollLeftButton = !entry.isIntersecting;
       }
     });
-  };
+  }
 
   clearFilterAndGoHome(): void {
     this.mipsService.clearFilter();
     this.onRefresh();
   }
 
-  onRefresh() {
-    this.router.routeReuseStrategy.shouldReuseRoute = function (
+  onRefresh(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = (
       future: ActivatedRouteSnapshot,
       curr: ActivatedRouteSnapshot
-    ) {
+    ) => {
       if (
         future.url.toString() === 'list' &&
         curr.url.toString() === future.url.toString()
@@ -99,7 +99,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onMenuToggle(ev) {
+  onMenuToggle(ev): void {
     if (!ev) {
       this.menuService.setOpenedIndexChild(-1);
     }
@@ -107,13 +107,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.menuOpen = ev;
   }
 
-  scrollNavMenuToLeft() {
+  scrollNavMenuToLeft(): void {
     const x = (this.navMenu.nativeElement as HTMLElement).clientWidth;
 
     (this.navMenu.nativeElement as HTMLElement).scrollBy(-x, 0);
   }
 
-  scrollNavMenuToRight() {
+  scrollNavMenuToRight(): void {
     const x = (this.navMenu.nativeElement as HTMLElement).clientWidth;
 
     (this.navMenu.nativeElement as HTMLElement).scrollBy( x, 0);
@@ -121,7 +121,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   }
 
-  visibilityScrollRightButton(value: boolean) {
+  visibilityScrollRightButton(value: boolean): void {
     this.showScrollRightButton = value;
   }
 }

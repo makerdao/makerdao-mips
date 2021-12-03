@@ -65,6 +65,7 @@
   (backdropClick)="onClickedBackdrop()"
   [cdkConnectedOverlayPanelClass]="'panelClass'"
   [cdkConnectedOverlayPositions]="position"
+
 >
   <div
     [ngClass]="{
@@ -76,6 +77,7 @@
       fadeInMenuUpAnimation: yDirection === 'up' && levelMenu != 0,
       'dropdown-content-dark': darkModeService.getDarkMode()
     }"
+
   >
     <app-menu
       *ngFor="let child of menu.children; let i = index"

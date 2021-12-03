@@ -1,7 +1,10 @@
 :host {
   font-style: normal;
   font-weight: 500;
-  padding-left: 30px;
+
+  &.hostDarkMode{
+    padding-left: 30px;
+  }
 }
 
 .container {
