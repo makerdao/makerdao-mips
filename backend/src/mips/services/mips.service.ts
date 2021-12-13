@@ -237,14 +237,19 @@ export class MIPsService {
           ],
         };
       } else {
-        source["$text"] = { $search: `"${search}"` };
-      }
+        
+        
+        if (search.match(/\s/g)) {
+          source["$text"] = { $search: search };
+        } else {
+          source["$text"] = { $search: `"${search}"` };
+        }
+    }
     }
     return source;
   }
 
-  errorProofCleanArrays(testArray:any[], defaultArray: any[]) : any[]{
-
+  errorProofCleanArrays(testArray: any[], defaultArray: any[]): any[] {
     const errorProofItems = defaultArray.map((item) => {
       const existingItem = testArray.find(
         (selectedItem) => selectedItem._id === item._id
@@ -252,7 +257,7 @@ export class MIPsService {
       return existingItem || item;
     });
 
-    return errorProofItems
+    return errorProofItems;
   }
 
   buildSmartMongoDBQuery(ast: any): any {
@@ -357,9 +362,8 @@ export class MIPsService {
     if (!flag) {
       throw new Error(`Invalid filter field (${field})`);
     }
-     
-    return (field==='title') ? this.escapeRegExp(value) : value;
-    
+
+    return field === "title" ? this.escapeRegExp(value) : value;
   }
 
   async findOneByMipName(mipName: string, language: Language): Promise<MIP> {
@@ -378,13 +382,11 @@ export class MIPsService {
     value: string,
     language: Language
   ): Promise<MIP[]> {
-
-      language = Language.English;
-
+    language = Language.English;
 
     switch (field) {
       case "tags":
-       return await this.mipsDoc.aggregate([
+        return await this.mipsDoc.aggregate([
           { $unwind: "$tags" },
           {
             $match: {
@@ -422,10 +424,6 @@ export class MIPsService {
       default:
         throw new Error(`Field ${field} invalid`);
     }
-
-  
-
-
   }
 
   async findOneByFileName(filename: string, language: Language): Promise<MIP> {
@@ -544,9 +542,7 @@ export class MIPsService {
     return existingMIPs;
   }
 
-  async remove(
-    id: string
-  ): Promise<{
+  async remove(id: string): Promise<{
     n: number;
     ok: number;
     deletedCount: number;

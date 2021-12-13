@@ -75,9 +75,7 @@ export class MIP {
   })
   mipFather?: boolean;
 
-  @Prop({
-    index: { type: "text" },
-  })
+  @Prop()
   title?: string;
 
   @Prop({
@@ -154,3 +152,5 @@ export class MIP {
 }
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);
+MIPsSchema.index({ title: "text", mipName: "text" });
+
