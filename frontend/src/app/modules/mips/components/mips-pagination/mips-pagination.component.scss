@@ -1,6 +1,6 @@
 .wrapper {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .container {
@@ -140,12 +140,17 @@
   .mobileIndex {
     display: none;
   }
+
 }
 @media screen and (max-width: 1199px) {
   .mobileIndex {
     display: flex;
     align-items: center;
     margin-left: 10px;
+  }
+
+  .wrapper {
+    margin-bottom: 20px;
   }
 }
 

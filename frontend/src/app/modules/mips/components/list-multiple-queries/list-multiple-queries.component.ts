@@ -290,7 +290,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
           this.order,
           row.query,
           null,
-          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
+          'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink mipCodeNumber'
         )
         .pipe(
           map((res) => {
@@ -338,7 +338,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
               null,
               null,
               { equals: [{ field: 'mipName', value: item.proposal }] },
-              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
+              'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink mipCodeNumber'
             )
             .toPromise();
           if (res.items[0]) {
