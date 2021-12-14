@@ -241,6 +241,9 @@ export class AutocompleteDirective {
     let scrollLeft = this.host.nativeElement.scrollLeft;
 
     let ev: MouseEvent = new MouseEvent('click', {});
+    
+    const currentScrollYPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
+
     let ev2: MouseEvent = {
       ...ev,
       x:
@@ -250,12 +253,11 @@ export class AutocompleteDirective {
             scrollLeft
           : this.left,
 
-      y:
-        this.host.nativeElement.constructor === HTMLInputElement
+      y: ( this.host.nativeElement.constructor === HTMLInputElement
           ? (this.host.nativeElement as HTMLElement).getClientRects()[0].top +
             this.top +
             14
-          : this.top + 18,
+          : this.top + 18) - currentScrollYPosition,
     };
 
     return this.overlay
