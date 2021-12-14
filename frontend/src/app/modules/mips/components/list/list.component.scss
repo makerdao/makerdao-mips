@@ -176,6 +176,8 @@ th {
   max-width: 90%;
   float: left;
   font-weight: normal;
+  position: relative;
+  top: -4px;
 }
 
 .mat-column-summary {
@@ -322,6 +324,8 @@ a {
   padding-bottom: 10px;
   margin-bottom: 10px;
   font-weight: normal;
+  position: relative;
+  top: -4px;
 }
 
 .mobile-container {

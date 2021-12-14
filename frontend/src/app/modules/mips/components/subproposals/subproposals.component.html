@@ -19,7 +19,7 @@
         </h4>
         <a
           class="link"
-          *ngFor="let item of subproposals.slice(-3).reverse()"
+          *ngFor="let item of subproposals.slice(0,3)"
           [routerLink]="['/mips/details/', item.mipName]"
         >
           <span>
@@ -39,7 +39,7 @@
     <ng-template matExpansionPanelContent>
       <a
         class="link"
-        *ngFor="let item of subproposals.slice(0, -3).reverse()"
+        *ngFor="let item of subproposals.slice(3)"
         [routerLink]="['/mips/details/', item.mipName]"
       >
         <span>
