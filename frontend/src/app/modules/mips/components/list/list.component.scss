@@ -177,7 +177,7 @@ th {
   float: left;
   font-weight: normal;
   position: relative;
-  top: -4px;
+  top: -1px;
 }
 
 .mat-column-summary {
@@ -325,7 +325,7 @@ a {
   margin-bottom: 10px;
   font-weight: normal;
   position: relative;
-  top: -4px;
+  top: -1px;
 }
 
 .mobile-container {
@@ -970,4 +970,8 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       }
     }
   }
+}
+
+.mipTitleList{
+  top: 1px;
 }
