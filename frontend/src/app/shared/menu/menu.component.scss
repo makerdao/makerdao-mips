@@ -399,11 +399,13 @@
   }
 }
 
-// @media (min-width: 500px) {
-//   .dropdown-content-first-level {
-//     left: 60px;
-//   }
-// }
+@media (max-width: 768px) {
+  a.dropdown.dropdown-dark.subMenuActive.dropdown.dropdown-dark.subMenuActive{
+     
+    background-color: #0e1521 !important;
+    
+  }
+}
 
 :host::ng-deep.underline-menu {
   position: relative;
