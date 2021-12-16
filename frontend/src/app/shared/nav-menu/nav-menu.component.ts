@@ -15,7 +15,7 @@ import { HttpUrlEncodingCodec } from '@angular/common/http';
 })
 export class NavMenuComponent implements OnInit {
   @Output() menuOpen: Subject<boolean> = new Subject<boolean>();
-  openedIndexChild: number = -1;
+  openedIndexChild = -1;
   menu: Menu[] = [];
   menuLang: Menu = null;
   codec = new HttpUrlEncodingCodec();
@@ -39,7 +39,7 @@ export class NavMenuComponent implements OnInit {
   ngOnInit(): void {
     this.menuService.getMenu().subscribe((data: any) => {
       this.menu = data.data;
-      let newMenu: Menu = {
+      const newMenu: Menu = {
         id: 'root',
         name: 'Root',
         href: '',
@@ -59,10 +59,10 @@ export class NavMenuComponent implements OnInit {
         } else if (data.id === this.feedBackLinkMenu.id) {
           this.feedbackService.showFeedbackDialog.next(true);
         } else if (data.id !== this.menuLang.id) {
-          let index: number = this.menuLang.children.findIndex(
+          const index: number = this.menuLang.children.findIndex(
             (i) => i.id === data.id
           );
-          
+
           if (index !== -1) {
             this.langService.setCurrentLang(this.menuLang.children[index].id);
             this.swapLang(data);
@@ -87,7 +87,7 @@ export class NavMenuComponent implements OnInit {
     });
   }
 
-  swapLang(data: Menu) {
+  swapLang(data: Menu): void {
     const children = this.menuLang.children.map((item) => {
       if (item.id === data.id) {
         return {
@@ -108,31 +108,31 @@ export class NavMenuComponent implements OnInit {
     };
   }
 
-  toggleDarkMode() {
+  toggleDarkMode(): void {
     this.darkModeService.toggleDarkMode();
   }
 
-  sortLangItems() {
+  sortLangItems(): void {
     this.menuLang.children.sort((a: Menu, b: Menu) =>
       a.name < b.name ? -1 : 1
     );
   }
 
-  onMenuToggle(ev) {
+  onMenuToggle(ev): void {
     this.menuOpen.next(ev);
   }
 
-  onOpened(index: number) {
+  onOpened(index: number): void {
     this.openedIndexChild = index;
     this.menuService.setOpenedIndexChild(index);
   }
 
   @HostBinding('class.activeChild')
-  get activeChild() {
+  get activeChild(): boolean {
     return this.openedIndexChild !== -1;
   }
 
-  dfs(menu: Menu) {
+  dfs(menu: Menu): void {
     if (menu.href !== undefined) {
       if (!menu.href.includes('?')) {
         menu.href = menu.href + '?';
@@ -162,7 +162,7 @@ export class NavMenuComponent implements OnInit {
     });
   }
 
-  closeMenuOnScroll(){
-    this.openedIndexChild = (-1)
+  closeMenuOnScroll(): void{
+    this.openedIndexChild = (-1);
   }
 }

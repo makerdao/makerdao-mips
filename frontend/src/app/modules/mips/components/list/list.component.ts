@@ -347,15 +347,17 @@ const language = 'typescript';
           order = 'mipName';
         }
 
+        console.log({order})
+
         this.mipsService
           .searchMips(
             100000,
             0,
             // 'mipName',
-            order,
+            order+" mipCodeNumber",
             row.showArrowExpandChildren ? this.query ? this.query : this.search : '',
             filter,
-            'title proposal mipName filename paragraphSummary sentenceSummary mip status forumLink votingPortalLink'
+            'title proposal mipName filename paragraphSummary sentenceSummary mip status forumLink votingPortalLink mipCodeNumber'
           )
           .pipe(
             map((res) => {

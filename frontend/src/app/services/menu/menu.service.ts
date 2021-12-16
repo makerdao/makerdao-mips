@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { IVarsYaml } from 'src/app/data-types/vars-yaml';
 import { environment } from '../../../environments/environment';
 const YAML = require('yaml');
@@ -21,7 +20,7 @@ export class MenuService {
     null
   );
   public posXClicked$: Observable<number> = this.posXClicked.asObservable();
-  transitionTime: number = 0.3;
+  transitionTime = 0.3;
   private clicked: BehaviorSubject<Menu> = new BehaviorSubject<Menu>(null);
   public clicked$: Observable<Menu> = this.clicked.asObservable();
   varsURL = environment.varsURL;
@@ -32,8 +31,8 @@ export class MenuService {
     return this.getMenuFile();
   }
 
-  getMenuFile() {
-    let g = (observer) => {
+  getMenuFile(): Observable<any>{
+    const g = (observer) => {
       this.http.get(environment.menuURL, { responseType: 'text' }).subscribe(
         async (data) => {
           try {
@@ -54,10 +53,10 @@ export class MenuService {
             console.log(error);
           }
         },
-        async (error) => {
+        async () => {
           try {
-            let auxiliarData = await this.getAuxiliarMenuJson();
-            observer.next(auxiliarData);
+            const auxiliaryData = await this.getAuxiliaryMenuJson();
+            observer.next(auxiliaryData);
           } catch (err) {
             console.log(err);
           }
@@ -72,7 +71,7 @@ export class MenuService {
     return this.http.get('../../assets/data/menuLang.json');
   }
 
-  async getAuxiliarMenuJson() {
+  async getAuxiliaryMenuJson(): Promise<any> {
     return this.http.get(environment.menuURLAuxiliar).toPromise();
   }
 
@@ -90,29 +89,29 @@ export class MenuService {
   }
 
   parseVarsYAML(dataVars: string, dataMenu: string): string {
-    let varObj: IVarsYaml = YAML.parse(dataVars);
+    const varObj: IVarsYaml = YAML.parse(dataVars);
     let newDataMenu: string = dataMenu;
 
     for (const key in varObj.strings) {
       if (Object.prototype.hasOwnProperty.call(varObj.strings, key)) {
         const element = varObj.strings[key];
-        const patt = new RegExp(`\\$${key}`, 'g');
-        newDataMenu = newDataMenu.replace(patt, element);
+        const pattern = new RegExp(`\\$${key}`, 'g');
+        newDataMenu = newDataMenu.replace(pattern, element);
       }
     }
 
     return newDataMenu;
   }
 
-  setOpenedIndexChild(value: number) {
+  setOpenedIndexChild(value: number): void {
     this.openedIndexChild.next(value);
   }
 
-  setposXClicked(value: number) {
+  setsXClicked(value: number): void {
     this.posXClicked.next(value);
   }
 
-  setClicked(value: Menu) {
+  setClicked(value: Menu): void {
     this.clicked.next(value);
   }
 }

@@ -63,7 +63,7 @@
       (headingListUpdate)="headingListUpdate($event)"
       [darkMode]=" darkModeService.getDarkMode()"
     ></app-detail-content>
-    <div *ngIf="mip" class="column details-column">
+    <div *ngIf="mip" class="column" [ngClass]="{'details-column':darkModeService.getDarkMode()}">
       <div class="sidebar-wrapper">
         <app-language-document
           *ngIf="languagesAvailables && mip"

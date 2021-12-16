@@ -1,7 +1,10 @@
 :host {
   font-style: normal;
   font-weight: 500;
-  padding-left: 30px;
+
+  &.hostDarkMode{
+    padding-left: 30px;
+  }
 }
 
 .container {
@@ -767,6 +770,8 @@ p {
 .container-dark .linksIconsWrapperMobile {
   background-color: #31394d !important;
   color: #adccf7 !important;
+  min-width: 28px;
+  margin-left: 20px;
 }
 
 .linksIconsWrapperMobile {
