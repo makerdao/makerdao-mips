@@ -44,6 +44,8 @@ export class ParseMIPsCommand {
     try {
       const result = await this.mipsService.dropDatabase();
 
+      console.log("PLEASE AVOID USING THIS FUNCTION")
+
       console.log("Database Droped: ",result);
 
       await this.parseMIPsService.parse();
