@@ -17,7 +17,7 @@
   flex-grow: 1;
 
   &.container-dark {
-    background: #000000;
+    background: #31394d;
     box-shadow: 0px 1px 4px 0px #000000;
 
     strong,
@@ -46,6 +46,7 @@
     strong {
       color: #31394d;
     }
+
     .links {
       font-size: 14px;
       list-style-type: none;
@@ -55,7 +56,7 @@
       li {
         display: inline-block;
 
-        & + li::before {
+        &+li::before {
           padding: 4px;
           content: "/\00a0";
         }
@@ -71,6 +72,7 @@
         }
       }
     }
+
     .items {
       font-style: normal;
       font-weight: bold;
@@ -136,12 +138,22 @@
   }
 }
 
+@media screen and (max-width: 1024px) {
+
+  .container.container-dark {
+    background: #000000;
+    box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  }
+}
+
 @media screen and (min-width: 1200px) {
   .mobileIndex {
     display: none;
   }
 
 }
+
 @media screen and (max-width: 1199px) {
   .mobileIndex {
     display: flex;
