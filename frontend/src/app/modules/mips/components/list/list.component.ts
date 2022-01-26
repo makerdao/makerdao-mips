@@ -75,7 +75,7 @@ interface ExpandedItems {
   ],
 })
 export class ListComponent implements OnInit, OnChanges, OnDestroy {
-  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'links'];
   @Input() dataSource: any;
   @Input() loading = true;
   @Input() moreToLoad = true;
