@@ -1,4 +1,4 @@
-<div class="NavMenu"  (touchstart)="closeMenuOnScroll()" >
+<div class="NavMenu" (touchstart)="closeMenuOnScroll()">
   <app-menu
     *ngFor="let item of menu; let i = index"
     [menu]="item"
@@ -22,7 +22,7 @@
         <img
           *ngIf="feedBackLinkMenu && feedBackLinkMenu.img"
           [src]="feedBackLinkMenu.img"
-          style="margin-left: 2px; width: 30px; height: 21px;"
+          style="margin-left: 2px; width: 30px; height: 21px"
         />
       </div>
     </span>
@@ -36,19 +36,29 @@
     [showArrow]="false"
     [isLanguageMenu]="true"
   >
-    <span style="display: flex;">
+    <span style="display: flex">
       <img
         *ngIf="menuLang"
         class="internalizationIcon"
-        [ngClass]="darkModeService.getDarkMode()?'internalizationIconDark':''"
+        [ngClass]="
+          darkModeService.getDarkMode() ? 'internalizationIconDark' : ''
+        "
         src="./assets/images/internalization-icon.svg"
-        style="margin-right: 23px; margin-left: 2px; width: 26px; height: 26px;"
+        style="margin-right: 23px; margin-left: 2px; width: 26px; height: 26px"
       />
     </span>
   </app-menu>
-  <div class="darkModeToggler" (click)="toggleDarkMode()"
-  [matTooltip]="darkModeService.getDarkMode()? 'Turn on the light' : 'Turn off the light'"
-  [matTooltipClass]="{'tooltip-darkmode-toggler': darkModeService.getDarkMode()}"
+  <div
+    class="darkModeToggler"
+    (click)="toggleDarkMode()"
+    [matTooltip]="
+      darkModeService.getDarkMode() ? 'Turn on the light' : 'Turn off the light'
+    "
+    [matTooltipClass]="
+      darkModeService.getDarkMode()
+        ? 'tooltip-darkmode-toggler'
+        : 'tooltip-white-mode-toggler'
+    "
   >
     <img
       *ngIf="!darkModeService.getDarkMode()"
