@@ -47,6 +47,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   timeout: any = null;
   @ViewChild('search') inputSearch;
   showClose = false;
+  notShowTable = false;
   @Input() showListSearch = false;
   @Input() listSearchItems = [];
   @Output() clickSearchItem = new Subject<any>();
@@ -215,8 +216,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
             ) {
               this.send.emit(event);
             } else {
-              event.target.value = (this.inputSearch
-                .nativeElement as HTMLElement).innerText;
+              event.target.value = (
+                this.inputSearch.nativeElement as HTMLElement
+              ).innerText;
               this.send.emit(event);
             }
           }, 1000);
@@ -242,8 +244,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
           if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
             this.send.emit(event);
           } else {
-            event.target.value = (this.inputSearch
-              .nativeElement as HTMLElement).innerText;
+            event.target.value = (
+              this.inputSearch.nativeElement as HTMLElement
+            ).innerText;
             this.send.emit(event);
           }
         }, 1000);
@@ -269,7 +272,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   onClickSearchItem(element) {
-    this.clickSearchItem.next(element);
+    setTimeout(() => {
+      this.clickSearchItem.next(element);
+    }, 100);
+    this.notShowTable = true;
   }
 
   onClickOutside(ev: MouseEvent) {
@@ -294,8 +300,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
             this.inputSearch.nativeElement
           ).pos;
 
-          const search: string = (this.inputSearch
-            .nativeElement as HTMLElement).innerText.slice(
+          const search: string = (
+            this.inputSearch.nativeElement as HTMLElement
+          ).innerText.slice(
             this.indexCaretPositionStart,
             this.indexCaretPositionEnd
           );
@@ -329,8 +336,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
           this.indexCaretPositionEnd
         );
       } else {
-        search = (this.inputSearch
-          .nativeElement as HTMLElement).innerText.slice(
+        search = (
+          this.inputSearch.nativeElement as HTMLElement
+        ).innerText.slice(
           this.indexCaretPositionStart,
           this.indexCaretPositionEnd
         );
@@ -368,8 +376,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
             this.inputSearch.nativeElement
           ).pos;
 
-          const search: string = (this.inputSearch
-            .nativeElement as HTMLElement).innerText.slice(
+          const search: string = (
+            this.inputSearch.nativeElement as HTMLElement
+          ).innerText.slice(
             this.indexCaretPositionStart,
             this.indexCaretPositionEnd
           );
@@ -403,8 +412,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
           this.indexCaretPositionEnd
         );
       } else {
-        search = (this.inputSearch
-          .nativeElement as HTMLElement).innerText.slice(
+        search = (
+          this.inputSearch.nativeElement as HTMLElement
+        ).innerText.slice(
           this.indexCaretPositionStart,
           this.indexCaretPositionEnd
         );
@@ -497,8 +507,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
           overlayY: 'top',
         },
       ]);
-    const width = (this.textBoxWrapper
-      .nativeElement as HTMLDivElement).getBoundingClientRect().width;
+    const width = (
+      this.textBoxWrapper.nativeElement as HTMLDivElement
+    ).getBoundingClientRect().width;
     this.overlayRef = this.overlay.create({
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.close(),
