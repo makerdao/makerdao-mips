@@ -103,6 +103,9 @@ input {
   max-height: 225px;
   height: fit-content;
 }
+.ListSearch-not-Display {
+  display: none;
+}
 
 .ListSearch-dark {
   background-color: #1a202b !important;
@@ -229,8 +232,8 @@ input {
   width: 100%;
   margin-top: 25px;
 }
-.help-popup-dark .hr{
- background-color: #505F7C;
+.help-popup-dark .hr {
+  background-color: #505f7c;
 }
 
 .error {
