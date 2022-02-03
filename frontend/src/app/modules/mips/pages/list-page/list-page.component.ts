@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
@@ -48,7 +43,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   @ViewChild('filterList', { static: true }) filterList: FilterListComponent;
   showFilterList: boolean = false;
   showListSearch: boolean = false;
-
   hideParent: boolean = true;
   hideParentValue: boolean = false;
 
@@ -81,7 +75,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private elementsRefUiService: ElementsRefUiService,
     private orderService: OrderService,
     private searchService: SearchService,
-    public darkModeService:DarkModeService,
+    public darkModeService: DarkModeService,
     private filterService: FilterService
   ) {}
 
@@ -161,8 +155,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
     };
-
-    this.hideParentValue = (qp.hideParents) ? JSON.parse(qp.hideParents.toString()) : false;
+    this.hideParentValue = qp.hideParents
+      ? JSON.parse(qp.hideParents.toString())
+      : false;
 
     for (const key in queryParams.params) {
       if (key.startsWith('_')) {
@@ -625,8 +620,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           }
 
           const subsetRows: ISubsetDataElement[] = [];
-          const components: ComponentMip[] = this.mips[indexFatherInMips]
-            .components;
+          const components: ComponentMip[] =
+            this.mips[indexFatherInMips].components;
           let indexComp: number;
           let componentMipTitle = '';
 
@@ -685,7 +680,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     let qp: QueryParams = {
       ...queryParams.params,
-      hideParents: $event
+      hideParents: $event,
     };
 
     this.hideParentValue = $event;
@@ -777,7 +772,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             const cleanedTitle = item.title.replace(/[^\w]*/g, '');
             const cleanedMipName = item.mipName.replace(/[^\w]*/g, '');
 
-            const titleContainsMipsName = cleanedTitle?.includes(cleanedMipName);
+            const titleContainsMipsName =
+              cleanedTitle?.includes(cleanedMipName);
 
             return {
               content:
