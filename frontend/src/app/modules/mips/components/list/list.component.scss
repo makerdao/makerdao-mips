@@ -823,7 +823,17 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 // Dark Mode
 .maker-container {
   position: relative;
-
+ 
+  &.no-maker-container-dark::ng-deep{
+    box-shadow: none;
+  
+    .mat-column-title,
+    .mat-column-summary,
+    .mat-column-status,
+    .mat-column-link {
+      border-bottom: 1px solid #e8e9ee !important;
+    }
+  }
   &.maker-container-dark::ng-deep {
     box-shadow: none;
 

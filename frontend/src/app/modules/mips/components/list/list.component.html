@@ -2,7 +2,8 @@
   class="maker-container"
   [ngClass]="{
     'loading-height-fixed': loading,
-    'maker-container-dark': darkMode
+    'maker-container-dark': darkMode,
+    'no-maker-container-dark':!darkMode
   }"
 >
   <div *ngIf="loading && !dataSource.length" class="maker-loading-shade">

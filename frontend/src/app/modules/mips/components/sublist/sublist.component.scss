@@ -639,6 +639,7 @@ a {
 :host::ng-deep.subset-table-children {
   td.mat-cell {
     border-bottom-color: #ebedf4;
+    // border-bottom-color:red;
   }
 
   // td.mat-cell:nth-child(1) {
@@ -761,6 +762,8 @@ tr.maker-element-subsetchildren-row {
 
   &.subproposal-title {
     padding-left: 15px;
+    // border-bottom: 2px solid red;
+    background-color: red;
 
     a {
       color: #2f80ed;
