@@ -638,6 +638,13 @@ a {
     border-bottom: none;
   }
 
+  .mat-column-title,
+  .mat-column-summary,
+  .mat-column-status,
+  .mat-column-link {
+    border-bottom: 1px solid #d5d9e4 !important;
+  }
+
   tr:last-child td.mat-cell {
     border-bottom-color: transparent;
   }
@@ -820,6 +827,18 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   overflow: hidden;
 }
 
+.not-maker-container-dark {
+  // background-color: red;
+  a.subproposalsTitleList{
+    // background-color: red !important;
+  }
+    .maker-element-row td.subproposal-title * {
+      color: #2f80ed !important;
+    }
+}
+
+
+
 // Dark Mode
 .maker-container {
   position: relative;
@@ -844,49 +863,49 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         color: #748aa1 !important;
       }
     }
+    // tr.maker-element-row td.subproposal-title
+    // .mobile-container {
+    //   background: #31394d;
+    //   box-shadow: 0px 4px 4px rgb(0 0 0 / 30%);
 
-    .mobile-container {
-      background: #31394d;
-      box-shadow: 0px 4px 4px rgb(0 0 0 / 30%);
+    //   .title,
+    //   .title a {
+    //     color: #d6daea !important;
+    //   }
 
-      .title,
-      .title a {
-        color: #d6daea !important;
-      }
+    //   .content {
+    //     color: #b8c5d3;
 
-      .content {
-        color: #b8c5d3;
+    //     markdown {
+    //       p,
+    //       em {
+    //         color: #b8c5d3;
+    //       }
+    //     }
+    //   }
 
-        markdown {
-          p,
-          em {
-            color: #b8c5d3;
-          }
-        }
-      }
+    //   &.subproposal-card {
+    //     .title {
+    //       &,
+    //       a {
+    //         color: #2f80ed !important;
+    //       }
+    //     }
+    //   }
 
-      &.subproposal-card {
-        .title {
-          &,
-          a {
-            color: #2f80ed !important;
-          }
-        }
-      }
+    //   &.subproposal-card-subset {
+    //     span,
+    //     span > * {
+    //       color: #478ded !important;
+    //     }
 
-      &.subproposal-card-subset {
-        span,
-        span > * {
-          color: #478ded !important;
-        }
-
-        .arrow-wrapper {
-          svg > path {
-            fill: #478ded !important;
-          }
-        }
-      }
-    }
+    //     .arrow-wrapper {
+    //       svg > path {
+    //         fill: #478ded !important;
+    //       }
+    //     }
+    //   }
+    // }
 
     ::ng-deep {
       a,

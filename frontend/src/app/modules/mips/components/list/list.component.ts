@@ -184,7 +184,7 @@ const language = 'typescript';
       }
     );
   }
-
+ 
   ngOnChanges() {
     this.dataSourceTable.data = this.dataSource;
   }
@@ -467,7 +467,6 @@ const language = 'typescript';
   onClickButtonCaptureEvent(e: Event) {
     e.stopPropagation();
   }
-
   ngOnDestroy() {
     this.subscriptionSearchService.unsubscribe();
     this.subscriptionFilterService.unsubscribe();
