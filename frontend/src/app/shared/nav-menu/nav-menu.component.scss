@@ -112,4 +112,15 @@
   background-color: #31394d !important;
   color: #adccf7 !important;
   border-radius: 6px !important;
+  display: none;
+  @media (hover: hover) {
+    display: block;
+  }
+}
+
+::ng-deep .tooltip-white-mode-toggler {
+  display: none;
+  @media (hover: hover) {
+    display: block;
+  }
 }

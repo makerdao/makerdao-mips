@@ -50,6 +50,7 @@
     height: 100%;
     scroll-behavior: smooth;
     overflow-x: auto;
+    overflow-y: hidden;
     padding: 0 5px;
     display: flex;
 
@@ -270,7 +271,7 @@
   .logo {
     margin-left: 0;
     margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }

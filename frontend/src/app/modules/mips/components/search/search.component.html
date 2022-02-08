@@ -1,5 +1,5 @@
 <div class="row">
-  <div style="position: relative;">
+  <div style="position: relative">
     <img class="search-icon" src="{{ imageDir }}" />
     <!-- <input
       type="text"
@@ -39,7 +39,10 @@
     <ng-template #mipsSugestions>
       <div
         class="ListSearch"
-        [ngClass]="{ 'ListSearch-dark': darkMode }"
+        [ngClass]="{
+          'ListSearch-dark': darkMode,
+          'ListSearch-not-Display': notShowTable
+        }"
         infiniteScroll
         [infiniteScrollDistance]="1"
         [infiniteScrollThrottle]="1"
@@ -60,7 +63,7 @@
         <div
           *ngIf="loadingMipsSuggestions"
           class="list-search-item"
-          style="justify-content: center;"
+          style="justify-content: center"
         >
           <mat-spinner [diameter]="20"></mat-spinner>
         </div>
@@ -80,7 +83,10 @@
     <a
       class="help-container"
       type="button"
-      [ngClass]="{ 'help-container-dark': darkMode,'help-open':isOpenHelpPopup }"
+      [ngClass]="{
+        'help-container-dark': darkMode,
+        'help-open': isOpenHelpPopup
+      }"
     >
       <img
         [src]="
@@ -104,8 +110,10 @@
   [cdkConnectedOverlayPositions]="positionHelpPopup"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div class="help-popup" @enterLeaveSmooth
-  [ngClass]="{ 'help-popup-dark': darkMode }"
+  <div
+    class="help-popup"
+    @enterLeaveSmooth
+    [ngClass]="{ 'help-popup-dark': darkMode }"
   >
     <div class="head-help-popup">
       <span>You can use:</span>

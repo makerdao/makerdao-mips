@@ -14,28 +14,30 @@ export class LangService {
 
   constructor() {
     const savedLanguage = localStorage.getItem('language');
-    const userLanguage =
-      window.navigator['userLanguage'] || window.navigator.language;
+    const userLanguage =window.navigator['userLanguage'] || window.navigator.language;
     const languageCodeMatch = userLanguage.match(/^(?<language>\w\w)\b/);
 
     if (savedLanguage) {
       this.setCurrentLang(savedLanguage, false);
     } else if (languageCodeMatch) {
       const languageCode = languageCodeMatch.groups.language.toLowerCase();
+      const checkIsKnowLanguage = Object.values(Language).includes(languageCode as Language)
 
-      this.setCurrentLang(languageCode, false);
+      const setLanguage= checkIsKnowLanguage ? languageCode : 'en'
+
+      this.setCurrentLang(setLanguage, false);
     }
   }
 
   setCurrentLang(value: string, saveToLocalStorage = true) {
 
-    if(Object.values(Language).includes(value as Language)){
-    if (saveToLocalStorage) {
-      localStorage.setItem('language', value);
-    }
+    if (Object.values(Language).includes(value as Language)) {
+      if (saveToLocalStorage) {
+        localStorage.setItem('language', value);
+      }
 
-    this.lang = value;
-    this.currentLang.next(value);
-  }
+      this.lang = value;
+      this.currentLang.next(value);
+    }
   }
 }
