@@ -207,7 +207,7 @@ export class MIPsController {
   @ApiOperation({
     summary: "Find array mips match with parameters",
     description:
-      "This is return a array of mips. You can search by tags and status",
+      "This is return a array of mips. You can search by ```tags``` and ```status```",
   })
   @ApiQuery({
     type: String,
@@ -254,9 +254,7 @@ export class MIPsController {
   @Get("findone-by")
   @ApiOperation({
     summary:"Find one mip that match with parameters ",
-    description: `Search by different types of field \n
-  (filed: filename , value:mip1 ) return mip
-  (filed: mipSubproposal , value:mip1c1 ) return mip 
+    description: `Search by different types of field example  (field: filename , value:mip1 ) return mip
   `,
   })
   @ApiQuery({
@@ -349,10 +347,24 @@ export class MIPsController {
 
   @Post("callback")
   @ApiOperation({
-    summary: "Call back to ",
+    summary: "Call back to check the hash ",
     description:
-      "This is return a array of mips. You can search by tags and status",
+      "This call back to check that the hash is correct signed",
   })
+  @ApiQuery({
+    name: "headers",
+    required: true,
+  })
+  @ApiQuery({
+    name: "body",
+    required: true,
+  })
+  @ApiCreatedResponse({
+    type: Boolean,
+    status: 201,
+    description: "successful operation",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
   async callback(@Req() { headers, body }: any): Promise<boolean> {
     try {
       const secretToken = this.configService.get<string>(
