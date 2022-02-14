@@ -26,11 +26,11 @@ import { PullRequestService } from "./services/pull-requests.service";
 
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
-import { Language, Mips } from "./entities/mips.entity";
+import { ErrorObjectModel, Language, Mips } from "./entities/mips.entity";
 import { SimpleGitService } from "./services/simple-git.service";
 
 @Controller("mips")
-@ApiTags("All about mips")
+@ApiTags("mips")
 export class MIPsController {
   constructor(
     private mipsService: MIPsService,
@@ -100,11 +100,16 @@ export class MIPsController {
   })
   @ApiCreatedResponse({
     type: [Mips],
-    status: 201,
+    status: 200,
     description: "successful operation",
   })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
   @ApiResponse({ status: 404, description: "Bad request" })
-  @ApiResponse({ status: 500, description: "Internal Server Error" })
   async findAll(
     @Query("limit") limit?: string,
     @Query("page") page?: string,
@@ -159,13 +164,17 @@ export class MIPsController {
     required: true,
   })
   @ApiCreatedResponse({
-    status: 201,
+    status: 200,
     type: Mips,
     description: "successful operation",
   })
-  @ApiResponse({ status: 403, description: "Forbidden." })
-  @ApiResponse({ status: 400, description: "Invalid MIP supplied." })
-  @ApiResponse({ status: 404, description: "Order not found." })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
   async findOneByMipName(
     @Query("lang") lang?: Language,
     @Query("mipName") mipName?: string
@@ -212,13 +221,13 @@ export class MIPsController {
   @ApiQuery({
     type: String,
     name: "field",
-    description:"Smart search you can use tags and tags",
+    description: "Smart search you can use tags and tags",
     required: true,
   })
   @ApiQuery({
     type: String,
     name: "value",
-    description:"Enter the value",
+    description: "Enter the value",
     required: true,
   })
   @ApiQuery({
@@ -229,10 +238,16 @@ export class MIPsController {
   })
   @ApiCreatedResponse({
     type: [Mips],
-    status: 201,
+    status: 200,
     description: "successful operation",
   })
-  @ApiResponse({ status: 404, description: "Bad Request" })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
   async smartSearch(
     @Query("field") field: string,
     @Query("value") value: string,
@@ -253,7 +268,7 @@ export class MIPsController {
 
   @Get("findone-by")
   @ApiOperation({
-    summary:"Find one mip that match with parameters ",
+    summary: "Find one mip that match with parameters ",
     description: `Search by different types of field example  (field: filename , value:mip1 ) return mip
   `,
   })
@@ -273,6 +288,21 @@ export class MIPsController {
     enum: Language,
     required: false, // If you view this comment change to true value
   })
+
+  @ApiCreatedResponse({
+    type: Mips,
+    status: 200,
+    description: "successful operation",
+  })
+
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
+
   async findOneBy(
     @Query("field") field: string,
     @Query("value") value: string,
@@ -348,8 +378,7 @@ export class MIPsController {
   @Post("callback")
   @ApiOperation({
     summary: "Call back to check the hash ",
-    description:
-      "This call back to check that the hash is correct signed",
+    description: "This call back to check that the hash is correct signed",
   })
   @ApiQuery({
     name: "headers",
@@ -361,8 +390,14 @@ export class MIPsController {
   })
   @ApiCreatedResponse({
     type: Boolean,
-    status: 201,
+    status: 200,
     description: "successful operation",
+  })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
   })
   @ApiResponse({ status: 404, description: "Bad request" })
   async callback(@Req() { headers, body }: any): Promise<boolean> {

@@ -294,10 +294,30 @@ export class Mips {
   mipCodeNumber?: string;
 }
 
+@Schema()
+export class ErrorObject {
+  @ApiProperty()
+  statusCode?:number
+  @ApiProperty()
+  message?: string
+  @ApiProperty()
+  error?: string
+}
 
+
+export class ErrorObjectModel {
+ 
+  @ApiPropertyOptional()
+  statusCode?:number
+  @ApiPropertyOptional()
+  message?: string
+  @ApiPropertyOptional()
+  error?: string
+}
 
 
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);
+export const ErrorModelSchema = SchemaFactory.createForClass(ErrorObject);
 MIPsSchema.index({ title: "text", mipName: "text" });
 
