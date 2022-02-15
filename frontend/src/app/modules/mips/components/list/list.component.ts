@@ -340,7 +340,9 @@ const language = 'typescript';
         this.dataSourceTable.data[index]['loadingSubproposals'] = true;
         let filter = clone(this.filter);
         filter['equals'] = [];
+        filter.equals.push({ field: 'proposal', value: row.mipName });
         filter.search = '';
+        // TODO:Choose what criteria of filter do we want?
         filter.contains = filter.contains || [];
         filter.contains.push({ field: 'mipName', value: row.mipName });
         filter.notequals = [];
@@ -361,10 +363,14 @@ const language = 'typescript';
           .searchMips(
             100000,
             0,
-            'mip mipName _id',
-            row.showArrowExpandChildren ? (this.query ? this.query : '') : '',
+            order + ' mipCodeNumber',
+            row.showArrowExpandChildren
+              ? this.query
+                ? this.query
+                : this.search
+              : '',
             filter,
-            'title proposal mipName filename paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink'
+            'title proposal mipName filename paragraphSummary sentenceSummary mip status forumLink votingPortalLink mipCodeNumber'
           )
           .pipe(
             map((res) => {
