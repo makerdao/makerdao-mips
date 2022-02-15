@@ -35,7 +35,7 @@
               >
                 <span class="headerContent"
                   >{{ column | translate
-                  }}<app-asc-des
+                  }}<app-asc-des *ngIf="column!='summary'"
                     [direction]="getOrderDirection(column)"
                   ></app-asc-des
                 ></span>
