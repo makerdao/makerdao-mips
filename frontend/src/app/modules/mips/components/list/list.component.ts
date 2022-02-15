@@ -175,7 +175,7 @@ const language = 'typescript';
     this.ascOrderSorting = this.orderService.order.direction == 'ASC';
     this.subscriptionSearchService = this.searchService.search$.subscribe(
       (data) => {
-        this.search = data;
+        this.search = '';
       }
     );
     this.subscriptionFilterService = this.filterService.filter$.subscribe(
