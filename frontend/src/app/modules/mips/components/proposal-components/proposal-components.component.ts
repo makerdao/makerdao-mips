@@ -4,9 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +29,7 @@ export class ProposalComponentsComponent implements AfterViewInit {
   @ViewChild('sectionLinks') sectionLinks;
   active: any;
   @Input() darkMode:boolean = false;
+  @Output() selectMipFromMenu = new EventEmitter<string>();
   
   constructor(
     private router: Router,
@@ -56,7 +59,7 @@ export class ProposalComponentsComponent implements AfterViewInit {
     const escapedText = section.mipComponent
       ? section.mipComponent
       : section.heading.toLowerCase().replace(/[^\w]+/g, '-');
-
+      this.selectMipFromMenu.emit(escapedText);
     return `${url}#${escapedText}`;
   }
 

@@ -131,6 +131,7 @@
 
 <ng-template #preview let-data>
   <section
+    *ngIf="data.mipName+data.componentCode!==mipSelect"
     class="preview"
     [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp,'preview-dark':darkMode }"
     #previewRef

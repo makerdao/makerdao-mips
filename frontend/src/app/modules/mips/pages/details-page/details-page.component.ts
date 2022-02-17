@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import { UrlService } from 'src/app/services/url/url.service';
@@ -12,6 +12,7 @@ const YAML = require('yaml');
   styleUrls: ['./details-page.component.scss'],
 })
 export class DetailsPageComponent implements OnInit {
+  mipSelect='';
   mip: any;
   mdUrl: any;
   sections: any;
@@ -70,6 +71,9 @@ export class DetailsPageComponent implements OnInit {
     });
   }
 
+  onMipSelect(title: string ) {
+    this.mipSelect = title
+  }
   headingListUpdate(event) {
     this.loadingUrl = false;
     if (this.mdUrl) {

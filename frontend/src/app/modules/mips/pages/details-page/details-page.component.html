@@ -44,6 +44,7 @@
           *ngIf="sections && mip"
           class="no-mobile"
           [sourceData]="sections"
+          (selectMipFromMenu)="onMipSelect($event)"
           [darkMode]="darkModeService.getDarkMode()"
         ></app-proposal-components>
         <app-proposal-components
@@ -57,6 +58,7 @@
       </div>
     </div>
     <app-detail-content
+      [mipSelect]="mipSelect"
       [mdUrl]="mdUrl"
       [mip]="mip"
       [subproposals]="subproposals"
