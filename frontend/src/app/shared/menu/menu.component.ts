@@ -1,5 +1,13 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
-import {Component, ElementRef, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
@@ -41,7 +49,6 @@ export class MenuComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     this.isOpen = this.isOpen ? this.isOpen : this.openedIndex === this.index;
     this.openedIndexChild = this.isOpen ? this.openedIndexChild : -1;
-
   }
 
   initPosition(): void {
@@ -104,21 +111,24 @@ export class MenuComponent implements OnInit, OnChanges {
 
   onClick(ev: Event): void {
     if (this.levelMenu === 0) {
+      // setTimeout(() => {
       const positionX = (ev.currentTarget as HTMLElement).getClientRects()[0]
         .left;
 
       const movePositionX =
-        window.innerWidth > 500 ? positionX - 90 : positionX - 30;
+        window.innerWidth > 500 ? positionX - 40 : positionX - 30;
 
-      console.log({movePositionX});
+      console.log({ movePositionX });
 
       this.menuService.setsXClicked(movePositionX);
+      //  }, 1000);
     }
-
     ev.stopPropagation();
     this.toggle.next(!this.isOpen);
+    setTimeout(() => {
+     
 
-    if (this.menu.children && this.menu.children.length > 0) {
+      if (this.menu.children && this.menu.children.length > 0) {
         if (this.levelMenu > 0) {
           this.open();
         } else {
@@ -134,14 +144,13 @@ export class MenuComponent implements OnInit, OnChanges {
         this.menuService.setClicked(this.menu);
         this.closeMenu();
       }
-
+    }, 200);
   }
 
   open(e?): void {
     if (this.levelMenu > 0) {
       this.isOpen = this.levelMenu > 0;
       this.opened.next();
-
     }
 
     if (e) {

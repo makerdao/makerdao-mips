@@ -75,7 +75,7 @@ interface ExpandedItems {
   ],
 })
 export class ListComponent implements OnInit, OnChanges, OnDestroy {
-  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'links'];
   @Input() dataSource: any;
   @Input() loading = true;
   @Input() moreToLoad = true;
@@ -111,7 +111,6 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
     summary: false,
   };
 
-
   get expandedItems() {
     return this._expandedItems;
   }
@@ -127,7 +126,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   subscriptionFilterService: Subscription;
   @Input() showHead: boolean = true;
   @Input() query: string;
-  @Input() darkMode=false;
+  @Input() darkMode = false;
 
   markdown = `## Markdown __rulez__!
 ---
@@ -170,16 +169,20 @@ const language = 'typescript';
     this.currentSortingColumn =
       this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
         ? 'pos'
-        : (OrderFieldName[
-            this.orderService.order.field
-          ] as string)?.toLowerCase();
+        : (
+            OrderFieldName[this.orderService.order.field] as string
+          )?.toLowerCase();
     this.ascOrderSorting = this.orderService.order.direction == 'ASC';
-    this.subscriptionSearchService = this.searchService.search$.subscribe(data => {
-      this.search = data;
-    });
-    this.subscriptionFilterService = this.filterService.filter$.subscribe(data => {
-      this.filter = data;
-    });
+    this.subscriptionSearchService = this.searchService.search$.subscribe(
+      (data) => {
+        this.search = '';
+      }
+    );
+    this.subscriptionFilterService = this.filterService.filter$.subscribe(
+      (data) => {
+        this.filter = data;
+      }
+    );
   }
 
   ngOnChanges() {
@@ -326,7 +329,6 @@ const language = 'typescript';
 
   onGetSubproposals(row: IMip, e: Event) {
     e.stopPropagation();
-
     if (row.expanded) {
       row.expanded = false;
     } else {
@@ -339,23 +341,34 @@ const language = 'typescript';
         let filter = clone(this.filter);
         filter['equals'] = [];
         filter.equals.push({ field: 'proposal', value: row.mipName });
+        filter.search = '';
+        // TODO:Choose what criteria of filter do we want?
+        filter.contains = filter.contains || [];
+        filter.contains.push({ field: 'mipName', value: row.mipName });
+        filter.notequals = [];
         let order: string;
-
-        if (this.orderService.order.field && this.orderService.order.direction) {
-          order = OrderDirection[this.orderService.order.direction] + OrderField[this.orderService.order.field];
+        if (
+          this.orderService.order.field &&
+          this.orderService.order.direction
+        ) {
+          order =
+            OrderDirection[this.orderService.order.direction] +
+            OrderField[this.orderService.order.field];
         } else {
           order = 'mipName';
         }
 
-        console.log({order})
-
+        console.log({ order });
         this.mipsService
           .searchMips(
             100000,
             0,
-            // 'mipName',
-            order+" mipCodeNumber",
-            row.showArrowExpandChildren ? this.query ? this.query : this.search : '',
+            order + ' mipCodeNumber',
+            row.showArrowExpandChildren
+              ? this.query
+                ? this.query
+                : this.search
+              : '',
             filter,
             'title proposal mipName filename paragraphSummary sentenceSummary mip status forumLink votingPortalLink mipCodeNumber'
           )
@@ -379,22 +392,25 @@ const language = 'typescript';
               }
 
               const subsetRows: ISubsetDataElement[] = [];
-              const components: ComponentMip[] = this.dataSourceTable.data[index].components;
+              const components: ComponentMip[] =
+                this.dataSourceTable.data[index].components;
               let indexComp: number;
               let componentMipTitle = '';
 
               for (const key in subproposalsGroup) {
+                row.expanded = true;
                 if (
                   Object.prototype.hasOwnProperty.call(subproposalsGroup, key)
                 ) {
-                  indexComp = components.findIndex((item) => item.cName === key);
+                  indexComp = components.findIndex(
+                    (item) => item.cName === key
+                  );
                   if (indexComp !== -1) {
                     componentMipTitle = components[indexComp].cTitle;
                   }
                   subsetRows.push({ subset: key, title: componentMipTitle });
                 }
               }
-
               let subsetSortedRows: any[] = (subsetRows as []).sort(function (
                 a: any,
                 b: any
@@ -404,7 +420,6 @@ const language = 'typescript';
                   ? -1
                   : 1;
               });
-
               row.subsetRows = subsetSortedRows;
               row.subproposalsGroup = subproposalsGroup;
               row.expanded = true;
