@@ -975,3 +975,24 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 .mipTitleList{
   top: 1px;
 }
+
+.titleHeader{
+  padding-right: 290px !important;
+}
+.titleSummary{
+  padding-right: 390px !important;
+  &:hover {
+    .headerContent {
+      color: #748aa1;
+    }
+  }
+}
+.titleStatus{
+  padding-right: 130px !important;
+}
+.titleLinks{
+  padding-right: 90px !important;
+}
+.titlePost{
+ padding-right: 30px;
+}
