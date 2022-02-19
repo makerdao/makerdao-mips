@@ -98,13 +98,14 @@
               <th
                 mat-header-cell
                 *matHeaderCellDef
-                (click)="onSendOrder(column)"
-                style="cursor: pointer"
-                class="titlePost"
+                (click)="onSendOrder(column)"         
               >
                 <span class="headerContent"
+                style="cursor: pointer; padding-right: 50px;"
+                class="titlePost"
                   >#
                   <app-asc-des
+                  style="padding-left: 3px;"
                     [direction]="getOrderDirection(column)"
                   ></app-asc-des
                 ></span>

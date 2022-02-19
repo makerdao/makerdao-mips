@@ -197,8 +197,8 @@ th {
 }
 
 .mat-column-pos {
-  width: 7%;
-  max-width: 10px;
+  width: 10%;
+  max-width: 20px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -994,5 +994,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   padding-right: 90px !important;
 }
 .titlePost{
- padding-right: 30px;
+  display: flex ;
+  flex-direction: row;
 }
