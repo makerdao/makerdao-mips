@@ -61,11 +61,11 @@
     ></app-md-checkbox>
 
     <app-md-checkbox
-      *ngIf=" !hideParent"
+      *ngIf=" hideParent && multipleQueries"
       style="margin-right: 10px"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
-      [checkInput]="hideParentValue"
+      [checkInput]="hideParent"
     ></app-md-checkbox>
 
     <app-search
