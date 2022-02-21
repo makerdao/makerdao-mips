@@ -134,18 +134,19 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     for (const key in queryParams) {
       if (Object.prototype.hasOwnProperty.call(queryParams, key)) {
         const element = queryParams[key];
-
+        const newQueryEle = {
+          queryName: key,
+          query: element,
+          expanded: true,
+          page: 0,
+          mips: [],
+          loading: false,
+          limitAux: 10,
+        };
         if (key.includes('_')) {
-          this.dataSourceMultiQueriesRows.push({
-            queryName: key,
-            query: element,
-            expanded: false,
-            page: 0,
-            mips: [],
-            loading: false,
-            limitAux: 10,
-          });
+          this.dataSourceMultiQueriesRows.push(newQueryEle);
         }
+        this.onExpandQuery(newQueryEle, true);
       }
     }
   }
@@ -272,7 +273,11 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     this.isArrowMipsetDownOnMouseOver = value;
   }
 
-  onExpandQuery(row: IMultipleQueryDataElement) {
+  onExpandQuery(row: IMultipleQueryDataElement, forceExpanded?: boolean) {
+    if (forceExpanded) {
+      this.searchMips(row);
+      return;
+    }
     if (row.expanded) {
       row.expanded = false;
     } else {
