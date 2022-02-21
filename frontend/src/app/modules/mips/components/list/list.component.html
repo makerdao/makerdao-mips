@@ -2,7 +2,8 @@
   class="maker-container"
   [ngClass]="{
     'loading-height-fixed': loading,
-    'maker-container-dark': darkMode
+    'maker-container-dark': darkMode,
+    'maker-container-no-dark':!darkMode
   }"
 >
   <div *ngIf="loading && !dataSource.length" class="maker-loading-shade">
@@ -16,6 +17,7 @@
       (scrolled)="onScroll()"
     >
       <table
+      [ngClass]="{'maker-container-no-dark-sub-proposal':!darkMode}"
         mat-table
         [dataSource]="dataSourceTable"
         multiTemplateDataRows

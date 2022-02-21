@@ -820,6 +820,34 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   overflow: hidden;
 }
 
+.maker-container{
+  .maker-container-no-dark{ 
+      .mat-column-title,
+      .mat-column-summary,
+      .mat-column-status,
+      .mat-column-link {
+        border-bottom: 1px solid #EBEDF4 !important;
+      }
+  }
+}
+.maker-container{
+  position: relative;
+    .mat-header-cell{
+        border-bottom: 1px solid #cacfdf !important;
+      }
+  ::ng-deep {
+
+  .mat-header-cell th{
+        border-bottom: 1px solid #EBEDF4 !important;
+      }
+    .mat-column-title,
+    .mat-column-summary,
+    .mat-column-status,
+    .mat-column-link {
+      border-bottom: 1px solid #EBEDF4 !important;
+    }
+  }
+}
 // Dark Mode
 .maker-container {
   position: relative;
@@ -895,7 +923,9 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       .mat-column-link {
         border-bottom: 1px solid #31394d !important;
       }
-
+       .mat-header-cell{
+       border-bottom: 1px solid #31394d !important;
+       }
       tr.maker-element-row:not(.maker-expanded-row):hover {
         .mat-column-pos {
           background: #1a202b !important;

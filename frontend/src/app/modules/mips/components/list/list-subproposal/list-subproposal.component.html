@@ -3,7 +3,7 @@
   mat-table
   [dataSource]="dataSource"
   multiTemplateDataRows
-  class="subset-table-children"
+  [ngClass]="{'subset-table-children':darkMode}"
 >
   <ng-container
     matColumnDef="{{ column }}"
@@ -70,6 +70,9 @@
         *matCellDef="let element"
         (click)="onNavigateToDetails(element.mipName)"
         style="cursor: pointer;position:relative;"
+        [ngClass]="{
+          'subproposal-title': element.proposal
+        }"
       >
         <div class="borderBottom"></div>
         <div class="space-status"></div>

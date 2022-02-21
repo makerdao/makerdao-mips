@@ -2,7 +2,10 @@
 
 <div
   class="container"
-  [ngClass]="{ 'list-page-container-dark': darkModeService.getDarkMode() }"
+  [ngClass]="{
+    'list-page-container-dark': darkModeService.getDarkMode(),
+    'list-page-container-no-dark': !darkModeService.getDarkMode()
+  }"
 >
   <p
     class="title"
@@ -61,7 +64,7 @@
     ></app-md-checkbox>
 
     <app-md-checkbox
-      *ngIf=" !hideParent"
+      *ngIf="!hideParent"
       style="margin-right: 10px"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
@@ -84,7 +87,7 @@
       [darkMode]="darkModeService.getDarkMode()"
     >
     </app-search>
-    <app-filter (send)="onSendFilters()" style="display: none;"></app-filter>
+    <app-filter (send)="onSendFilters()" style="display: none"></app-filter>
   </div>
 </div>
 <app-filter-list
