@@ -148,18 +148,8 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
         };
 
         if (key.includes('_')) {
-          // this.dataSourceMultiQueriesRows.push({
-          //   queryName: key,
-          //   query: element,
-          //   expanded: false,
-          //   page: 0,
-          //   mips: [],
-          //   loading: false,
-          //   limitAux: 10,
-          // });
             this.dataSourceMultiQueriesRows.push(newQueryEle);
         }
-        console.log("this.shouldBeExpandedMultiQuery",this.shouldBeExpandedMultiQuery)
         this.onExpandQuery(newQueryEle, this.shouldBeExpandedMultiQuery);
       }
     }
@@ -286,24 +276,14 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   onMouseOverLeaveMipsetArrow(mipset: any, value: boolean) {
     this.isArrowMipsetDownOnMouseOver = value;
   }
-
-  // onExpandQuery(row: IMultipleQueryDataElement) {
-  //   if (row.expanded) {
-  //     row.expanded = false;
-  //   } else {
-  //     this.searchMips(row);
-  //   }
-  // }
   onExpandQuery(row: IMultipleQueryDataElement, shouldBeExpandedMultiQuery?: boolean) {
     const queryParams = this.queryParamsListService.queryParams;
-    console.log("queryParams-on-click",queryParams)
-    console.log("row.expanded",row.expanded)
     if (shouldBeExpandedMultiQuery) {
       this.searchMips(row);
       return;
     }
     
-    if (shouldBeExpandedMultiQuery &&  row.expanded) {
+    if (row.expanded) {
       row.expanded = false;
     } else {
       this.searchMips(row);
