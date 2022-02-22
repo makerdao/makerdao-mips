@@ -77,6 +77,8 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     orderObj: Order;
   }>();
   @Input() darkMode: boolean = false;
+  @Input() shouldBeExpandedMultiQuery
+  @Output() isExpanded
   
   constructor(
     private mipsService: MipsService,
@@ -135,17 +137,30 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
       if (Object.prototype.hasOwnProperty.call(queryParams, key)) {
         const element = queryParams[key];
 
+        const newQueryEle = {
+          queryName: key,
+          query: element,
+          expanded: true,
+          page: 0,
+          mips: [],
+          loading: false,
+          limitAux: 10,
+        };
+
         if (key.includes('_')) {
-          this.dataSourceMultiQueriesRows.push({
-            queryName: key,
-            query: element,
-            expanded: false,
-            page: 0,
-            mips: [],
-            loading: false,
-            limitAux: 10,
-          });
+          // this.dataSourceMultiQueriesRows.push({
+          //   queryName: key,
+          //   query: element,
+          //   expanded: false,
+          //   page: 0,
+          //   mips: [],
+          //   loading: false,
+          //   limitAux: 10,
+          // });
+            this.dataSourceMultiQueriesRows.push(newQueryEle);
         }
+        console.log("this.shouldBeExpandedMultiQuery",this.shouldBeExpandedMultiQuery)
+        this.onExpandQuery(newQueryEle, this.shouldBeExpandedMultiQuery);
       }
     }
   }
@@ -272,13 +287,32 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     this.isArrowMipsetDownOnMouseOver = value;
   }
 
-  onExpandQuery(row: IMultipleQueryDataElement) {
-    if (row.expanded) {
+  // onExpandQuery(row: IMultipleQueryDataElement) {
+  //   if (row.expanded) {
+  //     row.expanded = false;
+  //   } else {
+  //     this.searchMips(row);
+  //   }
+  // }
+  onExpandQuery(row: IMultipleQueryDataElement, shouldBeExpandedMultiQuery?: boolean) {
+    const queryParams = this.queryParamsListService.queryParams;
+    console.log("queryParams-on-click",queryParams)
+    console.log("row.expanded",row.expanded)
+    if (shouldBeExpandedMultiQuery) {
+      this.searchMips(row);
+      return;
+    }
+    
+    if (shouldBeExpandedMultiQuery &&  row.expanded) {
       row.expanded = false;
     } else {
       this.searchMips(row);
     }
   }
+
+
+
+
 
   searchMips(row: IMultipleQueryDataElement) {
     if (!row.loading) {

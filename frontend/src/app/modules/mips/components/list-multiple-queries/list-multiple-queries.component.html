@@ -1,4 +1,4 @@
-<div class="maker-container" [ngClass]="{'maker-container-dark':darkMode}">
+<div class="maker-container" [ngClass]="{ 'maker-container-dark': darkMode }">
   <table mat-table [dataSource]="null" multiTemplateDataRows class="no-mobile">
     <ng-container
       matColumnDef="{{ column }}"
@@ -9,7 +9,7 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            style="cursor: pointer;"
+            style="cursor: pointer"
             (click)="onSendOrder(column)"
           >
             <span class="headerContent"
@@ -24,7 +24,7 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            style="cursor: pointer;"
+            style="cursor: pointer"
             (click)="onSendOrder(column)"
           >
             <span class="headerContent"
@@ -65,7 +65,7 @@
           class="mipsetColumn"
           mat-cell
           *matCellDef="let element"
-          style="cursor: pointer; position: relative;"
+          style="cursor: pointer; position: relative"
           [ngStyle]="{
             color: element.expanded ? '#B8C5D3' : ''
           }"
@@ -78,7 +78,7 @@
               (mouseleave)="
                 onMouseOverLeaveMipsetArrow(element.queryName, false)
               "
-              style="right: 0; position: relative;"
+              style="right: 0; position: relative"
               [ngClass]="{
                 'dark-expand-arrow': !element.expanded,
                 'shine-expand-arrow': element.expanded
@@ -165,8 +165,8 @@
         class="mobile-container subproposal-card-mipsetMode"
         (click)="onExpandQuery(itemQuery)"
       >
-        <div style="width: calc(100% - 35px);">
-          <span class="title" style="font-size: 20px;">
+        <div style="width: calc(100% - 35px)">
+          <span class="title" style="font-size: 20px">
             {{ itemQuery.queryName.split("_").join(" ") | titlecase }}</span
           >
         </div>
@@ -174,7 +174,7 @@
           <button
             class="arrow-container"
             [disabled]="false"
-            style="right: 0; top: 24px; transform: translateY(-50%);"
+            style="right: 0; top: 24px; transform: translateY(-50%)"
           >
             <div
               class="arrow-wrapper expanded"
@@ -213,3 +213,4 @@
     </div>
   </ng-container>
 </div>
+<div>{{ shouldBeExpandedMultiQuery ? "true" : "false" }}</div>

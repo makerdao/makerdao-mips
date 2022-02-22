@@ -9,4 +9,5 @@ export default interface QueryParams {
   orderBy?: string;
   orderDirection?: string;
   lang?:string;
+  shouldBeExpandedMultiQuery?:boolean
 }

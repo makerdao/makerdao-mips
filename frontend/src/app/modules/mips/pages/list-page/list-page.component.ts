@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
@@ -64,6 +64,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   searchSuggestions = false;
   orderObj: Order;
   multipleQueries = false;
+  shouldBeExpandedMultiQuery=true
 
   constructor(
     private mipsService: MipsService,
@@ -134,6 +135,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   initQueryParams() {
     let queryParams: any = this.route.snapshot.queryParamMap;
+    console.log("queryParams",queryParams)
     let status;
 
     if (queryParams.has('status')) {
@@ -154,6 +156,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       customViewName: queryParams.params.customViewName,
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
+      // hideParents:true,
+      // shouldBeExpandedMultiQuery:this.shouldBeExpandedMultiQuery
     };
     this.hideParentValue = qp.hideParents
       ? JSON.parse(qp.hideParents.toString())
@@ -677,13 +681,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onCheckedHideParents($event): void {
     let queryParams: any = this.route.snapshot.queryParamMap;
-
     let qp: QueryParams = {
       ...queryParams.params,
       hideParents: $event,
+      shouldBeExpandedMultiQuery:!this.shouldBeExpandedMultiQuery
     };
 
     this.hideParentValue = $event;
+    this.shouldBeExpandedMultiQuery=!this.shouldBeExpandedMultiQuery
     this.queryParamsListService.queryParams = qp;
     this.updateUrlQueryParams(qp);
   }
