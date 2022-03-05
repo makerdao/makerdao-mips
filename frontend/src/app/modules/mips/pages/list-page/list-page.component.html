@@ -123,6 +123,7 @@
   *ngIf="!mipsetMode && multipleQueries"
   (changeOrder)="changeOrder($event)"
   [darkMode]="darkModeService.getDarkMode()"
+  [hideParent]="hideParentValue"
 >
 </app-list-multiple-queries>
 <app-button-top></app-button-top>

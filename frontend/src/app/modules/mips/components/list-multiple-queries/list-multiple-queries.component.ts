@@ -77,8 +77,9 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     orderObj: Order;
   }>();
   @Input() darkMode: boolean = false;
-  @Input() shouldBeExpandedMultiQuery
   @Output() isExpanded
+  @Input() shouldBeExpandedMultiQuery
+  @Input() hideParent:boolean
   
   constructor(
     private mipsService: MipsService,

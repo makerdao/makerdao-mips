@@ -1085,17 +1085,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     };
 
     if (!qp?.search?.includes('$') || qp?.mipsetMode == true) {
-      // delete qp.hideParents;
-      this.hideParentValue = false;
       this.hideParent = true;
-    } else {
-      if (!qp.hideParents) {
-        qp.hideParents = false;
-      }
-      this.hideParentValue = JSON.parse(qp.hideParents.toString());
-      this.hideParent = false;
     }
-
     this.router.navigate([], { ...navigationExtras });
   }
 
