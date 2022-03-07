@@ -71,6 +71,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   orderObj: Order;
   multipleQueries = false;
   shouldBeExpandedMultiQuery = true;
+  statusParameters=false
 
   constructor(
     private mipsService: MipsService,
@@ -161,7 +162,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       customViewName: queryParams.params.customViewName,
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
-      hideParents: this.hideParent && this.multipleQueries ? true : null,
+      hideParents: this.hideParent && this.multipleQueries ? false : null,
       shouldBeExpandedMultiQuery:
         this.hideParent && this.multipleQueries
           ? this.shouldBeExpandedMultiQuery
@@ -170,7 +171,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (qp.customViewName) {
       qp = {
         ...qp,
-        hideParents: true,
+        hideParents: false,
         shouldBeExpandedMultiQuery: true,
       };
     }
@@ -1056,6 +1057,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.hideParentValue = JSON.parse(qp.hideParents.toString());
       this.hideParent = false;
     }
+    if(qp?.search?.includes('$')){
+        this.statusParameters=true
+    }
 
     if (filterSaved.arrayStatus[0] === 1) {
       qp.status.push('Accepted');
@@ -1086,6 +1090,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
     if (!qp?.search?.includes('$') || qp?.mipsetMode == true) {
       this.hideParent = true;
+      this.statusParameters=true
     }
     this.router.navigate([], { ...navigationExtras });
   }

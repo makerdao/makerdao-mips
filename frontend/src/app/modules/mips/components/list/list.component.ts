@@ -126,7 +126,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() showHead: boolean = true;
   @Input() query: string;
   @Input() darkMode = false;
-
+  @Input() statusParameters 
   markdown = `## Markdown __rulez__!
 ---
 

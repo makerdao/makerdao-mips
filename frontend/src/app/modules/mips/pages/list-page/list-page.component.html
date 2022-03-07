@@ -65,7 +65,7 @@
       style="margin-right: 10px"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
-      [checkInput]="hideParent"
+      [checkInput]="hideParentValue"
     ></app-md-checkbox>
 
     <app-md-checkbox
@@ -73,7 +73,7 @@
       style="margin-right: 10px"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
-      [checkInput]="hideParent"
+      [checkInput]="hideParentValue"
     ></app-md-checkbox>
 
     <app-search
@@ -124,6 +124,7 @@
   (changeOrder)="changeOrder($event)"
   [darkMode]="darkModeService.getDarkMode()"
   [hideParent]="hideParentValue"
+  [statusParameters]="statusParameters"
 >
 </app-list-multiple-queries>
 <app-button-top></app-button-top>

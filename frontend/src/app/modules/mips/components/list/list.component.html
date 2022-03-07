@@ -269,8 +269,8 @@
           *matRowDef="let element; columns: columnsToDisplay"
           class="maker-element-row"
           [class.maker-expanded-row]="element.expanded"
-          [class.maker-hide-row]="(hideParent && element.hide)"
-          [class.maker-hide-row]="hideParent"
+          [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
+          [class.maker-hide-row]="hideParent && statusParameters"
 
         ></tr>
         <tr

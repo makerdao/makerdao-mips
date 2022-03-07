@@ -80,6 +80,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   @Output() isExpanded
   @Input() shouldBeExpandedMultiQuery
   @Input() hideParent:boolean
+  @Input() statusParameters
   
   constructor(
     private mipsService: MipsService,
