@@ -132,7 +132,7 @@
 <ng-template #preview let-data>
   <section
     class="preview"
-    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp,'preview-dark':darkMode }"
+    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp,'preview-dark':darkMode,'not-preview-dark':!darkMode}"
     #previewRef
   >
     <div
