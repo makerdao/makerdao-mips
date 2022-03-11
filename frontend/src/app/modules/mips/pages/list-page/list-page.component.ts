@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
 import { MipsService } from '../../services/mips.service';
 import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
@@ -43,7 +49,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   @ViewChild('filterList', { static: true }) filterList: FilterListComponent;
   showFilterList: boolean = false;
   showListSearch: boolean = false;
-  hideParent: boolean = true;
+  hideParent: boolean = false;
   hideParentValue: boolean = false;
 
   listSearchMip: any[] = [];
@@ -64,6 +70,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   searchSuggestions = false;
   orderObj: Order;
   multipleQueries = false;
+  shouldBeExpandedMultiQuery = true;
+  statusParameters=false
 
   constructor(
     private mipsService: MipsService,
@@ -154,7 +162,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       customViewName: queryParams.params.customViewName,
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
+      hideParents: this.hideParent && this.multipleQueries ? false : null,
+      shouldBeExpandedMultiQuery:
+        this.hideParent && this.multipleQueries
+          ? this.shouldBeExpandedMultiQuery
+          : null,
     };
+    if (qp.customViewName) {
+      qp = {
+        ...qp,
+        hideParents: false,
+        shouldBeExpandedMultiQuery: true,
+      };
+    }
     this.hideParentValue = qp.hideParents
       ? JSON.parse(qp.hideParents.toString())
       : false;
@@ -677,10 +697,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onCheckedHideParents($event): void {
     let queryParams: any = this.route.snapshot.queryParamMap;
-
     let qp: QueryParams = {
       ...queryParams.params,
       hideParents: $event,
+      shouldBeExpandedMultiQuery: this.shouldBeExpandedMultiQuery,
     };
 
     this.hideParentValue = $event;
@@ -1037,6 +1057,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.hideParentValue = JSON.parse(qp.hideParents.toString());
       this.hideParent = false;
     }
+    if(qp?.search?.includes('$')){
+        this.statusParameters=true
+    }
 
     if (filterSaved.arrayStatus[0] === 1) {
       qp.status.push('Accepted');
@@ -1066,17 +1089,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     };
 
     if (!qp?.search?.includes('$') || qp?.mipsetMode == true) {
-      delete qp.hideParents;
-      this.hideParentValue = false;
       this.hideParent = true;
-    } else {
-      if (!qp.hideParents) {
-        qp.hideParents = false;
-      }
-      this.hideParentValue = JSON.parse(qp.hideParents.toString());
-      this.hideParent = false;
+      this.statusParameters=true
     }
-
     this.router.navigate([], { ...navigationExtras });
   }
 

@@ -61,7 +61,15 @@
     ></app-md-checkbox>
 
     <app-md-checkbox
-      *ngIf=" !hideParent"
+      *ngIf="!hideParent"
+      style="margin-right: 10px"
+      [label]="'Hide Parents'"
+      (checked)="onCheckedHideParents($event)"
+      [checkInput]="hideParentValue"
+    ></app-md-checkbox>
+
+    <app-md-checkbox
+      *ngIf="hideParent && multipleQueries"
       style="margin-right: 10px"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
@@ -84,7 +92,7 @@
       [darkMode]="darkModeService.getDarkMode()"
     >
     </app-search>
-    <app-filter (send)="onSendFilters()" style="display: none;"></app-filter>
+    <app-filter (send)="onSendFilters()" style="display: none"></app-filter>
   </div>
 </div>
 <app-filter-list
@@ -111,9 +119,12 @@
   (changeOrder)="changeOrder($event)"
 ></app-list-mipset-mode>
 <app-list-multiple-queries
+  [shouldBeExpandedMultiQuery]="shouldBeExpandedMultiQuery"
   *ngIf="!mipsetMode && multipleQueries"
   (changeOrder)="changeOrder($event)"
   [darkMode]="darkModeService.getDarkMode()"
+  [hideParent]="hideParentValue"
+  [statusParameters]="statusParameters"
 >
 </app-list-multiple-queries>
 <app-button-top></app-button-top>
