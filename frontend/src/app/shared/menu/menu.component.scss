@@ -186,7 +186,7 @@
 
 .dropdown-content {
   width: calc(35vw - 0.2px);
-  height: auto;
+  height: fit-content;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -368,7 +368,7 @@
 
   .dropdown-content {
     width: max-content;
-    height: auto;
+    height: fit-content;
     background-color: white;
     display: flex;
     flex-direction: column;
