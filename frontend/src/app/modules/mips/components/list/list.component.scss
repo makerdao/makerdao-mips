@@ -73,6 +73,9 @@ tr.maker-element-row:not(.maker-expanded-row):active {
     margin-left: 6px;
   }
 }
+// .headerContent app-asc-des{
+//   margin-left: 70px!important;
+// }
 
 .linkHeader.headerContent {
   justify-content: center;
@@ -197,8 +200,8 @@ th {
 }
 
 .mat-column-pos {
-  width: 10%;
-  max-width: 20px;
+  width: 7%;
+  max-width: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -976,23 +979,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   top: 1px;
 }
 
-.titleHeader{
-  padding-right: 290px !important;
-}
-.titleSummary{
-  padding-right: 390px !important;
-  &:hover {
-    .headerContent {
-      color: #748aa1;
-    }
-  }
-}
-.titleStatus{
-  padding-right: 130px !important;
-}
-.titleLinks{
-  padding-right: 90px !important;
-}
 .titlePost{
   display: flex ;
   flex-direction: row;
