@@ -176,14 +176,16 @@ th {
 .mat-column-summary {
   max-width: 150px;
   padding-right: 30px;
+  padding-left: 40px !important;
   width: 50%;
   border-bottom: 1px solid #ebedf4 ;
 }
 
 .mat-column-status {
   width: 17%;
-  max-width: 20px;
-  padding-right: 30px;
+  max-width: 10px;
+  padding-left: 20px !important;
+  padding-right: 30px !important;
   border-bottom: 1px solid #ebedf4 ;
 }
 
@@ -201,7 +203,7 @@ th {
 
 .mat-column-link {
   width: 5%;
-  // max-width: 10px;
+  padding-right: 35px !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -315,7 +317,7 @@ a {
 }
 
 .paragraphSummary {
-  max-width: 95%;
+  max-width: 90%;
   float: left;
   padding-bottom: 10px;
   margin-bottom: 10px;
