@@ -124,9 +124,9 @@ export class MIPsService {
     );
   }
 
-  // Function to build filter
+  // Function to build filter*
   async buildFilter(
-    search: string,
+    searchText: string,
     filter?: Filters,
     language?: Language
   ): Promise<any> {
@@ -223,11 +223,10 @@ export class MIPsService {
       }
     }
 
-    if (search) {
-      if (search.startsWith("$")) {
-        const ast = await this.parseQueryService.parse(search);
+    if (searchText) {
+      if (searchText.startsWith("$")) {
+        const ast = await this.parseQueryService.parse(searchText);
         const query = this.buildSmartMongoDBQuery(ast);
-
         source = {
           $and: [
             {
@@ -237,14 +236,12 @@ export class MIPsService {
           ],
         };
       } else {
-        
-        
-        if (search.match(/\s/g)) {
-          source["$text"] = { $search: search };
+        if (searchText.match(/\s/g)) {
+          source["$text"] = { $search: `\"${searchText}\"` };
         } else {
-          source["$text"] = { $search: `"${search}"` };
+          source["$text"] = { $search: `"${searchText}"` };
         }
-    }
+      }
     }
     return source;
   }
@@ -355,6 +352,9 @@ export class MIPsService {
         flag = true;
         break;
       case "title":
+        flag = true;
+        break;
+      case "sectionsRaw":
         flag = true;
         break;
     }
@@ -542,7 +542,9 @@ export class MIPsService {
     return existingMIPs;
   }
 
-  async remove(id: string): Promise<{
+  async remove(
+    id: string
+  ): Promise<{
     n: number;
     ok: number;
     deletedCount: number;
