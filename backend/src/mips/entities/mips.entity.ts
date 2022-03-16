@@ -3,8 +3,8 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Document } from "mongoose";
 
 export enum Language {
-  English='en',
-  Spanish='es',
+  English = "en",
+  Spanish = "es",
 }
 
 export type MIPsDoc = MIP & Document;
@@ -35,11 +35,9 @@ export class Component {
   @Prop()
   cTitle: string;
 
-
   @Prop()
   cBody: string;
 }
-
 
 @Schema()
 export class MIP {
@@ -51,7 +49,7 @@ export class MIP {
   hash: string;
 
   @Prop({
-    default: Language.English
+    default: Language.English,
   })
   language?: Language;
 
@@ -60,7 +58,7 @@ export class MIP {
     type: Number,
   })
   mip?: number;
-  
+
   @Prop()
   mipName?: string;
 
@@ -98,7 +96,7 @@ export class MIP {
     type: [String],
   })
   tags?: string[];
-  
+
   @Prop()
   status?: string;
   @Prop()
@@ -120,22 +118,22 @@ export class MIP {
   paragraphSummary?: string;
 
   @Prop({
-    type: [Object]
+    type: [Object],
   })
   sections?: Section[];
 
   @Prop({
-    type: [String]
+    type: [String],
   })
   sectionsRaw?: string[];
 
   @Prop({
-    type: [Object]
+    type: [Object],
   })
   references?: Reference[];
 
   @Prop({
-    type: [Object]
+    type: [Object],
   })
   components?: Component[];
 
@@ -170,12 +168,11 @@ export class Mips {
     type: Number,
   })
   mip?: number;
-  
+
   @ApiPropertyOptional({
-    required:false
+    required: false,
   })
   mipName?: string;
-  
 
   @ApiPropertyOptional({
     default: -1,
@@ -195,7 +192,7 @@ export class Mips {
   @ApiPropertyOptional({
     default: "",
     type: String,
-    required:false
+    required: false,
   })
   proposal?: string;
 
@@ -213,83 +210,83 @@ export class Mips {
     type: [String],
   })
   tags?: string[];
-  
+
   @ApiProperty({
-    required:false
+    required: false,
   })
   status?: string;
   @ApiProperty({
-    required:false
+    required: false,
   })
   types?: string;
   @ApiProperty({
-    required:false
+    required: false,
   })
   dateProposed?: string;
   @ApiProperty({
-    required:false
+    required: false,
   })
   dateRatified?: string;
   @ApiProperty({
     type: [String],
-    required:false
+    required: false,
   })
   dependencies?: string[];
   @ApiProperty({
-    required:false
+    required: false,
   })
   replaces?: string;
 
   @ApiProperty({
-    required:false
+    required: false,
   })
   sentenceSummary?: string;
   @ApiProperty({
-    required:false
+    required: false,
   })
   paragraphSummary?: string;
 
   @ApiProperty({
     type: [Object],
-    required:false
+    required: false,
   })
   sections?: Section[];
 
   @ApiProperty({
     type: [String],
-    required:false
+    required: false,
   })
   sectionsRaw?: string[];
 
   @ApiProperty({
     type: [Object],
-    required:false
+    required: false,
   })
   references?: Reference[];
 
   @ApiProperty({
     type: [Object],
-    required:false
+    required: false,
   })
   components?: Component[];
 
   @ApiProperty({
-    required:false
+    required: false,
   })
   subproposalsCount?: number;
 
   @ApiProperty({
-    required:false
+    required: false,
   })
   votingPortalLink?: string;
 
   @ApiProperty({
-    required:false
+    required: false,
   })
   forumLink?: string;
 
   @ApiProperty({
-    required:false
+    required: false,
   })
   mipCodeNumber?: string;
 }
@@ -297,27 +294,22 @@ export class Mips {
 @Schema()
 export class ErrorObject {
   @ApiProperty()
-  statusCode?:number
+  statusCode?: number;
   @ApiProperty()
-  message?: string
+  message?: string;
   @ApiProperty()
-  error?: string
+  error?: string;
 }
-
 
 export class ErrorObjectModel {
- 
   @ApiPropertyOptional()
-  statusCode?:number
+  statusCode?: number;
   @ApiPropertyOptional()
-  message?: string
+  message?: string;
   @ApiPropertyOptional()
-  error?: string
+  error?: string;
 }
-
-
 
 export const MIPsSchema = SchemaFactory.createForClass(MIP);
 export const ErrorModelSchema = SchemaFactory.createForClass(ErrorObject);
-MIPsSchema.index({ title: "text", mipName: "text" });
-
+MIPsSchema.index({ title: "text", mipName: "text", sectionsRaw: "text" });
