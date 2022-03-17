@@ -43,13 +43,13 @@ import { SubproposalsComponent } from '../subproposals/subproposals.component';
       transition(':leave', [animate(100, style({ opacity: 0 }))]),
     ]),
   ],
-    host: {
-     "[class]" : "darkMode ? 'hostDarkMode':''",
-    }
+  host: {
+    '[class]': "darkMode ? 'hostDarkMode':''",
+  },
 })
 export class DetailContentComponent
-  implements OnInit, OnChanges, AfterViewInit {
-
+  implements OnInit, OnChanges, AfterViewInit
+{
   constructor(
     private markdownService: MarkdownService,
     private router: Router,
@@ -64,6 +64,7 @@ export class DetailContentComponent
   ) {}
   gitHubUrl = environment.repoUrl;
   @Input() mdUrl: string | undefined;
+  @Input() sourceData;
   mdFileName = '';
   openMore: boolean;
   positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
@@ -179,13 +180,32 @@ export class DetailContentComponent
 
       this.moveToElement(el);
     }
+    const pattern = /mip[0-9]+c[0-9]+:/i;
+    let escapedText;
+    const mapped = this.sourceData.map((d) => {
+      if (pattern.test(d.heading)) {
+        return (escapedText = d.heading?.split(':')[0]);
+      }
+      escapedText = d.heading?.toLowerCase().replace(/[^\w]+/g, '-');
+      return escapedText;
+    });
+
+    window.addEventListener('scroll', () => {
+      mapped.forEach((ele) => {
+        const link = document.getElementById(ele);
+        const linkSelected = link?.id;
+        const bound = link?.getBoundingClientRect();
+        if (bound && bound && Math.abs(bound?.y) < 170) {
+          this.router.navigate([], {
+            fragment: linkSelected,
+          });
+        }
+      });
+    });
   }
 
   isTouchDevice() {
-    return (
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0
-    );
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   }
 
   setPreviewFeature() {
@@ -267,8 +287,8 @@ export class DetailContentComponent
         this.triangleCenter = true;
       }
 
-      const element: HTMLElement = this.previewRef.nativeElement.parentElement
-        .parentElement;
+      const element: HTMLElement =
+        this.previewRef.nativeElement.parentElement.parentElement;
       element.style.marginTop = '17px';
       element.style.marginBottom = '17px';
     });
@@ -309,7 +329,8 @@ export class DetailContentComponent
                 .getMipBy('mipName', mipName)
                 .subscribe((data) => {
                   if (data) {
-                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin =
+                      e.target as HTMLElement;
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipName' },
@@ -336,7 +357,8 @@ export class DetailContentComponent
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
                   if (data) {
-                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin =
+                      e.target as HTMLElement;
 
                     const components = data.components;
                     const mipComponentName =
@@ -386,7 +408,8 @@ export class DetailContentComponent
                 .getMipBy('mipSubproposal', mipSubproposal)
                 .subscribe((data) => {
                   if (data) {
-                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin =
+                      e.target as HTMLElement;
 
                     this.showOverview(
                       { ...data, typeOfView: 'mipSubproposal' },
@@ -403,7 +426,7 @@ export class DetailContentComponent
         }
       }
     }
-  }
+  };
 
   closePreview = (e: Event) => {
     if (this.subscription && !this.subscription.closed) {
@@ -422,7 +445,7 @@ export class DetailContentComponent
         this.smartLinkWindowUp = false;
       }, 0);
     }
-  }
+  };
 
   ngOnChanges() {
     if (this.mip && this.mip?.sectionsRaw) {
@@ -500,18 +523,18 @@ export class DetailContentComponent
 
       // DOM manipulation
       const m: HTMLElement = document.querySelector('.variable-binding');
-      const h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
-        'h3'
-      );
+      const h3s: HTMLCollectionOf<HTMLHeadingElement> =
+        m.getElementsByTagName('h3');
 
       for (const key in this.subproposalsGroup) {
         if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
           for (let i = 0; i < h3s.length; i++) {
             const element = h3s.item(i);
             if (element.innerText.startsWith(key)) {
-              const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-                SubproposalsComponent
-              );
+              const componentFactory =
+                this.componentFactoryResolver.resolveComponentFactory(
+                  SubproposalsComponent
+                );
               const componentRef = componentFactory.create(this.injector);
               componentRef.instance.subproposals = [
                 ...this.subproposalsGroup[key],
@@ -559,7 +582,7 @@ export class DetailContentComponent
     const subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
     return item;
-  }
+  };
 
   groupBy(field, arr: any[]): any {
     const group: any = arr.reduce((r, a) => {
@@ -580,7 +603,7 @@ export class DetailContentComponent
   }
 
   sortSubproposalGroup(arr: any[]) {
-    return arr.sort(function(a: any, b: any) {
+    return arr.sort(function (a: any, b: any) {
       return (a.mipName as string).includes('SP') &&
         a.mipName.split('SP').length > 1
         ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
