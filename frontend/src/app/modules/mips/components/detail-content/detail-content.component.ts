@@ -25,7 +25,7 @@ import {
   OverlayRef,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { UrlService } from 'src/app/services/url/url.service';
 import { SubproposalsComponent } from '../subproposals/subproposals.component';
@@ -93,6 +93,7 @@ export class DetailContentComponent
 
   smartLinkWindowUp = false;
   titleMdFile = '';
+  linkSelect: string;
 
   leftPositions: ConnectedPosition[] = [
     {
@@ -199,6 +200,7 @@ export class DetailContentComponent
           this.router.navigate([], {
             fragment: linkSelected,
           });
+          this.linkSelect = link?.id;
         }
       });
     });
