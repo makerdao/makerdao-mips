@@ -1,92 +1,44 @@
 <ng-container *ngFor="let item of news; let i = index">
-
-  <div *ngIf="!darkModeService.darkMode && !(isHandset$ | async)" class="container"
-    [ngClass]="{'container-green': item.type === 'GREEN', 'container-yellow': item.type === 'YELLOW', 'container-red': item.type === 'RED'}">
-
-    <div class="item-icon"
-      [ngClass]="{'item-icon-green': item.type === 'GREEN', 'item-icon-yellow': item.type === 'YELLOW', 'item-icon-red': item.type === 'RED'}">
-      <img *ngIf="item.type === 'GREEN'" src="./assets/images/notification/circle.png" />
-      <img *ngIf="item.type === 'RED'" src="./assets/images/notification/triangle.png" />
-      <img *ngIf="item.type === 'YELLOW'" src="./assets/images/notification/tip.png" />
+  <div
+    *ngIf="!darkModeService.darkMode && !(isHandset$ | async)"
+    class="container"
+    [ngClass]="{
+      'container-green': item.type === 'GREEN',
+      'container-yellow': item.type === 'YELLOW',
+      'container-red': item.type === 'RED'
+    }"
+  >
+    <div
+      class="item-icon"
+      [ngClass]="{
+        'item-icon-green': item.type === 'GREEN',
+        'item-icon-yellow': item.type === 'YELLOW',
+        'item-icon-red': item.type === 'RED'
+      }"
+    >
+      <img
+        *ngIf="item.type === 'GREEN'"
+        src="./assets/images/notification/circle.png"
+      />
+      <img
+        *ngIf="item.type === 'RED'"
+        src="./assets/images/notification/triangle.png"
+      />
+      <img
+        *ngIf="item.type === 'YELLOW'"
+        src="./assets/images/notification/tip.png"
+      />
     </div>
 
-    <div class="item" style="width: 25%;">
-      <h3 class="title">{{item.title}}</h3>
+    <div class="item" style="width: 25%">
+      <h3 class="title">{{ item.title }}</h3>
     </div>
 
-    <div class="item" style="width: 68%;">
-      <h3 class="description">{{item.description}}</h3>
+    <div class="item" style="width: 50%">
+      <h3 class="description">{{ item.description }}</h3>
     </div>
-
-    <div class="icon closeNewButton" (click)="removeItem(i, item.id)">
-      <img src="./assets/images/notification/close.png" />
-    </div>
-  </div>
-
-  <div *ngIf="darkModeService.darkMode && (isHandset$ | async)" class="container-dark" style="flex-flow: wrap"
-    [ngClass]="{'container-green': item.type === 'GREEN', 'container-yellow': item.type === 'YELLOW', 'container-red': item.type === 'RED'}">
-
-    <div class="item-mobile">
-
-      <div style="width: 5%;">
-        <img width="20" *ngIf="item.type === 'GREEN'" src="./assets/images/notification/circle-dark.png" />
-        <img width="20" *ngIf="item.type === 'RED'" src="./assets/images/notification/triangle-dark.png" />
-        <img width="20" *ngIf="item.type === 'YELLOW'" src="./assets/images/notification/tip-dark.png" />
-      </div>
-
-      <h3 style="width: 86%; text-align: center; margin-top: 5px;" class="title-mobile">{{item.title}}</h3>
-
-      <div class="closeNewButton" style="width: 4%;" (click)="removeItem(i, item.id)">
-        <img width="12" src="./assets/images/notification/close.png" />
-      </div>
-    </div>
-
-    <div class="item-mobile">
-      <h3 class="description-mobile" style="margin-top: 0px;">{{item.description}}</h3>
-    </div>
-
-  </div>
-
-  <div *ngIf="!darkModeService.darkMode && (isHandset$ | async)" class="container" style="flex-flow: wrap"
-    [ngClass]="{'container-green': item.type === 'GREEN', 'container-yellow': item.type === 'YELLOW', 'container-red': item.type === 'RED'}">
-
-    <div class="item-mobile">
-
-      <div style="width: 5%;">
-        <img width="20" *ngIf="item.type === 'GREEN'" src="./assets/images/notification/circle-dark.png" />
-        <img width="20" *ngIf="item.type === 'RED'" src="./assets/images/notification/triangle-dark.png" />
-        <img width="20" *ngIf="item.type === 'YELLOW'" src="./assets/images/notification/tip-dark.png" />
-      </div>
-
-      <h3 style="width: 86%; text-align: center; margin-top: 5px;" class="title-mobile">{{item.title}}</h3>
-
-      <div class="closeNewButton" style="width: 4%;" (click)="removeItem(i, item.id)">
-        <img width="12" src="./assets/images/notification/close.png" />
-      </div>
-    </div>
-
-    <div class="item-mobile">
-      <h3 class="description-mobile" style="margin-top: 0px;">{{item.description}}</h3>
-    </div>
-
-  </div>
-
-  <div *ngIf="darkModeService.darkMode && !(isHandset$ | async)" class="container-dark"
-    [ngClass]="{'container-green': item.type === 'GREEN', 'container-yellow': item.type === 'YELLOW', 'container-red': item.type === 'RED'}">
-
-    <div class="item-icon"
-      [ngClass]="{'item-icon-green': item.type === 'GREEN', 'item-icon-yellow': item.type === 'YELLOW', 'item-icon-red': item.type === 'RED'}">
-      <img *ngIf="item.type === 'GREEN'" src="./assets/images/notification/circle-dark.png" />
-      <img *ngIf="item.type === 'RED'" src="./assets/images/notification/triangle-dark.png" />
-      <img *ngIf="item.type === 'YELLOW'" src="./assets/images/notification/tip-dark.png" />
-    </div>
-
-    <div class="item" style="width: 25%;">
-      <h3 class="title">{{item.title}}</h3>
-    </div>
-
-    <div class="item" style="width: 68%;">
-      <h3 class="description">{{item.description}}</h3>
+    <div class="title link" style="width: 20%">
+      <a href="{{item.link}}">{{linkForum}}</a>
     </div>
 
     <div class="icon closeNewButton" (click)="removeItem(i, item.id)">
@@ -94,6 +46,153 @@
     </div>
   </div>
 
+  <div
+    *ngIf="darkModeService.darkMode && (isHandset$ | async)"
+    class="container-dark"
+    style="flex-flow: wrap"
+    [ngClass]="{
+      'container-green': item.type === 'GREEN',
+      'container-yellow': item.type === 'YELLOW',
+      'container-red': item.type === 'RED'
+    }"
+  >
+    <div class="item-mobile">
+      <div style="width: 5%">
+        <img
+          width="20"
+          *ngIf="item.type === 'GREEN'"
+          src="./assets/images/notification/circle-dark.png"
+        />
+        <img
+          width="20"
+          *ngIf="item.type === 'RED'"
+          src="./assets/images/notification/triangle-dark.png"
+        />
+        <img
+          width="20"
+          *ngIf="item.type === 'YELLOW'"
+          src="./assets/images/notification/tip-dark.png"
+        />
+      </div>
+
+      <h3
+        style="width: 86%; text-align: center; margin-top: 5px"
+        class="title-mobile"
+      >
+        {{ item.title }}
+      </h3>
+
+      <div
+        class="closeNewButton"
+        style="width: 4%"
+        (click)="removeItem(i, item.id)"
+      >
+        <img width="12" src="./assets/images/notification/close.png" />
+      </div>
+    </div>
+
+    <div class="item-mobile">
+      <h3 class="description-mobile" style="margin-top: 0px">
+        {{ item.description }}
+      </h3>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!darkModeService.darkMode && (isHandset$ | async)"
+    class="container"
+    style="flex-flow: wrap"
+    [ngClass]="{
+      'container-green': item.type === 'GREEN',
+      'container-yellow': item.type === 'YELLOW',
+      'container-red': item.type === 'RED'
+    }"
+  >
+    <div class="item-mobile">
+      <div style="width: 5%">
+        <img
+          width="20"
+          *ngIf="item.type === 'GREEN'"
+          src="./assets/images/notification/circle-dark.png"
+        />
+        <img
+          width="20"
+          *ngIf="item.type === 'RED'"
+          src="./assets/images/notification/triangle-dark.png"
+        />
+        <img
+          width="20"
+          *ngIf="item.type === 'YELLOW'"
+          src="./assets/images/notification/tip-dark.png"
+        />
+      </div>
+
+      <h3
+        style="width: 86%; text-align: center; margin-top: 5px"
+        class="title-mobile"
+      >
+        {{ item.title }}
+      </h3>
+
+      <div
+        class="closeNewButton"
+        style="width: 4%"
+        (click)="removeItem(i, item.id)"
+      >
+        <img width="12" src="./assets/images/notification/close.png" />
+      </div>
+    </div>
+
+    <div class="item-mobile">
+      <h3 class="description-mobile" style="margin-top: 0px">
+        {{ item.description }}
+      </h3>
+    </div>
+  </div>
+
+  <div
+    *ngIf="darkModeService.darkMode && !(isHandset$ | async)"
+    class="container-dark"
+    [ngClass]="{
+      'container-green': item.type === 'GREEN',
+      'container-yellow': item.type === 'YELLOW',
+      'container-red': item.type === 'RED'
+    }"
+  >
+    <div
+      class="item-icon"
+      [ngClass]="{
+        'item-icon-green': item.type === 'GREEN',
+        'item-icon-yellow': item.type === 'YELLOW',
+        'item-icon-red': item.type === 'RED'
+      }"
+    >
+      <img
+        *ngIf="item.type === 'GREEN'"
+        src="./assets/images/notification/circle-dark.png"
+      />
+      <img
+        *ngIf="item.type === 'RED'"
+        src="./assets/images/notification/triangle-dark.png"
+      />
+      <img
+        *ngIf="item.type === 'YELLOW'"
+        src="./assets/images/notification/tip-dark.png"
+      />
+    </div>
+
+    <div class="item" style="width: 25%">
+      <h3 class="title">{{ item.title }}</h3>
+    </div>
+
+    <div class="item" style="width: 68%">
+      <h3 class="description">{{ item.description }}</h3>
+    </div>
+
+    <div class="icon closeNewButton" (click)="removeItem(i, item.id)">
+      <img src="./assets/images/notification/close.png" />
+    </div>
+  </div>
 </ng-container>
 
-<div style="margin-bottom: 39px;"></div>
+<div style="margin-bottom: 39px"></div>
