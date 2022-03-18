@@ -26,8 +26,8 @@ export class ProposalComponentsComponent implements AfterViewInit {
   prefixIdLinkSection: string = 'sectionLink-';
   @ViewChild('sectionLinks') sectionLinks;
   active: any;
-  @Input() darkMode:boolean = false;
-  
+  @Input() darkMode: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,

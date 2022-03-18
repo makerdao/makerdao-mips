@@ -57,13 +57,18 @@
       </div>
     </div>
     <app-detail-content
+      [sourceData]="sections"
       [mdUrl]="mdUrl"
       [mip]="mip"
       [subproposals]="subproposals"
       (headingListUpdate)="headingListUpdate($event)"
-      [darkMode]=" darkModeService.getDarkMode()"
+      [darkMode]="darkModeService.getDarkMode()"
     ></app-detail-content>
-    <div *ngIf="mip" class="column" [ngClass]="{'details-column':darkModeService.getDarkMode()}">
+    <div
+      *ngIf="mip"
+      class="column"
+      [ngClass]="{ 'details-column': darkModeService.getDarkMode() }"
+    >
       <div class="sidebar-wrapper">
         <app-language-document
           *ngIf="languagesAvailables && mip"
