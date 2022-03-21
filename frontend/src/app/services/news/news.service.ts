@@ -83,7 +83,10 @@ export class NewsService {
                     title: vars[item.title.replace('\$', '')],
                     description: vars[item.description.replace('\$', '')],
                     type: item.type,
-                    link: item.link
+                    link: vars[item.link.replace('\$', '')],
+                    mip:item.mip,
+                    linkforum: vars[item.linkforum.replace('\$', '')],
+                    linkmd: vars[item.linkmd.replace('\$', '')]
                 });
 
             }
