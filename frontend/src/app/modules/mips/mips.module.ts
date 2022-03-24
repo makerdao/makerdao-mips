@@ -65,6 +65,7 @@ import { MdRadioButtonComponent } from './components/md-radio-button/md-radio-bu
 import { LanguageDocumentComponent } from './components/language-document/language-document.component';
 import { ListMultipleQueriesComponent } from './components/list-multiple-queries/list-multiple-queries.component';
 import { NewsComponent } from './components/news/news.component';
+import { MdInformationComponent } from './components/md-information/md-information.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
@@ -114,6 +115,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MdRadioButtonComponent,
     LanguageDocumentComponent,
     ListMultipleQueriesComponent,
+    MdInformationComponent,
     NewsComponent
   ],
   imports: [
