@@ -470,13 +470,6 @@ export class ParseMIPsService {
       mip.components = components;
     }
 
-    if (preamble.mipName==='MIP0') {
-      console.log({ preamble })
-    }
-// if(mip.mipName==='MIP0'){
-//   console.log({ preamble })
-
-// }
     mip.author = preamble.author;
     mip.contributors = preamble.contributors;
     mip.dateProposed = preamble.dateProposed;
