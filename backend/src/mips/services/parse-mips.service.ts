@@ -601,6 +601,7 @@ export class ParseMIPsService {
           break;
         case "Extra":
           preamble.extra = [...(preamble?.extra || []), keyValue[1].trim()];
+          break;
         case "Type":
           preamble.types = keyValue[1].trim();
           break;
