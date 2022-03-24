@@ -74,8 +74,15 @@ export class MIP {
   })
   mipFather?: boolean;
 
-  @Prop()
+  @Prop({
+    type: String,
+  })
   title?: string;
+
+  @Prop({
+    type: [String],
+  })
+  extra?: string[];
 
   @Prop({
     default: "",
