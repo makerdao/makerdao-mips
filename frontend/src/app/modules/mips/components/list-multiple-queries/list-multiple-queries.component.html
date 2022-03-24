@@ -4,7 +4,7 @@
       matColumnDef="{{ column }}"
       *ngFor="let column of columnsToDisplay"
     >
-      <span *ngIf="column != 'link'">
+      <span *ngIf="column != 'link' && column != 'summary'">
         <span *ngIf="column != 'pos'">
           <th
             mat-header-cell
@@ -35,8 +35,8 @@
           </th>
         </span>
       </span>
-      <span *ngIf="column == 'link'">
-        <th mat-header-cell *matHeaderCellDef>
+      <span *ngIf="column == 'link' || column == 'summary'">
+        <th mat-header-cell *matHeaderCellDef style="cursor: default;">
           {{ column }}
         </th>
       </span>
