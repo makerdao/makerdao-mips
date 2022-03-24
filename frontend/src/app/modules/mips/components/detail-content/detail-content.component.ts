@@ -29,6 +29,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { UrlService } from 'src/app/services/url/url.service';
 import { SubproposalsComponent } from '../subproposals/subproposals.component';
+import { MdInformationComponent } from '../md-information/md-information.component';
 
 @Component({
   selector: 'app-detail-content',
@@ -48,8 +49,7 @@ import { SubproposalsComponent } from '../subproposals/subproposals.component';
   },
 })
 export class DetailContentComponent
-  implements OnInit, OnChanges, AfterViewInit
-{
+  implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private markdownService: MarkdownService,
     private router: Router,
@@ -61,7 +61,7 @@ export class DetailContentComponent
     private urlService: UrlService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector
-  ) {}
+  ) { }
   gitHubUrl = environment.repoUrl;
   @Input() mdUrl: string | undefined;
   @Input() sourceData;
@@ -226,8 +226,8 @@ export class DetailContentComponent
     const positionsOfTheSmartLinkWindow: ConnectedPosition[] = center
       ? this.centerPositions
       : leftSide
-      ? this.leftPositions
-      : this.rightPositions;
+        ? this.leftPositions
+        : this.rightPositions;
 
     const positionStrategy = this.overlay
       .position()
@@ -506,6 +506,7 @@ export class DetailContentComponent
     }
     this.setPreviewFeature();
     this.appendSubproposalsElements();
+    this.appendExtraElements();
   }
 
   async appendSubproposalsElements() {
@@ -577,7 +578,34 @@ export class DetailContentComponent
           }
         }
       }
+
     }
+
+  }
+
+  appendExtraElements() {
+
+    // DOM manipulation
+    const m: HTMLElement = document.querySelector('.variable-binding');
+
+    const extra = this.mip?.extra || [];
+
+    extra.reverse().forEach((item) => {
+      const componentFactory =
+        this.componentFactoryResolver.resolveComponentFactory(
+          MdInformationComponent
+        );
+      const componentRef = componentFactory.create(this.injector);
+      componentRef.instance.additionalInformation = [
+        item
+      ];
+      componentRef.hostView.detectChanges();
+      const { nativeElement } = componentRef.location;
+
+      m.insertAdjacentElement('afterbegin', nativeElement);
+    })
+
+
   }
 
   addSubsetField = (item: any) => {
@@ -759,8 +787,8 @@ export class DetailContentComponent
         const relText = newTitle?.includes('smart')
           ? 'rel="' + newTitle + '"'
           : title?.includes('smart')
-          ? 'rel="' + title + '"'
-          : '';
+            ? 'rel="' + title + '"'
+            : '';
 
         return `<a id="${link.id}" class="linkPreview" ${relText}
         newTitle
