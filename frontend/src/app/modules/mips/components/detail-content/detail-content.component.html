@@ -1,4 +1,4 @@
-<div class="container" [ngClass]="{'container-dark':darkMode}">
+<div class="container" [ngClass]="{ 'container-dark': darkMode }">
   <div class="row">
     <div *ngIf="mip && !mip?.proposal">
       <span *ngIf="mip?.title" class="title-bold">{{ mip?.mipName }}: </span
@@ -38,10 +38,7 @@
       </div>
 
       <div class="tooltip">
-        <img
-          class="votingIcon"
-          src="./assets/images/voting_icon.svg"
-        />
+        <img class="votingIcon" src="./assets/images/voting_icon.svg" />
         <a *ngIf="!mip?.votingPortalLink">
           {{ "Voting" | translate
           }}<span class="tooltiptext"
@@ -132,11 +129,17 @@
 <ng-template #preview let-data>
   <section
     class="preview"
-    [ngClass]="{ fadeInFromDown: triangleUp, fadeInFromUp: !triangleUp,'preview-dark':darkMode,'not-preview-dark':!darkMode}"
+    [ngClass]="{
+      fadeInFromDown: triangleUp,
+      fadeInFromUp: !triangleUp,
+      'preview-dark': darkMode,
+      'not-preview-dark': !darkMode,
+      'hiddenSmartLinks':(data.mipName+data.componentCode===linkSelect)
+    }"
     #previewRef
   >
     <div
-      class="smartLinksContainer"
+     [ngClass]="{'smartLinksContainer': (data.mipName+data.componentCode!==linkSelect)}"
       *ngIf="
         data.typeOfView === 'mipComponent' &&
         data.components &&
@@ -148,7 +151,11 @@
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            [src]="darkMode? './assets/images/makerLogo_dark.svg': './assets/images/makerLogo.svg'"
+            [src]="
+              darkMode
+                ? './assets/images/makerLogo_dark.svg'
+                : './assets/images/makerLogo.svg'
+            "
           />
         </div>
 
@@ -159,6 +166,7 @@
           {{ data.title }}
         </div>
       </div>
+
       <div class="mipComponentMipSumary">
         <div class="rectangleContainer">
           <div class="thinRectangle"></div>
@@ -172,7 +180,11 @@
           <div class="thinRectangle"></div>
           <img
             class="mipComponentLogo"
-            [src]="darkMode? '../assets/images/mipComponentLogo_dark.svg':'../assets/images/mipComponentLogo.svg'"
+            [src]="
+              darkMode
+                ? '../assets/images/mipComponentLogo_dark.svg'
+                : '../assets/images/mipComponentLogo.svg'
+            "
           />
         </div>
         <div class="mipComponentTitle">
@@ -201,12 +213,19 @@
       ></div>
     </div>
 
-    <div *ngIf="data.typeOfView === 'mipName'" class="smartLinksContainer mipName">
+    <div
+      *ngIf="data.typeOfView === 'mipName'"
+      class="smartLinksContainer mipName"
+    >
       <div class="mipComponentMipNameContainer">
         <div class="mipComponentLogoContainer">
           <img
             class="mipComponentLogo"
-            [src]="darkMode? './assets/images/makerLogo_dark.svg': './assets/images/makerLogo.svg'"
+            [src]="
+              darkMode
+                ? './assets/images/makerLogo_dark.svg'
+                : './assets/images/makerLogo.svg'
+            "
           />
         </div>
 
@@ -236,8 +255,10 @@
       ></div>
     </div>
 
-    <div *ngIf="data.typeOfView === 'mipSubproposal'" class="smartLinksContainer">
-
+    <div
+      *ngIf="data.typeOfView === 'mipSubproposal'"
+      class="smartLinksContainer"
+    >
       <div class="mipComponentMipNameContainer">
         <div class="mipComponentLogoContainer">
           <img
@@ -247,12 +268,11 @@
         </div>
 
         <div class="mipName">
-              {{ data.title }}
+          {{ data.title }}
         </div>
       </div>
       <div class="mipComponenSumary">
-        <div class="rectangleContainer">
-        </div>
+        <div class="rectangleContainer"></div>
         <div class="mipSumary">
           <markdown [data]="data.sentenceSummary"></markdown>
         </div>
@@ -283,15 +303,15 @@
   [cdkConnectedOverlayBackdropClass]="'MipContentOverlayBackdropClass'"
   (overlayOutsideClick)="onClickOutside($event)"
 >
-  <div @enterLeaveSmooth style="width: 100%;" class="container popup"
-  [ngClass]="{'popup-dark':darkMode}"
+  <div
+    @enterLeaveSmooth
+    style="width: 100%"
+    class="container popup"
+    [ngClass]="{ 'popup-dark': darkMode }"
   >
     <div class="menuContainer row social">
       <div class="tooltip">
-        <img
-          class="github"
-          src="./assets/images/github_dark.svg"
-        />
+        <img class="github" src="./assets/images/github_dark.svg" />
         <a href="{{ gitHubUrl }}/{{ mip?.filename }}" target="_blank">GitHub</a>
       </div>
 
@@ -314,10 +334,7 @@
       </div>
 
       <div class="tooltip">
-        <img
-          class="votingIcon"
-          src="./assets/images/voting_icon.svg"
-        />
+        <img class="votingIcon" src="./assets/images/voting_icon.svg" />
         <a *ngIf="!mip?.votingPortalLink" class="textGray">
           {{ "Voting" | translate
           }}<span class="tooltiptext"

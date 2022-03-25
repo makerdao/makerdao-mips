@@ -36,6 +36,15 @@
           >
             {{ element.heading }}</a
           >
+          <a
+          *ngIf="element.depth == 4"
+          [id]="idBySection(element.heading)"
+          class="sub-title"
+          (click)="scroll(getLinkBySection(element))"
+          [ngClass]="{ active: active === idBySection(element.heading) }"
+        >
+          {{ element.heading }}</a
+        >
         </p>
       </div>
     </div>

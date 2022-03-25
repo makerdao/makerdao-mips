@@ -38,7 +38,7 @@ export class DetailsPageComponent implements OnInit {
     private mipsService: MipsService,
     private activedRoute: ActivatedRoute,
     private router: Router,
-    public darkModeService:DarkModeService,
+    public darkModeService: DarkModeService,
     private langService: LangService,
     private urlService: UrlService
   ) {}
@@ -130,7 +130,7 @@ export class DetailsPageComponent implements OnInit {
         this.mip = {
           ...data.mip,
         };
-        
+
         this.references = data.mip?.references?.filter((item) => {
           return item.name !== '\n';
         });
@@ -148,7 +148,7 @@ export class DetailsPageComponent implements OnInit {
         let indexPreambleHeading: number = data.mip.sectionsRaw.findIndex(
           (i: any) => (i as string).includes('Preamble')
         );
-        
+
         let sectionsRaw = [...(this.mip.sectionsRaw as [])];
 
         if (indexPreambleHeading !== -1) {
@@ -162,20 +162,20 @@ export class DetailsPageComponent implements OnInit {
         if (indexReferencesSection !== -1) {
           (this.sections as []).splice(indexReferencesSection, 1);
         }
-        
-        let indexReferencesHeading: number = (sectionsRaw as [
 
-        ]).findIndex((i: any) => (i as string).includes('References'));
+        let indexReferencesHeading: number = (sectionsRaw as []).findIndex(
+          (i: any) => (i as string).includes('References')
+        );
 
         if (indexReferencesHeading !== -1) {
           (sectionsRaw as []).splice(indexReferencesHeading, 2);
         }
-        
+
         this.mip = {
           ...this.mip,
           sectionsRaw: this.translateKeywords(sectionsRaw, metaVars),
         };
-        
+
         this.sections = this.translateKeywords(
           [...this.sections],
           metaVars,

@@ -32,13 +32,9 @@
               class="titleLinks"
             >
               <span class="headerContent"
-              style="cursor: pointer"
-              (click)="onSendOrder(column)"
-                >{{ column | translate
-                }}<app-asc-des
-                  [direction]="getOrderDirection(column)"
-                ></app-asc-des
-              ></span>
+              style="cursor: default;"
+               >{{ column | translate
+                }}</span>
             </th>
           </span>
           <span *ngIf="column == 'title'">
