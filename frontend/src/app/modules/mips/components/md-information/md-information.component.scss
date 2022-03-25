@@ -19,6 +19,23 @@
     cursor: default;
   }
 
+  .expIcon {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 23px;
+    height: 22px;
+    cursor: pointer;
+  }
+
+  .active {
+    path,
+    rect {
+      fill: rgba(26, 171, 155, 0.7);
+      stroke: rgba(26, 171, 155, 0.7);
+    }
+  }
+  
   .item {
     font-family: Roboto;
     font-style: normal;
