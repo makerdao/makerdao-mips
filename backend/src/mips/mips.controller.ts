@@ -38,7 +38,7 @@ export class MIPsController {
     private pullRequestService: PullRequestService,
     private simpleGitService: SimpleGitService,
     private configService: ConfigService
-  ) {}
+  ) { }
 
   @Get("findall")
   @ApiOperation({ summary: "Find all mips" })
@@ -412,12 +412,22 @@ export class MIPsController {
 
       const signature = headers["x-hub-signature"];
 
+      console.log("callback")
+
       if (!signature) {
         return false;
       }
 
       const source = Buffer.from(signature);
       const comparison = Buffer.from(comparisonSignature);
+
+      console.log({
+        api: "callback",
+        signature,
+        source,
+        comparison,
+        cryptoComparison: !crypto.timingSafeEqual(source, comparison)
+      })
 
       if (!crypto.timingSafeEqual(source, comparison)) {
         return false;
@@ -427,6 +437,8 @@ export class MIPsController {
 
       return this.parseMIPsService.parse();
     } catch (error) {
+      this.parseMIPsService.loggerMessage("Webhooks ERROR");
+      console.log({ error })
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
