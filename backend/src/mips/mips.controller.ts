@@ -38,7 +38,7 @@ export class MIPsController {
     private pullRequestService: PullRequestService,
     private simpleGitService: SimpleGitService,
     private configService: ConfigService
-  ) {}
+  ) { }
 
   @Get("findall")
   @ApiOperation({ summary: "Find all mips" })
@@ -427,6 +427,8 @@ export class MIPsController {
 
       return this.parseMIPsService.parse();
     } catch (error) {
+      this.parseMIPsService.loggerMessage("Webhooks ERROR");
+      console.log({ error })
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
