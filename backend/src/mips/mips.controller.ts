@@ -412,7 +412,7 @@ export class MIPsController {
 
       const signature = headers["x-hub-signature"];
 
-      console.log("callback")
+      console.log({api:"callback", secretToken})
 
       if (!signature) {
         return false;
