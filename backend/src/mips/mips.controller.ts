@@ -412,23 +412,12 @@ export class MIPsController {
 
       const signature = headers["x-hub-signature"];
 
-      console.log({api:"callback", secretToken})
-
       if (!signature) {
         return false;
       }
 
       const source = Buffer.from(signature);
       const comparison = Buffer.from(comparisonSignature);
-
-      console.log({
-        api: "callback",
-        signature,
-        comparisonSignature,
-        source,
-        comparison,
-        cryptoComparison: !crypto.timingSafeEqual(source, comparison)
-      })
 
       if (!crypto.timingSafeEqual(source, comparison)) {
         return false;
