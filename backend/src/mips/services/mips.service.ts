@@ -63,6 +63,13 @@ export class MIPsService {
     return errorProofItems;
   }
 
+  cleanSearchField(search: string): string {
+
+    const searchCleaned = (search || "").replace(/(?:%C2%A0)|(?:%20)/gmi, " ").trim();
+
+    return searchCleaned;
+  }
+
   async findAll(
     paginationQuery?: PaginationQueryDto,
     order?: string,
@@ -71,8 +78,11 @@ export class MIPsService {
     select?: string,
     language?: Language
   ): Promise<any> {
+
+    const cleanedSearch = this.cleanSearchField(search);
+
     const buildFilter = await this.buildFilter(
-      search,
+      cleanedSearch,
       filter,
       Language.English
     );
@@ -83,7 +93,7 @@ export class MIPsService {
       const items = await this.searchAll({
         paginationQuery,
         order,
-        search,
+        search: cleanedSearch,
         filter,
         select,
         language,
@@ -97,7 +107,7 @@ export class MIPsService {
     const items = await this.searchAll({
       paginationQuery,
       order,
-      search,
+      search: cleanedSearch,
       filter,
       select: customSelect,
       language,
