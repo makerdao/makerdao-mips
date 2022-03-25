@@ -156,8 +156,19 @@
   justify-content: space-around;
   align-items: center;
 }
+.newsLinkContainerMovile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.newsLinkContainerMovile a {
+  margin-top: 5px;
+ margin-bottom: 5px;
+}
+
 .newsLink {
-  color: #31394d;
+  color: #2f80ed;
   font-size: 16px;
   text-decoration: none;
   &:hover {
@@ -167,7 +178,7 @@
 }
 
 .newsLinkDark {
-  color: #f5f6fa;
+  color: #2f80ed;
   font-size: 16px;
   text-decoration: none;
   &:hover {
