@@ -80,8 +80,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() loading = true;
   @Input() moreToLoad = true;
   @Input() paginationTotal;
-
-  @Input() hideParent = false;
+  @Input() hideParent;
 
   filter: any;
   search: string;
@@ -127,7 +126,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() showHead: boolean = true;
   @Input() query: string;
   @Input() darkMode = false;
-
+  @Input() statusParameters 
   markdown = `## Markdown __rulez__!
 ---
 

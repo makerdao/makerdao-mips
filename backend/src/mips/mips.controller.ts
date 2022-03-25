@@ -9,7 +9,13 @@ import {
   Query,
   Req,
 } from "@nestjs/common";
-import { ApiQuery } from "@nestjs/swagger";
+import {
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { ConfigService } from "@nestjs/config";
 
 import * as crypto from "crypto";
@@ -20,10 +26,11 @@ import { PullRequestService } from "./services/pull-requests.service";
 
 import { Env } from "@app/env";
 import { Filters, PaginationQueryDto } from "./dto/query.dto";
-import { Language } from "./entities/mips.entity";
+import { ErrorObjectModel, Language, Mips } from "./entities/mips.entity";
 import { SimpleGitService } from "./services/simple-git.service";
 
 @Controller("mips")
+@ApiTags("mips")
 export class MIPsController {
   constructor(
     private mipsService: MIPsService,
@@ -34,6 +41,8 @@ export class MIPsController {
   ) {}
 
   @Get("findall")
+  @ApiOperation({ summary: "Find all mips" })
+  @ApiOperation({ description: "This is return array of mips." })
   @ApiQuery({
     name: "limit",
     description: "Limit per page, default value 10",
@@ -89,6 +98,18 @@ export class MIPsController {
       },
     },
   })
+  @ApiCreatedResponse({
+    type: [Mips],
+    status: 200,
+    description: "successful operation",
+  })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
   async findAll(
     @Query("limit") limit?: string,
     @Query("page") page?: string,
@@ -126,10 +147,9 @@ export class MIPsController {
   }
 
   @Get("findone")
-  @ApiQuery({
-    type: String,
-    name: "mipName",
-    required: true,
+  @ApiOperation({
+    summary: "Find one mip",
+    description: "This is return a mip by name (mipName parameter)",
   })
   @ApiQuery({
     name: "lang",
@@ -137,6 +157,24 @@ export class MIPsController {
     enum: Language,
     required: false, // If you view this comment change to true value
   })
+  @ApiQuery({
+    name: "mipName",
+    description: `Enter the mips you want looking for`,
+    type: String,
+    required: true,
+  })
+  @ApiCreatedResponse({
+    status: 200,
+    type: Mips,
+    description: "successful operation",
+  })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
   async findOneByMipName(
     @Query("lang") lang?: Language,
     @Query("mipName") mipName?: string
@@ -162,8 +200,9 @@ export class MIPsController {
         mip.filename
       );
 
-      const languagesAvailables =
-        await this.mipsService.getMipLanguagesAvailables(mipName);
+      const languagesAvailables = await this.mipsService.getMipLanguagesAvailables(
+        mipName
+      );
 
       const metaVars = await this.simpleGitService.getMetaVars();
 
@@ -174,14 +213,21 @@ export class MIPsController {
   }
 
   @Get("smart-search")
+  @ApiOperation({
+    summary: "Find array mips match with parameters",
+    description:
+      "This is return a array of mips. You can search by ```tags``` and ```status```",
+  })
   @ApiQuery({
     type: String,
     name: "field",
+    description: "Smart search you can use tags and tags",
     required: true,
   })
   @ApiQuery({
     type: String,
     name: "value",
+    description: "Enter the value",
     required: true,
   })
   @ApiQuery({
@@ -190,6 +236,18 @@ export class MIPsController {
     enum: Language,
     required: false, // If you view this comment change to true value
   })
+  @ApiCreatedResponse({
+    type: [Mips],
+    status: 200,
+    description: "successful operation",
+  })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
   async smartSearch(
     @Query("field") field: string,
     @Query("value") value: string,
@@ -209,6 +267,11 @@ export class MIPsController {
   }
 
   @Get("findone-by")
+  @ApiOperation({
+    summary: "Find one mip that match with parameters ",
+    description: `Search by different types of field example  (field: filename , value:mip1 ) return mip
+  `,
+  })
   @ApiQuery({
     type: String,
     name: "field",
@@ -225,6 +288,21 @@ export class MIPsController {
     enum: Language,
     required: false, // If you view this comment change to true value
   })
+
+  @ApiCreatedResponse({
+    type: Mips,
+    status: 200,
+    description: "successful operation",
+  })
+
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
+
   async findOneBy(
     @Query("field") field: string,
     @Query("value") value: string,
@@ -298,6 +376,30 @@ export class MIPsController {
   }
 
   @Post("callback")
+  @ApiOperation({
+    summary: "Call back to check the hash ",
+    description: "This call back to check that the hash is correct signed",
+  })
+  @ApiQuery({
+    name: "headers",
+    required: true,
+  })
+  @ApiQuery({
+    name: "body",
+    required: true,
+  })
+  @ApiCreatedResponse({
+    type: Boolean,
+    status: 200,
+    description: "successful operation",
+  })
+  @ApiResponse({
+    status: 400,
+    type: ErrorObjectModel,
+    description:
+      "Semantic error, for instance when a given mip is not found",
+  })
+  @ApiResponse({ status: 404, description: "Bad request" })
   async callback(@Req() { headers, body }: any): Promise<boolean> {
     try {
       const secretToken = this.configService.get<string>(

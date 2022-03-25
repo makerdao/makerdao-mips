@@ -2,7 +2,7 @@
   font-style: normal;
   font-weight: 500;
 
-  &.hostDarkMode{
+  &.hostDarkMode {
     padding-left: 30px;
   }
 }
@@ -357,7 +357,7 @@
     background-color: #f5f6fa;
   }
 
-  li+li {
+  li + li {
     margin-top: 0.25em;
   }
 
@@ -481,7 +481,6 @@ p {
       color: #c9cee4 !important;
 
       em {
-
         font-style: normal !important;
       }
     }
@@ -507,6 +506,29 @@ p {
     }
   }
 
+  &.not-preview-dark::ng-deep {
+    .mipComponentTitle,
+    .mipComponentSumary,
+    .mipName {
+      font-style: normal !important;
+      color: #31394d !important;
+      em {
+        font-style: normal !important;
+      }
+    }
+
+    .smartLinksContainer.mipName .mipSumary {
+      font-style: normal !important;
+      color: #3e4a60 !important;
+      font-size: 14px !important;
+      font-weight: normal !important;
+    }
+
+    .mipSumary,
+    .mipComponentMipName {
+      color: #b8c5d3 !important;
+    }
+  }
   width: 410px;
   height: auto;
   text-align: left;
@@ -626,6 +648,9 @@ p {
   }
 }
 
+.hiddenSmartLinks {
+  display: none;
+}
 .smartLinksContainer {
   .mipComponentMipNameContainer {
     display: flex;
@@ -751,7 +776,6 @@ p {
     }
 
     .mipComponentSumary {
-
       font-style: normal !important;
       padding: 0 8px;
       font-size: 14px;
@@ -791,7 +815,6 @@ p {
   padding: 0;
 
   &.popup-dark {
-
     &,
     .menuContainer {
       background-color: #31394d !important;
@@ -873,7 +896,7 @@ p {
 }
 
 @media screen and (max-width: 1023px),
-screen and (min-width: 1200px) and (max-width: 1600px) {
+  screen and (min-width: 1200px) and (max-width: 1600px) {
   .linksIconsWrapper {
     display: none !important;
   }
@@ -911,13 +934,13 @@ screen and (min-width: 1200px) and (max-width: 1600px) {
       }
 
       tr:nth-child(odd),
-      tr:nth-child(odd)>td {
+      tr:nth-child(odd) > td {
         color: #b8c5d3 !important;
         background-color: #1a202b !important;
       }
 
       tr:nth-child(even),
-      tr:nth-child(even)>td {
+      tr:nth-child(even) > td {
         color: #b8c5d3 !important;
         background-color: #0e1521 !important;
       }
@@ -931,7 +954,6 @@ screen and (min-width: 1200px) and (max-width: 1600px) {
 
       h1,
       h2 {
-
         .anchor,
         & {
           color: #5c99f0;
@@ -942,7 +964,6 @@ screen and (min-width: 1200px) and (max-width: 1600px) {
       h4,
       h5,
       h6 {
-
         .anchor,
         & {
           color: #98c0f5;
@@ -953,7 +974,6 @@ screen and (min-width: 1200px) and (max-width: 1600px) {
 }
 
 :host::ng-deep .smartLinksContainer .mipComponenSumary .mipComponentSumary {
-
   p,
   em {
     font-style: normal !important;

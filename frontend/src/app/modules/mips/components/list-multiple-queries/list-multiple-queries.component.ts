@@ -77,6 +77,10 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     orderObj: Order;
   }>();
   @Input() darkMode: boolean = false;
+  @Output() isExpanded
+  @Input() shouldBeExpandedMultiQuery
+  @Input() hideParent:boolean
+  @Input() statusParameters
   
   constructor(
     private mipsService: MipsService,
@@ -135,17 +139,20 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
       if (Object.prototype.hasOwnProperty.call(queryParams, key)) {
         const element = queryParams[key];
 
+        const newQueryEle = {
+          queryName: key,
+          query: element,
+          expanded: true,
+          page: 0,
+          mips: [],
+          loading: false,
+          limitAux: 10,
+        };
+
         if (key.includes('_')) {
-          this.dataSourceMultiQueriesRows.push({
-            queryName: key,
-            query: element,
-            expanded: false,
-            page: 0,
-            mips: [],
-            loading: false,
-            limitAux: 10,
-          });
+            this.dataSourceMultiQueriesRows.push(newQueryEle);
         }
+        this.onExpandQuery(newQueryEle, this.shouldBeExpandedMultiQuery);
       }
     }
   }
@@ -271,14 +278,23 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   onMouseOverLeaveMipsetArrow(mipset: any, value: boolean) {
     this.isArrowMipsetDownOnMouseOver = value;
   }
-
-  onExpandQuery(row: IMultipleQueryDataElement) {
+  onExpandQuery(row: IMultipleQueryDataElement, shouldBeExpandedMultiQuery?: boolean) {
+    const queryParams = this.queryParamsListService.queryParams;
+    if (shouldBeExpandedMultiQuery) {
+      this.searchMips(row);
+      return;
+    }
+    
     if (row.expanded) {
       row.expanded = false;
     } else {
       this.searchMips(row);
     }
   }
+
+
+
+
 
   searchMips(row: IMultipleQueryDataElement) {
     if (!row.loading) {

@@ -94,8 +94,7 @@ export class ParseMIPsService {
         }
 
         this.logger.log(
-          `Total news pull request ===> ${
-            result[3].repository.pullRequests.totalCount - result[2]
+          `Total news pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]
           }`
         );
       }
@@ -145,8 +144,7 @@ export class ParseMIPsService {
           const mip = this.parseLexerData(fileString, item);
           if (mip.mip === undefined || mip.mipName === undefined) {
             this.logger.log(
-              `Mips with problems to parse ==>${
-                (mip.mip, mip.mipName, mip.filename)
+              `Mips with problems to parse ==>${(mip.mip, mip.mipName, mip.filename)
               }`
             );
           }
@@ -477,6 +475,7 @@ export class ParseMIPsService {
     mip.dateProposed = preamble.dateProposed;
     mip.dateRatified = preamble.dateRatified;
     mip.dependencies = preamble.dependencies;
+    mip.extra = preamble.extra;
     mip.mip = preamble.mip;
     mip.replaces = preamble.replaces;
     mip.status = preamble.status;
@@ -537,11 +536,16 @@ export class ParseMIPsService {
       if (!data.includes(":")) {
         return false;
       }
-      const keyValue = data.split(":");
 
-      if (!(keyValue.length > 1)) {
+      if (!data.includes(":")) {
         return false;
       }
+      
+      const keyValue = [
+        data.substring(0, data.indexOf(":")),
+        data.substring(data.indexOf(":") + 1).trim()
+      ];
+    
 
       if (subproposal && flag && data.includes("-SP")) {
         const re = /[: #-]/gi;
@@ -587,6 +591,9 @@ export class ParseMIPsService {
           break;
         case "Replaces":
           preamble.replaces = keyValue[1].trim();
+          break;
+        case "Extra":
+          preamble.extra = [...(preamble?.extra || []), keyValue[1].trim()];
           break;
         case "Type":
           preamble.types = keyValue[1].trim();

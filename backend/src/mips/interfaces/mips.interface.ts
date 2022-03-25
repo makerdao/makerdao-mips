@@ -50,6 +50,7 @@ export interface IPreamble {
   preambleTitle?: string;
   mipName?: string;
   author?: string[];
+  extra?: string[];
   contributors?: string[];
   tags?: string[];
   status?: string;

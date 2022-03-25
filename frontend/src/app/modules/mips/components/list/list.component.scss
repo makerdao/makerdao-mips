@@ -73,6 +73,9 @@ tr.maker-element-row:not(.maker-expanded-row):active {
     margin-left: 6px;
   }
 }
+// .headerContent app-asc-des{
+//   margin-left: 70px!important;
+// }
 
 .linkHeader.headerContent {
   justify-content: center;
@@ -974,4 +977,9 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 
 .mipTitleList{
   top: 1px;
+}
+
+.titlePost{
+  display: flex ;
+  flex-direction: row;
 }

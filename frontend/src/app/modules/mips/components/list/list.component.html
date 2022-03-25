@@ -25,17 +25,66 @@
           matColumnDef="{{ column }}"
           *ngFor="let column of columnsToDisplay"
         >
+          <span *ngIf="column == 'links'">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="titleLinks"
+            >
+              <span class="headerContent"
+              style="cursor: default;"
+               >{{ column | translate
+                }}</span>
+            </th>
+          </span>
+          <span *ngIf="column == 'title'">
+            <th mat-header-cell *matHeaderCellDef class="titleHeader">
+              <span
+                class="headerContent"
+                style="cursor: pointer"
+                (click)="onSendOrder(column)"
+                >{{ column | translate
+                }}<app-asc-des
+                  [direction]="getOrderDirection(column)"
+                ></app-asc-des
+              ></span>
+            </th>
+          </span>
+          <span *ngIf="column == 'summary'">
+            <th mat-header-cell *matHeaderCellDef class="titleSummary">
+              <span class="headerContent" style="cursor: default;"
+                >{{ column | translate
+                }}<app-asc-des
+                  *ngIf="column != 'summary'"
+                  [direction]="getOrderDirection(column)"
+                ></app-asc-des
+              ></span>
+            </th>
+          </span>
+          <span *ngIf="column == 'status'">
+            <th mat-header-cell *matHeaderCellDef class="titleStatus">
+              <!-- (click)="onSendOrder(column)"
+          style="cursor: pointer;" -->
+              <!-- <span class="headerContent"
+              > -->
+
+              <span
+                class="headerContent"
+                style="cursor: pointer"
+                (click)="onSendOrder(column)"
+                >{{ column | translate
+                }}<app-asc-des
+                  [direction]="getOrderDirection(column)"
+                ></app-asc-des
+              ></span>
+            </th>
+          </span>
           <span *ngIf="column != 'link'">
             <span *ngIf="column != 'pos'">
-              <th
-                mat-header-cell
-                *matHeaderCellDef
-                (click)="onSendOrder(column)"
-                style="cursor: pointer;"
-              >
+              <th mat-header-cell *matHeaderCellDef>
                 <span class="headerContent"
                   >{{ column | translate
-                  }}<app-asc-des
+                  }}<app-asc-des *ngIf="column!='summary'"
                     [direction]="getOrderDirection(column)"
                   ></app-asc-des
                 ></span>
@@ -45,12 +94,14 @@
               <th
                 mat-header-cell
                 *matHeaderCellDef
-                (click)="onSendOrder(column)"
-                style="cursor: pointer;"
+                (click)="onSendOrder(column)"         
               >
                 <span class="headerContent"
+                style="cursor: pointer; padding-right: 50px;"
+                class="titlePost"
                   >#
                   <app-asc-des
+                  style="padding-left: 3px;"
                     [direction]="getOrderDirection(column)"
                   ></app-asc-des
                 ></span>
@@ -70,18 +121,21 @@
               *matCellDef="let element"
               [ngClass]="{ 'subproposal-title': element.proposal }"
               (click)="onNavigateToDetails(element.mipName)"
-              style="cursor: pointer;"
+              style="cursor: pointer"
             >
               <!-- <span class="tooltiptext">Click for more details</span>  -->
               <a
                 class="mipTitleList"
                 routerLink="/mips/details/{{ element.mipName }}"
-                style="position: relative;"
+                style="position: relative"
               >
                 <div
                   class="cover"
                   [matTooltip]="element[column]"
-                  [matTooltipClass]="{ 'mat-tooltip': true,'tooltip-darkmode':darkMode}"
+                  [matTooltipClass]="{
+                    'mat-tooltip': true,
+                    'tooltip-darkmode': darkMode
+                  }"
                   #tooltip="matTooltip"
                   (mouseover)="tooltip.show()"
                   (mouseleave)="tooltip.hide()"
@@ -96,13 +150,13 @@
               mat-cell
               *matCellDef="let element"
               (click)="onNavigateToDetails(element.mipName)"
-              style="cursor: pointer;"
+              style="cursor: pointer"
             >
               <div class="space-status"></div>
               <app-status
                 [type]="getStatusType(element.status)"
                 [value]="getStatusValue(element.status)"
-                style="cursor: pointer;"
+                style="cursor: pointer"
               ></app-status>
               <!-- <span class="tooltiptext">Click for more details</span> -->
             </td>
@@ -112,7 +166,7 @@
               mat-cell
               *matCellDef="let element"
               (click)="onNavigateToDetails(element.mipName)"
-              style="cursor: pointer;"
+              style="cursor: pointer"
             >
               <div class="space-status"></div>
               <app-social
@@ -128,7 +182,7 @@
               (click)="onNavigateToDetails(element.mipName)"
               mat-cell
               *matCellDef="let element"
-              style="cursor: pointer; position: relative;"
+              style="cursor: pointer; position: relative"
             >
               <br />
 
@@ -148,7 +202,7 @@
                   "
                   (mouseover)="onMouseOverLeaveArrow(element._id, true)"
                   (mouseleave)="onMouseOverLeaveArrow(element._id, false)"
-                  style="right: 0;"
+                  style="right: 0"
                 >
                   <div
                     class="arrow-wrapper expanded"
@@ -177,12 +231,12 @@
           <span *ngIf="column == 'summary'">
             <td
               class="tooltip"
-              style="position: relative; cursor: pointer;"
+              style="position: relative; cursor: pointer"
               mat-cell
               *matCellDef="let element"
               (click)="onNavigateToDetails(element.mipName)"
             >
-              <div style="cursor: pointer;">
+              <div style="cursor: pointer">
                 <a class="summary" *ngIf="!element.expandedSummary"
                   ><br />
                   <markdown
@@ -269,7 +323,8 @@
           *matRowDef="let element; columns: columnsToDisplay"
           class="maker-element-row"
           [class.maker-expanded-row]="element.expanded"
-          [class.maker-hide-row]="(hideParent && element.hide)"
+          [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
+          [class.maker-hide-row]="hideParent && statusParameters"
 
         ></tr>
         <tr
@@ -279,21 +334,18 @@
         ></tr>
       </table>
       <div class="mobile">
-        <div *ngFor="let item of dataSourceTable.data" style="width: 100%;">
+        <div *ngFor="let item of dataSourceTable.data" style="width: 100%">
           <div
-            class="mobile-container "
+            class="mobile-container"
             [ngClass]="{
               'proposal-card': !item.proposal,
               'subproposal-card': item.proposal,
-              'maker-hide-row': (hideParent && item.hide)
+              'maker-hide-row': hideParent && item.hide
             }"
           >
-            <div style="width: calc(100% - 35px);">
+            <div style="width: calc(100% - 35px)">
               {{ item.proposal ? "" : "# " + item.mip }}
-              <img
-                *ngIf="!item.proposal"
-                src="./assets/images/circle.svg"
-              />
+              <img *ngIf="!item.proposal" src="./assets/images/circle.svg" />
               <span class="title">
                 <a routerLink="/mips/details/{{ item.mipName }}">
                   {{ item.title }}</a
@@ -326,7 +378,7 @@
                 ></markdown>
               </a>
             </div>
-            <div style="clear: both;"></div>
+            <div style="clear: both"></div>
             <button
               mat-button
               class="more"
@@ -345,7 +397,7 @@
               [githubLink]="item.filename"
               mobile="true"
             ></app-social>
-            <div style="clear: both;"></div>
+            <div style="clear: both"></div>
             <div
               class="subproposalsButtonWrapper"
               (click)="onClickButtonCaptureEvent($event)"
@@ -361,7 +413,7 @@
                 "
                 (mouseover)="onMouseOverLeaveArrow(item._id, true)"
                 (mouseleave)="onMouseOverLeaveArrow(item._id, false)"
-                style="right: 0;"
+                style="right: 0"
               >
                 <div
                   class="arrow-wrapper expanded"
@@ -388,7 +440,7 @@
             <ng-container *ngIf="item.expanded">
               <div *ngFor="let itemSubset of item.subsetRows">
                 <div class="mobile-container subproposal-card-subset">
-                  <div style="width: calc(100% - 35px);">
+                  <div style="width: calc(100% - 35px)">
                     <span class="title">
                       {{ itemSubset.subset + ": " + itemSubset.title }}</span
                     >
@@ -408,7 +460,7 @@
                       "
                       (mouseover)="onMouseOverLeaveArrow(item._id, true)"
                       (mouseleave)="onMouseOverLeaveArrow(item._id, false)"
-                      style="right: 0;"
+                      style="right: 0"
                     >
                       <div
                         class="arrow-wrapper expanded"
@@ -449,7 +501,7 @@
                       "
                       class="mobile-container subproposal-card"
                     >
-                      <div style="width: calc(100% - 35px);">
+                      <div style="width: calc(100% - 35px)">
                         {{
                           itemSubsetChildren.proposal
                             ? ""
@@ -505,7 +557,7 @@
                           ></markdown>
                         </a>
                       </div>
-                      <div style="clear: both;"></div>
+                      <div style="clear: both"></div>
                       <button
                         mat-button
                         class="more"
@@ -528,7 +580,7 @@
                         [githubLink]="itemSubsetChildren.filename"
                         mobile="true"
                       ></app-social>
-                      <div style="clear: both;"></div>
+                      <div style="clear: both"></div>
                     </div>
                   </ng-container>
                 </div>
@@ -538,7 +590,7 @@
         </div>
       </div>
       <div class="load-more" *ngIf="moreToLoad">
-        <p>{{'Scroll to load More' | translate}}</p>
+        <p>{{ "Scroll to load More" | translate }}</p>
         <img src="./assets/images/scroll.svg" />
       </div>
       <div class="loading-plus" *ngIf="loading">
@@ -550,7 +602,7 @@
     <div *ngIf="dataSource.length == 0 && !loading">
       <img *ngIf="!darkMode" src="./assets/images/no_results.svg" />
       <img *ngIf="darkMode" src="./assets/images/no_results_dark.svg" />
-      <p>{{'No results found' | translate}}</p>
+      <p>{{ "No results found" | translate }}</p>
     </div>
   </div>
 </div>
