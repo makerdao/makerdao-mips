@@ -424,6 +424,7 @@ export class MIPsController {
       console.log({
         api: "callback",
         signature,
+        comparisonSignature,
         source,
         comparison,
         cryptoComparison: !crypto.timingSafeEqual(source, comparison)
