@@ -31,16 +31,56 @@
     </div>
 
     <div class="item" style="width: 25%">
-      <h3 class="title">{{ item.title }}</h3>
+      <markdown
+        [data]="item.title"
+        style="
+          font-family: Roboto;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 21px;
+          letter-spacing: 0em;
+          text-align: left;
+          margin-left: 10px;
+        "
+      ></markdown>
     </div>
-
     <div class="item" style="width: 50%">
-      <h3 class="description">{{ item.description }}</h3>
+      <markdown
+        [data]="item.description"
+        style="
+          font-family: Roboto;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 19px;
+          letter-spacing: 0px;
+          text-align: left;
+        "
+      ></markdown>
     </div>
     <div class="newsLinkContainer" style="width: 25%">
-      <a  *ngIf="item.link"  href="{{ item.link}}" class="newsLink" target="_blank">Mip</a>
-      <a  *ngIf="item.linkforum" href="{{ item.linkforum }}" class="newsLink" target="_blank">Forum link</a>
-      <a  *ngIf="item.linkmd" href="mips/md-viewer?mdUrl={{ item.linkmd }}" class="newsLink" target="_blank">.md View</a>
+      <a
+        *ngIf="item.link"
+        href="{{ item.link }}"
+        class="newsLink"
+        target="_blank"
+        >Mip</a
+      >
+      <a
+        *ngIf="item.linkforum"
+        href="{{ item.linkforum }}"
+        class="newsLink"
+        target="_blank"
+        >Forum link</a
+      >
+      <a
+        *ngIf="item.linkmd"
+        href="mips/md-viewer?mdUrl={{ item.linkmd }}"
+        class="newsLink"
+        target="_blank"
+        >.md View</a
+      >
     </div>
 
     <div class="icon closeNewButton" (click)="removeItem(i, item.id)">
@@ -76,14 +116,11 @@
           src="./assets/images/notification/tip-dark.png"
         />
       </div>
-
-      <h3
-        style="width: 86%; text-align: center; margin-top: 5px"
+      <markdown
+        [data]="item.title"
         class="title-mobile"
-      >
-        {{ item.title }}
-      </h3>
-
+        style="width: 86%; text-align: center; margin-top: 5px"
+      ></markdown>
       <div
         class="closeNewButton"
         style="width: 4%"
@@ -92,20 +129,37 @@
         <img width="12" src="./assets/images/notification/close.png" />
       </div>
     </div>
-
     <div class="item-mobile">
-      <h3 class="description-mobile" style="margin-top: 0px">
-        {{ item.description }}
-      </h3>
+      <markdown
+        [data]="item.description"
+        class="description-mobile"
+        style="margin-top: 0px"
+      ></markdown>
     </div>
-  
-    <div class="newsLinkContainerMovile" style="width: 100%;">
-      <a  *ngIf="item.link"  href="{{ item.link}}" class="newsLink" target="_blank">Mip</a>
-      <a  *ngIf="item.linkforum" href="{{ item.linkforum }}" class="newsLink" target="_blank">Forum link</a>
-      <a  *ngIf="item.linkmd" href="mips/md-viewer?mdUrl={{ item.linkmd }}" class="newsLink" target="_blank">.md View</a>
-    </div>
- 
 
+    <div class="newsLinkContainerMovile" style="width: 100%">
+      <a
+        *ngIf="item.link"
+        href="{{ item.link }}"
+        class="newsLink"
+        target="_blank"
+        >Mip</a
+      >
+      <a
+        *ngIf="item.linkforum"
+        href="{{ item.linkforum }}"
+        class="newsLink"
+        target="_blank"
+        >Forum link</a
+      >
+      <a
+        *ngIf="item.linkmd"
+        href="mips/md-viewer?mdUrl={{ item.linkmd }}"
+        class="newsLink"
+        target="_blank"
+        >.md View</a
+      >
+    </div>
   </div>
 
   <div
@@ -137,12 +191,11 @@
         />
       </div>
 
-      <h3
+      <markdown
+        [data]="item.title"
         style="width: 86%; text-align: center; margin-top: 5px"
         class="title-mobile"
-      >
-        {{ item.title }}
-      </h3>
+      ></markdown>
 
       <div
         class="closeNewButton"
@@ -154,14 +207,34 @@
     </div>
 
     <div class="item-mobile">
-      <h3 class="description-mobile" style="margin-top: 0px">
-        {{ item.description }}
-      </h3>
+        <markdown
+          [data]="item.description"
+          class="description-mobile"
+          style="margin-top: 0px"
+        ></markdown>
     </div>
-    <div class="newsLinkContainerMovile" style="width: 100%;">
-      <a  *ngIf="item.link"  href="{{ item.link}}" class="newsLink" target="_blank">Mip</a>
-      <a  *ngIf="item.linkforum" href="{{ item.linkforum }}" class="newsLink" target="_blank">Forum link</a>
-      <a  *ngIf="item.linkmd" href="mips/md-viewer?mdUrl={{ item.linkmd }}" class="newsLink" target="_blank">.md View</a>
+    <div class="newsLinkContainerMovile" style="width: 100%">
+      <a
+        *ngIf="item.link"
+        href="{{ item.link }}"
+        class="newsLink"
+        target="_blank"
+        >Mip</a
+      >
+      <a
+        *ngIf="item.linkforum"
+        href="{{ item.linkforum }}"
+        class="newsLink"
+        target="_blank"
+        >Forum link</a
+      >
+      <a
+        *ngIf="item.linkmd"
+        href="mips/md-viewer?mdUrl={{ item.linkmd }}"
+        class="newsLink"
+        target="_blank"
+        >.md View</a
+      >
     </div>
   </div>
 
@@ -197,17 +270,35 @@
     </div>
 
     <div class="item" style="width: 25%">
-      <h3 class="title">{{ item.title }}</h3>
+        <markdown [data]="item.title" class="title"></markdown>
     </div>
 
     <div class="item" style="width: 50%">
-      <h3 class="description">{{ item.description }}</h3>
+      <markdown [data]="item.description"></markdown>
     </div>
 
     <div class="newsLinkContainer" style="width: 25%">
-      <a  *ngIf="item.link"  href="{{ item.link }}" class="newsLinkDark" target="_blank">Mip</a>
-      <a  *ngIf="item.linkforum" href="{{ item.linkforum }}" class="newsLinkDark" target="_blank">Forum link</a>
-      <a  *ngIf="item.linkmd" href="mips/md-viewer?mdUrl={{ item.linkmd }}" class="newsLinkDark" target="_blank">.md View</a>
+      <a
+        *ngIf="item.link"
+        href="{{ item.link }}"
+        class="newsLinkDark"
+        target="_blank"
+        >Mip</a
+      >
+      <a
+        *ngIf="item.linkforum"
+        href="{{ item.linkforum }}"
+        class="newsLinkDark"
+        target="_blank"
+        >Forum link</a
+      >
+      <a
+        *ngIf="item.linkmd"
+        href="mips/md-viewer?mdUrl={{ item.linkmd }}"
+        class="newsLinkDark"
+        target="_blank"
+        >.md View</a
+      >
     </div>
 
     <div class="icon closeNewButton" (click)="removeItem(i, item.id)">
