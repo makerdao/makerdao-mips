@@ -38,6 +38,8 @@
     line-height: 19px;
     letter-spacing: 0px;
     text-align: left;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
   .item-title{
     font-family: Roboto;
@@ -52,7 +54,7 @@
   }
 }
 
-:host::ng-deep.makdown-style a {
+:host::ng-deep.item-description a {
 
   font-weight: 500;
   font-size: 16px;
@@ -98,7 +100,7 @@
   &.container-red {
     border: 2px solid #fb4e4e;
   }
-  :host::ng-deep.makdown-style a {
+  :host::ng-deep.item-description a {
     font-weight: 500;
     font-size: 16px;
     line-height: 1.5;
@@ -106,15 +108,6 @@
     text-decoration: none;
     overflow-wrap: break-word;
     word-break: break-word;
-  }
-  .description {
-    font-family: Roboto;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 19px;
-    letter-spacing: 0px;
-    text-align: left;
   }
   .item-title{
     font-family: Roboto;
@@ -127,6 +120,18 @@
     margin-left: 10px;
     padding-right: 15px;
   }
+}
+
+.description {
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .item-icon {
@@ -176,6 +181,25 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: left;
+}
+:host::ng-deep.description-mobile a {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+:host::ng-deep.title-mobile a {
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .closeNewButton {
