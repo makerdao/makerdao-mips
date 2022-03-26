@@ -33,30 +33,13 @@
     <div class="item" style="width: 25%">
       <markdown
         [data]="item.title"
-        style="
-          font-family: Roboto;
-          font-size: 18px;
-          font-style: normal;
-          font-weight: 700;
-          line-height: 21px;
-          letter-spacing: 0em;
-          text-align: left;
-          margin-left: 10px;
-        "
+        class="item-title"
       ></markdown>
     </div>
     <div class="item" style="width: 50%">
       <markdown
+        class="description"
         [data]="item.description"
-        style="
-          font-family: Roboto;
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 19px;
-          letter-spacing: 0px;
-          text-align: left;
-        "
       ></markdown>
     </div>
     <div class="newsLinkContainer" style="width: 25%">
@@ -141,21 +124,21 @@
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
-        class="newsLink"
+        class="newsLinkDark"
         target="_blank"
         >Mip</a
       >
       <a
         *ngIf="item.linkforum"
         href="{{ item.linkforum }}"
-        class="newsLink"
+        class="newsLinkDark"
         target="_blank"
         >Forum link</a
       >
       <a
         *ngIf="item.linkmd"
         href="mips/md-viewer?mdUrl={{ item.linkmd }}"
-        class="newsLink"
+        class="newsLinkDark"
         target="_blank"
         >.md View</a
       >
@@ -207,11 +190,11 @@
     </div>
 
     <div class="item-mobile">
-        <markdown
-          [data]="item.description"
-          class="description-mobile"
-          style="margin-top: 0px"
-        ></markdown>
+      <markdown
+        [data]="item.description"
+        class="description-mobile"
+        style="margin-top: 0px"
+      ></markdown>
     </div>
     <div class="newsLinkContainerMovile" style="width: 100%">
       <a
@@ -270,11 +253,17 @@
     </div>
 
     <div class="item" style="width: 25%">
-        <markdown [data]="item.title" class="title"></markdown>
+      <markdown
+        [data]="item.title"
+        class="item-title"
+      ></markdown>
     </div>
 
-    <div class="item" style="width: 50%">
-      <markdown [data]="item.description"></markdown>
+    <div style="width: 50%" class="itemDark">
+      <markdown
+        [data]="item.description"
+        class="makdown-style"
+      ></markdown>
     </div>
 
     <div class="newsLinkContainer" style="width: 25%">
