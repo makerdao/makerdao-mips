@@ -43,7 +43,7 @@ Node version 14.x.x LTS or above
 
 ## High Level Diagram
 
-![MakerDAO_HLD_1](https://raw.githubusercontent.com/DSpotDevelopers/makerdao-mips/develop/docs/img/MakerDAO_HLD_1.png)
+[![MakerDAO_HLD_1](https://raw.githubusercontent.com/DSpotDevelopers/makerdao-mips/main/docs/img/MakerDAO_HLD_1.png)](https://raw.githubusercontent.com/DSpotDevelopers/makerdao-mips/main/docs/img/MakerDAO_HLD_1.png)
 
 ## Command to parse MakerDAO mips repository manually
 
