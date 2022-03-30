@@ -23,6 +23,11 @@ export class MIPsService {
     ]);
   }
 
+
+  cleanSearchField(search: string): string {
+    const searchCleaned = (search || "").replace(/[\u202F\u00A0]/gmi," ").trim();
+    return searchCleaned;
+  }
   async searchAll({
     paginationQuery,
     order,
@@ -31,6 +36,8 @@ export class MIPsService {
     select,
     language,
   }) {
+
+  //  const value=this.cleanSearchField(search);
     const buildFilter = await this.buildFilter(search, filter, language);
 
     const { limit, page } = paginationQuery;
@@ -63,12 +70,7 @@ export class MIPsService {
     return errorProofItems;
   }
 
-  cleanSearchField(search: string): string {
 
-    const searchCleaned = (search || "").replace(/(?:%C2%A0)|(?:%20)/gmi, " ").trim();
-
-    return searchCleaned;
-  }
 
   async findAll(
     paginationQuery?: PaginationQueryDto,
