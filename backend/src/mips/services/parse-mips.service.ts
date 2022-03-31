@@ -143,6 +143,12 @@ export class ParseMIPsService {
           const fileString = await readFile(dir, "utf-8");
           const mip = this.parseLexerData(fileString, item);
           if (mip.mip === undefined || mip.mipName === undefined) {
+            // TODO: Convert into a notification Service
+            console.log({
+              mip,
+              item,
+              TODO: "Convert into a notification Service"
+            })
             this.logger.log(
               `Mips with problems to parse ==>${(mip.mip, mip.mipName, mip.filename)
               }`
@@ -239,17 +245,17 @@ export class ParseMIPsService {
     let raw = data.raw;
 
     if (isOnComponentSummary) {
-      const sumaryRaw = raw.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
+      const sumaryRaw = raw?.replace(/\*\*\s?MIP\d+[ac]\d+:.*\*\*/gi, (item) => {
         const mipComponent = item.match(/MIP\d+[ac]\d+/gi)[0];
 
         const mipName = mipComponent.match(/MIP\d+/gi)[0];
-        const cleanItem = item.replace(/\*\*/g, "");
+        const cleanItem = item?.replace(/\*\*/g, "");
 
         return `[${cleanItem}](mips/details/${mipName}#${mipComponent})`;
       });
 
-      const cleaned = sumaryRaw.replace(/]\([^\)]+\)/gm, (item) =>
-        item.replace(/]\([^\)]+/gm, (ite) => ite + ` "NON-SMART-LINK"`)
+      const cleaned = sumaryRaw?.replace(/]\([^\)]+\)/gm, (item) =>
+        item?.replace(/]\([^\)]+/gm, (ite) => ite + ` "NON-SMART-LINK"`)
       );
       return cleaned;
     }
@@ -260,22 +266,22 @@ export class ParseMIPsService {
 
     //#region Helper functions
     const processToken = (pattern, item, processLink) =>
-      item.replace(pattern, (match) => processLink(match).replace(/`/g, ""));
+      item?.replace(pattern, (match) => processLink(match)?.replace(/`/g, ""));
 
     const parseMipNames = (item) =>
-      item.replace(
+      item?.replace(
         /MIP\d+/gi,
         (item) => `[${item}](mips/details/${item} "smart-Mip")`
       );
 
     const parseMipComponent = (item) =>
-      item.replace(/MIP\d+[ca]\d+/gi, (item) => {
+      item?.replace(/MIP\d+[ca]\d+/gi, (item) => {
         const mipFather = item.match(/MIP\d+/gi)[0];
         return `[${item}](mips/details/${mipFather}#${item} "smart-Component")`;
       });
 
     const parseMipSubproposal = (item) =>
-      item.replace(
+      item?.replace(
         /MIP\d+[ca]\d+-SP\d/gi,
         (item) => `[${item}](mips/details/${item} "smart-Subproposal")`
       );
@@ -351,7 +357,7 @@ export class ParseMIPsService {
           if (item.filename.includes("-")) {
             preamble = this.parsePreamble(list[i + 1]?.text, true);
 
-            preamble.mip = parseInt(mip.proposal.replace("MIP", ""));
+            preamble.mip = parseInt(mip.proposal?.replace("MIP", ""));
             mip.mipName = preamble.mipName;
             mip.subproposal = this.setSubproposalValue(mip.mipName);
           } else {
@@ -487,7 +493,7 @@ export class ParseMIPsService {
     mip.votingPortalLink = preamble.votingPortalLink;
     mip.forumLink = preamble.forumLink;
 
-    mip.mipCodeNumber = mip.mipName.replace(/\d+/g, (number: string) => {
+    mip.mipCodeNumber = mip.mipName?.replace(/\d+/g, (number: string) => {
       const numb = parseInt(number);// avoid the starter 0 problem
       const decimalPlaces = 4;
 
@@ -508,7 +514,7 @@ export class ParseMIPsService {
 
     for (const item of mipName.split("c")) {
       if (item.includes("MIP")) {
-        acumulate = acumulate + item.replace("MIP", "");
+        acumulate = acumulate + item?.replace("MIP", "");
       } else if (item.includes("SP")) {
         acumulate =
           acumulate +
@@ -549,7 +555,7 @@ export class ParseMIPsService {
 
       if (subproposal && flag && data.includes("-SP")) {
         const re = /[: #-]/gi;
-        preamble.mipName = data.replace(re, "");
+        preamble.mipName = data?.replace(re, "");
 
         flag = false;
         subproposal = false;

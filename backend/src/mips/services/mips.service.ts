@@ -248,8 +248,9 @@ export class MIPsService {
           ],
         };
       } else {
+
         if (searchText.match(/\s/g)) {
-          source["$text"] = { $search: `\"${searchText}\"` };
+          source["$text"] = { $search: `"\\"${searchText}\\""` };
         } else {
           source["$text"] = { $search: `"${searchText}"` };
         }

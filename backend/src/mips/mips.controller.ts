@@ -136,6 +136,7 @@ export class MIPsController {
 
       return allMips;
     } catch (error) {
+
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
@@ -428,7 +429,7 @@ export class MIPsController {
       return this.parseMIPsService.parse();
     } catch (error) {
       this.parseMIPsService.loggerMessage("Webhooks ERROR");
-      console.log({ error })
+ 
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
