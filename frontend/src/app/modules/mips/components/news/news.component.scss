@@ -30,6 +30,40 @@
   &.container-red {
     border: 2px solid rgba(251, 78, 78, 0.5);
   }
+  .description {
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0px;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .item-title{
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 10px;
+    padding-right: 15px;
+  }
+}
+
+:host::ng-deep.item-description a {
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
+
 }
 
 .container-dark {
@@ -66,21 +100,26 @@
   &.container-red {
     border: 2px solid #fb4e4e;
   }
-}
-
-.link {
-  font-size: 20px;
-}
-
-.title {
-  font-family: Roboto;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-left: 10px;
+  :host::ng-deep.item-description a {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #2f80ed;
+    text-decoration: none;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .item-title{
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 10px;
+    padding-right: 15px;
+  }
 }
 
 .description {
@@ -143,6 +182,25 @@
   letter-spacing: 0px;
   text-align: left;
 }
+:host::ng-deep.description-mobile a {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+:host::ng-deep.title-mobile a {
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 
 .closeNewButton {
   cursor: pointer;
@@ -162,13 +220,17 @@
 }
 .newsLinkContainerMovile a {
   margin-top: 5px;
- margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .newsLink {
-  color: #2f80ed;
+  font-weight: 500;
   font-size: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
   text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
   &:hover {
     text-decoration: none;
     color: none;
@@ -176,9 +238,13 @@
 }
 
 .newsLinkDark {
-  color: #2f80ed;
+  font-weight: 500;
   font-size: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
   text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
   &:hover {
     text-decoration: none;
     color: none;
