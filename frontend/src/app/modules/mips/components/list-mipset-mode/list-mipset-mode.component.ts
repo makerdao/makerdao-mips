@@ -83,7 +83,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   filterClone: any;
   loading: boolean = false;
   total: number;
-  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'links'];
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
   arrowUp: string = '../../../../../assets/images/up.svg';

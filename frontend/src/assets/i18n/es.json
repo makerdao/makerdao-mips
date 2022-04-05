@@ -5,7 +5,7 @@
   "title": "título",
   "summary": "resumen",
   "status": "estado",
-  "link": "enlace",
+  "links": "enlaces",
   "Scroll to load More" : "Desplazar para cargar más",
   "No results found":"No se encontraron resultados",
   "MIPs List": "Lista de MIPs",

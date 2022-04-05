@@ -171,6 +171,11 @@ app-md-checkbox-mobile {
       display: none;
     }
   }
+  p.title{
+    white-space: pre-wrap;
+    width: 100%;
+    
+  }
 }
 @media screen and (max-width: 768px) {
   .list-page-container-dark::ng-deep {
@@ -232,4 +237,15 @@ app-md-checkbox-mobile {
     width: 100%;
     justify-content: flex-end;
   }
+  p.title{
+    white-space: pre-wrap;
+    width: 100%;
+    
+  }
 }
+@media only screen and (min-width: 769px) and (max-width: 1150px){
+  p.title{
+    white-space: pre-wrap;
+    width: 100%;
+  }
+  }

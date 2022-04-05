@@ -66,7 +66,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   limit = 10;
   order: string = 'mip';
   loading: boolean = false;
-  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'links'];
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
   initialized: boolean = false;
