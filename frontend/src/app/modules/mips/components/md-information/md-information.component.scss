@@ -58,10 +58,9 @@
 
     ul {
       margin: 0;
-      padding-left: 20px;
 
       li {
-        list-style-image: url("/assets/images/subproposal_icon.svg");
+        list-style-type: none;
 
         * {
           font-family: Roboto;
@@ -85,9 +84,8 @@
 mat-expansion-panel {
   background: rgba(26, 171, 155, 0.05) !important;
   border-radius: 5px !important;
-  padding: 16px 16px 0 22px;
+  padding: 16px 16px 16px 16px;
   box-shadow: none !important;
-  border-bottom: 60px solid transparent;
 }
 
 mat-expansion-panel-header {
@@ -119,4 +117,12 @@ app-status {
       font-size: 10px;
     }
   }
+}
+
+.item::ng-deep ul {
+  padding: 0;
+  margin: 0;
+}
+:host::ng-deep .item::ng-deep p {
+  margin: 0;
 }
