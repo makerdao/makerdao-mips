@@ -14,7 +14,7 @@ export class MIPsService {
     @InjectModel(MIP.name)
     private readonly mipsDoc: Model<MIPsDoc>,
     private readonly parseQueryService: ParseQueryService
-  ) {}
+  ) { }
 
   async groupProposal(): Promise<any> {
     return await this.mipsDoc.aggregate([
@@ -25,7 +25,7 @@ export class MIPsService {
 
 
   cleanSearchField(search: string): string {
-    const searchCleaned = (search || "").replace(/[\u202F\u00A0]/gmi," ").trim();
+    const searchCleaned = (search || "").replace(/[\u202F\u00A0]/gmi, " ").trim();
     return searchCleaned;
   }
   async searchAll({
@@ -37,7 +37,7 @@ export class MIPsService {
     language,
   }) {
 
-  //  const value=this.cleanSearchField(search);
+    //  const value=this.cleanSearchField(search);
     const buildFilter = await this.buildFilter(search, filter, language);
 
     const { limit, page } = paginationQuery;
@@ -89,6 +89,11 @@ export class MIPsService {
       Language.English
     );
 
+    // console.log({
+    //   search,
+    //   cleanedSearch,
+    //   buildFilter
+    // })
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
 
     if (select) {
@@ -143,7 +148,6 @@ export class MIPsService {
     language?: Language
   ): Promise<any> {
     let source = {};
-
     if (language) {
       source = { language };
     } else {
@@ -248,12 +252,8 @@ export class MIPsService {
           ],
         };
       } else {
-
-        if (searchText.match(/\s/g)) {
-          source["$text"] = { $search: `"\\"${searchText}\\""` };
-        } else {
-          source["$text"] = { $search: `"${searchText}"` };
-        }
+        
+        source["sectionsRaw"] =  { '$regex': new RegExp(`${searchText}`), '$options': 'i' };
       }
     }
     return source;
