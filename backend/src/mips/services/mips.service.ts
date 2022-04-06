@@ -252,8 +252,9 @@ export class MIPsService {
           ],
         };
       } else {
-        
-        source["sectionsRaw"] =  { '$regex': new RegExp(`${searchText}`), '$options': 'i' };
+        const cleanSearchText = searchText.replace(/[-[/\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+
+        source["sectionsRaw"] =  { '$regex': new RegExp(`${cleanSearchText}`), '$options': 'i' };
       }
     }
     return source;
