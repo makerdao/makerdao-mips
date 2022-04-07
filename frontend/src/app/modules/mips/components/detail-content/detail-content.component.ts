@@ -12,6 +12,7 @@ import {
   Output,
   ComponentFactoryResolver,
   Injector,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { environment } from '../../../../../environments/environment';
@@ -60,7 +61,8 @@ export class DetailContentComponent
     private titleService: Title,
     private urlService: UrlService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private injector: Injector
+    private injector: Injector,
+    private cdr: ChangeDetectorRef
   ) { }
   gitHubUrl = environment.repoUrl;
   @Input() mdUrl: string | undefined;
@@ -87,6 +89,7 @@ export class DetailContentComponent
   @ViewChild('previewRef') previewRef: ElementRef;
   subproposalCode = '';
   subproposalTitle = '';
+  sections:any;
 
   headingStructure: Heading[] = [];
   subproposalsGroup: any = {};
@@ -173,17 +176,16 @@ export class DetailContentComponent
     this.initPositionPopup();
   }
 
-  ngAfterViewInit() {
-    if (this.route.snapshot.fragment) {
-      const el = document.getElementById(
-        this.route.snapshot.fragment.toString()
-      );
+  doReloadSourceData(){
+    this.cdr.detectChanges();
+    this.doLoadHeadings(this.sections);
+  }
 
-      this.moveToElement(el);
-    }
+  doLoadHeadings(sections:any){
     const pattern = /mip[0-9]+c[0-9]+:/i;
     let escapedText;
-    const mapped = this.sourceData.map((d) => {
+
+    const mapped = sections.map((d) => {
       if (pattern.test(d.heading)) {
         return (escapedText = d.heading?.split(':')[0]);
       }
@@ -196,7 +198,7 @@ export class DetailContentComponent
         const link = document.getElementById(ele);
         const linkSelected = link?.id;
         const bound = link?.getBoundingClientRect();
-        if (bound && bound && Math.abs(bound?.y) < 170) {
+        if (bound && Math.abs(bound?.y) < 170) {
           this.router.navigate([], {
             fragment: linkSelected,
           });
@@ -204,6 +206,20 @@ export class DetailContentComponent
         }
       });
     });
+  }
+
+  ngAfterViewInit() {
+    if (this.route.snapshot.fragment) {
+      const el = document.getElementById(
+        this.route.snapshot.fragment.toString()
+      );
+
+      this.moveToElement(el);
+    }
+
+    if (this.sourceData){
+      this.doLoadHeadings(this.sourceData);
+    }
   }
 
   isTouchDevice() {
