@@ -5,7 +5,7 @@ import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 import { Language } from 'src/app/data-types/languages';
 import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
-import {DetailContentComponent} from "../../components/detail-content/detail-content.component";
+import {DetailContentComponent} from '../../components/detail-content/detail-content.component';
 const YAML = require('yaml');
 @Component({
   selector: 'app-details-page',
@@ -60,7 +60,7 @@ export class DetailsPageComponent implements OnInit {
     });
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
-      if (queryParam.has('mdUrl')) {
+      if (queryParam.has('mdUrl') && !queryParam.has('fromChild')) {
         const url = queryParam.get('mdUrl');
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);

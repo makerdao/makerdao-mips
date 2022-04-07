@@ -14,23 +14,23 @@ import {
   Injector,
   ChangeDetectorRef,
 } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { environment } from '../../../../../environments/environment';
-import { MarkdownService } from 'ngx-markdown';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MipsService } from '../../services/mips.service';
+import {animate, style, transition, trigger} from '@angular/animations';
+import {environment} from '../../../../../environments/environment';
+import {MarkdownService} from 'ngx-markdown';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MipsService} from '../../services/mips.service';
 import {
   ConnectedPosition,
   FlexibleConnectedPositionStrategyOrigin,
   Overlay,
   OverlayRef,
 } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { Observable, Subscription } from 'rxjs';
-import { Title } from '@angular/platform-browser';
-import { UrlService } from 'src/app/services/url/url.service';
-import { SubproposalsComponent } from '../subproposals/subproposals.component';
-import { MdInformationComponent } from '../md-information/md-information.component';
+import {TemplatePortal} from '@angular/cdk/portal';
+import {Observable, Subscription} from 'rxjs';
+import {Title} from '@angular/platform-browser';
+import {UrlService} from 'src/app/services/url/url.service';
+import {SubproposalsComponent} from '../subproposals/subproposals.component';
+import {MdInformationComponent} from '../md-information/md-information.component';
 
 @Component({
   selector: 'app-detail-content',
@@ -39,10 +39,10 @@ import { MdInformationComponent } from '../md-information/md-information.compone
   animations: [
     trigger('enterLeaveSmooth', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.9)' }),
-        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
+        style({opacity: 0, transform: 'scale(0.9)'}),
+        animate(50, style({opacity: 1, transform: 'scale(1)'})),
       ]),
-      transition(':leave', [animate(100, style({ opacity: 0 }))]),
+      transition(':leave', [animate(100, style({opacity: 0}))]),
     ]),
   ],
   host: {
@@ -63,9 +63,12 @@ export class DetailContentComponent
     private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {
+  }
+
   gitHubUrl = environment.repoUrl;
   @Input() mdUrl: string | undefined;
+  queryMdUrl : string;
   @Input() sourceData;
   mdFileName = '';
   openMore: boolean;
@@ -89,7 +92,7 @@ export class DetailContentComponent
   @ViewChild('previewRef') previewRef: ElementRef;
   subproposalCode = '';
   subproposalTitle = '';
-  sections:any;
+  sections: any;
 
   headingStructure: Heading[] = [];
   subproposalsGroup: any = {};
@@ -174,14 +177,16 @@ export class DetailContentComponent
     this.overrideDefaultImg();
 
     this.initPositionPopup();
+
+    this.queryMdUrl = this.route.snapshot.queryParams.mdUrl;
   }
 
-  doReloadSourceData(){
+  doReloadSourceData() {
     this.cdr.detectChanges();
     this.doLoadHeadings(this.sections);
   }
 
-  doLoadHeadings(sections:any){
+  doLoadHeadings(sections: any) {
     const pattern = /mip[0-9]+c[0-9]+:/i;
     let escapedText;
 
@@ -199,9 +204,19 @@ export class DetailContentComponent
         const linkSelected = link?.id;
         const bound = link?.getBoundingClientRect();
         if (bound && Math.abs(bound?.y) < 170) {
-          this.router.navigate([], {
-            fragment: linkSelected,
-          });
+          if (this.mdUrl) {
+            this.router.navigate([], {
+              queryParams: {
+                mdUrl: this.queryMdUrl,
+                fromChild: true
+              },
+              fragment: linkSelected,
+            });
+          } else {
+            this.router.navigate([], {
+              fragment: linkSelected,
+            });
+          }
           this.linkSelect = link?.id;
         }
       });
@@ -217,7 +232,7 @@ export class DetailContentComponent
       this.moveToElement(el);
     }
 
-    if (this.sourceData){
+    if (this.sourceData) {
       this.doLoadHeadings(this.sourceData);
     }
   }
@@ -351,7 +366,7 @@ export class DetailContentComponent
                       e.target as HTMLElement;
 
                     this.showOverview(
-                      { ...data, typeOfView: 'mipName' },
+                      {...data, typeOfView: 'mipName'},
                       posStrategy,
                       leftSide,
                       center
@@ -430,7 +445,7 @@ export class DetailContentComponent
                       e.target as HTMLElement;
 
                     this.showOverview(
-                      { ...data, typeOfView: 'mipSubproposal' },
+                      {...data, typeOfView: 'mipSubproposal'},
                       posStrategy,
                       leftSide,
                       center
@@ -559,7 +574,7 @@ export class DetailContentComponent
                 ...this.subproposalsGroup[key],
               ];
               componentRef.hostView.detectChanges();
-              const { nativeElement } = componentRef.location;
+              const {nativeElement} = componentRef.location;
 
               // search in DOM the next component section
               let found = false;
@@ -616,7 +631,7 @@ export class DetailContentComponent
         item
       ];
       componentRef.hostView.detectChanges();
-      const { nativeElement } = componentRef.location;
+      const {nativeElement} = componentRef.location;
 
       m.insertAdjacentElement('afterbegin', nativeElement);
     })
@@ -651,7 +666,7 @@ export class DetailContentComponent
   sortSubproposalGroup(arr: any[]) {
     return arr.sort(function (a: any, b: any) {
       return (a.mipName as string).includes('SP') &&
-        a.mipName.split('SP').length > 1
+      a.mipName.split('SP').length > 1
         ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
           ? -1
           : 1
@@ -669,8 +684,8 @@ export class DetailContentComponent
       inarray: [],
     };
 
-    filter.notequals.push({ field: 'mip', value: -1 });
-    filter.equals.push({ field: 'proposal', value: this.mip.mipName });
+    filter.notequals.push({field: 'mip', value: -1});
+    filter.equals.push({field: 'proposal', value: this.mip.mipName});
 
     return this.mipsService
       .searchMips(
@@ -725,7 +740,7 @@ export class DetailContentComponent
         style = `style="display:none;"`;
       }
 
-      this.headingStructure.push({ heading: htmlCleanedText, depth: level });
+      this.headingStructure.push({heading: htmlCleanedText, depth: level});
 
       if (this.mdUrl && level === 1) {
         this.titleMdFile = text;
@@ -778,7 +793,7 @@ export class DetailContentComponent
         link: href,
       };
 
-      this.links.push({ ...link });
+      this.links.push({...link});
 
       if (
         !link.name.includes('Template') &&
