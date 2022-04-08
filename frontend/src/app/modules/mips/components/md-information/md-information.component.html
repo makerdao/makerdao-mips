@@ -1,22 +1,24 @@
-
-<mat-accordion  *ngFor="let item of additionalInformation" class="aditionalInfoBox">
+<mat-accordion
+  *ngFor="let item of additionalInformation"
+  class="aditionalInfoBox"
+>
   <mat-expansion-panel
     [hideToggle]="true"
     *ngIf="additionalInformation.length > 0"
     #expansionPanel
   >
-    <mat-expansion-panel-header collapsedHeight="auto" expandedHeight="auto" class="cursorDefault">
+    <mat-expansion-panel-header
+      collapsedHeight="auto"
+      expandedHeight="auto"
+      class="cursorDefault"
+    >
       <mat-panel-title>
-        <h4 class="title">
-          MIP Editor Commentary
-        </h4>
-        <div
-          class="item"
-        >
+        <h4 class="title">MIP Editor Commentary</h4>
+        <div class="item">
           <span>
             <ul>
               <li>
-                <markdown>{{item}}</markdown>
+                <markdown>{{ item }}</markdown>
               </li>
             </ul>
           </span>
@@ -25,4 +27,38 @@
     </mat-expansion-panel-header>
   </mat-expansion-panel>
 </mat-accordion>
+<div
+  class="expIcon"
+  style="z-index: 1; border-bottom: 3px solid transparent"
+  appMdTooltip="Dynamically Generated Content"
+  #tooltip="appMdTooltip"
+></div>
+<div
+  class="expIcon"
+  style="z-index: 2; border-bottom: 3px solid transparent"
 
+></div>
+<!-- my code -->
+<svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  class="expIcon"
+style="z-index: 1"
+[ngClass]="{ active: activeIcon }"
+>
+  <circle
+    cx="12"
+    cy="12"
+    r="11.25"
+    fill="white"
+    stroke="#748AA1"
+    stroke-width="1.5"
+  />
+  <path
+    d="M12.399 19C13.1575 19 13.759 18.3605 13.7125 17.6034L13.2333 9.80077C13.2062 9.3595 12.8404 9.0155 12.3983 9.0155C11.9561 9.0155 11.5903 9.35959 11.5633 9.80093L11.0855 17.6036C11.0392 18.3606 11.6406 19 12.399 19ZM12.3982 5C12.0636 5 11.7764 5.11983 11.5368 5.3595C11.2971 5.59916 11.1773 5.8863 11.1773 6.22093C11.1773 6.55556 11.2971 6.8427 11.5368 7.08236C11.7764 7.32203 12.0636 7.44186 12.3982 7.44186C12.7328 7.44186 13.02 7.32203 13.2596 7.08236C13.4993 6.8427 13.6191 6.55556 13.6191 6.22093C13.6191 5.99935 13.5626 5.79587 13.4496 5.61047C13.341 5.42506 13.1941 5.27584 13.0087 5.16279C12.8278 5.05426 12.6243 5 12.3982 5Z"
+    fill="#748AA1"
+  />
+</svg>
