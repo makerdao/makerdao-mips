@@ -41,7 +41,7 @@
     margin-top: 15px;
     margin-bottom: 15px;
   }
-  .item-title{
+  .item-title {
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
@@ -55,7 +55,6 @@
 }
 
 :host::ng-deep.item-description a {
-
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
@@ -63,7 +62,6 @@
   text-decoration: none;
   overflow-wrap: break-word;
   word-break: break-word;
-
 }
 
 .container-dark {
@@ -109,7 +107,7 @@
     overflow-wrap: break-word;
     word-break: break-word;
   }
-  .item-title{
+  .item-title {
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
@@ -181,6 +179,9 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+
 }
 :host::ng-deep.description-mobile a {
   font-weight: 500;
@@ -192,7 +193,6 @@
   word-break: break-word;
 }
 :host::ng-deep.title-mobile a {
-
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
