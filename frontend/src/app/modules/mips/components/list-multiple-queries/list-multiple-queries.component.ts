@@ -15,8 +15,10 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LangService } from 'src/app/services/lang/lang.service';
 import { MipsService } from '../../services/mips.service';
 import { OrderService } from '../../services/order.service';
 import { QueryParamsListService } from '../../services/query-params-list.service';
@@ -66,7 +68,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   limit = 10;
   order: string = 'mip';
   loading: boolean = false;
-  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'links'];
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
   initialized: boolean = false;
@@ -86,10 +88,17 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
     private mipsService: MipsService,
     private orderService: OrderService,
     private queryParamsListService: QueryParamsListService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService,
+    private langService: LangService
+  ) {
+    this.translate.setDefaultLang('en');
+  }
 
   ngOnInit(): void {
+    this.langService.currentLang$.subscribe((language: string) => {
+      this.translate.use(language);
+    });
     this.order = this.orderService.order.field
       ? OrderDirection[this.orderService.order.direction] +
         OrderField[this.orderService.order.field]

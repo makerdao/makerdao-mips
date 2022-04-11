@@ -2,7 +2,7 @@
 [ngClass]="{'container-dark':darkModeService.getDarkMode()}"
 >
   <input type="checkbox" (change)="onCheck($event)" [checked]="check"/>
-  <span class="text">{{label}}</span>
+  <span class="text">{{label | translate}}</span>
   <span class="checkmark">
     <img src="assets/images/check.svg">
   </span>
