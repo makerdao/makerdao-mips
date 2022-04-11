@@ -165,11 +165,16 @@ app-md-checkbox-mobile {
   display: none;
 }
 
-@media screen and (max-width: 539px) {
+@media screen and (max-width: 767px) {
   .title {
     &.hide {
       display: none;
     }
+  }
+  p.title{
+    white-space: pre-wrap;
+    width: 100%;
+    
   }
 }
 @media screen and (max-width: 768px) {
@@ -198,10 +203,6 @@ app-md-checkbox-mobile {
   .no-mobile {
     display: none;
   }
-
-  // app-md-checkbox {
-  //   display: none;
-  // }
 
   app-md-checkbox-mobile {
     display: block;
@@ -233,3 +234,9 @@ app-md-checkbox-mobile {
     justify-content: flex-end;
   }
 }
+@media only screen and (min-width: 769px) and (max-width: 1150px){
+  p.title{
+    white-space: pre-wrap;
+    width: 100%;
+  }
+  }
