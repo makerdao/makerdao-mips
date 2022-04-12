@@ -78,15 +78,15 @@ export class NewsService {
                 }
 
                 news.push({
-                    id: item.id,
+                    id: item?.id,
                     timelock,
-                    title: vars[item.title.replace('\$', '')],
-                    description: vars[item.description.replace('\$', '')],
-                    type: item.type,
-                    link: vars[item.link.replace('\$', '')],
-                    mip:item.mip,
-                    linkforum: vars[item.linkforum.replace('\$', '')],
-                    linkmd: vars[item.linkmd.replace('\$', '')]
+                    title: vars[item?.title?.replace('\$', '')],
+                    description: vars[item?.description?.replace('\$', '')],
+                    type: item?.type,
+                    link: vars[item?.link?.replace('\$', '')],
+                    mip:item?.mip,
+                    linkforum: vars[item?.linkforum?.replace('\$', '')],
+                    linkmd: vars[item?.linkmd?.replace('\$', '')]
                 });
 
             }
