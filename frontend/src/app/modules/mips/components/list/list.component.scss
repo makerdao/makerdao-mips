@@ -685,9 +685,22 @@ a {
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      -webkit-box-orient: vertical; 
     }
   }
+  :host::ng-deep.variable-binding-content.subProposal p{
+   font-style: normal;
+   font-weight: normal;
+   margin: 0;
+   font-size: 12px;
+   color: #31394d;
+   margin-top: 20px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 1;
+   -webkit-box-orient: vertical;
+}
 }
 
 tr.example-detail-row {
@@ -837,6 +850,9 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         color: #748aa1 !important;
       }
     }
+    tr.maker-element-row:not(.maker-expanded-row):hover {
+      background: whitesmoke;
+    }
 
     .mobile-container {
       background: #31394d;
@@ -900,10 +916,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       }
 
       tr.maker-element-row:not(.maker-expanded-row):hover {
-        .mat-column-pos {
-          background: #1a202b !important;
-        }
-
+        .mat-column-pos,  
         .mat-column-title,
         .mat-column-summary,
         .mat-column-status,
