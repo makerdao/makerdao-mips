@@ -22,7 +22,7 @@
       }"
       #textBoxWrapper
     >
-      <div
+      <input
         class="contentEditableInput"
         [ngClass]="{ 'contentEditableInput-dark': darkMode }"
         type="text"
@@ -30,11 +30,10 @@
         (keyup)="onKeySearch($event)"
         [appAutocomplete]="autocomplete"
         [formControl]="control"
-        contenteditable
         placeholder=""
         [appFormattingMd]="format"
         [activate]="isQueryMode"
-      ></div>
+      />
     </div>
     <ng-template #mipsSugestions>
       <div

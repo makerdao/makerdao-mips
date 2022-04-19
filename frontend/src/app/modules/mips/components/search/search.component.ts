@@ -249,8 +249,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
             ).innerText;
             this.send.emit(event);
           }
+
         }, 1000);
       }
+
+      event.target.focus();
     }
   }
 
