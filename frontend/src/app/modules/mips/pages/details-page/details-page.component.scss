@@ -119,7 +119,7 @@ app-mips-pagination {
           display: block;
         }
         position: relative;
-        position: -webkit-sticky; /* Safari */
+        position: -webkit-relative; /* Safari */
       }
     }
   }
