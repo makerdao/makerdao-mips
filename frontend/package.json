@@ -59,6 +59,7 @@
     "babel-loader": "^8.2.2",
     "codelyzer": "^6.0.0",
     "cypress": "^9.5.4",
+    "cypress-real-events": "^1.7.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.0",
