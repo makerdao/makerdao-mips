@@ -106,7 +106,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     });
 
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
-      this.shouldBeExpandedMultiQuery=JSON.parse(data.shouldBeExpandedMultiQuery.toString());
       this.updateUrlQueryParams(data);
     });
   }
