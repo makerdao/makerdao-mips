@@ -70,7 +70,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   searchSuggestions = false;
   orderObj: Order;
   multipleQueries = false;
-  shouldBeExpandedMultiQuery = true;
+  shouldBeExpandedMultiQuery:boolean=true;
   statusParameters=false
 
   constructor(
@@ -106,6 +106,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     });
 
     this.queryParamsListService.qParams$.subscribe((data: QueryParams) => {
+      this.shouldBeExpandedMultiQuery=JSON.parse(data.shouldBeExpandedMultiQuery.toString());
       this.updateUrlQueryParams(data);
     });
   }
@@ -163,17 +164,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
       hideParents: this.hideParent && this.multipleQueries ? false : null,
-      shouldBeExpandedMultiQuery:
-        this.hideParent && this.multipleQueries
-          ? this.shouldBeExpandedMultiQuery
-          : null,
     };
     if (qp.customViewName) {
       qp = {
         ...qp,
         hideParents: false,
-        shouldBeExpandedMultiQuery: true,
+        shouldBeExpandedMultiQuery: qp.shouldBeExpandedMultiQuery,
       };
+      this.shouldBeExpandedMultiQuery= JSON.parse(qp.shouldBeExpandedMultiQuery.toString())
     }
     this.hideParentValue = qp.hideParents
       ? JSON.parse(qp.hideParents.toString())
@@ -717,7 +715,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   addSubsetField = (item: any) => {
-    let subset: string = (item.mipName as string).split('SP')[0];
+    let subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
     return item;
   };
