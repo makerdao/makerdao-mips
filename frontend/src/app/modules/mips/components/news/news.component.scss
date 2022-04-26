@@ -9,14 +9,25 @@
 
   .item-icon-yellow {
     border-right: 2px solid rgba(242, 201, 76, 0.5);
+    background-color: rgba(242, 201, 76, 0.1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   .item-icon-green {
     border-right: 2px solid #8cd5cd;
+    background-color: rgba(233, 247, 245, 1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   .item-icon-red {
     border-right: 2px solid rgba(251, 78, 78, 0.5);
+    background-color: rgba(243, 226, 226, 1);
+    border-radius: 8px 0px 0px 8px;
+  }
+  .item-icon-blue {
+    background-color: rgba(214, 230, 251, 0.5);
+    border-right: 2px solid rgba(152, 192, 245, 1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   &.container-yellow {
@@ -29,6 +40,10 @@
 
   &.container-red {
     border: 2px solid rgba(251, 78, 78, 0.5);
+  }
+  &.container-blue {
+    border: 2px solid #98c0f5;
+
   }
   .description {
     font-family: Roboto;
@@ -51,6 +66,7 @@
     text-align: left;
     margin-left: 10px;
     padding-right: 15px;
+    color: rgba(132, 154, 175, 1);
   }
 }
 
@@ -86,6 +102,9 @@
   .item-icon-red {
     border-right: 2px solid #fb4e4e;
   }
+  .item-icon-blue {
+    border-right: 2px solid #98c0f5;
+  }
 
   &.container-yellow {
     border: 2px solid #b5b12a;
@@ -97,6 +116,9 @@
 
   &.container-red {
     border: 2px solid #fb4e4e;
+  }
+  &.container-blue {
+    border: 2px solid #1a9cff;
   }
   :host::ng-deep.item-description a {
     font-weight: 500;
