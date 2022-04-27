@@ -34,23 +34,27 @@
     border: 2px solid rgba(242, 201, 76, 0.5);
     margin-left: 20px;
     margin-right: 20px;
+    height: min-content;
   }
 
   &.container-green {
     border: 2px solid #8cd5cd;
     margin-left: 20px;
     margin-right: 20px;
+    height: min-content;
   }
 
   &.container-red {
     border: 2px solid rgba(251, 78, 78, 0.5);
     margin-left: 20px;
     margin-right: 20px;
+    height: min-content;
   }
   &.container-blue {
     border: 2px solid #98c0f5;
     margin-left: 20px;
     margin-right: 20px;
+    height: min-content;
 
   }
   .description {
