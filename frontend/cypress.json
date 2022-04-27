@@ -1,3 +1,10 @@
 {
-  "baseUrl": "http://localhost:4200"
+  "baseUrl": "http://localhost:4200",
+  "screenshotsFolder": "./cypress/snapshots/actual",
+  "chromeWebSecurity": false,
+  "trashAssetsBeforeRuns": true,
+  "videoCompression": 32,
+  "env": {
+    "failSilently": false
+  }
 }

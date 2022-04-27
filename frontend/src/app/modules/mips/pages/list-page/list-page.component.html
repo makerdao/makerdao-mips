@@ -21,7 +21,7 @@
     }"
   >
     <app-md-checkbox-mobile
-      style="display: none"
+      style="display: none;"
       *ngIf="!mobileSearch"
       [checkInput]="mipsetMode"
       [imageNoChecked]="'assets/images/subproposals-mode-no-checked.svg'"
@@ -53,7 +53,7 @@
       [orderDirection]="orderObj.direction"
     ></app-order-mobile>
     <app-md-checkbox
-      style="display: none"
+      style="display: none;"
       *ngIf="mipsetMode"
       [label]="'MIPset Mode'"
       (checked)="onCheckedMipsetMode($event)"
@@ -62,7 +62,7 @@
 
     <app-md-checkbox
       *ngIf="!hideParent"
-      style="margin-right: 10px"
+      style="margin-right: 10px;"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
       [checkInput]="hideParentValue"
@@ -70,7 +70,7 @@
 
     <app-md-checkbox
       *ngIf="hideParent && multipleQueries"
-      style="margin-right: 10px"
+      style="margin-right: 10px;"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
       [checkInput]="hideParentValue"
@@ -90,9 +90,10 @@
       [placeHolder]="'e.g $ AND(#process, #mip-set)'"
       (clickSearchItem)="onNavigateToMipDetails($event)"
       [darkMode]="darkModeService.getDarkMode()"
+      data-cy="search-box"
     >
     </app-search>
-    <app-filter (send)="onSendFilters()" style="display: none"></app-filter>
+    <app-filter (send)="onSendFilters()" style="display: none;"></app-filter>
   </div>
 </div>
 <app-filter-list

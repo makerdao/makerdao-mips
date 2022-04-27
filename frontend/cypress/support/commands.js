@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+const compareSnapshotCommand = require("cypress-visual-regression/dist/command");
+compareSnapshotCommand();
+
+Cypress.Commands.add(
+  "hideElement",
+  (
+    appContentQuerySelector,
+    ignoredElementsQuerySelector,
+    useContains = false
+  ) => {
+    const method = useContains ? "contains" : "find";
+
+    cy.get(appContentQuerySelector)
+      [method](ignoredElementsQuerySelector)
+      .invoke("attr", "style", "opacity: 0");
+
+    cy.wait(300);
+  }
+);
