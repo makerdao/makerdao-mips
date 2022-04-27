@@ -3,7 +3,7 @@
   height: fit-content;
   display: block;
   margin-bottom: 10px;
-  width: 90%;
+  width: 80%;
 
   .title {
     font-family: Roboto;
@@ -131,4 +131,35 @@ app-status {
 :host::ng-deep .item::ng-deep a  {
   margin: 0;
   font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+  :host {
+  width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1365px) {
+  :host {
+    width: 70%;
+    }
+}
+
+
+@media screen and (min-width: 1366px) {
+  :host {
+  width: 70%;
+  }
+}
+
+@media screen and (min-width: 1536px) {
+  :host {
+  width: 60%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  :host {
+  width: 65%;
+  }
 }
