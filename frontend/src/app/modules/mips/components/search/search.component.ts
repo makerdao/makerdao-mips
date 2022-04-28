@@ -1,28 +1,27 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
+  EventEmitter,
   Input,
   OnInit,
   Output,
-  EventEmitter,
-  ViewChild,
-  ChangeDetectorRef,
-  AfterViewInit,
-  ElementRef,
-  ViewContainerRef,
-  TemplateRef,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { fromEvent, Subject, Subscription } from 'rxjs';
-import { ConnectedPosition } from '@angular/cdk/overlay';
-import { FormControl } from '@angular/forms';
-import { SmartSearchService } from '../../services/smart-search.service';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
-import { position, offset } from 'caret-pos';
+import {fromEvent, Subject, Subscription} from 'rxjs';
+import {ConnectedPosition, Overlay, OverlayRef} from '@angular/cdk/overlay';
+import {FormControl} from '@angular/forms';
+import {SmartSearchService} from '../../services/smart-search.service';
+import {debounceTime, filter, map, takeUntil} from 'rxjs/operators';
+import {position} from 'caret-pos';
 import IFormatting from '../../types/formatting';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
+import {animate, style, transition, trigger} from '@angular/animations';
+import {TemplatePortal} from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-search',
@@ -32,10 +31,10 @@ import { TemplatePortal } from '@angular/cdk/portal';
   animations: [
     trigger('enterLeaveSmooth', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.9)' }),
-        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
+        style({opacity: 0, transform: 'scale(0.9)'}),
+        animate(50, style({opacity: 1, transform: 'scale(1)'})),
       ]),
-      transition(':leave', [animate(100, style({ opacity: 0 }))]),
+      transition(':leave', [animate(100, style({opacity: 0}))]),
     ]),
   ],
 })
@@ -75,48 +74,48 @@ export class SearchComponent implements OnInit, AfterViewInit {
   format: IFormatting[] = [
     {
       pattern: /and\(/gi,
-      replace: "<span style='font-weight:bold;'>AND</span>(",
+      replace: '<span style=\'font-weight:bold;\'>AND</span>(',
     },
     {
       pattern: /or\(/gi,
-      replace: "<span style='font-weight:bold;'>OR</span>(",
+      replace: '<span style=\'font-weight:bold;\'>OR</span>(',
     },
     {
       pattern: /not\(/gi,
-      replace: "<span style='font-weight:bold;'>NOT</span>(",
+      replace: '<span style=\'font-weight:bold;\'>NOT</span>(',
     },
     {
       pattern: /@accepted/gi,
-      replace: "@<span style='font-weight:500;color:#27AE60'>ACCEPTED</span>",
+      replace: '@<span style=\'font-weight:500;color:#27AE60\'>ACCEPTED</span>',
     },
     {
       pattern: /@rejected/gi,
-      replace: "@<span style='font-weight:500;color:#EB5757'>REJECTED</span>",
+      replace: '@<span style=\'font-weight:500;color:#EB5757\'>REJECTED</span>',
     },
     {
       pattern: /@rfc/gi,
-      replace: "@<span style='font-weight:500;color:#F2994A'>RFC</span>",
+      replace: '@<span style=\'font-weight:500;color:#F2994A\'>RFC</span>',
     },
     {
       pattern: /@archive/gi,
-      replace: "@<span style='font-weight:500;color:#748AA1'>ARCHIVE</span>",
+      replace: '@<span style=\'font-weight:500;color:#748AA1\'>ARCHIVE</span>',
     },
     {
       pattern: /@obsolete/gi,
-      replace: "@<span style='font-weight:500;color:#CBAB48'>OBSOLETE</span>",
+      replace: '@<span style=\'font-weight:500;color:#CBAB48\'>OBSOLETE</span>',
     },
     {
       pattern: /@Formal\sSubmission/gi,
       replace:
-        "@<span style='font-weight:500;color:#9B51E0'>FORMAL SUBMISSION</span>",
+        '@<span style=\'font-weight:500;color:#9B51E0\'>FORMAL SUBMISSION</span>',
     },
     {
       pattern: /@proposed/gi,
-      replace: "@<span style='font-weight:500;color:#8B4513'>PROPOSED</span>",
+      replace: '@<span style=\'font-weight:500;color:#8B4513\'>PROPOSED</span>',
     },
     {
       pattern: /@withdrawn/gi,
-      replace: "@<span style='font-weight:500;color:#8B4513'>WITHDRAWN</span>",
+      replace: '@<span style=\'font-weight:500;color:#8B4513\'>WITHDRAWN</span>',
     },
   ];
   private overlayRef: OverlayRef;
@@ -128,7 +127,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     private smartSearchService: SmartSearchService,
     private overlay: Overlay,
     public viewContainerRef: ViewContainerRef
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.darkMode) {
@@ -144,7 +144,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       });
     }
     this.control.setValue(this.value);
-    this.showClose = this.value ? true : false;
+    this.showClose = !!this.value;
     this.initPositionHelpPopup();
   }
 
@@ -209,19 +209,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.isQueryMode = true;
         this.showClose = false;
 
-        if (event.keyCode == 13 && !this.selectedAutocompleteOptionByEnter) {
-          this.timeout = setTimeout(() => {
-            if (
-              this.inputSearch.nativeElement.constructor === HTMLInputElement
-            ) {
-              this.send.emit(event);
-            } else {
-              event.target.value = (
-                this.inputSearch.nativeElement as HTMLElement
-              ).innerText;
-              this.send.emit(event);
-            }
-          }, 1000);
+        if (event.keyCode === 13 && !this.selectedAutocompleteOptionByEnter) {
+          if (
+            this.inputSearch.nativeElement.constructor === HTMLInputElement
+          ) {
+            this.send.emit(event);
+          } else {
+            event.target.value = (
+              this.inputSearch.nativeElement as HTMLElement
+            ).innerText;
+            this.send.emit(event);
+          }
         } else {
           this.selectedAutocompleteOptionByEnter = false;
           this.filteringOptions();
@@ -230,7 +228,20 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.options = [];
         this.isQueryMode = false;
 
-        if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
+        if (event.keyCode === 13 && !this.selectedAutocompleteOptionByEnter) {
+          if (
+            this.inputSearch.nativeElement.constructor === HTMLInputElement
+          ) {
+            this.send.emit(event);
+          }
+          else {
+            event.target.value = (
+              this.inputSearch.nativeElement as HTMLElement
+            ).innerText;
+
+            this.send.emit(event);
+          }
+        } else if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
           this.showClose =
             this.inputSearch.nativeElement.value === '' ? false : true;
         } else {
@@ -239,25 +250,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
               ? false
               : true;
         }
-
-        this.timeout = setTimeout(() => {
-          if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
-            this.send.emit(event);
-          } else {
-            event.target.value = (
-              this.inputSearch.nativeElement as HTMLElement
-            ).innerText;
-            this.send.emit(event);
-          }
-        }, 1000);
       }
     }
   }
 
   isQuery(data: string): boolean {
     if (data) {
-      let search = data.toLowerCase().trim();
-
+      const search = data.toLowerCase().trim();
       return search.startsWith('$');
     }
 
@@ -267,6 +266,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
   clear(): void {
     this.showClose = false;
     this.control.setValue('');
+
+    const searchBox = this.inputSearch.nativeElement;
+    setTimeout(()=>{
+      searchBox.tabIndex = 0;
+      searchBox.focus();
+    },0);
     let event = new Event('keyup');
     this.inputSearch.nativeElement.dispatchEvent(event);
   }
@@ -314,14 +319,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
                 const newArray = (data as [])
                   .filter((i: any) => i.status !== '')
                   .map((i: any) => {
-                    return { label: i.status };
+                    return {label: i.status};
                   });
 
                 return newArray;
               })
             )
             .subscribe((data: any) => {
-              this.options = (data as []).sort(function (a: any, b: any) {
+              this.options = (data as []).sort(function(a: any, b: any) {
                 return a.label < b.label ? -1 : 1;
               });
               this.cdr.detectChanges();
@@ -351,14 +356,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
             const newArray = (data as [])
               .filter((i: any) => i.status !== '')
               .map((i: any) => {
-                return { label: i.status };
+                return {label: i.status};
               });
 
             return newArray;
           })
         )
         .subscribe((data: any) => {
-          this.options = (data as []).sort(function (a: any, b: any) {
+          this.options = (data as []).sort(function(a: any, b: any) {
             return a.label < b.label ? -1 : 1;
           });
           this.cdr.detectChanges();
@@ -390,14 +395,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
                 const newArray = (data as [])
                   .filter((i: any) => i.tag !== '')
                   .map((i: any) => {
-                    return { label: i.tag };
+                    return {label: i.tag};
                   });
 
                 return newArray;
               })
             )
             .subscribe((data: any) => {
-              this.options = (data as []).sort(function (a: any, b: any) {
+              this.options = (data as []).sort(function(a: any, b: any) {
                 return a.label < b.label ? -1 : 1;
               });
               this.cdr.detectChanges();
@@ -427,14 +432,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
             const newArray = (data as [])
               .filter((i: any) => i.tag !== '')
               .map((i: any) => {
-                return { label: i.tag };
+                return {label: i.tag};
               });
 
             return newArray;
           })
         )
         .subscribe((data: any) => {
-          this.options = (data as []).sort(function (a: any, b: any) {
+          this.options = (data as []).sort(function(a: any, b: any) {
             return a.label < b.label ? -1 : 1;
           });
           this.cdr.detectChanges();
