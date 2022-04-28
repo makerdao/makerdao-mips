@@ -283,7 +283,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
       searchBox.tabIndex = 0;
       searchBox.focus();
     }, 0);
-    let event = new Event('keyup');
+    const event = new Event('keyup');
+    Object.defineProperty(event, 'keyCode', {
+      get : () => 13
+    });
     this.inputSearch.nativeElement.dispatchEvent(event);
   }
 
