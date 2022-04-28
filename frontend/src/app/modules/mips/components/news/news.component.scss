@@ -261,7 +261,7 @@
 }
 .newsLinkContainerMovile {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   text-align: center;
 }
@@ -282,6 +282,11 @@
     text-decoration: none;
     color: none;
   }
+}
+
+.newsLinkMobile {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .newsLinkDark {
