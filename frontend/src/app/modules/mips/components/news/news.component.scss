@@ -9,26 +9,53 @@
 
   .item-icon-yellow {
     border-right: 2px solid rgba(242, 201, 76, 0.5);
+    background-color: rgba(242, 201, 76, 0.1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   .item-icon-green {
     border-right: 2px solid #8cd5cd;
+    background-color: rgba(233, 247, 245, 1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   .item-icon-red {
     border-right: 2px solid rgba(251, 78, 78, 0.5);
+    background-color: rgba(243, 226, 226, 1);
+    border-radius: 8px 0px 0px 8px;
+  }
+  .item-icon-blue {
+    background-color: rgba(214, 230, 251, 0.5);
+    border-right: 2px solid rgba(152, 192, 245, 1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   &.container-yellow {
     border: 2px solid rgba(242, 201, 76, 0.5);
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
 
   &.container-green {
     border: 2px solid #8cd5cd;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
 
   &.container-red {
     border: 2px solid rgba(251, 78, 78, 0.5);
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
+  }
+  &.container-blue {
+    border: 2px solid #98c0f5;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
+
   }
   .description {
     font-family: Roboto;
@@ -49,20 +76,50 @@
     line-height: 21px;
     letter-spacing: 0em;
     text-align: left;
-    margin-left: 10px;
-    padding-right: 15px;
+    margin: 0px 38px;
+    color: rgba(132, 154, 175, 1);
   }
 }
 
+:host::ng-deep.item-description p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color:#31394D;
+}
+
+:host::ng-deep.item-description-dark p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #BBC2DD;
+}
+
+
 :host::ng-deep.item-description a {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.5;
   color: #2f80ed;
   text-decoration: none;
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+:host::ng-deep.item-description-dark a {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 
 .container-dark {
   background: #202733;
@@ -86,17 +143,27 @@
   .item-icon-red {
     border-right: 2px solid #fb4e4e;
   }
+  .item-icon-blue {
+    border-right: 2px solid #98c0f5;
+  }
 
   &.container-yellow {
-    border: 2px solid #b5b12a;
+    border:2px solid #B5B12A;
+    height: min-content;
   }
 
   &.container-green {
-    border: 2px solid #1ab759;
+    border: 2px solid #1AB759;
+    height: min-content;
   }
 
   &.container-red {
-    border: 2px solid #fb4e4e;
+    border: 2px solid #FB4E4E;
+    height: min-content;
+  }
+  &.container-blue {
+    border: 2px solid #1a9cff;
+    height: min-content;
   }
   :host::ng-deep.item-description a {
     font-weight: 500;
@@ -115,8 +182,8 @@
     line-height: 21px;
     letter-spacing: 0em;
     text-align: left;
-    margin-left: 10px;
-    padding-right: 15px;
+    margin: 0px 38px;
+    color: #F1F3F8; 
   }
 }
 
@@ -130,6 +197,7 @@
   text-align: left;
   margin-top: 15px;
   margin-bottom: 15px;
+  color:  #BBC2DD;
 }
 
 .item-icon {
@@ -183,9 +251,12 @@
   padding-right: 20px;
 
 }
+div p:first-of-type {
+  color: #F1F3F8;
+}
 :host::ng-deep.description-mobile a {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.5;
   color: #2f80ed;
   text-decoration: none;

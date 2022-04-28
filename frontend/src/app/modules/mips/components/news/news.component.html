@@ -5,7 +5,9 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
+    
     }"
   >
     <div
@@ -13,24 +15,30 @@
       [ngClass]="{
         'item-icon-green': item.type === 'GREEN',
         'item-icon-yellow': item.type === 'YELLOW',
-        'item-icon-red': item.type === 'RED'
+        'item-icon-red': item.type === 'RED',
+        'item-icon-blue': item.type === 'BLUE'
+              
       }"
     >
       <img
         *ngIf="item.type === 'GREEN'"
-        src="./assets/images/notification/circle.png"
+        src="./assets/images/notification/circle-G.png"
       />
       <img
         *ngIf="item.type === 'RED'"
-        src="./assets/images/notification/triangle.png"
+        src="./assets/images/notification/tip-R.png"
       />
       <img
         *ngIf="item.type === 'YELLOW'"
-        src="./assets/images/notification/tip.png"
+        src="./assets/images/notification/tip-Y.png"
       />
+      <img
+      *ngIf="item.type === 'BLUE'"
+      src="./assets/images/notification/tip-B.png"
+    />
     </div>
 
-    <div class="item" style="width: 25%">
+    <div class="item" style="width: 35%">
       <markdown
         [data]="item.title"
         class="item-title"
@@ -42,7 +50,7 @@
         [data]="item.description"
       ></markdown>
     </div>
-    <div class="newsLinkContainer" style="width: 25%">
+    <div class="newsLinkContainer" style="width: 10%">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
@@ -78,7 +86,8 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
     }"
   >
     <div class="item-mobile">
@@ -86,18 +95,23 @@
         <img
           width="20"
           *ngIf="item.type === 'GREEN'"
-          src="./assets/images/notification/circle-dark.png"
+          src="./assets/images/notification/circle-G.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'RED'"
-          src="./assets/images/notification/triangle-dark.png"
+          src="./assets/images/notification/tip-R.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'YELLOW'"
           src="./assets/images/notification/tip-dark.png"
         />
+        <img
+        width="20"
+        *ngIf="item.type === 'BLUE'"
+        src="./assets/images/notification/tip-B.png"
+      />
       </div>
       <markdown
         [data]="item.title"
@@ -152,7 +166,8 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
     }"
   >
     <div class="item-mobile">
@@ -160,18 +175,23 @@
         <img
           width="20"
           *ngIf="item.type === 'GREEN'"
-          src="./assets/images/notification/circle-dark.png"
+          src="./assets/images/notification/circle-G.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'RED'"
-          src="./assets/images/notification/triangle-dark.png"
+          src="./assets/images/notification/tip-R.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'YELLOW'"
           src="./assets/images/notification/tip-dark.png"
         />
+        <img
+        width="20"
+        *ngIf="item.type === 'BLUE'"
+        src="./assets/images/notification/tip-B.png"
+      />
       </div>
 
       <markdown
@@ -227,7 +247,8 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
     }"
   >
     <div
@@ -235,7 +256,8 @@
       [ngClass]="{
         'item-icon-green': item.type === 'GREEN',
         'item-icon-yellow': item.type === 'YELLOW',
-        'item-icon-red': item.type === 'RED'
+        'item-icon-red': item.type === 'RED',
+        'item-icon-blue': item.type === 'BLUE'
       }"
     >
       <img
@@ -244,15 +266,19 @@
       />
       <img
         *ngIf="item.type === 'RED'"
-        src="./assets/images/notification/triangle-dark.png"
+        src="./assets/images/notification/tip-R.png"
       />
       <img
         *ngIf="item.type === 'YELLOW'"
         src="./assets/images/notification/tip-dark.png"
       />
+      <img
+      *ngIf="item.type === 'BLUE'"
+      src="./assets/images/notification/tip-B.png"
+    />
     </div>
 
-    <div class="item" style="width: 25%">
+    <div class="item" style="width: 35%">
       <markdown
         [data]="item.title"
         class="item-title"
@@ -262,11 +288,11 @@
     <div style="width: 50%" class="itemDark">
       <markdown
         [data]="item.description"
-        class="item-description"
+        class="item-description-dark"
       ></markdown>
     </div>
 
-    <div class="newsLinkContainer" style="width: 25%">
+    <div class="newsLinkContainer" style="width: 10%">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
