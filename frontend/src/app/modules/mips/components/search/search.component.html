@@ -70,7 +70,7 @@
       </div>
     </ng-template>
   </div>
-  <div *ngIf="showClose && !isQueryMode" class="close-container">
+  <div *ngIf="showClose && !isQueryMode || error" class="close-container">
     <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
   </div>
   <div
@@ -85,7 +85,8 @@
       type="button"
       [ngClass]="{
         'help-container-dark': darkMode,
-        'help-open': isOpenHelpPopup
+        'help-open': isOpenHelpPopup,
+        'ListSearch-not-Display':error
       }"
     >
       <img

@@ -889,6 +889,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         this.limit = 0;
       }
     } else {
+      this.loading = false;
       this.searchSuggestions = false;
       this.showListSearch = false;
       this.listSearchMip = [];
