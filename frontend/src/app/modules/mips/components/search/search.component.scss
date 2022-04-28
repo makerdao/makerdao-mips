@@ -291,6 +291,8 @@ input {
     white-space: nowrap;
     overflow-x: hidden;
     width: 100%;
+    display: inline;
+    height: 17px;
 
     &:empty::before {
       content: attr(placeholder);
