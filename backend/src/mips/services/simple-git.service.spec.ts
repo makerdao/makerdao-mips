@@ -2,6 +2,7 @@ import { Env } from "@app/env";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import { MIPsModule } from "../mips.module";
 import { SimpleGitService } from "./simple-git.service";
 
@@ -9,8 +10,11 @@ describe("SimpleGitService", () => {
     let module: TestingModule;
     let simpleGitService: SimpleGitService;
     let configService: ConfigService;
+    let mongoMemoryServer;
 
     beforeAll(async () => {
+        mongoMemoryServer = await MongoMemoryServer.create();
+
         module = await Test.createTestingModule({
             imports: [
                 MIPsModule,
@@ -20,7 +24,7 @@ describe("SimpleGitService", () => {
                 MongooseModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({
-                        uri: configService.get<string>(Env.MongoDBUri),
+                        uri: mongoMemoryServer.getUri(),
                         useCreateIndex: true,
                         useFindAndModify: false,
                     }),
@@ -64,5 +68,6 @@ describe("SimpleGitService", () => {
 
     afterAll(async () => {
         await module.close();
+        await mongoMemoryServer.stop();
     });
 });

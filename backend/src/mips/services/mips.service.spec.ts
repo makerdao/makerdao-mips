@@ -1,7 +1,7 @@
-import { Env } from "@app/env";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language, MIP } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
 import { mipData } from "./data-test/data";
@@ -10,10 +10,13 @@ import { MIPsService } from "./mips.service";
 describe("MIPsService", () => {
     let module: TestingModule;
     let mipsService: MIPsService;
+    let mongoMemoryServer;
 
     const mipMock: MIP = mipData;
 
     beforeAll(async () => {
+        mongoMemoryServer = await MongoMemoryServer.create();
+
         module = await Test.createTestingModule({
             imports: [
                 MIPsModule,
@@ -23,7 +26,7 @@ describe("MIPsService", () => {
                 MongooseModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({
-                        uri: configService.get<string>(Env.MongoDBUri),
+                        uri: mongoMemoryServer.getUri(),
                         useCreateIndex: true,
                         useFindAndModify: false,
                     }),
@@ -91,5 +94,6 @@ describe("MIPsService", () => {
 
     afterAll(async () => {
         await module.close();
+        await mongoMemoryServer.stop();
     });
 });

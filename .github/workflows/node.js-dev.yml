@@ -25,6 +25,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Running the Test Suit
       run: |
+        cp '.env example' .env
         npm install
         npm run pre-start-develop
         npm test     
