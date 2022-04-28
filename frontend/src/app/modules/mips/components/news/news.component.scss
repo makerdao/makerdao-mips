@@ -81,6 +81,25 @@
   }
 }
 
+:host::ng-deep.item-description p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color:#31394D;
+}
+
+:host::ng-deep.item-description-dark p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #BBC2DD;
+}
+
+
 :host::ng-deep.item-description a {
   font-weight: 500;
   font-size: 12px;
@@ -91,13 +110,16 @@
   word-break: break-word;
 }
 
-:host::ng-deep.item-description p {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 400;
+:host::ng-deep.item-description-dark a {
+  font-weight: 500;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
+
 
 .container-dark {
   background: #202733;
@@ -126,18 +148,22 @@
   }
 
   &.container-yellow {
-    border: 2px solid #b5b12a;
+    border:2px solid #B5B12A;
+    height: min-content;
   }
 
   &.container-green {
-    border: 2px solid #1ab759;
+    border: 2px solid #1AB759;
+    height: min-content;
   }
 
   &.container-red {
-    border: 2px solid #fb4e4e;
+    border: 2px solid #FB4E4E;
+    height: min-content;
   }
   &.container-blue {
     border: 2px solid #1a9cff;
+    height: min-content;
   }
   :host::ng-deep.item-description a {
     font-weight: 500;
@@ -156,8 +182,8 @@
     line-height: 21px;
     letter-spacing: 0em;
     text-align: left;
-    margin-left: 10px;
-    padding-right: 15px;
+    margin: 0px 38px;
+    color: #F1F3F8; 
   }
 }
 
@@ -171,6 +197,7 @@
   text-align: left;
   margin-top: 15px;
   margin-bottom: 15px;
+  color:  #BBC2DD;
 }
 
 .item-icon {
@@ -224,9 +251,12 @@
   padding-right: 20px;
 
 }
+div p:first-of-type {
+  color: #F1F3F8;
+}
 :host::ng-deep.description-mobile a {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.5;
   color: #2f80ed;
   text-decoration: none;
