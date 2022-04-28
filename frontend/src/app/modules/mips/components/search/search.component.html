@@ -25,7 +25,6 @@
       <div
         class="contentEditableInput"
         [ngClass]="{ 'contentEditableInput-dark': darkMode }"
-        type="text"
         #search
         (keyup)="onKeySearch($event)"
         [appAutocomplete]="autocomplete"
@@ -71,7 +70,7 @@
     </ng-template>
   </div>
   <div *ngIf="showClose && !isQueryMode" class="close-container">
-    <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
+    <img (click)="clear()" src="{{ imageClose }}" class="imageClose"  alt="Close Icon"/>
   </div>
   <div
     class="help-popup-wrapper"

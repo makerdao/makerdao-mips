@@ -1,27 +1,26 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
+  EventEmitter,
   Input,
   OnInit,
   Output,
-  EventEmitter,
-  ViewChild,
-  ChangeDetectorRef,
-  AfterViewInit,
-  ElementRef,
-  ViewContainerRef,
-  TemplateRef,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import {fromEvent, Subject, Subscription} from 'rxjs';
-import {ConnectedPosition} from '@angular/cdk/overlay';
+import {ConnectedPosition, Overlay, OverlayRef} from '@angular/cdk/overlay';
 import {FormControl} from '@angular/forms';
 import {SmartSearchService} from '../../services/smart-search.service';
 import {debounceTime, filter, map, takeUntil} from 'rxjs/operators';
-import {position, offset} from 'caret-pos';
+import {position} from 'caret-pos';
 import IFormatting from '../../types/formatting';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import {TemplatePortal} from '@angular/cdk/portal';
 
 @Component({
@@ -145,7 +144,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       });
     }
     this.control.setValue(this.value);
-    this.showClose = this.value ? true : false;
+    this.showClose = !!this.value;
     this.initPositionHelpPopup();
   }
 
@@ -234,10 +233,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
             this.inputSearch.nativeElement.constructor === HTMLInputElement
           ) {
             this.send.emit(event);
-          } else {
+          }
+          else {
             event.target.value = (
               this.inputSearch.nativeElement as HTMLElement
             ).innerText;
+
             this.send.emit(event);
           }
         } else if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
@@ -265,6 +266,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
   clear(): void {
     this.showClose = false;
     this.control.setValue('');
+
+    const searchBox = this.inputSearch.nativeElement;
+    setTimeout(()=>{
+      searchBox.tabIndex = 0;
+      searchBox.focus();
+    },0);
     let event = new Event('keyup');
     this.inputSearch.nativeElement.dispatchEvent(event);
   }
