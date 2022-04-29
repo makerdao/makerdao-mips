@@ -50,20 +50,21 @@ export class MipsService {
     let urlFilter = '';
     let enter = false;
     if (filter !== undefined && filter != null) {
-      let index = 0;
+      let indexOut = 0;
       Object.keys(filter).forEach((key) => {
         if (key === 'inarray' && filter[key].length > 0) {
           const character = !enter ? '?' : '&';
           enter = true;
-          urlFilter += `${character}filter[${key}][${index}][field]=${filter[key][index]['field']}`;
+          urlFilter += `${character}filter[${key}][${indexOut}][field]=${filter[key][indexOut]['field']}`;
 
           filter[key].forEach((final) => {
             const character = !enter ? '?' : '&';
             enter = true;
-            urlFilter += `${character}filter[${key}][${index}][value]=${final.value}`;
+            urlFilter += `${character}filter[${key}][${indexOut}][value]=${final.value}`;
           });
-          index++;
+          indexOut++;
         } else {
+          let index = 0;
           Object.keys(filter[key]).forEach((subkey) => {
             Object.keys(filter[key][subkey]).forEach((final) => {
               const character = !enter ? '?' : '&';
