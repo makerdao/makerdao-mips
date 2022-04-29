@@ -85,9 +85,9 @@ export class MIPsController {
     description:
       "Filter field with various filter patterns. (contains, notcontains, equals, notequals)",
     required: false,
-    type: "object",
+    type: Filters,
     schema: {
-      type: "object",
+      type: 'Filters',
       example: {
         filter: {
           contains: [{ field: "status", value: "RFC" }],
@@ -121,7 +121,7 @@ export class MIPsController {
   ) {
     try {
       const paginationQueryDto: PaginationQueryDto = {
-        limit: +limit || 10,
+        limit: +limit || 5,
         page: +page,
       };
 
