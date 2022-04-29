@@ -194,10 +194,21 @@
 .item-mobile {
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 9px;
 }
 
+:host::ng-deep.item-mobile .title-mobile p {
+  padding-top: 3px;
+  align-items: center;
+  margin: 0px;
+}
+:host::ng-deep.item-mobile .description-mobile p {
+  align-items: center;
+  margin: 0px;
+}
 .icon {
   width: 5%;
   display: flex;
@@ -215,6 +226,10 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: center;
+  color: #849aaf;
+}
+.title-mobile-dark {
+  color: #f1f3f8;
 }
 
 .description-mobile {
@@ -227,7 +242,10 @@
   text-align: left;
   padding-left: 20px;
   padding-right: 20px;
-
+  color: #31394d;
+}
+.description-mobile-dark {
+  color: #bbc2dd;
 }
 :host::ng-deep.description-mobile a {
   font-weight: 500;

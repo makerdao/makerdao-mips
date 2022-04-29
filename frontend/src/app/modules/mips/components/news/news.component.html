@@ -7,7 +7,6 @@
       'container-yellow': item.type === 'YELLOW',
       'container-red': item.type === 'RED',
       'container-blue': item.type === 'BLUE'
-    
     }"
   >
     <div
@@ -33,22 +32,16 @@
         src="./assets/images/notification/tip-Y.png"
       />
       <img
-      *ngIf="item.type === 'BLUE'"
-      src="./assets/images/notification/tip-B.png"
-    />
+        *ngIf="item.type === 'BLUE'"
+        src="./assets/images/notification/tip-B.png"
+      />
     </div>
 
     <div class="item" style="width: 40%">
-      <markdown
-        [data]="item.title"
-        class="item-title"
-      ></markdown>
+      <markdown [data]="item.title" class="item-title"></markdown>
     </div>
     <div class="item" style="width: 50%">
-      <markdown
-        class="item-description"
-        [data]="item.description"
-      ></markdown>
+      <markdown class="item-description" [data]="item.description"></markdown>
     </div>
     <div class="newsLinkContainer" style="width: 15%">
       <a
@@ -108,15 +101,15 @@
           src="./assets/images/notification/tip-Y.png"
         />
         <img
-        width="20"
-        *ngIf="item.type === 'BLUE'"
-        src="./assets/images/notification/tip-B.png"
-      />
+          width="20"
+          *ngIf="item.type === 'BLUE'"
+          src="./assets/images/notification/tip-B.png"
+        />
       </div>
       <markdown
         [data]="item.title"
-        class="title-mobile"
-        style="width: 86%; text-align: center; margin-top: 5px"
+        class="title-mobile title-mobile-dark"
+        style="width: 86%; text-align: center"
       ></markdown>
       <div
         class="closeNewButton"
@@ -129,7 +122,7 @@
     <div class="item-mobile">
       <markdown
         [data]="item.description"
-        class="description-mobile"
+        class="description-mobile description-mobile-dark"
         style="margin-top: 0px"
       ></markdown>
     </div>
@@ -147,7 +140,7 @@
         href="{{ item.linkforum }}"
         class="newsLinkDark newsLinkMobile"
         target="_blank"
-        >Forum link</a
+        >Forum</a
       >
       <a
         *ngIf="item.linkmd"
@@ -188,15 +181,15 @@
           src="./assets/images/notification/tip-Y.png"
         />
         <img
-        width="20"
-        *ngIf="item.type === 'BLUE'"
-        src="./assets/images/notification/tip-B.png"
-      />
+          width="20"
+          *ngIf="item.type === 'BLUE'"
+          src="./assets/images/notification/tip-B.png"
+        />
       </div>
 
       <markdown
         [data]="item.title"
-        style="width: 86%; text-align: center; margin-top: 5px"
+        style="width: 86%; text-align: center"
         class="title-mobile"
       ></markdown>
 
@@ -229,7 +222,7 @@
         href="{{ item.linkforum }}"
         class="newsLink newsLinkMobile"
         target="_blank"
-        >Forum link</a
+        >Forum</a
       >
       <a
         *ngIf="item.linkmd"
@@ -273,16 +266,13 @@
         src="./assets/images/notification/tip-Y.png"
       />
       <img
-      *ngIf="item.type === 'BLUE'"
-      src="./assets/images/notification/tip-B.png"
-    />
+        *ngIf="item.type === 'BLUE'"
+        src="./assets/images/notification/tip-B.png"
+      />
     </div>
 
     <div class="item" style="width: 40%">
-      <markdown
-        [data]="item.title"
-        class="item-title"
-      ></markdown>
+      <markdown [data]="item.title" class="item-title"></markdown>
     </div>
 
     <div style="width: 50%" class="item">
