@@ -49,7 +49,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   @ViewChild('filterList', {static: true})  filterList: FilterListComponent;
   showFilterList = false;
   showListSearch = false;
-  hideParent = true;
+  showHideParentCheckbox = false;
   hideParentValue = false;
 
   listSearchMip: any[] = [];
@@ -131,7 +131,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     }, 200);
 
     this.route.queryParams.subscribe(params => {
-      this.hideParent = !this.search;
+      this.showHideParentCheckbox = !!this.search;
       this.hideParentValue = false;
 
       if (params.shouldBeExpandedMultiQuery === 'false'){
@@ -172,7 +172,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       customViewName: queryParams.params.customViewName,
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
-      hideParents: this.hideParent && this.multipleQueries ? false : null,
+      hideParents: !this.showHideParentCheckbox && this.multipleQueries ? false : null,
     };
     if (qp.customViewName) {
       qp = {
@@ -520,7 +520,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               this.sintaxError = true;
               this.errorMessage = 'Syntax error.';
               this.loading = false;
-              this.hideParent = true;
+              this.showHideParentCheckbox= false;
             } else {
               this.sintaxError = false;
               this.errorMessage = '';
@@ -865,10 +865,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.search = event.target.value;
     this.searchService.search.next(event.target.value);
 
-    this.hideParent = !this.search;
+    this.showHideParentCheckbox = !!this.search;
 
     const query: any = this.route.snapshot.queryParamMap;
-    this.hideParentValue = query.params.shouldBeExpandedMultiQuery.toString() === 'false';
+    this.hideParentValue = query.params.shouldBeExpandedMultiQuery?.toString() === 'false';
 
     if (search.startsWith('mip')) {
       if (event.keyCode == 13 && this.listSearchMip.length > 0) {
@@ -1059,10 +1059,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderDirection: this.orderObj.direction,
     };
 
-    this.hideParent = !this.search;
+    this.showHideParentCheckbox = !!this.search;
 
     const query: any = this.route.snapshot.queryParamMap;
-    this.hideParentValue = query.params.shouldBeExpandedMultiQuery.toString() === 'false';
+    this.hideParentValue = query.params.shouldBeExpandedMultiQuery?.toString() === 'false';
 
     if (!qp?.search?.includes('$')) {
       delete qp.hideParents;
