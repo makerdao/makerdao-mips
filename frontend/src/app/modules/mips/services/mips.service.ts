@@ -36,7 +36,7 @@ export class MipsService {
 
     if (order !== undefined && order != null && order !== '') {
       const patt = /\b-?mip\b|\b-?mip\s|\s-?mip\s|\s-?mip\b/;
- 
+
       if (!patt.test(order)) {
         order += ' mip mipCodeNumber';
       }
@@ -54,19 +54,19 @@ export class MipsService {
         if (key === 'inarray' && filter[key].length > 0) {
           const character = !enter ? '?' : '&';
           enter = true;
-          urlFilter += `${character}filter[${key}][field]=${filter[key][0]['field']}`;
+          urlFilter += `${character}filter[${key}][0][field]=${filter[key][0]['field']}`;
 
           filter[key].forEach((final) => {
             const character = !enter ? '?' : '&';
             enter = true;
-            urlFilter += `${character}filter[${key}][value]=${final.value}`;
+            urlFilter += `${character}filter[${key}][0][value]=${final.value}`;
           });
         } else {
           Object.keys(filter[key]).forEach((subkey) => {
             Object.keys(filter[key][subkey]).forEach((final) => {
               const character = !enter ? '?' : '&';
               enter = true;
-              urlFilter += `${character}filter[${key}][${[final]}]=${
+              urlFilter += `${character}filter[${key}][0][${[final]}]=${
                 filter[key][subkey][final]
               }`;
             });
@@ -90,7 +90,7 @@ export class MipsService {
   }
 
   getMipByFilename(filename?: string, field?: string): Observable<any> {
-   
+
     return this.http.get(
       `${environment.apiUrl}/mips/findone-by?field=${field}&value=${filename}`
     );
