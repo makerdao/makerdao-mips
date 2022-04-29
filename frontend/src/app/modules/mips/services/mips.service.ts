@@ -50,26 +50,29 @@ export class MipsService {
     let urlFilter = '';
     let enter = false;
     if (filter !== undefined && filter != null) {
+      let index = 0;
       Object.keys(filter).forEach((key) => {
         if (key === 'inarray' && filter[key].length > 0) {
           const character = !enter ? '?' : '&';
           enter = true;
-          urlFilter += `${character}filter[${key}][0][field]=${filter[key][0]['field']}`;
+          urlFilter += `${character}filter[${key}][${index}][field]=${filter[key][index]['field']}`;
 
           filter[key].forEach((final) => {
             const character = !enter ? '?' : '&';
             enter = true;
-            urlFilter += `${character}filter[${key}][0][value]=${final.value}`;
+            urlFilter += `${character}filter[${key}][${index}][value]=${final.value}`;
           });
+          index++;
         } else {
           Object.keys(filter[key]).forEach((subkey) => {
             Object.keys(filter[key][subkey]).forEach((final) => {
               const character = !enter ? '?' : '&';
               enter = true;
-              urlFilter += `${character}filter[${key}][0][${[final]}]=${
+              urlFilter += `${character}filter[${key}][${index}][${[final]}]=${
                 filter[key][subkey][final]
               }`;
             });
+            index++;
           });
         }
       });
