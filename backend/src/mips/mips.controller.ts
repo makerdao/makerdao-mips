@@ -121,7 +121,7 @@ export class MIPsController {
   ) {
     try {
       const paginationQueryDto: PaginationQueryDto = {
-        limit: +limit || 5,
+        limit: +limit || 10,
         page: +page,
       };
 
