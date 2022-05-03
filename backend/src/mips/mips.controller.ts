@@ -85,9 +85,9 @@ export class MIPsController {
     description:
       "Filter field with various filter patterns. (contains, notcontains, equals, notequals)",
     required: false,
-    type: "object",
+    type: Filters,
     schema: {
-      type: "object",
+      type: 'Filters',
       example: {
         filter: {
           contains: [{ field: "status", value: "RFC" }],

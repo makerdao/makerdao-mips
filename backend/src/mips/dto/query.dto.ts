@@ -20,10 +20,10 @@ export class Filters {
 
 export class BinaryOperator {
   field: string;
-  value: any;
+  value: string;
 }
 
 export class BinaryArrayOperator {
   field: string;
-  value: any[];
+  value: string[];
 }
