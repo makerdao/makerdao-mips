@@ -6,9 +6,11 @@ import {
   trigger,
 } from '@angular/animations';
 import { Component, OnDestroy, OnInit, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
+import { LangService } from 'src/app/services/lang/lang.service';
 import { FilterService } from '../../services/filter.service';
 import { MipsService } from '../../services/mips.service';
 import { OrderService } from '../../services/order.service';
@@ -83,7 +85,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   filterClone: any;
   loading: boolean = false;
   total: number;
-  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'link'];
+  columnsToDisplay = ['pos', 'title', 'summary', 'status', 'links'];
   currentSortingColumn: string = '';
   ascOrderSorting: boolean = true;
   arrowUp: string = '../../../../../assets/images/up.svg';
@@ -119,10 +121,18 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
     private filterService: FilterService,
     private statusService: StatusService,
     public darkModeService: DarkModeService,
-    private orderService: OrderService
-  ) {}
+    private orderService: OrderService,
+    private translate: TranslateService,
+    private langService: LangService
+  ) {
+    this.translate.setDefaultLang('en');
+  }
+  
 
   ngOnInit(): void {
+    this.langService.currentLang$.subscribe((language: string) => {
+      this.translate.use(language);
+    });
     this.order =
       OrderDirection[this.orderService.order.direction] +
       OrderField[this.orderService.order.field];
@@ -531,7 +541,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   }
 
   addSubsetField = (item: any) => {
-    let subset: string = (item.mipName as string).split('SP')[0];
+    let subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
     return item;
   };

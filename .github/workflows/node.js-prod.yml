@@ -23,11 +23,12 @@ jobs:
       uses: actions/setup-node@v1
       with: 
         node-version: ${{ matrix.node-version }}
-    - name: install and test 
+    - name: Running the Test Suit
       run: |
+        cp '.env example' .env
         npm install
-        npm test    
-        npm build        
+        npm run pre-start
+        npm test      
       working-directory: backend  
 
   deploy:

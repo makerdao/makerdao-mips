@@ -63,6 +63,7 @@
       [subproposals]="subproposals"
       (headingListUpdate)="headingListUpdate($event)"
       [darkMode]="darkModeService.getDarkMode()"
+      #detail
     ></app-detail-content>
     <div
       *ngIf="mip"

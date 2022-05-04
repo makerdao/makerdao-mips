@@ -112,6 +112,17 @@ app-mips-pagination {
 }
 
 @media screen and (max-width: 1199px) {
+  .container {
+    .row {
+      .column {
+        app-mip-details {
+          display: block;
+        }
+        position: relative;
+        position: -webkit-relative; /* Safari */
+      }
+    }
+  }
   .no-mobile {
     display: none;
   }

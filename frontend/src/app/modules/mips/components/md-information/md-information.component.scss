@@ -3,6 +3,7 @@
   height: fit-content;
   display: block;
   margin-bottom: 10px;
+  width: 80%;
 
   .title {
     font-family: Roboto;
@@ -25,7 +26,7 @@
     top: 12px;
     width: 23px;
     height: 22px;
-    cursor: pointer;
+    cursor: default;
   }
 
   .active {
@@ -84,7 +85,7 @@
 mat-expansion-panel {
   background: rgba(26, 171, 155, 0.05) !important;
   border-radius: 5px !important;
-  padding: 16px 16px 16px 16px;
+  padding: 8px 8px 8px 8px;
   box-shadow: none !important;
 }
 
@@ -125,4 +126,40 @@ app-status {
 }
 :host::ng-deep .item::ng-deep p {
   margin: 0;
+  font-size: 14px;
+}
+:host::ng-deep .item::ng-deep a  {
+  margin: 0;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+  :host {
+  width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1365px) {
+  :host {
+    width: 70%;
+    }
+}
+
+
+@media screen and (min-width: 1366px) {
+  :host {
+  width: 70%;
+  }
+}
+
+@media screen and (min-width: 1536px) {
+  :host {
+  width: 60%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  :host {
+  width: 65%;
+  }
 }

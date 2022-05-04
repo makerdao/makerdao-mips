@@ -4,6 +4,7 @@
   [dataSource]="dataSource"
   multiTemplateDataRows
   class="subset-table-children"
+  [ngClass]="{'darkClass': darkModeService.getDarkMode()}"
 >
   <ng-container
     matColumnDef="{{ column }}"

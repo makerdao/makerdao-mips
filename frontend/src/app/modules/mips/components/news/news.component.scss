@@ -8,40 +8,55 @@
   flex-direction: row;
 
   .item-icon-yellow {
-    border-right: 2px solid rgba(242, 201, 76, 0.5);
+    border-right: 3px solid rgba(242, 201, 76, 0.5);
+    background-color: rgba(242, 201, 76, 0.1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   .item-icon-green {
-    border-right: 2px solid #8cd5cd;
+    border-right: 3px solid #8cd5cd;
+    background-color: rgba(233, 247, 245, 1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   .item-icon-red {
-    border-right: 2px solid rgba(251, 78, 78, 0.5);
+    border-right: 3px solid rgba(251, 78, 78, 0.5);
+    background-color: rgba(243, 226, 226, 1);
+    border-radius: 8px 0px 0px 8px;
+  }
+  .item-icon-blue {
+    background-color: rgba(214, 230, 251, 0.5);
+    border-right: 3px solid rgba(152, 192, 245, 1);
+    border-radius: 8px 0px 0px 8px;
   }
 
   &.container-yellow {
     border: 2px solid rgba(242, 201, 76, 0.5);
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
 
   &.container-green {
     border: 2px solid #8cd5cd;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
 
   &.container-red {
     border: 2px solid rgba(251, 78, 78, 0.5);
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
-  .description {
-    font-family: Roboto;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 19px;
-    letter-spacing: 0px;
-    text-align: left;
-    margin-top: 15px;
-    margin-bottom: 15px;
+  &.container-blue {
+    border: 2px solid #98c0f5;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
-  .item-title{
+  .item-title {
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
@@ -49,31 +64,61 @@
     line-height: 21px;
     letter-spacing: 0em;
     text-align: left;
-    margin-left: 10px;
-    padding-right: 15px;
+    margin: 0px 38px;
+    align-items: center;
+    color: rgba(132, 154, 175, 1);
   }
 }
 
-:host::ng-deep.item-description a {
+:host::ng-deep.item-description p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #31394d;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
 
+:host::ng-deep.item-description-dark p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #bbc2dd;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+:host::ng-deep.item-description a {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.5;
   color: #2f80ed;
   text-decoration: none;
   overflow-wrap: break-word;
   word-break: break-word;
+}
 
+:host::ng-deep.item-description-dark a {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #2f80ed;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .container-dark {
   background: #202733;
   /* Positive dark */
   box-sizing: border-box;
-  min-height: 62px;
   border-radius: 10px;
-  // padding: 11px;
   margin-bottom: 10px;
+  min-height: 62px;
   display: flex;
   flex-direction: row;
 
@@ -88,28 +133,37 @@
   .item-icon-red {
     border-right: 2px solid #fb4e4e;
   }
+  .item-icon-blue {
+    border-right: 2px solid #98c0f5;
+  }
 
   &.container-yellow {
     border: 2px solid #b5b12a;
+    height: min-content;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   &.container-green {
     border: 2px solid #1ab759;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
 
   &.container-red {
     border: 2px solid #fb4e4e;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
   }
-  :host::ng-deep.item-description a {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #2f80ed;
-    text-decoration: none;
-    overflow-wrap: break-word;
-    word-break: break-word;
+  &.container-blue {
+    border: 2px solid #1a9cff;
+    height: min-content;
+    margin-left: 20px;
+    margin-right: 20px;
   }
-  .item-title{
+  .item-title {
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
@@ -117,22 +171,12 @@
     line-height: 21px;
     letter-spacing: 0em;
     text-align: left;
-    margin-left: 10px;
-    padding-right: 15px;
+    margin: 0px 38px;
+    color: #F1F3F8; 
+    align-items: center;
   }
 }
 
-.description {
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0px;
-  text-align: left;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
 
 .item-icon {
   width: 4%;
@@ -150,17 +194,28 @@
 .item-mobile {
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 9px;
 }
 
+:host::ng-deep.item-mobile .title-mobile p {
+  padding-top: 3px;
+  align-items: center;
+  margin: 0px;
+}
+:host::ng-deep.item-mobile .description-mobile p {
+  align-items: center;
+  margin: 0px;
+}
 .icon {
-  width: 2%;
+  width: 5%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: right;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .title-mobile {
@@ -171,6 +226,10 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: center;
+  color: #849aaf;
+}
+.title-mobile-dark {
+  color: #f1f3f8;
 }
 
 .description-mobile {
@@ -181,10 +240,16 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #31394d;
+}
+.description-mobile-dark {
+  color: #bbc2dd;
 }
 :host::ng-deep.description-mobile a {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.5;
   color: #2f80ed;
   text-decoration: none;
@@ -192,7 +257,6 @@
   word-break: break-word;
 }
 :host::ng-deep.title-mobile a {
-
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
@@ -211,10 +275,11 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  margin-left: 4px;
 }
 .newsLinkContainerMovile {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   text-align: center;
 }
@@ -225,7 +290,7 @@
 
 .newsLink {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.5;
   color: #2f80ed;
   text-decoration: none;
@@ -237,10 +302,14 @@
   }
 }
 
+.newsLinkMobile {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .newsLinkDark {
   font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 12px;
   color: #2f80ed;
   text-decoration: none;
   overflow-wrap: break-word;

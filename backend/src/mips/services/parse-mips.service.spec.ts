@@ -153,6 +153,7 @@ describe("Parse MIPs service", () => {
         dependencies: ["n/a"],
         replaces: "n/a",
       };
+      
       const preamble = service.parsePreamble(data);
       expect(preamble).toMatchObject(result);
     });

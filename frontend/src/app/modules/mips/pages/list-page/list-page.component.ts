@@ -6,25 +6,25 @@ import {
   ViewChild,
 } from '@angular/core';
 import FilterData from '../../components/filter/filter.data';
-import { MipsService } from '../../services/mips.service';
-import { FooterVisibleService } from '../../../../services/footer-visible/footer-visible.service';
-import { FilterListComponent } from '../../components/filter-list/filter-list.component';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { FilterItemService } from 'src/app/services/filter-item/filter-item.service';
-import { QueryParamsListService } from '../../services/query-params-list.service';
+import {MipsService} from '../../services/mips.service';
+import {FooterVisibleService} from '../../../../services/footer-visible/footer-visible.service';
+import {FilterListComponent} from '../../components/filter-list/filter-list.component';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {FilterItemService} from 'src/app/services/filter-item/filter-item.service';
+import {QueryParamsListService} from '../../services/query-params-list.service';
 import QueryParams from '../../types/query-params';
-import { ElementsRefUiService } from '../../../../services/elements-ref-ui/elements-ref-ui.service';
-import { Subscription } from 'rxjs';
-import { fromEvent } from 'rxjs';
-import { IMip } from '../../types/mip';
-import { SearchService } from '../../services/search.service';
-import { FilterService } from '../../services/filter.service';
-import { map } from 'rxjs/operators';
-import { Order, OrderField, OrderFieldName } from '../../types/order';
-import { OrderService } from '../../services/order.service';
-import { ComponentMip } from '../../types/component-mip';
-import { ISubsetDataElement } from '../../types/subset';
-import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
+import {ElementsRefUiService} from '../../../../services/elements-ref-ui/elements-ref-ui.service';
+import {Subscription} from 'rxjs';
+import {fromEvent} from 'rxjs';
+import {IMip} from '../../types/mip';
+import {SearchService} from '../../services/search.service';
+import {FilterService} from '../../services/filter.service';
+import {map} from 'rxjs/operators';
+import {Order, OrderField, OrderFieldName} from '../../types/order';
+import {OrderService} from '../../services/order.service';
+import {ComponentMip} from '../../types/component-mip';
+import {ISubsetDataElement} from '../../types/subset';
+import {DarkModeService} from 'src/app/services/dark-mode/dark-mode.service';
 
 @Component({
   selector: 'app-list-page',
@@ -38,28 +38,28 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   limitAux = 10;
   page = 0;
   order: string;
-  search: string = '';
-  searchCopy: string = '';
+  search = '';
+  searchCopy = '';
   filter: any;
   filterSaved: FilterData;
-  loading: boolean = false;
+  loading = false;
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
-  @ViewChild('filterList', { static: true }) filterList: FilterListComponent;
-  showFilterList: boolean = false;
-  showListSearch: boolean = false;
-  hideParent: boolean = false;
-  hideParentValue: boolean = false;
+  @ViewChild('filterList', {static: true})  filterList: FilterListComponent;
+  showFilterList = false;
+  showListSearch = false;
+  showHideParentCheckbox = false;
+  hideParentValue = false;
 
   listSearchMip: any[] = [];
   mipsByName: any[] = [];
-  sintaxError: boolean = false;
-  errorMessage: string = '';
-  defaultSearch: string =
+  sintaxError = false;
+  errorMessage = '';
+  defaultSearch =
     '$ and(not(@Obsolete), not(@Withdrawn), not(@Rejected))';
-  mobileView: boolean = false;
-  mipsetMode: boolean = false;
+  mobileView = false;
+  mipsetMode = false;
   activeMenuLinkName = '';
   initActiveLinkName = 'MIPs List';
   limitMipsSuggestions = 10;
@@ -71,7 +71,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   orderObj: Order;
   multipleQueries = false;
   shouldBeExpandedMultiQuery = true;
-  statusParameters=false
+  statusParameters = false;
 
   constructor(
     private mipsService: MipsService,
@@ -85,14 +85,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private searchService: SearchService,
     public darkModeService: DarkModeService,
     private filterService: FilterService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initParametersToLoadData();
     this.searchMips();
 
     this.footerVisibleService.isFooterVisible$.subscribe((data) => {
-      let elementFeedback = document.getElementById('feedback');
+      const elementFeedback = document.getElementById('feedback');
       if (data === true && elementFeedback) {
         elementFeedback.style.position = 'relative';
         elementFeedback.style.bottom =
@@ -128,6 +129,15 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         }
       });
     }, 200);
+
+    this.route.queryParams.subscribe(params => {
+      this.showHideParentCheckbox = !!this.search;
+      this.hideParentValue = false;
+
+      if (params.shouldBeExpandedMultiQuery === 'false'){
+        this.hideParentValue = true;
+      }
+    });
   }
 
   initParametersToLoadData() {
@@ -141,7 +151,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   initQueryParams() {
-    let queryParams: any = this.route.snapshot.queryParamMap;
+    const queryParams: any = this.route.snapshot.queryParamMap;
     let status;
 
     if (queryParams.has('status')) {
@@ -162,22 +172,19 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       customViewName: queryParams.params.customViewName,
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
-      hideParents: this.hideParent && this.multipleQueries ? false : null,
-      shouldBeExpandedMultiQuery:
-        this.hideParent && this.multipleQueries
-          ? this.shouldBeExpandedMultiQuery
-          : null,
+      hideParents: !this.showHideParentCheckbox && this.multipleQueries ? false : null,
     };
     if (qp.customViewName) {
       qp = {
         ...qp,
         hideParents: false,
-        shouldBeExpandedMultiQuery: true,
+        shouldBeExpandedMultiQuery: qp.shouldBeExpandedMultiQuery,
       };
+      this.shouldBeExpandedMultiQuery = JSON.parse(qp.shouldBeExpandedMultiQuery.toString());
     }
-    this.hideParentValue = qp.hideParents
-      ? JSON.parse(qp.hideParents.toString())
-      : false;
+    this.hideParentValue = !(qp.shouldBeExpandedMultiQuery
+      ? JSON.parse(qp.shouldBeExpandedMultiQuery.toString())
+      : false);
 
     for (const key in queryParams.params) {
       if (key.startsWith('_')) {
@@ -220,13 +227,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   initSearch() {
-    let queryParams: QueryParams = this.queryParamsListService.queryParams;
+    const queryParams: QueryParams = this.queryParamsListService.queryParams;
     this.search = queryParams.search;
     this.searchService.search.next(queryParams.search);
   }
 
   initOrderBy() {
-    let queryParams: QueryParams = this.queryParamsListService.queryParams;
+    const queryParams: QueryParams = this.queryParamsListService.queryParams;
     let prefixDirection = '';
     prefixDirection =
       !queryParams.orderDirection || queryParams.orderDirection == 'ASC'
@@ -307,13 +314,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.filter.notequals.push({ field: 'mip', value: -1 });
+    this.filter.notequals.push({field: 'mip', value: -1});
 
     this.setFiltersStatus();
   }
 
   setFiltersStatus() {
-    let filter = { ...this.filter };
+    const filter = {...this.filter};
 
     this.filterSaved = this.mipsService.getFilter();
 
@@ -351,7 +358,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       });
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
-      this.pushFilterInarray(filter.inarray, { field: 'status', value: 'RFC' });
+      this.pushFilterInarray(filter.inarray, {field: 'status', value: 'RFC'});
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
         value: 'Request for Comments (RFC)',
@@ -405,12 +412,12 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.filter = { ...filter };
+    this.filter = {...filter};
     this.filterService.filter.next(this.filter);
   }
 
   pushFilterInarray(array: Array<any>, data: any) {
-    let item = array.find(
+    const item = array.find(
       (i) => i.field === data.field && i.value === data.value
     );
 
@@ -420,7 +427,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   deleteFilterInarray(array: Array<any>, data: any) {
-    let index = array.findIndex(
+    const index = array.findIndex(
       (i) => i.field === data.field && i.value === data.value
     );
 
@@ -430,7 +437,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   searchMips(): void {
-    let index = this.filter.equals.findIndex(
+    const index = this.filter.equals.findIndex(
       (item) => item.field === 'proposal'
     );
 
@@ -441,7 +448,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       }
     } else {
       if (index === -1) {
-        this.filter.equals.push({ field: 'proposal', value: '' }); // no subproposals
+        this.filter.equals.push({field: 'proposal', value: ''}); // no subproposals
       }
     }
 
@@ -512,6 +519,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             ) {
               this.sintaxError = true;
               this.errorMessage = 'Syntax error.';
+              this.loading = false;
+              this.showHideParentCheckbox= false;
             } else {
               this.sintaxError = false;
               this.errorMessage = '';
@@ -522,7 +531,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   async hidingSubproposalsUnderParents(data): Promise<any> {
-    let newData: IMip[] = [];
+    const newData: IMip[] = [];
     const forLoop = async () => {
       for (let index = 0; index < data.items.length; index++) {
         const item: IMip = data.items[index];
@@ -536,24 +545,24 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         ) {
 
           this.addSubsetField(data.items[index]);
-          let res: any = await this.mipsService
+          const res: any = await this.mipsService
             .searchMips(
               1,
               0,
               null,
               null,
-              { equals: [{ field: 'mipName', value: item.proposal }] },
+              {equals: [{field: 'mipName', value: item.proposal}]},
               'title proposal filename mipName paragraphSummary sentenceSummary mip status mipFather components subproposalsCount forumLink votingPortalLink mipCodeNumber'
             )
             .toPromise();
           if (res.items[0]) {
-            let parent: IMip = res.items[0];
+            const parent: IMip = res.items[0];
             parent.expanded = true;
             parent.hide = true;
             parent.showArrowExpandChildren = true;
             parent.children = [];
             parent.children.push(item);
-            let subproposalsGroup: any = this.groupBy(
+            const subproposalsGroup: any = this.groupBy(
               'subset',
               parent.children
             );
@@ -591,7 +600,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.addSubsetField(data.items[index]);
           newData[indexFatherInNewData].children.push(item);
 
-          let subproposalsGroup: any = this.groupBy(
+          const subproposalsGroup: any = this.groupBy(
             'subset',
             newData[indexFatherInNewData].children
           );
@@ -630,7 +639,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.mips[indexFatherInMips].showArrowExpandChildren = true;
           this.mips[indexFatherInMips].children.push(item);
 
-          let subproposalsGroup: any = this.groupBy(
+          const subproposalsGroup: any = this.groupBy(
             'subset',
             this.mips[indexFatherInMips].children
           );
@@ -696,11 +705,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   onCheckedHideParents($event): void {
-    let queryParams: any = this.route.snapshot.queryParamMap;
-    let qp: QueryParams = {
+    const queryParams: any = this.route.snapshot.queryParamMap;
+    const qp: QueryParams = {
       ...queryParams.params,
-      hideParents: $event,
-      shouldBeExpandedMultiQuery: this.shouldBeExpandedMultiQuery,
+      shouldBeExpandedMultiQuery: !$event
     };
 
     this.hideParentValue = $event;
@@ -717,13 +725,13 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   addSubsetField = (item: any) => {
-    let subset: string = (item.mipName as string).split('SP')[0];
+    const subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
     return item;
-  };
+  }
 
   groupBy(field, arr: any[]): any {
-    let group: any = arr.reduce((r, a) => {
+    const group: any = arr.reduce((r, a) => {
       r[a[field]] = [...(r[a[field]] || []), a];
       return r;
     }, {});
@@ -734,16 +742,16 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   sortSubproposalsGroups(subproposalsGroup: any) {
     for (const key in subproposalsGroup) {
       if (Object.prototype.hasOwnProperty.call(subproposalsGroup, key)) {
-        let element: any[] = subproposalsGroup[key];
+        const element: any[] = subproposalsGroup[key];
         subproposalsGroup[key] = this.sortSubproposalGroup(element);
       }
     }
   }
 
   sortSubproposalGroup(arr: any[]) {
-    return arr.sort(function (a: any, b: any) {
+    return arr.sort(function(a: any, b: any) {
       return (a.mipName as string).includes('SP') &&
-        a.mipName.split('SP').length > 1
+      a.mipName.split('SP').length > 1
         ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
           ? -1
           : 1
@@ -788,7 +796,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
           this.mipsByName = data.items;
 
           this.showListSearch = true;
-          let items: any[] = this.mipsByName.map((item) => {
+          const items: any[] = this.mipsByName.map((item) => {
             const cleanedTitle = item.title.replace(/[^\w]*/g, '');
             const cleanedMipName = item.mipName.replace(/[^\w]*/g, '');
 
@@ -853,9 +861,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   onSendSearch(event: any): void {
-    let search = event.target.value.toLowerCase().trim();
+    const search = event.target.value.toLowerCase().trim();
     this.search = event.target.value;
     this.searchService.search.next(event.target.value);
+
+    this.showHideParentCheckbox = !!this.search;
+
+    const query: any = this.route.snapshot.queryParamMap;
+    this.hideParentValue = query.params.shouldBeExpandedMultiQuery?.toString() === 'false';
 
     if (search.startsWith('mip')) {
       if (event.keyCode == 13 && this.listSearchMip.length > 0) {
@@ -866,7 +879,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         this.listSearchMip = [];
         this.limitAux = 10;
         this.mips = [];
-        let filter = {
+        const filter = {
           contains: [],
         };
         const search = event.target.value;
@@ -877,7 +890,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             value: search.replace(/[-:\s]/g, ''),
           });
         } else {
-          filter.contains.push({ field: 'title', value: search });
+          filter.contains.push({field: 'title', value: search});
         }
 
         this.subscriptionLoadSuggestions.unsubscribe();
@@ -908,10 +921,10 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (this.listSearchMip.length < this.totalMipsSuggestion) {
       this.pageMipsSuggestions++;
       this.limitAux += 10;
-      let filter = {
+      const filter = {
         contains: [],
       };
-      filter.contains.push({ field: 'mipName', value: this.search });
+      filter.contains.push({field: 'mipName', value: this.search});
       this.searchMipsByName(
         this.limitMipsSuggestions,
         this.pageMipsSuggestions,
@@ -978,8 +991,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   initFiltersList(): void {
-    let filterSaved = this.mipsService.getFilter();
-    let sum = filterSaved.arrayStatus.reduce((t, c) => t + c, 0);
+    const filterSaved = this.mipsService.getFilter();
+    const sum = filterSaved.arrayStatus.reduce((t, c) => t + c, 0);
     this.showFilterList = sum ? true : false;
 
     if (filterSaved.arrayStatus[0] === 1) {
@@ -1035,9 +1048,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   setQueryParams() {
     this.queryParamsListService.clearStatus();
 
-    let filterSaved = this.mipsService.getFilter();
+    const filterSaved = this.mipsService.getFilter();
 
-    let qp: QueryParams = {
+    const qp: QueryParams = {
       ...this.queryParamsListService.queryParams,
       status: [],
       search: this.search,
@@ -1046,19 +1059,22 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       orderDirection: this.orderObj.direction,
     };
 
+    this.showHideParentCheckbox = !!this.search;
+
+    const query: any = this.route.snapshot.queryParamMap;
+    this.hideParentValue = query.params.shouldBeExpandedMultiQuery?.toString() === 'false';
+
     if (!qp?.search?.includes('$')) {
       delete qp.hideParents;
       this.hideParentValue = false;
-      this.hideParent = true;
     } else {
       if (!qp.hideParents) {
         qp.hideParents = false;
       }
       this.hideParentValue = JSON.parse(qp.hideParents.toString());
-      this.hideParent = false;
     }
-    if(qp?.search?.includes('$')){
-        this.statusParameters=true
+    if (qp?.search?.includes('$')) {
+      this.statusParameters = true;
     }
 
     if (filterSaved.arrayStatus[0] === 1) {
@@ -1084,15 +1100,14 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   updateUrlQueryParams(qp: QueryParams) {
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParams: qp,
     };
 
     if (!qp?.search?.includes('$') || qp?.mipsetMode == true) {
-      this.hideParent = true;
-      this.statusParameters=true
+      this.statusParameters = true;
     }
-    this.router.navigate([], { ...navigationExtras });
+    this.router.navigate([], {...navigationExtras});
   }
 
   onCheckedMipsetMode(ev) {
