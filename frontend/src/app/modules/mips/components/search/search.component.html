@@ -1,18 +1,6 @@
 <div class="row">
   <div style="position: relative">
     <img class="search-icon" src="{{ imageDir }}" />
-    <!-- <input
-      type="text"
-      #search
-      placeholder="{{ placeHolder }}"
-      (keyup)="onKeySearch($event)"
-      [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
-      [value]="value"
-      [ngClass]="{ error: error }"
-      [appAutocomplete]="autocomplete"
-      [formControl]="control"
-    /> -->
-
     <div
       class="textBoxWrapper"
       [ngStyle]="{ borderRadius: showListSearch ? '5px 5px 0 0' : '5px' }"
@@ -84,7 +72,8 @@
       type="button"
       [ngClass]="{
         'help-container-dark': darkMode,
-        'help-open': isOpenHelpPopup
+        'help-open': isOpenHelpPopup,
+        'ListSearch-not-Display':error
       }"
     >
       <img

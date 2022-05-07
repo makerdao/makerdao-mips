@@ -154,88 +154,47 @@ export class MIPsService {
       source = { language: Language.English };
     }
 
-    if (filter?.contains) {
-      const field = filter.contains["field"];
-      const value = filter.contains["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {
-            $regex: new RegExp(`${newValue}`),
-            $options: "i",
-          };
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = {
+    if (filter?.contains && Array.isArray(filter?.contains)) {
+      for (const element of filter.contains) {
+        const newValue = this.validField(element.field, element.value.toString());
+        source[`${element.field}`] = {
           $regex: new RegExp(`${newValue}`),
           $options: "i",
         };
       }
     }
 
-    if (filter?.equals) {
-      const field = filter.equals["field"];
-      const value = filter.equals["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = newValue;
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = newValue;
+    if (filter?.equals && Array.isArray(filter?.equals)) {
+      for (let i = 0; i < filter?.equals.length; i++) {
+        const newValue = this.validField(filter?.equals[i].field, filter?.equals[i].value);
+        source[`${filter?.equals[i].field}`] = newValue;
       }
     }
 
-    if (filter?.inarray) {
-      const field = filter.inarray["field"];
-      const value = filter.inarray["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = { $in: newValue };
+    if (filter?.inarray && Array.isArray(filter?.inarray)) {
+      for (const element of filter.inarray) {
+        if (Array.isArray(element.value)) {
+          element.value.forEach(value => {
+            const newValue = this.validField(element.field, value);
+            source[`${element.field}`] = { $in: newValue };
+          });
         }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = { $in: newValue };
       }
     }
 
-    if (filter?.notcontains) {
-      const field = filter.notcontains["field"];
-      const value = filter.notcontains["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {
-            $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
-          };
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = {
+    if (filter?.notcontains && Array.isArray(filter?.notcontains)) {
+      for (const element of filter.notcontains) {
+        const newValue = this.validField(element.field, element.value);
+        source[`${element.field}`] = {
           $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
         };
       }
     }
 
-    if (filter?.notequals) {
-      const field = filter.notequals["field"];
-      const value = filter.notequals["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = { $ne: newValue };
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = { $ne: newValue };
+    if (filter?.notequals && Array.isArray(filter?.notequals)) {
+      for (const element of filter.notequals) {
+        const newValue = this.validField(element.field, element.value);
+        source[`${element.field}`] = { $ne: newValue };
       }
     }
 

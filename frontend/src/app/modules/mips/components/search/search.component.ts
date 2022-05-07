@@ -143,6 +143,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
         }
       });
     }
+
     this.control.setValue(this.value);
     this.showClose = !!this.value;
     this.initPositionHelpPopup();
@@ -157,6 +158,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.isQueryMode = this.isQuery(this.value);
     this.cdr.detectChanges();
     this.initMipSuggestions();
+
+    if (this.control.value){
+      const div = this.inputSearch.nativeElement;
+      const s = window.getSelection();
+      const r = document.createRange();
+      const e = div.childElementCount > 0 ? div.lastChild : div;
+      r.setStart(e, 1);
+      r.setEnd(e, 1);
+      s.removeAllRanges();
+      s.addRange(r);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -233,8 +245,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
             this.inputSearch.nativeElement.constructor === HTMLInputElement
           ) {
             this.send.emit(event);
-          }
-          else {
+          } else {
             event.target.value = (
               this.inputSearch.nativeElement as HTMLElement
             ).innerText;
