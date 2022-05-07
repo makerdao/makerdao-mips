@@ -509,6 +509,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
             ) {
               this.sintaxError = true;
               this.errorMessage = 'Syntax error.';
+              this.loading = false;
             } else {
               this.sintaxError = false;
               this.errorMessage = '';
