@@ -77,8 +77,9 @@
   line-height: 16px;
   color: #748aa1;
 }
+
 @media screen and (max-width: 768px){
-  .container{
-    display: none;
+  :host {
+    margin: 25px -40px 0 auto !important;
   }
 }
