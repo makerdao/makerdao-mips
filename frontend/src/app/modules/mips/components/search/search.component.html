@@ -69,8 +69,8 @@
       </div>
     </ng-template>
   </div>
-  <div *ngIf="showClose && !isQueryMode" class="close-container">
-    <img (click)="clear()" src="{{ imageClose }}" class="imageClose"  alt="Close Icon"/>
+  <div *ngIf="showClose && !isQueryMode || error" class="close-container">
+    <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
   </div>
   <div
     class="help-popup-wrapper"
