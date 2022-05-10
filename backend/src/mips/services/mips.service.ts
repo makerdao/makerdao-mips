@@ -48,6 +48,7 @@ export class MIPsService {
       .sort(order)
       .skip(page * limit)
       .limit(limit)
+      .lean()
       .exec();
 
     if (language === Language.English) return selectedLanguageItems;
