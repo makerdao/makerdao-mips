@@ -43,6 +43,11 @@ describe("MarkedService", () => {
         markedService = module.get(MarkedService);
     });
 
+    beforeEach(async () => {
+        jest.clearAllMocks();
+        jest.restoreAllMocks();
+    });
+    
     jest.setTimeout(3 * 60 * 1000);
 
     it("markedLexer", async () => {
