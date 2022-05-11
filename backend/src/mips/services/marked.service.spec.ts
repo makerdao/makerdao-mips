@@ -43,6 +43,8 @@ describe("MarkedService", () => {
         markedService = module.get(MarkedService);
     });
 
+    jest.setTimeout(3 * 60 * 1000);
+
     it("markedLexer", async () => {
         const data = "test";
 
