@@ -1,10 +1,7 @@
+import { Env } from "@app/env";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-
-import { GraphQLClient } from "graphql-request";
-
-import { Env } from "@app/env";
-import { pullRequestsLast } from "../graphql/definitions.graphql";
+import { GraphQLClient, RequestDocument } from "graphql-request";
 
 @Injectable()
 export class GithubService {
@@ -31,26 +28,19 @@ export class GithubService {
     });
   }
 
-  async pullRequests(pullRequests: any, after = ""): Promise<any> {
-    if (after) {
-      return await this.graphQLClient.request(pullRequests, {
-        name: this.githubRepository,
-        owner: this.githubRepositoryOwner,
-        after: after,
-      });
-    }
-
-    return await this.graphQLClient.request(pullRequests, {
+  async pullRequests(pullRequests: RequestDocument, after?: string): Promise<any> {
+    return this.graphQLClient.request(pullRequests, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,
+      after,
     });
   }
 
-  async pullRequestsLast(pullRequests: any, last: number): Promise<any> {
-    return await this.graphQLClient.request(pullRequestsLast, {
+  async pullRequestsLast(pullRequestsLast: any, last: number): Promise<any> {
+    return this.graphQLClient.request(pullRequestsLast, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,
-      last: last,
+      last,
     });
   }
 }
