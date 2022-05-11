@@ -16,7 +16,6 @@ describe('MIPsController', () => {
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
-    console.log(mongoMemoryServer.getUri());
 
     module = await Test.createTestingModule({
       imports: [
