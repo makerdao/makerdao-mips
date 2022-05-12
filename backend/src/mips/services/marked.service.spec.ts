@@ -43,6 +43,10 @@ describe("MarkedService", () => {
         markedService = module.get(MarkedService);
     });
 
+    it("should be defined", () => {
+        expect(markedService).toBeDefined();
+    });
+
     beforeEach(async () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();

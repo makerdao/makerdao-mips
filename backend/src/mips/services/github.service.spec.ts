@@ -43,6 +43,10 @@ describe("GithubService", () => {
         configService = module.get<ConfigService>(ConfigService);
     });
 
+    it("should be defined", () => {
+        expect(githubService).toBeDefined();
+    });
+
     beforeEach(async () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();

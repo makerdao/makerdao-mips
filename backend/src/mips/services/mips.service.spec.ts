@@ -38,6 +38,10 @@ describe("MIPsService", () => {
         mipsService = module.get(MIPsService);
     });
 
+    it("should be defined", () => {
+        expect(mipsService).toBeDefined();
+    });
+
     beforeEach(async () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
