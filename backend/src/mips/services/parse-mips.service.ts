@@ -51,7 +51,7 @@ export class ParseMIPsService {
     const branch = this.configService.get(Env.RepoBranch);
 
     try {
-      await this.simpleGitService.pull("origin", branch);
+      this.simpleGitService.pull("origin", branch);
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
@@ -122,6 +122,42 @@ export class ParseMIPsService {
     }
   }
 
+  async parseMIP(item, isNewMIP: boolean): Promise<MIP> {
+    const dir = `${this.baseDir}/${item.filename}`;
+
+    this.logger.log(`Parse ${isNewMIP ? 'new ' : ''}mip item update => ${item.filename}`);
+
+    const fileString = await readFile(dir, "utf-8");
+    return this.parseLexerData(fileString, item)
+  }
+
+  async deleteMipsFromMap(filesDB: Map<string, IGitFile>) {
+    // Remove remaining items
+    const deleteItems: string[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [_, value] of filesDB.entries()) {
+      deleteItems.push(value._id);
+    }
+
+    await this.mipsService.deleteManyByIds(deleteItems);
+  }
+
+  async updateIfDifferentHash(fileDB, item){
+    if (fileDB.hash !== item.hash) {
+      const mip: MIP = await this.parseMIP(item, false);
+      
+      if (mip) {
+        try {
+          await this.mipsService.update(fileDB._id, mip);
+        } catch (error) {
+          this.logger.error(error.message);
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
   async synchronizeData(
     filesGit: IGitFile[],
     filesDB: Map<string, IGitFile>
@@ -135,13 +171,8 @@ export class ParseMIPsService {
 
     for (const item of filesGit) {
       if (!filesDB.has(item.filename)) {
-        const dir = `${this.baseDir}/${item.filename}`;
-
-        this.logger.log(`Parse new mip item => ${item.filename}`);
-
         try {
-          const fileString = await readFile(dir, "utf-8");
-          const mip = this.parseLexerData(fileString, item);
+          const mip = await this.parseMIP(item, false);
           if (mip.mip === undefined || mip.mipName === undefined) {
             // TODO: Convert into a notification Service
             console.log({
@@ -150,7 +181,7 @@ export class ParseMIPsService {
               TODO: "Convert into a notification Service"
             })
             this.logger.log(
-              `Mips with problems to parse ==>${(mip.mip, mip.mipName, mip.filename)
+              `Mips with problems to parse ==> ${(mip.mip, mip.mipName, mip.filename)
               }`
             );
           }
@@ -163,41 +194,22 @@ export class ParseMIPsService {
           continue;
         }
       } else {
-        const fileDB = filesDB.get(item.filename);
-
-        if (fileDB.hash !== item.hash) {
-          const dir = `${this.baseDir}/${item.filename}`;
-
-          this.logger.log(`Parse mip item update => ${item.filename}`);
-          const fileString = await readFile(dir, "utf-8");
-          const mip = this.parseLexerData(fileString, item);
-
-          if (mip) {
-            try {
-              await this.mipsService.update(fileDB._id, mip);
-            } catch (error) {
-              this.logger.error(error.message);
-            }
-          }
-          synchronizeData.updates++;
-        }
+        const isUpdated = await this.updateIfDifferentHash(
+          filesDB.get(item.filename),
+          item,
+        );
+        isUpdated && synchronizeData.updates++;
         filesDB.delete(item.filename);
       }
     }
 
     // Remove remaining items
-    const deleteItems: string[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [_, value] of filesDB.entries()) {
-      deleteItems.push(value._id);
-    }
-    synchronizeData.deletes = deleteItems.length;
+    await this.deleteMipsFromMap(filesDB);
+
+    synchronizeData.deletes = filesDB.size;
     synchronizeData.creates = createItems.length;
 
-    await Promise.all([
-      this.mipsService.insertMany(createItems),
-      this.mipsService.deleteManyByIds(deleteItems),
-    ]);
+    await this.mipsService.insertMany(createItems);
     return synchronizeData;
   }
 
@@ -227,7 +239,7 @@ export class ParseMIPsService {
     const componentHeaders = componentText.match(regexToGetComponentTitle);
     const splitedData = componentText.split(regexToGetComponentTitle);
 
-    const componentData = componentHeaders?.map((item, index) => {
+    return componentHeaders?.map((item, index) => {
       const matches = item.match(regexComp).groups;
       const cBody = splitedData[index + 1].trim().split(/^#/gm)[0];
 
@@ -237,8 +249,6 @@ export class ParseMIPsService {
         cBody,
       };
     });
-
-    return componentData;
   }
 
   parseMipsNamesComponentsSubproposals(data, isOnComponentSummary) {
