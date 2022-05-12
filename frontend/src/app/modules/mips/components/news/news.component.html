@@ -16,7 +16,6 @@
         'item-icon-yellow': item.type === 'YELLOW',
         'item-icon-red': item.type === 'RED',
         'item-icon-blue': item.type === 'BLUE'
-              
       }"
     >
       <img
@@ -43,7 +42,7 @@
     <div class="item" style="width: 50%">
       <markdown class="item-description" [data]="item.description"></markdown>
     </div>
-    <div class="newsLinkContainer" style="width: 15%">
+    <div class="newsLinkContainer" style="width: 150px;">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
