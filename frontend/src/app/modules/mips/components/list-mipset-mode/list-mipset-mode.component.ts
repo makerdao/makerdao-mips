@@ -127,7 +127,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   ) {
     this.translate.setDefaultLang('en');
   }
-  
+
 
   ngOnInit(): void {
     this.langService.currentLang$.subscribe((language: string) => {
@@ -211,15 +211,18 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
             return mips[index].items && mips[index].items.length > 0;
           });
 
-          this.dataSourceMipsetRows.forEach((item: IMIPsetDataElement) => {
-            this.mipSets[item.mipset] = [];
-            item.expanded = false;
-          });
-
-          // if (this.dataSourceMipsetRows.length > 0) {
-          //   await this.expandFirstMipset(this.dataSourceMipsetRows[0]);
-          // }
-
+          if (!this.search){
+            this.dataSourceMipsetRows.forEach((item: IMIPsetDataElement) => {
+              this.mipSets[item.mipset] = [];
+              item.expanded = false;
+            });
+          }
+          else {
+            this.dataSourceMipsetRows.forEach((item: IMIPsetDataElement) => {
+              item.expanded = false;
+              this.onExpandMipset(item);
+            });
+          }
           this.loading = false;
         },
         (error) => {
