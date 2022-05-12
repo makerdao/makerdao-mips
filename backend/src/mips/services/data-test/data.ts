@@ -491,3 +491,112 @@ export const mipData_2: MIP = {
   components: [],
   sectionsRaw: ["MIP1"],
 }
+
+export const componentSummary: string = "**MIP0c1: Definitions of the Maker Improvement Proposal Framework**  \n" +
+"Defines several concepts that are important for understanding the MIPs process.\n" +
+"\n" +
+"**MIP0c2: Core Principles**  \n" +
+"Discusses some core principles that all MIPs should aim to follow.\n" +
+"\n" +
+"**MIP0c3: The MIP Lifecycle**  \n" +
+"Lays out how a MIP is created and moves through the process to become Accepted or Rejected.\n" +
+"\n" +
+"**MIP0c4: MIP Components and MIP Component Types**  \n" +
+"Discusses the use of components to compartmentalize and organise MIPs\n" +
+"\n" +
+"**MIP0c5: MIP Replacement Process**  \n" +
+"Discusses how MIPs can be replaced and the steps to be taken to maintain dependencies.\n" +
+"\n" +
+"**MIP0c6: Supporting Materials**\n" +
+"A component that defines how to include external materials inside MIPs.\n" +
+"\n" +
+"**MIP0c7: MIP Templates**  \n" +
+"Defines the MIP templates for both General and Technical MIPs.\n" +
+"\n" +
+"**MIP0c8: MIP0 Domain Role Dependencies**  \n" +
+"Defines the core roles that the MIPs process requires to operate successfully.\n" +
+"\n" +
+"**MIP0c9: Core Personnel Role List**  \n" +
+"List of of personnel currently occupying core roles.\n" +
+"\n" +
+"**MIP0c10: MIP Editor Role**  \n" +
+"A component that defines the responsibilities, criteria and grounds for removal of the MIP Editor role.\n" +
+"\n" +
+"**MIP0c11: Governance Facilitator Role**  \n" +
+"A component that defines the responsibilities, criteria and grounds for removal of the Governance Facilitator role.\n" +
+"\n" +
+"**MIP0c12: Core Personnel Onboarding**  \n" +
+"A process component that defines the process to add personnel to the MIP Editor or Governance Facilitator roles.\n" +
+"\n" +
+"**MIP0c13: Core Personnel Offboarding**  \n" +
+"A process component that defines the process to remove personnel from the MIP Editor or Governance Facilitator roles.\n" +
+"\n" +
+"\n";
+
+export const components = [
+  {
+    cBody: "Defines several concepts that are important for understanding the MIPs process.",
+    cName: "MIP0c1",
+    cTitle: "Definitions of the Maker Improvement Proposal Framework"
+  },
+  {
+    cBody: "Discusses some core principles that all MIPs should aim to follow.",
+    cName: "MIP0c2",
+    cTitle: "Core Principles"
+  },
+  {
+    cBody: "Lays out how a MIP is created and moves through the process to become Accepted or Rejected.",
+    cName: "MIP0c3",
+    cTitle: "The MIP Lifecycle"
+  },
+  {
+    cBody: "Discusses the use of components to compartmentalize and organise MIPs",
+    cName: "MIP0c4",
+    cTitle: "MIP Components and MIP Component Types"
+  },
+  {
+    cBody: "Discusses how MIPs can be replaced and the steps to be taken to maintain dependencies.",
+    cName: "MIP0c5",
+    cTitle: "MIP Replacement Process"
+  },
+  {
+    cBody: "A component that defines how to include external materials inside MIPs.",
+    cName: "MIP0c6",
+    cTitle: "Supporting Materials"
+  },
+  {
+    cBody: "Defines the MIP templates for both General and Technical MIPs.",
+    cName: "MIP0c7",
+    cTitle: "MIP Templates"
+  },
+  {
+    cBody: "Defines the core roles that the MIPs process requires to operate successfully.",
+    cName: "MIP0c8",
+    cTitle: "MIP0 Domain Role Dependencies"
+  },
+  {
+    cBody: "List of of personnel currently occupying core roles.",
+    cName: "MIP0c9",
+    cTitle: "Core Personnel Role List"
+  },
+  {
+    cBody: "A component that defines the responsibilities, criteria and grounds for removal of the MIP Editor role.",
+    cName: "MIP0c10",
+    cTitle: "MIP Editor Role"
+  },
+  {
+    cBody: "A component that defines the responsibilities, criteria and grounds for removal of the Governance Facilitator role.",
+    cName: "MIP0c11",
+    cTitle: "Governance Facilitator Role"
+  },
+  {
+    cBody: "A process component that defines the process to add personnel to the MIP Editor or Governance Facilitator roles.",
+    cName: "MIP0c12",
+    cTitle: "Core Personnel Onboarding"
+  },
+  {
+    cBody: "A process component that defines the process to remove personnel from the MIP Editor or Governance Facilitator roles.",
+    cName: "MIP0c13",
+    cTitle: "Core Personnel Offboarding"
+  }
+];
