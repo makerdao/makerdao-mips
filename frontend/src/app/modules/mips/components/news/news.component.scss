@@ -275,7 +275,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin-left: 4px;
+  margin-left: 12px;
 }
 .newsLinkContainerMovile {
   display: flex;
@@ -318,6 +318,11 @@
     text-decoration: none;
     color: none;
   }
+}
+
+.closeNewButton img {
+  width:12px;
+  height:12px;
 }
 
 @media screen and (max-width: 480px){
