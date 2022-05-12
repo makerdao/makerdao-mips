@@ -15,7 +15,7 @@ export class NewsComponent implements OnInit, OnDestroy {
     news: any[] = [];
 
     isHandset$: Observable<boolean> = this.breakpointObserver
-        .observe(Breakpoints.Handset)
+        .observe(['(max-width: 767px)'])
         .pipe(
             map((result) => result.matches),
             shareReplay()
@@ -49,7 +49,6 @@ export class NewsComponent implements OnInit, OnDestroy {
         };
 
         localStorage.setItem('OLD-NEWS', JSON.stringify([...cleanedOldNews, elementToRemove]));
-
     }
 
     ngOnDestroy(): void {
