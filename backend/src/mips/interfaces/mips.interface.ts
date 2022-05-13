@@ -30,6 +30,11 @@ export interface IMIPs {
   votingPortalLink?: string;
   forumLink?: string;
   mipCodeNumber?:string;
+  mipName_plain?: string;
+  filename_plain?: string;
+  proposal_plain?: string;
+  title_plain?: string;
+  sectionsRaw_plain?: string[];
 }
 
 export interface IGitFile {
