@@ -41,7 +41,13 @@ describe("Parse MIPs service", () => {
     file: 'test',
     _id: 'testId'
   };
-  
+
+  const synchronizeDataMock: ISynchronizeData = {
+    creates: 1,
+    deletes: 1,
+    updates: 1,
+  };
+
   const gitFileMock: IGitFile = {
     ...mipMock,
     language: Language.English,
@@ -53,21 +59,21 @@ describe("Parse MIPs service", () => {
     mongoMemoryServer = await MongoMemoryServer.create();
 
     module = await Test.createTestingModule({
-        imports: [
-            MIPsModule,
-            ConfigModule.forRoot({
-                isGlobal: true
-            }),
-            MongooseModule.forRootAsync({
-                imports: [ConfigModule],
-                useFactory: async () => ({
-                    uri: mongoMemoryServer.getUri(),
-                    useCreateIndex: true,
-                    useFindAndModify: false,
-                }),
-                inject: [ConfigService],
-            }),
-        ]
+      imports: [
+        MIPsModule,
+        ConfigModule.forRoot({
+          isGlobal: true
+        }),
+        MongooseModule.forRootAsync({
+          imports: [ConfigModule],
+          useFactory: async () => ({
+            uri: mongoMemoryServer.getUri(),
+            useCreateIndex: true,
+            useFindAndModify: false,
+          }),
+          inject: [ConfigService],
+        }),
+      ]
     }).compile();
 
     service = module.get<ParseMIPsService>(ParseMIPsService);
@@ -81,955 +87,445 @@ describe("Parse MIPs service", () => {
   beforeEach(async () => {
     jest.clearAllMocks();
     jest.restoreAllMocks();
+
+    SimpleGitService.prototype.pull = jest.fn(() => null);
+    SimpleGitService.prototype.getFiles = jest.fn(() => Promise.resolve([gitFileMock]));
+    MIPsService.prototype.getAll = jest.fn(() => Promise.resolve(mipMapMock));
+    PullRequestService.prototype.count = jest.fn(() => Promise.resolve(1));
+    GithubService.prototype.pullRequests = jest.fn(() => Promise.resolve({
+      repository: {
+        pullRequests: {
+          totalCount: 2,
+        }
+      }
+    }));
+    GithubService.prototype.pullRequestsLast = jest.fn(() => Promise.resolve({
+      repository: {
+        pullRequests: {
+          nodes: {
+            edges: ['test']
+          },
+        }
+      }
+    }));
+    SimpleGitService.prototype.saveMetaVars = jest.fn(() => Promise.resolve());
+    PullRequestService.prototype.create = jest.fn(() => Promise.resolve(true));
+    Logger.prototype.log = jest.fn(() => { });
+    Logger.prototype.error = jest.fn(() => { });
+    MIPsService.prototype.groupProposal = jest.fn(() => Promise.resolve([mipMock]));
+    MIPsService.prototype.setMipsFather = jest.fn(() => Promise.resolve([true]));
+    ParseMIPsService.prototype.updateSubproposalCountField = jest.fn(() => Promise.resolve());
+    MIPsService.prototype.deleteManyByIds = jest.fn(() => Promise.resolve());
+    MIPsService.prototype.update = jest.fn(() => Promise.resolve(mipMock));
   });
 
-  it('loggerMessage', async () => {
-    const message = 'test';
+  describe('loggerMessage', () => {
+    it('base case', async () => {
+      const message = 'test';
 
-    const mockLogger = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValueOnce();
+      const mockLogger = jest.spyOn(
+        Logger.prototype,
+        'log'
+      ).mockReturnValueOnce();
 
-    service.loggerMessage(message);
+      service.loggerMessage(message);
 
-    expect(mockLogger).toHaveBeenCalledTimes(1);
-    expect(mockLogger).toHaveBeenCalledWith(message);
+      expect(mockLogger).toHaveBeenCalledTimes(1);
+      expect(mockLogger).toHaveBeenCalledWith(message);
+    });
   });
 
-  it('parse: with no pull request', async () => {
-    const synchronizeData: ISynchronizeData = {
-      creates: 1,
-      deletes: 1,
-      updates: 1,
-    };
-
-    let countPullRequest = 2;
-
-    const mockPull = jest.spyOn(
-      SimpleGitService.prototype,
-      'pull'
-    ).mockReturnValueOnce(
-      null
-    );
-
-    const mockGetFiles = jest.spyOn(
-      SimpleGitService.prototype,
-      'getFiles'
-    ).mockReturnValueOnce(
-      Promise.resolve([gitFileMock])
-    );
-
-    const mockGetAll = jest.spyOn(
-      MIPsService.prototype,
-      'getAll'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMapMock)
-    );
-
-    const mockCount = jest.spyOn(
-      PullRequestService.prototype,
-      'count'
-    ).mockReturnValueOnce(
-      Promise.resolve(0)
-    );
-
-    const mockPullRequests = jest.spyOn(
-      GithubService.prototype,
-      'pullRequests'
-    ).mockImplementation(async () => {
-      const pullRequest = {
-        repository: {
-          pullRequests: {
-            nodes: {
-              edges: [`test_${countPullRequest}`]
-            },
-            pageInfo: {
-              hasNextPage: true,
-              endCursor: `test_${countPullRequest}`,
-            },
-          }
-        }
-      };
-      if (countPullRequest > 0) {
-        countPullRequest = countPullRequest - 1;
-      }
-      else {
-        pullRequest.repository.pullRequests.pageInfo.hasNextPage = false;
-      }
-      return pullRequest;
-    });
-
-    const mockPullRequestsLast = jest.spyOn(
-      GithubService.prototype,
-      'pullRequestsLast'
-    ).mockImplementation(async () => {
-      return {
-        repository: {
-          pullRequests: {
-            nodes: {
-              edges: ['test']
-            },
-            pageInfo: {
-              hasNextPage: true,
-              endCursor: 'test',
-            },
-            totalCount: 2,
-          }
-        }
-      };
-    });
-
-    const mockSynchronizeData = jest.spyOn(
-      ParseMIPsService.prototype,
-      'synchronizeData'
-    ).mockReturnValueOnce(
-      Promise.resolve(synchronizeData)
-    );
-
-    const mockSaveMetaVars = jest.spyOn(
-      SimpleGitService.prototype,
-      'saveMetaVars'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const mockCreate = jest.spyOn(
-      PullRequestService.prototype,
-      'create'
-    ).mockReturnValueOnce(
-      Promise.resolve(true)
-    );
-
-    const mockLogger = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValue();
-
-    const mockGroupProposal = jest.spyOn(
-      MIPsService.prototype,
-      'groupProposal'
-    ).mockReturnValueOnce(
-      Promise.resolve([mipMock])
-    );
-
-    const mockSetMipsFather = jest.spyOn(
-      MIPsService.prototype,
-      'setMipsFather'
-    ).mockReturnValueOnce(
-      Promise.resolve([true])
-    );
-
-    const mockUpdateSubproposalCountField = jest.spyOn(
-      ParseMIPsService.prototype,
-      'updateSubproposalCountField'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const result = await service.parse();
-
-    expect(result).toBeTruthy();
-    expect(mockPull).toBeCalledTimes(1);
-    expect(mockPull).toBeCalledWith(
-      'origin',
-      configService.get(Env.RepoBranch),
-    );
-    expect(mockGetFiles).toBeCalledTimes(1);
-    expect(mockGetFiles).toBeCalledWith();
-    expect(mockGetAll).toBeCalledTimes(1);
-    expect(mockGetAll).toBeCalledWith();
-    expect(mockCount).toBeCalledTimes(1);
-    expect(mockCount).toBeCalledWith();
-    expect(mockPullRequests).toBeCalledTimes(3);
-    expect(mockPullRequests).toHaveBeenCalledWith(
-      pullRequestsCount
-    );
-    expect(mockPullRequests).toHaveBeenCalledWith(
-      pullRequests
-    );
-    expect(mockPullRequests).toHaveBeenCalledWith(
-      pullRequestsAfter,
-      'test_1',
-    );
-    expect(mockSynchronizeData).toBeCalledTimes(1);
-    expect(mockSynchronizeData).toBeCalledWith(
-      [gitFileMock],
-      mipMapMock,
-    );
-    expect(mockPullRequestsLast).not.toBeCalled();
-    expect(mockSaveMetaVars).toBeCalledTimes(1);
-    expect(mockSaveMetaVars).toBeCalledWith();
-    expect(mockCreate).toBeCalledTimes(2);
-    expect(mockCreate).toHaveBeenCalledWith({
-      edges: ['test_1'],
-    });
-    expect(mockCreate).toHaveBeenCalledWith({
-      edges: ['test_0'],
-    });
-    expect(mockLogger).toBeCalledTimes(2);
-    expect(mockLogger).toHaveBeenCalledWith(
-      `Synchronize Data ===> ${JSON.stringify(synchronizeData)}`,
-    );
-    expect(mockLogger).toHaveBeenCalledWith(
-      `Mips with subproposals data ===> ${JSON.stringify([mipMock])}`
+  describe('parse', () => {
+    beforeEach(async () => {
+      jest.spyOn(
+        ParseMIPsService.prototype,
+        'synchronizeData'
+      ).mockReturnValueOnce(
+        Promise.resolve(synchronizeDataMock)
       );
-    expect(mockGroupProposal).toBeCalledTimes(1);
-    expect(mockGroupProposal).toBeCalledWith();
-    expect(mockSetMipsFather).toBeCalledTimes(1);
-    expect(mockSetMipsFather).toBeCalledWith([mipMock._id]);
-    expect(mockUpdateSubproposalCountField).toBeCalledTimes(1);
-    expect(mockUpdateSubproposalCountField).toBeCalledWith();
-  });
+    });
+    it('with no existing pull requests', async () => {
+      let countPullRequest = 2;
 
-  it('parse: with pull request', async () => {
-    const synchronizeData: ISynchronizeData = {
-      creates: 1,
-      deletes: 1,
-      updates: 1,
-    };
+      PullRequestService.prototype.count = jest.fn(() => Promise.resolve(0));
 
-    const mockPull = jest.spyOn(
-      SimpleGitService.prototype,
-      'pull'
-    ).mockReturnValueOnce(
-      null
-    );
-
-    const mockGetFiles = jest.spyOn(
-      SimpleGitService.prototype,
-      'getFiles'
-    ).mockReturnValueOnce(
-      Promise.resolve([gitFileMock])
-    );
-
-    const mockGetAll = jest.spyOn(
-      MIPsService.prototype,
-      'getAll'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMapMock)
-    );
-
-    const mockCount = jest.spyOn(
-      PullRequestService.prototype,
-      'count'
-    ).mockReturnValueOnce(
-      Promise.resolve(1)
-    );
-
-    const mockPullRequests = jest.spyOn(
-      GithubService.prototype,
-      'pullRequests'
-    ).mockImplementation(async () => {
-      return {
-        repository: {
-          pullRequests: {
-            totalCount: 2,
+      GithubService.prototype.pullRequests = jest.fn(async () => {
+        const pullRequest = {
+          repository: {
+            pullRequests: {
+              nodes: {
+                edges: [`test_${countPullRequest}`]
+              },
+              pageInfo: {
+                hasNextPage: true,
+                endCursor: `test_${countPullRequest}`,
+              },
+            }
           }
+        };
+        if (countPullRequest > 0) {
+          countPullRequest = countPullRequest - 1;
         }
-      };
-    });
+        else {
+          pullRequest.repository.pullRequests.pageInfo.hasNextPage = false;
+        }
+        return pullRequest;
+      });
 
-    const mockPullRequestsLast = jest.spyOn(
-      GithubService.prototype,
-      'pullRequestsLast'
-    ).mockImplementation(async () => {
-      return {
-        repository: {
-          pullRequests: {
-            nodes: {
-              edges: ['test']
-            },
+      GithubService.prototype.pullRequestsLast = jest.fn(async () => {
+        return {
+          repository: {
+            pullRequests: {
+              nodes: {
+                edges: ['test']
+              },
+              pageInfo: {
+                hasNextPage: true,
+                endCursor: 'test',
+              },
+              totalCount: 2,
+            }
           }
-        }
+        };
+      });
+
+      const result = await service.parse();
+
+      expect(result).toBeTruthy();
+      expect(SimpleGitService.prototype.pull).toBeCalledTimes(1);
+      expect(SimpleGitService.prototype.pull).toBeCalledWith(
+        'origin',
+        configService.get(Env.RepoBranch),
+      );
+      expect(SimpleGitService.prototype.getFiles).toBeCalledTimes(1);
+      expect(SimpleGitService.prototype.getFiles).toBeCalledWith();
+      expect(MIPsService.prototype.getAll).toBeCalledTimes(1);
+      expect(MIPsService.prototype.getAll).toBeCalledWith();
+      expect(PullRequestService.prototype.count).toBeCalledTimes(1);
+      expect(PullRequestService.prototype.count).toBeCalledWith();
+      expect(GithubService.prototype.pullRequests).toBeCalledTimes(3);
+      expect(GithubService.prototype.pullRequests).toHaveBeenCalledWith(
+        pullRequestsCount
+      );
+      expect(GithubService.prototype.pullRequests).toHaveBeenCalledWith(
+        pullRequests
+      );
+      expect(GithubService.prototype.pullRequests).toHaveBeenCalledWith(
+        pullRequestsAfter,
+        'test_1',
+      );
+      expect(ParseMIPsService.prototype.synchronizeData).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.synchronizeData).toBeCalledWith(
+        [gitFileMock],
+        mipMapMock,
+      );
+      expect(GithubService.prototype.pullRequestsLast).not.toBeCalled();
+      expect(SimpleGitService.prototype.saveMetaVars).toBeCalledTimes(1);
+      expect(SimpleGitService.prototype.saveMetaVars).toBeCalledWith();
+      expect(PullRequestService.prototype.create).toBeCalledTimes(2);
+      expect(PullRequestService.prototype.create).toHaveBeenCalledWith({
+        edges: ['test_1'],
+      });
+      expect(PullRequestService.prototype.create).toHaveBeenCalledWith({
+        edges: ['test_0'],
+      });
+      expect(Logger.prototype.log).toBeCalledTimes(2);
+      expect(Logger.prototype.log).toHaveBeenCalledWith(
+        `Synchronize Data ===> ${JSON.stringify(synchronizeDataMock)}`,
+      );
+      expect(Logger.prototype.log).toHaveBeenCalledWith(
+        `Mips with subproposals data ===> ${JSON.stringify([mipMock])}`
+      );
+      expect(MIPsService.prototype.groupProposal).toBeCalledTimes(1);
+      expect(MIPsService.prototype.groupProposal).toBeCalledWith();
+      expect(MIPsService.prototype.setMipsFather).toBeCalledTimes(1);
+      expect(MIPsService.prototype.setMipsFather).toBeCalledWith([mipMock._id]);
+      expect(ParseMIPsService.prototype.updateSubproposalCountField).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.updateSubproposalCountField).toBeCalledWith();
+    });
+
+    it('with existing pull requests', async () => {
+      const result = await service.parse();
+
+      expect(result).toBeTruthy();
+      expect(SimpleGitService.prototype.pull).toBeCalledTimes(1);
+      expect(SimpleGitService.prototype.pull).toBeCalledWith(
+        'origin',
+        configService.get(Env.RepoBranch),
+      );
+      expect(SimpleGitService.prototype.getFiles).toBeCalledTimes(1);
+      expect(SimpleGitService.prototype.getFiles).toBeCalledWith();
+      expect(MIPsService.prototype.getAll).toBeCalledTimes(1);
+      expect(MIPsService.prototype.getAll).toBeCalledWith();
+      expect(PullRequestService.prototype.count).toBeCalledTimes(1);
+      expect(PullRequestService.prototype.count).toBeCalledWith();
+      expect(GithubService.prototype.pullRequests).toBeCalledTimes(1);
+      expect(GithubService.prototype.pullRequests).toBeCalledWith(
+        pullRequestsCount
+      );
+      expect(GithubService.prototype.pullRequestsLast).toBeCalledTimes(1);
+      expect(GithubService.prototype.pullRequestsLast).toBeCalledWith(
+        pullRequestsLast,
+        1,
+      );
+      expect(ParseMIPsService.prototype.synchronizeData).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.synchronizeData).toBeCalledWith(
+        [gitFileMock],
+        mipMapMock,
+      );
+      expect(SimpleGitService.prototype.saveMetaVars).toBeCalledTimes(1);
+      expect(SimpleGitService.prototype.saveMetaVars).toBeCalledWith();
+      expect(PullRequestService.prototype.create).toBeCalledTimes(1);
+      expect(PullRequestService.prototype.create).toBeCalledWith({
+        edges: ['test'],
+      });
+      expect(Logger.prototype.log).toBeCalledTimes(3);
+      expect(Logger.prototype.log).toHaveBeenCalledWith(
+        `Synchronize Data ===> ${JSON.stringify(synchronizeDataMock)}`,
+      );
+      expect(Logger.prototype.log).toHaveBeenCalledWith(
+        `Mips with subproposals data ===> ${JSON.stringify([mipMock])}`
+      );
+      expect(MIPsService.prototype.groupProposal).toBeCalledTimes(1);
+      expect(MIPsService.prototype.groupProposal).toBeCalledWith();
+      expect(MIPsService.prototype.setMipsFather).toBeCalledTimes(1);
+      expect(MIPsService.prototype.setMipsFather).toBeCalledWith([mipMock._id]);
+      expect(ParseMIPsService.prototype.updateSubproposalCountField).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.updateSubproposalCountField).toBeCalledWith();
+    });
+
+    it('error while pull', async () => {
+
+      SimpleGitService.prototype.pull = jest.fn(() => {
+        throw new Error("forcing error");
+      });
+
+      const result = await service.parse();
+
+      expect(result).toBeFalsy();
+      expect(SimpleGitService.prototype.pull).toBeCalledTimes(1);
+      expect(SimpleGitService.prototype.pull).toBeCalledWith(
+        'origin',
+        configService.get(Env.RepoBranch),
+      );
+      expect(SimpleGitService.prototype.getFiles).not.toBeCalled();
+      expect(MIPsService.prototype.getAll).not.toBeCalled();
+      expect(PullRequestService.prototype.count).not.toBeCalled();
+      expect(GithubService.prototype.pullRequests).not.toBeCalled();
+      expect(GithubService.prototype.pullRequestsLast).not.toBeCalled();
+      expect(ParseMIPsService.prototype.synchronizeData).not.toBeCalled();
+      expect(SimpleGitService.prototype.saveMetaVars).not.toBeCalled();
+      expect(PullRequestService.prototype.create).not.toBeCalled();
+      expect(Logger.prototype.log).not.toBeCalled();
+      expect(MIPsService.prototype.groupProposal).not.toBeCalled();
+      expect(MIPsService.prototype.setMipsFather).not.toBeCalled();
+      expect(ParseMIPsService.prototype.updateSubproposalCountField).not.toBeCalled();
+    });
+  });
+
+  describe('parseMIP', () => {
+    beforeEach(async () => {
+      jest.spyOn(
+        ParseMIPsService.prototype,
+        "parseLexerData"
+      ).mockReturnValueOnce(
+        mipMock
+      );
+    });
+    
+    it('parse new mip', async () => {
+      const isNewMIP = true;
+      const baseUrl = `${process.cwd()}/${configService.get<string>(
+        Env.FolderRepositoryName
+      )}`;
+
+      const result = await service.parseMIP(mipMock, isNewMIP);
+
+      expect(result).toBeDefined();
+      expect(result).toEqual(mipMock);
+      expect(Logger.prototype.log).toBeCalledTimes(1);
+      expect(Logger.prototype.log).toBeCalledWith(`Parse new mip item update => ${mipMock.filename}`);
+      expect(readFile).toBeCalledTimes(1);
+      expect(readFile).toBeCalledWith(
+        `${baseUrl}/${mipMock.filename}`,
+        'utf-8'
+      );
+      expect(ParseMIPsService.prototype.parseLexerData).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.parseLexerData).toBeCalledWith(
+        'test',
+        mipMock,
+      );
+    });
+
+    it('parse not new mip', async () => {
+      const isNewMIP = false;
+      const baseUrl = `${process.cwd()}/${configService.get<string>(
+        Env.FolderRepositoryName
+      )}`;
+
+      const result = await service.parseMIP(mipMock, isNewMIP);
+
+      expect(result).toBeDefined();
+      expect(result).toEqual(mipMock);
+      expect(Logger.prototype.log).toBeCalledTimes(1);
+      expect(Logger.prototype.log).toBeCalledWith(`Parse mip item update => ${mipMock.filename}`);
+      expect(readFile).toBeCalledTimes(1);
+      expect(readFile).toBeCalledWith(
+        `${baseUrl}/${mipMock.filename}`,
+        'utf-8'
+      );
+      expect(ParseMIPsService.prototype.parseLexerData).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.parseLexerData).toBeCalledWith(
+        'test',
+        mipMock,
+      );
+    });
+  });
+
+  describe('deleteMipsFromMap', () => {
+    it('delete mips by ids', async () => {
+
+      await service.deleteMipsFromMap(mipMapMock);
+
+      expect(MIPsService.prototype.deleteManyByIds).toBeCalledTimes(1);
+      expect(MIPsService.prototype.deleteManyByIds).toBeCalledWith([mipMock._id]);
+    });
+  });
+
+  describe('updateIfDifferentHash', () => {
+    beforeEach(async () => {
+      jest.spyOn(
+        ParseMIPsService.prototype,
+        'parseMIP'
+      ).mockReturnValueOnce(
+        Promise.resolve(mipMock)
+      );
+    });
+
+    it('different hash', async () => {
+      const mip_2 = {
+        ...mipMock,
+        hash: 'hash_2',
       };
+
+      const result = await service.updateIfDifferentHash(mipMock, mip_2);
+
+      expect(result).toBeTruthy();
+      expect(ParseMIPsService.prototype.parseMIP).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.parseMIP).toBeCalledWith(mip_2, false);
+      expect(MIPsService.prototype.update).toBeCalledTimes(1);
+      expect(MIPsService.prototype.update).toBeCalledWith(mipMock._id, mipMock);
+      expect(Logger.prototype.error).not.toBeCalled();
     });
 
-    const mockSynchronizeData = jest.spyOn(
-      ParseMIPsService.prototype,
-      'synchronizeData'
-    ).mockReturnValueOnce(
-      Promise.resolve(synchronizeData)
-    );
+    it('different hash and error while update', async () => {
+      const mip_2 = {
+        ...mipMock,
+        hash: 'hash_2',
+      };
 
-    const mockSaveMetaVars = jest.spyOn(
-      SimpleGitService.prototype,
-      'saveMetaVars'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
+      MIPsService.prototype.update = jest.fn(async () => {
+        throw new Error('Forcing error');
+      });
 
-    const mockCreate = jest.spyOn(
-      PullRequestService.prototype,
-      'create'
-    ).mockReturnValueOnce(
-      Promise.resolve(true)
-    );
+      const result = await service.updateIfDifferentHash(mipMock, mip_2);
 
-    const mockLogger = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValue();
-
-    const mockGroupProposal = jest.spyOn(
-      MIPsService.prototype,
-      'groupProposal'
-    ).mockReturnValueOnce(
-      Promise.resolve([mipMock])
-    );
-
-    const mockSetMipsFather = jest.spyOn(
-      MIPsService.prototype,
-      'setMipsFather'
-    ).mockReturnValueOnce(
-      Promise.resolve([true])
-    );
-
-    const mockUpdateSubproposalCountField = jest.spyOn(
-      ParseMIPsService.prototype,
-      'updateSubproposalCountField'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const result = await service.parse();
-
-    expect(result).toBeTruthy();
-    expect(mockPull).toBeCalledTimes(1);
-    expect(mockPull).toBeCalledWith(
-      'origin',
-      configService.get(Env.RepoBranch),
-    );
-    expect(mockGetFiles).toBeCalledTimes(1);
-    expect(mockGetFiles).toBeCalledWith();
-    expect(mockGetAll).toBeCalledTimes(1);
-    expect(mockGetAll).toBeCalledWith();
-    expect(mockCount).toBeCalledTimes(1);
-    expect(mockCount).toBeCalledWith();
-    expect(mockPullRequests).toBeCalledTimes(1);
-    expect(mockPullRequests).toBeCalledWith(
-      pullRequestsCount
-    );
-    expect(mockPullRequestsLast).toBeCalledTimes(1);
-    expect(mockPullRequestsLast).toBeCalledWith(
-      pullRequestsLast,
-      1,
-    );
-    expect(mockSynchronizeData).toBeCalledTimes(1);
-    expect(mockSynchronizeData).toBeCalledWith(
-      [gitFileMock],
-      mipMapMock,
-    );
-    expect(mockSaveMetaVars).toBeCalledTimes(1);
-    expect(mockSaveMetaVars).toBeCalledWith();
-    expect(mockCreate).toBeCalledTimes(1);
-    expect(mockCreate).toBeCalledWith({
-      edges: ['test'],
-    });
-    expect(mockLogger).toBeCalledTimes(3);
-    expect(mockLogger).toHaveBeenCalledWith(
-      `Synchronize Data ===> ${JSON.stringify(synchronizeData)}`,
-    );
-    expect(mockLogger).toHaveBeenCalledWith(
-      `Mips with subproposals data ===> ${JSON.stringify([mipMock])}`
-    );
-    expect(mockGroupProposal).toBeCalledTimes(1);
-    expect(mockGroupProposal).toBeCalledWith();
-    expect(mockSetMipsFather).toBeCalledTimes(1);
-    expect(mockSetMipsFather).toBeCalledWith([mipMock._id]);
-    expect(mockUpdateSubproposalCountField).toBeCalledTimes(1);
-    expect(mockUpdateSubproposalCountField).toBeCalledWith();
-  });
-
-  it('parse: error while pull', async () => {
-
-    const synchronizeData: ISynchronizeData = {
-      creates: 1,
-      deletes: 1,
-      updates: 1,
-    };
-
-    const mockPull = jest.spyOn(
-      SimpleGitService.prototype,
-      'pull'
-    ).mockImplementationOnce(() => {
-      throw new Error("forcing error");
+      expect(result).toBeTruthy();
+      expect(ParseMIPsService.prototype.parseMIP).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.parseMIP).toBeCalledWith(mip_2, false);
+      expect(MIPsService.prototype.update).toBeCalledTimes(1);
+      expect(MIPsService.prototype.update).toBeCalledWith(mipMock._id, mipMock);
+      expect(Logger.prototype.error).toBeCalledTimes(1);
+      expect(Logger.prototype.error).toBeCalledWith('Forcing error');
     });
 
-    const mockGetFiles = jest.spyOn(
-      SimpleGitService.prototype,
-      'getFiles'
-    ).mockReturnValueOnce(
-      Promise.resolve([gitFileMock])
-    );
+    it('same hash', async () => {
+      const result = await service.updateIfDifferentHash(mipMock, mipMock);
 
-    const mockGetAll = jest.spyOn(
-      MIPsService.prototype,
-      'getAll'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMapMock)
-    );
-
-    const mockCount = jest.spyOn(
-      PullRequestService.prototype,
-      'count'
-    ).mockReturnValueOnce(
-      Promise.resolve(1)
-    );
-
-    const mockPullRequests = jest.spyOn(
-      GithubService.prototype,
-      'pullRequests'
-    ).mockReturnValueOnce(
-      Promise.resolve(null)
-    );
-
-    const mockPullRequestsLast = jest.spyOn(
-      GithubService.prototype,
-      'pullRequestsLast'
-    ).mockReturnValueOnce(
-      Promise.resolve(null)
-    );
-
-    const mockSynchronizeData = jest.spyOn(
-      ParseMIPsService.prototype,
-      'synchronizeData'
-    ).mockReturnValueOnce(
-      Promise.resolve(synchronizeData)
-    );
-
-    const mockSaveMetaVars = jest.spyOn(
-      SimpleGitService.prototype,
-      'saveMetaVars'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const mockCreate = jest.spyOn(
-      PullRequestService.prototype,
-      'create'
-    ).mockReturnValueOnce(
-      Promise.resolve(true)
-    );
-
-    const mockLogger = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValue();
-
-    const mockGroupProposal = jest.spyOn(
-      MIPsService.prototype,
-      'groupProposal'
-    ).mockReturnValueOnce(
-      Promise.resolve([mipMock])
-    );
-
-    const mockSetMipsFather = jest.spyOn(
-      MIPsService.prototype,
-      'setMipsFather'
-    ).mockReturnValueOnce(
-      Promise.resolve([true])
-    );
-
-    const mockUpdateSubproposalCountField = jest.spyOn(
-      ParseMIPsService.prototype,
-      'updateSubproposalCountField'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const result = await service.parse();
-
-    expect(result).toBeFalsy();
-    expect(mockPull).toBeCalledTimes(1);
-    expect(mockPull).toBeCalledWith(
-      'origin',
-      configService.get(Env.RepoBranch),
-    );
-    expect(mockGetFiles).not.toBeCalled();
-    expect(mockGetAll).not.toBeCalled();
-    expect(mockCount).not.toBeCalled();
-    expect(mockPullRequests).not.toBeCalled();
-    expect(mockPullRequestsLast).not.toBeCalled();
-    expect(mockSynchronizeData).not.toBeCalled();
-    expect(mockSaveMetaVars).not.toBeCalled();
-    expect(mockCreate).not.toBeCalled();
-    expect(mockLogger).not.toBeCalled();
-    expect(mockGroupProposal).not.toBeCalled();
-    expect(mockSetMipsFather).not.toBeCalled();
-    expect(mockUpdateSubproposalCountField).not.toBeCalled();
+      expect(result).toBeFalsy();
+      expect(ParseMIPsService.prototype.parseMIP).not.toBeCalled();
+      expect(MIPsService.prototype.update).not.toBeCalled();
+      expect(Logger.prototype.error).not.toBeCalled();
+    });
   });
 
-  it('parseMIP: new mip', async () => {
-    const isNewMIP = true;
-    const baseUrl = `${process.cwd()}/${configService.get<string>(
-      Env.FolderRepositoryName
-    )}`;
+  describe('getComponentsSection', () => {
+    it('has component summary', async () => {
+      const result = service.getComponentsSection(mipFile);
 
-    const mockLog = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValueOnce();
-
-    const mockParseLexerData = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseLexerData'
-    ).mockReturnValueOnce(mipMock);
-
-    const result = await service.parseMIP(mipMock, isNewMIP);
-
-    expect(result).toBeDefined();
-    expect(result).toEqual(mipMock);
-    expect(mockLog).toBeCalledTimes(1);
-    expect(mockLog).toBeCalledWith(`Parse new mip item update => ${mipMock.filename}`);
-    expect(readFile).toBeCalledTimes(1);
-    expect(readFile).toBeCalledWith(
-      `${baseUrl}/${mipMock.filename}`,
-      'utf-8'
-    );
-    expect(mockParseLexerData).toBeCalledTimes(1);
-    expect(mockParseLexerData).toBeCalledWith(
-      'test',
-      mipMock,
-    );
-  });
-
-  it('parseMIP: not new mip', async () => {
-    const isNewMIP = false;
-    const baseUrl = `${process.cwd()}/${configService.get<string>(
-      Env.FolderRepositoryName
-    )}`;
-
-    const mockLog = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValueOnce();
-
-    const mockParseLexerData = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseLexerData'
-    ).mockReturnValueOnce(mipMock);
-
-    const result = await service.parseMIP(mipMock, isNewMIP);
-
-    expect(result).toBeDefined();
-    expect(result).toEqual(mipMock);
-    expect(mockLog).toBeCalledTimes(1);
-    expect(mockLog).toBeCalledWith(`Parse mip item update => ${mipMock.filename}`);
-    expect(readFile).toBeCalledTimes(1);
-    expect(readFile).toBeCalledWith(
-      `${baseUrl}/${mipMock.filename}`,
-      'utf-8'
-    );
-    expect(mockParseLexerData).toBeCalledTimes(1);
-    expect(mockParseLexerData).toBeCalledWith(
-      'test',
-      mipMock,
-    );
-  });
-
-  it('deleteMipsFromMap', async () => {
-    const mockDeleteManyByIds = jest.spyOn(
-      MIPsService.prototype,
-      'deleteManyByIds'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    await service.deleteMipsFromMap(mipMapMock);
-
-    expect(mockDeleteManyByIds).toBeCalledTimes(1);
-    expect(mockDeleteManyByIds).toBeCalledWith([mipMock._id]);
-  });
-
-  it('updateIfDifferentHash: different hash', async () => {
-    const mip_2 = {
-      ...mipMock,
-      hash: 'hash_2',
-    };
-
-    const mockParseMIP = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseMIP'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMock)
-    );
-
-    const mockUpdate = jest.spyOn(
-      MIPsService.prototype,
-      'update'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMock)
-    );
-
-    const mockError = jest.spyOn(
-      Logger.prototype,
-      'error'
-    ).mockReturnValueOnce();
-
-    const result = await service.updateIfDifferentHash(mipMock, mip_2);
-
-    expect(result).toBeTruthy();
-    expect(mockParseMIP).toBeCalledTimes(1);
-    expect(mockParseMIP).toBeCalledWith(mip_2, false);
-    expect(mockUpdate).toBeCalledTimes(1);
-    expect(mockUpdate).toBeCalledWith(mipMock._id, mipMock);
-    expect(mockError).not.toBeCalled();
-  });
-
-  it('updateIfDifferentHash: different hash and error while update', async () => {
-    const mip_2 = {
-      ...mipMock,
-      hash: 'hash_2',
-    };
-
-    const mockParseMIP = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseMIP'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMock)
-    );
-
-    const mockUpdate = jest.spyOn(
-      MIPsService.prototype,
-      'update'
-    ).mockImplementationOnce(async () => {
-      throw new Error('Forcing error');
+      expect(result).toEqual(componentSummary);
     });
 
-    const mockError = jest.spyOn(
-      Logger.prototype,
-      'error'
-    ).mockReturnValueOnce();
+    it("hasn't component summary", async () => {
+      const data = 'test';
 
-    const result = await service.updateIfDifferentHash(mipMock, mip_2);
+      const result = service.getComponentsSection(data);
 
-    expect(result).toBeTruthy();
-    expect(mockParseMIP).toBeCalledTimes(1);
-    expect(mockParseMIP).toBeCalledWith(mip_2, false);
-    expect(mockUpdate).toBeCalledTimes(1);
-    expect(mockUpdate).toBeCalledWith(mipMock._id, mipMock);
-    expect(mockError).toBeCalledTimes(1);
-    expect(mockError).toBeCalledWith('Forcing error');
-  });
-
-  it('updateIfDifferentHash: not different hash', async () => {
-    const mockParseMIP = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseMIP'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMock)
-    );
-
-    const mockUpdate = jest.spyOn(
-      MIPsService.prototype,
-      'update'
-    ).mockReturnValueOnce(
-      Promise.resolve(mipMock)
-    );
-
-    const mockError = jest.spyOn(
-      Logger.prototype,
-      'error'
-    ).mockReturnValueOnce();
-
-    const result = await service.updateIfDifferentHash(mipMock, mipMock);
-
-    expect(result).toBeFalsy();
-    expect(mockParseMIP).not.toBeCalled();
-    expect(mockUpdate).not.toBeCalled();
-    expect(mockError).not.toBeCalled();
-  });
-
-  it('synchronizeData: new MIP', async () => {
-    const filesGit: IGitFile[] = [{
-      ...mipMock,
-      filename: 'test.md',
-    }];
-
-    const mip_2 = {
-      ...mipMock,
-      mip: undefined,
-      mipName: undefined,
-    };
-
-    const mockParseMIP = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseMIP'
-    ).mockReturnValueOnce(
-      Promise.resolve(mip_2)
-    );
-
-    const mockLog = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValueOnce();
-
-    console.log = jest.fn();
-
-    const mockUpdateIfDifferentHash = jest.spyOn(
-      ParseMIPsService.prototype,
-      'updateIfDifferentHash'
-    ).mockReturnValueOnce(
-      Promise.resolve(true)
-    );
-
-    const mockDeleteMipsFromMap = jest.spyOn(
-      ParseMIPsService.prototype,
-      'deleteMipsFromMap'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const mockInsertMany = jest.spyOn(
-      MIPsService.prototype,
-      'insertMany'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const result = await service.synchronizeData(
-      filesGit,
-      mipMapMock,
-    );
-
-    expect(result).toEqual({
-      creates: 1,
-      deletes: 1,
-      updates: 0,
-    });
-    expect(mockParseMIP).toBeCalledTimes(1);
-    expect(mockParseMIP).toBeCalledWith(filesGit[0], false);
-    expect(console.log).toBeCalledTimes(1);
-    expect(console.log).toBeCalledWith({
-      mip: mip_2,
-      item: filesGit[0],
-      TODO: "Convert into a notification Service"
-    });
-    expect(mockLog).toBeCalledTimes(1);
-    expect(mockLog).toBeCalledWith(
-      `Mips with problems to parse ==> ${(mip_2.mip, mip_2.mipName, mip_2.filename)
-      }`
-    );
-    expect(mockUpdateIfDifferentHash).not.toBeCalled();
-    expect(mockDeleteMipsFromMap).toBeCalledTimes(1);
-    expect(mockDeleteMipsFromMap).toBeCalledWith(
-      mipMapMock,
-    );
-    expect(mockInsertMany).toBeCalledTimes(1);
-    expect(mockInsertMany).toBeCalledWith(
-      [mip_2],
-    );
-  });
-
-  it('synchronizeData: new MIP and error while parseMIP', async () => {
-    const filesGit: IGitFile[] = [{
-      ...mipMock,
-      filename: 'test.md',
-    }];
-
-    const mockParseMIP = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseMIP'
-    ).mockImplementationOnce(async () => {
-      throw new Error('Forcing error');
+      expect(result).toEqual('');
     });
 
-    const mockLog = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValueOnce();
+    it('component summary without end', async () => {
+      const data = "**MIP0c1: Core Principles\n\nsomething";
 
-    console.log = jest.fn();
+      const result = service.getComponentsSection(data);
 
-    const mockUpdateIfDifferentHash = jest.spyOn(
-      ParseMIPsService.prototype,
-      'updateIfDifferentHash'
-    ).mockReturnValueOnce(
-      Promise.resolve(true)
-    );
-
-    const mockDeleteMipsFromMap = jest.spyOn(
-      ParseMIPsService.prototype,
-      'deleteMipsFromMap'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const mockInsertMany = jest.spyOn(
-      MIPsService.prototype,
-      'insertMany'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const result = await service.synchronizeData(
-      filesGit,
-      mipMapMock,
-    );
-
-    expect(result).toEqual({
-      creates: 0,
-      deletes: 1,
-      updates: 0,
+      expect(result).toEqual('**MIP0c1: Core Principles\n\nsomething');
     });
-    expect(mockParseMIP).toBeCalledTimes(1);
-    expect(mockParseMIP).toBeCalledWith(filesGit[0], false);
-    expect(console.log).not.toBeCalled();
-    expect(mockLog).toBeCalledTimes(1);
-    expect(mockLog).toBeCalledWith(
-      'Forcing error'
-    );
-    expect(mockUpdateIfDifferentHash).not.toBeCalled();
-    expect(mockDeleteMipsFromMap).toBeCalledTimes(1);
-    expect(mockDeleteMipsFromMap).toBeCalledWith(
-      mipMapMock,
-    );
-    expect(mockInsertMany).toBeCalledTimes(1);
-    expect(mockInsertMany).toBeCalledWith([]);
   });
 
-  it('synchronizeData: no new MIP', async () => {
-    const mip_2 = {
-      ...mipMock,
-      mip: undefined,
-      mipName: undefined,
-    };
+  describe('getDataFromComponentText', () => {
+    it('get splited components', async () => {
+      const result = service.getDataFromComponentText(componentSummary);
 
-    const mockParseMIP = jest.spyOn(
-      ParseMIPsService.prototype,
-      'parseMIP'
-    ).mockReturnValueOnce(
-      Promise.resolve(mip_2)
-    );
-
-    const mockLog = jest.spyOn(
-      Logger.prototype,
-      'log'
-    ).mockReturnValueOnce();
-
-    console.log = jest.fn();
-
-    const mockUpdateIfDifferentHash = jest.spyOn(
-      ParseMIPsService.prototype,
-      'updateIfDifferentHash'
-    ).mockReturnValueOnce(
-      Promise.resolve(true)
-    );
-
-    const mockDeleteMipsFromMap = jest.spyOn(
-      ParseMIPsService.prototype,
-      'deleteMipsFromMap'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const mockInsertMany = jest.spyOn(
-      MIPsService.prototype,
-      'insertMany'
-    ).mockReturnValueOnce(
-      Promise.resolve()
-    );
-
-    const result = await service.synchronizeData(
-      [mipMock],
-      mipMapMock,
-    );
-
-    expect(result).toEqual({
-      creates: 0,
-      deletes: 0,
-      updates: 1,
+      expect(result).toEqual(components);
     });
-    expect(mockParseMIP).not.toBeCalled();
-    expect(console.log).not.toBeCalled();
-    expect(mockLog).not.toBeCalled();
-    expect(mockUpdateIfDifferentHash).toBeCalledTimes(1);
-    expect(mockUpdateIfDifferentHash).toBeCalledWith(
-      gitFileMock,
-      mipMock,
-    );
-    expect(mockDeleteMipsFromMap).toBeCalledTimes(1);
-    expect(mockDeleteMipsFromMap).toBeCalledWith(
-      new Map(),
-    );
-    expect(mockInsertMany).toBeCalledTimes(1);
-    expect(mockInsertMany).toBeCalledWith(
-      [],
-    );
   });
 
-  it('getComponentsSection: component summary', async () => {
-    const result = service.getComponentsSection(mipFile);
+  describe('parseMipsNamesComponentsSubproposals', () => {
+    it('is on component summary', async () => {
+      const markedFile: any[] = marked.lexer(mipFile);
+      const element = markedFile[12];
+      const isOnComponentSummary = true;
 
-    expect(result).toEqual(componentSummary);
-  });
+      const result = service.parseMipsNamesComponentsSubproposals(
+        element,
+        isOnComponentSummary
+      );
 
-  it('getComponentsSection: no component summary', async () => {
-    const data = 'test';
+      expect(result).toEqual(
+        `## Component Summary\n\n`
+      );
+    });
 
-    const result = service.getComponentsSection(data);
+    it('heading not on component summary', async () => {
+      const markedFile: any[] = marked.lexer(mipFile);
+      const element = markedFile[0];
+      const isOnComponentSummary = false;
 
-    expect(result).toEqual('');
-  });
+      const result = service.parseMipsNamesComponentsSubproposals(
+        element,
+        isOnComponentSummary
+      );
 
-  it('getComponentsSection: component summary without end', async () => {
-    const data = "**MIP0c1: Core Principles\n\nsomething";
+      expect(result).toEqual(
+        `# MIP0: The Maker Improvement Proposal Framework\n\n`
+      );
+    });
 
-    const result = service.getComponentsSection(data);
+    it('not heading that is not on component summary', async () => {
+      const markedFile: any[] = marked.lexer(mipFile);
+      const element = markedFile[203];
+      const isOnComponentSummary = false;
 
-    expect(result).toEqual('**MIP0c1: Core Principles\n\nsomething');
-  });
+      const result = service.parseMipsNamesComponentsSubproposals(
+        element,
+        isOnComponentSummary
+      );
 
-  it('getDataFromComponentText', async () => {
-    const result = service.getDataFromComponentText(componentSummary);
-
-    expect(result).toEqual(components);
-  });
-
-  it('parseMipsNamesComponentsSubproposals: is on component summary', async () => {
-    const markedFile: any[] = marked.lexer(mipFile);
-    const element = markedFile[12];
-    const isOnComponentSummary = true;
-
-    const result = service.parseMipsNamesComponentsSubproposals(
-      element,
-      isOnComponentSummary
-    );
-
-    expect(result).toEqual(
-      `## Component Summary\n\n`
-    );
-  });
-
-  it('parseMipsNamesComponentsSubproposals: heading not on component summary', async () => {
-    const markedFile: any[] = marked.lexer(mipFile);
-    const element = markedFile[0];
-    const isOnComponentSummary = false;
-
-    const result = service.parseMipsNamesComponentsSubproposals(
-      element,
-      isOnComponentSummary
-    );
-
-    expect(result).toEqual(
-      `# MIP0: The Maker Improvement Proposal Framework\n\n`
-    );
-  });
-
-  it('parseMipsNamesComponentsSubproposals: not heading that is not on component summary', async () => {
-    const markedFile: any[] = marked.lexer(mipFile);
-    const element = markedFile[203];
-    const isOnComponentSummary = false;
-
-    const result = service.parseMipsNamesComponentsSubproposals(
-      element,
-      isOnComponentSummary
-    );
-
-    expect(result).toEqual(
-      'MIP0c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP0c13](mips/details/MIP0#MIP0c13 "smart-Component") subproposals have the following parameters:'
-    );
+      expect(result).toEqual(
+        'MIP0c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP0c13](mips/details/MIP0#MIP0c13 "smart-Component") subproposals have the following parameters:'
+      );
+    });
   });
 
   describe("Syncronize data", () => {
@@ -1112,5 +608,5 @@ describe("Parse MIPs service", () => {
   afterAll(async () => {
     await module.close();
     await mongoMemoryServer.stop();
-});
+  });
 });
