@@ -172,7 +172,7 @@ export class ParseMIPsService {
     for (const item of filesGit) {
       if (!filesDB.has(item.filename)) {
         try {
-          const mip = await this.parseMIP(item, false);
+          const mip = await this.parseMIP(item, true);
           if (mip.mip === undefined || mip.mipName === undefined) {
             // TODO: Convert into a notification Service
             console.log({
