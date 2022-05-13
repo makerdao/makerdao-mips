@@ -68,7 +68,7 @@ describe("MIPsService", () => {
             expect(result).toEqual([mipMock]);
             expect(find).toHaveBeenCalledTimes(1);
             expect(find).toHaveBeenCalledWith({
-                proposal,
+                proposal_plain: proposal,
                 language: Language.English
             });
             expect(select).toHaveBeenCalledTimes(1);
