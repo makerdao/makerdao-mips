@@ -50,37 +50,36 @@ describe("MarkedService", () => {
     beforeEach(async () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
+
+        marked.lexer = jest.fn(() => [{ type: "text", value: "test" }]);
     });
     
     jest.setTimeout(3 * 60 * 1000);
 
-    it("markedLexer", async () => {
-        const data = "test";
+    describe("markedLexer", () => {
+        it("divide into tokens", async () => {
+            const data = "test";
+            
+            const result = markedService.markedLexer(data);
 
-        const markedLexerMock = jest.spyOn(
-            marked,
-            "lexer"
-        ).mockReturnValueOnce(
-            [{ type: "text", value: "test" }]
-        );
-
-        const result = markedService.markedLexer(data);
-
-        expect(result).toBeDefined();
-        expect(result).toEqual([{ type: "text", value: "test" }]);
-        expect(markedLexerMock).toHaveBeenCalledTimes(1);
-        expect(markedLexerMock).toHaveBeenCalledWith(data);
+            expect(result).toBeDefined();
+            expect(result).toEqual([{ type: "text", value: "test" }]);
+            expect(marked.lexer).toHaveBeenCalledTimes(1);
+            expect(marked.lexer).toHaveBeenCalledWith(data);
+        });
     });
 
-    it("markedHtml", async () => {
-        const data = "test";
+    describe('markedHtml', () => {
+        it("convert to html", async () => {
+            const data = "test";
 
-        const result = markedService.markedHtml(data);
+            const result = markedService.markedHtml(data);
 
-        expect(result).toBeDefined();
-        expect(result).toEqual('test');
-        expect(marked).toHaveBeenCalledTimes(1);
-        expect(marked).toHaveBeenCalledWith(data);
+            expect(result).toBeDefined();
+            expect(result).toEqual('test');
+            expect(marked).toHaveBeenCalledTimes(1);
+            expect(marked).toHaveBeenCalledWith(data);
+        });
     });
 
     afterAll(async () => {
