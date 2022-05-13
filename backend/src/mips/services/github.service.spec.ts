@@ -50,90 +50,74 @@ describe("GithubService", () => {
     beforeEach(async () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
+
+        GraphQLClient.prototype.request = jest.fn(async () => "test" as any);
     });
 
     jest.setTimeout(3 * 60 * 1000);
 
-    it("pullRequests: without after", async () => {
-        const mockRequest = jest.spyOn(
-            GraphQLClient.prototype,
-            "request"
-        ).mockReturnValueOnce(
-            Promise.resolve("test")
-        );
+    describe("pullRequests", () => {
+        it("without after", async () => {
+            const result = await githubService.pullRequests(pullRequestsMock);
 
-        const result = await githubService.pullRequests(pullRequestsMock);
+            expect(result).toBeDefined();
+            expect(result).toEqual("test");
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledTimes(1);
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledWith(pullRequestsMock, {
+                name: configService.get<string>(
+                    Env.GithubRepository
+                ),
+                owner: configService.get<string>(
+                    Env.GithubRepositoryOwner
+                ),
+            });
+        });
 
-        expect(result).toBeDefined();
-        expect(result).toEqual("test");
-        expect(mockRequest).toHaveBeenCalledTimes(1);
-        expect(mockRequest).toHaveBeenCalledWith(pullRequestsMock, {
-            name: configService.get<string>(
-                Env.GithubRepository
-            ),
-            owner: configService.get<string>(
-                Env.GithubRepositoryOwner
-            ),
+        it("from last one(after)", async () => {
+            const after = "test";
+
+            const result = await githubService.pullRequests(
+                pullRequestsMock,
+                after,
+            );
+
+            expect(result).toBeDefined();
+            expect(result).toEqual("test");
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledTimes(1);
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledWith(pullRequestsMock, {
+                name: configService.get<string>(
+                    Env.GithubRepository
+                ),
+                owner: configService.get<string>(
+                    Env.GithubRepositoryOwner
+                ),
+                after,
+            });
         });
     });
 
-    it("pullRequests: with after", async () => {
-        const after = "test";
+    describe('pullRequestsLast', () => {
+        it("get last pull request", async () => {
+            const last = 2;
+            const result = await githubService.pullRequestsLast(
+                pullRequestsMock,
+                last,
+            );
 
-        const mockRequest = jest.spyOn(
-            GraphQLClient.prototype,
-            "request"
-        ).mockReturnValueOnce(
-            Promise.resolve("test")
-        );
+            expect(result).toBeDefined();
+            expect(result).toEqual("test");
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledTimes(1);
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledWith(pullRequestsMock, {
+                name: configService.get<string>(
+                    Env.GithubRepository
+                ),
+                owner: configService.get<string>(
+                    Env.GithubRepositoryOwner
+                ),
+                last,
+            });
 
-        const result = await githubService.pullRequests(
-            pullRequestsMock,
-            after,
-        );
-
-        expect(result).toBeDefined();
-        expect(result).toEqual("test");
-        expect(mockRequest).toHaveBeenCalledTimes(1);
-        expect(mockRequest).toHaveBeenCalledWith(pullRequestsMock, {
-            name: configService.get<string>(
-                Env.GithubRepository
-            ),
-            owner: configService.get<string>(
-                Env.GithubRepositoryOwner
-            ),
-            after,
         });
-    });
-
-    it("pullRequestsLast", async () => {
-        const last = 2;
-
-        const mockRequest = jest.spyOn(
-            GraphQLClient.prototype,
-            "request"
-        ).mockReturnValueOnce(
-            Promise.resolve("test")
-        );
-
-        const result = await githubService.pullRequestsLast(
-            pullRequestsMock,
-            last,
-        );
-
-        expect(result).toBeDefined();
-        expect(result).toEqual("test");
-        expect(mockRequest).toHaveBeenCalledTimes(1);
-        expect(mockRequest).toHaveBeenCalledWith(pullRequestsMock, {
-            name: configService.get<string>(
-                Env.GithubRepository
-            ),
-            owner: configService.get<string>(
-                Env.GithubRepositoryOwner
-            ),
-            last,
-        });
-
     });
 
     afterAll(async () => {
