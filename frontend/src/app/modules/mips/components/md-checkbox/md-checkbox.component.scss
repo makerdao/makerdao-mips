@@ -80,6 +80,13 @@
 
 @media screen and (max-width: 768px){
   :host {
+    transform: translate(-83px,10px);
+    width: 150px;
     margin: 25px -40px 0 auto !important;
+  }
+
+  app-search-mobile ~ :host {
+    transform: unset;
+    width: unset;
   }
 }

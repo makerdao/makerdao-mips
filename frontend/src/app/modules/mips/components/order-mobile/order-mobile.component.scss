@@ -1,5 +1,10 @@
 :host {
   position: relative;
+  transform: translateX(42px);
+}
+
+app-search-mobile ~ :host {
+  transform: unset;
 }
 
 .img-container {
