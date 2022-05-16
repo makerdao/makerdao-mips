@@ -39,10 +39,16 @@
     <div class="item" style="width: 40%">
       <markdown [data]="item.title" class="item-title"></markdown>
     </div>
-    <div class="item" style="width: 50%">
+
+    <div class="item" style="width: 50%" *ngIf="item.link || item.linkforum || item.linkmd">
       <markdown class="item-description" [data]="item.description"></markdown>
     </div>
-    <div class="newsLinkContainer" >
+
+    <div class="item" style="width: calc(50% + 191px)" *ngIf="!item.link && !item.linkforum && !item.linkmd">
+      <markdown class="item-description" [data]="item.description"></markdown>
+    </div>
+
+    <div class="newsLinkContainer" *ngIf="item.link || item.linkforum || item.linkmd">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
@@ -274,14 +280,21 @@
       <markdown [data]="item.title" class="item-title"></markdown>
     </div>
 
-    <div style="width: 50%" class="item">
+    <div style="width: 50%" class="item" *ngIf="item.link || item.linkforum || item.linkmd">
       <markdown
         [data]="item.description"
         class="item-description-dark"
       ></markdown>
     </div>
 
-    <div class="newsLinkContainer">
+    <div style="width: calc(50% + 191px);" class="item" *ngIf="!item.link && !item.linkforum && !item.linkmd">
+      <markdown
+        [data]="item.description"
+        class="item-description-dark"
+      ></markdown>
+    </div>
+
+    <div class="newsLinkContainer" *ngIf="item.link || item.linkforum || item.linkmd">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
