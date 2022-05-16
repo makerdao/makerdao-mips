@@ -5,8 +5,9 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../../src/mips/entities/mips.entity";
 import { MIPsController } from "../../src/mips/mips.controller";
 import { MIPsModule } from "../../src/mips/mips.module";
-import { mipData, mipData_2 } from "../../src/mips/services/data-test/data";
+import { mipData, mipData_2, mipNumber_1, mipNumber_2 } from "../../src/mips/services/data-test/data";
 import { MIPsService } from "../../src/mips/services/mips.service";
+const faker = require("faker");
 
 describe('MIPsController', () => {
   let module: TestingModule;
@@ -35,6 +36,8 @@ describe('MIPsController', () => {
       ]
     }).compile();
 
+    faker.seed('SimpleGitService');
+
     controller = module.get<MIPsController>(MIPsController);
     mipsService = module.get<MIPsService>(MIPsService);
   });
@@ -58,6 +61,7 @@ describe('MIPsController', () => {
     describe('existing data', () => {
       let mip_1;
       let mip_2;
+      let expectedMip_1;
       let expectedMip_2;
 
       beforeEach(async () => {
@@ -65,6 +69,12 @@ describe('MIPsController', () => {
           ...mipData,
           language: Language.Spanish,
         });
+        expectedMip_1 = {
+          ...mipData,
+          _id: mip_1._id,
+        };
+        delete expectedMip_1.file;
+        delete expectedMip_1.sectionsRaw;
         mip_2 = await mipsService.create({
           ...mipData_2,
           language: Language.English,
@@ -88,7 +98,11 @@ describe('MIPsController', () => {
       });
 
       it('should return an array of mips with one element (using limit)', async () => {
-        const { items: mip } = await controller.findAll('1');
+        const limit = faker.datatype.number({
+          min: 1,
+          max: 30,
+        });
+        const { items: mip } = await controller.findAll(`${limit}`);
 
         expect(mip).toBeDefined();
         expect(mip.length).toEqual(1);
@@ -96,10 +110,18 @@ describe('MIPsController', () => {
       });
 
       it('should return an empty array of mips with one element (using limit and page)', async () => {
-        const { items: mip } = await controller.findAll('1', '2');
+        const limit = faker.datatype.number({
+          min: 1,
+          max: 30,
+        });
+        const page = faker.datatype.number({
+          min: 0,
+          max: 1,
+        });
+        const { items: mip } = await controller.findAll(`${limit}`, `${page}`);
 
         expect(mip).toBeDefined();
-        expect(mip.length).toEqual(0);
+        expect(mip.length).toEqual(page === 0 ? 1 : 0);
       });
 
       it('should return an array of mips with one element (using lang)', async () => {
@@ -111,7 +133,7 @@ describe('MIPsController', () => {
       });
 
       it('should return an array of mips with one element (using search)', async () => {
-        const { items: mip } = await controller.findAll(undefined, undefined, undefined, undefined, undefined, 'MIP1');
+        const { items: mip } = await controller.findAll(undefined, undefined, undefined, undefined, undefined, `MIP${mipNumber_2}`);
 
         expect(mip).toBeDefined();
         expect(mip.length).toEqual(1);
@@ -123,30 +145,30 @@ describe('MIPsController', () => {
           contains: [
             {
               field: 'filename',
-              value: 'MIP1',
+              value: `MIP${mipNumber_2}`,
             }
           ],
           notcontains: [
             {
               field: 'filename',
-              value: 'MIP0',
+              value: `MIP${mipNumber_1}`,
             }
           ],
           notequals: [
             {
               field: 'filename',
-              value: 'MIP0/mip0.md',
+              value: `MIP${mipNumber_1}/mip${mipNumber_1}.md`,
             }
           ],
           equals: [
             {
               field: 'filename',
-              value: 'MIP1/mip1.md',
+              value: `MIP${mipNumber_2}/mip${mipNumber_2}.md`,
             }
           ],
           inarray: [{
             field: 'filename',
-            value: ['MIP1/mip1.md'],
+            value: [`MIP${mipNumber_2}/mip${mipNumber_2}.md`],
           }],
         });
 
