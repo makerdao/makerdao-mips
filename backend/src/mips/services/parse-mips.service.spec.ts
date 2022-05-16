@@ -12,15 +12,31 @@ import {
   pullRequestsCount,
   pullRequestsLast
 } from "../graphql/definitions.graphql";
-import { IGitFile, ISynchronizeData } from "../interfaces/mips.interface";
 import { MIPsModule } from "../mips.module";
-import { components, componentSummary, mipData, mipFile } from "./data-test/data";
+import {
+  components,
+  componentSummary,
+  countMock,
+  edgesMock,
+  gitFileMock,
+  titleParsed,
+  componentSummaryParsed,
+  mipData,
+  mipData_2,
+  mipFile,
+  mipMapMock,
+  mipMock,
+  synchronizeDataMock,
+  totalCountMock, 
+  headingOutComponentSummaryParsed
+} from "./data-test/data";
 import { GithubService } from "./github.service";
 import { MIPsService } from "./mips.service";
 import { ParseMIPsService } from "./parse-mips.service";
 import { PullRequestService } from "./pull-requests.service";
 import { SimpleGitService } from "./simple-git.service";
 const marked = require("marked");
+const faker = require("faker");
 
 jest.mock("fs/promises", () => {
   return {
@@ -34,26 +50,7 @@ describe("Parse MIPs service", () => {
   let module: TestingModule;
   let mongoMemoryServer;
 
-  const mipMock = {
-    filename: 'test',
-    hash: 'test',
-    language: Language.English,
-    file: 'test',
-    _id: 'testId'
-  };
-
-  const synchronizeDataMock: ISynchronizeData = {
-    creates: 1,
-    deletes: 1,
-    updates: 1,
-  };
-
-  const gitFileMock: IGitFile = {
-    ...mipMock,
-    language: Language.English,
-  };
-  const mipMapMock: Map<string, IGitFile> = new Map();
-  mipMapMock.set('test', gitFileMock);
+  
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
@@ -76,6 +73,8 @@ describe("Parse MIPs service", () => {
       ]
     }).compile();
 
+    faker.seed('ParseMIPsService');
+
     service = module.get<ParseMIPsService>(ParseMIPsService);
     configService = module.get<ConfigService>(ConfigService);
   });
@@ -91,11 +90,11 @@ describe("Parse MIPs service", () => {
     SimpleGitService.prototype.pull = jest.fn(() => null);
     SimpleGitService.prototype.getFiles = jest.fn(() => Promise.resolve([gitFileMock]));
     MIPsService.prototype.getAll = jest.fn(() => Promise.resolve(mipMapMock));
-    PullRequestService.prototype.count = jest.fn(() => Promise.resolve(1));
+    PullRequestService.prototype.count = jest.fn(() => Promise.resolve(countMock));
     GithubService.prototype.pullRequests = jest.fn(() => Promise.resolve({
       repository: {
         pullRequests: {
-          totalCount: 2,
+          totalCount: totalCountMock,
         }
       }
     }));
@@ -103,17 +102,17 @@ describe("Parse MIPs service", () => {
       repository: {
         pullRequests: {
           nodes: {
-            edges: ['test']
+            edges: [edgesMock]
           },
         }
       }
     }));
     SimpleGitService.prototype.saveMetaVars = jest.fn(() => Promise.resolve());
-    PullRequestService.prototype.create = jest.fn(() => Promise.resolve(true));
+    PullRequestService.prototype.create = jest.fn(() => Promise.resolve(faker.datatype.boolean()));
     Logger.prototype.log = jest.fn(() => { });
     Logger.prototype.error = jest.fn(() => { });
     MIPsService.prototype.groupProposal = jest.fn(() => Promise.resolve([mipMock]));
-    MIPsService.prototype.setMipsFather = jest.fn(() => Promise.resolve([true]));
+    MIPsService.prototype.setMipsFather = jest.fn(() => Promise.resolve([faker.datatype.boolean()]));
     ParseMIPsService.prototype.updateSubproposalCountField = jest.fn(() => Promise.resolve());
     MIPsService.prototype.deleteManyByIds = jest.fn(() => Promise.resolve());
     MIPsService.prototype.update = jest.fn(() => Promise.resolve(mipMock));
@@ -144,6 +143,7 @@ describe("Parse MIPs service", () => {
         Promise.resolve(synchronizeDataMock)
       );
     });
+
     it('with no existing pull requests', async () => {
       let countPullRequest = 2;
 
@@ -266,7 +266,7 @@ describe("Parse MIPs service", () => {
       expect(GithubService.prototype.pullRequestsLast).toBeCalledTimes(1);
       expect(GithubService.prototype.pullRequestsLast).toBeCalledWith(
         pullRequestsLast,
-        1,
+        totalCountMock - countMock,
       );
       expect(ParseMIPsService.prototype.synchronizeData).toBeCalledTimes(1);
       expect(ParseMIPsService.prototype.synchronizeData).toBeCalledWith(
@@ -277,7 +277,7 @@ describe("Parse MIPs service", () => {
       expect(SimpleGitService.prototype.saveMetaVars).toBeCalledWith();
       expect(PullRequestService.prototype.create).toBeCalledTimes(1);
       expect(PullRequestService.prototype.create).toBeCalledWith({
-        edges: ['test'],
+        edges: [edgesMock],
       });
       expect(Logger.prototype.log).toBeCalledTimes(3);
       expect(Logger.prototype.log).toHaveBeenCalledWith(
@@ -332,7 +332,7 @@ describe("Parse MIPs service", () => {
         mipMock
       );
     });
-    
+
     it('parse new mip', async () => {
       const isNewMIP = true;
       const baseUrl = `${process.cwd()}/${configService.get<string>(
@@ -493,7 +493,7 @@ describe("Parse MIPs service", () => {
       );
 
       expect(result).toEqual(
-        `## Component Summary\n\n`
+        componentSummaryParsed
       );
     });
 
@@ -508,7 +508,7 @@ describe("Parse MIPs service", () => {
       );
 
       expect(result).toEqual(
-        `# MIP0: The Maker Improvement Proposal Framework\n\n`
+        titleParsed
       );
     });
 
@@ -523,7 +523,7 @@ describe("Parse MIPs service", () => {
       );
 
       expect(result).toEqual(
-        'MIP0c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP0c13](mips/details/MIP0#MIP0c13 "smart-Component") subproposals have the following parameters:'
+        headingOutComponentSummaryParsed
       );
     });
   });
@@ -537,7 +537,7 @@ describe("Parse MIPs service", () => {
         [
           {
             hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-            filename: "MIP1/mip1.md",
+            filename: mipData_2.filename,
             language: Language.English
           },
         ],
@@ -566,8 +566,8 @@ describe("Parse MIPs service", () => {
 
     it("should return the full mip parse", async () => {
       const mip = service.parseLexerData(mipFile, {
-        filename: "MIP0/mip0.md",
-        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
+        filename: mipData.filename,
+        hash: mipData.hash,
         language: Language.English
       });
 
@@ -577,7 +577,7 @@ describe("Parse MIPs service", () => {
 
   describe("Parse Preamble", () => {
     it("should return the empty preamble", async () => {
-      const data = "";
+      const data = faker.random.word();
 
       const preamble = service.parsePreamble(data);
       expect(preamble).toMatchObject({});
