@@ -5,6 +5,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { MIPsModule } from "../mips.module";
 import { SimpleGitService } from "./simple-git.service";
+const faker = require("faker");
 
 describe("SimpleGitService", () => {
   let module: TestingModule;
@@ -33,6 +34,8 @@ describe("SimpleGitService", () => {
       ]
     }).compile();
 
+    faker.seed('SimpleGitService');
+
     simpleGitService = module.get(SimpleGitService);
     configService = module.get(ConfigService);
   });
@@ -46,7 +49,7 @@ describe("SimpleGitService", () => {
 
   describe("cloneRepository", () => {
     it("clone repository", async () => {
-      const cloneMessage = 'clone';
+      const cloneMessage = faker.random.word();
 
       const clone = jest.fn(() => {
         return Promise.resolve(cloneMessage);
