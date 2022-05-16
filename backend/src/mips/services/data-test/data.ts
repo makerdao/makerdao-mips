@@ -44,9 +44,9 @@ mipMapMock.set(faker.random.word(), gitFileMock);
 export const edgesMock: string = faker.random.word();
 export const totalCountMock: number = faker.datatype.number();
 export const countMock: number = faker.datatype.number({ min: 1, max: totalCountMock - 1 });
-export const line203Parsed = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
-export const line12Parsed = `## Component Summary ${mipNumber_1}\n\n`;
-export const line0Parsed = `# MIP${mipNumber_1}: ${title}\n\n`;
+export const headingOutComponentSummaryParsed = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
+export const componentSummaryParsed = `## Component Summary ${mipNumber_1}\n\n`;
+export const titleParsed = `# MIP${mipNumber_1}: ${title}\n\n`;
 export const components = [
   {
     cBody: "Defines several concepts that are important for understanding the MIPs process.",
