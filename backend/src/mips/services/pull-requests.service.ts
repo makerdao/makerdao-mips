@@ -23,6 +23,7 @@ export class PullRequestService {
   async aggregate(filename: string): Promise<any> {
     const data = await this.pullRequestDoc
       .aggregate([
+        { $sort : {  createdAt: -1 } },
         { $match: { "files.nodes": { path: filename } } },
         {
           $facet: {
@@ -58,7 +59,7 @@ export class PullRequestService {
             items: {
               $slice: [
                 { $ifNull: [{ $arrayElemAt: ["$items.data", 0] }, []] },
-                -3,
+                3,
               ],
             },
           },

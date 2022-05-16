@@ -250,15 +250,19 @@ The database's technology is MongoDB and the diagram is detailed in the diagram 
 
 ### Data Dictionary
 
-#### Collections
+>This data dictionary describes the fields available in the collections within the DAO database.
+>
+>The database's technology is MongoDB and the diagram can be found in [https://app.diagrams.net/#G13a5oH_PgXQyAGDoU2BEtBJ7kvVfHNsL7](https://app.diagrams.net/#G13a5oH_PgXQyAGDoU2BEtBJ7kvVfHNsL7)
+
+### Collections
 
 | Name |
-| :-------* |
+| :-------- |
 | MIP |
 | PullRequest |
 | Meta |
 
-#### Fields
+### Fields
 
 | Collection | Field Name | Type | Description |
 | :-------- | :-------- | :-------- | :---------------- |

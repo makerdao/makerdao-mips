@@ -155,6 +155,28 @@ export class MIP {
 
   @Prop()
   mipCodeNumber?: string;
+
+  @Prop({
+    type: [String],
+  })
+  sectionsRaw_plain?: string[];
+
+  @Prop({
+    default: "",
+    type: String,
+  })
+  proposal_plain?: string;
+
+  @Prop({
+    type: String,
+  })
+  title_plain?: string;
+
+  @Prop()
+  mipName_plain?: string;
+
+  @Prop()
+  filename_plain?: string;
 }
 
 export class Mips {
@@ -296,6 +318,30 @@ export class Mips {
     required: false,
   })
   mipCodeNumber?: string;
+
+  @ApiProperty({
+    type: [String],
+    required: false,
+  })
+  sectionsRaw_plain?: string[];
+
+  @ApiPropertyOptional({
+    default: "",
+    type: String,
+    required: false,
+  })
+  proposal_plain?: string;
+
+  @ApiPropertyOptional()
+  title_plain?: string;
+
+  @ApiPropertyOptional({
+    required: false,
+  })
+  mipName_plain?: string;
+
+  @ApiProperty()
+  filename_plain?: string;
 }
 
 @Schema()

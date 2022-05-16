@@ -33,6 +33,7 @@
     "graphql": "^15.4.0",
     "graphql-request": "^3.4.0",
     "jison": "^0.4.18",
+    "markdown-to-txt": "^2.0.1",
     "marked": "^2.1.3",
     "mongodb-memory-server": "^8.5.1",
     "mongoose": "^5.13.3",
