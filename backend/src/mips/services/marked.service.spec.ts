@@ -4,12 +4,14 @@ import { Test, TestingModule } from "@nestjs/testing";
 import * as marked from "marked";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { MIPsModule } from "../mips.module";
+import { markedLexerMock, markedMock } from "./data-test/data";
 import { MarkedService } from "./marked.service";
+const faker = require("faker");
 
 jest.mock("marked", () => {
-    const mock = jest.fn(() => 'test');
+    const mock = jest.fn(() => markedMock);
     (mock as any).lexer = () => {
-        return [{ type: "text", value: "test" }];
+        return markedLexerMock;
     };
     return mock;
 });
@@ -40,6 +42,8 @@ describe("MarkedService", () => {
             ]
         }).compile();
 
+        faker.seed('MarkedService');
+
         markedService = module.get(MarkedService);
     });
 
@@ -51,19 +55,19 @@ describe("MarkedService", () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
 
-        marked.lexer = jest.fn(() => [{ type: "text", value: "test" }]);
+        marked.lexer = jest.fn(() => markedLexerMock);
     });
-    
+
     jest.setTimeout(3 * 60 * 1000);
 
     describe("markedLexer", () => {
         it("divide into tokens", async () => {
-            const data = "test";
-            
+            const data = faker.random.word();
+
             const result = markedService.markedLexer(data);
 
             expect(result).toBeDefined();
-            expect(result).toEqual([{ type: "text", value: "test" }]);
+            expect(result).toEqual(markedLexerMock);
             expect(marked.lexer).toHaveBeenCalledTimes(1);
             expect(marked.lexer).toHaveBeenCalledWith(data);
         });
@@ -71,12 +75,12 @@ describe("MarkedService", () => {
 
     describe('markedHtml', () => {
         it("convert to html", async () => {
-            const data = "test";
+            const data = faker.random.word();
 
             const result = markedService.markedHtml(data);
 
             expect(result).toBeDefined();
-            expect(result).toEqual('test');
+            expect(result).toEqual(markedMock);
             expect(marked).toHaveBeenCalledTimes(1);
             expect(marked).toHaveBeenCalledWith(data);
         });
