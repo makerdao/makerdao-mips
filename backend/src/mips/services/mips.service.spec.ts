@@ -6,6 +6,7 @@ import { Language, MIP } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
 import { mipData } from "./data-test/data";
 import { MIPsService } from "./mips.service";
+const faker = require("faker");
 
 describe("MIPsService", () => {
     let module: TestingModule;
@@ -15,8 +16,6 @@ describe("MIPsService", () => {
     let sort;
     let select;
     let find;
-
-    const mipMock: MIP = mipData;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -39,6 +38,8 @@ describe("MIPsService", () => {
             ]
         }).compile();
 
+        faker.seed('MIPsService');
+
         mipsService = module.get(MIPsService);
     });
 
@@ -50,7 +51,7 @@ describe("MIPsService", () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
 
-        exec = jest.fn(async () => [mipMock]);
+        exec = jest.fn(async () => [mipData]);
         sort = jest.fn(() => ({ exec }));
         select = jest.fn(() => ({ sort }));
         find = jest.fn(() => ({ select }));
@@ -61,11 +62,11 @@ describe("MIPsService", () => {
 
     describe('findOneByProposal', () => {
         it("findOneByProposal", async () => {
-            const proposal = "test";
+            const proposal = faker.random.word();
 
             const result = await mipsService.findOneByProposal(proposal);
 
-            expect(result).toEqual([mipMock]);
+            expect(result).toEqual([mipData]);
             expect(find).toHaveBeenCalledTimes(1);
             expect(find).toHaveBeenCalledWith({
                 proposal_plain: proposal,
