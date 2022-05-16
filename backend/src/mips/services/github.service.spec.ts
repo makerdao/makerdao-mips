@@ -1,11 +1,13 @@
 import { Env } from "@app/env";
-import { ConfigService, ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
-import { GraphQLClient, RequestDocument } from "graphql-request";
+import { GraphQLClient } from "graphql-request";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { MIPsModule } from "../mips.module";
+import { pullRequestsMock, requestGraphql } from "./data-test/data";
 import { GithubService } from "./github.service";
+const faker = require("faker");
 
 
 describe("GithubService", () => {
@@ -13,11 +15,6 @@ describe("GithubService", () => {
     let module: TestingModule;
     let configService: ConfigService;
     let mongoMemoryServer;
-
-    const pullRequestsMock: RequestDocument = {
-        definitions: [],
-        kind: "Document",
-    };
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -39,6 +36,8 @@ describe("GithubService", () => {
             ]
         }).compile();
 
+        faker.seed('GithubService');
+
         githubService = module.get<GithubService>(GithubService);
         configService = module.get<ConfigService>(ConfigService);
     });
@@ -51,7 +50,7 @@ describe("GithubService", () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
 
-        GraphQLClient.prototype.request = jest.fn(async () => "test" as any);
+        GraphQLClient.prototype.request = jest.fn(async () => requestGraphql as any);
     });
 
     jest.setTimeout(3 * 60 * 1000);
@@ -61,7 +60,7 @@ describe("GithubService", () => {
             const result = await githubService.pullRequests(pullRequestsMock);
 
             expect(result).toBeDefined();
-            expect(result).toEqual("test");
+            expect(result).toEqual(requestGraphql);
             expect(GraphQLClient.prototype.request).toHaveBeenCalledTimes(1);
             expect(GraphQLClient.prototype.request).toHaveBeenCalledWith(pullRequestsMock, {
                 name: configService.get<string>(
@@ -74,7 +73,7 @@ describe("GithubService", () => {
         });
 
         it("from last one(after)", async () => {
-            const after = "test";
+            const after = faker.random.word();
 
             const result = await githubService.pullRequests(
                 pullRequestsMock,
@@ -82,7 +81,7 @@ describe("GithubService", () => {
             );
 
             expect(result).toBeDefined();
-            expect(result).toEqual("test");
+            expect(result).toEqual(requestGraphql);
             expect(GraphQLClient.prototype.request).toHaveBeenCalledTimes(1);
             expect(GraphQLClient.prototype.request).toHaveBeenCalledWith(pullRequestsMock, {
                 name: configService.get<string>(
@@ -98,14 +97,15 @@ describe("GithubService", () => {
 
     describe('pullRequestsLast', () => {
         it("get last pull request", async () => {
-            const last = 2;
+            const last = faker.datatype.number();
+
             const result = await githubService.pullRequestsLast(
                 pullRequestsMock,
                 last,
             );
 
             expect(result).toBeDefined();
-            expect(result).toEqual("test");
+            expect(result).toEqual(requestGraphql);
             expect(GraphQLClient.prototype.request).toHaveBeenCalledTimes(1);
             expect(GraphQLClient.prototype.request).toHaveBeenCalledWith(pullRequestsMock, {
                 name: configService.get<string>(
