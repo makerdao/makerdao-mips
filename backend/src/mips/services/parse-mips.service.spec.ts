@@ -31,9 +31,17 @@ import {
   headingOutComponentSummaryParsed,
   mipWithoutNameMock,
   filesGitMock,
-  mapKeyMock
+  mapKeyMock,
+  referenceMock,
+  preambleMock,
+  paragraphSummaryMock,
+  mipNumber_2,
+  markedListMock,
+  mipNumber_1,
+  sectionNameMock
 } from "./data-test/data";
 import { GithubService } from "./github.service";
+import { MarkedService } from "./marked.service";
 import { MIPsService } from "./mips.service";
 import { ParseMIPsService } from "./parse-mips.service";
 import { PullRequestService } from "./pull-requests.service";
@@ -47,13 +55,13 @@ jest.mock("fs/promises", () => {
   };
 });
 
-describe("Parse MIPs service", () => {
+describe("ParseMIPsService", () => {
   let service: ParseMIPsService;
   let configService: ConfigService;
   let module: TestingModule;
   let mongoMemoryServer;
 
-
+  let countPreambleDefined = 2;
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
@@ -120,6 +128,7 @@ describe("Parse MIPs service", () => {
     MIPsService.prototype.deleteManyByIds = jest.fn(() => Promise.resolve());
     MIPsService.prototype.update = jest.fn(() => Promise.resolve(mipMock));
     MIPsService.prototype.insertMany = jest.fn();
+    MarkedService.prototype.markedLexer = jest.fn(() => markedListMock);
     console.log = jest.fn();
   });
 
@@ -648,50 +657,645 @@ describe("Parse MIPs service", () => {
     });
   });
 
-  describe("Syncronize data", () => {
-    it("should return the empty mip parse", async () => {
-      service.baseDir = `${process.cwd()}/src/mips/services/data-test`;
-      const files = new Map();
-
-      const sinchronizeData = await service.synchronizeData(
-        [
+  describe('parseReferenceList', () => {
+    it('parse reference token list', async () => {
+      const items = [{
+        tokens: [{
+          tokens: [
           {
-            hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-            filename: mipData_2.filename,
-            language: Language.English
+            href: referenceMock.link,
+            text: referenceMock.name,
           },
-        ],
-        files
-      );
+          {
+            text: faker.random.word(),
+          }
+          ]
+        }],
+      }];
 
-      const result = { creates: 1, deletes: 0, updates: 0 };
-      expect(sinchronizeData).toMatchObject(result);
+      const result = (service as any).parseReferenceList(items);
+
+      expect(result).toEqual([{
+        name: referenceMock.name,
+        link: referenceMock.link,
+      }]);
     });
   });
 
-  describe("Parse Lexer data", () => {
-    it("should return the empty mip parse", async () => {
-      const mip = service.parseLexerData("", {
-        filename: "MIP0/mip0.md",
-        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-        language: Language.English
-      });
+  describe('parseReferencesTokens', () => {
+    it('parse reference tokens when is a text', async () => {
+      const item = {
+        type: 'text',
+        text: referenceMock.name,
+        href: referenceMock.link,
+      };
 
-      expect(mip).toMatchObject({
-        filename: "MIP0/mip0.md",
-        hash: "df06e173387edf0bc6261ff49ccd165df03c785b",
-        file: "",
-      });
+      const result = (service as any).parseReferencesTokens(item);
+
+      expect(result).toEqual([{
+        name: referenceMock.name,
+        link: "",
+      }]);
     });
 
-    it("should return the full mip parse", async () => {
-      const mip = service.parseLexerData(mipFile, {
-        filename: mipData.filename,
-        hash: mipData.hash,
-        language: Language.English
-      });
+    it('parse reference tokens when is a link', async () => {
+      const item = {
+        type: 'link',
+        text: referenceMock.name,
+        href: referenceMock.link,
+      };
 
-      expect(mip).toMatchObject(mipData);
+      const result = (service as any).parseReferencesTokens(item);
+
+      expect(result).toEqual([referenceMock]);
+    });
+
+    it('parse reference tokens when have tokens', async () => {
+      const item = {
+        tokens: [{
+          text: referenceMock.name,
+          href: referenceMock.link,
+      }],
+      };
+
+      const result = (service as any).parseReferencesTokens(item);
+
+      expect(result).toEqual([referenceMock]);
+    });
+  });
+
+  describe('parseReferences',() => {
+    beforeEach(() => {
+      jest.spyOn(ParseMIPsService.prototype as any, 'parseReferenceList')
+      .mockReturnValueOnce([referenceMock]);
+      jest.spyOn(ParseMIPsService.prototype as any, 'parseReferencesTokens')
+      .mockReturnValueOnce([referenceMock]);
+    });
+
+    it('next type is a list', () => {
+      const item = {
+        type: 'list',
+        items: [{
+          tokens: [{
+            tokens: [{
+              text: referenceMock.name,
+              href: referenceMock.link,
+            }],
+          }],
+        }],
+      };
+
+      const result = (service as any).parseReferences(item);
+
+      expect(result).toEqual([referenceMock]);
+      expect((ParseMIPsService.prototype as any).parseReferenceList).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parseReferenceList).toBeCalledWith(item.items);
+      expect((ParseMIPsService.prototype as any).parseReferencesTokens).not.toBeCalled();
+    });
+
+    it('next type is a single item', () => {
+      const item = {
+        tokens: [{
+          tokens: [{
+            text: referenceMock.name,
+            href: referenceMock.link,
+          }],
+        }],
+      };
+
+      const result = (service as any).parseReferences(item);
+
+      expect(result).toEqual([referenceMock]);
+      expect((ParseMIPsService.prototype as any).parseReferencesTokens).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parseReferencesTokens).toBeCalledWith(item.tokens[0]);
+      expect((ParseMIPsService.prototype as any).parseReferenceList).not.toBeCalled();
+    });
+
+    it('next type has nothing', () => {
+      const item = {};
+
+      const result = (service as any).parseReferences(item);
+
+      expect(result).toEqual([]);
+      expect((ParseMIPsService.prototype as any).parseReferencesTokens).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseReferenceList).not.toBeCalled();
+    });
+  });
+
+  describe('parseParagraphSummary', () => {
+    it('parse list of paragraph summary', () => {
+      const list = [{
+        type: 'list',
+        depth: faker.random.number({
+          min: 3
+        }),
+        raw: faker.random.word(),
+      }];
+  
+      const result = (service as any).parseParagraphSummary(list);
+  
+      expect(result).toEqual(list[0].raw);
+    });
+  });
+
+  describe('parseNotTitleHeading', () => {
+    beforeEach(() => {
+      jest.spyOn(ParseMIPsService.prototype as any, 'parsePreamble')
+        .mockReturnValueOnce(preambleMock);
+      jest.spyOn(ParseMIPsService.prototype as any, 'setSubproposalValue')
+        .mockReturnValueOnce(countMock);
+      jest.spyOn(ParseMIPsService.prototype as any, 'parseParagraphSummary')
+        .mockReturnValueOnce(paragraphSummaryMock);
+      jest.spyOn(ParseMIPsService.prototype as any, 'parseReferences')
+        .mockReturnValueOnce([referenceMock]);
+    });
+
+    it('parse preamble', () => {
+      const list = [
+        {
+          text: 'Preamble',
+          raw: faker.random.word(),
+        },
+        {
+          text: faker.random.word(),
+          raw: faker.random.word(),
+        }
+      ];
+      const item = {
+        ...filesGitMock[0],
+        filename: `${faker.random.word()}-`,
+      };
+
+      const result = (service as any).parseNotTitleHeading(
+        list,
+        mipData_2,
+        item,
+      );
+
+      expect(result).toEqual({
+        mip: {
+          ...mipData_2,
+          mipName: preambleMock.mipName,
+          subproposal: countMock,
+        },
+        preamble: {
+          ...preambleMock,
+          mip: mipNumber_2,
+        },
+        isOnComponentSummary: false,
+      });
+      expect((ParseMIPsService.prototype as any).parsePreamble).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parsePreamble).toBeCalledWith(list[1].text, true);
+      expect((ParseMIPsService.prototype as any).setSubproposalValue).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).setSubproposalValue).toBeCalledWith(preambleMock.mipName);
+      expect((ParseMIPsService.prototype as any).parseParagraphSummary).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseReferences).not.toBeCalled();
+    });
+
+    it('parse subproposal preamble', () => {
+      const list = [
+        {
+          text: 'Preamble',
+          raw: faker.random.word(),
+        },
+        {
+          text: faker.random.word(),
+          raw: faker.random.word(),
+        }
+      ];
+
+      const result = (service as any).parseNotTitleHeading(
+        list,
+        mipData_2,
+        filesGitMock[0],
+      );
+
+      expect(result).toEqual({
+        mip: mipData_2,
+        preamble: preambleMock,
+        isOnComponentSummary: false,
+      });
+      expect((ParseMIPsService.prototype as any).parsePreamble).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parsePreamble).toBeCalledWith(list[1].text);
+      expect((ParseMIPsService.prototype as any).setSubproposalValue).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseParagraphSummary).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseReferences).not.toBeCalled();
+    });
+
+    it('parse sentence summary', () => {
+      const list = [
+        {
+          text: 'Sentence Summary',
+          raw: faker.random.word(),
+        },
+        {
+          text: faker.random.word(),
+          raw: faker.random.word(),
+        }
+      ];
+
+      const result = (service as any).parseNotTitleHeading(
+        list,
+        mipData_2,
+        filesGitMock,
+      );
+
+      expect(result).toEqual({
+        mip: {
+          ...mipData_2,
+          sentenceSummary: list[1].raw,
+        },
+        preamble: undefined,
+        isOnComponentSummary: false,
+      });
+      expect((ParseMIPsService.prototype as any).parsePreamble).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).setSubproposalValue).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseParagraphSummary).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseReferences).not.toBeCalled();
+    });
+
+    it('parse paragraph summary', () => {
+      const list = [
+        {
+          text: 'Paragraph Summary',
+          raw: faker.random.word(),
+        },
+        {
+          text: faker.random.word(),
+          raw: faker.random.word(),
+        }
+      ];
+
+      const result = (service as any).parseNotTitleHeading(
+        list,
+        mipData_2,
+        filesGitMock,
+      );
+
+      expect(result).toEqual({
+        mip: {
+          ...mipData_2,
+          paragraphSummary: paragraphSummaryMock,
+        },
+        preamble: undefined,
+        isOnComponentSummary: false,
+      });
+      expect((ParseMIPsService.prototype as any).parseParagraphSummary).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parseParagraphSummary).toBeCalledWith([list[1]]);
+      expect((ParseMIPsService.prototype as any).parsePreamble).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).setSubproposalValue).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseReferences).not.toBeCalled();
+    });
+
+    it('parse references', () => {
+      const list = [
+        {
+          text: 'References',
+          raw: faker.random.word(),
+        },
+        {
+          text: faker.random.word(),
+          raw: faker.random.word(),
+        }
+      ];
+
+      const result = (service as any).parseNotTitleHeading(
+        list,
+        mipData_2,
+        filesGitMock,
+      );
+
+      expect(result).toEqual({
+        mip: {
+          ...mipData_2,
+          references: [referenceMock],
+        },
+        preamble: undefined,
+        isOnComponentSummary: false,
+      });
+      expect((ParseMIPsService.prototype as any).parseReferences).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parseReferences).toBeCalledWith(list[1]);
+      expect((ParseMIPsService.prototype as any).parsePreamble).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).setSubproposalValue).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseParagraphSummary).not.toBeCalled();
+    });
+
+    it('parse other headings', () => {
+      const list = [
+        {
+          text: 'Component Summary Section',
+          raw: faker.random.word(),
+        },
+      ];
+
+      const result = (service as any).parseNotTitleHeading(
+        list,
+        mipData_2,
+        filesGitMock,
+      );
+
+      expect(result).toEqual({
+        mip: mipData_2,
+        preamble: undefined,
+        isOnComponentSummary: true,
+      });
+      expect((ParseMIPsService.prototype as any).parsePreamble).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).setSubproposalValue).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseParagraphSummary).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseReferences).not.toBeCalled();
+    });
+  });
+
+  describe('extractMipNumberFromMipName', () => {
+    it('extract mip number', async () => {
+      const result = (service as any).extractMipNumberFromMipName(`${totalCountMock}`);
+
+      expect(result).toEqual(`000${totalCountMock}`);
+    });
+
+    it('extract mip number', async () => {
+      const result = (service as any).extractMipNumberFromMipName(mapKeyMock);
+
+      expect(result).toEqual(mapKeyMock);
+    });
+  });
+
+
+  describe("parseLexerData", () => {
+    beforeEach(() => {
+      jest.spyOn(ParseMIPsService.prototype, 'getComponentsSection')
+      .mockReturnValueOnce(componentSummary);
+      jest.spyOn(ParseMIPsService.prototype, 'getDataFromComponentText')
+      .mockReturnValueOnce(components);
+      jest.spyOn(ParseMIPsService.prototype, 'parseMipsNamesComponentsSubproposals')
+      .mockReturnValueOnce(componentSummaryParsed);
+      jest.spyOn(ParseMIPsService.prototype as any, 'parseNotTitleHeading')
+      .mockImplementationOnce((list, mip, item) => {
+        if(countPreambleDefined > 0){
+          countPreambleDefined--;
+          return {
+            mip: mip,
+            preamble: preambleMock,
+            isOnComponentSummary: false,
+          };
+        }
+        return {
+        preamble: null,
+        mip,
+        isOnComponentSummary: false,
+      };
+    });
+      jest.spyOn(ParseMIPsService.prototype as any, 'extractMipNumberFromMipName')
+      .mockReturnValueOnce(`${mipNumber_1}`);
+    });
+
+    it('parse lexer data', () => {
+      const result = service.parseLexerData(
+        mipFile,
+        filesGitMock[0],
+      );
+      
+      expect(result).toEqual({
+        mipName: `MIP${mipNumber_1}`,
+        hash: filesGitMock[0].hash,
+        file: mipFile,
+        language: filesGitMock[0].language,
+        filename: filesGitMock[0].filename,
+        sections: [
+          {
+            depth: markedListMock[0].depth,
+            heading: markedListMock[0].text,
+          },
+          {
+            depth: markedListMock[1].depth,
+            heading: markedListMock[1].text,
+            mipComponent: sectionNameMock,
+          },
+        ],
+        sectionsRaw: [componentSummaryParsed, undefined],
+        references: [],
+        components,
+        author: preambleMock.author,
+        contributors: preambleMock.contributors,
+        dateProposed: preambleMock.dateProposed,
+        dateRatified: preambleMock.dateRatified,
+        dependencies: preambleMock.dependencies,
+        extra: preambleMock.extra,
+        mip: preambleMock.mip,
+        replaces: preambleMock.replaces,
+        status: preambleMock.status,
+        title: markedListMock[0].text,
+        types: preambleMock.types,
+        tags: preambleMock.tags,
+        subproposalsCount: 0,
+        votingPortalLink: preambleMock.votingPortalLink,
+        forumLink: preambleMock.forumLink,
+        mipCodeNumber: `${mipNumber_1}`,
+      });
+      expect(ParseMIPsService.prototype.getComponentsSection).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.getComponentsSection).toBeCalledWith(mipFile);
+      expect(ParseMIPsService.prototype.getDataFromComponentText).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.getDataFromComponentText).toBeCalledWith(componentSummary);
+      expect((ParseMIPsService.prototype as any).parseNotTitleHeading).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parseNotTitleHeading).toBeCalledWith(
+        [markedListMock[1]],
+        {
+          hash: filesGitMock[0].hash,
+          file: mipFile,
+          language: filesGitMock[0].language,
+          filename: filesGitMock[0].filename,
+          sections: [
+            {
+              depth: markedListMock[0].depth,
+              heading: markedListMock[0].text,
+            },
+            {
+              depth: markedListMock[1].depth,
+              heading: markedListMock[1].text,
+              mipComponent: sectionNameMock,
+            },
+          ],
+          sectionsRaw: [],
+          references: [],
+          mipName: 'MIP' + mipNumber_1,
+          components,
+        },
+        filesGitMock[0],
+      );
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toBeCalledTimes(2);
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toHaveBeenCalledWith(
+        markedListMock[0],
+        false,
+      );
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toHaveBeenCalledWith(
+        markedListMock[1],
+        false,
+      );
+      expect((ParseMIPsService.prototype as any).extractMipNumberFromMipName).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).extractMipNumberFromMipName).toBeCalledWith('MIP' + mipNumber_1);
+      expect(Logger.prototype.log).not.toBeCalled();
+    });
+
+    it('MIP not inside the MIP folder', () => {
+      try {
+        service.parseLexerData(
+          mipFile,
+          {
+            ...filesGitMock[0],
+            filename : faker.random.word(),
+          },
+        );
+      } catch (error) {
+        expect(error.message).toEqual("MIP filename not inside a MIP folder");
+      }
+
+      expect(ParseMIPsService.prototype.getComponentsSection).not.toBeCalled();
+      expect(ParseMIPsService.prototype.getDataFromComponentText).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseNotTitleHeading).not.toBeCalled();
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).extractMipNumberFromMipName).not.toBeCalled();
+      expect(Logger.prototype.log).not.toBeCalled();
+    });
+
+    it('filename includes -', () => {
+      const filename: string = `MIP${mipNumber_1}/MIP${mipNumber_1}-.md`;
+      const result = service.parseLexerData(
+        mipFile,
+        {
+          ...filesGitMock[0],
+          filename,
+        },
+      );
+      
+      expect(result).toEqual({
+        proposal: `MIP${mipNumber_1}`,
+        hash: filesGitMock[0].hash,
+        file: mipFile,
+        language: filesGitMock[0].language,
+        filename,
+        sections: [
+          {
+            depth: markedListMock[0].depth,
+            heading: markedListMock[0].text,
+          },
+          {
+            depth: markedListMock[1].depth,
+            heading: markedListMock[1].text,
+            mipComponent: sectionNameMock,
+          },
+        ],
+        sectionsRaw: [componentSummaryParsed, undefined],
+        references: [],
+        author: preambleMock.author,
+        contributors: preambleMock.contributors,
+        dateProposed: preambleMock.dateProposed,
+        dateRatified: preambleMock.dateRatified,
+        dependencies: preambleMock.dependencies,
+        extra: preambleMock.extra,
+        mip: preambleMock.mip,
+        replaces: preambleMock.replaces,
+        status: preambleMock.status,
+        title: markedListMock[0].text,
+        types: preambleMock.types,
+        tags: preambleMock.tags,
+        subproposalsCount: 0,
+        votingPortalLink: preambleMock.votingPortalLink,
+        forumLink: preambleMock.forumLink,
+        mipCodeNumber: `${mipNumber_1}`,
+      });
+      expect(ParseMIPsService.prototype.getComponentsSection).not.toBeCalled();
+      expect(ParseMIPsService.prototype.getDataFromComponentText).not.toBeCalled();
+      expect((ParseMIPsService.prototype as any).parseNotTitleHeading).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parseNotTitleHeading).toBeCalledWith(
+        [markedListMock[1]],
+        {
+          hash: filesGitMock[0].hash,
+          file: mipFile,
+          language: filesGitMock[0].language,
+          filename,
+          sections: [
+            {
+              depth: markedListMock[0].depth,
+              heading: markedListMock[0].text,
+            },
+            {
+              depth: markedListMock[1].depth,
+              heading: markedListMock[1].text,
+              mipComponent: sectionNameMock,
+            },
+          ],
+          sectionsRaw: [],
+          references: [],
+          proposal: `MIP${mipNumber_1}`,
+        },
+        {
+          ...filesGitMock[0],
+          filename,
+        },
+      );
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toBeCalledTimes(2);
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toHaveBeenCalledWith(
+        markedListMock[0],
+        false,
+      );
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toHaveBeenCalledWith(
+        markedListMock[1],
+        false,
+      );
+      expect((ParseMIPsService.prototype as any).extractMipNumberFromMipName).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).extractMipNumberFromMipName).toBeCalledWith(undefined);
+      expect(Logger.prototype.log).not.toBeCalled();
+    });
+
+    it('preamble empty', () => {
+      const result = service.parseLexerData(
+        mipFile,
+        filesGitMock[0],
+      );
+      
+      expect(result).toEqual(undefined);
+      expect(ParseMIPsService.prototype.getComponentsSection).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.getComponentsSection).toBeCalledWith(mipFile);
+      expect(ParseMIPsService.prototype.getDataFromComponentText).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.getDataFromComponentText).toBeCalledWith(componentSummary);
+      expect((ParseMIPsService.prototype as any).parseNotTitleHeading).toBeCalledTimes(1);
+      expect((ParseMIPsService.prototype as any).parseNotTitleHeading).toBeCalledWith(
+        [markedListMock[1]],
+        {
+          hash: filesGitMock[0].hash,
+          file: mipFile,
+          language: filesGitMock[0].language,
+          filename: filesGitMock[0].filename,
+          sections: [
+            {
+              depth: markedListMock[0].depth,
+              heading: markedListMock[0].text,
+            },
+            {
+              depth: markedListMock[1].depth,
+              heading: markedListMock[1].text,
+              mipComponent: sectionNameMock,
+            },
+          ],
+          sectionsRaw: [],
+          references: [],
+          mipName: 'MIP' + mipNumber_1,
+          components,
+        },
+        filesGitMock[0],
+      );
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toBeCalledTimes(2);
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toHaveBeenCalledWith(
+        markedListMock[0],
+        false,
+      );
+      expect(ParseMIPsService.prototype.parseMipsNamesComponentsSubproposals).toHaveBeenCalledWith(
+        markedListMock[1],
+        false,
+      );
+      expect(Logger.prototype.log).toBeCalledTimes(1);
+      expect(Logger.prototype.log).toBeCalledWith(`Preamble empty ==> ${JSON.stringify(filesGitMock[0])}`);
+      expect((ParseMIPsService.prototype as any).extractMipNumberFromMipName).not.toBeCalled();
     });
   });
 
