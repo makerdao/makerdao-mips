@@ -1,5 +1,5 @@
-import { Language, MIP } from "@app/mips/entities/mips.entity";
-import { IGitFile, ISynchronizeData } from "@app/mips/interfaces/mips.interface";
+import { Language, MIP, Reference } from "@app/mips/entities/mips.entity";
+import { IGitFile, IPreamble, ISynchronizeData } from "@app/mips/interfaces/mips.interface";
 import { RequestDocument } from "graphql-request";
 const faker = require("faker");
 
@@ -10,7 +10,7 @@ export const mipNumber_2 = faker.datatype.number({ min: 1, max: 10 });
 
 const filename = `MIP${mipNumber_1}/MIP${mipNumber_1}.md`;
 const sentenceSummary = faker.lorem.paragraph();
-const paragraphSummary = faker.lorem.paragraph();
+export const paragraphSummaryMock = faker.lorem.paragraph();
 const author = [`${faker.name.firstName()} ${faker.name.lastName()}`, `${faker.name.firstName()} ${faker.name.lastName()}`,];
 const contributors = [faker.random.word()];
 const dateProposed = faker.date.past('YYYY-MM-DD').toString();
@@ -43,20 +43,37 @@ export const mipMapMock: Map<string, IGitFile> = new Map();
 export const mapKeyMock = faker.random.word();
 mipMapMock.set(mapKeyMock, gitFileMock);
 export const edgesMock: string = faker.random.word();
-export const totalCountMock: number = faker.datatype.number();
+export const totalCountMock: number = faker.datatype.number({min: 2, max: 4});
 export const countMock: number = faker.datatype.number({ min: 1, max: totalCountMock - 1 });
 export const headingOutComponentSummaryParsed = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
 export const componentSummaryParsed = `## Component Summary ${mipNumber_1}\n\n`;
 export const titleParsed = `# MIP${mipNumber_1}: ${title}\n\n`;
 export const filesGitMock: IGitFile[] = [{
   ...mipMock,
-  filename: `${faker.random.word()}.md`,
+  filename,
 }];
 export const mipWithoutNameMock = {
   ...mipMock,
   mip: undefined,
   mipName: undefined,
 };
+export const referenceMock: Reference = {
+  link: faker.internet.url(),
+  name: faker.random.word(),
+};
+export const sectionNameMock = `MIP${mipNumber_1}c${faker.datatype.number({min: 1, max: 30})}`;
+export const markedListMock: any[] = [
+  {
+    type: 'heading',
+    depth: 1,
+    text: faker.random.word(),
+  },
+  {
+    type: 'heading',
+    depth: 2,
+    text: `${sectionNameMock}:`,
+  }
+];
 export const components = [
   {
     cBody: "Defines several concepts that are important for understanding the MIPs process.",
@@ -174,7 +191,7 @@ export const mipFile =
   `d)**  \n**[Technical-MIP-Template.md](Technical-MIP-Template.md)**  \n` +
   `**[MIP${mipNumber_1}c12-Subproposal-Template.md](MIP${mipNumber_1}c12-Subproposal-Template.md)**` +
   `  \n**[MIP${mipNumber_1}c13-Subproposal-Template.md](MIP${mipNumber_1}c13-Subproposal-Template.m` +
-  `d)**  \n\n## Sentence Summary\n\n${sentenceSummary}\n\n## Paragraph Summary\n\n${paragraphSummary}\n\n## Compo` +
+  `d)**  \n\n## Sentence Summary\n\n${sentenceSummary}\n\n## Paragraph Summary\n\n${paragraphSummaryMock}\n\n## Compo` +
   `nent Summary ${mipNumber_1}\n\n**MIP${mipNumber_1}c1: Definitions of the Maker Improvement Proposa` +
   `l Framework**  \nDefines several concepts that are important for under` +
   `standing the MIPs process.\n\n**MIP${mipNumber_1}c2: Core Principles**  \nDiscusses` +
@@ -633,7 +650,7 @@ export const mipData = {
     `\n` +
     `## Paragraph Summary\n` +
     `\n` +
-    `${paragraphSummary}\n` +
+    `${paragraphSummaryMock}\n` +
     `\n` +
     `## Component Summary ${mipNumber_1}\n` +
     `\n` +
@@ -1061,7 +1078,7 @@ export const mipData = {
     `---`,
   filename,
   sentenceSummary,
-  paragraphSummary,
+  paragraphSummary: paragraphSummaryMock,
   author,
   contributors,
   dateProposed,
@@ -1074,7 +1091,13 @@ export const mipData = {
   types,
 };
 
-// MIPsController (integration tests) and ParseMIPsService (unit tests)
+// ParseMIPsService (unit tests)
+export const preambleMock: IPreamble = {
+  ...mipData,
+  mipName: faker.random.word(),
+};
+
+// MIPsController (integration tests) and 
 export const mipData_2: MIP = {
   ...mipData,
   mip: 1,
@@ -1082,7 +1105,7 @@ export const mipData_2: MIP = {
   sentenceSummary: `MIP${mipNumber_2} ${faker.lorem.words(5)}`,
   title: `${faker.lorem.words(5)} v2`,
   references: [],
-  proposal: "",
+  proposal: `MIP${mipNumber_2}`,
   subproposal: -1,
   tags: ['test'],
   extra: [],
