@@ -6,13 +6,16 @@ import { Language, MIP } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
 import { mipData } from "./data-test/data";
 import { MIPsService } from "./mips.service";
+const faker = require("faker");
 
 describe("MIPsService", () => {
     let module: TestingModule;
     let mipsService: MIPsService;
     let mongoMemoryServer;
-
-    const mipMock: MIP = mipData;
+    let exec;
+    let sort;
+    let select;
+    let find;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -25,7 +28,7 @@ describe("MIPsService", () => {
                 }),
                 MongooseModule.forRootAsync({
                     imports: [ConfigModule],
-                    useFactory: async (configService: ConfigService) => ({
+                    useFactory: async () => ({
                         uri: mongoMemoryServer.getUri(),
                         useCreateIndex: true,
                         useFindAndModify: false,
@@ -35,61 +38,50 @@ describe("MIPsService", () => {
             ]
         }).compile();
 
+        faker.seed('MIPsService');
+
         mipsService = module.get(MIPsService);
+    });
+
+    it("should be defined", () => {
+        expect(mipsService).toBeDefined();
     });
 
     beforeEach(async () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
+
+        exec = jest.fn(async () => [mipData]);
+        sort = jest.fn(() => ({ exec }));
+        select = jest.fn(() => ({ sort }));
+        find = jest.fn(() => ({ select }));
+        (mipsService as any).mipsDoc = { find };
     });
 
     jest.setTimeout(3 * 60 * 1000);
 
-    it("findOneByProposal", async () => {
-        const proposal = "test";
+    describe('findOneByProposal', () => {
+        it("findOneByProposal", async () => {
+            const proposal = faker.random.word();
 
-        const exec = jest.fn(async () => {
-            return [mipMock];
+            const result = await mipsService.findOneByProposal(proposal);
+
+            expect(result).toEqual([mipData]);
+            expect(find).toHaveBeenCalledTimes(1);
+            expect(find).toHaveBeenCalledWith({
+                proposal_plain: proposal,
+                language: Language.English
+            });
+            expect(select).toHaveBeenCalledTimes(1);
+            expect(select).toHaveBeenCalledWith([
+                "title",
+                "mipName"
+            ]);
+            expect(sort).toHaveBeenCalledTimes(1);
+            expect(sort).toHaveBeenCalledWith("mip subproposal");
+            expect(exec).toHaveBeenCalledTimes(1);
+            expect(exec).toHaveBeenCalledWith();
         });
-
-        const sort = jest.fn((arg) => {
-            return {
-                exec,
-            };
-        });
-
-        const select = jest.fn((arg) => {
-            return {
-                sort,
-            };
-        });
-
-        const find = jest.fn((arg) => {
-            return {
-                select,
-            };
-        });
-
-        (mipsService as any).mipsDoc = {
-            find,
-        };
-
-        const result = await mipsService.findOneByProposal(proposal);
-        expect(result).toEqual([mipMock]);
-        expect(find).toHaveBeenCalledTimes(1);
-        expect(find).toHaveBeenCalledWith({
-            proposal_plain: proposal,
-            language: Language.English
-        });
-        expect(select).toHaveBeenCalledTimes(1);
-        expect(select).toHaveBeenCalledWith([
-            "title",
-            "mipName"
-        ]);
-        expect(sort).toHaveBeenCalledTimes(1);
-        expect(sort).toHaveBeenCalledWith("mip subproposal");
-        expect(exec).toHaveBeenCalledTimes(1);
-        expect(exec).toHaveBeenCalledWith();
     });
 
     afterAll(async () => {

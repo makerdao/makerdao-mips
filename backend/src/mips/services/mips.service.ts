@@ -352,18 +352,21 @@ export class MIPsService {
   addSearcheableFields(item): any {
     for (const key in item) {
       const value = item[key];
-      switch (key) {
-        case "mipName":
-        case "filename":
-        case "proposal":
-        case "title":
-          item[`${key}_plain`] = markdownToTxt(value);
-          break;
-        case "sectionsRaw":
-          item['sectionsRaw_plain'] = [];
-          value.forEach(element => {
-            item['sectionsRaw_plain'].push(markdownToTxt(element));
-          });
+
+      if (value) {
+        switch (key) {
+          case "mipName":
+          case "filename":
+          case "proposal":
+          case "title":
+            item[`${key}_plain`] = markdownToTxt(value);
+            break;
+          case "sectionsRaw":
+            item['sectionsRaw_plain'] = [];
+            value.forEach(element => {
+              item['sectionsRaw_plain'].push(markdownToTxt(element));
+            });
+        }
       }
     }
 
