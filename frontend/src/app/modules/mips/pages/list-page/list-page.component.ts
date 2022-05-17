@@ -46,7 +46,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   total: number;
   moreToLoad: boolean;
   mobileSearch = false;
-  @ViewChild('filterList', {static: true})  filterList: FilterListComponent;
+  @ViewChild('filterList', {static: true}) filterList: FilterListComponent;
   showFilterList = false;
   showListSearch = false;
   showHideParentCheckbox = false;
@@ -134,7 +134,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.showHideParentCheckbox = !!this.search;
       this.hideParentValue = false;
 
-      if (params.shouldBeExpandedMultiQuery === 'false'){
+      if (params.hideParents === 'true') {
         this.hideParentValue = true;
       }
     });
@@ -172,19 +172,22 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       customViewName: queryParams.params.customViewName,
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
-      hideParents: !this.showHideParentCheckbox && this.multipleQueries ? false : null,
+      hideParents: queryParams.params.hideParents
     };
     if (qp.customViewName) {
       qp = {
         ...qp,
-        hideParents: false,
+        hideParents: qp.hideParents,
         shouldBeExpandedMultiQuery: qp.shouldBeExpandedMultiQuery,
       };
       this.shouldBeExpandedMultiQuery = JSON.parse(qp.shouldBeExpandedMultiQuery.toString());
     }
-    this.hideParentValue = !(qp.shouldBeExpandedMultiQuery
-      ? JSON.parse(qp.shouldBeExpandedMultiQuery.toString())
-      : false);
+
+
+    this.hideParentValue = qp.hideParents
+      ? JSON.parse(qp.hideParents.toString())
+      : false;
+
 
     for (const key in queryParams.params) {
       if (key.startsWith('_')) {
@@ -520,7 +523,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
               this.sintaxError = true;
               this.errorMessage = 'Syntax error.';
               this.loading = false;
-              this.showHideParentCheckbox= false;
+              this.showHideParentCheckbox = false;
             } else {
               this.sintaxError = false;
               this.errorMessage = '';
@@ -708,7 +711,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     const queryParams: any = this.route.snapshot.queryParamMap;
     const qp: QueryParams = {
       ...queryParams.params,
-      shouldBeExpandedMultiQuery: !$event
+      hideParents: $event
     };
 
     this.hideParentValue = $event;
@@ -728,7 +731,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     const subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
     return item;
-  }
+  };
 
   groupBy(field, arr: any[]): any {
     const group: any = arr.reduce((r, a) => {
@@ -868,7 +871,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.showHideParentCheckbox = !!this.search;
 
     const query: any = this.route.snapshot.queryParamMap;
-    this.hideParentValue = query.params.shouldBeExpandedMultiQuery?.toString() === 'false';
+    this.hideParentValue = query.params.hideParents?.toString() === 'true';
 
     if (search.startsWith('mip')) {
       if (event.keyCode == 13 && this.listSearchMip.length > 0) {
@@ -1062,17 +1065,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     this.showHideParentCheckbox = !!this.search;
 
     const query: any = this.route.snapshot.queryParamMap;
-    this.hideParentValue = query.params.shouldBeExpandedMultiQuery?.toString() === 'false';
 
-    if (!qp?.search?.includes('$')) {
-      delete qp.hideParents;
-      this.hideParentValue = false;
-    } else {
-      if (!qp.hideParents) {
-        qp.hideParents = false;
-      }
-      this.hideParentValue = JSON.parse(qp.hideParents.toString());
+    this.hideParentValue = query.params.hideParents?.toString() === 'true';
+
+    if (!qp.hideParents) {
+      qp.hideParents = false;
     }
+    this.hideParentValue = JSON.parse(qp.hideParents.toString());
+
+    if (this.mipsetMode) {
+      delete qp.hideParents;
+    }
+
     if (qp?.search?.includes('$')) {
       this.statusParameters = true;
     }
