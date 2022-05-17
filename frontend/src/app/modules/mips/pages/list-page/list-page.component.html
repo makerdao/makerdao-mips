@@ -61,7 +61,7 @@
     ></app-md-checkbox>
 
     <app-md-checkbox
-      *ngIf="showHideParentCheckbox"
+      *ngIf="showHideParentCheckbox && !mipsetMode"
       style="margin-right: 10px"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
@@ -69,7 +69,7 @@
     ></app-md-checkbox>
 
     <app-md-checkbox
-      *ngIf="!showHideParentCheckbox && multipleQueries"
+      *ngIf="!showHideParentCheckbox && multipleQueries && !mipsetMode"
       style="margin-right: 10px"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
