@@ -122,10 +122,13 @@ describe("ParseMIPsService", () => {
     Logger.prototype.error = jest.fn();
     MIPsService.prototype.groupProposal = jest.fn(() => Promise.resolve([mipMock]));
     MIPsService.prototype.setMipsFather = jest.fn(() => Promise.resolve([faker.datatype.boolean()]));
-    ParseMIPsService.prototype.updateSubproposalCountField = jest.fn(() => Promise.resolve());
     MIPsService.prototype.deleteManyByIds = jest.fn(() => Promise.resolve());
     MIPsService.prototype.update = jest.fn(() => Promise.resolve(mipMock));
     MIPsService.prototype.insertMany = jest.fn();
+    MIPsService.prototype.findAllAfterParse = jest.fn(() => Promise.resolve({
+      items: [mipMock],
+      total: faker.datatype.number(),
+    }));
     MarkedService.prototype.markedLexer = jest.fn(() => markedListMock);
     console.log = jest.fn();
   });
@@ -146,14 +149,58 @@ describe("ParseMIPsService", () => {
     });
   });
 
+  describe('updateSubproposalCountField', () => {
+    it('update subproposal', async () => {
+      await service.updateSubproposalCountField();
+
+      expect(MIPsService.prototype.findAllAfterParse).toBeCalledTimes(2);
+      expect(MIPsService.prototype.findAllAfterParse).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: {
+            field: "proposal",
+            value: "",
+          },
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.findAllAfterParse).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: {
+            field: "proposal",
+            value: undefined,
+          },
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.update).toBeCalledTimes(1);
+      expect(MIPsService.prototype.update).toBeCalledWith(
+        mipMock._id,
+        mipMock,
+      );
+      expect(Logger.prototype.log).not.toBeCalled();
+    });
+  });
+
   describe('parse', () => {
     beforeEach(async () => {
-      jest.spyOn(
-        ParseMIPsService.prototype,
-        'synchronizeData'
-      ).mockReturnValueOnce(
-        Promise.resolve(synchronizeDataMock)
-      );
+      jest.spyOn(ParseMIPsService.prototype, 'synchronizeData')
+        .mockReturnValueOnce(
+          Promise.resolve(synchronizeDataMock)
+        );
+      jest.spyOn(ParseMIPsService.prototype, 'updateSubproposalCountField')
+        .mockReturnValueOnce(Promise.resolve());
     });
 
     it('with no existing pull requests', async () => {
@@ -784,7 +831,7 @@ describe("ParseMIPsService", () => {
     it('parse list of paragraph summary', () => {
       const list = [{
         type: 'list',
-        depth: faker.random.number({
+        depth: faker.datatype.number({
           min: 3
         }),
         raw: faker.random.word(),
@@ -1305,6 +1352,16 @@ describe("ParseMIPsService", () => {
       expect(result).toEqual(parseInt(
         mipNumber_1 + (mipNumber_2 === 10 ? '' : '0') + mipNumber_2
       ));
+    });
+  });
+
+  describe('parseSections', () => {
+    it('marked section', async () => {
+      const result = await service.parseSections(mipFile);
+
+      expect(result).toEqual(markedListMock);
+      expect(MarkedService.prototype.markedLexer).toBeCalledTimes(1);
+      expect(MarkedService.prototype.markedLexer).toBeCalledWith(mipFile);
     });
   });
 
