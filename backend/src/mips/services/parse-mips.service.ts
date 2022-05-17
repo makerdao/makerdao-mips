@@ -572,29 +572,29 @@ export class ParseMIPsService {
     return parseInt(acumulate);
   }
 
-  parsePreamble(data: string, subproposal = false): IPreamble {
+  parsePreamble(preambleData: string, subproposal = false): IPreamble {
     const preamble: IPreamble = {};
 
     let flag = true;
 
-    data.split("\n").filter((data: string) => {
-      if (!data.includes(":")) {
+    preambleData.split("\n").forEach((preambleLine: string) => {
+      if (!preambleLine.includes(":")) {
         return false;
       }
 
-      if (!data.includes(":")) {
+      if (!preambleLine.includes(":")) {
         return false;
       }
 
       const keyValue = [
-        data.substring(0, data.indexOf(":")),
-        data.substring(data.indexOf(":") + 1).trim()
+        preambleLine.substring(0, preambleLine.indexOf(":")),
+        preambleLine.substring(preambleLine.indexOf(":") + 1).trim()
       ];
 
 
-      if (subproposal && flag && data.includes("-SP")) {
+      if (subproposal && flag && preambleLine.includes("-SP")) {
         const re = /[: #-]/gi;
-        preamble.mipName = data?.replace(re, "");
+        preamble.mipName = preambleLine?.replace(re, "");
 
         flag = false;
         subproposal = false;
@@ -623,14 +623,10 @@ export class ParseMIPsService {
             .map((data) => data.trim());
           break;
         case "Author(s)":
-          preamble.author = keyValue[1].split(",").map((data) => data.trim());
-          break;
         case "Author":
           preamble.author = keyValue[1].split(",").map((data) => data.trim());
           break;
         case "Tags":
-          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
-          break;
         case "tags":
           preamble.tags = keyValue[1].split(",").map((data) => data.trim());
           break;
@@ -689,7 +685,7 @@ export class ParseMIPsService {
     return this.markedService.markedLexer(file);
   }
 
-  async updateSubproposalCountField() {
+  async updateSubproposalCountField(): Promise<void> {    
     try {
       const paginationQueryDto: PaginationQueryDto = {
         limit: 0,
@@ -713,8 +709,7 @@ export class ParseMIPsService {
       );
 
       const forLoop = async () => {
-        for (let i = 0; i < mips.items.length; i++) {
-          const element = mips.items[i];
+        for (let element of mips.items) {
           const filterSubp = {
             equals: {
               field: "proposal",
@@ -732,7 +727,7 @@ export class ParseMIPsService {
             "_id mipName proposal"
           );
           element.subproposalsCount = subproposals.total;
-          this.mipsService.update(element._id, element as MIP);
+          await this.mipsService.update(element._id, element as MIP);
         }
       };
       await forLoop();
