@@ -5,7 +5,6 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
 import { readFile } from "fs/promises";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { Language } from "../entities/mips.entity";
 import {
   pullRequests,
   pullRequestsAfter,
@@ -21,7 +20,6 @@ import {
   gitFileMock,
   titleParsed,
   componentSummaryParsed,
-  mipData,
   mipData_2,
   mipFile,
   mipMapMock,
@@ -662,13 +660,13 @@ describe("ParseMIPsService", () => {
       const items = [{
         tokens: [{
           tokens: [
-          {
-            href: referenceMock.link,
-            text: referenceMock.name,
-          },
-          {
-            text: faker.random.word(),
-          }
+            {
+              href: referenceMock.link,
+              text: referenceMock.name,
+            },
+            {
+              text: faker.random.word(),
+            }
           ]
         }],
       }];
@@ -715,7 +713,7 @@ describe("ParseMIPsService", () => {
         tokens: [{
           text: referenceMock.name,
           href: referenceMock.link,
-      }],
+        }],
       };
 
       const result = (service as any).parseReferencesTokens(item);
@@ -724,12 +722,12 @@ describe("ParseMIPsService", () => {
     });
   });
 
-  describe('parseReferences',() => {
+  describe('parseReferences', () => {
     beforeEach(() => {
       jest.spyOn(ParseMIPsService.prototype as any, 'parseReferenceList')
-      .mockReturnValueOnce([referenceMock]);
+        .mockReturnValueOnce([referenceMock]);
       jest.spyOn(ParseMIPsService.prototype as any, 'parseReferencesTokens')
-      .mockReturnValueOnce([referenceMock]);
+        .mockReturnValueOnce([referenceMock]);
     });
 
     it('next type is a list', () => {
@@ -791,9 +789,9 @@ describe("ParseMIPsService", () => {
         }),
         raw: faker.random.word(),
       }];
-  
+
       const result = (service as any).parseParagraphSummary(list);
-  
+
       expect(result).toEqual(list[0].raw);
     });
   });
@@ -1020,33 +1018,32 @@ describe("ParseMIPsService", () => {
     });
   });
 
-
   describe("parseLexerData", () => {
     beforeEach(() => {
       jest.spyOn(ParseMIPsService.prototype, 'getComponentsSection')
-      .mockReturnValueOnce(componentSummary);
+        .mockReturnValueOnce(componentSummary);
       jest.spyOn(ParseMIPsService.prototype, 'getDataFromComponentText')
-      .mockReturnValueOnce(components);
+        .mockReturnValueOnce(components);
       jest.spyOn(ParseMIPsService.prototype, 'parseMipsNamesComponentsSubproposals')
-      .mockReturnValueOnce(componentSummaryParsed);
+        .mockReturnValueOnce(componentSummaryParsed);
       jest.spyOn(ParseMIPsService.prototype as any, 'parseNotTitleHeading')
-      .mockImplementationOnce((list, mip, item) => {
-        if(countPreambleDefined > 0){
-          countPreambleDefined--;
+        .mockImplementationOnce((list, mip, item) => {
+          if (countPreambleDefined > 0) {
+            countPreambleDefined--;
+            return {
+              mip: mip,
+              preamble: preambleMock,
+              isOnComponentSummary: false,
+            };
+          }
           return {
-            mip: mip,
-            preamble: preambleMock,
+            preamble: null,
+            mip,
             isOnComponentSummary: false,
           };
-        }
-        return {
-        preamble: null,
-        mip,
-        isOnComponentSummary: false,
-      };
-    });
+        });
       jest.spyOn(ParseMIPsService.prototype as any, 'extractMipNumberFromMipName')
-      .mockReturnValueOnce(`${mipNumber_1}`);
+        .mockReturnValueOnce(`${mipNumber_1}`);
     });
 
     it('parse lexer data', () => {
@@ -1054,7 +1051,7 @@ describe("ParseMIPsService", () => {
         mipFile,
         filesGitMock[0],
       );
-      
+
       expect(result).toEqual({
         mipName: `MIP${mipNumber_1}`,
         hash: filesGitMock[0].hash,
@@ -1142,7 +1139,7 @@ describe("ParseMIPsService", () => {
           mipFile,
           {
             ...filesGitMock[0],
-            filename : faker.random.word(),
+            filename: faker.random.word(),
           },
         );
       } catch (error) {
@@ -1166,7 +1163,7 @@ describe("ParseMIPsService", () => {
           filename,
         },
       );
-      
+
       expect(result).toEqual({
         proposal: `MIP${mipNumber_1}`,
         hash: filesGitMock[0].hash,
@@ -1252,7 +1249,7 @@ describe("ParseMIPsService", () => {
         mipFile,
         filesGitMock[0],
       );
-      
+
       expect(result).toEqual(undefined);
       expect(ParseMIPsService.prototype.getComponentsSection).toBeCalledTimes(1);
       expect(ParseMIPsService.prototype.getComponentsSection).toBeCalledWith(mipFile);
@@ -1296,6 +1293,18 @@ describe("ParseMIPsService", () => {
       expect(Logger.prototype.log).toBeCalledTimes(1);
       expect(Logger.prototype.log).toBeCalledWith(`Preamble empty ==> ${JSON.stringify(filesGitMock[0])}`);
       expect((ParseMIPsService.prototype as any).extractMipNumberFromMipName).not.toBeCalled();
+    });
+  });
+
+  describe('setSubproposalValue', () => {
+    it('calculate subpropousal value', () => {
+      const result = service.setSubproposalValue(
+        `MIP${mipNumber_1}cSP${mipNumber_2}`,
+      );
+
+      expect(result).toEqual(parseInt(
+        mipNumber_1 + (mipNumber_2 === 10 ? '' : '0') + mipNumber_2
+      ));
     });
   });
 
