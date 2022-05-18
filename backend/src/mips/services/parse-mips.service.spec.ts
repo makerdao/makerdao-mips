@@ -36,7 +36,19 @@ import {
   mipNumber_2,
   markedListMock,
   mipNumber_1,
-  sectionNameMock
+  sectionNameMock,
+  authorMock,
+  contributorsMock,
+  dateProposedMock,
+  dateRatifiedMock,
+  dependenciesMock,
+  titleMock,
+  statusMock,
+  replacesMock,
+  typesMock,
+  votingPortalLinkMock,
+  forumLinkMock,
+  tagsMock
 } from "./data-test/data";
 import { GithubService } from "./github.service";
 import { MarkedService } from "./marked.service";
@@ -1392,6 +1404,28 @@ describe("ParseMIPsService", () => {
 
       const preamble = service.parsePreamble(data);
       expect(preamble).toMatchObject(result);
+    });
+  });
+
+  describe('parsePreamble', () => {
+    it('emty preamble', () => {
+      const result = service.parsePreamble(mipFile);
+
+      expect(result).toEqual({
+        author: authorMock,
+        contributors: contributorsMock,
+        dateProposed: dateProposedMock,
+        dateRatified: dateRatifiedMock,
+        dependencies: dependenciesMock,
+        mip: mipNumber_1,
+        preambleTitle: titleMock,
+        replaces: replacesMock,
+        status: statusMock,
+        types: typesMock,
+        votingPortalLink: votingPortalLinkMock,
+        forumLink: forumLinkMock,
+        tags: [tagsMock],
+      });
     });
   });
 
