@@ -510,7 +510,7 @@ export class MIPsService {
       .exec();
   }
 
-  async findOneByProposal(
+  async findByProposal(
     proposal: string,
     language?: Language
   ): Promise<MIP[]> {

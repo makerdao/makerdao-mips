@@ -64,7 +64,7 @@ describe("MIPsService", () => {
         it("findOneByProposal", async () => {
             const proposal = faker.random.word();
 
-            const result = await mipsService.findOneByProposal(proposal);
+            const result = await mipsService.findByProposal(proposal);
 
             expect(result).toEqual([mipData]);
             expect(find).toHaveBeenCalledTimes(1);
