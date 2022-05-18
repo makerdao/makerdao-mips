@@ -36,7 +36,19 @@ import {
   mipNumber_2,
   markedListMock,
   mipNumber_1,
-  sectionNameMock
+  sectionNameMock,
+  authorMock,
+  contributorsMock,
+  dateProposedMock,
+  dateRatifiedMock,
+  dependenciesMock,
+  titleMock,
+  statusMock,
+  replacesMock,
+  typesMock,
+  votingPortalLinkMock,
+  forumLinkMock,
+  tagsMock
 } from "./data-test/data";
 import { GithubService } from "./github.service";
 import { MarkedService } from "./marked.service";
@@ -122,10 +134,13 @@ describe("ParseMIPsService", () => {
     Logger.prototype.error = jest.fn();
     MIPsService.prototype.groupProposal = jest.fn(() => Promise.resolve([mipMock]));
     MIPsService.prototype.setMipsFather = jest.fn(() => Promise.resolve([faker.datatype.boolean()]));
-    ParseMIPsService.prototype.updateSubproposalCountField = jest.fn(() => Promise.resolve());
     MIPsService.prototype.deleteManyByIds = jest.fn(() => Promise.resolve());
     MIPsService.prototype.update = jest.fn(() => Promise.resolve(mipMock));
     MIPsService.prototype.insertMany = jest.fn();
+    MIPsService.prototype.findAllAfterParse = jest.fn(() => Promise.resolve({
+      items: [mipMock],
+      total: faker.datatype.number(),
+    }));
     MarkedService.prototype.markedLexer = jest.fn(() => markedListMock);
     console.log = jest.fn();
   });
@@ -146,14 +161,58 @@ describe("ParseMIPsService", () => {
     });
   });
 
+  describe('updateSubproposalCountField', () => {
+    it('update subproposal', async () => {
+      await service.updateSubproposalCountField();
+
+      expect(MIPsService.prototype.findAllAfterParse).toBeCalledTimes(2);
+      expect(MIPsService.prototype.findAllAfterParse).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: {
+            field: "proposal",
+            value: "",
+          },
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.findAllAfterParse).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: {
+            field: "proposal",
+            value: undefined,
+          },
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.update).toBeCalledTimes(1);
+      expect(MIPsService.prototype.update).toBeCalledWith(
+        mipMock._id,
+        mipMock,
+      );
+      expect(Logger.prototype.log).not.toBeCalled();
+    });
+  });
+
   describe('parse', () => {
     beforeEach(async () => {
-      jest.spyOn(
-        ParseMIPsService.prototype,
-        'synchronizeData'
-      ).mockReturnValueOnce(
-        Promise.resolve(synchronizeDataMock)
-      );
+      jest.spyOn(ParseMIPsService.prototype, 'synchronizeData')
+        .mockReturnValueOnce(
+          Promise.resolve(synchronizeDataMock)
+        );
+      jest.spyOn(ParseMIPsService.prototype, 'updateSubproposalCountField')
+        .mockReturnValueOnce(Promise.resolve());
     });
 
     it('with no existing pull requests', async () => {
@@ -784,7 +843,7 @@ describe("ParseMIPsService", () => {
     it('parse list of paragraph summary', () => {
       const list = [{
         type: 'list',
-        depth: faker.random.number({
+        depth: faker.datatype.number({
           min: 3
         }),
         raw: faker.random.word(),
@@ -1308,6 +1367,16 @@ describe("ParseMIPsService", () => {
     });
   });
 
+  describe('parseSections', () => {
+    it('marked section', async () => {
+      const result = await service.parseSections(mipFile);
+
+      expect(result).toEqual(markedListMock);
+      expect(MarkedService.prototype.markedLexer).toBeCalledTimes(1);
+      expect(MarkedService.prototype.markedLexer).toBeCalledWith(mipFile);
+    });
+  });
+
   describe("Parse Preamble", () => {
     it("should return the empty preamble", async () => {
       const data = faker.random.word();
@@ -1335,6 +1404,28 @@ describe("ParseMIPsService", () => {
 
       const preamble = service.parsePreamble(data);
       expect(preamble).toMatchObject(result);
+    });
+  });
+
+  describe('parsePreamble', () => {
+    it('emty preamble', () => {
+      const result = service.parsePreamble(mipFile);
+
+      expect(result).toEqual({
+        author: authorMock,
+        contributors: contributorsMock,
+        dateProposed: dateProposedMock,
+        dateRatified: dateRatifiedMock,
+        dependencies: dependenciesMock,
+        mip: mipNumber_1,
+        preambleTitle: titleMock,
+        replaces: replacesMock,
+        status: statusMock,
+        types: typesMock,
+        votingPortalLink: votingPortalLinkMock,
+        forumLink: forumLinkMock,
+        tags: [tagsMock],
+      });
     });
   });
 

@@ -11,16 +11,19 @@ export const mipNumber_2 = faker.datatype.number({ min: 1, max: 10 });
 const filename = `MIP${mipNumber_1}/MIP${mipNumber_1}.md`;
 const sentenceSummary = faker.lorem.paragraph();
 export const paragraphSummaryMock = faker.lorem.paragraph();
-const author = [`${faker.name.firstName()} ${faker.name.lastName()}`, `${faker.name.firstName()} ${faker.name.lastName()}`,];
-const contributors = [faker.random.word()];
-const dateProposed = faker.date.past('YYYY-MM-DD').toString();
-const dateRatified = faker.date.past('YYYY-MM-DD').toString();
-const dependencies = [faker.random.word()];
+export const authorMock = [`${faker.name.firstName()} ${faker.name.lastName()}`, `${faker.name.firstName()} ${faker.name.lastName()}`,];
+export const contributorsMock = [faker.random.word()];
+export const dateProposedMock = faker.date.past('YYYY-MM-DD').toString();
+export const dateRatifiedMock = faker.date.past('YYYY-MM-DD').toString();
+export const dependenciesMock = [faker.random.word()];
+export const votingPortalLinkMock = faker.internet.url();
 const mip = mipNumber_1;
-const replaces = faker.random.word();
-const status = faker.random.arrayElement(['Accepted', 'Rejected']);
-const title = faker.lorem.paragraph();
-const types = faker.random.word();
+export const replacesMock = faker.random.word();
+export const statusMock = faker.random.arrayElement(['Accepted', 'Rejected']);
+export const titleMock = faker.lorem.paragraph();
+export const typesMock = faker.random.word();
+export const forumLinkMock = faker.random.word();
+export const tagsMock = faker.random.word();
 
 // ParseMIPsService unit tests
 export const mipMock = {
@@ -43,11 +46,11 @@ export const mipMapMock: Map<string, IGitFile> = new Map();
 export const mapKeyMock = faker.random.word();
 mipMapMock.set(mapKeyMock, gitFileMock);
 export const edgesMock: string = faker.random.word();
-export const totalCountMock: number = faker.datatype.number({min: 2, max: 4});
+export const totalCountMock: number = faker.datatype.number({ min: 2, max: 4 });
 export const countMock: number = faker.datatype.number({ min: 1, max: totalCountMock - 1 });
 export const headingOutComponentSummaryParsed = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
 export const componentSummaryParsed = `## Component Summary ${mipNumber_1}\n\n`;
-export const titleParsed = `# MIP${mipNumber_1}: ${title}\n\n`;
+export const titleParsed = `# MIP${mipNumber_1}: ${titleMock}\n\n`;
 export const filesGitMock: IGitFile[] = [{
   ...mipMock,
   filename,
@@ -61,7 +64,7 @@ export const referenceMock: Reference = {
   link: faker.internet.url(),
   name: faker.random.word(),
 };
-export const sectionNameMock = `MIP${mipNumber_1}c${faker.datatype.number({min: 1, max: 30})}`;
+export const sectionNameMock = `MIP${mipNumber_1}c${faker.datatype.number({ min: 1, max: 30 })}`;
 export const markedListMock: any[] = [
   {
     type: 'heading',
@@ -74,6 +77,7 @@ export const markedListMock: any[] = [
     text: `${sectionNameMock}:`,
   }
 ];
+export const parseStringMock = `MIP#: ${mipNumber_1}`;
 export const components = [
   {
     cBody: "Defines several concepts that are important for understanding the MIPs process.",
@@ -182,11 +186,11 @@ export const componentSummary: string = `**MIP${mipNumber_1}c1: Definitions of t
   `\n` +
   `\n`;
 export const mipFile =
-  `# MIP${mipNumber_1}: ${title}\n\n## Preamble` +
-  `\n${"```"}\nMIP#: ${mipNumber_1}\nTitle: ${title}\nAuthor(s)` +
-  `: ${author[0]}, ${author[1]}\nContributors` +
-  `: ${contributors}\nType: ${types}\nStatus: ${status} \nDate Proposed: ${dateProposed}` +
-  `\nDate Ratified: ${dateRatified}\nDependencies: ${dependencies}\nReplaces: ${replaces}\n` +
+  `# MIP${mipNumber_1}: ${titleMock}\n\n## Preamble` +
+  `\n${"```"}\nMIP#: ${mipNumber_1}\nTitle: ${titleMock}\nAuthor(s)` +
+  `: ${authorMock[0]}, ${authorMock[1]}\nForum URL: ${forumLinkMock}\nTags: ${tagsMock}\nContributors` +
+  `: ${contributorsMock}\nType: ${typesMock}\nRatification Poll URL: ${votingPortalLinkMock}\nStatus: ${statusMock} \nDate Proposed: ${dateProposedMock}` +
+  `\nDate Ratified: ${dateRatifiedMock}\nDependencies: ${dependenciesMock}\nReplaces: ${replacesMock}\n` +
   `${"```"}\n## References\n**[General-MIP-Template.md](General-MIP-Template.m` +
   `d)**  \n**[Technical-MIP-Template.md](Technical-MIP-Template.md)**  \n` +
   `**[MIP${mipNumber_1}c12-Subproposal-Template.md](MIP${mipNumber_1}c12-Subproposal-Template.md)**` +
@@ -623,20 +627,23 @@ export const mipFile =
 export const mipData = {
   hash: faker.lorem.paragraph(),
   file:
-    `# MIP${mipNumber_1}: ${title}\n` +
+    `# MIP${mipNumber_1}: ${titleMock}\n` +
     `\n` +
     `## Preamble\n` +
     `${"```"}\n` +
     `MIP#: ${mipNumber_1}\n` +
-    `Title: ${title}\n` +
-    `Author(s): ${author[0]}, ${author[1]}\n` +
-    `Contributors: ${contributors}\n` +
-    `Type: ${types}\n` +
-    `Status: ${status} \n` +
-    `Date Proposed: ${dateProposed}\n` +
-    `Date Ratified: ${dateRatified}\n` +
-    `Dependencies: ${dependencies}\n` +
-    `Replaces: ${replaces}\n` +
+    `Title: ${titleMock}\n` +
+    `Author(s): ${authorMock[0]}, ${authorMock[1]}\n` +
+    `Forum URL: ${forumLinkMock}\n` +
+    `Tags: ${tagsMock}` +
+    `Contributors: ${contributorsMock}\n` +
+    `Type: ${typesMock}\n` +
+    `Ratification Poll URL: ${votingPortalLinkMock}\n` +
+    `Status: ${statusMock} \n` +
+    `Date Proposed: ${dateProposedMock}\n` +
+    `Date Ratified: ${dateRatifiedMock}\n` +
+    `Dependencies: ${dependenciesMock}\n` +
+    `Replaces: ${replacesMock}\n` +
     `${"```"}\n` +
     `## References\n` +
     `**[General-MIP-Template.md](General-MIP-Template.md)**  \n` +
@@ -1079,16 +1086,19 @@ export const mipData = {
   filename,
   sentenceSummary,
   paragraphSummary: paragraphSummaryMock,
-  author,
-  contributors,
-  dateProposed,
-  dateRatified,
-  dependencies,
+  author: authorMock,
+  contributors: contributorsMock,
+  dateProposed: dateProposedMock,
+  dateRatified: dateRatifiedMock,
+  dependencies: dependenciesMock,
   mip,
-  replaces,
-  status,
-  title,
-  types,
+  replaces: replacesMock,
+  status: statusMock,
+  title: titleMock,
+  types: typesMock,
+  votingPortalLink: votingPortalLinkMock,
+  forumLink: forumLinkMock,
+  tags: tagsMock,
 };
 
 // ParseMIPsService (unit tests)
