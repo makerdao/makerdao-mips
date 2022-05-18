@@ -1,3 +1,4 @@
+import { Filters } from "@app/mips/dto/query.dto";
 import { Component, Language, MIP, Reference } from "@app/mips/entities/mips.entity";
 import { IGitFile, IPreamble, ISynchronizeData } from "@app/mips/interfaces/mips.interface";
 import { RequestDocument } from "graphql-request";
@@ -32,6 +33,63 @@ export const errorDropMock: string = faker.lorem.paragraph();
 export const tagsMock_1: string = faker.random.word();
 export const tagsMock_2: string = faker.random.word();
 export const tagsMock_3: string = faker.random.word();
+
+// MIPsController unit tests
+export const limitMock: string = faker.datatype.number();
+export const pageMock: string = faker.datatype.number();
+export const orderMock: string = faker.random.word();
+export const selectMock: string = faker.random.word();
+export const languageMock: Language = faker.random.arrayElement([Language.English, Language.Spanish]);
+export const searchMock: string = faker.random.word();
+export const filtersMock: Filters = {
+  contains: [
+    {
+      field: faker.random.word(),
+      value: faker.random.word(),
+    }
+  ],
+  notcontains: [
+    {
+      field: faker.random.word(),
+      value: faker.random.word(),
+    }
+  ],
+  notequals: [
+    {
+      field: faker.random.word(),
+      value: faker.random.word(),
+    }
+  ],
+  equals: [
+    {
+      field: faker.random.word(),
+      value: faker.random.word(),
+    }
+  ],
+  inarray: [{
+    field: faker.random.word(),
+    value: [faker.random.word()],
+  }],
+};
+export const metaVarsMock = [{
+  language: languageMock.toString(),
+  translations: languageMock.toString(),
+}];
+export const pullRequestMock = {
+  name: faker.random.word(),
+}
+export const mipNameMock: string = faker.random.word();
+export const fieldMock: string = faker.random.word();
+export const valueMock: string = faker.random.word();
+export const parseResultMock: boolean = faker.datatype.boolean();
+export const requestCallBackMock = {
+  headers: {
+    "x-hub-signature": faker.random.word(),
+  },
+  body: {
+    field: faker.random.word(),
+  },
+};
 
 // ParseMIPsService unit tests
 export const mipMock = {
