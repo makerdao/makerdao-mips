@@ -443,7 +443,7 @@ export class ParseMIPsService {
 
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
-    let preamble: IPreamble = {};
+    let preamble: IPreamble;
     const sectionsRaw: string[] = [];
 
     let mip: MIP = {
@@ -508,7 +508,7 @@ export class ParseMIPsService {
               mip,
               item,
             );
-            preamble = parsed.preamble;
+            preamble = parsed?.preamble || preamble;
             mip = {
               ...mip,
               ...parsed.mip
