@@ -508,7 +508,7 @@ export class ParseMIPsService {
               mip,
               item,
             );
-            preamble = parsed.preamble;
+            preamble = parsed?.preamble || preamble;
             mip = {
               ...mip,
               ...parsed.mip
