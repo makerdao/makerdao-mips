@@ -25,6 +25,11 @@ export const typesMock = faker.random.word();
 export const forumLinkMock = faker.random.word();
 export const tagsMock = faker.random.word();
 
+// ParseQueryService unit tests
+export const tagsMock_1 = faker.random.word();
+export const tagsMock_2 = faker.random.word();
+export const tagsMock_3 = faker.random.word();
+
 // ParseMIPsService unit tests
 export const mipMock = {
   filename: faker.random.word(),
