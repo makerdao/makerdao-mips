@@ -1,4 +1,4 @@
-import { Language, MIP, Reference } from "@app/mips/entities/mips.entity";
+import { Component, Language, MIP, Reference } from "@app/mips/entities/mips.entity";
 import { IGitFile, IPreamble, ISynchronizeData } from "@app/mips/interfaces/mips.interface";
 import { RequestDocument } from "graphql-request";
 const faker = require("faker");
@@ -8,27 +8,30 @@ faker.seed('Data');
 export const mipNumber_1 = faker.datatype.number({ min: 1, max: 10 });
 export const mipNumber_2 = faker.datatype.number({ min: 1, max: 10 });
 
-const filename = `MIP${mipNumber_1}/MIP${mipNumber_1}.md`;
-const sentenceSummary = faker.lorem.paragraph();
-export const paragraphSummaryMock = faker.lorem.paragraph();
-export const authorMock = [`${faker.name.firstName()} ${faker.name.lastName()}`, `${faker.name.firstName()} ${faker.name.lastName()}`,];
-export const contributorsMock = [faker.random.word()];
-export const dateProposedMock = faker.date.past('YYYY-MM-DD').toString();
-export const dateRatifiedMock = faker.date.past('YYYY-MM-DD').toString();
-export const dependenciesMock = [faker.random.word()];
-export const votingPortalLinkMock = faker.internet.url();
+const filename: string = `MIP${mipNumber_1}/MIP${mipNumber_1}.md`;
+const sentenceSummary: string = faker.lorem.paragraph();
+export const paragraphSummaryMock: string = faker.lorem.paragraph();
+export const authorMock: string[] = [`${faker.name.firstName()} ${faker.name.lastName()}`, `${faker.name.firstName()} ${faker.name.lastName()}`,];
+export const contributorsMock: string[] = [faker.random.word()];
+export const dateProposedMock: string = faker.date.past('YYYY-MM-DD').toString();
+export const dateRatifiedMock: string = faker.date.past('YYYY-MM-DD').toString();
+export const dependenciesMock: string[] = [faker.random.word()];
+export const votingPortalLinkMock: string = faker.internet.url();
 const mip = mipNumber_1;
-export const replacesMock = faker.random.word();
-export const statusMock = faker.random.arrayElement(['Accepted', 'Rejected']);
-export const titleMock = faker.lorem.paragraph();
-export const typesMock = faker.random.word();
-export const forumLinkMock = faker.random.word();
-export const tagsMock = faker.random.word();
+export const replacesMock: string = faker.random.word();
+export const statusMock: string = faker.random.arrayElement(['Accepted', 'Rejected']);
+export const titleMock: string = faker.lorem.paragraph();
+export const typesMock: string = faker.random.word();
+export const forumLinkMock: string = faker.random.word();
+export const tagsMock: string = faker.random.word();
+
+// ParseMIPsCommand unit test
+export const errorDropMock: string = faker.lorem.paragraph();
 
 // ParseQueryService unit tests
-export const tagsMock_1 = faker.random.word();
-export const tagsMock_2 = faker.random.word();
-export const tagsMock_3 = faker.random.word();
+export const tagsMock_1: string = faker.random.word();
+export const tagsMock_2: string = faker.random.word();
+export const tagsMock_3: string = faker.random.word();
 
 // ParseMIPsService unit tests
 export const mipMock = {
@@ -48,14 +51,14 @@ export const gitFileMock: IGitFile = {
   language: faker.random.arrayElement([Language.English, Language.Spanish]),
 };
 export const mipMapMock: Map<string, IGitFile> = new Map();
-export const mapKeyMock = faker.random.word();
+export const mapKeyMock: string = faker.random.word();
 mipMapMock.set(mapKeyMock, gitFileMock);
 export const edgesMock: string = faker.random.word();
 export const totalCountMock: number = faker.datatype.number({ min: 2, max: 4 });
 export const countMock: number = faker.datatype.number({ min: 1, max: totalCountMock - 1 });
-export const headingOutComponentSummaryParsed = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
-export const componentSummaryParsed = `## Component Summary ${mipNumber_1}\n\n`;
-export const titleParsed = `# MIP${mipNumber_1}: ${titleMock}\n\n`;
+export const headingOutComponentSummaryParsed: string = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
+export const componentSummaryParsed: string = `## Component Summary ${mipNumber_1}\n\n`;
+export const titleParsed: string = `# MIP${mipNumber_1}: ${titleMock}\n\n`;
 export const filesGitMock: IGitFile[] = [{
   ...mipMock,
   filename,
@@ -69,7 +72,7 @@ export const referenceMock: Reference = {
   link: faker.internet.url(),
   name: faker.random.word(),
 };
-export const sectionNameMock = `MIP${mipNumber_1}c${faker.datatype.number({ min: 1, max: 30 })}`;
+export const sectionNameMock: string = `MIP${mipNumber_1}c${faker.datatype.number({ min: 1, max: 30 })}`;
 export const markedListMock: any[] = [
   {
     type: 'heading',
@@ -82,8 +85,8 @@ export const markedListMock: any[] = [
     text: `${sectionNameMock}:`,
   }
 ];
-export const parseStringMock = `MIP#: ${mipNumber_1}`;
-export const components = [
+export const parseStringMock: string = `MIP#: ${mipNumber_1}`;
+export const components: Component[] = [
   {
     cBody: "Defines several concepts that are important for understanding the MIPs process.",
     cName: `MIP${mipNumber_1}c1`,
@@ -1103,7 +1106,7 @@ export const mipData = {
   types: typesMock,
   votingPortalLink: votingPortalLinkMock,
   forumLink: forumLinkMock,
-  tags: tagsMock,
+  tags: [tagsMock],
 };
 
 // ParseMIPsService (unit tests)
