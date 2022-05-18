@@ -22,7 +22,7 @@ export class ParseMIPsCommand {
       console.log("Database Droped: ",result);
     } catch (error) {
       console.log("An Error happend on Droping the Database");
-      console.log(error);
+      console.log(error.message);
     }
   }
 
@@ -51,7 +51,7 @@ export class ParseMIPsCommand {
       await this.parseMIPsService.parse();
     } catch (error) {
       console.log("An Error happend on Droping the Database");
-      console.log(error);
+      console.log(error.message);
     }
   }
 }
