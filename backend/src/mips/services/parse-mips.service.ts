@@ -582,10 +582,6 @@ export class ParseMIPsService {
         return false;
       }
 
-      if (!preambleLine.includes(":")) {
-        return false;
-      }
-
       const keyValue = [
         preambleLine.substring(0, preambleLine.indexOf(":")),
         preambleLine.substring(preambleLine.indexOf(":") + 1).trim()
