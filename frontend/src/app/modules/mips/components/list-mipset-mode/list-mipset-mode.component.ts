@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, OnDestroy, OnInit, Output } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -83,7 +83,6 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   search: string = '';
   filter: IFilter;
   filterClone: any;
-  loading: boolean = false;
   total: number;
   columnsToDisplay = ['pos', 'title', 'summary', 'status', 'links'];
   currentSortingColumn: string = '';
@@ -105,6 +104,9 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
     subproposals: true,
     summary: false,
   };
+
+  @Input() loading = false;
+  @Input() error = false;
 
   get expandedItems() {
     return this._expandedItems;

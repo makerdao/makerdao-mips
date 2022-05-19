@@ -1,5 +1,5 @@
 <div class="maker-container" [ngClass]="{'maker-container-dark':darkModeService.getDarkMode()}">
-  <table mat-table [dataSource]="null" multiTemplateDataRows class="no-mobile">
+  <table mat-table [dataSource]="null" multiTemplateDataRows class="no-mobile" *ngIf="dataSourceMipsetRows.length > 0 && !error">
     <ng-container
       matColumnDef="{{ column }}"
       *ngFor="let column of columnsToDisplay"
@@ -45,12 +45,12 @@
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   </table>
 
-  <div *ngIf="loading" class="maker-loading-shade">
+  <div *ngIf="loading && !error" class="maker-loading-shade">
     <mat-spinner></mat-spinner>
   </div>
 
   <table
-    *ngIf="!loading"
+    *ngIf= "!loading && !error && dataSourceMipsetRows.length > 0"
     mat-table
     [dataSource]="dataSourceMipsetRows"
     multiTemplateDataRows
@@ -468,4 +468,13 @@
       </div>
     </div>
   </ng-container>
+
+  <div class="no-result" *ngIf="!loading && (dataSourceMipsetRows?.length == 0 || error)">
+    <div>
+      <img *ngIf="!darkMode" src="./assets/images/no_results.svg" />
+      <img *ngIf="darkMode" src="./assets/images/no_results_dark.svg" />
+      <p>{{ "No results found" | translate }}</p>
+    </div>
+  </div>
+
 </div>

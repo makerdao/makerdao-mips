@@ -117,6 +117,8 @@
 <app-list-mipset-mode
   *ngIf="mipsetMode"
   (changeOrder)="changeOrder($event)"
+  [loading]="loading"
+  [error]="sintaxError"
 ></app-list-mipset-mode>
 <app-list-multiple-queries
   [shouldBeExpandedMultiQuery]="shouldBeExpandedMultiQuery"
