@@ -128,7 +128,7 @@ export class MIPsController {
         page: +page,
       };
 
-      const allMips = await this.mipsService.findAll(
+      return await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
@@ -136,8 +136,6 @@ export class MIPsController {
         select,
         lang
       );
-
-      return allMips;
     } catch (error) {
 
       throw new HttpException(
@@ -196,7 +194,7 @@ export class MIPsController {
     let subproposals = [];
 
     if (!mip.proposal) {
-      subproposals = await this.mipsService.findOneByProposal(mip.mipName);
+      subproposals = await this.mipsService.findByProposal(mip.mipName);
     }
 
     try {
@@ -316,14 +314,14 @@ export class MIPsController {
     switch (field) {
       case "filename":
         mip = await this.mipsService.findOneByFileName(value, lang);
-        if (!mip) {
+        if (!mip && (!lang || lang !== Language.English)) {
           mip = await this.mipsService.findOneByFileName(
             value,
             Language.English
           );
           if (!mip) {
             throw new NotFoundException(
-              `MIPs with ${field} ${value} not found`
+              `MIP with ${field} ${value} not found`
             );
           }
         }
@@ -334,14 +332,14 @@ export class MIPsController {
         //Left temporaly to backward compatibilities only
         mip = await this.mipsService.getSummaryByMipName(value, lang);
 
-        if (!mip) {
+        if (!mip && (!lang || lang !== Language.English)) {
           mip = await this.mipsService.getSummaryByMipName(
             value,
             Language.English
           );
           if (!mip) {
             throw new NotFoundException(
-              `MIPs with ${field} ${value} not found`
+              `MIP with ${field} ${value} not found`
             );
           }
         }
@@ -350,13 +348,14 @@ export class MIPsController {
       case "mipComponent":
         if (!value.match(/MIP\d+[ac]\d+/gi)) {
           throw new NotFoundException(
-            `MIP component not in the standart format MIP10c5 `
+            `MIP component not in the standard format, i.e. MIP10c5`
           );
         }
 
         mip = await this.mipsService.getSummaryByMipComponent(value, lang);
 
-        if (!mip || mip.components.length !== 1) {
+        if (!mip || mip.components.length !== 1
+          && (!lang || lang !== Language.English)) {
           mip = await this.mipsService.getSummaryByMipComponent(
             value,
             Language.English
