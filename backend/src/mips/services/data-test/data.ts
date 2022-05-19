@@ -41,6 +41,8 @@ export const orderMock: string = faker.random.word();
 export const selectMock: string = faker.random.word();
 export const languageMock: Language = faker.random.arrayElement([Language.English, Language.Spanish]);
 export const searchMock: string = faker.random.word();
+export const fieldMock: string = faker.random.word();
+export const valueMock: string = faker.random.word();
 export const filtersMock: Filters = {
   contains: [
     {
@@ -79,8 +81,6 @@ export const pullRequestMock = {
   name: faker.random.word(),
 }
 export const mipNameMock: string = faker.random.word();
-export const fieldMock: string = faker.random.word();
-export const valueMock: string = faker.random.word();
 export const parseResultMock: boolean = faker.datatype.boolean();
 export const requestCallBackMock = {
   headers: {
@@ -88,6 +88,44 @@ export const requestCallBackMock = {
   },
   body: {
     field: faker.random.word(),
+  },
+};
+
+// MIPsService unit tests
+export const searchFieldMock: string = faker.random.word();
+export const parseMock: string = faker.random.word();
+export const builtFilterMock = {
+  language: languageMock,
+  [fieldMock]: {
+    $regex: new RegExp(`${valueMock}`),
+    $options: "i",
+  },
+};
+export const builtContainsFilterMock = {
+  [filtersMock.contains[0].field]: {
+    $regex: new RegExp(`${filtersMock.contains[0].value}`),
+    $options: "i",
+  },
+};
+export const builtEqualsFilterMock = {
+  [filtersMock.equals[0].field]: filtersMock.equals[0].value,
+};
+export const builtInArrayFilterMock = {
+  [filtersMock.inarray[0].field]: {
+    $in: filtersMock.inarray[0].value[0],
+  },
+};
+export const builtNotContainsFilterMock = {
+  [filtersMock.notcontains[0].field]: {
+    $not: {
+      $regex: new RegExp(`${filtersMock.notcontains[0].value}`),
+      $options: "i",
+    },
+  },
+};
+export const builtNotEqualFilterMock = {
+  [filtersMock.notequals[0].field]: {
+    $ne: filtersMock.notequals[0].value,
   },
 };
 
