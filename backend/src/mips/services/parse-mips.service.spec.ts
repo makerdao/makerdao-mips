@@ -137,7 +137,7 @@ describe("ParseMIPsService", () => {
     MIPsService.prototype.deleteManyByIds = jest.fn(() => Promise.resolve());
     MIPsService.prototype.update = jest.fn(() => Promise.resolve(mipMock));
     MIPsService.prototype.insertMany = jest.fn();
-    MIPsService.prototype.findAllAfterParse = jest.fn(() => Promise.resolve({
+    MIPsService.prototype.findAll = jest.fn(() => Promise.resolve({
       items: [mipMock],
       total: faker.datatype.number(),
     }));
@@ -165,8 +165,8 @@ describe("ParseMIPsService", () => {
     it('update subproposal', async () => {
       await service.updateSubproposalCountField();
 
-      expect(MIPsService.prototype.findAllAfterParse).toBeCalledTimes(2);
-      expect(MIPsService.prototype.findAllAfterParse).toBeCalledWith(
+      expect(MIPsService.prototype.findAll).toBeCalledTimes(2);
+      expect(MIPsService.prototype.findAll).toBeCalledWith(
         {
           limit: 0,
           page: 0,
@@ -174,14 +174,14 @@ describe("ParseMIPsService", () => {
         "",
         "",
         {
-          equals: {
+          equals: [{
             field: "proposal",
             value: "",
-          },
+          }],
         },
         "_id mipName proposal",
       );
-      expect(MIPsService.prototype.findAllAfterParse).toBeCalledWith(
+      expect(MIPsService.prototype.findAll).toBeCalledWith(
         {
           limit: 0,
           page: 0,
@@ -189,10 +189,10 @@ describe("ParseMIPsService", () => {
         "",
         "",
         {
-          equals: {
+          equals: [{
             field: "proposal",
             value: undefined,
-          },
+          }],
         },
         "_id mipName proposal",
       );
@@ -1086,7 +1086,7 @@ describe("ParseMIPsService", () => {
       jest.spyOn(ParseMIPsService.prototype, 'parseMipsNamesComponentsSubproposals')
         .mockReturnValueOnce(componentSummaryParsed);
       jest.spyOn(ParseMIPsService.prototype as any, 'parseNotTitleHeading')
-        .mockImplementationOnce((list, mip, item) => {
+        .mockImplementationOnce((_list, mip, _item) => {
           if (countPreambleDefined > 0) {
             countPreambleDefined--;
             return {
