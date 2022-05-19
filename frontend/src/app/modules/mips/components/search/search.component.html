@@ -57,7 +57,7 @@
       </div>
     </ng-template>
   </div>
-  <div *ngIf="showClose && !isQueryMode || error" class="close-container">
+  <div *ngIf="(showClose && !isQueryMode) || error" class="close-container">
     <img (click)="clear()" src="{{ imageClose }}" class="imageClose" />
   </div>
   <div
@@ -65,7 +65,7 @@
     cdkOverlayOrigin
     #trigger="cdkOverlayOrigin"
     (click)="openHelpPopup()"
-    [ngStyle]="{ visibility: !showClose ? 'visible' : 'hidden' }"
+    [ngStyle]="{ visibility:  !((showClose && !isQueryMode) || error) ? 'visible' : 'hidden' }"
   >
     <a
       class="help-container"

@@ -217,9 +217,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
         val = (this.inputSearch.nativeElement as HTMLElement).innerText;
       }
 
+      this.showClose = !!(val.replace("\n",""));
+
       if (this.isQuery(val)) {
         this.isQueryMode = true;
-        this.showClose = false;
 
         if (event.keyCode === 13 && !this.selectedAutocompleteOptionByEnter) {
           if (
@@ -252,14 +253,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
             this.send.emit(event);
           }
-        } else if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
-          this.showClose =
-            this.inputSearch.nativeElement.value === '' ? false : true;
-        } else {
-          this.showClose =
-            (this.inputSearch.nativeElement as HTMLElement).innerText === ''
-              ? false
-              : true;
         }
       }
     }
