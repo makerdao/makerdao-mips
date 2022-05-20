@@ -471,8 +471,8 @@
 
   <div class="no-result" *ngIf="!loading && (dataSourceMipsetRows?.length == 0 || error)">
     <div>
-      <img *ngIf="!darkMode" src="./assets/images/no_results.svg" />
-      <img *ngIf="darkMode" src="./assets/images/no_results_dark.svg" />
+      <img *ngIf="!darkModeService.getDarkMode()" src="./assets/images/no_results.svg" />
+      <img *ngIf="darkModeService.getDarkMode()" src="./assets/images/no_results_dark.svg" />
       <p>{{ "No results found" | translate }}</p>
     </div>
   </div>
