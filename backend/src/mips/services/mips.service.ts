@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import markdownToTxt from 'markdown-to-txt';
 import { isValidObjectId, Model } from "mongoose";
-import { Filters, PaginationQueryDto } from "../dto/query.dto";
+import { BinaryArrayOperator, BinaryOperator, Filters, PaginationQueryDto } from "../dto/query.dto";
 import { Language, MIP, MIPsDoc } from "../entities/mips.entity";
 import { IGitFile, IMIPs } from "../interfaces/mips.interface";
 import { ParseQueryService } from "./parse-query.service";
@@ -22,11 +22,11 @@ export class MIPsService {
     ]);
   }
 
-
   cleanSearchField(search: string): string {
     const searchCleaned = (search || "").replace(/[\u202F\u00A0]/gmi, " ").trim();
     return searchCleaned;
   }
+
   async searchAll({
     paginationQuery,
     order,
@@ -61,16 +61,13 @@ export class MIPsService {
       language: Language.English,
     });
 
-    const errorProofItems = defaultLanguageItems.map((item) => {
+    return defaultLanguageItems.map((item) => {
       const existingItem = selectedLanguageItems.find(
         (selectedItem) => selectedItem.mipName === item.mipName
       );
       return existingItem || item;
     });
-    return errorProofItems;
   }
-
-
 
   async findAll(
     paginationQuery?: PaginationQueryDto,
@@ -109,7 +106,7 @@ export class MIPsService {
       return { items, total };
     }
 
-    const customSelect = [
+    const defaultSelect = [
       "-__v",
       "-file",
       "-sections",
@@ -126,29 +123,72 @@ export class MIPsService {
       order,
       search: cleanedSearch,
       filter,
-      select: customSelect,
+      select: defaultSelect,
       language,
     });
 
     return { items, total };
   }
 
-  async findAllAfterParse(
-    paginationQuery?: PaginationQueryDto,
-    order?: string,
-    search?: string,
-    filter?: any,
-    select?: string,
-    language?: Language
-  ): Promise<any> {
-    return this.findAll(
-      paginationQuery,
-      order,
-      search,
-      filter,
-      select,
-      language
-    );
+  private buildContainFilters(filters: BinaryOperator[]) {
+    const sourceContain = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value.toString());
+      sourceContain[`${this.searcheableField(element.field)}`] = {
+        $regex: new RegExp(`${newValue}`),
+        $options: "i",
+      };
+    });
+    return sourceContain;
+  }
+
+  private buildEqualsFilters(filters: BinaryOperator[]) {
+    const sourceEquals = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value);
+      sourceEquals[`${this.searcheableField(element.field)}`] = newValue;
+    });
+    return sourceEquals;
+  }
+
+  private buildInArrayFilters(filters: BinaryArrayOperator[]) {
+    const sourceInArray = {};
+    filters.forEach(element => {
+      if (Array.isArray(element.value)) {
+        element.value.forEach(value => {
+          const newValue = this.validField(element.field, value);
+          sourceInArray[`${this.searcheableField(element.field)}`] = {
+            $in: newValue,
+          };
+        });
+      }
+    });
+    return sourceInArray;
+  }
+
+  private buildNotContainFilters(filters: BinaryOperator[]) {
+    const sourceNotContain = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value.toString());
+      sourceNotContain[`${this.searcheableField(element.field)}`] = {
+        $not: {
+          $regex: new RegExp(`${newValue}`),
+          $options: "i",
+        },
+      };
+    });
+    return sourceNotContain;
+  }
+
+  private buildNotEqualsFilters(filters: BinaryOperator[]) {
+    const sourceNotEquals = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value);
+      sourceNotEquals[`${this.searcheableField(element.field)}`] = {
+        $ne: newValue,
+      };
+    });
+    return sourceNotEquals;
   }
 
   // Function to build filter*
@@ -157,54 +197,29 @@ export class MIPsService {
     filter?: Filters,
     language?: Language
   ): Promise<any> {
-    let source = {};
-    if (language) {
-      source = { language };
-    } else {
-      source = { language: Language.English };
-    }
+    let source: any = {
+      language: language || Language.English,
+    };
 
-    if (filter?.contains && Array.isArray(filter?.contains)) {
-      for (const element of filter.contains) {
-        const newValue = this.validField(element.field, element.value.toString());
-        source[`${this.searcheableField(element.field)}`] = {
-          $regex: new RegExp(`${newValue}`),
-          $options: "i",
-        };
-      }
-    }
-
-    if (filter?.equals && Array.isArray(filter?.equals)) {
-      for (let i = 0; i < filter?.equals.length; i++) {
-        const newValue = this.validField(filter?.equals[i].field, filter?.equals[i].value);
-        source[`${this.searcheableField(filter?.equals[i].field)}`] = newValue;
-      }
-    }
-
-    if (filter?.inarray && Array.isArray(filter?.inarray)) {
-      for (const element of filter.inarray) {
-        if (Array.isArray(element.value)) {
-          element.value.forEach(value => {
-            const newValue = this.validField(element.field, value);
-            source[`${this.searcheableField(element.field)}`] = { $in: newValue };
-          });
+    for (const key in filter) {
+      if (filter[key] && Array.isArray(filter[key])) {
+        switch (key) {
+          case 'contains':
+            Object.assign(source, this.buildContainFilters(filter.contains));
+            break;
+          case 'equals':
+            Object.assign(source, this.buildEqualsFilters(filter.equals));
+            break;
+          case 'inarray':
+            Object.assign(source, this.buildInArrayFilters(filter.inarray));
+            break;
+          case 'notcontains':
+            Object.assign(source, this.buildNotContainFilters(filter.notcontains));
+            break;
+          case 'notequals':
+            Object.assign(source, this.buildNotEqualsFilters(filter.notequals));
+            break;
         }
-      }
-    }
-
-    if (filter?.notcontains && Array.isArray(filter?.notcontains)) {
-      for (const element of filter.notcontains) {
-        const newValue = this.validField(element.field, element.value);
-        source[`${this.searcheableField(element.field)}`] = {
-          $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
-        };
-      }
-    }
-
-    if (filter?.notequals && Array.isArray(filter?.notequals)) {
-      for (const element of filter.notequals) {
-        const newValue = this.validField(element.field, element.value);
-        source[`${this.searcheableField(element.field)}`] = { $ne: newValue };
       }
     }
 

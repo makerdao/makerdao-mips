@@ -22,7 +22,7 @@ import {
   pullRequestsCount,
   pullRequestsLast,
 } from "../graphql/definitions.graphql";
-import { PaginationQueryDto } from "../dto/query.dto";
+import { Filters, PaginationQueryDto } from "../dto/query.dto";
 
 @Injectable()
 export class ParseMIPsService {
@@ -681,22 +681,22 @@ export class ParseMIPsService {
     return this.markedService.markedLexer(file);
   }
 
-  async updateSubproposalCountField(): Promise<void> {    
+  async updateSubproposalCountField(): Promise<void> {
     try {
       const paginationQueryDto: PaginationQueryDto = {
         limit: 0,
         page: 0,
       };
-      const filter = {
-        equals: {
+      const filter: Filters = {
+        equals: [{
           field: "proposal",
           value: "",
-        },
+        }],
       };
       const mips: {
         items: any[];
         total: number;
-      } = await this.mipsService.findAllAfterParse(
+      } = await this.mipsService.findAll(
         paginationQueryDto,
         "",
         "",
@@ -706,16 +706,16 @@ export class ParseMIPsService {
 
       const forLoop = async () => {
         for (let element of mips.items) {
-          const filterSubp = {
-            equals: {
+          const filterSubp: Filters = {
+            equals: [{
               field: "proposal",
               value: element.mipName,
-            },
+            }],
           };
           const subproposals: {
             items: any[];
             total: number;
-          } = await this.mipsService.findAllAfterParse(
+          } = await this.mipsService.findAll(
             paginationQueryDto,
             "",
             "",
