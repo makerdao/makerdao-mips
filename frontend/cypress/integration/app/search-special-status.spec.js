@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-
 describe('Special Search', () => {
   beforeEach(() => {
     // Cypress starts out with a blank slate for each test
@@ -10,5 +9,17 @@ describe('Special Search', () => {
   })
 
   it('should find given status in MIPs list', () => {
+    const statuses = ['ACCEPTED','OBSOLETE','RFC','REJECTED','WITHDRAWN','FORMAL SUBMISSION'];
+
+    statuses.forEach(status=>{
+      cy.get('[data-cy=search-input]').clear()
+      cy.get('[data-cy=search-input]').type(`$@${status}`)
+      cy.get('[data-cy=search-input]').type('{enter}')
+
+      cy.get('[data-cy=table-list-mips] tr.maker-element-row:not(.maker-expanded-row) td.mat-column-status').each(($row)=>{
+        const reg = new RegExp(status,'i');
+        cy.wrap($row).invoke('text').should('match',reg);
+      })
+    })
   })
 })
