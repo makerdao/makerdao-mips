@@ -16,9 +16,10 @@ describe('Special Search', () => {
       cy.get('[data-cy=search-input]').type(`$@${status}`)
       cy.get('[data-cy=search-input]').type('{enter}')
 
+      const expressionRegex = new RegExp(status,'i');
+
       cy.get('[data-cy=table-list-mips] tr.maker-element-row:not(.maker-expanded-row) td.mat-column-status').each(($row)=>{
-        const reg = new RegExp(status,'i');
-        cy.wrap($row).invoke('text').should('match',reg);
+        cy.wrap($row).invoke('text').should('match',expressionRegex);
       })
     })
   })
