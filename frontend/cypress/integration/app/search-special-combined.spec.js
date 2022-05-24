@@ -9,19 +9,6 @@ describe('Special Search', () => {
   })
 
   it('should find given status in MIPs list', () => {
-    // const statuses = ['ACCEPTED','OBSOLETE','RFC','REJECTED','WITHDRAWN','FORMAL SUBMISSION'];
-    //
-    // statuses.forEach(status=>{
-    //   cy.get('[data-cy=search-input]').clear()
-    //   cy.get('[data-cy=search-input]').type(`$@${status}`)
-    //   cy.get('[data-cy=search-input]').type('{enter}')
-    //
-    //   const expressionRegex = new RegExp(status,'i');
-    //
-    //   cy.get('[data-cy=table-list-mips] tr.maker-element-row:not(.maker-expanded-row) td.mat-column-status').each(($row)=>{
-    //     cy.wrap($row).invoke('text').should('match',expressionRegex);
-    //   })
-    // })
     const valueOne = '$OR(@ACCEPTED,@OBSOLETE)';
 
     cy.get('[data-cy=search-input]').clear()
