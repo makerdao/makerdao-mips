@@ -47,6 +47,7 @@
     >
     </app-search-mobile>
     <app-order-mobile
+      *ngIf="!multipleQueries"
       class="mobile"
       (sendOrder)="onSendOrder($event)"
       [orderByField]="orderObj.field"
