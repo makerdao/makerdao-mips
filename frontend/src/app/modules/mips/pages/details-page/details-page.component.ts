@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 import { Language } from 'src/app/data-types/languages';
 import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
+import {DetailContentComponent} from '../../components/detail-content/detail-content.component';
 const YAML = require('yaml');
 @Component({
   selector: 'app-details-page',
@@ -34,6 +35,7 @@ export class DetailsPageComponent implements OnInit {
     | 'References'
     | null = null;
 
+  @ViewChild('detail') detail: DetailContentComponent;
   constructor(
     private mipsService: MipsService,
     private activedRoute: ActivatedRoute,
@@ -58,7 +60,7 @@ export class DetailsPageComponent implements OnInit {
     });
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
-      if (queryParam.has('mdUrl')) {
+      if (queryParam.has('mdUrl') && !queryParam.has('fromChild')) {
         const url = queryParam.get('mdUrl');
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
@@ -75,6 +77,11 @@ export class DetailsPageComponent implements OnInit {
     if (this.mdUrl) {
       this.sections = null;
       this.sections = event;
+
+      if (this.detail){
+        this.detail.sections = this.sections;
+        this.detail.doReloadSourceData();
+      }
     }
   }
 

@@ -12,7 +12,7 @@ export class MipsService {
   filter: FilterData;
   mipsData: any[];
   total = 1;
-  includeSubproposals: boolean = false;
+  includeSubproposals = false;
 
   constructor(private http: HttpClient) {
     this.clearFilter();
@@ -36,7 +36,7 @@ export class MipsService {
 
     if (order !== undefined && order != null && order !== '') {
       const patt = /\b-?mip\b|\b-?mip\s|\s-?mip\s|\s-?mip\b/;
- 
+
       if (!patt.test(order)) {
         order += ' mip mipCodeNumber';
       }
@@ -49,27 +49,31 @@ export class MipsService {
     }
     let urlFilter = '';
     let enter = false;
+
     if (filter !== undefined && filter != null) {
+
       Object.keys(filter).forEach((key) => {
         if (key === 'inarray' && filter[key].length > 0) {
-          const character = !enter ? '?' : '&';
-          enter = true;
-          urlFilter += `${character}filter[${key}][field]=${filter[key][0]['field']}`;
+          filter[key].forEach((final, index) => {
+            const character = urlFilter === '' ? '?' : '&';
 
-          filter[key].forEach((final) => {
-            const character = !enter ? '?' : '&';
-            enter = true;
-            urlFilter += `${character}filter[${key}][value]=${final.value}`;
+            urlFilter += `${character}filter[${key}][${index}][field]=${filter[key][index].field}`;
+
+            final.value.forEach((value, indexValue) => {
+              urlFilter += `${character}filter[${key}][${index}][value][${indexValue}]=${value}`;
+            });
           });
         } else {
+          let index = 0;
           Object.keys(filter[key]).forEach((subkey) => {
             Object.keys(filter[key][subkey]).forEach((final) => {
-              const character = !enter ? '?' : '&';
-              enter = true;
-              urlFilter += `${character}filter[${key}][${[final]}]=${
+              const character = urlFilter === '' ? '?' : '&';
+
+              urlFilter += `${character}filter[${key}][${index}][${[final]}]=${
                 filter[key][subkey][final]
               }`;
             });
+            index++;
           });
         }
       });
@@ -90,7 +94,7 @@ export class MipsService {
   }
 
   getMipByFilename(filename?: string, field?: string): Observable<any> {
-   
+
     return this.http.get(
       `${environment.apiUrl}/mips/findone-by?field=${field}&value=${filename}`
     );
@@ -98,15 +102,15 @@ export class MipsService {
   }
 
   getMipBy(field: string, value: string): Observable<any> {
-    let params: HttpParams = new HttpParams({
+    const params: HttpParams = new HttpParams({
       fromObject: {
-        field: field,
-        value: value,
+        field,
+        value,
       },
     });
 
     return this.http.get(`${environment.apiUrl}/mips/findone-by`, {
-      params: params,
+      params,
     });
   }
 

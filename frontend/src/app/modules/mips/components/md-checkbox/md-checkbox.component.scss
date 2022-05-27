@@ -3,7 +3,6 @@
   display: block;
   position: relative;
   padding-left: 30px;
-  margin-bottom: 12px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -24,7 +23,6 @@
 /* Create a custom checkbox */
 .checkmark {
   position: absolute;
-  top: 0;
   left: 0;
   height: 20px;
   width: 20px;
@@ -70,15 +68,36 @@
 }
 
 .container .text {
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
   color: #748aa1;
 }
+
+/*Adjust container position*/
 @media screen and (max-width: 768px){
-  .container{
-    display: none;
+  :host {
+    transform: translate(-83px,10px);
+    width: 150px;
+    margin: 25px -40px 0 auto !important;
+  }
+
+  app-search-mobile ~ :host {
+    transform: unset;
+    width: unset;
+  }
+}
+
+@media screen and (min-width:769px){
+  :host {
+    width: 115px;
+    transform:translateX(13px);
+  }
+
+  app-search-mobile ~ :host {
+    width: unset;
+    transform:unset;
   }
 }

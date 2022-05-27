@@ -51,7 +51,7 @@
   </div>
   <div
     class="close-container"
-    *ngIf="showInput && !isQueryMode"
+    *ngIf="showClose && !!valueWithoutLineBreaks && (!isQueryMode || error)"
     (click)="clear()"
   >
     <img src="../../../../../assets/images/close.svg" class="imageClose" />
@@ -94,7 +94,7 @@
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
   (click)="openHelpPopup()"
-  [ngStyle]="{ visibility: isQueryMode && showInput ? 'visible' : 'hidden' }"
+  [ngStyle]="{ visibility: !(showClose && !!valueWithoutLineBreaks && error) && isQueryMode && showInput ? 'visible' : 'hidden' }"
 >
   <a class="help-container" type="button">
     <img

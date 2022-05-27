@@ -275,24 +275,10 @@ img {
     font-weight: 500;
     background-color: #fff;
     white-space: nowrap;
-    overflow-x: auto;
     width: 100%;
-
-    &:empty::before {
-      content: attr(placeholder);
-      color: #d2d3d9;
-      font-size: 14px;
-      font-weight: 400;
-    }
-  }
-}
-
-.placeholder {
-  &::before {
-    content: "Placeholder";
-    color: #d2d3d9;
-    font-size: 14px;
-    font-weight: 400;
+    display: inline;
+    height: 17px;
+    overflow-x:hidden;
   }
 }
 

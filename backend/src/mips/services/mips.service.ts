@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
-
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, isValidObjectId } from "mongoose";
-import { Filters, PaginationQueryDto } from "../dto/query.dto";
-
+import markdownToTxt from 'markdown-to-txt';
+import { isValidObjectId, Model } from "mongoose";
+import { BinaryArrayOperator, BinaryOperator, Filters, PaginationQueryDto } from "../dto/query.dto";
 import { Language, MIP, MIPsDoc } from "../entities/mips.entity";
 import { IGitFile, IMIPs } from "../interfaces/mips.interface";
 import { ParseQueryService } from "./parse-query.service";
@@ -23,11 +22,11 @@ export class MIPsService {
     ]);
   }
 
-
   cleanSearchField(search: string): string {
     const searchCleaned = (search || "").replace(/[\u202F\u00A0]/gmi, " ").trim();
     return searchCleaned;
   }
+
   async searchAll({
     paginationQuery,
     order,
@@ -48,6 +47,7 @@ export class MIPsService {
       .sort(order)
       .skip(page * limit)
       .limit(limit)
+      .lean()
       .exec();
 
     if (language === Language.English) return selectedLanguageItems;
@@ -61,16 +61,13 @@ export class MIPsService {
       language: Language.English,
     });
 
-    const errorProofItems = defaultLanguageItems.map((item) => {
+    return defaultLanguageItems.map((item) => {
       const existingItem = selectedLanguageItems.find(
         (selectedItem) => selectedItem.mipName === item.mipName
       );
       return existingItem || item;
     });
-    return errorProofItems;
   }
-
-
 
   async findAll(
     paginationQuery?: PaginationQueryDto,
@@ -109,36 +106,89 @@ export class MIPsService {
       return { items, total };
     }
 
-    const customSelect = ["-file", "-__v", "-sections", "-sectionsRaw"];
+    const defaultSelect = [
+      "-__v",
+      "-file",
+      "-sections",
+      "-sectionsRaw",
+      "-mipName_plain",
+      "-filename_plain",
+      "-proposal_plain",
+      "-title_plain",
+      "-sectionsRaw_plain",
+    ];
 
     const items = await this.searchAll({
       paginationQuery,
       order,
       search: cleanedSearch,
       filter,
-      select: customSelect,
+      select: defaultSelect,
       language,
     });
 
     return { items, total };
   }
 
-  async findAllAfterParse(
-    paginationQuery?: PaginationQueryDto,
-    order?: string,
-    search?: string,
-    filter?: any,
-    select?: string,
-    language?: Language
-  ): Promise<any> {
-    return this.findAll(
-      paginationQuery,
-      order,
-      search,
-      filter,
-      select,
-      language
-    );
+  private buildContainFilters(filters: BinaryOperator[]) {
+    const sourceContain = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value.toString());
+      sourceContain[`${this.searcheableField(element.field)}`] = {
+        $regex: new RegExp(`${newValue}`),
+        $options: "i",
+      };
+    });
+    return sourceContain;
+  }
+
+  private buildEqualsFilters(filters: BinaryOperator[]) {
+    const sourceEquals = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value);
+      sourceEquals[`${this.searcheableField(element.field)}`] = newValue;
+    });
+    return sourceEquals;
+  }
+
+  private buildInArrayFilters(filters: BinaryArrayOperator[]) {
+    const sourceInArray = {};
+    filters.forEach(element => {
+      if (Array.isArray(element.value)) {
+        element.value.forEach(value => {
+          const newValue = this.validField(element.field, value);
+          sourceInArray[`${this.searcheableField(element.field)}`] = {
+            $in: newValue,
+          };
+        });
+      }
+    });
+    return sourceInArray;
+  }
+
+  private buildNotContainFilters(filters: BinaryOperator[]) {
+    const sourceNotContain = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value.toString());
+      sourceNotContain[`${this.searcheableField(element.field)}`] = {
+        $not: {
+          $regex: new RegExp(`${newValue}`),
+          $options: "i",
+        },
+      };
+    });
+    return sourceNotContain;
+  }
+
+  private buildNotEqualsFilters(filters: BinaryOperator[]) {
+    const sourceNotEquals = {};
+    filters.forEach(element => {
+      const newValue = this.validField(element.field, element.value);
+      sourceNotEquals[`${this.searcheableField(element.field)}`] = {
+        $ne: newValue,
+      };
+    });
+    return sourceNotEquals;
   }
 
   // Function to build filter*
@@ -147,95 +197,29 @@ export class MIPsService {
     filter?: Filters,
     language?: Language
   ): Promise<any> {
-    let source = {};
-    if (language) {
-      source = { language };
-    } else {
-      source = { language: Language.English };
-    }
+    let source: any = {
+      language: language || Language.English,
+    };
 
-    if (filter?.contains) {
-      const field = filter.contains["field"];
-      const value = filter.contains["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {
-            $regex: new RegExp(`${newValue}`),
-            $options: "i",
-          };
+    for (const key in filter) {
+      if (filter[key] && Array.isArray(filter[key])) {
+        switch (key) {
+          case 'contains':
+            Object.assign(source, this.buildContainFilters(filter.contains));
+            break;
+          case 'equals':
+            Object.assign(source, this.buildEqualsFilters(filter.equals));
+            break;
+          case 'inarray':
+            Object.assign(source, this.buildInArrayFilters(filter.inarray));
+            break;
+          case 'notcontains':
+            Object.assign(source, this.buildNotContainFilters(filter.notcontains));
+            break;
+          case 'notequals':
+            Object.assign(source, this.buildNotEqualsFilters(filter.notequals));
+            break;
         }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = {
-          $regex: new RegExp(`${newValue}`),
-          $options: "i",
-        };
-      }
-    }
-
-    if (filter?.equals) {
-      const field = filter.equals["field"];
-      const value = filter.equals["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = newValue;
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = newValue;
-      }
-    }
-
-    if (filter?.inarray) {
-      const field = filter.inarray["field"];
-      const value = filter.inarray["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = { $in: newValue };
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = { $in: newValue };
-      }
-    }
-
-    if (filter?.notcontains) {
-      const field = filter.notcontains["field"];
-      const value = filter.notcontains["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = {
-            $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
-          };
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = {
-          $not: { $regex: new RegExp(`${newValue}`), $options: "i" },
-        };
-      }
-    }
-
-    if (filter?.notequals) {
-      const field = filter.notequals["field"];
-      const value = filter.notequals["value"];
-
-      if (Array.isArray(field) && Array.isArray(value)) {
-        for (let i = 0; i < field.length; i++) {
-          const newValue = this.validField(field[i].toString(), value[i]);
-          source[`${field[i].toString()}`] = { $ne: newValue };
-        }
-      } else {
-        const newValue = this.validField(field.toString(), value);
-        source[`${field.toString()}`] = { $ne: newValue };
       }
     }
 
@@ -254,7 +238,7 @@ export class MIPsService {
       } else {
         const cleanSearchText = searchText.replace(/[-[/\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
-        source["sectionsRaw"] =  { '$regex': new RegExp(`${cleanSearchText}`), '$options': 'i' };
+        source["sectionsRaw_plain"] = { '$regex': new RegExp(`${cleanSearchText}`), '$options': 'i' };
       }
     }
     return source;
@@ -380,14 +364,59 @@ export class MIPsService {
     return field === "title" ? this.escapeRegExp(value) : value;
   }
 
+  addSearcheableFields(item): any {
+    for (const key in item) {
+      const value = item[key];
+
+      if (value) {
+        switch (key) {
+          case "mipName":
+          case "filename":
+          case "proposal":
+          case "title":
+            item[`${key}_plain`] = markdownToTxt(value);
+            break;
+          case "sectionsRaw":
+            item['sectionsRaw_plain'] = [];
+            value.forEach(element => {
+              item['sectionsRaw_plain'].push(markdownToTxt(element));
+            });
+        }
+      }
+    }
+
+    return item;
+  }
+
+  searcheableField(field: string): any {
+    switch (field) {
+      case "mipName":
+      case "filename":
+      case "proposal":
+      case "title":
+      case "sectionsRaw":
+        return `${field}_plain`;
+      default:
+        return field;
+    }
+  }
+
   async findOneByMipName(mipName: string, language: Language): Promise<MIP> {
     if (!language) {
       language = Language.English;
     }
 
     return await this.mipsDoc
-      .findOne({ mipName: mipName, language })
-      .select(["-__v", "-file"])
+      .findOne({ mipName_plain: mipName, language })
+      .select([
+        "-__v",
+        "-file",
+        "-mipName_plain",
+        "-filename_plain",
+        "-proposal_plain",
+        "-title_plain",
+        "-sectionsRaw_plain",
+      ])
       .exec();
   }
 
@@ -446,14 +475,22 @@ export class MIPsService {
     }
 
     const filter = {
-      filename: {
+      filename_plain: {
         $regex: new RegExp(filename),
         $options: "i",
       },
       language,
     };
 
-    return await this.mipsDoc.findOne(filter).select(["-__v", "-file"]).exec();
+    return await this.mipsDoc.findOne(filter).select([
+      "-__v",
+      "-file",
+      "-mipName_plain",
+      "-filename_plain",
+      "-proposal_plain",
+      "-title_plain",
+      "-sectionsRaw_plain",
+    ]).exec();
   }
 
   async getSummaryByMipName(mipName: string, language: Language): Promise<MIP> {
@@ -462,7 +499,7 @@ export class MIPsService {
     }
 
     return await this.mipsDoc
-      .findOne({ mipName, language })
+      .findOne({ mipName_plain: mipName, language })
       .select(["sentenceSummary", "paragraphSummary", "title", "mipName"])
       .exec();
   }
@@ -477,7 +514,7 @@ export class MIPsService {
     const mipName = mipComponent.match(/MIP\d+/gi)[0];
 
     return await this.mipsDoc
-      .findOne({ mipName, language })
+      .findOne({ mipName_plain: mipName, language })
       .select({
         sentenceSummary: 1,
         paragraphSummary: 1,
@@ -488,7 +525,7 @@ export class MIPsService {
       .exec();
   }
 
-  async findOneByProposal(
+  async findByProposal(
     proposal: string,
     language?: Language
   ): Promise<MIP[]> {
@@ -497,18 +534,23 @@ export class MIPsService {
     }
 
     return await this.mipsDoc
-      .find({ proposal, language })
+      .find({ proposal_plain: proposal, language })
       .select(["title", "mipName"])
       .sort("mip subproposal")
       .exec();
   }
 
   create(mIPs: IMIPs): Promise<MIP> {
-    return this.mipsDoc.create(mIPs);
+    return this.mipsDoc.create(
+      this.addSearcheableFields(mIPs),
+    );
   }
 
   insertMany(mips: MIP[] | any): Promise<any> {
-    return this.mipsDoc.insertMany(mips);
+    const mipsUpdated = mips.map(element => {
+      return this.addSearcheableFields(element);
+    });
+    return this.mipsDoc.insertMany(mipsUpdated);
   }
 
   async getAll(): Promise<Map<string, IGitFile>> {

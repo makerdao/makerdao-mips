@@ -13,7 +13,7 @@ import { SimpleGitService } from "./simple-git.service";
 
 import { Env } from "@app/env";
 import { MarkedService } from "./marked.service";
-import { Component, MIP } from "../entities/mips.entity";
+import { Component, MIP, Reference } from "../entities/mips.entity";
 import { GithubService } from "./github.service";
 import { PullRequestService } from "./pull-requests.service";
 import {
@@ -22,7 +22,7 @@ import {
   pullRequestsCount,
   pullRequestsLast,
 } from "../graphql/definitions.graphql";
-import { PaginationQueryDto } from "../dto/query.dto";
+import { Filters, PaginationQueryDto } from "../dto/query.dto";
 
 @Injectable()
 export class ParseMIPsService {
@@ -51,7 +51,7 @@ export class ParseMIPsService {
     const branch = this.configService.get(Env.RepoBranch);
 
     try {
-      await this.simpleGitService.pull("origin", branch);
+      this.simpleGitService.pull("origin", branch);
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
@@ -122,6 +122,42 @@ export class ParseMIPsService {
     }
   }
 
+  async parseMIP(item, isNewMIP: boolean): Promise<MIP> {
+    const dir = `${this.baseDir}/${item.filename}`;
+
+    this.logger.log(`Parse ${isNewMIP ? 'new ' : ''}mip item update => ${item.filename}`);
+
+    const fileString = await readFile(dir, "utf-8");
+    return this.parseLexerData(fileString, item)
+  }
+
+  async deleteMipsFromMap(filesDB: Map<string, IGitFile>) {
+    // Remove remaining items
+    const deleteItems: string[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [_, value] of filesDB.entries()) {
+      deleteItems.push(value._id);
+    }
+
+    await this.mipsService.deleteManyByIds(deleteItems);
+  }
+
+  async updateIfDifferentHash(fileDB, item) {
+    if (fileDB.hash !== item.hash) {
+      const mip: MIP = await this.parseMIP(item, false);
+
+      if (mip) {
+        try {
+          await this.mipsService.update(fileDB._id, mip);
+        } catch (error) {
+          this.logger.error(error.message);
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
   async synchronizeData(
     filesGit: IGitFile[],
     filesDB: Map<string, IGitFile>
@@ -135,13 +171,8 @@ export class ParseMIPsService {
 
     for (const item of filesGit) {
       if (!filesDB.has(item.filename)) {
-        const dir = `${this.baseDir}/${item.filename}`;
-
-        this.logger.log(`Parse new mip item => ${item.filename}`);
-
         try {
-          const fileString = await readFile(dir, "utf-8");
-          const mip = this.parseLexerData(fileString, item);
+          const mip = await this.parseMIP(item, true);
           if (mip.mip === undefined || mip.mipName === undefined) {
             // TODO: Convert into a notification Service
             console.log({
@@ -150,7 +181,7 @@ export class ParseMIPsService {
               TODO: "Convert into a notification Service"
             })
             this.logger.log(
-              `Mips with problems to parse ==>${(mip.mip, mip.mipName, mip.filename)
+              `Mips with problems to parse ==> ${(mip.mip, mip.mipName, mip.filename)
               }`
             );
           }
@@ -163,41 +194,22 @@ export class ParseMIPsService {
           continue;
         }
       } else {
-        const fileDB = filesDB.get(item.filename);
-
-        if (fileDB.hash !== item.hash) {
-          const dir = `${this.baseDir}/${item.filename}`;
-
-          this.logger.log(`Parse mip item update => ${item.filename}`);
-          const fileString = await readFile(dir, "utf-8");
-          const mip = this.parseLexerData(fileString, item);
-
-          if (mip) {
-            try {
-              await this.mipsService.update(fileDB._id, mip);
-            } catch (error) {
-              this.logger.error(error.message);
-            }
-          }
-          synchronizeData.updates++;
-        }
+        const isUpdated = await this.updateIfDifferentHash(
+          filesDB.get(item.filename),
+          item,
+        );
+        isUpdated && synchronizeData.updates++;
         filesDB.delete(item.filename);
       }
     }
 
     // Remove remaining items
-    const deleteItems: string[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [_, value] of filesDB.entries()) {
-      deleteItems.push(value._id);
-    }
-    synchronizeData.deletes = deleteItems.length;
+    await this.deleteMipsFromMap(filesDB);
+
+    synchronizeData.deletes = filesDB.size;
     synchronizeData.creates = createItems.length;
 
-    await Promise.all([
-      this.mipsService.insertMany(createItems),
-      this.mipsService.deleteManyByIds(deleteItems),
-    ]);
+    await this.mipsService.insertMany(createItems);
     return synchronizeData;
   }
 
@@ -227,7 +239,7 @@ export class ParseMIPsService {
     const componentHeaders = componentText.match(regexToGetComponentTitle);
     const splitedData = componentText.split(regexToGetComponentTitle);
 
-    const componentData = componentHeaders?.map((item, index) => {
+    return componentHeaders?.map((item, index) => {
       const matches = item.match(regexComp).groups;
       const cBody = splitedData[index + 1].trim().split(/^#/gm)[0];
 
@@ -237,8 +249,6 @@ export class ParseMIPsService {
         cBody,
       };
     });
-
-    return componentData;
   }
 
   parseMipsNamesComponentsSubproposals(data, isOnComponentSummary) {
@@ -304,12 +314,139 @@ export class ParseMIPsService {
     return raw;
   }
 
+  private parseReferenceList(items: any[]): Reference[] {
+    const references: Reference[] = [];
+    for (const item of items) {
+      for (const list of item.tokens) {
+        if (list.tokens) {
+          references.push(
+            ...list.tokens
+              .filter((d) => d.href)
+              .map((f) => {
+                return {
+                  name: f.text,
+                  link: f.href,
+                };
+              })
+          );
+        }
+      }
+    }
+    return references;
+  }
+
+  private parseReferencesTokens(item: any): Reference[] {
+    switch (item.type) {
+      case "text":
+        if (item.text.trim()) {
+          return [{
+            name: item.text,
+            link: "",
+          }];
+        }
+        break;
+      case "link":
+        return [{
+          name: item.text,
+          link: item.href,
+        }];
+      default:
+        if (item.tokens) {
+          return item.tokens.map((d) => {
+            return { name: d.text, link: d.href || d.text };
+          });
+        }
+    }
+    return [];
+  }
+
+  private parseReferences(next): Reference[] {
+    if (next.type === "list") {
+      return this.parseReferenceList(next.items);
+    }
+
+    if (next?.tokens) {
+      const references: Reference[] = [];
+      for (const item of next?.tokens) {
+        references.push(...this.parseReferencesTokens(item));
+
+      }
+      return references;
+    }
+    return []
+  }
+
+  private parseParagraphSummary(list: any[]): string {
+    const paragraphSummaryArray = [];
+
+    for (
+      let index = 0;
+      index < list.length &&
+      list[index].type !== "heading" &&
+      list[index].depth !== 2;
+      index++
+    ) {
+      paragraphSummaryArray.push(list[index].raw);
+    }
+
+    return paragraphSummaryArray.join("").trim();
+  }
+
+  private parseNotTitleHeading(
+    list: any[],
+    mip: MIP,
+    item: IGitFile,
+  ) {
+    let isOnComponentSummary: boolean = false;
+    let preamble: IPreamble;
+    switch (list[0]?.text) {
+      case "Preamble":
+        if (item.filename.includes("-")) {
+          preamble = this.parsePreamble(list[1]?.text, true);
+
+          preamble.mip = parseInt(mip.proposal?.replace("MIP", ""));
+          mip.mipName = preamble.mipName;
+          mip.subproposal = this.setSubproposalValue(mip.mipName);
+        } else {
+          preamble = this.parsePreamble(list[1]?.text);
+        }
+        break;
+      case "Sentence Summary":
+        mip.sentenceSummary = list[1].raw;
+        break;
+      case "Paragraph Summary":
+        mip.paragraphSummary = this.parseParagraphSummary(list.slice(1, list.length + 1));
+        break;
+      case "References":
+        mip.references = this.parseReferences(list[1])
+        break;
+      default:
+        if (list[0].text.toLowerCase().includes("component summary")) {
+          isOnComponentSummary = true;
+        }
+    }
+    return { mip, preamble, isOnComponentSummary };
+  }
+
+  private extractMipNumberFromMipName(mipName: string): string {
+    return mipName?.replace(/\d+/g, (number: string) => {
+      const numb = parseInt(number);// avoid the starter 0 problem
+      const decimalPlaces = 4;
+
+      if (!isNaN(numb)) {
+        const parsed = numb.toString();
+        return "0".repeat(decimalPlaces - parsed.length) + parsed;
+      }
+      return number;
+    });
+  }
+
   parseLexerData(fileString: string, item: IGitFile): MIP {
     const list: any[] = this.markedService.markedLexer(fileString);
-    let preamble: IPreamble = {};
-    let isOnComponentSummary = false;
+    let preamble: IPreamble;
+    const sectionsRaw: string[] = [];
 
-    const mip: MIP = {
+    let mip: MIP = {
       hash: item.hash,
       file: fileString,
       language: item.language,
@@ -328,118 +465,20 @@ export class ParseMIPsService {
       mip.proposal = mipFatherNumber;
     } else {
       mip.mipName = mipFatherNumber;
+
+      // Only the mipsFathers
+      const componentSummary: string = this.getComponentsSection(fileString);
+      const components: Component[] = this.getDataFromComponentText(
+        componentSummary
+      );
+      mip.components = components;
     }
 
     let title: string;
 
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
-
-      if (element.type === "heading" && element.depth === 2) {
-        if (element.text.toLowerCase().includes("component summary"))
-          isOnComponentSummary = true;
-        else if (isOnComponentSummary) isOnComponentSummary = false;
-      }
-
-      mip.sectionsRaw.push(
-        this.parseMipsNamesComponentsSubproposals(element, isOnComponentSummary)
-      );
-
-      if (element?.type === "heading" && element?.depth === 1) {
-        title = element?.text;
-      } else if (
-        element?.type === "heading" &&
-        element?.depth === 2 &&
-        element?.text === "Preamble" &&
-        i + 1 < list.length
-      ) {
-        if (list[i + 1]?.type === "code") {
-          if (item.filename.includes("-")) {
-            preamble = this.parsePreamble(list[i + 1]?.text, true);
-
-            preamble.mip = parseInt(mip.proposal?.replace("MIP", ""));
-            mip.mipName = preamble.mipName;
-            mip.subproposal = this.setSubproposalValue(mip.mipName);
-          } else {
-            preamble = this.parsePreamble(list[i + 1]?.text);
-          }
-        }
-      } else if (
-        element?.type === "heading" &&
-        element?.depth === 2 &&
-        element?.text === "Sentence Summary" &&
-        i + 1 < list.length
-      ) {
-        mip.sentenceSummary = list[i + 1]?.raw;
-      } else if (
-        element?.type === "heading" &&
-        element?.depth === 2 &&
-        element?.text === "Paragraph Summary"
-      ) {
-        const paragraphSummaryArray = [];
-
-        for (
-          let index = i + 1;
-          index < list.length &&
-          list[index].type !== "heading" &&
-          list[index].depth !== 2;
-          index++
-        ) {
-          paragraphSummaryArray.push(list[index].raw);
-        }
-
-        mip.paragraphSummary = paragraphSummaryArray.join("").trim();
-      } else if (
-        element?.type === "heading" &&
-        element?.depth === 2 &&
-        element?.text === "References" &&
-        i + 1 < list.length
-      ) {
-        if (list[i + 1].type === "list") {
-          for (const item of list[i + 1]?.items) {
-            for (const list of item.tokens) {
-              if (list.tokens) {
-                mip.references.push(
-                  ...list.tokens
-                    .filter((d) => d.href)
-                    .map((f) => {
-                      return {
-                        name: f.text,
-                        link: f.href,
-                      };
-                    })
-                );
-              }
-            }
-          }
-        } else {
-          if (list[i + 1]?.tokens) {
-            for (const item of list[i + 1]?.tokens) {
-              if (item.type === "text") {
-                if (item.text.trim()) {
-                  mip.references.push({
-                    name: item.text,
-                    link: "",
-                  });
-                }
-              } else {
-                if (item.type === "link") {
-                  mip.references.push({
-                    name: item.text,
-                    link: item.href,
-                  });
-                } else if (item.tokens) {
-                  mip.references.push(
-                    ...item.tokens.map((d) => {
-                      return { name: d.text, link: d.href || d.text };
-                    })
-                  );
-                }
-              }
-            }
-          }
-        }
-      }
+      let isOnComponentSummary = false;
 
       if (element?.type === "heading") {
         const matchMipComponentName = element?.text?.match(
@@ -458,22 +497,34 @@ export class ParseMIPsService {
             depth: element?.depth,
           });
         }
+
+        switch (`${element?.depth}`) {
+          case '1':
+            title = element?.text;
+            break;
+          case '2':
+            const parsed = this.parseNotTitleHeading(
+              list.slice(i, list.length + 1),
+              mip,
+              item,
+            );
+            preamble = parsed?.preamble || preamble;
+            mip = {
+              ...mip,
+              ...parsed.mip
+            };
+            isOnComponentSummary = parsed.isOnComponentSummary;
+            break;
+        }
       }
+      sectionsRaw.push(
+        this.parseMipsNamesComponentsSubproposals(element, isOnComponentSummary)
+      );
     }
 
     if (!preamble) {
       this.logger.log(`Preamble empty ==> ${JSON.stringify(item)}`);
       return;
-    }
-
-    if (!item.filename.includes("-")) {
-      // Only the mipsFathers
-      const componentSummary: string = this.getComponentsSection(fileString);
-      const components: Component[] = this.getDataFromComponentText(
-        componentSummary
-      );
-
-      mip.components = components;
     }
 
     mip.author = preamble.author;
@@ -489,22 +540,10 @@ export class ParseMIPsService {
     mip.types = preamble.types;
     mip.tags = preamble.tags;
     mip.subproposalsCount = 0;
-
     mip.votingPortalLink = preamble.votingPortalLink;
     mip.forumLink = preamble.forumLink;
-
-    mip.mipCodeNumber = mip.mipName?.replace(/\d+/g, (number: string) => {
-      const numb = parseInt(number);// avoid the starter 0 problem
-      const decimalPlaces = 4;
-
-      if (!isNaN(numb)) {
-        const parsed = numb.toString();
-
-        return "0".repeat(decimalPlaces - parsed.length) + parsed;
-      }
-
-      return number;
-    });
+    mip.mipCodeNumber = this.extractMipNumberFromMipName(mip.mipName);
+    mip.sectionsRaw = sectionsRaw;
 
     return mip;
   }
@@ -533,29 +572,25 @@ export class ParseMIPsService {
     return parseInt(acumulate);
   }
 
-  parsePreamble(data: string, subproposal = false): IPreamble {
+  parsePreamble(preambleData: string, subproposal = false): IPreamble {
     const preamble: IPreamble = {};
 
     let flag = true;
 
-    data.split("\n").filter((data: string) => {
-      if (!data.includes(":")) {
+    preambleData.split("\n").forEach((preambleLine: string) => {
+      if (!preambleLine.includes(":")) {
         return false;
       }
 
-      if (!data.includes(":")) {
-        return false;
-      }
-      
       const keyValue = [
-        data.substring(0, data.indexOf(":")),
-        data.substring(data.indexOf(":") + 1).trim()
+        preambleLine.substring(0, preambleLine.indexOf(":")),
+        preambleLine.substring(preambleLine.indexOf(":") + 1).trim()
       ];
-    
 
-      if (subproposal && flag && data.includes("-SP")) {
+
+      if (subproposal && flag && preambleLine.includes("-SP")) {
         const re = /[: #-]/gi;
-        preamble.mipName = data?.replace(re, "");
+        preamble.mipName = preambleLine?.replace(re, "");
 
         flag = false;
         subproposal = false;
@@ -584,14 +619,10 @@ export class ParseMIPsService {
             .map((data) => data.trim());
           break;
         case "Author(s)":
-          preamble.author = keyValue[1].split(",").map((data) => data.trim());
-          break;
         case "Author":
           preamble.author = keyValue[1].split(",").map((data) => data.trim());
           break;
         case "Tags":
-          preamble.tags = keyValue[1].split(",").map((data) => data.trim());
-          break;
         case "tags":
           preamble.tags = keyValue[1].split(",").map((data) => data.trim());
           break;
@@ -650,22 +681,22 @@ export class ParseMIPsService {
     return this.markedService.markedLexer(file);
   }
 
-  async updateSubproposalCountField() {
+  async updateSubproposalCountField(): Promise<void> {
     try {
       const paginationQueryDto: PaginationQueryDto = {
         limit: 0,
         page: 0,
       };
-      const filter = {
-        equals: {
+      const filter: Filters = {
+        equals: [{
           field: "proposal",
           value: "",
-        },
+        }],
       };
       const mips: {
         items: any[];
         total: number;
-      } = await this.mipsService.findAllAfterParse(
+      } = await this.mipsService.findAll(
         paginationQueryDto,
         "",
         "",
@@ -674,18 +705,17 @@ export class ParseMIPsService {
       );
 
       const forLoop = async () => {
-        for (let i = 0; i < mips.items.length; i++) {
-          const element = mips.items[i];
-          const filterSubp = {
-            equals: {
+        for (let element of mips.items) {
+          const filterSubp: Filters = {
+            equals: [{
               field: "proposal",
               value: element.mipName,
-            },
+            }],
           };
           const subproposals: {
             items: any[];
             total: number;
-          } = await this.mipsService.findAllAfterParse(
+          } = await this.mipsService.findAll(
             paginationQueryDto,
             "",
             "",
@@ -693,7 +723,7 @@ export class ParseMIPsService {
             "_id mipName proposal"
           );
           element.subproposalsCount = subproposals.total;
-          this.mipsService.update(element._id, element as MIP);
+          await this.mipsService.update(element._id, element as MIP);
         }
       };
       await forLoop();

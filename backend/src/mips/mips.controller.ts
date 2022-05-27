@@ -41,8 +41,10 @@ export class MIPsController {
   ) { }
 
   @Get("findall")
-  @ApiOperation({ summary: "Find all mips" })
-  @ApiOperation({ description: "This is return array of mips." })
+  @ApiOperation({
+    summary: "Find all mips",
+    description: "This is return array of mips by the custom params defined (limite, page, order, select, lang, search, filter).",
+  })
   @ApiQuery({
     name: "limit",
     description: "Limit per page, default value 10",
@@ -57,7 +59,7 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "order",
-    description: `'title -mip', means: order property title ASC and mip DESC`,
+    description: `Fields the mips will be ordered by, i.e. 'title -mip', means: order property title ASC and mip DESC`,
     type: String,
     required: false,
   })
@@ -69,31 +71,32 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "lang",
-    description: `Lang files to get output. If file language not found, it default to english version`,
+    description: `Lang selected for the files to return. If file language not found, it default to english version`,
     enum: Language,
     required: false, // If you view this comment change to true value
   })
   @ApiQuery({
     name: "search",
     description:
-      'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (\\ ") that specifies a phrase',
+      'The search field treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes (") that specifies a phrase',
     type: String,
     required: false,
   })
   @ApiQuery({
     name: "filter",
     description:
-      "Filter field with various filter patterns. (contains, notcontains, equals, notequals)",
+      "Filter field with various filter patterns. (contains, notcontains, equals, notequals, inarray)",
     required: false,
-    type: "object",
+    type: 'object',
     schema: {
-      type: "object",
+      type: 'object',
       example: {
         filter: {
           contains: [{ field: "status", value: "RFC" }],
           notcontains: [{ field: "status", value: "Accepted" }],
           equals: [{ field: "mip", value: -1 }],
           notequals: [{ field: "mip", value: -1 }],
+          inarray: [{ field: "mipName", value: ["MIP0", "MIP1"] }],
         },
       },
     },
@@ -125,7 +128,7 @@ export class MIPsController {
         page: +page,
       };
 
-      const allMips = await this.mipsService.findAll(
+      return await this.mipsService.findAll(
         paginationQueryDto,
         order,
         search,
@@ -133,8 +136,6 @@ export class MIPsController {
         select,
         lang
       );
-
-      return allMips;
     } catch (error) {
 
       throw new HttpException(
@@ -154,13 +155,13 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "lang",
-    description: `Lang files to get output`,
+    description: `Lang selected for the file to return. If file language not found, it default to english version`,
     enum: Language,
     required: false, // If you view this comment change to true value
   })
   @ApiQuery({
     name: "mipName",
-    description: `Enter the mips you want looking for`,
+    description: `Mip name you want looking for`,
     type: String,
     required: true,
   })
@@ -177,8 +178,8 @@ export class MIPsController {
   })
   @ApiResponse({ status: 404, description: "Bad request" })
   async findOneByMipName(
+    @Query("mipName") mipName: string,
     @Query("lang") lang?: Language,
-    @Query("mipName") mipName?: string
   ) {
     let mip = await this.mipsService.findOneByMipName(mipName, lang);
 
@@ -193,7 +194,7 @@ export class MIPsController {
     let subproposals = [];
 
     if (!mip.proposal) {
-      subproposals = await this.mipsService.findOneByProposal(mip.mipName);
+      subproposals = await this.mipsService.findByProposal(mip.mipName);
     }
 
     try {
@@ -222,18 +223,18 @@ export class MIPsController {
   @ApiQuery({
     type: String,
     name: "field",
-    description: "Smart search you can use tags and tags",
+    description: "Field the smart search is execute by. You can use tags or status",
     required: true,
   })
   @ApiQuery({
     type: String,
     name: "value",
-    description: "Enter the value",
+    description: "Value to execute the smart search",
     required: true,
   })
   @ApiQuery({
     name: "lang",
-    description: `Lang files to get output`,
+    description: `Lang selected for the files to return. If file language not found, it default to english version`,
     enum: Language,
     required: false, // If you view this comment change to true value
   })
@@ -276,26 +277,26 @@ export class MIPsController {
   @ApiQuery({
     type: String,
     name: "field",
+    description: 'Field the search is execute by.',
     required: true,
   })
   @ApiQuery({
     type: String,
     name: "value",
+    description: 'Value to execute the search',
     required: true,
   })
   @ApiQuery({
     name: "lang",
-    description: `Lang files to get output`,
+    description: `Lang selected for the files to return. If file language not found, it default to english version`,
     enum: Language,
     required: false, // If you view this comment change to true value
   })
-
   @ApiCreatedResponse({
     type: Mips,
     status: 200,
     description: "successful operation",
   })
-
   @ApiResponse({
     status: 400,
     type: ErrorObjectModel,
@@ -303,7 +304,6 @@ export class MIPsController {
       "Semantic error, for instance when a given mip is not found",
   })
   @ApiResponse({ status: 404, description: "Bad request" })
-
   async findOneBy(
     @Query("field") field: string,
     @Query("value") value: string,
@@ -314,14 +314,14 @@ export class MIPsController {
     switch (field) {
       case "filename":
         mip = await this.mipsService.findOneByFileName(value, lang);
-        if (!mip) {
+        if (!mip && (!lang || lang !== Language.English)) {
           mip = await this.mipsService.findOneByFileName(
             value,
             Language.English
           );
           if (!mip) {
             throw new NotFoundException(
-              `MIPs with ${field} ${value} not found`
+              `MIP with ${field} ${value} not found`
             );
           }
         }
@@ -332,14 +332,14 @@ export class MIPsController {
         //Left temporaly to backward compatibilities only
         mip = await this.mipsService.getSummaryByMipName(value, lang);
 
-        if (!mip) {
+        if (!mip && (!lang || lang !== Language.English)) {
           mip = await this.mipsService.getSummaryByMipName(
             value,
             Language.English
           );
           if (!mip) {
             throw new NotFoundException(
-              `MIPs with ${field} ${value} not found`
+              `MIP with ${field} ${value} not found`
             );
           }
         }
@@ -348,13 +348,14 @@ export class MIPsController {
       case "mipComponent":
         if (!value.match(/MIP\d+[ac]\d+/gi)) {
           throw new NotFoundException(
-            `MIP component not in the standart format MIP10c5 `
+            `MIP component not in the standard format, i.e. MIP10c5`
           );
         }
 
         mip = await this.mipsService.getSummaryByMipComponent(value, lang);
 
-        if (!mip || mip.components.length !== 1) {
+        if (!mip || mip.components.length !== 1
+          && (!lang || lang !== Language.English)) {
           mip = await this.mipsService.getSummaryByMipComponent(
             value,
             Language.English
@@ -383,10 +384,14 @@ export class MIPsController {
   })
   @ApiQuery({
     name: "headers",
+    description: 'Headers to check the hash. x-hub-signature is needed',
+    type: 'object',
     required: true,
   })
   @ApiQuery({
     name: "body",
+    description: 'Callback body to check the hash',
+    type: 'object',
     required: true,
   })
   @ApiCreatedResponse({

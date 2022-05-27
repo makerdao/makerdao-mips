@@ -75,24 +75,6 @@ export class MenuComponent implements OnInit, OnChanges {
           overlayX: 'start',
           overlayY: 'top',
         },
-        {
-          originX: 'start',
-          originY: 'top',
-          overlayX: 'end',
-          overlayY: 'top',
-        },
-        {
-          originX: 'start',
-          originY: 'bottom',
-          overlayX: 'start',
-          overlayY: 'top',
-        },
-        {
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'top',
-        },
       ];
     }
   }
@@ -111,7 +93,6 @@ export class MenuComponent implements OnInit, OnChanges {
 
   onClick(ev: Event): void {
     if (this.levelMenu === 0) {
-      // setTimeout(() => {
       const positionX = (ev.currentTarget as HTMLElement).getClientRects()[0]
         .left;
 
@@ -119,9 +100,7 @@ export class MenuComponent implements OnInit, OnChanges {
         window.innerWidth > 500 ? positionX - 40 : positionX - 30;
 
       console.log({ movePositionX });
-
       this.menuService.setsXClicked(movePositionX);
-      //  }, 1000);
     }
     ev.stopPropagation();
     this.toggle.next(!this.isOpen);
@@ -168,7 +147,5 @@ export class MenuComponent implements OnInit, OnChanges {
     } else {
       this.yDirection = 'up';
     }
-
-    oldY = e.pageY;
   }
 }

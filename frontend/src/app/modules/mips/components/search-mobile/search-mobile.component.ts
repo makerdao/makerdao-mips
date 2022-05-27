@@ -128,6 +128,7 @@ export class SearchMobileComponent implements OnInit {
     public viewContainerRef: ViewContainerRef
   ) {}
 
+
   ngOnInit(): void {
     this.control.setValue(this.value);
     this.showClose = this.value ? true : false;
@@ -181,6 +182,10 @@ export class SearchMobileComponent implements OnInit {
     this.isOpenHelpPopup = !this.isOpenHelpPopup;
   }
 
+  get valueWithoutLineBreaks(): string {
+    return this.value?.replace('\n','');
+  }
+
   onKeySearch(event: any): void {
     clearTimeout(this.timeout);
 
@@ -193,7 +198,7 @@ export class SearchMobileComponent implements OnInit {
 
       if (this.isQuery(val)) {
         this.isQueryMode = true;
-        this.showClose = false;
+        this.showClose = val !== '';
 
         if (event.keyCode == 13 && !this.selectedAutocompleteOptionByEnter) {
           this.timeout = setTimeout(() => {

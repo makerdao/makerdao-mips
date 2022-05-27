@@ -5,7 +5,8 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
     }"
   >
     <div
@@ -13,36 +14,41 @@
       [ngClass]="{
         'item-icon-green': item.type === 'GREEN',
         'item-icon-yellow': item.type === 'YELLOW',
-        'item-icon-red': item.type === 'RED'
+        'item-icon-red': item.type === 'RED',
+        'item-icon-blue': item.type === 'BLUE'
       }"
     >
       <img
         *ngIf="item.type === 'GREEN'"
-        src="./assets/images/notification/circle.png"
+        src="./assets/images/notification/circle-G.png"
       />
       <img
         *ngIf="item.type === 'RED'"
-        src="./assets/images/notification/triangle.png"
+        src="./assets/images/notification/tip-R.png"
       />
       <img
         *ngIf="item.type === 'YELLOW'"
-        src="./assets/images/notification/tip.png"
+        src="./assets/images/notification/tip-Y.png"
+      />
+      <img
+        *ngIf="item.type === 'BLUE'"
+        src="./assets/images/notification/tip-B.png"
       />
     </div>
 
-    <div class="item" style="width: 25%">
-      <markdown
-        [data]="item.title"
-        class="item-title"
-      ></markdown>
+    <div class="item" style="width: 40%">
+      <markdown [data]="item.title" class="item-title"></markdown>
     </div>
-    <div class="item" style="width: 50%">
-      <markdown
-        class="item-description"
-        [data]="item.description"
-      ></markdown>
+
+    <div class="item" style="width: 50%" *ngIf="item.link || item.linkforum || item.linkmd">
+      <markdown class="item-description" [data]="item.description"></markdown>
     </div>
-    <div class="newsLinkContainer" style="width: 25%">
+
+    <div class="item" style="width: calc(50% + 191px)" *ngIf="!item.link && !item.linkforum && !item.linkmd">
+      <markdown class="item-description" [data]="item.description"></markdown>
+    </div>
+
+    <div class="newsLinkContainer" *ngIf="item.link || item.linkforum || item.linkmd">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
@@ -55,7 +61,7 @@
         href="{{ item.linkforum }}"
         class="newsLink"
         target="_blank"
-        >Forum link</a
+        >Forum</a
       >
       <a
         *ngIf="item.linkmd"
@@ -78,7 +84,8 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
     }"
   >
     <div class="item-mobile">
@@ -86,23 +93,28 @@
         <img
           width="20"
           *ngIf="item.type === 'GREEN'"
-          src="./assets/images/notification/circle-dark.png"
+          src="./assets/images/notification/circle-G.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'RED'"
-          src="./assets/images/notification/triangle-dark.png"
+          src="./assets/images/notification/tip-R.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'YELLOW'"
-          src="./assets/images/notification/tip-dark.png"
+          src="./assets/images/notification/tip-Y.png"
+        />
+        <img
+          width="20"
+          *ngIf="item.type === 'BLUE'"
+          src="./assets/images/notification/tip-B.png"
         />
       </div>
       <markdown
         [data]="item.title"
-        class="title-mobile"
-        style="width: 86%; text-align: center; margin-top: 5px"
+        class="title-mobile title-mobile-dark"
+        style="width: 86%; text-align: center"
       ></markdown>
       <div
         class="closeNewButton"
@@ -115,30 +127,30 @@
     <div class="item-mobile">
       <markdown
         [data]="item.description"
-        class="description-mobile"
+        class="description-mobile description-mobile-dark"
         style="margin-top: 0px"
       ></markdown>
     </div>
 
-    <div class="newsLinkContainerMovile" style="width: 100%">
+    <div class="newsLinkContainerMovile" style="width: 100%" [ngStyle]="{'height':!item.link && !item.linkforum && !item.linkmd ? '7px':'unset'}">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
-        class="newsLinkDark"
+        class="newsLinkDark newsLinkMobile"
         target="_blank"
         >Mip</a
       >
       <a
         *ngIf="item.linkforum"
         href="{{ item.linkforum }}"
-        class="newsLinkDark"
+        class="newsLinkDark newsLinkMobile"
         target="_blank"
-        >Forum link</a
+        >Forum</a
       >
       <a
         *ngIf="item.linkmd"
         href="mips/md-viewer?mdUrl={{ item.linkmd }}"
-        class="newsLinkDark"
+        class="newsLinkDark newsLinkMobile"
         target="_blank"
         >.md View</a
       >
@@ -152,7 +164,8 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
     }"
   >
     <div class="item-mobile">
@@ -160,23 +173,28 @@
         <img
           width="20"
           *ngIf="item.type === 'GREEN'"
-          src="./assets/images/notification/circle-dark.png"
+          src="./assets/images/notification/circle-G.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'RED'"
-          src="./assets/images/notification/triangle-dark.png"
+          src="./assets/images/notification/tip-R.png"
         />
         <img
           width="20"
           *ngIf="item.type === 'YELLOW'"
-          src="./assets/images/notification/tip-dark.png"
+          src="./assets/images/notification/tip-Y.png"
+        />
+        <img
+          width="20"
+          *ngIf="item.type === 'BLUE'"
+          src="./assets/images/notification/tip-B.png"
         />
       </div>
 
       <markdown
         [data]="item.title"
-        style="width: 86%; text-align: center; margin-top: 5px"
+        style="width: 86%; text-align: center"
         class="title-mobile"
       ></markdown>
 
@@ -196,25 +214,25 @@
         style="margin-top: 0px"
       ></markdown>
     </div>
-    <div class="newsLinkContainerMovile" style="width: 100%">
+    <div class="newsLinkContainerMovile" style="width: 100%" [ngStyle]="{'height':!item.link && !item.linkforum && !item.linkmd ? '7px':'unset'}">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
-        class="newsLink"
+        class="newsLink newsLinkMobile"
         target="_blank"
         >Mip</a
       >
       <a
         *ngIf="item.linkforum"
         href="{{ item.linkforum }}"
-        class="newsLink"
+        class="newsLink newsLinkMobile"
         target="_blank"
-        >Forum link</a
+        >Forum</a
       >
       <a
         *ngIf="item.linkmd"
         href="mips/md-viewer?mdUrl={{ item.linkmd }}"
-        class="newsLink"
+        class="newsLink newsLinkMobile"
         target="_blank"
         >.md View</a
       >
@@ -227,7 +245,8 @@
     [ngClass]="{
       'container-green': item.type === 'GREEN',
       'container-yellow': item.type === 'YELLOW',
-      'container-red': item.type === 'RED'
+      'container-red': item.type === 'RED',
+      'container-blue': item.type === 'BLUE'
     }"
   >
     <div
@@ -235,7 +254,8 @@
       [ngClass]="{
         'item-icon-green': item.type === 'GREEN',
         'item-icon-yellow': item.type === 'YELLOW',
-        'item-icon-red': item.type === 'RED'
+        'item-icon-red': item.type === 'RED',
+        'item-icon-blue': item.type === 'BLUE'
       }"
     >
       <img
@@ -244,29 +264,37 @@
       />
       <img
         *ngIf="item.type === 'RED'"
-        src="./assets/images/notification/triangle-dark.png"
+        src="./assets/images/notification/tip-R.png"
       />
       <img
         *ngIf="item.type === 'YELLOW'"
-        src="./assets/images/notification/tip-dark.png"
+        src="./assets/images/notification/tip-Y.png"
+      />
+      <img
+        *ngIf="item.type === 'BLUE'"
+        src="./assets/images/notification/tip-B.png"
       />
     </div>
 
-    <div class="item" style="width: 25%">
-      <markdown
-        [data]="item.title"
-        class="item-title"
-      ></markdown>
+    <div class="item" style="width: 40%">
+      <markdown [data]="item.title" class="item-title"></markdown>
     </div>
 
-    <div style="width: 50%" class="itemDark">
+    <div style="width: 50%" class="item" *ngIf="item.link || item.linkforum || item.linkmd">
       <markdown
         [data]="item.description"
-        class="item-description"
+        class="item-description-dark"
       ></markdown>
     </div>
 
-    <div class="newsLinkContainer" style="width: 25%">
+    <div style="width: calc(50% + 191px);" class="item" *ngIf="!item.link && !item.linkforum && !item.linkmd">
+      <markdown
+        [data]="item.description"
+        class="item-description-dark"
+      ></markdown>
+    </div>
+
+    <div class="newsLinkContainer" *ngIf="item.link || item.linkforum || item.linkmd">
       <a
         *ngIf="item.link"
         href="{{ item.link }}"
@@ -279,7 +307,7 @@
         href="{{ item.linkforum }}"
         class="newsLinkDark"
         target="_blank"
-        >Forum link</a
+        >Forum</a
       >
       <a
         *ngIf="item.linkmd"

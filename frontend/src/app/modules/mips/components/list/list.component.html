@@ -94,7 +94,7 @@
               <th
                 mat-header-cell
                 *matHeaderCellDef
-                (click)="onSendOrder(column)"         
+                (click)="onSendOrder(column)"
               >
                 <span class="headerContent"
                 style="cursor: pointer; padding-right: 50px;"
@@ -325,7 +325,6 @@
           [class.maker-expanded-row]="element.expanded"
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
-
         ></tr>
         <tr
           mat-row
@@ -340,7 +339,7 @@
             [ngClass]="{
               'proposal-card': !item.proposal,
               'subproposal-card': item.proposal,
-              'maker-hide-row': hideParent && item.hide
+              'maker-hide-row': hideParent
             }"
           >
             <div style="width: calc(100% - 35px)">
@@ -541,7 +540,7 @@
                           }}"
                         >
                           <markdown
-                            class="variable-binding-content"
+                            class="variable-binding-content subProposal"
                             [data]="itemSubsetChildren.sentenceSummary"
                           ></markdown>
                         </a>
@@ -553,7 +552,7 @@
                         >
                           <markdown
                             class="variable-binding-content"
-                            [data]="itemSubsetChildren.paragraphSummary"
+                            [data]="itemSubsetChildren.sentenceSummary"
                           ></markdown>
                         </a>
                       </div>
