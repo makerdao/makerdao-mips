@@ -43,4 +43,13 @@ export class GithubService {
       last,
     });
   }
+
+  async openIssue(openIssue: any, title: string, body: string): Promise<any> {
+    return this.graphQLClient.request(openIssue, {
+      name: this.githubRepository,
+      owner: this.githubRepositoryOwner,
+      title,
+      body,
+    });
+  }
 }
