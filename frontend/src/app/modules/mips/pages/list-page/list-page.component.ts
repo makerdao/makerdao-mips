@@ -180,7 +180,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         hideParents: qp.hideParents,
         shouldBeExpandedMultiQuery: qp.shouldBeExpandedMultiQuery,
       };
-      this.shouldBeExpandedMultiQuery = JSON.parse(qp.shouldBeExpandedMultiQuery.toString());
+      this.shouldBeExpandedMultiQuery = qp?.shouldBeExpandedMultiQuery?.toString() && JSON.parse(qp.shouldBeExpandedMultiQuery.toString());
     }
 
 
