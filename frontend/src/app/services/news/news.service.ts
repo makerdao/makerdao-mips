@@ -1,13 +1,13 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {LangService} from '../lang/lang.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { LangService } from '../lang/lang.service';
 import * as moment from 'moment';
 
 const YAML = require('yaml');
 
-import {environment as env} from '../../../environments/environment';
-import {forkJoin, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { environment as env } from '../../../environments/environment';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +18,11 @@ export class NewsService {
   }
 
   getNews(): Observable<any> {
-    return this.httpClient.get(`${env.newsURL}`, {responseType: 'text'}).pipe(map(data => YAML.parse(data)));
+    return this.httpClient.get(`${env.newsURL}`, { responseType: 'text' }).pipe(map(data => YAML.parse(data)));
   }
 
   getVars(url = env.varsURL): Observable<any> {
-    return this.httpClient.get(`${url}`, {responseType: 'text'}).pipe(map(data => YAML.parse(data)));
+    return this.httpClient.get(`${url}`, { responseType: 'text' }).pipe(map(data => YAML.parse(data)));
   }
 
   getData(): Observable<any> {
@@ -42,7 +42,7 @@ export class NewsService {
       const vars = data[1].news;
 
 
-      for (const item of data[0].data) {
+      for (const item of data[0]?.data || []) {
 
         const userFriendlyTimelock = item?.timelock?.toString() || '';
         const timelock = userFriendlyTimelock
