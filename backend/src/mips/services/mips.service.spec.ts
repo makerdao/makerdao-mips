@@ -21,6 +21,7 @@ import {
     limitMock,
     mipData,
     mipFilesMapMock,
+    mipMock,
     mipNameMock,
     mipNumber_1,
     mipSearcheableMock,
@@ -58,6 +59,7 @@ describe("MIPsService", () => {
     let create;
     let insertMany;
     let cursor;
+    let deleteMany;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -95,6 +97,7 @@ describe("MIPsService", () => {
 
         execOne = jest.fn(async () => mipData);
         exec = jest.fn(async () => [mipData]);
+        deleteMany = jest.fn(async () => ({ ok: 1 }));
         execCount = jest.fn(async () => countMock);
         lean = jest.fn(() => ({ exec }));
         limit = jest.fn(() => ({ lean }));
@@ -121,6 +124,7 @@ describe("MIPsService", () => {
             findOne,
             create,
             insertMany,
+            deleteMany,
         };
         ParseQueryService.prototype.parse = jest.fn(() => Promise.resolve(parseMock));
     });
@@ -986,6 +990,17 @@ describe("MIPsService", () => {
             ]);
             expect(cursor).toBeCalledTimes(1);
             expect(cursor).toBeCalledWith();
+        });
+    });
+
+    describe('deleteManyByIds', () => {
+        it('delete many MIPs by ids', async () => {
+            await mipsService.deleteManyByIds([mipMock._id]);
+
+            expect(deleteMany).toBeCalledTimes(1);
+            expect(deleteMany).toBeCalledWith({
+                _id: { $in: [mipMock._id] },
+            });
         });
     });
 
