@@ -4,7 +4,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, filtersMock, languageMock, limitMock, mipData, orderMock, pageMock, parseMock, searchFieldMock, searchMock, selectMock } from "./data-test/data";
+import { andQueryMock, builtAndFilterMock, builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, fieldMock, filtersMock, languageMock, limitMock, mipData, mipNameMock, mipSearcheableMock, mipToBeSearcheableMock, orderMock, pageMock, parseMock, searchFieldMock, searchMock, selectMock, valueMock } from "./data-test/data";
 import { MIPsService } from "./mips.service";
 import { ParseQueryService } from "./parse-query.service";
 const faker = require("faker");
@@ -23,6 +23,9 @@ describe("MIPsService", () => {
     let skip;
     let countDocuments;
     let execCount;
+    let findOne;
+    let selectOne;
+    let execOne;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -58,6 +61,7 @@ describe("MIPsService", () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
 
+        execOne = jest.fn(async () => mipData);
         exec = jest.fn(async () => [mipData]);
         execCount = jest.fn(async () => countMock);
         lean = jest.fn(() => ({ exec }));
@@ -67,16 +71,19 @@ describe("MIPsService", () => {
             exec,
             skip,
         }));
-        select = jest.fn(() => ({ sort }));
+        select = jest.fn(() => ({ sort, exec }));
+        selectOne = jest.fn(() => ({ exec: execOne }));
         find = jest.fn(() => ({ select }));
         aggregate = jest.fn(async () => [mipData]);
         countDocuments = jest.fn(() => ({
             exec: execCount,
         }));
+        findOne = jest.fn(() => ({ select: selectOne }));
         (mipsService as any).mipsDoc = {
             find,
             aggregate,
             countDocuments,
+            findOne,
         };
         ParseQueryService.prototype.parse = jest.fn(() => Promise.resolve(parseMock));
     });
@@ -554,6 +561,21 @@ describe("MIPsService", () => {
         });
     });
 
+    describe('buildSmartMongoDBQuery', () => {
+        it('build filter from query', async () => {
+            const result = mipsService.buildSmartMongoDBQuery(andQueryMock);
+            
+            expect(result).toEqual(builtAndFilterMock);
+        });
+
+        it('query not supported', () => {
+            try {
+                mipsService.buildSmartMongoDBQuery(languageMock);
+            } catch (error) {
+                expect(error.message).toEqual('Database query not supportted');
+            }
+        })
+    });
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
