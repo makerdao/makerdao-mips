@@ -781,17 +781,17 @@ describe("MIPsService", () => {
             expect(aggregate).toBeCalledWith([
                 { $unwind: "$tags" },
                 {
-                  $match: {
-                    tags: {
-                      $regex: new RegExp(`^${valueMock}`),
-                      $options: "i",
+                    $match: {
+                        tags: {
+                            $regex: new RegExp(`^${valueMock}`),
+                            $options: "i",
+                        },
+                        language: Language.English,
                     },
-                    language: Language.English,
-                  },
                 },
                 { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
                 { $project: { _id: 0, tag: "$tag" } },
-              ]);
+            ]);
         });
 
         it('invalid field', async () => {
@@ -802,6 +802,34 @@ describe("MIPsService", () => {
             }
 
             expect(aggregate).not.toBeCalled();
+        });
+    });
+
+    describe('findOneByFileName', () => {
+        it('find one by fileName', async () => {
+            const result = await mipsService.findOneByFileName(fileNameMock, null);
+
+            expect(result).toEqual(mipData);
+            expect(findOne).toBeCalledTimes(1);
+            expect(findOne).toBeCalledWith({
+                filename_plain: {
+                    $regex: new RegExp(fileNameMock),
+                    $options: "i",
+                },
+                language: Language.English,
+            });
+            expect(selectOne).toBeCalledTimes(1);
+            expect(selectOne).toBeCalledWith([
+                "-__v",
+                "-file",
+                "-mipName_plain",
+                "-filename_plain",
+                "-proposal_plain",
+                "-title_plain",
+                "-sectionsRaw_plain",
+            ]);
+            expect(execOne).toBeCalledTimes(1);
+            expect(execOne).toBeCalledWith();
         });
     });
 
