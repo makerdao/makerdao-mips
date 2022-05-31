@@ -543,12 +543,6 @@ describe("ParseMIPsService", () => {
       });
       expect(ParseMIPsService.prototype.parseMIP).toBeCalledTimes(1);
       expect(ParseMIPsService.prototype.parseMIP).toBeCalledWith(filesGitMock[0], true);
-      expect(console.log).toBeCalledTimes(1);
-      expect(console.log).toBeCalledWith({
-        mip: mipWithoutNameMock,
-        item: filesGitMock[0],
-        TODO: "Convert into a notification Service"
-      });
       expect(Logger.prototype.log).toBeCalledTimes(1);
       expect(Logger.prototype.log).toBeCalledWith(
         `Mips with problems to parse ==> ${(mipWithoutNameMock.mip, mipWithoutNameMock.mipName, mipWithoutNameMock.filename)
