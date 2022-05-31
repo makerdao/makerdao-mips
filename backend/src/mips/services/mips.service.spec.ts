@@ -4,7 +4,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { andQueryMock, builtAndFilterMock, builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, fieldMock, filtersMock, languageMock, limitMock, mipData, mipNameMock, mipSearcheableMock, mipToBeSearcheableMock, orderMock, pageMock, parseMock, searchFieldMock, searchMock, selectMock, valueMock } from "./data-test/data";
+import { andQueryMock, builtAndFilterMock, builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, fieldMock, fileNameMock, filtersMock, languageMock, limitMock, mipData, mipNameMock, mipSearcheableMock, mipToBeSearcheableMock, orderMock, pageMock, parseMock, searchFieldMock, searchMock, selectMock, valueMock } from "./data-test/data";
 import { MIPsService } from "./mips.service";
 import { ParseQueryService } from "./parse-query.service";
 const faker = require("faker");
@@ -722,7 +722,7 @@ describe("MIPsService", () => {
         });
     });
 
-    describe('findOneByMipName', async () => {
+    describe('findOneByMipName', () => {
         it('find one by mipName', async () => {
             const result = await mipsService.findOneByMipName(mipNameMock, null);
 
@@ -744,6 +744,64 @@ describe("MIPsService", () => {
             ]);
             expect(execOne).toBeCalledTimes(1);
             expect(execOne).toBeCalledWith();
+        });
+    });
+
+    describe('smartSearch', () => {
+        it('search status', async () => {
+            const result = await mipsService.smartSearch('status', valueMock, null);
+
+            expect(result).toEqual([mipData]);
+            expect(aggregate).toBeCalledTimes(1);
+            expect(aggregate).toBeCalledWith([
+                {
+                    $match: {
+                        status: {
+                            $regex: new RegExp(`^${valueMock}`),
+                            $options: "i",
+                        },
+                        language: Language.English,
+                    },
+                },
+                {
+                    $group: {
+                        _id: { status: "$status" },
+                        status: { $first: "$status" },
+                    },
+                },
+                { $project: { _id: 0, status: "$status" } },
+            ]);
+        });
+
+        it('search tags', async () => {
+            const result = await mipsService.smartSearch('tags', valueMock, null);
+
+            expect(result).toEqual([mipData]);
+            expect(aggregate).toBeCalledTimes(1);
+            expect(aggregate).toBeCalledWith([
+                { $unwind: "$tags" },
+                {
+                  $match: {
+                    tags: {
+                      $regex: new RegExp(`^${valueMock}`),
+                      $options: "i",
+                    },
+                    language: Language.English,
+                  },
+                },
+                { $group: { _id: { tags: "$tags" }, tag: { $first: "$tags" } } },
+                { $project: { _id: 0, tag: "$tag" } },
+              ]);
+        });
+
+        it('invalid field', async () => {
+            try {
+                await mipsService.smartSearch(fieldMock, valueMock, null);
+            } catch (error) {
+                expect(error.message).toEqual(`Field ${fieldMock} invalid`);
+            }
+
+            expect(aggregate).not.toBeCalled();
         });
     });
 
