@@ -722,6 +722,31 @@ describe("MIPsService", () => {
         });
     });
 
+    describe('findOneByMipName', async () => {
+        it('find one by mipName', async () => {
+            const result = await mipsService.findOneByMipName(mipNameMock, null);
+
+            expect(result).toEqual(mipData);
+            expect(findOne).toBeCalledTimes(1);
+            expect(findOne).toBeCalledWith({
+                language: Language.English,
+                mipName_plain: mipNameMock,
+            });
+            expect(selectOne).toBeCalledTimes(1);
+            expect(selectOne).toBeCalledWith([
+                "-__v",
+                "-file",
+                "-mipName_plain",
+                "-filename_plain",
+                "-proposal_plain",
+                "-title_plain",
+                "-sectionsRaw_plain",
+            ]);
+            expect(execOne).toBeCalledTimes(1);
+            expect(execOne).toBeCalledWith();
+        });
+    });
+
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
