@@ -364,7 +364,7 @@ export class MIPsService {
       language = Language.English;
     }
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .findOne({ mipName_plain: mipName, language })
       .select([
         "-__v",
@@ -383,11 +383,13 @@ export class MIPsService {
     value: string,
     language: Language
   ): Promise<MIP[]> {
-    language = Language.English;
+    if(!language) {
+      language = Language.English;
+    }
 
     switch (field) {
       case "tags":
-        return await this.mipsDoc.aggregate([
+        return this.mipsDoc.aggregate([
           { $unwind: "$tags" },
           {
             $match: {
@@ -403,7 +405,7 @@ export class MIPsService {
         ]);
 
       case "status":
-        return await this.mipsDoc.aggregate([
+        return this.mipsDoc.aggregate([
           {
             $match: {
               status: {
@@ -440,7 +442,7 @@ export class MIPsService {
       language,
     };
 
-    return await this.mipsDoc.findOne(filter).select([
+    return this.mipsDoc.findOne(filter).select([
       "-__v",
       "-file",
       "-mipName_plain",
@@ -456,7 +458,7 @@ export class MIPsService {
       language = Language.English;
     }
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .findOne({ mipName_plain: mipName, language })
       .select(["sentenceSummary", "paragraphSummary", "title", "mipName"])
       .exec();
