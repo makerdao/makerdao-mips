@@ -63,6 +63,7 @@ describe("MIPsService", () => {
     let dropDatabase;
     let findOneAndUpdate;
     let leanOne;
+    let updateMany;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -123,6 +124,7 @@ describe("MIPsService", () => {
         create = jest.fn(async () => mipData);
         insertMany = jest.fn(async () => [mipData]);
         findOneAndUpdate = jest.fn(() => ({ lean: leanOne }));
+        updateMany = jest.fn(() => ({ lean: leanOne }));
         (mipsService as any).mipsDoc = {
             find,
             aggregate,
@@ -133,6 +135,7 @@ describe("MIPsService", () => {
             deleteMany,
             db: { dropDatabase },
             findOneAndUpdate,
+            updateMany,
         };
         ParseQueryService.prototype.parse = jest.fn(() => Promise.resolve(parseMock));
     });
@@ -1030,6 +1033,22 @@ describe("MIPsService", () => {
             expect(findOneAndUpdate).toBeCalledWith(
                 { _id: mipMock._id },
                 { $set: mipMock },
+                { new: true, useFindAndModify: false }
+            );
+            expect(leanOne).toBeCalledTimes(1);
+            expect(leanOne).toBeCalledWith(true);
+        });
+    });
+
+    describe('setMipsFather', () => {
+        it('set MIP father', async () => {
+            const result = await mipsService.setMipsFather([mipMock._id]);
+
+            expect(result).toEqual(mipData);
+            expect(updateMany).toBeCalledTimes(1);
+            expect(updateMany).toBeCalledWith(
+                { mipName: { $in: [mipMock._id] } },
+                { $set: { mipFather: true } },
                 { new: true, useFindAndModify: false }
             );
             expect(leanOne).toBeCalledTimes(1);
