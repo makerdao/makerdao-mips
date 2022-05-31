@@ -909,6 +909,21 @@ describe("MIPsService", () => {
         });
     });
 
+    describe('create', () => {
+        it('create MIP by proposal', async () => {
+            jest.spyOn(MIPsService.prototype, 'addSearcheableFields')
+            .mockReturnValueOnce(mipData);
+
+            const result = await mipsService.create(mipData);
+
+            expect(result).toEqual(mipData);
+            expect(create).toBeCalledTimes(1);
+            expect(create).toBeCalledWith(mipData);
+            expect(MIPsService.prototype.addSearcheableFields).toBeCalledTimes(1);
+            expect(MIPsService.prototype.addSearcheableFields).toBeCalledWith(mipData);
+        });
+    });
+
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
