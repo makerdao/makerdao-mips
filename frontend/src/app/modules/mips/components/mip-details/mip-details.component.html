@@ -34,7 +34,7 @@
       <p class="info">
         <span *ngFor="let tag of tags; let i = index">
           <a
-          
+
             [routerLink]="['/mips/list']"
             [queryParams]="{ search: '$ #' + tag }"
             >{{ tag }}</a
@@ -111,7 +111,19 @@
   >
     <span class="row">
       <p class="label">{{ "Dependencies" | translate }}</p>
-      <p class="info">{{ dependencies.join(", ") }}</p>
+      <p class="info">
+        <ng-container *ngFor="let dependency of dependencies; let isLast = last">
+          <span>
+            <ng-container *ngIf="dependency !== 'n/a'">
+              <a [routerLink]="['/mips/details', dependency.replace('-', '')]">{{ dependency }}</a>
+            </ng-container>
+            <ng-template>
+              {{ dependency }}
+            </ng-template>
+          </span>
+          <ng-container *ngIf="!isLast">, </ng-container>
+        </ng-container>
+      </p>
     </span>
   </div>
   <hr *ngIf="replaces" />
