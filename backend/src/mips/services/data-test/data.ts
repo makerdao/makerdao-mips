@@ -216,6 +216,7 @@ export const mipSearcheableMock: MIP = {
   title_plain: titleMock,
   sectionsRaw_plain: mipToBeSearcheableMock.sectionsRaw,
 } as any;
+export const fileNameMock: string = faker.random.word();
 
 
 // ParseMIPsService unit tests
