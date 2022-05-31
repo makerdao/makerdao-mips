@@ -60,6 +60,7 @@ describe("MIPsService", () => {
     let insertMany;
     let cursor;
     let deleteMany;
+    let dropDatabase;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -96,6 +97,7 @@ describe("MIPsService", () => {
         jest.restoreAllMocks();
 
         execOne = jest.fn(async () => mipData);
+        dropDatabase = jest.fn();
         exec = jest.fn(async () => [mipData]);
         deleteMany = jest.fn(async () => ({ ok: 1 }));
         execCount = jest.fn(async () => countMock);
@@ -125,6 +127,7 @@ describe("MIPsService", () => {
             create,
             insertMany,
             deleteMany,
+            db: { dropDatabase },
         };
         ParseQueryService.prototype.parse = jest.fn(() => Promise.resolve(parseMock));
     });
@@ -1001,6 +1004,15 @@ describe("MIPsService", () => {
             expect(deleteMany).toBeCalledWith({
                 _id: { $in: [mipMock._id] },
             });
+        });
+    });
+
+    describe('dropDatabase', () => {
+        it('drop database', async () => {
+            await mipsService.dropDatabase();
+
+            expect(dropDatabase).toBeCalledTimes(1);
+            expect(dropDatabase).toBeCalledWith();
         });
     });
 
