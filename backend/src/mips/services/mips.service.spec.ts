@@ -887,6 +887,28 @@ describe("MIPsService", () => {
         });
     });
 
+    describe('findByProposal', () => {
+        it('find MIP by proposal', async () => {
+            const result = await mipsService.findByProposal(proposalMock, null);
+
+            expect(result).toEqual([mipData]);
+            expect(find).toBeCalledTimes(1);
+            expect(find).toBeCalledWith({
+                proposal_plain: proposalMock,
+                language: Language.English,
+            });
+            expect(select).toBeCalledTimes(1);
+            expect(select).toBeCalledWith([
+                "title",
+                "mipName",
+            ]);
+            expect(sort).toBeCalledTimes(1);
+            expect(sort).toBeCalledWith("mip subproposal");
+            expect(exec).toBeCalledTimes(1);
+            expect(exec).toBeCalledWith();
+        });
+    });
+
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
