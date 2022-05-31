@@ -473,7 +473,7 @@ export class MIPsService {
     }
     const mipName = mipComponent.match(/MIP\d+/gi)[0];
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .findOne({ mipName_plain: mipName, language })
       .select({
         sentenceSummary: 1,
@@ -493,7 +493,7 @@ export class MIPsService {
       language = Language.English;
     }
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .find({ proposal_plain: proposal, language })
       .select(["title", "mipName"])
       .sort("mip subproposal")
