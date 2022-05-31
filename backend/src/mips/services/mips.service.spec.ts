@@ -14,6 +14,7 @@ import {
     builtNotContainsFilterMock,
     builtNotEqualFilterMock,
     countMock,
+    deleteMipresult,
     fieldMock,
     fileNameMock,
     filtersMock,
@@ -64,6 +65,8 @@ describe("MIPsService", () => {
     let findOneAndUpdate;
     let leanOne;
     let updateMany;
+    let leanDelete;
+    let deleteOne;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -121,10 +124,12 @@ describe("MIPsService", () => {
         }));
         findOne = jest.fn(() => ({ select: selectOne }));
         leanOne = jest.fn(async () => mipData);
+        leanDelete = jest.fn(async () => deleteMipresult);
         create = jest.fn(async () => mipData);
         insertMany = jest.fn(async () => [mipData]);
         findOneAndUpdate = jest.fn(() => ({ lean: leanOne }));
         updateMany = jest.fn(() => ({ lean: leanOne }));
+        deleteOne = jest.fn(() => ({ lean: leanDelete }));
         (mipsService as any).mipsDoc = {
             find,
             aggregate,
@@ -136,6 +141,7 @@ describe("MIPsService", () => {
             db: { dropDatabase },
             findOneAndUpdate,
             updateMany,
+            deleteOne,
         };
         ParseQueryService.prototype.parse = jest.fn(() => Promise.resolve(parseMock));
     });
@@ -1053,6 +1059,18 @@ describe("MIPsService", () => {
             );
             expect(leanOne).toBeCalledTimes(1);
             expect(leanOne).toBeCalledWith(true);
+        });
+    });
+
+    describe('remove', () => {
+        it('remove MIP', async () => {
+            const result = await mipsService.remove(mipMock._id);
+
+            expect(result).toEqual(deleteMipresult);
+            expect(deleteOne).toBeCalledTimes(1);
+            expect(deleteOne).toBeCalledWith({ _id: mipMock._id });
+            expect(leanDelete).toBeCalledTimes(1);
+            expect(leanDelete).toBeCalledWith(true);
         });
     });
 

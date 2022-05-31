@@ -561,7 +561,7 @@ export class MIPsService {
     ok: number;
     deletedCount: number;
   }> {
-    return await this.mipsDoc.deleteOne({ _id: id }).lean(true);
+    return this.mipsDoc.deleteOne({ _id: id }).lean(true);
   }
 
   async getMipLanguagesAvailables(mipName: string): Promise<any> {

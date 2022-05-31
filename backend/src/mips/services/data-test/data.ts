@@ -218,6 +218,11 @@ export const mipSearcheableMock: MIP = {
 } as any;
 export const fileNameMock: string = faker.random.word();
 export const proposalMock: string = faker.random.word();
+export const deleteMipresult = {
+  n: faker.datatype.number(),
+  ok: faker.datatype.number(),
+  deletedCount: faker.datatype.number(),
+};
 
 // ParseMIPsService unit tests
 export const mipMock = {
