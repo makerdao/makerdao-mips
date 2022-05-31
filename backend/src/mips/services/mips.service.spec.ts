@@ -678,6 +678,50 @@ describe("MIPsService", () => {
             expect(result).toEqual(mipSearcheableMock);
         });
     });
+
+    describe('searcheableField', () => {
+        beforeEach(() => {
+            jest.spyOn(MIPsService.prototype, 'escapeRegExp').mockReturnValueOnce(fieldMock);
+        });
+
+        it('mipName is valid', () => {
+            const result = mipsService.searcheableField('mipName');
+
+            expect(result).toEqual('mipName_plain');
+        });
+
+        it('filename is valid', () => {
+            const result = mipsService.searcheableField('filename');
+
+            expect(result).toEqual('filename_plain');
+        });
+
+        it('proposal is valid', () => {
+            const result = mipsService.searcheableField('proposal');
+
+            expect(result).toEqual('proposal_plain');
+        });
+
+        it('title is valid', () => {
+            const result = mipsService.searcheableField('title');
+
+            expect(result).toEqual('title_plain');
+        });
+
+        it('sectionsRaw is valid', () => {
+            const result = mipsService.searcheableField('sectionsRaw');
+
+            expect(result).toEqual('sectionsRaw_plain');
+        });
+
+
+        it('mip is valid', () => {
+            const result = mipsService.searcheableField('mip');
+
+            expect(result).toEqual('mip');
+        });
+    });
+
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
