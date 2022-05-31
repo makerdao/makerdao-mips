@@ -4,7 +4,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { andQueryMock, builtAndFilterMock, builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, fieldMock, fileNameMock, filtersMock, languageMock, limitMock, mipData, mipNameMock, mipSearcheableMock, mipToBeSearcheableMock, orderMock, pageMock, parseMock, searchFieldMock, searchMock, selectMock, valueMock } from "./data-test/data";
+import { andQueryMock, builtAndFilterMock, builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, fieldMock, fileNameMock, filtersMock, languageMock, limitMock, mipData, mipNameMock, mipNumber_1, mipSearcheableMock, mipToBeSearcheableMock, orderMock, pageMock, parseMock, proposalMock, searchFieldMock, searchMock, selectMock, valueMock } from "./data-test/data";
 import { MIPsService } from "./mips.service";
 import { ParseQueryService } from "./parse-query.service";
 const faker = require("faker");
@@ -26,6 +26,8 @@ describe("MIPsService", () => {
     let findOne;
     let selectOne;
     let execOne;
+    let create;
+    let insertMany;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -79,11 +81,15 @@ describe("MIPsService", () => {
             exec: execCount,
         }));
         findOne = jest.fn(() => ({ select: selectOne }));
+        create = jest.fn(async () => mipData);
+        insertMany = jest.fn(async () => [mipData]);
         (mipsService as any).mipsDoc = {
             find,
             aggregate,
             countDocuments,
             findOne,
+            create,
+            insertMany,
         };
         ParseQueryService.prototype.parse = jest.fn(() => Promise.resolve(parseMock));
     });
@@ -827,6 +833,28 @@ describe("MIPsService", () => {
                 "-proposal_plain",
                 "-title_plain",
                 "-sectionsRaw_plain",
+            ]);
+            expect(execOne).toBeCalledTimes(1);
+            expect(execOne).toBeCalledWith();
+        });
+    });
+
+    describe('getSummaryByMipName', () => {
+        it('get MIP by mip name', async () => {
+            const result = await mipsService.getSummaryByMipName(mipNameMock, null);
+
+            expect(result).toEqual(mipData);
+            expect(findOne).toBeCalledTimes(1);
+            expect(findOne).toBeCalledWith({
+                mipName_plain: mipNameMock,
+                language: Language.English,
+            });
+            expect(selectOne).toBeCalledTimes(1);
+            expect(selectOne).toBeCalledWith([
+                "sentenceSummary",
+                "paragraphSummary",
+                "title",
+                "mipName",
             ]);
             expect(execOne).toBeCalledTimes(1);
             expect(execOne).toBeCalledWith();
