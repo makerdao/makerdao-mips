@@ -128,6 +128,95 @@ export const builtNotEqualFilterMock = {
     $ne: filtersMock.notequals[0].value,
   },
 };
+export const tagMock: string = faker.random.word();
+export const tagsQueryMock = {
+  type: 'LITERAL',
+  name: '#' + tagMock,
+
+};
+export const builtTagFilterMock = {
+  tags: {
+    $in: [tagMock]
+  }
+};
+export const statusQueryMock = {
+  type: 'LITERAL',
+  name: '@' + statusMock,
+};
+export const builtStatusFilterMock = {
+    status: {
+      $regex: new RegExp(statusMock),
+      $options: "i",
+    },
+};
+export const orQueryMock = {
+  type: 'OPERATION',
+  op: 'or',
+  left: [
+    tagsQueryMock,
+    statusQueryMock,
+  ],
+};
+export const builtOrFilterMock = {
+  $or: [
+    builtTagFilterMock,
+    builtStatusFilterMock,
+  ],
+};
+export const notTagQueryMock = {
+  type: 'OPERATION',
+  op: 'not',
+  left: '#' + tagMock,
+};
+export const builtNotTagFilterMock = {
+  tags: {
+    $nin: [tagMock],
+  }
+};
+export const notStatusQuery = {
+  type: 'OPERATION',
+  op: 'not',
+  left: '@' + statusMock,
+};
+export const builtNotStatusFilterMock = {
+  status: {
+    $not: {
+      $regex: new RegExp(statusMock),
+      $options: "i",
+    },
+  },
+};
+export const andQueryMock = {
+  type: 'OPERATION',
+  op: 'and',
+  left: [
+    orQueryMock,
+    notTagQueryMock,
+    notStatusQuery],
+};
+export const builtAndFilterMock = {
+  $and: [
+    builtOrFilterMock,
+    builtNotTagFilterMock,
+    builtNotStatusFilterMock,
+  ]
+};
+export const mipToBeSearcheableMock: MIP = {
+  mipName: mipNameMock,
+  filename: faker.random.word(),
+  proposal: faker.random.word(),
+  title: titleMock,
+  sectionsRaw: [faker.random.word()],
+} as any;
+export const mipSearcheableMock: MIP = {
+  ...mipToBeSearcheableMock,
+  mipName_plain: mipNameMock,
+  filename_plain: mipToBeSearcheableMock.filename,
+  proposal_plain: mipToBeSearcheableMock.proposal,
+  title_plain: titleMock,
+  sectionsRaw_plain: mipToBeSearcheableMock.sectionsRaw,
+} as any;
+
 
 // ParseMIPsService unit tests
 export const mipMock = {
