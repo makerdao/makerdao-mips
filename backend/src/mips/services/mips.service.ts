@@ -535,27 +535,23 @@ export class MIPsService {
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {
-    const existingMIPs = await this.mipsDoc
+    return this.mipsDoc
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
-
-    return existingMIPs;
   }
 
   async setMipsFather(mips: string[]): Promise<any> {
-    const existingMIPs = await this.mipsDoc
+    return this.mipsDoc
       .updateMany(
         { mipName: { $in: mips } },
         { $set: { mipFather: true } },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
-
-    return existingMIPs;
   }
 
   async remove(
