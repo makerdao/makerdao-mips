@@ -924,6 +924,21 @@ describe("MIPsService", () => {
         });
     });
 
+    describe('insertMany', () => {
+        it('insert many MIPs', async () => {
+            jest.spyOn(MIPsService.prototype, 'addSearcheableFields')
+            .mockReturnValueOnce(mipData);
+
+            const result = await mipsService.insertMany([mipData]);
+
+            expect(result).toEqual([mipData]);
+            expect(MIPsService.prototype.addSearcheableFields).toBeCalledTimes(1);
+            expect(MIPsService.prototype.addSearcheableFields).toBeCalledWith(mipData);
+            expect(insertMany).toBeCalledTimes(1);
+            expect(insertMany).toBeCalledWith([mipData]);
+        });
+    });
+
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
