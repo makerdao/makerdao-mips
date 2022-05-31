@@ -9,6 +9,7 @@ export class GithubService {
 
   githubRepository: string;
   githubRepositoryOwner: string;
+  githubRepositoryId: string;
 
   constructor(private configService: ConfigService) {
     const endpoint = this.configService.get<string>(Env.GithubUrlApiEndpoint);
@@ -19,6 +20,10 @@ export class GithubService {
     );
     this.githubRepositoryOwner = this.configService.get<string>(
       Env.GithubRepositoryOwner
+    );
+
+    this.githubRepositoryId = this.configService.get<string>(
+      Env.GithubRepositoryId
     );
 
     this.graphQLClient = new GraphQLClient(endpoint, {
@@ -46,8 +51,7 @@ export class GithubService {
 
   async openIssue(openIssue: any, title: string, body: string): Promise<any> {
     return this.graphQLClient.request(openIssue, {
-      name: this.githubRepository,
-      owner: this.githubRepositoryOwner,
+      repositoryId: this.githubRepositoryId,
       title,
       body,
     });
