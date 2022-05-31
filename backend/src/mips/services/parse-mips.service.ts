@@ -17,6 +17,7 @@ import { Component, MIP, Reference } from "../entities/mips.entity";
 import { GithubService } from "./github.service";
 import { PullRequestService } from "./pull-requests.service";
 import {
+  openIssue,
   pullRequests,
   pullRequestsAfter,
   pullRequestsCount,
@@ -51,7 +52,7 @@ export class ParseMIPsService {
     const branch = this.configService.get(Env.RepoBranch);
 
     try {
-      this.simpleGitService.pull("origin", branch);
+     await this.simpleGitService.pull("origin", branch);
 
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
@@ -169,19 +170,18 @@ export class ParseMIPsService {
     };
     const createItems = [];
 
+    const errors = [];
+
     for (const item of filesGit) {
       if (!filesDB.has(item.filename)) {
         try {
           const mip = await this.parseMIP(item, true);
-          if (mip.mip === undefined || mip.mipName === undefined) {
-            // TODO: Convert into a notification Service
-            console.log({
-              mip,
-              item,
-              TODO: "Convert into a notification Service"
-            })
+          if (mip?.mip === undefined || !mip?.mipName) {
+
+            errors.push({ mipPath: item.filename });
+
             this.logger.log(
-              `Mips with problems to parse ==> ${(mip.mip, mip.mipName, mip.filename)
+              `Mips with problems to parse ==> ${(mip?.mip, mip?.mipName, mip?.filename)
               }`
             );
           }
@@ -203,6 +203,10 @@ export class ParseMIPsService {
       }
     }
 
+    if (errors.length) {
+      await this.sendIssue(errors);
+    }
+
     // Remove remaining items
     await this.deleteMipsFromMap(filesDB);
 
@@ -212,6 +216,34 @@ export class ParseMIPsService {
     await this.mipsService.insertMany(createItems);
     return synchronizeData;
   }
+
+  async sendIssue(errors: any[]) {
+
+    const startOfBody = `
+# Some problems where found on this MIPS:
+`;
+
+    const body = errors.map((error, index) => {
+      return `
+
+>MIP Path: ${error.mipPath}
+
+${errors.length === index + 1 ? '' : '---'}
+
+`;
+
+    });
+
+    const response = await this.githubService.openIssue(
+      openIssue,
+      "MIPs with problems to parse",
+      startOfBody + body.join("\n")
+    );
+
+    console.log(response);
+
+  }
+
 
   getComponentsSection(data: string): string {
     const startDataIndex = data.search(/\*\*\s*MIP\d+[ca]1[\s:]*/gim);

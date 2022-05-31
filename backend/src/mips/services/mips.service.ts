@@ -86,11 +86,6 @@ export class MIPsService {
       Language.English
     );
 
-    // console.log({
-    //   search,
-    //   cleanedSearch,
-    //   buildFilter
-    // })
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
 
     if (select) {

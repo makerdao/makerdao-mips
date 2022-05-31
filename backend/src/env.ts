@@ -11,4 +11,5 @@ export enum Env {
   GithubRepository = "GITHUB_REPOSITORY",
   GithubRepositoryOwner = "GITHUB_REPOSITORY_OWNER",
   GithubLinks = "GITHUB_LINKS",
+  GithubRepositoryId = "GITHUB_REPOSITORY_ID",
 }

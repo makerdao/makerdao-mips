@@ -49,8 +49,20 @@ export class SimpleGitService {
     );
   }
 
-  pull(remote = "origin", branch = "master"): Response<PullResult> {
-    return this.git.pull(remote, branch);
+  async pull(remote = "origin", branch = "master"): Promise<PullResult> {
+
+    try {
+      return this.git.pull(remote, branch);
+    } catch (error) {
+
+      console.log({error, text: 'Error autoresolved by hard reset origin/master strategy'})
+      
+      await this.git.fetch({ '--all': 'true' })
+      await this.git.reset(["--hard", "origin/master"])
+      return this.git.pull(remote, branch);
+
+    }
+
   }
 
   async getFiles(): Promise<IGitFile[]> {
@@ -145,16 +157,16 @@ export class SimpleGitService {
 
     let translationContent = []
     try {
-      translationContent=await Promise.all(
-      translationsFiles.map((item) =>
-        readFile(this.baseDir + "/" + item, "utf-8")
-      )
-    );
+      translationContent = await Promise.all(
+        translationsFiles.map((item) =>
+          readFile(this.baseDir + "/" + item, "utf-8")
+        )
+      );
 
     } catch (error) {
-      console.log({error})
+      console.log({ error })
     }
-    
+
     const languagesArray = translationsFiles.map((item) => {
       const match = item.match(
         /I18N\/(?<languageCode>\w\w)\/meta\/vars\.yaml/i
