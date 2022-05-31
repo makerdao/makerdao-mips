@@ -4,7 +4,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, filtersMock, languageMock, limitMock, mipData, orderMock, pageMock, parseMock, searchFieldMock, searchMock, selectMock } from "./data-test/data";
+import { andQueryMock, builtAndFilterMock, builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, fieldMock, filtersMock, languageMock, limitMock, mipData, mipNameMock, mipSearcheableMock, mipToBeSearcheableMock, orderMock, pageMock, parseMock, searchFieldMock, searchMock, selectMock, valueMock } from "./data-test/data";
 import { MIPsService } from "./mips.service";
 import { ParseQueryService } from "./parse-query.service";
 const faker = require("faker");
@@ -23,6 +23,9 @@ describe("MIPsService", () => {
     let skip;
     let countDocuments;
     let execCount;
+    let findOne;
+    let selectOne;
+    let execOne;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -58,6 +61,7 @@ describe("MIPsService", () => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
 
+        execOne = jest.fn(async () => mipData);
         exec = jest.fn(async () => [mipData]);
         execCount = jest.fn(async () => countMock);
         lean = jest.fn(() => ({ exec }));
@@ -67,16 +71,19 @@ describe("MIPsService", () => {
             exec,
             skip,
         }));
-        select = jest.fn(() => ({ sort }));
+        select = jest.fn(() => ({ sort, exec }));
+        selectOne = jest.fn(() => ({ exec: execOne }));
         find = jest.fn(() => ({ select }));
         aggregate = jest.fn(async () => [mipData]);
         countDocuments = jest.fn(() => ({
             exec: execCount,
         }));
+        findOne = jest.fn(() => ({ select: selectOne }));
         (mipsService as any).mipsDoc = {
             find,
             aggregate,
             countDocuments,
+            findOne,
         };
         ParseQueryService.prototype.parse = jest.fn(() => Promise.resolve(parseMock));
     });
@@ -551,6 +558,192 @@ describe("MIPsService", () => {
             );
             expect(ParseQueryService.prototype.parse).not.toBeCalledTimes(1);
             expect(MIPsService.prototype.buildSmartMongoDBQuery).not.toBeCalledTimes(1);
+        });
+    });
+
+    describe('buildSmartMongoDBQuery', () => {
+        it('build filter from query', async () => {
+            const result = mipsService.buildSmartMongoDBQuery(andQueryMock);
+            
+            expect(result).toEqual(builtAndFilterMock);
+        });
+
+        it('query not supported', () => {
+            try {
+                mipsService.buildSmartMongoDBQuery(languageMock);
+            } catch (error) {
+                expect(error.message).toEqual('Database query not supportted');
+            }
+        })
+    });
+
+    describe('validField', () => {
+        beforeEach(() => {
+            jest.spyOn(MIPsService.prototype, 'escapeRegExp').mockReturnValueOnce(fieldMock);
+        });
+
+        it('status is valid', () => {
+            const result = mipsService.validField('status', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('mipName is valid', () => {
+            const result = mipsService.validField('mipName', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('filename is valid', () => {
+            const result = mipsService.validField('filename', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('proposal is valid', () => {
+            const result = mipsService.validField('proposal', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('mip is valid', () => {
+            const result = mipsService.validField('mip', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('tags is valid', () => {
+            const result = mipsService.validField('tags', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('contributors is valid', () => {
+            const result = mipsService.validField('contributors', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('author is valid', () => {
+            const result = mipsService.validField('author', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('mipFather is valid', () => {
+            const result = mipsService.validField('mipFather', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('sectionsRaw is valid', () => {
+            const result = mipsService.validField('sectionsRaw', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('title is valid', () => {
+            const result = mipsService.validField('title', valueMock);
+
+            expect(result).toEqual(fieldMock);
+            expect(MIPsService.prototype.escapeRegExp).toBeCalledTimes(1);
+            expect(MIPsService.prototype.escapeRegExp).toBeCalledWith(valueMock);
+        });
+
+        it('not valid field', () => {
+            try {
+                mipsService.validField(fieldMock, valueMock);
+            } catch (error) {
+                expect(error.message).toEqual(`Invalid filter field (${fieldMock})`);
+            }
+
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+    });
+
+    describe('addSearcheableFields', () => {
+        it('add searchable fields', () => {
+            const result = mipsService.addSearcheableFields(mipToBeSearcheableMock);
+
+            expect(result).toEqual(mipSearcheableMock);
+        });
+    });
+
+    describe('searcheableField', () => {
+        beforeEach(() => {
+            jest.spyOn(MIPsService.prototype, 'escapeRegExp').mockReturnValueOnce(fieldMock);
+        });
+
+        it('mipName is valid', () => {
+            const result = mipsService.searcheableField('mipName');
+
+            expect(result).toEqual('mipName_plain');
+        });
+
+        it('filename is valid', () => {
+            const result = mipsService.searcheableField('filename');
+
+            expect(result).toEqual('filename_plain');
+        });
+
+        it('proposal is valid', () => {
+            const result = mipsService.searcheableField('proposal');
+
+            expect(result).toEqual('proposal_plain');
+        });
+
+        it('title is valid', () => {
+            const result = mipsService.searcheableField('title');
+
+            expect(result).toEqual('title_plain');
+        });
+
+        it('sectionsRaw is valid', () => {
+            const result = mipsService.searcheableField('sectionsRaw');
+
+            expect(result).toEqual('sectionsRaw_plain');
+        });
+
+
+        it('mip is valid', () => {
+            const result = mipsService.searcheableField('mip');
+
+            expect(result).toEqual('mip');
+        });
+    });
+
+    describe('findOneByMipName', async () => {
+        it('find one by mipName', async () => {
+            const result = await mipsService.findOneByMipName(mipNameMock, null);
+
+            expect(result).toEqual(mipData);
+            expect(findOne).toBeCalledTimes(1);
+            expect(findOne).toBeCalledWith({
+                language: Language.English,
+                mipName_plain: mipNameMock,
+            });
+            expect(selectOne).toBeCalledTimes(1);
+            expect(selectOne).toBeCalledWith([
+                "-__v",
+                "-file",
+                "-mipName_plain",
+                "-filename_plain",
+                "-proposal_plain",
+                "-title_plain",
+                "-sectionsRaw_plain",
+            ]);
+            expect(execOne).toBeCalledTimes(1);
+            expect(execOne).toBeCalledWith();
         });
     });
 

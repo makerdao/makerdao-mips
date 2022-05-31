@@ -244,124 +244,82 @@ export class MIPsService {
     return source;
   }
 
-  errorProofCleanArrays(testArray: any[], defaultArray: any[]): any[] {
-    const errorProofItems = defaultArray.map((item) => {
-      const existingItem = testArray.find(
-        (selectedItem) => selectedItem._id === item._id
-      );
-      return existingItem || item;
-    });
-
-    return errorProofItems;
-  }
-
   buildSmartMongoDBQuery(ast: any): any {
-    const or = new RegExp("or", "gi");
-    const and = new RegExp("and", "gi");
-    const not = new RegExp("not", "gi");
+    const or = /or/gi;
+    const and = /and/gi;
+    const not = /not/gi;
 
-    if (ast.type === "LITERAL" && ast.name.includes("#")) {
-      return { tags: { $in: [ast.name.replace("#", "")] } };
-    } else if (ast.type === "LITERAL" && ast.name.includes("@")) {
-      return {
-        status: {
-          $regex: new RegExp(`${ast.name.replace("@", "")}`),
-          $options: "i",
-        },
-      };
-    } else {
-      if (ast.type === "OPERATION" && or.exec(ast.op)) {
-        const request = [];
-
-        for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));
+    switch (ast.type) {
+      case 'LITERAL':
+        if (ast.name.includes("#")) {
+          return { tags: { $in: [ast.name.replace("#", "")] } };
         }
 
-        return {
-          $or: [...request],
-        };
-      } else if (ast.type === "OPERATION" && and.exec(ast.op)) {
-        const request = [];
-
-        for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));
-        }
-
-        return {
-          $and: [...request],
-        };
-      } else if (ast.type === "OPERATION" && not.exec(ast.op)) {
-        if (ast.left.includes("#")) {
-          return { tags: { $nin: [ast.left.replace("#", "")] } };
-        } else if (ast.left.includes("@")) {
+        if (ast.name.includes("@")) {
           return {
             status: {
-              $not: {
-                $regex: new RegExp(`${ast.left.replace("@", "")}`),
-                $options: "i",
-              },
+              $regex: new RegExp(`${ast.name.replace("@", "")}`),
+              $options: "i",
             },
           };
-        } else {
-          throw new Error("Database query not support");
         }
-      } else {
-        return;
-      }
-    }
-  }
+        break;
+      case 'OPERATION':
+        if (or.exec(ast.op)) {
+          return {
+            $or: ast.left.map(item => {
+              return this.buildSmartMongoDBQuery(item);
+            }),
+          };
+        }
 
-  isValidObjectId(id: string): boolean {
-    if (isValidObjectId(id)) {
-      return true;
+        if (and.exec(ast.op)) {
+          return {
+            $and: ast.left.map(item => {
+              return this.buildSmartMongoDBQuery(item);
+            }),
+          };
+        }
+
+        if (not.exec(ast.op)) {
+          if (ast.left.includes("#")) {
+            return { tags: { $nin: [ast.left.replace("#", "")] } };
+          }
+          if (ast.left.includes("@")) {
+            return {
+              status: {
+                $not: {
+                  $regex: new RegExp(`${ast.left.replace("@", "")}`),
+                  $options: "i",
+                },
+              },
+            };
+          }
+        }
+        break;
     }
-    return false;
+    throw new Error("Database query not supportted");
   }
 
   validField(field: string, value: any): any {
-    let flag = false;
 
     switch (field) {
       case "status":
-        flag = true;
-        break;
       case "mipName":
-        flag = true;
-        break;
       case "filename":
-        flag = true;
-        break;
       case "proposal":
-        flag = true;
-        break;
       case "mip":
-        flag = true;
-        break;
       case "tags":
-        flag = true;
-        break;
       case "contributors":
-        flag = true;
-        break;
       case "author":
-        flag = true;
-        break;
       case "mipFather":
-        flag = true;
-        break;
-      case "title":
-        flag = true;
-        break;
       case "sectionsRaw":
-        flag = true;
-        break;
+        return value;
+      case "title":
+        return this.escapeRegExp(value)
+      default:
+        throw new Error(`Invalid filter field (${field})`);
     }
-
-    if (!flag) {
-      throw new Error(`Invalid filter field (${field})`);
-    }
-
-    return field === "title" ? this.escapeRegExp(value) : value;
   }
 
   addSearcheableFields(item): any {
