@@ -4,7 +4,36 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { andQueryMock, builtAndFilterMock, builtContainsFilterMock, builtEqualsFilterMock, builtFilterMock, builtInArrayFilterMock, builtNotContainsFilterMock, builtNotEqualFilterMock, countMock, fieldMock, fileNameMock, filtersMock, languageMock, limitMock, mipData, mipNameMock, mipNumber_1, mipSearcheableMock, mipToBeSearcheableMock, orderMock, pageMock, parseMock, proposalMock, searchFieldMock, searchMock, selectMock, valueMock } from "./data-test/data";
+import {
+    andQueryMock,
+    builtAndFilterMock,
+    builtContainsFilterMock,
+    builtEqualsFilterMock,
+    builtFilterMock,
+    builtInArrayFilterMock,
+    builtNotContainsFilterMock,
+    builtNotEqualFilterMock,
+    countMock,
+    fieldMock,
+    fileNameMock,
+    filtersMock,
+    languageMock,
+    limitMock,
+    mipData,
+    mipFilesMapMock,
+    mipNameMock,
+    mipNumber_1,
+    mipSearcheableMock,
+    mipToBeSearcheableMock,
+    orderMock,
+    pageMock,
+    parseMock,
+    proposalMock,
+    searchFieldMock,
+    searchMock,
+    selectMock,
+    valueMock,
+} from "./data-test/data";
 import { MIPsService } from "./mips.service";
 import { ParseQueryService } from "./parse-query.service";
 const faker = require("faker");
@@ -28,6 +57,7 @@ describe("MIPsService", () => {
     let execOne;
     let create;
     let insertMany;
+    let cursor;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -73,7 +103,8 @@ describe("MIPsService", () => {
             exec,
             skip,
         }));
-        select = jest.fn(() => ({ sort, exec }));
+        cursor = jest.fn(() => [mipData]);
+        select = jest.fn(() => ({ sort, exec, cursor }));
         selectOne = jest.fn(() => ({ exec: execOne }));
         find = jest.fn(() => ({ select }));
         aggregate = jest.fn(async () => [mipData]);
@@ -570,7 +601,7 @@ describe("MIPsService", () => {
     describe('buildSmartMongoDBQuery', () => {
         it('build filter from query', async () => {
             const result = mipsService.buildSmartMongoDBQuery(andQueryMock);
-            
+
             expect(result).toEqual(builtAndFilterMock);
         });
 
@@ -866,24 +897,24 @@ describe("MIPsService", () => {
             const result = await mipsService.getSummaryByMipComponent(
                 `MIP${mipNumber_1}`,
                 null,
-                );
-            
-                expect(result).toEqual(mipData);
-                expect(findOne).toBeCalledTimes(1);
-                expect(findOne).toBeCalledWith({
-                    mipName_plain: `MIP${mipNumber_1}`,
-                    language: Language.English,
-                });
-                expect(selectOne).toBeCalledTimes(1);
-                expect(selectOne).toBeCalledWith({
-                    sentenceSummary: 1,
-                    paragraphSummary: 1,
-                    title: 1,
-                    mipName: 1,
-                    components: { $elemMatch: { cName: `MIP${mipNumber_1}` } },
-                  });
-                expect(execOne).toBeCalledTimes(1);
-                expect(execOne).toBeCalledWith();
+            );
+
+            expect(result).toEqual(mipData);
+            expect(findOne).toBeCalledTimes(1);
+            expect(findOne).toBeCalledWith({
+                mipName_plain: `MIP${mipNumber_1}`,
+                language: Language.English,
+            });
+            expect(selectOne).toBeCalledTimes(1);
+            expect(selectOne).toBeCalledWith({
+                sentenceSummary: 1,
+                paragraphSummary: 1,
+                title: 1,
+                mipName: 1,
+                components: { $elemMatch: { cName: `MIP${mipNumber_1}` } },
+            });
+            expect(execOne).toBeCalledTimes(1);
+            expect(execOne).toBeCalledWith();
         });
     });
 
@@ -912,7 +943,7 @@ describe("MIPsService", () => {
     describe('create', () => {
         it('create MIP by proposal', async () => {
             jest.spyOn(MIPsService.prototype, 'addSearcheableFields')
-            .mockReturnValueOnce(mipData);
+                .mockReturnValueOnce(mipData);
 
             const result = await mipsService.create(mipData);
 
@@ -927,7 +958,7 @@ describe("MIPsService", () => {
     describe('insertMany', () => {
         it('insert many MIPs', async () => {
             jest.spyOn(MIPsService.prototype, 'addSearcheableFields')
-            .mockReturnValueOnce(mipData);
+                .mockReturnValueOnce(mipData);
 
             const result = await mipsService.insertMany([mipData]);
 
@@ -936,6 +967,25 @@ describe("MIPsService", () => {
             expect(MIPsService.prototype.addSearcheableFields).toBeCalledWith(mipData);
             expect(insertMany).toBeCalledTimes(1);
             expect(insertMany).toBeCalledWith([mipData]);
+        });
+    });
+
+    describe('getAll', () => {
+        it('get all MIPs', async () => {
+            const result = await mipsService.getAll();
+
+            expect(result).toEqual(mipFilesMapMock);
+            expect(find).toBeCalledTimes(1);
+            expect(find).toBeCalledWith([{
+                $sort: { filename: 1 },
+            }]);
+            expect(select).toBeCalledTimes(1);
+            expect(select).toBeCalledWith([
+                "hash",
+                "filename",
+            ]);
+            expect(cursor).toBeCalledTimes(1);
+            expect(cursor).toBeCalledWith();
         });
     });
 
