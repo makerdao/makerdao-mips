@@ -219,7 +219,6 @@ export const mipSearcheableMock: MIP = {
 export const fileNameMock: string = faker.random.word();
 export const proposalMock: string = faker.random.word();
 
-
 // ParseMIPsService unit tests
 export const mipMock = {
   filename: faker.random.word(),
@@ -1331,3 +1330,7 @@ export const pullRequestsMock: RequestDocument = {
   definitions: [],
   kind: faker.random.word(),
 };
+
+// MIPsService unit test
+export const mipFilesMapMock = new Map();
+mipFilesMapMock.set(mipData.filename, mipData)
