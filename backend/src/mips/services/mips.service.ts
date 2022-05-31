@@ -565,7 +565,7 @@ export class MIPsService {
   }
 
   async getMipLanguagesAvailables(mipName: string): Promise<any> {
-    return await this.mipsDoc.find({ mipName }, "mipName language").exec();
+    return this.mipsDoc.find({ mipName }, "mipName language").exec();
   }
 
   escapeRegExp(input: string): string {

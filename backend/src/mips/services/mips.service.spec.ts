@@ -117,7 +117,7 @@ describe("MIPsService", () => {
         cursor = jest.fn(() => [mipData]);
         select = jest.fn(() => ({ sort, exec, cursor }));
         selectOne = jest.fn(() => ({ exec: execOne }));
-        find = jest.fn(() => ({ select }));
+        find = jest.fn(() => ({ select, exec }));
         aggregate = jest.fn(async () => [mipData]);
         countDocuments = jest.fn(() => ({
             exec: execCount,
@@ -1071,6 +1071,29 @@ describe("MIPsService", () => {
             expect(deleteOne).toBeCalledWith({ _id: mipMock._id });
             expect(leanDelete).toBeCalledTimes(1);
             expect(leanDelete).toBeCalledWith(true);
+        });
+    });
+
+    describe('getMipLanguagesAvailables', () => {
+        it('get MIP languages availables', async () => {
+            const result = await mipsService.getMipLanguagesAvailables(mipNameMock);
+
+            expect(result).toEqual([mipData]);
+            expect(find).toBeCalledTimes(1);
+            expect(find).toBeCalledWith(
+                { mipName: mipNameMock },
+                "mipName language",
+            );
+            expect(exec).toBeCalledTimes(1);
+            expect(exec).toBeCalledWith();
+        });
+    });
+
+    describe('escapeRegExp', () => {
+        it('escape RegExp', () => {
+            const result = mipsService.escapeRegExp(`${mipNameMock}?`);
+
+            expect(result).toEqual(`${mipNameMock}\\?`);
         });
     });
 
