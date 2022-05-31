@@ -861,6 +861,32 @@ describe("MIPsService", () => {
         });
     });
 
+    describe('getSummaryByMipComponent', () => {
+        it('get MIP by mip component', async () => {
+            const result = await mipsService.getSummaryByMipComponent(
+                `MIP${mipNumber_1}`,
+                null,
+                );
+            
+                expect(result).toEqual(mipData);
+                expect(findOne).toBeCalledTimes(1);
+                expect(findOne).toBeCalledWith({
+                    mipName_plain: `MIP${mipNumber_1}`,
+                    language: Language.English,
+                });
+                expect(selectOne).toBeCalledTimes(1);
+                expect(selectOne).toBeCalledWith({
+                    sentenceSummary: 1,
+                    paragraphSummary: 1,
+                    title: 1,
+                    mipName: 1,
+                    components: { $elemMatch: { cName: `MIP${mipNumber_1}` } },
+                  });
+                expect(execOne).toBeCalledTimes(1);
+                expect(execOne).toBeCalledWith();
+        });
+    });
+
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
