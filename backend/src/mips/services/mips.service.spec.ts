@@ -576,6 +576,108 @@ describe("MIPsService", () => {
             }
         })
     });
+
+    describe('validField', () => {
+        beforeEach(() => {
+            jest.spyOn(MIPsService.prototype, 'escapeRegExp').mockReturnValueOnce(fieldMock);
+        });
+
+        it('status is valid', () => {
+            const result = mipsService.validField('status', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('mipName is valid', () => {
+            const result = mipsService.validField('mipName', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('filename is valid', () => {
+            const result = mipsService.validField('filename', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('proposal is valid', () => {
+            const result = mipsService.validField('proposal', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('mip is valid', () => {
+            const result = mipsService.validField('mip', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('tags is valid', () => {
+            const result = mipsService.validField('tags', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('contributors is valid', () => {
+            const result = mipsService.validField('contributors', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('author is valid', () => {
+            const result = mipsService.validField('author', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('mipFather is valid', () => {
+            const result = mipsService.validField('mipFather', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('sectionsRaw is valid', () => {
+            const result = mipsService.validField('sectionsRaw', valueMock);
+
+            expect(result).toEqual(valueMock);
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+
+        it('title is valid', () => {
+            const result = mipsService.validField('title', valueMock);
+
+            expect(result).toEqual(fieldMock);
+            expect(MIPsService.prototype.escapeRegExp).toBeCalledTimes(1);
+            expect(MIPsService.prototype.escapeRegExp).toBeCalledWith(valueMock);
+        });
+
+        it('not valid field', () => {
+            try {
+                mipsService.validField(fieldMock, valueMock);
+            } catch (error) {
+                expect(error.message).toEqual(`Invalid filter field (${fieldMock})`);
+            }
+
+            expect(MIPsService.prototype.escapeRegExp).not.toBeCalled();
+        });
+    });
+
+    describe('addSearcheableFields', () => {
+        it('add searchable fields', () => {
+            const result = mipsService.addSearcheableFields(mipToBeSearcheableMock);
+
+            expect(result).toEqual(mipSearcheableMock);
+        });
+    });
     afterAll(async () => {
         await module.close();
         await mongoMemoryServer.stop();
