@@ -528,36 +528,42 @@ describe("ParseMIPsService", () => {
         .mockReturnValueOnce(Promise.resolve());
     });
 
-    // it('new MIP', async () => {
-    //   jest.spyOn(ParseMIPsService.prototype, 'parseMIP')
-    //     .mockReturnValueOnce(Promise.resolve(mipWithoutNameMock));
-    //   const result = await service.synchronizeData(
-    //     filesGitMock,
-    //     mipMapMock,
-    //   );
+    it('new MIP', async () => {
+      jest.spyOn(ParseMIPsService.prototype, 'parseMIP')
+        .mockReturnValue(Promise.resolve(mipWithoutNameMock));
+      jest.spyOn(ParseMIPsService.prototype, 'sendIssue')
+        .mockReturnValue(Promise.resolve());
+      const result = await service.synchronizeData(
+        filesGitMock,
+        mipMapMock,
+      );
 
-    //   expect(result).toEqual({
-    //     creates: 1,
-    //     deletes: 1,
-    //     updates: 0,
-    //   });
-    //   expect(ParseMIPsService.prototype.parseMIP).toBeCalledTimes(1);
-    //   expect(ParseMIPsService.prototype.parseMIP).toBeCalledWith(filesGitMock[0], true);
-    //   expect(Logger.prototype.log).toBeCalledTimes(1);
-    //   expect(Logger.prototype.log).toBeCalledWith(
-    //     `Mips with problems to parse ==> ${(mipWithoutNameMock.mip, mipWithoutNameMock.mipName, mipWithoutNameMock.filename)
-    //     }`
-    //   );
-    //   expect(ParseMIPsService.prototype.updateIfDifferentHash).not.toBeCalled();
-    //   expect(ParseMIPsService.prototype.deleteMipsFromMap).toBeCalledTimes(1);
-    //   expect(ParseMIPsService.prototype.deleteMipsFromMap).toBeCalledWith(
-    //     mipMapMock,
-    //   );
-    //   expect(MIPsService.prototype.insertMany).toBeCalledTimes(1);
-    //   expect(MIPsService.prototype.insertMany).toBeCalledWith(
-    //     [mipWithoutNameMock],
-    //   );
-    // });
+      expect(result).toEqual({
+        creates: 1,
+        deletes: 1,
+        updates: 0,
+      });
+      expect(ParseMIPsService.prototype.parseMIP).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.parseMIP).toBeCalledWith(filesGitMock[0], true);
+      expect(ParseMIPsService.prototype.sendIssue).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.sendIssue).toBeCalledWith([{
+        mipPath: filesGitMock[0].filename,
+      }]);
+      expect(Logger.prototype.log).toBeCalledTimes(1);
+      expect(Logger.prototype.log).toBeCalledWith(
+        `Mips with problems to parse ==> ${(mipWithoutNameMock.mip, mipWithoutNameMock.mipName, mipWithoutNameMock.filename)
+        }`
+      );
+      expect(ParseMIPsService.prototype.updateIfDifferentHash).not.toBeCalled();
+      expect(ParseMIPsService.prototype.deleteMipsFromMap).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.deleteMipsFromMap).toBeCalledWith(
+        mipMapMock,
+      );
+      expect(MIPsService.prototype.insertMany).toBeCalledTimes(1);
+      expect(MIPsService.prototype.insertMany).toBeCalledWith(
+        [mipWithoutNameMock],
+      );
+    });
 
     it('new MIP and error while parseMIP', async () => {
       jest.spyOn(
