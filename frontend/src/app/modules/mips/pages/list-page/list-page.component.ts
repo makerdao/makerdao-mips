@@ -172,7 +172,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       customViewName: queryParams.params.customViewName,
       orderBy: queryParams.params.orderBy,
       orderDirection: queryParams.params.orderDirection,
-      hideParents: queryParams.params.hideParents
+      hideParents: queryParams.params.hideParents,
     };
     if (qp.customViewName) {
       qp = {
@@ -180,7 +180,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
         hideParents: qp.hideParents,
         shouldBeExpandedMultiQuery: qp.shouldBeExpandedMultiQuery,
       };
-      this.shouldBeExpandedMultiQuery = qp?.shouldBeExpandedMultiQuery?.toString() && JSON.parse(qp.shouldBeExpandedMultiQuery.toString());
+      this.shouldBeExpandedMultiQuery = (qp?.shouldBeExpandedMultiQuery?.toString() && JSON.parse(qp.shouldBeExpandedMultiQuery.toString())) ?? true;
     }
 
 
