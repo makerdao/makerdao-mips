@@ -83,7 +83,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   @Input() shouldBeExpandedMultiQuery
   @Input() hideParent:boolean
   @Input() statusParameters
-  
+
   constructor(
     private mipsService: MipsService,
     private orderService: OrderService,
@@ -161,7 +161,8 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
         if (key.includes('_')) {
             this.dataSourceMultiQueriesRows.push(newQueryEle);
         }
-        this.onExpandQuery(newQueryEle, this.shouldBeExpandedMultiQuery);
+
+        this.onExpandQuery(newQueryEle, true);
       }
     }
   }
@@ -293,7 +294,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
       this.searchMips(row);
       return;
     }
-    
+
     if (row.expanded) {
       row.expanded = false;
     } else {
