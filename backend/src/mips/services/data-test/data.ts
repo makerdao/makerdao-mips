@@ -216,7 +216,13 @@ export const mipSearcheableMock: MIP = {
   title_plain: titleMock,
   sectionsRaw_plain: mipToBeSearcheableMock.sectionsRaw,
 } as any;
-
+export const fileNameMock: string = faker.random.word();
+export const proposalMock: string = faker.random.word();
+export const deleteMipresult = {
+  n: faker.datatype.number(),
+  ok: faker.datatype.number(),
+  deletedCount: faker.datatype.number(),
+};
 
 // ParseMIPsService unit tests
 export const mipMock = {
@@ -1329,3 +1335,7 @@ export const pullRequestsMock: RequestDocument = {
   definitions: [],
   kind: faker.random.word(),
 };
+
+// MIPsService unit test
+export const mipFilesMapMock = new Map();
+mipFilesMapMock.set(mipData.filename, mipData)
