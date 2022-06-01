@@ -6,6 +6,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { readFile } from "fs/promises";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import {
+  openIssue,
   pullRequests,
   pullRequestsAfter,
   pullRequestsCount,
@@ -48,7 +49,8 @@ import {
   typesMock,
   votingPortalLinkMock,
   forumLinkMock,
-  tagsMock
+  tagsMock,
+  openIssuemock
 } from "./data-test/data";
 import { GithubService } from "./github.service";
 import { MarkedService } from "./marked.service";
@@ -128,6 +130,7 @@ describe("ParseMIPsService", () => {
         }
       }
     }));
+    GithubService.prototype.openIssue = jest.fn(() => Promise.resolve(openIssuemock));
     SimpleGitService.prototype.saveMetaVars = jest.fn(() => Promise.resolve());
     PullRequestService.prototype.create = jest.fn(() => Promise.resolve(faker.datatype.boolean()));
     Logger.prototype.log = jest.fn();
@@ -632,6 +635,32 @@ describe("ParseMIPsService", () => {
       );
       expect(MIPsService.prototype.insertMany).toBeCalledTimes(1);
       expect(MIPsService.prototype.insertMany).toBeCalledWith([]);
+    });
+  });
+
+  describe('sendIssue', () => {
+    it('', async () => {
+      console.log = jest.fn();
+      await service.sendIssue([{
+        mipPath: filesGitMock[0].filename,
+      }]);
+
+      expect(GithubService.prototype.openIssue).toBeCalledTimes(1);
+      expect(GithubService.prototype.openIssue).toBeCalledWith(
+        openIssue,
+        "MIPs with problems to parse",
+        `
+# Some problems where found on this MIPS:
+
+
+>MIP Path: ${filesGitMock[0].filename}
+
+
+
+`
+      );
+      expect(console.log).toBeCalledTimes(1);
+      expect(console.log).toBeCalledWith(openIssuemock);
     });
   });
 

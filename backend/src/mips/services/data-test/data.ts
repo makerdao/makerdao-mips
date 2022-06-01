@@ -277,6 +277,7 @@ export const markedListMock: any[] = [
   }
 ];
 export const parseStringMock: string = `MIP#: ${mipNumber_1}`;
+export const openIssuemock: string = faker.random.word();
 export const components: Component[] = [
   {
     cBody: "Defines several concepts that are important for understanding the MIPs process.",
