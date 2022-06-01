@@ -339,7 +339,7 @@
             [ngClass]="{
               'proposal-card': !item.proposal,
               'subproposal-card': item.proposal,
-              'maker-hide-row': hideParent
+              'maker-hide-row': hideParent && item.hide
             }"
           >
             <div style="width: calc(100% - 35px)">
