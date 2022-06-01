@@ -55,8 +55,8 @@ export class SimpleGitService {
       return this.git.pull(remote, branch);
     } catch (error) {
 
-      console.log({error, text: 'Error autoresolved by hard reset origin/master strategy'})
-      
+      console.log({ error, text: 'Error autoresolved by hard reset origin/master strategy' })
+
       await this.git.fetch({ '--all': 'true' })
       await this.git.reset(["--hard", "origin/master"])
       return this.git.pull(remote, branch);

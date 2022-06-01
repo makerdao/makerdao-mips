@@ -23,7 +23,7 @@ export class PullRequestService {
   async aggregate(filename: string): Promise<any> {
     const data = await this.pullRequestDoc
       .aggregate([
-        { $sort : {  createdAt: -1 } },
+        { $sort: { createdAt: -1 } },
         { $match: { "files.nodes": { path: filename } } },
         {
           $facet: {
