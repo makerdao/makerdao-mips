@@ -161,8 +161,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
         if (key.includes('_')) {
             this.dataSourceMultiQueriesRows.push(newQueryEle);
         }
-
-        this.onExpandQuery(newQueryEle, true);
+        this.onExpandQuery(newQueryEle, this.shouldBeExpandedMultiQuery);
       }
     }
   }
