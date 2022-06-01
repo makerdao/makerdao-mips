@@ -378,7 +378,7 @@ export class MIPsService {
     value: string,
     language: Language
   ): Promise<MIP[]> {
-    if(!language) {
+    if (!language) {
       language = Language.English;
     }
 
