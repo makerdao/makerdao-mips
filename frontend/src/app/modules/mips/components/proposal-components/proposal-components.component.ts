@@ -39,8 +39,6 @@ export class ProposalComponentsComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-
-    console.log(this.sourceData)
     this.langService.currentLang$.subscribe((language: string) => {
       this.translate.use(language);
     });
