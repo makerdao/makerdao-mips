@@ -7,7 +7,8 @@ on:
   push:
     branches: [ develop ] 
     paths:
-        - "backend/**"  
+        - "backend/**"
+        - ".github/workflows/node.js-dev.yml"
 
 jobs:
   build:
