@@ -534,7 +534,6 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   }
 
   async hidingSubproposalsUnderParents(data): Promise<any> {
-    console.log(data, this.search)
     const newData: IMip[] = [];
     const forLoop = async () => {
       for (let index = 0; index < data.items.length; index++) {
