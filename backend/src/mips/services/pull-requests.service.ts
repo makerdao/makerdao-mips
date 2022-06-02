@@ -13,7 +13,7 @@ export class PullRequestService {
   ) { }
 
   async create(pullRequest: any[]): Promise<any> {
-    return await this.pullRequestDoc.insertMany(pullRequest);
+    return this.pullRequestDoc.insertMany(pullRequest);
   }
 
   count(): Promise<number> {
