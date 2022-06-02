@@ -224,6 +224,10 @@ export const deleteMipresult = {
   deletedCount: faker.datatype.number(),
 };
 
+// PullRequestService unit test
+export const countPullRequestMock: number = faker.datatype.number();
+export const insertManyMock: boolean = faker.datatype.boolean();
+
 // ParseMIPsService unit tests
 export const mipMock = {
   filename: faker.random.word(),
