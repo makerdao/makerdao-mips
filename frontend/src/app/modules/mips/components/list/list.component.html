@@ -323,9 +323,12 @@
           *matRowDef="let element; columns: columnsToDisplay"
           class="maker-element-row"
           [class.maker-expanded-row]="element.expanded"
+          [class.maker-hide-row]="hideParent && element.mipFather"
+        ></tr>
+        <!--
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
-        ></tr>
+         -->
         <tr
           mat-row
           *matRowDef="let row; columns: ['expandedDetail']"
@@ -339,7 +342,7 @@
             [ngClass]="{
               'proposal-card': !item.proposal,
               'subproposal-card': item.proposal,
-              'maker-hide-row': hideParent && item.hide
+              'maker-hide-row': hideParent && item.mipFather
             }"
           >
             <div style="width: calc(100% - 35px)">
