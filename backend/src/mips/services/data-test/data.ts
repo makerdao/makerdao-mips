@@ -2,6 +2,7 @@ import { Filters } from "@app/mips/dto/query.dto";
 import { Component, Language, MIP, Reference } from "@app/mips/entities/mips.entity";
 import { IGitFile, IPreamble, ISynchronizeData } from "@app/mips/interfaces/mips.interface";
 import { RequestDocument } from "graphql-request";
+import { PullResult } from "simple-git";
 const faker = require("faker");
 
 faker.seed('Data');
@@ -227,6 +228,19 @@ export const deleteMipresult = {
 // PullRequestService unit test
 export const countPullRequestMock: number = faker.datatype.number();
 export const insertManyMock: boolean = faker.datatype.boolean();
+
+// SimpleGitService unit test
+export const cloneMessageMock: string = faker.random.word();
+export const pullMock: PullResult = {
+  files: [faker.random.word()],
+  created: [faker.random.word()],
+  deleted: [faker.random.word()],
+  deletions: null,
+  insertions: null,
+  remoteMessages: null,
+  summary: null,
+};
+export const pullErrorMock: string = faker.random.word();
 
 // ParseMIPsService unit tests
 export const mipMock = {
