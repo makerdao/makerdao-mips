@@ -57,7 +57,7 @@ describe('PullRequestService', () => {
     });
 
     describe('create', () => {
-        it('create a pull requrest', async () => {
+        it('create a pull request', async () => {
             const result = await pullRequestService.create([pullRequestMock]);
 
             expect(result).toEqual(insertManyMock);
