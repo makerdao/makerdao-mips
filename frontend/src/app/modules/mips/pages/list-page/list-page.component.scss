@@ -161,6 +161,21 @@ app-md-checkbox {
   margin-right: 25px;
 }
 
+::ng-deep {
+  :root {
+    app-md-checkbox {
+      @media screen and (max-width: 768px) {
+        transform: translate(-60px, 10px) !important;
+        min-width: 125px;
+        label {
+          width: fit-content;
+          margin-left: auto !important;
+        }
+      }
+    }
+  }
+}
+
 app-md-checkbox-mobile {
   display: none;
 }
@@ -171,10 +186,9 @@ app-md-checkbox-mobile {
       display: none;
     }
   }
-  p.title{
+  p.title {
     white-space: pre-wrap;
     width: 100%;
-    
   }
 }
 @media screen and (max-width: 768px) {
@@ -234,9 +248,9 @@ app-md-checkbox-mobile {
     justify-content: flex-end;
   }
 }
-@media only screen and (min-width: 769px) and (max-width: 1150px){
-  p.title{
+@media only screen and (min-width: 769px) and (max-width: 1150px) {
+  p.title {
     white-space: pre-wrap;
     width: 100%;
   }
-  }
+}
