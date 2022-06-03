@@ -16,6 +16,7 @@ describe('PullRequestService', () => {
     let countDocuments;
     let exec;
     let aggregate;
+    let execAggregate;
 
     beforeAll(async () => {
         mongoMemoryServer = await MongoMemoryServer.create();
@@ -46,9 +47,10 @@ describe('PullRequestService', () => {
 
     beforeEach(() => {
         exec = jest.fn(async () => countPullRequestMock);
+        execAggregate = jest.fn(async () => countPullRequestMock);
         countDocuments = jest.fn(() => ({ exec }));
         insertMany = jest.fn(async () => insertManyMock);
-        aggregate = jest.fn(() => ({ exec }));
+        aggregate = jest.fn(() => ({ exec: execAggregate }));
         (pullRequestService as any).pullRequestDoc = {
             insertMany,
             countDocuments,
@@ -127,8 +129,62 @@ describe('PullRequestService', () => {
                     },
                 },
             ]);
-            expect(exec).toBeCalledTimes(1);
-            expect(exec).toBeCalledWith();
+            expect(execAggregate).toBeCalledTimes(1);
+            expect(execAggregate).toBeCalledWith();
+        });
+
+        it('aggregate pull request', async () => {
+            execAggregate.mockReturnValueOnce([countPullRequestMock, countPullRequestMock])
+
+            const result = await pullRequestService.aggregate(fileNameMock);
+
+            expect(result).toEqual(countPullRequestMock);
+            expect(aggregate).toBeCalledTimes(1);
+            expect(aggregate).toBeCalledWith([
+                { $sort: { createdAt: -1 } },
+                { $match: { "files.nodes": { path: fileNameMock } } },
+                {
+                    $facet: {
+                        open: [
+                            { $match: { state: "OPEN" } },
+                            { $group: { _id: null, count: { $sum: 1 } } },
+                        ],
+                        close: [
+                            { $match: { state: { $in: ["MERGED", "CLOSED"] } } },
+                            { $group: { _id: null, count: { $sum: 1 } } },
+                        ],
+                        items: [{
+                            $group: {
+                                _id: null, data: {
+                                    $push: {
+                                        id: "$_id",
+                                        url: "$url",
+                                        title: "$title",
+                                        body: "$body",
+                                        createdAt: "$createdAt",
+                                        author: "$author",
+                                        state: "$state"
+                                    }
+                                }
+                            }
+                        }],
+                    },
+                },
+                {
+                    $project: {
+                        open: { $ifNull: [{ $arrayElemAt: ["$open.count", 0] }, 0] },
+                        close: { $ifNull: [{ $arrayElemAt: ["$close.count", 0] }, 0] },
+                        items: {
+                            $slice: [
+                                { $ifNull: [{ $arrayElemAt: ["$items.data", 0] }, []] },
+                                3,
+                            ],
+                        },
+                    },
+                },
+            ]);
+            expect(execAggregate).toBeCalledTimes(1);
+            expect(execAggregate).toBeCalledWith();
         });
     });
 

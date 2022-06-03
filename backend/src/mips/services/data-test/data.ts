@@ -21,11 +21,12 @@ export const dependenciesMock: string[] = [faker.random.word()];
 export const votingPortalLinkMock: string = faker.internet.url();
 const mip = mipNumber_1;
 export const replacesMock: string = faker.random.word();
-export const statusMock: string = faker.random.arrayElement(['Accepted', 'Rejected']);
+export const statusMock: string = faker.random.arrayElement(['Accepted', 'Rejected', 'RFC']);
 export const titleMock: string = faker.lorem.paragraph();
 export const typesMock: string = faker.random.word();
 export const forumLinkMock: string = faker.random.word();
 export const tagsMock: string = faker.random.word();
+export const extraMock: string = faker.random.word();
 
 // ParseMIPsCommand unit test
 export const errorDropMock: string = faker.lorem.paragraph();
@@ -91,6 +92,12 @@ export const requestCallBackMock = {
     field: faker.random.word(),
   },
 };
+export const requestCallBackNotHeaderMock = {
+  headers: {},
+  body: {
+    field: faker.random.word(),
+  },
+};
 
 // MIPsService unit tests
 export const searchFieldMock: string = faker.random.word();
@@ -145,10 +152,10 @@ export const statusQueryMock = {
   name: '@' + statusMock,
 };
 export const builtStatusFilterMock = {
-    status: {
-      $regex: new RegExp(statusMock),
-      $options: "i",
-    },
+  status: {
+    $regex: new RegExp(statusMock),
+    $options: "i",
+  },
 };
 export const orQueryMock = {
   type: 'OPERATION',
@@ -274,6 +281,7 @@ export const translationMetaVarsMock = [{
   language: Language.English,
   translations: readFileResultMock,
 }];
+export const errorReadFileMock: string = faker.random.word();
 
 // ParseMIPsService unit tests
 export const mipMock = {
@@ -441,7 +449,7 @@ export const mipFile =
   `\n${"```"}\nMIP#: ${mipNumber_1}\nTitle: ${titleMock}\nAuthor(s)` +
   `: ${authorMock[0]}, ${authorMock[1]}\nForum URL: ${forumLinkMock}\nTags: ${tagsMock}\nContributors` +
   `: ${contributorsMock}\nType: ${typesMock}\nRatification Poll URL: ${votingPortalLinkMock}\nStatus: ${statusMock} \nDate Proposed: ${dateProposedMock}` +
-  `\nDate Ratified: ${dateRatifiedMock}\nDependencies: ${dependenciesMock}\nReplaces: ${replacesMock}\n` +
+  `\nDate Ratified: ${dateRatifiedMock}\nExtra: ${extraMock}\nDependencies: ${dependenciesMock}\nReplaces: ${replacesMock}\n` +
   `${"```"}\n## References\n**[General-MIP-Template.md](General-MIP-Template.m` +
   `d)**  \n**[Technical-MIP-Template.md](Technical-MIP-Template.md)**  \n` +
   `**[MIP${mipNumber_1}c12-Subproposal-Template.md](MIP${mipNumber_1}c12-Subproposal-Template.md)**` +
@@ -1357,6 +1365,7 @@ export const preambleMock: IPreamble = {
   ...mipData,
   mipName: faker.random.word(),
 };
+export const errorUpdateMock: string = faker.random.words();
 
 // MIPsController (integration tests) and 
 export const mipData_2: MIP = {

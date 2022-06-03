@@ -10,7 +10,6 @@ import { openIssueBodyMock, openIssueTitleMock, pullRequestsMock, requestGraphql
 import { GithubService } from "./github.service";
 const faker = require("faker");
 
-
 describe("GithubService", () => {
     let githubService: GithubService;
     let module: TestingModule;

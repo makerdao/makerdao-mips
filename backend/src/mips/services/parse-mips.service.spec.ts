@@ -50,7 +50,9 @@ import {
   votingPortalLinkMock,
   forumLinkMock,
   tagsMock,
-  openIssuemock
+  openIssuemock,
+  extraMock,
+  errorUpdateMock
 } from "./data-test/data";
 import { GithubService } from "./github.service";
 import { MarkedService } from "./marked.service";
@@ -204,7 +206,56 @@ describe("ParseMIPsService", () => {
         mipMock._id,
         mipMock,
       );
-      expect(Logger.prototype.log).not.toBeCalled();
+      expect(Logger.prototype.error).not.toBeCalled();
+    });
+
+    it('error during update', async () => {
+      jest.spyOn(MIPsService.prototype, 'update')
+        .mockImplementationOnce(async () => {
+          throw new Error(errorUpdateMock);
+        });
+
+      await service.updateSubproposalCountField();
+
+      expect(MIPsService.prototype.findAll).toBeCalledTimes(2);
+      expect(MIPsService.prototype.findAll).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: [{
+            field: "proposal",
+            value: "",
+          }],
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.findAll).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: [{
+            field: "proposal",
+            value: undefined,
+          }],
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.update).toBeCalledTimes(1);
+      expect(MIPsService.prototype.update).toBeCalledWith(
+        mipMock._id,
+        mipMock,
+      );
+      expect(Logger.prototype.error).toBeCalledTimes(1);
+      expect(Logger.prototype.error).toBeCalledWith(new Error(errorUpdateMock));
+
     });
   });
 
@@ -807,6 +858,12 @@ describe("ParseMIPsService", () => {
       const result = (service as any).parseReferencesTokens(item);
 
       expect(result).toEqual([referenceMock]);
+    });
+
+    it('parse reference tokens emty result', async () => {
+      const result = (service as any).parseReferencesTokens({});
+
+      expect(result).toEqual([]);
     });
   });
 
@@ -1454,6 +1511,7 @@ describe("ParseMIPsService", () => {
         votingPortalLink: votingPortalLinkMock,
         forumLink: forumLinkMock,
         tags: [tagsMock],
+        extra: [extraMock],
       });
     });
   });
