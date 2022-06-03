@@ -241,6 +241,34 @@ export const pullMock: PullResult = {
   summary: null,
 };
 export const pullErrorMock: string = faker.random.word();
+export const hashMock: string = faker.random.word();
+export const rawResultMock: string = hashMock + ' ' + hashMock + '\t' + fileNameMock + '\t' + fileNameMock + '.md';
+export const longerRawResultMock: string = faker.random.word() + ' ' + rawResultMock;
+export const getFilesResultMock = [
+  {
+    filename: fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+  {
+    filename: fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+];
+export const getLongerFilesResultMock = [
+  {
+    filename: fileNameMock + ' ' + fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+  {
+    filename: fileNameMock + ' ' + fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+];
+
 
 // ParseMIPsService unit tests
 export const mipMock = {
