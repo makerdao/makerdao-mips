@@ -30,6 +30,7 @@ describe("SimpleGitService", () => {
   let raw;
   let deleteMany;
   let insertMany;
+  let find;
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
@@ -85,9 +86,11 @@ describe("SimpleGitService", () => {
     };
     deleteMany = jest.fn();
     insertMany = jest.fn();
+    find = jest.fn(async () => translationMetaVarsMock);
     (simpleGitService as any).metaDocument = {
       deleteMany,
       insertMany,
+      find,
     };
   });
 
@@ -226,9 +229,19 @@ describe("SimpleGitService", () => {
       await simpleGitService.saveMetaVars();
 
       expect(deleteMany).toBeCalledTimes(1);
-      expect(deleteMany).toHaveBeenCalledWith({});
+      expect(deleteMany).toBeCalledWith({});
       expect(insertMany).toBeCalledTimes(1);
-      expect(insertMany).toHaveBeenCalledWith(translationMetaVarsMock);
+      expect(insertMany).toBeCalledWith(translationMetaVarsMock);
+    });
+  });
+
+  describe('getMetaVars', () => {
+    it('get metavars', async () => {
+      const result = await simpleGitService.getMetaVars();
+
+      expect(result).toEqual(translationMetaVarsMock);
+      expect(find).toBeCalledTimes(1);
+      expect(find).toBeCalledWith({});
     });
   });
 

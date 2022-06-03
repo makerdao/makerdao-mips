@@ -180,6 +180,6 @@ export class SimpleGitService {
   }
 
   async getMetaVars() {
-    return await this.metaDocument.find({});
+    return this.metaDocument.find({});
   }
 }
