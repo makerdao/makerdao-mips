@@ -50,7 +50,6 @@ export class SimpleGitService {
   }
 
   async pull(remote = "origin", branch = "master"): Promise<PullResult> {
-
     try {
       return await this.git.pull(remote, branch);
     } catch (error) {
@@ -92,7 +91,7 @@ export class SimpleGitService {
             data.includes(".md")
         )
         .map((data) => {
-          const newData = data.replace("\t", " ").split(" ");
+          const newData = data.split(/[\t ]/gmi);
 
           if (newData.length > 4) {
             let filename = newData[3];

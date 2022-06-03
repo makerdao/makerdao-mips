@@ -4,7 +4,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { MIPsModule } from "../mips.module";
-import { cloneMessageMock, pullErrorMock, pullMock } from "./data-test/data";
+import { cloneMessageMock, fileNameMock, getFilesResultMock, getLongerFilesResultMock, hashMock, languageMock, longerRawResultMock, pullErrorMock, pullMock, rawResultMock } from "./data-test/data";
 import { SimpleGitService } from "./simple-git.service";
 const faker = require("faker");
 
@@ -18,7 +18,8 @@ describe("SimpleGitService", () => {
   let pull;
   let fetch;
   let reset;
-  let countFailedPullCalls = 1;
+  let countFailedPullCalls = 0;
+  let raw;
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
@@ -52,8 +53,8 @@ describe("SimpleGitService", () => {
     jest.restoreAllMocks();
 
     console.log = jest.fn();
-    clone = jest.fn(() => {
-      return Promise.resolve(cloneMessageMock);
+    clone = jest.fn(async () => {
+      return cloneMessageMock;
     });
     pull = jest.fn(async () => {
       if (countFailedPullCalls > 0) {
@@ -62,6 +63,7 @@ describe("SimpleGitService", () => {
       }
       return pullMock;
     });
+    raw = jest.fn(async () => rawResultMock);
     fetch = jest.fn();
     reset = jest.fn();
     (simpleGitService as any).git = {
@@ -69,6 +71,7 @@ describe("SimpleGitService", () => {
       pull,
       fetch,
       reset,
+      raw,
     };
   });
 
@@ -91,7 +94,6 @@ describe("SimpleGitService", () => {
 
   describe('pull', () => {
     it('pull commits', async () => {
-      countFailedPullCalls = 0;
       const result = await simpleGitService.pull();
 
       expect(result).toEqual(pullMock);
@@ -129,7 +131,60 @@ describe("SimpleGitService", () => {
       expect(reset).toBeCalledTimes(1);
       expect(reset).toBeCalledWith(["--hard", "origin/master"]);
     });
-  })
+  });
+
+  describe('getFiles', () => {
+    it('get files', async () => {
+      jest.spyOn(SimpleGitService.prototype, 'getLanguage').mockReturnValueOnce(languageMock);
+
+      const result = await simpleGitService.getFiles();
+
+      expect(result).toEqual(getFilesResultMock);
+      expect(raw).toBeCalledTimes(2);
+      expect(raw).toHaveBeenNthCalledWith(
+        1,
+        [
+          "ls-files",
+          "-s",
+          configService.get<string>(Env.FolderPattern),
+        ]
+      );
+      expect(raw).toHaveBeenNthCalledWith(
+        2,
+        [
+          "ls-files",
+          "-s",
+          "I18N",
+        ]
+      );
+    });
+    
+    it('get longer files', async () => {
+      raw.mockReturnValue(longerRawResultMock);
+      jest.spyOn(SimpleGitService.prototype, 'getLanguage').mockReturnValueOnce(languageMock);
+
+      const result = await simpleGitService.getFiles();
+
+      expect(result).toEqual(getLongerFilesResultMock);
+      expect(raw).toBeCalledTimes(2);
+      expect(raw).toHaveBeenNthCalledWith(
+        1,
+        [
+          "ls-files",
+          "-s",
+          configService.get<string>(Env.FolderPattern),
+        ]
+      );
+      expect(raw).toHaveBeenNthCalledWith(
+        2,
+        [
+          "ls-files",
+          "-s",
+          "I18N",
+        ]
+      );
+    });
+  });
 
   afterAll(async () => {
     await module.close();
