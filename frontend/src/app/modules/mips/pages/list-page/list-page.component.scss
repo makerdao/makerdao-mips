@@ -161,20 +161,20 @@ app-md-checkbox {
   margin-right: 25px;
 }
 
-::ng-deep {
-  :root {
-    app-md-checkbox {
-      @media screen and (max-width: 768px) {
-        // transform: translate(-60px, 10px) !important;
-        min-width: 125px;
-        label {
-          width: fit-content;
-          margin-left: auto !important;
-        }
-      }
-    }
-  }
-}
+// ::ng-deep {
+//   :root {
+//     app-md-checkbox {
+//       @media screen and (max-width: 768px) {
+//         transform: translate(-60px, 10px) !important;
+//         min-width: 125px;
+//         label {
+//           width: fit-content;
+//           margin-left: auto !important;
+//         }
+//       }
+//     }
+//   }
+// }
 
 app-md-checkbox-mobile {
   display: none;
