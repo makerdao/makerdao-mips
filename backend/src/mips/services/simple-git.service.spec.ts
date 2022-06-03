@@ -3,8 +3,9 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { cloneMessageMock, fileNameMock, getFilesResultMock, getLongerFilesResultMock, hashMock, languageMock, longerRawResultMock, pullErrorMock, pullMock, rawResultMock } from "./data-test/data";
+import { cloneMessageMock, fileNameMock, getFilesResultMock, getLongerFilesResultMock, hashMock, languageFileNameMock, languageMock, longerRawResultMock, pullErrorMock, pullMock, rawResultMock } from "./data-test/data";
 import { SimpleGitService } from "./simple-git.service";
 const faker = require("faker");
 
@@ -183,6 +184,20 @@ describe("SimpleGitService", () => {
           "I18N",
         ]
       );
+    });
+  });
+
+  describe('getLanguage', () => {
+    it('get language from file name', async () => {
+      const result = await simpleGitService.getLanguage(languageFileNameMock);
+
+      expect(result).toEqual(languageMock);
+    });
+
+    it('get default language', async () => {
+      const result = await simpleGitService.getLanguage(languageMock);
+
+      expect(result).toEqual(Language.English);
     });
   });
 

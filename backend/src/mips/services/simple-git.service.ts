@@ -120,7 +120,6 @@ export class SimpleGitService {
   }
 
   getLanguage(filename: string): Language {
-    const defaultLang = Language.English;
     const languageMatch = filename.match(/I18N\/(?<language>\w\w)\//i);
 
     if (languageMatch) {
@@ -131,7 +130,7 @@ export class SimpleGitService {
       }
     }
 
-    return defaultLang;
+    return Language.English;
   }
 
   async saveMetaVars() {

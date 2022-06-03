@@ -268,6 +268,7 @@ export const getLongerFilesResultMock = [
     language: languageMock,
   },
 ];
+export  const languageFileNameMock: string = "I18N/" + languageMock;
 
 
 // ParseMIPsService unit tests
