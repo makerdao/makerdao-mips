@@ -1388,6 +1388,10 @@ export const pullRequestsMock: RequestDocument = {
   kind: faker.random.word(),
 };
 
+// GithubService unit tests
+export const openIssueTitleMock: string = faker.random.word();
+export const openIssueBodyMock: string = faker.random.word();
+
 // MIPsService unit test
 export const mipFilesMapMock = new Map();
 mipFilesMapMock.set(mipData.filename, mipData)

@@ -4,8 +4,9 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphQLClient } from "graphql-request";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { openIssue } from "../graphql/definitions.graphql";
 import { MIPsModule } from "../mips.module";
-import { pullRequestsMock, requestGraphql } from "./data-test/data";
+import { openIssueBodyMock, openIssueTitleMock, pullRequestsMock, requestGraphql } from "./data-test/data";
 import { GithubService } from "./github.service";
 const faker = require("faker");
 
@@ -115,6 +116,28 @@ describe("GithubService", () => {
                     Env.GithubRepositoryOwner
                 ),
                 last,
+            });
+
+        });
+    });
+
+    describe('openIssue', () => {
+        it("open issue", async () => {
+            const result = await githubService.openIssue(
+                openIssue,
+                openIssueTitleMock,
+                openIssueBodyMock,
+            );
+
+            expect(result).toBeDefined();
+            expect(result).toEqual(requestGraphql);
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledTimes(1);
+            expect(GraphQLClient.prototype.request).toHaveBeenCalledWith(openIssue, {
+                repositoryId: configService.get<string>(
+                    Env.GithubRepositoryId
+                ),
+                title: openIssueTitleMock,
+                body: openIssueBodyMock,
             });
 
         });
