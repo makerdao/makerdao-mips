@@ -5,9 +5,16 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { cloneMessageMock, fileNameMock, getFilesResultMock, getLongerFilesResultMock, hashMock, languageFileNameMock, languageMock, longerRawResultMock, pullErrorMock, pullMock, rawResultMock } from "./data-test/data";
+import { cloneMessageMock, fileNameMock, getFilesResultMock, getLongerFilesResultMock, hashMock, languageFileNameMock, languageMock, longerRawResultMock, pullErrorMock, pullMock, rawResultMock, readFileResultMock, translationMetaVarsMock } from "./data-test/data";
 import { SimpleGitService } from "./simple-git.service";
+import { readFile } from "fs/promises";
 const faker = require("faker");
+
+jest.mock("fs/promises", () => {
+  return {
+    readFile: jest.fn(async () => readFileResultMock),
+  };
+});
 
 describe("SimpleGitService", () => {
   let module: TestingModule;
@@ -21,6 +28,8 @@ describe("SimpleGitService", () => {
   let reset;
   let countFailedPullCalls = 0;
   let raw;
+  let deleteMany;
+  let insertMany;
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
@@ -73,6 +82,12 @@ describe("SimpleGitService", () => {
       fetch,
       reset,
       raw,
+    };
+    deleteMany = jest.fn();
+    insertMany = jest.fn();
+    (simpleGitService as any).metaDocument = {
+      deleteMany,
+      insertMany,
     };
   });
 
@@ -134,10 +149,26 @@ describe("SimpleGitService", () => {
     });
   });
 
-  describe('getFiles', () => {
-    it('get files', async () => {
-      jest.spyOn(SimpleGitService.prototype, 'getLanguage').mockReturnValueOnce(languageMock);
+  describe('getLanguage', () => {
+    it('get language from file name', async () => {
+      const result = await simpleGitService.getLanguage(languageFileNameMock);
 
+      expect(result).toEqual(languageMock);
+    });
+
+    it('get default language', async () => {
+      const result = await simpleGitService.getLanguage(languageMock);
+
+      expect(result).toEqual(Language.English);
+    });
+  });
+
+  describe('getFiles', () => {
+    beforeEach(() => {
+      jest.spyOn(SimpleGitService.prototype, 'getLanguage').mockReturnValue(languageMock);
+    });
+
+    it('get files', async () => {
       const result = await simpleGitService.getFiles();
 
       expect(result).toEqual(getFilesResultMock);
@@ -158,11 +189,12 @@ describe("SimpleGitService", () => {
           "I18N",
         ]
       );
+      expect(SimpleGitService.prototype.getLanguage).toBeCalledTimes(2);
+      expect(SimpleGitService.prototype.getLanguage).toHaveBeenCalledWith(fileNameMock + '.md');
     });
     
     it('get longer files', async () => {
       raw.mockReturnValue(longerRawResultMock);
-      jest.spyOn(SimpleGitService.prototype, 'getLanguage').mockReturnValueOnce(languageMock);
 
       const result = await simpleGitService.getFiles();
 
@@ -184,20 +216,19 @@ describe("SimpleGitService", () => {
           "I18N",
         ]
       );
+      expect(SimpleGitService.prototype.getLanguage).toBeCalledTimes(2);
+      expect(SimpleGitService.prototype.getLanguage).toHaveBeenCalledWith(fileNameMock + ' ' + fileNameMock + '.md');
     });
   });
 
-  describe('getLanguage', () => {
-    it('get language from file name', async () => {
-      const result = await simpleGitService.getLanguage(languageFileNameMock);
+  describe('saveMetaVars', () => {
+    it('save metavars', async () => {
+      await simpleGitService.saveMetaVars();
 
-      expect(result).toEqual(languageMock);
-    });
-
-    it('get default language', async () => {
-      const result = await simpleGitService.getLanguage(languageMock);
-
-      expect(result).toEqual(Language.English);
+      expect(deleteMany).toBeCalledTimes(1);
+      expect(deleteMany).toHaveBeenCalledWith({});
+      expect(insertMany).toBeCalledTimes(1);
+      expect(insertMany).toHaveBeenCalledWith(translationMetaVarsMock);
     });
   });
 

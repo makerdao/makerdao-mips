@@ -268,8 +268,12 @@ export const getLongerFilesResultMock = [
     language: languageMock,
   },
 ];
-export  const languageFileNameMock: string = "I18N/" + languageMock;
-
+export const languageFileNameMock: string = "I18N/" + languageMock + '/';
+export const readFileResultMock: string = faker.random.word();
+export const translationMetaVarsMock = [{
+  language: Language.English,
+  translations: readFileResultMock,
+}];
 
 // ParseMIPsService unit tests
 export const mipMock = {
