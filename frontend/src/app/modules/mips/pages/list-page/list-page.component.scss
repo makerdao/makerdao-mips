@@ -165,7 +165,7 @@ app-md-checkbox {
   :root {
     app-md-checkbox {
       @media screen and (max-width: 768px) {
-        transform: translate(-60px, 10px) !important;
+        // transform: translate(-60px, 10px) !important;
         min-width: 125px;
         label {
           width: fit-content;
