@@ -2,6 +2,7 @@ import { Filters } from "@app/mips/dto/query.dto";
 import { Component, Language, MIP, Reference } from "@app/mips/entities/mips.entity";
 import { IGitFile, IPreamble, ISynchronizeData } from "@app/mips/interfaces/mips.interface";
 import { RequestDocument } from "graphql-request";
+import { PullResult } from "simple-git";
 const faker = require("faker");
 
 faker.seed('Data');
@@ -20,11 +21,12 @@ export const dependenciesMock: string[] = [faker.random.word()];
 export const votingPortalLinkMock: string = faker.internet.url();
 const mip = mipNumber_1;
 export const replacesMock: string = faker.random.word();
-export const statusMock: string = faker.random.arrayElement(['Accepted', 'Rejected']);
+export const statusMock: string = faker.random.arrayElement(['Accepted', 'Rejected', 'RFC']);
 export const titleMock: string = faker.lorem.paragraph();
 export const typesMock: string = faker.random.word();
 export const forumLinkMock: string = faker.random.word();
 export const tagsMock: string = faker.random.word();
+export const extraMock: string = faker.random.word();
 
 // ParseMIPsCommand unit test
 export const errorDropMock: string = faker.lorem.paragraph();
@@ -90,6 +92,12 @@ export const requestCallBackMock = {
     field: faker.random.word(),
   },
 };
+export const requestCallBackNotHeaderMock = {
+  headers: {},
+  body: {
+    field: faker.random.word(),
+  },
+};
 
 // MIPsService unit tests
 export const searchFieldMock: string = faker.random.word();
@@ -144,10 +152,10 @@ export const statusQueryMock = {
   name: '@' + statusMock,
 };
 export const builtStatusFilterMock = {
-    status: {
-      $regex: new RegExp(statusMock),
-      $options: "i",
-    },
+  status: {
+    $regex: new RegExp(statusMock),
+    $options: "i",
+  },
 };
 export const orQueryMock = {
   type: 'OPERATION',
@@ -227,6 +235,53 @@ export const deleteMipresult = {
 // PullRequestService unit test
 export const countPullRequestMock: number = faker.datatype.number();
 export const insertManyMock: boolean = faker.datatype.boolean();
+
+// SimpleGitService unit test
+export const cloneMessageMock: string = faker.random.word();
+export const pullMock: PullResult = {
+  files: [faker.random.word()],
+  created: [faker.random.word()],
+  deleted: [faker.random.word()],
+  deletions: null,
+  insertions: null,
+  remoteMessages: null,
+  summary: null,
+};
+export const pullErrorMock: string = faker.random.word();
+export const hashMock: string = faker.random.word();
+export const rawResultMock: string = hashMock + ' ' + hashMock + '\t' + fileNameMock + '\t' + fileNameMock + '.md';
+export const longerRawResultMock: string = faker.random.word() + ' ' + rawResultMock;
+export const getFilesResultMock = [
+  {
+    filename: fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+  {
+    filename: fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+];
+export const getLongerFilesResultMock = [
+  {
+    filename: fileNameMock + ' ' + fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+  {
+    filename: fileNameMock + ' ' + fileNameMock + '.md',
+    hash: hashMock,
+    language: languageMock,
+  },
+];
+export const languageFileNameMock: string = "I18N/" + languageMock + '/';
+export const readFileResultMock: string = faker.random.word();
+export const translationMetaVarsMock = [{
+  language: Language.English,
+  translations: readFileResultMock,
+}];
+export const errorReadFileMock: string = faker.random.word();
 
 // ParseMIPsService unit tests
 export const mipMock = {
@@ -394,7 +449,7 @@ export const mipFile =
   `\n${"```"}\nMIP#: ${mipNumber_1}\nTitle: ${titleMock}\nAuthor(s)` +
   `: ${authorMock[0]}, ${authorMock[1]}\nForum URL: ${forumLinkMock}\nTags: ${tagsMock}\nContributors` +
   `: ${contributorsMock}\nType: ${typesMock}\nRatification Poll URL: ${votingPortalLinkMock}\nStatus: ${statusMock} \nDate Proposed: ${dateProposedMock}` +
-  `\nDate Ratified: ${dateRatifiedMock}\nDependencies: ${dependenciesMock}\nReplaces: ${replacesMock}\n` +
+  `\nDate Ratified: ${dateRatifiedMock}\nExtra: ${extraMock}\nDependencies: ${dependenciesMock}\nReplaces: ${replacesMock}\n` +
   `${"```"}\n## References\n**[General-MIP-Template.md](General-MIP-Template.m` +
   `d)**  \n**[Technical-MIP-Template.md](Technical-MIP-Template.md)**  \n` +
   `**[MIP${mipNumber_1}c12-Subproposal-Template.md](MIP${mipNumber_1}c12-Subproposal-Template.md)**` +
@@ -1310,6 +1365,7 @@ export const preambleMock: IPreamble = {
   ...mipData,
   mipName: faker.random.word(),
 };
+export const errorUpdateMock: string = faker.random.words();
 
 // MIPsController (integration tests) and 
 export const mipData_2: MIP = {
@@ -1340,6 +1396,10 @@ export const pullRequestsMock: RequestDocument = {
   definitions: [],
   kind: faker.random.word(),
 };
+
+// GithubService unit tests
+export const openIssueTitleMock: string = faker.random.word();
+export const openIssueBodyMock: string = faker.random.word();
 
 // MIPsService unit test
 export const mipFilesMapMock = new Map();

@@ -50,19 +50,15 @@ export class SimpleGitService {
   }
 
   async pull(remote = "origin", branch = "master"): Promise<PullResult> {
-
     try {
-      return this.git.pull(remote, branch);
+      return await this.git.pull(remote, branch);
     } catch (error) {
-
       console.log({ error, text: 'Error autoresolved by hard reset origin/master strategy' })
 
-      await this.git.fetch({ '--all': 'true' })
-      await this.git.reset(["--hard", "origin/master"])
+      await this.git.fetch({ '--all': 'true' });
+      await this.git.reset(["--hard", "origin/master"]);
       return this.git.pull(remote, branch);
-
     }
-
   }
 
   async getFiles(): Promise<IGitFile[]> {
@@ -95,7 +91,7 @@ export class SimpleGitService {
             data.includes(".md")
         )
         .map((data) => {
-          const newData = data.replace("\t", " ").split(" ");
+          const newData = data.split(/[\t ]/gmi);
 
           if (newData.length > 4) {
             let filename = newData[3];
@@ -124,7 +120,6 @@ export class SimpleGitService {
   }
 
   getLanguage(filename: string): Language {
-    const defaultLang = Language.English;
     const languageMatch = filename.match(/I18N\/(?<language>\w\w)\//i);
 
     if (languageMatch) {
@@ -135,7 +130,7 @@ export class SimpleGitService {
       }
     }
 
-    return defaultLang;
+    return Language.English;
   }
 
   async saveMetaVars() {
@@ -185,6 +180,6 @@ export class SimpleGitService {
   }
 
   async getMetaVars() {
-    return await this.metaDocument.find({});
+    return this.metaDocument.find({});
   }
 }
