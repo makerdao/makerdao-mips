@@ -126,7 +126,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() showHead: boolean = true;
   @Input() query: string;
   @Input() darkMode = false;
-  @Input() statusParameters 
+  @Input() statusParameters
   markdown = `## Markdown __rulez__!
 ---
 
@@ -174,7 +174,7 @@ const language = 'typescript';
     this.ascOrderSorting = this.orderService.order.direction == 'ASC';
     this.subscriptionSearchService = this.searchService.search$.subscribe(
       (data) => {
-        this.search = '';
+        this.search = data;
       }
     );
     this.subscriptionFilterService = this.filterService.filter$.subscribe(

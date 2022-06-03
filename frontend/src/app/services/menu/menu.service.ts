@@ -47,8 +47,20 @@ export class MenuService {
             if (varsYAML) {
               newData = this.parseVarsYAML(varsYAML, data);
             }
+            const parsedData = YAML.parse(newData);
+            const views = parsedData.data.find(({ id }) => id === 'views');
+            const units = views?.children.find(({ id }) => id === 'coreunits');
 
-            observer.next(YAML.parse(newData));
+            units?.children.forEach(ch => {
+              if (ch.href.includes('customViewName')) {
+                ch.href += '&shouldBeExpandedMultiQuery=true'
+              }
+            });
+            units?.children.forEach(ch => {
+              ch.href += '&hideParents=false'
+            });
+
+            observer.next(parsedData);
           } catch (error) {
             console.log(error);
           }

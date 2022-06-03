@@ -325,6 +325,7 @@
           [class.maker-expanded-row]="element.expanded"
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
+          [attr.hide-row]="element.hide"
         ></tr>
         <tr
           mat-row
@@ -339,7 +340,7 @@
             [ngClass]="{
               'proposal-card': !item.proposal,
               'subproposal-card': item.proposal,
-              'maker-hide-row': hideParent
+              'maker-hide-row': hideParent && ((item.hide && !statusParameters) || statusParameters)
             }"
           >
             <div style="width: calc(100% - 35px)">

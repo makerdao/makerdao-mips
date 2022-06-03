@@ -911,7 +911,7 @@ export class DetailContentComponent
             this.mipsService
               .getMipByFilename(fieldValue, field)
               .subscribe((data) => {
-                if (data.mipName) {
+                if (data?.mipName) {
                   elem.setAttribute('href', `/mips/details/${data.mipName}`);
                 } else {
                   elem.setAttribute(

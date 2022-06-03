@@ -83,7 +83,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
   @Input() shouldBeExpandedMultiQuery
   @Input() hideParent:boolean
   @Input() statusParameters
-  
+
   constructor(
     private mipsService: MipsService,
     private orderService: OrderService,
@@ -293,7 +293,7 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
       this.searchMips(row);
       return;
     }
-    
+
     if (row.expanded) {
       row.expanded = false;
     } else {

@@ -8,7 +8,7 @@ export class ParseMIPsCommand {
   constructor(
     private readonly parseMIPsService: ParseMIPsService,
     private readonly mipsService: MIPsService
-  ) {}
+  ) { }
 
   @Command({
     command: "drop:db",
@@ -19,7 +19,7 @@ export class ParseMIPsCommand {
     try {
       const result = await this.mipsService.dropDatabase();
 
-      console.log("Database Droped: ",result);
+      console.log("Database Droped: ", result);
     } catch (error) {
       console.log("An Error happend on Droping the Database");
       console.log(error.message);
@@ -29,7 +29,7 @@ export class ParseMIPsCommand {
   @Command({
     command: "parse:mips",
     describe: "Parse mips of makerDao repository",
-    autoExit: true, 
+    autoExit: true,
   })
   async parse() {
     await this.parseMIPsService.parse();
@@ -38,7 +38,7 @@ export class ParseMIPsCommand {
   @Command({
     command: "dropUp:db",
     describe: "Drop db and Parse mips of makerDao repository",
-    autoExit: true, 
+    autoExit: true,
   })
   async dropUp() {
     try {
@@ -46,7 +46,7 @@ export class ParseMIPsCommand {
 
       console.log("PLEASE AVOID USING THIS FUNCTION")
 
-      console.log("Database Droped: ",result);
+      console.log("Database Droped: ", result);
 
       await this.parseMIPsService.parse();
     } catch (error) {
