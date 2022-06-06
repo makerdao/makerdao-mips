@@ -148,7 +148,7 @@ describe("SimpleGitService", () => {
         text: 'Error autoresolved by hard reset origin/master strategy',
       });
       expect(fetch).toBeCalledTimes(1);
-      expect(fetch).toBeCalledWith({ '--all': 'true' });
+      expect(fetch).toBeCalledWith(['--all']);
       expect(reset).toBeCalledTimes(1);
       expect(reset).toBeCalledWith(["--hard", "origin/master"]);
     });
