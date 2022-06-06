@@ -73,11 +73,15 @@ export class SimpleGitService {
         folderPattern,
       ]);
 
+      this.logger.error('Successfully fetched files from git');
+
       const internationalsFiles: string = await this.git.raw([
         "ls-files",
         "-s",
         patternI18N,
       ]);
+
+      this.logger.error('Successfully fetched international files from git');
 
       const info = englishFiles + "\n" + internationalsFiles;
 
