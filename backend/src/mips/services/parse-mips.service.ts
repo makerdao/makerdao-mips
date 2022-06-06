@@ -54,6 +54,8 @@ export class ParseMIPsService {
     try {
       await this.simpleGitService.pull("origin", branch);
 
+      this.logger.error('pull successful');
+      
       const result: any = await Promise.all([
         this.simpleGitService.getFiles(),
         this.mipsService.getAll(),
@@ -61,10 +63,14 @@ export class ParseMIPsService {
         this.githubService.pullRequests(pullRequestsCount),
       ]);
 
+      this.logger.error('Starting synchronize process');
+
       const synchronizeData: ISynchronizeData = await this.synchronizeData(
         result[0],
         result[1]
       );
+
+      this.logger.error('Synchronize data successful');
 
       await this.simpleGitService.saveMetaVars();
 
