@@ -5,9 +5,10 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { Language } from "../entities/mips.entity";
 import { MIPsModule } from "../mips.module";
-import { cloneMessageMock, fileNameMock, getFilesResultMock, getLongerFilesResultMock, hashMock, languageFileNameMock, languageMock, longerRawResultMock, pullErrorMock, pullMock, rawResultMock, readFileResultMock, translationMetaVarsMock } from "./data-test/data";
+import { cloneMessageMock, errorReadFileMock, fileNameMock, getFilesResultMock, getLongerFilesResultMock, hashMock, languageFileNameMock, languageMock, longerRawResultMock, pullErrorMock, pullMock, rawResultMock, readFileResultMock, translationMetaVarsMock } from "./data-test/data";
 import { SimpleGitService } from "./simple-git.service";
 import { readFile } from "fs/promises";
+import { Logger } from "@nestjs/common";
 const faker = require("faker");
 
 jest.mock("fs/promises", () => {
@@ -92,6 +93,7 @@ describe("SimpleGitService", () => {
       insertMany,
       find,
     };
+    Logger.prototype.error = jest.fn();
   });
 
   jest.setTimeout(3 * 60 * 1000);
@@ -195,7 +197,7 @@ describe("SimpleGitService", () => {
       expect(SimpleGitService.prototype.getLanguage).toBeCalledTimes(2);
       expect(SimpleGitService.prototype.getLanguage).toHaveBeenCalledWith(fileNameMock + '.md');
     });
-    
+
     it('get longer files', async () => {
       raw.mockReturnValue(longerRawResultMock);
 
@@ -222,6 +224,27 @@ describe("SimpleGitService", () => {
       expect(SimpleGitService.prototype.getLanguage).toBeCalledTimes(2);
       expect(SimpleGitService.prototype.getLanguage).toHaveBeenCalledWith(fileNameMock + ' ' + fileNameMock + '.md');
     });
+
+    it('error in raw', async () => {
+      raw.mockImplementationOnce(() => {
+        throw new Error(errorReadFileMock);
+      });
+
+      const result = await simpleGitService.getFiles();
+
+      expect(result).toEqual(new Error(errorReadFileMock));
+      expect(raw).toBeCalledTimes(1);
+      expect(raw).toBeCalledWith([
+        "ls-files",
+        "-s",
+        configService.get<string>(Env.FolderPattern),
+      ]);
+      expect(Logger.prototype.error).toBeCalledTimes(1);
+      expect(Logger.prototype.error).toBeCalledWith(
+        new Error(errorReadFileMock)
+      );
+      expect(SimpleGitService.prototype.getLanguage).not.toBeCalled();
+    });
   });
 
   describe('saveMetaVars', () => {
@@ -232,6 +255,21 @@ describe("SimpleGitService", () => {
       expect(deleteMany).toBeCalledWith({});
       expect(insertMany).toBeCalledTimes(1);
       expect(insertMany).toBeCalledWith(translationMetaVarsMock);
+    });
+
+    it('error while read file', async () => {
+      (readFile as any).mockImplementationOnce(() => {
+        throw new Error(errorReadFileMock);
+      });
+
+      await simpleGitService.saveMetaVars();
+
+      expect(console.log).toBeCalledTimes(1);
+      expect(console.log).toBeCalledWith({ error: new Error(errorReadFileMock) })
+      expect(deleteMany).toBeCalledTimes(1);
+      expect(deleteMany).toBeCalledWith({});
+      expect(insertMany).toBeCalledTimes(1);
+      expect(insertMany).toBeCalledWith([]);
     });
   });
 
