@@ -36,7 +36,7 @@ describe('MIPsController', () => {
       ]
     }).compile();
 
-    faker.seed('SimpleGitService');
+    faker.seed('MIPsController');
 
     controller = module.get<MIPsController>(MIPsController);
     mipsService = module.get<MIPsService>(MIPsService);
