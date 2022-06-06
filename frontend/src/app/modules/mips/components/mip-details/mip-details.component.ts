@@ -53,7 +53,6 @@ export class MipDetailsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dependencies?.currentValue?.length) {
-      console.log(this.dependencies)
       const deps = this.dependencies.filter(dep => dep !== 'n/a' && dep !== 'None')
       if (deps.length) {
         this.mipsService.checkDependencies(deps)
