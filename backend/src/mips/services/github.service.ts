@@ -35,7 +35,7 @@ export class GithubService {
   }
 
   async pullRequests(pullRequests: RequestDocument, after?: string): Promise<any> {
-    this.logger.error('Starting request process for pull requests: ', this.githubRepository, ' ' + this.githubRepositoryOwner);
+    this.logger.error('Starting request process for pull requests: ' + this.githubRepository+ ' ' + this.githubRepositoryOwner);
     const result = this.graphQLClient.request(pullRequests, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,

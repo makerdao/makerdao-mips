@@ -55,26 +55,26 @@ export class ParseMIPsService {
       await this.simpleGitService.pull("origin", branch);
 
       this.logger.error('pull successful');
-      
-      const result: any = await Promise.all([
-        this.simpleGitService.getFiles(),
-        this.mipsService.getAll(),
-        this.pullRequestService.count(),
-        this.githubService.pullRequests(pullRequestsCount),
-      ]);
-
+     
+      const one = await this.simpleGitService.getFiles();
+      this.logger.error('get files successful');
+        const two = await this.mipsService.getAll();
+      this.logger.error( 'get all successful');
+        const three = await this.pullRequestService.count();
+      this.logger.error('count successful');
+        const four = await this.githubService.pullRequests(pullRequestsCount);
       this.logger.error('Starting synchronize process');
 
       const synchronizeData: ISynchronizeData = await this.synchronizeData(
-        result[0],
-        result[1]
+        one,
+        two
       );
 
       this.logger.error('Synchronize data successful');
 
       await this.simpleGitService.saveMetaVars();
 
-      if (result[2] === 0) {
+      if (three === 0) {
         let data = await this.githubService.pullRequests(pullRequests);
         await this.pullRequestService.create(
           data?.repository?.pullRequests?.nodes
@@ -90,10 +90,10 @@ export class ParseMIPsService {
           );
         }
       } else {
-        if (result[3].repository.pullRequests.totalCount - result[2] > 0) {
+        if (four.repository.pullRequests.totalCount - three > 0) {
           const data = await this.githubService.pullRequestsLast(
             pullRequestsLast,
-            result[3].repository.pullRequests.totalCount - result[2]
+            four.repository.pullRequests.totalCount - three
           );
           await this.pullRequestService.create(
             data?.repository?.pullRequests?.nodes
@@ -101,7 +101,7 @@ export class ParseMIPsService {
         }
 
         this.logger.log(
-          `Total news pull request ===> ${result[3].repository.pullRequests.totalCount - result[2]
+          `Total news pull request ===> ${four.repository.pullRequests.totalCount - three
           }`
         );
       }
