@@ -17,6 +17,12 @@ export class LangInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
 
+    if (request.headers.get('ignore-lang') === 'true') {
+      return next.handle(request.clone({
+        headers: request.headers.delete('ignore-lang')
+      }))
+    }
+
     if (!request?.url?.includes('lang=')) {
       const modifiedRequest = request.clone({
         params: request.params.append('lang', this.langService.lang),
