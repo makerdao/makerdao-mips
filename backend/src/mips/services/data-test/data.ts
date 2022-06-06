@@ -308,6 +308,8 @@ export const totalCountMock: number = faker.datatype.number({ min: 2, max: 4 });
 export const countMock: number = faker.datatype.number({ min: 1, max: totalCountMock - 1 });
 export const headingOutComponentSummaryParsed: string = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
 export const componentSummaryParsed: string = `## Component Summary ${mipNumber_1}\n\n`;
+export const componentSummaryParsed_1: string = `[MIP${mipNumber_1}c13: Core Personnel Offboarding](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 "NON-SMART-LINK")  ` 
++ `\nA process component that defines the process to remove personnel from the MIP Editor or Governance Facilitator roles.`;
 export const titleParsed: string = `# MIP${mipNumber_1}: ${titleMock}\n\n`;
 export const filesGitMock: IGitFile[] = [{
   ...mipMock,
