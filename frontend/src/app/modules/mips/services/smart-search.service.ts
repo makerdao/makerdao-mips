@@ -19,6 +19,7 @@ export class SmartSearchService {
 
     return this.http.get(`${environment.apiUrl}/mips/smart-search`, {
       params: params,
+      headers: { 'ignore-lang': 'true' }
     });
   }
 }
