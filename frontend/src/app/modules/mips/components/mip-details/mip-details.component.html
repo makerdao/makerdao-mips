@@ -112,13 +112,13 @@
     <span class="row">
       <p class="label">{{ "Dependencies" | translate }}</p>
       <p class="info">
-        <ng-container *ngFor="let dependency of dependencies; let isLast = last">
+        <ng-container *ngFor="let dependency of deps; let isLast = last">
           <span>
-            <ng-container *ngIf="dependency !== 'n/a'">
-              <a [routerLink]="['/mips/details', dependency.replace('-', '')]" class="mip-link">{{ dependency }}</a>
+            <ng-container *ngIf="dependency.exists; else noLink">
+              <a [routerLink]="[dependency.link]" class="mip-link">{{ dependency.dep }}</a>
             </ng-container>
-            <ng-template>
-              {{ dependency }}
+            <ng-template #noLink>
+              {{ dependency.dep }}
             </ng-template>
           </span>
           <ng-container *ngIf="!isLast">, </ng-container>

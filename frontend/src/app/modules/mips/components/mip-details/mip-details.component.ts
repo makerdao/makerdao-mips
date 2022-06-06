@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MipsService } from '../../services/mips.service';
 import { StatusService } from '../../services/status.service';
 
 @Component({
@@ -6,7 +7,7 @@ import { StatusService } from '../../services/status.service';
   templateUrl: './mip-details.component.html',
   styleUrls: ['./mip-details.component.scss']
 })
-export class MipDetailsComponent implements OnInit {
+export class MipDetailsComponent implements OnInit, OnChanges {
 
   @Input() status: string;
   @Input() dateProposed: string;
@@ -23,8 +24,10 @@ export class MipDetailsComponent implements OnInit {
   @Input() pollAddress: string;
   @Input() tags: string[];
   @Input() darkMode: boolean;
-  
-  constructor(private statusService: StatusService) { }
+
+  deps = [];
+
+  constructor(private statusService: StatusService, private mipsService: MipsService) { }
 
   ngOnInit(): void {
   }
@@ -46,6 +49,27 @@ export class MipDetailsComponent implements OnInit {
     }
 
     return !str ? true : false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.dependencies?.currentValue?.length) {
+      console.log(this.dependencies)
+      const deps = this.dependencies.filter(dep => dep !== 'n/a' && dep !== 'None')
+      if (deps.length) {
+        this.mipsService.checkDependencies(deps)
+        .subscribe(data => {
+          this.deps = deps.map(dep => ({
+            exists: !!data.items.find(m => m.mipName === dep),
+            link: `/mips/details/${dep.replace('-', '')}`,
+            dep
+          }))
+        })
+      } else {
+        this.deps = [];
+      }
+    } else {
+      this.deps = [];
+    }
   }
 
 }
