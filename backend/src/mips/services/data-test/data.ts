@@ -1379,13 +1379,21 @@ export const mipData_2: MIP = {
   references: [],
   proposal: `MIP${mipNumber_2}`,
   subproposal: -1,
-  tags: ['test'],
+  tags: [faker.random.word()],
+  status: faker.random.arrayElement(['Accepted', 'Rejected', 'RFC']),
   extra: [],
   language: Language.English,
   mipFather: false,
   components: [],
   sectionsRaw: [`MIP${mipNumber_2}`],
 }
+export const tagResultMock = {
+  tag: mipData.tags[0],
+};
+export const statusResultMock = {
+  status: mipData_2.status,
+};
+export const smartSearchFieldMock: string = faker.random.word();
 
 // MarkedService unit tests
 export const markedMock: string = faker.random.word();
