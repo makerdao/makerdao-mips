@@ -39,6 +39,9 @@ export class NewsService {
             const news = [];
             const vars = data[1].news;
 
+            if (!vars) {
+              return news;
+            }
 
 
             for (const item of data[0]?.data || []) {
