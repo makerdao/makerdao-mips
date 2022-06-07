@@ -47,8 +47,9 @@ describe('ParseMIPsCommand', () => {
     mipsService = module.get<MIPsService>(MIPsService);
     simpleGitService = module.get<SimpleGitService>(SimpleGitService);
     pullRequestService = module.get<PullRequestService>(PullRequestService);
+    const githubService = module.get<GithubService>(GithubService);
 
-    GithubService.prototype.githubRepository = 'mips';
+    githubService.githubRepository = "mips";
 
     ParseMIPsService.prototype.sendIssue = jest.fn();
   });
