@@ -1,4 +1,4 @@
-<div class="container" [ngClass]="{ 'container-dark': darkMode }">
+<div class="container" [ngClass]="{ 'container-dark': darkMode }" data-cy="mip-content">
   <div class="row">
     <div *ngIf="mip && !mip?.proposal">
       <span *ngIf="mip?.title" class="title-bold">{{ mip?.mipName }}: </span

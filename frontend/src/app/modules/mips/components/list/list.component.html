@@ -325,7 +325,7 @@
           [class.maker-expanded-row]="element.expanded"
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
-          [attr.hide-row]="element.hide"
+          [attr.data-cy]="hideParent && ((element.hide && !statusParameters) || statusParameters) ? undefined : 'search-result'"
         ></tr>
         <tr
           mat-row
@@ -342,6 +342,7 @@
               'subproposal-card': item.proposal,
               'maker-hide-row': hideParent && ((item.hide && !statusParameters) || statusParameters)
             }"
+            [attr.data-cy]="hideParent && ((item.hide && !statusParameters) || statusParameters) ? undefined : 'search-result'"
           >
             <div style="width: calc(100% - 35px)">
               {{ item.proposal ? "" : "# " + item.mip }}
