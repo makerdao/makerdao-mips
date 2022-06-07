@@ -1,0 +1,31 @@
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [ main  ]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with: 
+        node-version: ${{ matrix.node-version }}
+    - name: Running the Test Suit
+      env:
+        REQUEST_GITHUB_URL_API_ENDPOINT: ${{ secrets.REQUEST_GITHUB_URL_API_ENDPOINT }}
+        MIP_GITHUB_REPOSITORY: ${{ secrets.MIP_GITHUB_REPOSITORY_PROD }}
+        MIP_GITHUB_REPOSITORY_OWNER: ${{ secrets.MIP_GITHUB_REPOSITORY_OWNER_PROD }}
+        GIT_ACCESS_API_TOKEN: ${{ secrets.GIT_ACCESS_API_TOKEN }}
+      run: |
+        cp '.env example' .env
+        npm install
+        npm test
+      working-directory: backend
+
