@@ -325,7 +325,7 @@
           [class.maker-expanded-row]="element.expanded"
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
-          [attr.data-cy]="hideParent && ((element.hide && !statusParameters) || statusParameters) ? undefined : 'search-result'"
+          [attr.data-cy]="hideParent && ((element.hide && !statusParameters) || statusParameters) ? 'hidden-parent' : 'search-result'"
         ></tr>
         <tr
           mat-row
@@ -603,7 +603,7 @@
     <div *ngIf="dataSource.length == 0 && !loading">
       <img *ngIf="!darkMode" src="./assets/images/no_results.svg" />
       <img *ngIf="darkMode" src="./assets/images/no_results_dark.svg" />
-      <p>{{ "No results found" | translate }}</p>
+      <p data-cy="no-results-found">{{ "No results found" | translate }}</p>
     </div>
   </div>
 </div>
