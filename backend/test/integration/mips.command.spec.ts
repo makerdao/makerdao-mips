@@ -22,6 +22,7 @@ describe('ParseMIPsCommand', () => {
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
+    process.env.GITHUB_REPOSITORY = "mips";
 
     module = await Test.createTestingModule({
       imports: [
@@ -47,9 +48,6 @@ describe('ParseMIPsCommand', () => {
     mipsService = module.get<MIPsService>(MIPsService);
     simpleGitService = module.get<SimpleGitService>(SimpleGitService);
     pullRequestService = module.get<PullRequestService>(PullRequestService);
-    const githubService = module.get<GithubService>(GithubService);
-
-    githubService.githubRepository = "mips";
 
     ParseMIPsService.prototype.sendIssue = jest.fn();
   });
