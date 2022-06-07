@@ -22,7 +22,8 @@ describe('ParseMIPsCommand', () => {
 
   beforeAll(async () => {
     mongoMemoryServer = await MongoMemoryServer.create();
-    process.env.GITHUB_REPOSITORY = "mips";
+    process.env.GITHUB_REPOSITORY = 'mips';
+    process.env.GITHUB_URL_API_ENDPOINT = 'https://api.github.com/graphql';
 
     module = await Test.createTestingModule({
       imports: [
