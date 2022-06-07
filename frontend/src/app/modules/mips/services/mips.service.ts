@@ -162,7 +162,7 @@ export class MipsService {
 
   checkDependencies(deps: string[]) {
     const params = [`filter[inarray][0][field]=mipName`];
-    params.push(...deps.map((dep, index) => `filter[inarray][0][value][${index}]=${dep}`));
+    params.push(...deps.map((dep, index) => `filter[inarray][0][value][${index}]=${dep.replace('-', '')}`));
     params.push('select=mipName');
 
     const url = `${environment.apiUrl}/mips/findall?${params.join('&')}`;

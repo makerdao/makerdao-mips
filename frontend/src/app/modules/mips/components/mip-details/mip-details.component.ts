@@ -1,18 +1,23 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { MipsService } from '../../services/mips.service';
 import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-mip-details',
   templateUrl: './mip-details.component.html',
-  styleUrls: ['./mip-details.component.scss']
+  styleUrls: ['./mip-details.component.scss'],
 })
 export class MipDetailsComponent implements OnInit, OnChanges {
-
   @Input() status: string;
   @Input() dateProposed: string;
   @Input() dateRatified: string;
-  @Input() ratifiedDataLink:string;
+  @Input() ratifiedDataLink: string;
   @Input() mipName: string;
   @Input() title: string;
   @Input() authors: string[];
@@ -27,10 +32,12 @@ export class MipDetailsComponent implements OnInit, OnChanges {
 
   deps = [];
 
-  constructor(private statusService: StatusService, private mipsService: MipsService) { }
+  constructor(
+    private statusService: StatusService,
+    private mipsService: MipsService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getStatusValue(data: string): string {
     return this.statusService.getStatusValue(data);
@@ -53,16 +60,17 @@ export class MipDetailsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dependencies?.currentValue?.length) {
-      const deps = this.dependencies.filter(dep => dep !== 'n/a' && dep !== 'None')
+      const deps = this.dependencies
+        .filter((dep) => dep !== 'n/a' && dep !== 'None')
+
       if (deps.length) {
-        this.mipsService.checkDependencies(deps)
-        .subscribe(data => {
-          this.deps = deps.map(dep => ({
-            exists: !!data.items.find(m => m.mipName === dep),
+        this.mipsService.checkDependencies(deps).subscribe((data) => {
+          this.deps = deps.map((dep) => ({
+            exists: !!data.items.find((m) => m.mipName === dep),
             link: `/mips/details/${dep.replace('-', '')}`,
-            dep
-          }))
-        })
+            dep,
+          }));
+        });
       } else {
         this.deps = [];
       }
@@ -70,5 +78,4 @@ export class MipDetailsComponent implements OnInit, OnChanges {
       this.deps = [];
     }
   }
-
 }

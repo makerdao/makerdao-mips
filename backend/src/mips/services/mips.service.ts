@@ -152,12 +152,18 @@ export class MIPsService {
       if (Array.isArray(element.value)) {
         element.value.forEach(value => {
           const newValue = this.validField(element.field, value);
-          sourceInArray[`${this.searcheableField(element.field)}`] = {
-            $in: newValue,
-          };
+          if (!sourceInArray[`${this.searcheableField(element.field)}`]) {
+            sourceInArray[`${this.searcheableField(element.field)}`] = {
+              $in: [newValue],
+            };
+          } else {
+            sourceInArray[`${this.searcheableField(element.field)}`].$in.push(newValue)
+          }
+          
         });
       }
     });
+    
     return sourceInArray;
   }
 
