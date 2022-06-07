@@ -157,7 +157,7 @@ export class MIPsService {
               $in: [newValue],
             };
           } else {
-            sourceInArray[`${this.searcheableField(element.field)}`].$in.push(newValue)
+            sourceInArray[`${this.searcheableField(element.field)}`].$in.push(newValue);
           }
           
         });
