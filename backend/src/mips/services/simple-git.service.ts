@@ -53,7 +53,7 @@ export class SimpleGitService {
     try {
       return await this.git.pull(remote, branch);
     } catch (error) {
-      this.logger.error({ error, text: 'Error autoresolved by hard reset origin/master strategy' })
+      this.logger.error({ error, text: 'Error autoresolved by hard reset origin/master strategy' });
 
       await this.git.fetch(['--all']);
       await this.git.reset(["--hard", "origin/master"]);
@@ -73,15 +73,11 @@ export class SimpleGitService {
         folderPattern,
       ]);
 
-      this.logger.error('Successfully fetched files from git');
-
       const internationalsFiles: string = await this.git.raw([
         "ls-files",
         "-s",
         patternI18N,
       ]);
-
-      this.logger.error('Successfully fetched international files from git');
 
       const info = englishFiles + "\n" + internationalsFiles;
 

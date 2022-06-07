@@ -142,8 +142,8 @@ describe("SimpleGitService", () => {
         'origin',
         'master',
       );
-      expect(console.log).toBeCalledTimes(1);
-      expect(console.log).toBeCalledWith({
+      expect(Logger.prototype.error).toBeCalledTimes(1);
+      expect(Logger.prototype.error).toBeCalledWith({
         error: new Error(pullErrorMock),
         text: 'Error autoresolved by hard reset origin/master strategy',
       });

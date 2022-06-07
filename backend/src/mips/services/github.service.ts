@@ -35,17 +35,11 @@ export class GithubService {
   }
 
   async pullRequests(pullRequests: RequestDocument, after?: string): Promise<any> {
-    this.logger.error('Starting request process for pull requests: ' + this.githubRepository+ ' ' + this.githubRepositoryOwner);
-    this.logger.error(this.configService.get<string>(Env.GithubUrlApiEndpoint));
-
-    const result = await this.graphQLClient.request(pullRequests, {
+    return this.graphQLClient.request(pullRequests, {
       name: this.githubRepository,
       owner: this.githubRepositoryOwner,
       after,
     });
-    
-    this.logger.error('Finished request process for pull requests');
-    return result;
   }
 
   async pullRequestsLast(pullRequestsLast: any, last: number): Promise<any> {
