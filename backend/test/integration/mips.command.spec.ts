@@ -1,4 +1,5 @@
 import { ParseMIPsCommand } from "@app/mips/mips.command";
+import { GithubService } from "@app/mips/services/github.service";
 import { ParseMIPsService } from "@app/mips/services/parse-mips.service";
 import { PullRequestService } from "@app/mips/services/pull-requests.service";
 import { SimpleGitService } from "@app/mips/services/simple-git.service";
@@ -46,6 +47,8 @@ describe('ParseMIPsCommand', () => {
     mipsService = module.get<MIPsService>(MIPsService);
     simpleGitService = module.get<SimpleGitService>(SimpleGitService);
     pullRequestService = module.get<PullRequestService>(PullRequestService);
+
+    GithubService.prototype.githubRepository = 'mips';
 
     ParseMIPsService.prototype.sendIssue = jest.fn();
   });
