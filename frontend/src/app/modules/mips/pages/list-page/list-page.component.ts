@@ -271,7 +271,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (this.queryParamsListService.queryParams.contributor) {
       this.pushFilterInarray(this.filter.inarray, {
         field: 'contributors',
-        value: this.queryParamsListService.queryParams.contributor,
+        value: [this.queryParamsListService.queryParams.contributor],
       });
     }
   }
@@ -280,7 +280,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (this.queryParamsListService.queryParams.author) {
       this.pushFilterInarray(this.filter.inarray, {
         field: 'author',
-        value: this.queryParamsListService.queryParams.author,
+        value: [this.queryParamsListService.queryParams.author],
       });
     }
   }
@@ -330,88 +330,88 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     if (this.filterSaved.arrayStatus[0] === 1) {
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Accepted',
+        value: ['Accepted'],
       });
     } else {
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Accepted',
+        value: ['Accepted'],
       });
     }
     if (this.filterSaved.arrayStatus[1] === 1) {
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Rejected',
+        value: ['Rejected'],
       });
     } else {
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Rejected',
+        value: ['Rejected'],
       });
     }
     if (this.filterSaved.arrayStatus[2] === 1) {
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Archive',
+        value: ['Archive'],
       });
     } else {
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Archive',
+        value: ['Archive'],
       });
     }
     if (this.filterSaved.arrayStatus[3] === 1) {
       this.pushFilterInarray(filter.inarray, {field: 'status', value: 'RFC'});
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Request for Comments (RFC)',
+        value: ['Request for Comments (RFC)'],
       });
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Request for Comments',
+        value: ['Request for Comments'],
       });
     } else {
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'RFC',
+        value: ['RFC'],
       });
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Request for Comments (RFC)',
+        value: ['Request for Comments (RFC)'],
       });
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Request for Comments',
+        value: ['Request for Comments'],
       });
     }
     if (this.filterSaved.arrayStatus[4] === 1) {
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Obsolete',
+        value: ['Obsolete'],
       });
     } else {
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Obsolete',
+        value: ['Obsolete'],
       });
     }
     if (this.filterSaved.arrayStatus[5] === 1) {
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Formal Submission',
+        value: ['Formal Submission'],
       });
       this.pushFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Formal Submission (FS)',
+        value: ['Formal Submission (FS)'],
       });
     } else {
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Formal Submission',
+        value: ['Formal Submission'],
       });
       this.deleteFilterInarray(filter.inarray, {
         field: 'status',
-        value: 'Formal Submission (FS)',
+        value: ['Formal Submission (FS)'],
       });
     }
 

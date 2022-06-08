@@ -54,11 +54,9 @@
       margin-bottom: 0;
       text-decoration: none;
 
-      &.mip-link {
-        color: #2f80ed !important;
-        &:hover {
-          text-decoration: underline;
-        }
+      color: #2f80ed !important;
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
