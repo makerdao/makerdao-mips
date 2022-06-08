@@ -67,7 +67,7 @@ export class MipDetailsComponent implements OnInit, OnChanges {
         this.mipsService.checkDependencies(deps).subscribe((data) => {
           this.deps = deps.map((dep) => ({
             exists: !!data.items.find((m) => m.mipName === dep.split(' ').shift().replace('-', '')),
-            link: `/mips/details/${dep.replace('-', '')}`,
+            link: `/mips/details/${dep.split(' ').shift().replace('-', '')}`,
             dep,
           }));
         });
