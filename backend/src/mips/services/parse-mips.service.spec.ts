@@ -6,6 +6,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { readFile } from "fs/promises";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import {
+  openIssue,
   pullRequests,
   pullRequestsAfter,
   pullRequestsCount,
@@ -48,7 +49,11 @@ import {
   typesMock,
   votingPortalLinkMock,
   forumLinkMock,
-  tagsMock
+  tagsMock,
+  openIssuemock,
+  extraMock,
+  errorUpdateMock,
+  componentSummaryParsed_1,
 } from "./data-test/data";
 import { GithubService } from "./github.service";
 import { MarkedService } from "./marked.service";
@@ -128,6 +133,7 @@ describe("ParseMIPsService", () => {
         }
       }
     }));
+    GithubService.prototype.openIssue = jest.fn(() => Promise.resolve(openIssuemock));
     SimpleGitService.prototype.saveMetaVars = jest.fn(() => Promise.resolve());
     PullRequestService.prototype.create = jest.fn(() => Promise.resolve(faker.datatype.boolean()));
     Logger.prototype.log = jest.fn();
@@ -201,7 +207,56 @@ describe("ParseMIPsService", () => {
         mipMock._id,
         mipMock,
       );
-      expect(Logger.prototype.log).not.toBeCalled();
+      expect(Logger.prototype.error).not.toBeCalled();
+    });
+
+    it('error during update', async () => {
+      jest.spyOn(MIPsService.prototype, 'update')
+        .mockImplementationOnce(async () => {
+          throw new Error(errorUpdateMock);
+        });
+
+      await service.updateSubproposalCountField();
+
+      expect(MIPsService.prototype.findAll).toBeCalledTimes(2);
+      expect(MIPsService.prototype.findAll).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: [{
+            field: "proposal",
+            value: "",
+          }],
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.findAll).toBeCalledWith(
+        {
+          limit: 0,
+          page: 0,
+        },
+        "",
+        "",
+        {
+          equals: [{
+            field: "proposal",
+            value: undefined,
+          }],
+        },
+        "_id mipName proposal",
+      );
+      expect(MIPsService.prototype.update).toBeCalledTimes(1);
+      expect(MIPsService.prototype.update).toBeCalledWith(
+        mipMock._id,
+        mipMock,
+      );
+      expect(Logger.prototype.error).toBeCalledTimes(1);
+      expect(Logger.prototype.error).toBeCalledWith(new Error(errorUpdateMock));
+
     });
   });
 
@@ -530,7 +585,9 @@ describe("ParseMIPsService", () => {
 
     it('new MIP', async () => {
       jest.spyOn(ParseMIPsService.prototype, 'parseMIP')
-        .mockReturnValueOnce(Promise.resolve(mipWithoutNameMock));
+        .mockReturnValue(Promise.resolve(mipWithoutNameMock));
+      jest.spyOn(ParseMIPsService.prototype, 'sendIssue')
+        .mockReturnValue(Promise.resolve());
       const result = await service.synchronizeData(
         filesGitMock,
         mipMapMock,
@@ -543,12 +600,10 @@ describe("ParseMIPsService", () => {
       });
       expect(ParseMIPsService.prototype.parseMIP).toBeCalledTimes(1);
       expect(ParseMIPsService.prototype.parseMIP).toBeCalledWith(filesGitMock[0], true);
-      expect(console.log).toBeCalledTimes(1);
-      expect(console.log).toBeCalledWith({
-        mip: mipWithoutNameMock,
-        item: filesGitMock[0],
-        TODO: "Convert into a notification Service"
-      });
+      expect(ParseMIPsService.prototype.sendIssue).toBeCalledTimes(1);
+      expect(ParseMIPsService.prototype.sendIssue).toBeCalledWith([{
+        mipPath: filesGitMock[0].filename,
+      }]);
       expect(Logger.prototype.log).toBeCalledTimes(1);
       expect(Logger.prototype.log).toBeCalledWith(
         `Mips with problems to parse ==> ${(mipWithoutNameMock.mip, mipWithoutNameMock.mipName, mipWithoutNameMock.filename)
@@ -635,6 +690,32 @@ describe("ParseMIPsService", () => {
     });
   });
 
+  describe('sendIssue', () => {
+    it('', async () => {
+      console.log = jest.fn();
+      await service.sendIssue([{
+        mipPath: filesGitMock[0].filename,
+      }]);
+
+      expect(GithubService.prototype.openIssue).toBeCalledTimes(1);
+      expect(GithubService.prototype.openIssue).toBeCalledWith(
+        openIssue,
+        "MIPs with problems to parse",
+        `
+# Some problems where found on this MIPS:
+
+
+>MIP Path: ${filesGitMock[0].filename}
+
+
+
+`
+      );
+      expect(console.log).toBeCalledTimes(1);
+      expect(console.log).toBeCalledWith(openIssuemock);
+    });
+  });
+
   describe('getComponentsSection', () => {
     it('has component summary', async () => {
       const result = service.getComponentsSection(mipFile);
@@ -680,6 +761,21 @@ describe("ParseMIPsService", () => {
 
       expect(result).toEqual(
         componentSummaryParsed
+      );
+    });
+
+    it('is on component summary title', async () => {
+      const markedFile: any[] = marked.lexer(mipFile);
+      const element = markedFile[37];
+      const isOnComponentSummary = true;
+
+      const result = service.parseMipsNamesComponentsSubproposals(
+        element,
+        isOnComponentSummary
+      );
+
+      expect(result).toEqual(
+        componentSummaryParsed_1
       );
     });
 
@@ -778,6 +874,12 @@ describe("ParseMIPsService", () => {
       const result = (service as any).parseReferencesTokens(item);
 
       expect(result).toEqual([referenceMock]);
+    });
+
+    it('parse reference tokens emty result', async () => {
+      const result = (service as any).parseReferencesTokens({});
+
+      expect(result).toEqual([]);
     });
   });
 
@@ -1425,6 +1527,7 @@ describe("ParseMIPsService", () => {
         votingPortalLink: votingPortalLinkMock,
         forumLink: forumLinkMock,
         tags: [tagsMock],
+        extra: [extraMock],
       });
     });
   });

@@ -86,11 +86,6 @@ export class MIPsService {
       Language.English
     );
 
-    // console.log({
-    //   search,
-    //   cleanedSearch,
-    //   buildFilter
-    // })
     const total = await this.mipsDoc.countDocuments(buildFilter).exec();
 
     if (select) {
@@ -244,124 +239,82 @@ export class MIPsService {
     return source;
   }
 
-  errorProofCleanArrays(testArray: any[], defaultArray: any[]): any[] {
-    const errorProofItems = defaultArray.map((item) => {
-      const existingItem = testArray.find(
-        (selectedItem) => selectedItem._id === item._id
-      );
-      return existingItem || item;
-    });
-
-    return errorProofItems;
-  }
-
   buildSmartMongoDBQuery(ast: any): any {
-    const or = new RegExp("or", "gi");
-    const and = new RegExp("and", "gi");
-    const not = new RegExp("not", "gi");
+    const or = /or/gi;
+    const and = /and/gi;
+    const not = /not/gi;
 
-    if (ast.type === "LITERAL" && ast.name.includes("#")) {
-      return { tags: { $in: [ast.name.replace("#", "")] } };
-    } else if (ast.type === "LITERAL" && ast.name.includes("@")) {
-      return {
-        status: {
-          $regex: new RegExp(`${ast.name.replace("@", "")}`),
-          $options: "i",
-        },
-      };
-    } else {
-      if (ast.type === "OPERATION" && or.exec(ast.op)) {
-        const request = [];
-
-        for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));
+    switch (ast.type) {
+      case 'LITERAL':
+        if (ast.name.includes("#")) {
+          return { tags: { $in: [ast.name.replace("#", "")] } };
         }
 
-        return {
-          $or: [...request],
-        };
-      } else if (ast.type === "OPERATION" && and.exec(ast.op)) {
-        const request = [];
-
-        for (const item of ast.left) {
-          request.push(this.buildSmartMongoDBQuery(item));
-        }
-
-        return {
-          $and: [...request],
-        };
-      } else if (ast.type === "OPERATION" && not.exec(ast.op)) {
-        if (ast.left.includes("#")) {
-          return { tags: { $nin: [ast.left.replace("#", "")] } };
-        } else if (ast.left.includes("@")) {
+        if (ast.name.includes("@")) {
           return {
             status: {
-              $not: {
-                $regex: new RegExp(`${ast.left.replace("@", "")}`),
-                $options: "i",
-              },
+              $regex: new RegExp(`${ast.name.replace("@", "")}`),
+              $options: "i",
             },
           };
-        } else {
-          throw new Error("Database query not support");
         }
-      } else {
-        return;
-      }
-    }
-  }
+        break;
+      case 'OPERATION':
+        if (or.exec(ast.op)) {
+          return {
+            $or: ast.left.map(item => {
+              return this.buildSmartMongoDBQuery(item);
+            }),
+          };
+        }
 
-  isValidObjectId(id: string): boolean {
-    if (isValidObjectId(id)) {
-      return true;
+        if (and.exec(ast.op)) {
+          return {
+            $and: ast.left.map(item => {
+              return this.buildSmartMongoDBQuery(item);
+            }),
+          };
+        }
+
+        if (not.exec(ast.op)) {
+          if (ast.left.includes("#")) {
+            return { tags: { $nin: [ast.left.replace("#", "")] } };
+          }
+          if (ast.left.includes("@")) {
+            return {
+              status: {
+                $not: {
+                  $regex: new RegExp(`${ast.left.replace("@", "")}`),
+                  $options: "i",
+                },
+              },
+            };
+          }
+        }
+        break;
     }
-    return false;
+    throw new Error("Database query not supportted");
   }
 
   validField(field: string, value: any): any {
-    let flag = false;
 
     switch (field) {
       case "status":
-        flag = true;
-        break;
       case "mipName":
-        flag = true;
-        break;
       case "filename":
-        flag = true;
-        break;
       case "proposal":
-        flag = true;
-        break;
       case "mip":
-        flag = true;
-        break;
       case "tags":
-        flag = true;
-        break;
       case "contributors":
-        flag = true;
-        break;
       case "author":
-        flag = true;
-        break;
       case "mipFather":
-        flag = true;
-        break;
-      case "title":
-        flag = true;
-        break;
       case "sectionsRaw":
-        flag = true;
-        break;
+        return value;
+      case "title":
+        return this.escapeRegExp(value)
+      default:
+        throw new Error(`Invalid filter field (${field})`);
     }
-
-    if (!flag) {
-      throw new Error(`Invalid filter field (${field})`);
-    }
-
-    return field === "title" ? this.escapeRegExp(value) : value;
   }
 
   addSearcheableFields(item): any {
@@ -406,7 +359,7 @@ export class MIPsService {
       language = Language.English;
     }
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .findOne({ mipName_plain: mipName, language })
       .select([
         "-__v",
@@ -425,11 +378,13 @@ export class MIPsService {
     value: string,
     language: Language
   ): Promise<MIP[]> {
-    language = Language.English;
+    if (!language) {
+      language = Language.English;
+    }
 
     switch (field) {
       case "tags":
-        return await this.mipsDoc.aggregate([
+        return this.mipsDoc.aggregate([
           { $unwind: "$tags" },
           {
             $match: {
@@ -445,7 +400,7 @@ export class MIPsService {
         ]);
 
       case "status":
-        return await this.mipsDoc.aggregate([
+        return this.mipsDoc.aggregate([
           {
             $match: {
               status: {
@@ -482,7 +437,7 @@ export class MIPsService {
       language,
     };
 
-    return await this.mipsDoc.findOne(filter).select([
+    return this.mipsDoc.findOne(filter).select([
       "-__v",
       "-file",
       "-mipName_plain",
@@ -498,7 +453,7 @@ export class MIPsService {
       language = Language.English;
     }
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .findOne({ mipName_plain: mipName, language })
       .select(["sentenceSummary", "paragraphSummary", "title", "mipName"])
       .exec();
@@ -513,7 +468,7 @@ export class MIPsService {
     }
     const mipName = mipComponent.match(/MIP\d+/gi)[0];
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .findOne({ mipName_plain: mipName, language })
       .select({
         sentenceSummary: 1,
@@ -533,7 +488,7 @@ export class MIPsService {
       language = Language.English;
     }
 
-    return await this.mipsDoc
+    return this.mipsDoc
       .find({ proposal_plain: proposal, language })
       .select(["title", "mipName"])
       .sort("mip subproposal")
@@ -575,27 +530,23 @@ export class MIPsService {
   }
 
   async update(id: string, mIPs: MIP): Promise<MIP> {
-    const existingMIPs = await this.mipsDoc
+    return this.mipsDoc
       .findOneAndUpdate(
         { _id: id },
         { $set: mIPs },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
-
-    return existingMIPs;
   }
 
   async setMipsFather(mips: string[]): Promise<any> {
-    const existingMIPs = await this.mipsDoc
+    return this.mipsDoc
       .updateMany(
         { mipName: { $in: mips } },
         { $set: { mipFather: true } },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
-
-    return existingMIPs;
   }
 
   async remove(
@@ -605,11 +556,11 @@ export class MIPsService {
     ok: number;
     deletedCount: number;
   }> {
-    return await this.mipsDoc.deleteOne({ _id: id }).lean(true);
+    return this.mipsDoc.deleteOne({ _id: id }).lean(true);
   }
 
   async getMipLanguagesAvailables(mipName: string): Promise<any> {
-    return await this.mipsDoc.find({ mipName }, "mipName language").exec();
+    return this.mipsDoc.find({ mipName }, "mipName language").exec();
   }
 
   escapeRegExp(input: string): string {

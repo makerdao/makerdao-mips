@@ -93,7 +93,7 @@
 @media screen and (min-width:769px){
   :host {
     width: 115px;
-    transform:translateX(13px);
+    white-space: nowrap;
   }
 
   app-search-mobile ~ :host {

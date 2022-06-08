@@ -34,7 +34,7 @@
       <p class="info">
         <span *ngFor="let tag of tags; let i = index">
           <a
-          
+
             [routerLink]="['/mips/list']"
             [queryParams]="{ search: '$ #' + tag }"
             >{{ tag }}</a
@@ -69,12 +69,15 @@
   >
     <span *ngFor="let author of authors" class="row mt-10">
       <p class="label">{{ "Author" | translate }}</p>
-      <a
-        class="info"
-        [routerLink]="['/mips/list']"
-        [queryParams]="{ author: author }"
-        >{{ author }}</a
-      >
+      <span class="info">
+        <span>
+          <a
+            [routerLink]="['/mips/list']"
+            [queryParams]="{ author: author }"
+            >{{ author }}</a
+          >
+        </span>
+      </span>
     </span>
     <ng-container
       *ngIf="
@@ -85,12 +88,15 @@
     >
       <span *ngFor="let contributor of contributors" class="row mt-10">
         <p class="label">{{ "Contributor" | translate }}</p>
-        <a
-          class="info"
-          [routerLink]="['/mips/list']"
-          [queryParams]="{ contributor: contributor }"
-          >{{ contributor }}</a
-        >
+        <span class="info">
+          <span>
+            <a
+              [routerLink]="['/mips/list']"
+              [queryParams]="{ contributor: contributor }"
+              >{{ contributor }}</a
+            >
+          </span>
+        </span>
       </span>
     </ng-container>
   </div>
@@ -111,7 +117,19 @@
   >
     <span class="row">
       <p class="label">{{ "Dependencies" | translate }}</p>
-      <p class="info">{{ dependencies.join(", ") }}</p>
+      <p class="info">
+        <ng-container *ngFor="let dependency of deps; let isLast = last">
+          <span>
+            <ng-container *ngIf="dependency.exists; else noLink">
+              <a [routerLink]="[dependency.link]" class="mip-link">{{ dependency.dep }}</a>
+            </ng-container>
+            <ng-template #noLink>
+              {{ dependency.dep }}
+            </ng-template>
+          </span>
+          <ng-container *ngIf="!isLast">, </ng-container>
+        </ng-container>
+      </p>
     </span>
   </div>
   <hr *ngIf="replaces" />
