@@ -9,8 +9,8 @@ describe('Test Regular Search', () => {
     menuHeaders.forEach($menu=>{
       cy.get('div').contains($menu).click();
       cy.get('.dropdown-content-first-level').should('be.visible');
+      cy.get('a.subMenuActive').click()
     })
-
   })
 
   // it('should find MIps containing giving keywords', () => {
