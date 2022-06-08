@@ -72,7 +72,7 @@ export const filtersMock: Filters = {
   ],
   inarray: [{
     field: faker.random.word(),
-    value: [faker.random.word()],
+    value: [faker.random.word(), faker.random.word()],
   }],
 };
 export const metaVarsMock = [{
@@ -120,7 +120,7 @@ export const builtEqualsFilterMock = {
 };
 export const builtInArrayFilterMock = {
   [filtersMock.inarray[0].field]: {
-    $in: filtersMock.inarray[0].value[0],
+    $in: [filtersMock.inarray[0].value[0], filtersMock.inarray[0].value[1]],
   },
 };
 export const builtNotContainsFilterMock = {
