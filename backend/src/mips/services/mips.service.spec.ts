@@ -437,7 +437,7 @@ describe("MIPsService", () => {
     describe('buildInArrayFilters', () => {
         beforeEach(() => {
             jest.spyOn(MIPsService.prototype, 'validField')
-                .mockImplementationOnce((_field, value) => value);
+                .mockImplementation((_field, value) => value);
             jest.spyOn(MIPsService.prototype, 'searcheableField')
                 .mockImplementationOnce((field) => field);
         });
@@ -448,10 +448,16 @@ describe("MIPsService", () => {
             );
 
             expect(result).toEqual(builtInArrayFilterMock);
-            expect(MIPsService.prototype.validField).toBeCalledTimes(1);
-            expect(MIPsService.prototype.validField).toBeCalledWith(
+            expect(MIPsService.prototype.validField).toBeCalledTimes(2);
+            expect(MIPsService.prototype.validField).toHaveBeenNthCalledWith(
+                1,
                 filtersMock.inarray[0].field,
                 filtersMock.inarray[0].value[0],
+            );
+            expect(MIPsService.prototype.validField).toHaveBeenNthCalledWith(
+                2,
+                filtersMock.inarray[0].field,
+                filtersMock.inarray[0].value[1],
             );
             expect(MIPsService.prototype.searcheableField).toBeCalledTimes(1);
             expect(MIPsService.prototype.searcheableField).toBeCalledWith(
