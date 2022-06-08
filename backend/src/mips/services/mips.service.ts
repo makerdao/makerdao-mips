@@ -148,18 +148,21 @@ export class MIPsService {
 
   private buildInArrayFilters(filters: BinaryArrayOperator[]) {
     const sourceInArray = {};
+
     filters.forEach(element => {
       if (Array.isArray(element.value)) {
+        const searcheableField: string = this.searcheableField(element.field);
+
         element.value.forEach(value => {
           const newValue = this.validField(element.field, value);
-          if (!sourceInArray[`${this.searcheableField(element.field)}`]) {
-            sourceInArray[`${this.searcheableField(element.field)}`] = {
+
+          if (!sourceInArray[searcheableField]) {
+            sourceInArray[searcheableField] = {
               $in: [newValue],
             };
           } else {
-            sourceInArray[`${this.searcheableField(element.field)}`].$in.push(newValue)
+            sourceInArray[searcheableField].$in.push(newValue);
           }
-          
         });
       }
     });
@@ -347,7 +350,7 @@ export class MIPsService {
     return item;
   }
 
-  searcheableField(field: string): any {
+  searcheableField(field: string): string {
     switch (field) {
       case "mipName":
       case "filename":
