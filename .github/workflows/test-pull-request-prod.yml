@@ -4,6 +4,9 @@ name: Node.js Test production CI
 on:
   pull_request:
     branches: [ main  ]
+    paths:
+        - "backend/**"
+        - ".github/workflows/test-pull-request-prod.yml"
 
 jobs:
   test:
