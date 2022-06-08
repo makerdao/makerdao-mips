@@ -188,7 +188,7 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
   searchTagsMipset() {
     this.loading = true;
     this.smartSearchService
-      .getOptions('tags', '')
+      .getTags()
       .pipe(
         map((tags: any[]) => {
           let modifiedTags: any[] = tags

@@ -1,4 +1,6 @@
-<app-news></app-news>
+<ng-container *ngIf="!mipsetMode">
+  <app-news></app-news>
+</ng-container>
 
 <div
   class="container"
@@ -47,6 +49,7 @@
     >
     </app-search-mobile>
     <app-order-mobile
+      *ngIf="!multipleQueries"
       class="mobile"
       (sendOrder)="onSendOrder($event)"
       [orderByField]="orderObj.field"
@@ -62,7 +65,7 @@
 
     <app-md-checkbox
       *ngIf="showHideParentCheckbox && !mipsetMode"
-      style="margin-right: 10px"
+      style="margin-right: 10px;"
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
       [checkInput]="hideParentValue"

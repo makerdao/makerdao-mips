@@ -16,7 +16,7 @@ export class ParseQueryService {
           ["\\$\\s", "/* skip whitespace */"],
           ["\\$", "/* skip whitespace */"],
           [",\\s", "return ',';"],
-          [",", "return ',';"],          
+          [",", "return ',';"],
           ["AND", "return 'AND';"],
           ["OR", "return 'OR';"],
           ["NOT", "return 'NOT';"],
@@ -46,12 +46,12 @@ export class ParseQueryService {
           ],
           ["NOT ( LITERAL )", "$$ = { type: 'OPERATION', left: $3, op: $1 }"],
           ["LITERAL", "$$ = { type: 'LITERAL', name: $1 };"],
-        ]        
+        ]
       },
     });
   }
 
   async parse(query: string): Promise<any> {
-    return this.parser.parse(query);      
+    return this.parser.parse(query);
   }
 }

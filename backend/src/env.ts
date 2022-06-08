@@ -7,8 +7,9 @@ export enum Env {
   FolderPattern = "FOLDER_PATTERN",
   WebhooksSecretToken = "WEBHOOKS_SECRET_TOKEN",
   GitAccessApiToken = "GIT_ACCESS_API_TOKEN",
-  GithubUrlApiEndpoint = "GITHUB_URL_API_ENDPOINT",
-  GithubRepository = "GITHUB_REPOSITORY",
-  GithubRepositoryOwner = "GITHUB_REPOSITORY_OWNER",
+  GithubUrlApiEndpoint = "REQUEST_GITHUB_URL_API_ENDPOINT",
+  GithubRepository = "MIP_GITHUB_REPOSITORY",
+  GithubRepositoryOwner = "MIP_GITHUB_REPOSITORY_OWNER",
   GithubLinks = "GITHUB_LINKS",
+  GithubRepositoryId = "GITHUB_REPOSITORY_ID",
 }
