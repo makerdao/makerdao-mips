@@ -4,10 +4,6 @@ name: Node.js Test develop CI
 on:
   pull_request:
     branches: [ develop ]
-  push:
-    branches: [ develop ] 
-    paths:
-        - ".github/workflows/test-pull-request.yml"
 
 jobs:
   test:
