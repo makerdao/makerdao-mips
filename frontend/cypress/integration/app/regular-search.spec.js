@@ -27,7 +27,7 @@ describe('Test Regular Search', () => {
 
         cy.wrap(rows).each($row => {
           cy.visit($row);
-          cy.get(".row.row-tree-column").should("contain.text", $word.substr(1));
+          cy.get(".row.row-tree-column").contains($word,{matchCase:false});
         });
       })
     });
