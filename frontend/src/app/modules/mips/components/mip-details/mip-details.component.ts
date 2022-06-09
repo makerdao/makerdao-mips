@@ -31,6 +31,7 @@ export class MipDetailsComponent implements OnInit, OnChanges {
   @Input() darkMode: boolean;
 
   deps = [];
+  contribs = [];
 
   constructor(
     private statusService: StatusService,
@@ -61,21 +62,30 @@ export class MipDetailsComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dependencies?.currentValue?.length) {
       const deps = this.dependencies
-        .filter((dep) => dep !== 'n/a' && dep !== 'None')
+        .filter((dep) => dep.toLocaleLowerCase() !== 'n/a' && dep.toLocaleLowerCase() !== 'none')
 
       if (deps.length) {
         this.mipsService.checkDependencies(deps).subscribe((data) => {
-          this.deps = deps.map((dep) => ({
-            exists: !!data.items.find((m) => m.mipName === dep.split(' ').shift().replace('-', '')),
-            link: `/mips/details/${dep.replace('-', '')}`,
-            dep,
-          }));
+          this.deps = deps.map((dep) => {
+            const mipName = dep.split(' ').shift().replace('-', '');
+            return ({
+              exists: !!data.items.find((m) => m.mipName === mipName),
+              link: `/mips/details/${mipName}`,
+              dep,
+            })
+          });
         });
       } else {
         this.deps = [];
       }
     } else {
       this.deps = [];
+    }
+
+    if (changes.contributors?.currentValue?.value) {
+      this.contribs = this.contributors.filter(con => con.toLocaleLowerCase() !== 'n/a');
+    } else {
+      this.contribs = [];
     }
   }
 }
