@@ -31,6 +31,7 @@ export class MipDetailsComponent implements OnInit, OnChanges {
   @Input() darkMode: boolean;
 
   deps = [];
+  contribs = [];
 
   constructor(
     private statusService: StatusService,
@@ -61,7 +62,7 @@ export class MipDetailsComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dependencies?.currentValue?.length) {
       const deps = this.dependencies
-        .filter((dep) => dep !== 'n/a' && dep.toLocaleLowerCase() !== 'none')
+        .filter((dep) => dep.toLocaleLowerCase() !== 'n/a' && dep.toLocaleLowerCase() !== 'none')
 
       if (deps.length) {
         this.mipsService.checkDependencies(deps).subscribe((data) => {
@@ -79,6 +80,12 @@ export class MipDetailsComponent implements OnInit, OnChanges {
       }
     } else {
       this.deps = [];
+    }
+
+    if (changes.contributors?.currentValue?.value) {
+      this.contribs = this.contributors.filter(con => con.toLocaleLowerCase() !== 'n/a');
+    } else {
+      this.contribs = [];
     }
   }
 }
