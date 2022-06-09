@@ -57,4 +57,4 @@ import { Meta, MetaSchema } from "./entities/meta.entity";
     ParseMIPsCommand,
   ],
 })
-export class MIPsModule {}
+export class MIPsModule { }

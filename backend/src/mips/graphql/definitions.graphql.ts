@@ -118,3 +118,19 @@ export const pullRequestsCount = gql`
     }
   }
 `;
+
+export const openIssue = gql`
+mutation CreateIssue($repositoryId: ID!, $title: String!, $body: String!) {
+  createIssue(
+    input: {
+      repositoryId: $repositoryId, 
+      title: $title,
+      body: $body
+    }
+  ) {
+    issue {
+      url
+    }
+  }
+}
+`;

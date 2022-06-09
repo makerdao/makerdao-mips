@@ -20,6 +20,7 @@
         [dataSource]="dataSourceTable"
         multiTemplateDataRows
         class="no-mobile mainTable"
+        data-cy="table-list-mips"
       >
         <ng-container
           matColumnDef="{{ column }}"
@@ -325,6 +326,7 @@
           [class.maker-expanded-row]="element.expanded"
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
+          [attr.data-cy]="((element.hide && !statusParameters) || statusParameters) ? 'non-search-result' : 'search-result'"
         ></tr>
         <tr
           mat-row
@@ -339,7 +341,7 @@
             [ngClass]="{
               'proposal-card': !item.proposal,
               'subproposal-card': item.proposal,
-              'maker-hide-row': hideParent
+              'maker-hide-row': hideParent && ((item.hide && !statusParameters) || statusParameters)
             }"
           >
             <div style="width: calc(100% - 35px)">

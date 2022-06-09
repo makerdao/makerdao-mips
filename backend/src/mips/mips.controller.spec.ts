@@ -6,7 +6,7 @@ import { MetaDocument } from "./entities/meta.entity";
 import { Language } from "./entities/mips.entity";
 import { MIPsController } from "./mips.controller";
 import { MIPsModule } from "./mips.module";
-import { components, errorDropMock, fieldMock, filtersMock, languageMock, limitMock, metaVarsMock, mipData_2, mipNameMock, mipNumber_1, mipNumber_2, orderMock, pageMock, parseResultMock, pullRequestMock, requestCallBackMock, searchMock, selectMock, valueMock } from "./services/data-test/data";
+import { components, errorDropMock, fieldMock, filtersMock, languageMock, limitMock, metaVarsMock, mipData_2, mipNameMock, mipNumber_1, mipNumber_2, orderMock, pageMock, parseResultMock, pullRequestMock, requestCallBackMock, requestCallBackNotHeaderMock, searchMock, selectMock, valueMock } from "./services/data-test/data";
 import { MIPsService } from "./services/mips.service";
 import { ParseMIPsService } from "./services/parse-mips.service";
 import { PullRequestService } from "./services/pull-requests.service";
@@ -26,7 +26,6 @@ const update = jest.fn(() => {
   };
 });
 (crypto.timingSafeEqual as any) = jest.fn(() => true)
-
 
 describe('MIPsController', () => {
   let controller: MIPsController;
@@ -515,6 +514,26 @@ describe('MIPsController', () => {
       expect(ParseMIPsService.prototype.parse).toBeCalledWith();
     });
 
+    it('no signature', async () => {
+      const result = await controller.callback(requestCallBackNotHeaderMock);
+
+      expect(result).toEqual(false);
+      expect(crypto.createHmac).toBeCalledTimes(1);
+      expect(crypto.createHmac).toBeCalledWith(
+        'sha1',
+        configService.get<string>(
+          Env.WebhooksSecretToken
+        ),
+      );
+      expect(update).toBeCalledTimes(1);
+      expect(update).toBeCalledWith(JSON.stringify(requestCallBackNotHeaderMock.body));
+      expect(digest).toBeCalledTimes(1);
+      expect(digest).toBeCalledWith("hex");
+      expect(crypto.timingSafeEqual).not.toBeCalled();
+      expect(ParseMIPsService.prototype.loggerMessage).not.toBeCalled();
+      expect(ParseMIPsService.prototype.parse).not.toBeCalled();
+    });
+
     it('error while logger', async () => {
       jest.spyOn(ParseMIPsService.prototype, 'parse').mockImplementation(() => {
         throw new Error(errorDropMock);
@@ -547,7 +566,34 @@ describe('MIPsController', () => {
       expect(ParseMIPsService.prototype.loggerMessage).toHaveBeenCalledWith("Webhooks ERROR");
       expect(ParseMIPsService.prototype.parse).toBeCalledTimes(1);
       expect(ParseMIPsService.prototype.parse).toBeCalledWith();
-    })
+    });
+
+    it('no timing safe', async () => {
+      jest.spyOn(crypto, 'timingSafeEqual')
+        .mockReturnValueOnce(false);
+
+      const result = await controller.callback(requestCallBackMock);
+
+      expect(result).toEqual(false);
+      expect(crypto.createHmac).toBeCalledTimes(1);
+      expect(crypto.createHmac).toBeCalledWith(
+        'sha1',
+        configService.get<string>(
+          Env.WebhooksSecretToken
+        ),
+      );
+      expect(update).toBeCalledTimes(1);
+      expect(update).toBeCalledWith(JSON.stringify(requestCallBackMock.body));
+      expect(digest).toBeCalledTimes(1);
+      expect(digest).toBeCalledWith("hex");
+      expect(crypto.timingSafeEqual).toBeCalledTimes(1);
+      expect(crypto.timingSafeEqual).toBeCalledWith(
+        Buffer.from(requestCallBackMock.headers["x-hub-signature"]),
+        Buffer.from(`sha1=${valueMock}`),
+      );
+      expect(ParseMIPsService.prototype.loggerMessage).not.toBeCalled();
+      expect(ParseMIPsService.prototype.parse).not.toBeCalled();
+    });
   });
 
   afterAll(async () => {

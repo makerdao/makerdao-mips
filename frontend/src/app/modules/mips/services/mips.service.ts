@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import FilterData from '../components/filter/filter.data';
 import { Language } from 'src/app/data-types/languages';
+import { IMip } from '../types/mip';
 
 @Injectable({
   providedIn: 'root',
@@ -56,11 +57,10 @@ export class MipsService {
         if (key === 'inarray' && filter[key].length > 0) {
           filter[key].forEach((final, index) => {
             const character = urlFilter === '' ? '?' : '&';
-
             urlFilter += `${character}filter[${key}][${index}][field]=${filter[key][index].field}`;
 
             final.value.forEach((value, indexValue) => {
-              urlFilter += `${character}filter[${key}][${index}][value][${indexValue}]=${value}`;
+              urlFilter += `&filter[${key}][${index}][value][${indexValue}]=${value}`;
             });
           });
         } else {
@@ -78,6 +78,7 @@ export class MipsService {
         }
       });
     }
+
     return this.http.get(`${environment.apiUrl}/mips/findall${urlFilter}`, {
       params,
     });
@@ -157,5 +158,15 @@ export class MipsService {
 
   setFilterArrayStatus(index: number, value: number) {
     this.filter.arrayStatus[index] = value;
+  }
+
+  checkDependencies(deps: string[]) {
+    const params = [`filter[inarray][0][field]=mipName`];
+    params.push(...deps.map((dep, index) => `filter[inarray][0][value][${index}]=${dep.split(' ').shift().replace('-', '')}`));
+    params.push('select=mipName');
+
+    const url = `${environment.apiUrl}/mips/findall?${params.join('&')}`;
+
+    return this.http.get<{ items: IMip[] }>(url);
   }
 }
