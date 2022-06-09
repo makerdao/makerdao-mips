@@ -43,12 +43,11 @@
               <span
                 class="headerContent"
                 style="cursor: pointer"
-                (click)="onSendOrder(column)"
-                >{{ column | translate
-                }}<app-asc-des
-                  [direction]="getOrderDirection(column)"
-                ></app-asc-des
-              ></span>
+                (click)="onSendOrder(column)">
+
+                {{ column | translate }}
+                <app-asc-des [direction]="getOrderDirection(column)"></app-asc-des>
+              </span>
             </th>
           </span>
           <span *ngIf="column == 'summary'">
