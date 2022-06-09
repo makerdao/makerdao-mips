@@ -326,7 +326,7 @@
           [class.maker-expanded-row]="element.expanded"
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
-          [attr.hide-row]="element.hide"
+          [attr.data-cy]="((element.hide && !statusParameters) || statusParameters) ? 'non-search-result' : 'search-result'"
         ></tr>
         <tr
           mat-row
