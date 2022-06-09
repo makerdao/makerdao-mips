@@ -17,8 +17,6 @@ describe('Test Language Change', () => {
     cy.get('app-list').contains('SUMMARY',{matchCase:false})
     cy.get('app-list').contains('STATUS',{matchCase:false})
     cy.get('app-list').contains('LINKS',{matchCase:false})
-
-
   })
 
   // it('should find MIps containing giving keywords', () => {
