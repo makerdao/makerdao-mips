@@ -260,7 +260,11 @@ describe('MIPsController', () => {
         const mips = await controller.smartSearch('status', mip_2.status, Language.Spanish);
 
         expect(mips).toBeDefined();
-        expect(mips.length).toEqual(0);
+        if (mip_2.status === mip_1.status) {
+          expect(mips.length).toEqual(1);
+        } else {
+          expect(mips.length).toEqual(0);
+        }
       });
 
       it('should return one mip by tag', async () => {

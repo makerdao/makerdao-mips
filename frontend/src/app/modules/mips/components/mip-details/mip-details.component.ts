@@ -61,15 +61,18 @@ export class MipDetailsComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dependencies?.currentValue?.length) {
       const deps = this.dependencies
-        .filter((dep) => dep !== 'n/a' && dep !== 'None')
+        .filter((dep) => dep !== 'n/a' && dep.toLocaleLowerCase() !== 'none')
 
       if (deps.length) {
         this.mipsService.checkDependencies(deps).subscribe((data) => {
-          this.deps = deps.map((dep) => ({
-            exists: !!data.items.find((m) => m.mipName === dep),
-            link: `/mips/details/${dep.replace('-', '')}`,
-            dep,
-          }));
+          this.deps = deps.map((dep) => {
+            const mipName = dep.split(' ').shift().replace('-', '');
+            return ({
+              exists: !!data.items.find((m) => m.mipName === mipName),
+              link: `/mips/details/${mipName}`,
+              dep,
+            })
+          });
         });
       } else {
         this.deps = [];
