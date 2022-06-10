@@ -83,12 +83,12 @@
     </span>
     <ng-container
       *ngIf="
-        contribs &&
-        contribs.length > 0 &&
-        !isEmptyWhenReduce(contribs)
+        contributors &&
+        contributors.length > 0 &&
+        !isEmptyWhenReduce(contributors)
       "
     >
-      <span *ngFor="let contributor of contribs" class="row mt-10">
+      <span *ngFor="let contributor of contributors" class="row mt-10">
         <p class="label">{{ "Contributor" | translate }}</p>
         <span class="info">
           <span>
