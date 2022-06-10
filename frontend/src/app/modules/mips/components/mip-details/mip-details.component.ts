@@ -76,7 +76,7 @@ export class MipDetailsComponent implements OnInit, OnChanges {
       } else {
         this.deps = [];
       }
-    } else {
+    } else if (changes.dependencies?.currentValue) {
       this.deps = [];
     }
   }
