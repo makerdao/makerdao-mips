@@ -1,17 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { MipsService } from '../../services/mips.service';
 import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'app-mip-details',
   templateUrl: './mip-details.component.html',
-  styleUrls: ['./mip-details.component.scss']
+  styleUrls: ['./mip-details.component.scss'],
 })
-export class MipDetailsComponent implements OnInit {
-
+export class MipDetailsComponent implements OnInit, OnChanges {
   @Input() status: string;
   @Input() dateProposed: string;
   @Input() dateRatified: string;
-  @Input() ratifiedDataLink:string;
+  @Input() ratifiedDataLink: string;
   @Input() mipName: string;
   @Input() title: string;
   @Input() authors: string[];
@@ -23,11 +29,15 @@ export class MipDetailsComponent implements OnInit {
   @Input() pollAddress: string;
   @Input() tags: string[];
   @Input() darkMode: boolean;
-  
-  constructor(private statusService: StatusService) { }
 
-  ngOnInit(): void {
-  }
+  deps = [];
+
+  constructor(
+    private statusService: StatusService,
+    private mipsService: MipsService
+  ) {}
+
+  ngOnInit(): void {}
 
   getStatusValue(data: string): string {
     return this.statusService.getStatusValue(data);
@@ -48,4 +58,26 @@ export class MipDetailsComponent implements OnInit {
     return !str ? true : false;
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.dependencies?.currentValue?.length) {
+      const deps = this.dependencies;
+
+      if (deps.length) {
+        this.mipsService.checkDependencies(deps).subscribe((data) => {
+          this.deps = deps.map((dep) => {
+            const mipName = dep.split(' ').shift().replace('-', '');
+            return ({
+              exists: !!data.items.find((m) => m.mipName === mipName),
+              link: `/mips/details/${mipName}`,
+              dep,
+            })
+          });
+        });
+      } else {
+        this.deps = [];
+      }
+    } else if (changes.dependencies?.currentValue) {
+      this.deps = [];
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import { Env } from "@app/env";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { GraphQLClient, RequestDocument } from "graphql-request";
 
@@ -10,6 +10,7 @@ export class GithubService {
   githubRepository: string;
   githubRepositoryOwner: string;
   githubRepositoryId: string;
+  private readonly logger = new Logger(GithubService.name);
 
   constructor(private configService: ConfigService) {
     const endpoint = this.configService.get<string>(Env.GithubUrlApiEndpoint);

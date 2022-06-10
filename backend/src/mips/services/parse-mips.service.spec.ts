@@ -52,7 +52,8 @@ import {
   tagsMock,
   openIssuemock,
   extraMock,
-  errorUpdateMock
+  errorUpdateMock,
+  componentSummaryParsed_1,
 } from "./data-test/data";
 import { GithubService } from "./github.service";
 import { MarkedService } from "./marked.service";
@@ -760,6 +761,21 @@ describe("ParseMIPsService", () => {
 
       expect(result).toEqual(
         componentSummaryParsed
+      );
+    });
+
+    it('is on component summary title', async () => {
+      const markedFile: any[] = marked.lexer(mipFile);
+      const element = markedFile[37];
+      const isOnComponentSummary = true;
+
+      const result = service.parseMipsNamesComponentsSubproposals(
+        element,
+        isOnComponentSummary
+      );
+
+      expect(result).toEqual(
+        componentSummaryParsed_1
       );
     });
 

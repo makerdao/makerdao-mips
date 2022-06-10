@@ -72,7 +72,7 @@ export const filtersMock: Filters = {
   ],
   inarray: [{
     field: faker.random.word(),
-    value: [faker.random.word()],
+    value: [faker.random.word(), faker.random.word()],
   }],
 };
 export const metaVarsMock = [{
@@ -120,7 +120,7 @@ export const builtEqualsFilterMock = {
 };
 export const builtInArrayFilterMock = {
   [filtersMock.inarray[0].field]: {
-    $in: filtersMock.inarray[0].value[0],
+    $in: [filtersMock.inarray[0].value[0], filtersMock.inarray[0].value[1]],
   },
 };
 export const builtNotContainsFilterMock = {
@@ -308,6 +308,8 @@ export const totalCountMock: number = faker.datatype.number({ min: 2, max: 4 });
 export const countMock: number = faker.datatype.number({ min: 1, max: totalCountMock - 1 });
 export const headingOutComponentSummaryParsed: string = `MIP${mipNumber_1}c13 is a Process MIP component that allows the removal of core personnel using a subproposal. [MIP${mipNumber_1}c13](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 \"smart-Component\") subproposals have the following parameters:`;
 export const componentSummaryParsed: string = `## Component Summary ${mipNumber_1}\n\n`;
+export const componentSummaryParsed_1: string = `[MIP${mipNumber_1}c13: Core Personnel Offboarding](mips/details/MIP${mipNumber_1}#MIP${mipNumber_1}c13 "NON-SMART-LINK")  ` 
++ `\nA process component that defines the process to remove personnel from the MIP Editor or Governance Facilitator roles.`;
 export const titleParsed: string = `# MIP${mipNumber_1}: ${titleMock}\n\n`;
 export const filesGitMock: IGitFile[] = [{
   ...mipMock,
@@ -1377,13 +1379,21 @@ export const mipData_2: MIP = {
   references: [],
   proposal: `MIP${mipNumber_2}`,
   subproposal: -1,
-  tags: ['test'],
+  tags: [faker.random.word()],
+  status: faker.random.arrayElement(['Accepted', 'Rejected', 'RFC']),
   extra: [],
   language: Language.English,
   mipFather: false,
   components: [],
   sectionsRaw: [`MIP${mipNumber_2}`],
 }
+export const tagResultMock = {
+  tag: mipData.tags[0],
+};
+export const statusResultMock = {
+  status: mipData_2.status,
+};
+export const smartSearchFieldMock: string = faker.random.word();
 
 // MarkedService unit tests
 export const markedMock: string = faker.random.word();
