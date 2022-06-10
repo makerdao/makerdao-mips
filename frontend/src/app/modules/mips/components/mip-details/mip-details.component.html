@@ -92,11 +92,12 @@
         <p class="label">{{ "Contributor" | translate }}</p>
         <span class="info">
           <span>
-            <a
+            <a *ngIf="(contributor|lowercase) !== 'n/a' && (contributor|lowercase) !== 'none'; else noLink"
               [routerLink]="['/mips/list']"
               [queryParams]="{ contributor: contributor }"
-              >{{ contributor }}</a
-            >
+              >{{ contributor }}</a>
+
+            <ng-template #noLink>{{ contributor }}</ng-template>
           </span>
         </span>
       </span>
