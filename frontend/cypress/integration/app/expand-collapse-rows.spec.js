@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-
 describe('Expand and collapse rows', () => {
   beforeEach(() => {
     cy.visit('');
