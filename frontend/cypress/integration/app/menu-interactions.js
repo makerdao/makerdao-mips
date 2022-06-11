@@ -1,3 +1,9 @@
+Cypress.Commands.add("forceVisit",url=>{
+  cy.window().then(win=>{
+    return win.open(url,"_self")
+  })
+})
+
 describe('Test Regular Search', () => {
   beforeEach(() => {
     cy.visit('')
@@ -6,10 +12,18 @@ describe('Test Regular Search', () => {
   it("should render submenus",()=>{
     const menuHeaders =['Learn','Views','Get in Touch'];
 
+    const links = []
+
     menuHeaders.forEach($menu=>{
-      cy.get('div').contains($menu).click();
-      cy.get('.dropdown-content-first-level').should('be.visible');
-      // cy.get('a.subMenuActive').click()
+      cy.get('div').contains($menu).click()
+      cy.get('.dropdown-content-first-level').should('be.visible')
+      cy.get('.dropdown-content-first-level a').each($a=>{
+        links.push($a)
+      })
+    })
+
+   cy.wrap(links).each($link=>{
+      cy.wrap($link).click()
     })
   })
 
