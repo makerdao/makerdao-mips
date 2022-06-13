@@ -609,7 +609,7 @@ ${errors.length === index + 1 ? '' : '---'}
 
     let flag = true;
 
-    preambleData.split("\n").forEach((preambleLine: string) => {
+    preambleData.split("\n").forEach((preambleLine: string, idx: number, arr: string[]) => {
       if (!preambleLine.includes(":")) {
         return false;
       }
@@ -653,6 +653,18 @@ ${errors.length === index + 1 ? '' : '---'}
         case "Author(s)":
         case "Author":
           preamble.author = keyValue[1].split(",").map((data) => data.trim());
+          if (!preamble.author.slice().pop()) {
+            let index = idx + 1;
+            let line = arr[index];
+            while (line && !line.includes(":")) {
+              const authors = line.split(",").map(a => a.trim());
+              preamble.author.push(...authors);
+              index++;
+              line = arr[index];
+            }
+
+            preamble.author = preamble.author.filter(a => !!a);
+          }
           break;
         case "Tags":
         case "tags":
