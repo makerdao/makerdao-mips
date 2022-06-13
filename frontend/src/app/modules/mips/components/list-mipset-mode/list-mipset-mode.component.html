@@ -139,6 +139,7 @@
       class="maker-element-mipset-row"
       [class.maker-expanded-row]="element.expanded"
       (click)="onExpandMipset(element)"
+      [attr.data-cy]="'mipset-row-'+element.mipset"
     ></tr>
     <tr
       mat-row
