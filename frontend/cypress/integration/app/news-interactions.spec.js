@@ -1,4 +1,4 @@
-describe('Test Regular Search', () => {
+describe('Test News Interactions', () => {
   beforeEach(() => {
     cy.visit('')
   })
