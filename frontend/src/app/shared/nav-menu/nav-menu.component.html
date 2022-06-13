@@ -6,6 +6,7 @@
     (toggle)="onMenuToggle($event)"
     [isOpen]="openedIndexChild === i"
     (opened)="onOpened(i)"
+    [attr.data-cy]="'menu-'+item.id"
   >
     <span class="underline-menu lineal">{{ item.name }}</span>
   </app-menu>
