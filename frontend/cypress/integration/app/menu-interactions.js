@@ -15,15 +15,15 @@ describe('Test Regular Search', () => {
     const links = []
 
     menuHeaders.forEach($menu=>{
+      cy.visit('')
       cy.get('div').contains($menu).click()
       cy.get('.dropdown-content-first-level').should('be.visible')
-      cy.get('.dropdown-content-first-level a').each($a=>{
-        links.push($a)
+      cy.get('.dropdown-content-first-level a').each(($a,$idx)=>{
+        cy.get('.dropdown-content-first-level a').eq($idx).click()
+        cy.wait(2000)
+        cy.visit('')
+        cy.get('div').contains($menu).click()
       })
-    })
-
-   cy.wrap(links).each($link=>{
-      cy.wrap($link).click()
     })
   })
 
