@@ -10,5 +10,7 @@ describe('Test MD Viewer', () => {
        cy.wrap($div).click({force:true})
        cy.wait(2000)
     })
+
+    cy.get('app-detail-content div.container').scrollTo('bottom',{ensureScrollable:false})
   });
 })
