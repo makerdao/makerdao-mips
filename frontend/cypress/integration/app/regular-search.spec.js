@@ -17,20 +17,20 @@ describe('Test Regular Search', () => {
 
       cy.get('[data-cy=table-list-mips] tr.maker-element-row').each(($row) => {
 
-          cy.wrap($row).find("a").then($link => {
-            if (Cypress.$($link).hasClass('mipTitleList')) {
-              const $href = Cypress.$($link).attr("href");
-              rows.push($href);
-            }
-          });
+        cy.wrap($row).find("a").then($link => {
+          if (Cypress.$($link).hasClass('mipTitleList')) {
+            const $href = Cypress.$($link).attr("href");
+            rows.push($href);
+          }
+        });
       });
 
-        cy.wrap(rows).each($row => {
-          cy.visit($row);
-          cy.get(".row.row-tree-column").contains($word,{matchCase:false});
-        });
-      })
-    });
+      cy.wrap(rows).each($row => {
+        cy.visit($row);
+        cy.get(".row.row-tree-column").contains($word,{matchCase:false});
+      });
+    })
+  });
 
   it('should find MIps with the pattern MIP#', () => {
     const values = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']

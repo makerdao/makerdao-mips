@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -542,6 +543,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
     ).subscribe(() => {
       this.overlayRef.detach();
     });
+  }
+
+  @HostListener('document:keydown.escape') onEscape() {
+    this.options = [];
+    this.overlayRef.detach();
+    this.cdr.detectChanges();
   }
 }
 

@@ -1,4 +1,4 @@
-<ng-container *ngIf="!mipsetMode">
+<ng-container *ngIf="!mipsetMode && !multipleQueries">
   <app-news></app-news>
 </ng-container>
 
@@ -69,6 +69,7 @@
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
       [checkInput]="hideParentValue"
+      data-cy="hide-parents-checkbox"
     ></app-md-checkbox>
 
     <app-md-checkbox
@@ -77,6 +78,7 @@
       [label]="'Hide Parents'"
       (checked)="onCheckedHideParents($event)"
       [checkInput]="hideParentValue"
+      data-cy="hide-parents-checkbox"
     ></app-md-checkbox>
 
     <app-search
