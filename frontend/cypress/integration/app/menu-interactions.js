@@ -1,9 +1,3 @@
-Cypress.Commands.add("forceVisit",url=>{
-  cy.window().then(win=>{
-    return win.open(url,"_self")
-  })
-})
-
 describe('Test Regular Search', () => {
   beforeEach(() => {
     cy.visit('')
