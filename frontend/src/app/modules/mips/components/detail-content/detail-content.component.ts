@@ -971,20 +971,20 @@ export class DetailContentComponent
   }
 
   addLinksToComponentSummary() {
-    const regex = new RegExp('^'+this.mipName+'c' +'\\d');
+    const regex = new RegExp('^'+this.mipName+'c' +'\\d: ');
     const nodeList = document.querySelectorAll('strong');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
 
+    let counter = 0;
     elementArray.forEach(strongElement => {
-
      const innerText = strongElement.innerText;
 
-
-
-     console.log(regex);
-
      if (innerText.match(regex)){
-       strongElement.innerText = "ESTE ES";
+       counter++;
+       const newLink = document.createElement('a');
+       newLink.href="/mips/details/"+this.mipName+'#'+this.mipName+'c'+counter;
+       newLink.innerHTML = innerText;
+       strongElement.parentElement.replaceChild(newLink, strongElement);
      }
      this.cdr.detectChanges();
     });
