@@ -541,6 +541,7 @@ export class DetailContentComponent
     this.appendExtraElements();
 
     this.addLinksToComponentSummary();
+    this.removeSmartLinking();
   }
 
   async appendSubproposalsElements() {
@@ -987,6 +988,23 @@ export class DetailContentComponent
        strongElement.parentElement.replaceChild(newLink, strongElement);
      }
      this.cdr.detectChanges();
+    });
+  }
+
+  removeSmartLinking() {
+    const regex = new RegExp('^'+this.mipName+'$');
+    const nodeList = document.querySelectorAll('a');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    elementArray.forEach(linkElement => {
+      const innerText = linkElement.innerText;
+
+      if (innerText.match(regex)){
+        const newSpan = document.createElement('span');
+        newSpan.innerHTML = innerText;
+        linkElement.parentElement.replaceChild(newSpan, linkElement);
+      }
+      this.cdr.detectChanges();
     });
   }
 }
