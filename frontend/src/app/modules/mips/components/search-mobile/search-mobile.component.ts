@@ -131,6 +131,11 @@ export class SearchMobileComponent implements OnInit {
 
   ngOnInit(): void {
     this.control.setValue(this.value);
+
+    if (this.value){
+      this.onOpenCloseInput();
+    }
+
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
   }
