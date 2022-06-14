@@ -75,6 +75,7 @@ export class DetailContentComponent
   positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
   @Input() darkMode: boolean;
   @Input() mip: any;
+  @Input() mipName: string;
   @Output() headingListUpdate = new EventEmitter();
 
   urlOriginal: string;
@@ -538,6 +539,8 @@ export class DetailContentComponent
     this.setPreviewFeature();
     this.appendSubproposalsElements();
     this.appendExtraElements();
+
+    this.addLinksToComponentSummary();
   }
 
   async appendSubproposalsElements() {
@@ -965,6 +968,26 @@ export class DetailContentComponent
 
   ngOnDestroy() {
     this.titleService.setTitle('MIPs Portal');
+  }
+
+  addLinksToComponentSummary() {
+    const regex = new RegExp('^'+this.mipName+'c' +'\\d');
+    const nodeList = document.querySelectorAll('strong');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    elementArray.forEach(strongElement => {
+
+     const innerText = strongElement.innerText;
+
+
+
+     console.log(regex);
+
+     if (innerText.match(regex)){
+       strongElement.innerText = "ESTE ES";
+     }
+     this.cdr.detectChanges();
+    });
   }
 }
 
