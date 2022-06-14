@@ -151,6 +151,7 @@
       *matRowDef="let element; columns: columnsToDisplayMultiQueries"
       class="maker-element-mipset-row"
       [class.maker-expanded-row]="element.expanded"
+      data-cy="multiqueries-row"
       (click)="onExpandQuery(element)"
     ></tr>
     <tr
