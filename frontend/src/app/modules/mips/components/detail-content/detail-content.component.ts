@@ -13,6 +13,7 @@ import {
   ComponentFactoryResolver,
   Injector,
   ChangeDetectorRef,
+  HostListener,
 } from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {environment} from '../../../../../environments/environment';
@@ -101,6 +102,8 @@ export class DetailContentComponent
   smartLinkWindowUp = false;
   titleMdFile = '';
   linkSelect: string;
+
+  mapped: any[];
 
   leftPositions: ConnectedPosition[] = [
     {
@@ -191,36 +194,12 @@ export class DetailContentComponent
     const pattern = /mip[0-9]+c[0-9]+:/i;
     let escapedText;
 
-    const mapped = sections.map((d) => {
+    this.mapped = sections.map((d) => {
       if (pattern.test(d.heading)) {
         return (escapedText = d.heading?.split(':')[0]);
       }
       escapedText = d.heading?.toLowerCase().replace(/[^\w]+/g, '-');
       return escapedText;
-    });
-
-    window.addEventListener('scroll', () => {
-      mapped.forEach((ele) => {
-        const link = document.getElementById(ele);
-        const linkSelected = link?.id;
-        const bound = link?.getBoundingClientRect();
-        if (bound && Math.abs(bound?.y) < 170) {
-          if (this.mdUrl) {
-            this.router.navigate([], {
-              queryParams: {
-                mdUrl: this.queryMdUrl,
-                fromChild: true
-              },
-              fragment: linkSelected,
-            });
-          } else {
-            this.router.navigate([], {
-              fragment: linkSelected,
-            });
-          }
-          this.linkSelect = link?.id;
-        }
-      });
     });
   }
 
@@ -987,6 +966,38 @@ export class DetailContentComponent
        strongElement.parentElement.replaceChild(newLink, strongElement);
      }
      this.cdr.detectChanges();
+    });
+  }
+
+  @HostListener('window:scroll') handleContentScroll() {
+    if (this.route.snapshot.fragment !== this.linkSelect) {
+      this.linkSelect = this.route.snapshot.fragment;
+      return;
+    }
+
+    this.mapped?.find((ele) => {
+      const link = document.getElementById(ele);
+      const linkSelected = link?.id;
+      const bound = link?.getBoundingClientRect();
+      if (bound && bound?.y > -5 && bound?.y < 170) {
+        if (this.mdUrl) {
+          this.router.navigate([], {
+            queryParams: {
+              mdUrl: this.queryMdUrl,
+              fromChild: true
+            },
+            fragment: linkSelected,
+            replaceUrl: true,
+          });
+        } else {
+          this.router.navigate([], {
+            fragment: linkSelected,
+            replaceUrl: true,
+          });
+        }
+        this.linkSelect = link?.id;
+        return true;
+      }
     });
   }
 }
