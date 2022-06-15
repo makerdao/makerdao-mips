@@ -218,13 +218,12 @@ export class DetailContentComponent
   }
 
   isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    return window.matchMedia('(pointer: coarse)').matches
   }
 
   setPreviewFeature() {
     if (!this.isTouchDevice()) {
       const links = document.getElementsByClassName('linkPreview');
-
       for (let index = 0; index < links.length; index++) {
         const element = links.item(index);
         element.addEventListener('mouseover', this.displayPreview);

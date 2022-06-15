@@ -51,4 +51,46 @@ describe('Details View', () => {
     })
   });
 
+  it('Tags Section', () => {
+    cy.viewport('macbook-16');
+    cy.get('[data-cy=details-tags] a').each((_, idx) => {
+      cy.get('[data-cy=details-tags] a').eq(idx).then($link => {
+        const tag = $link.text().trim();
+        cy.wrap($link).click({ force: true });
+        cy.get('[data-cy=search-input]').invoke('text').invoke('trim').should('equal', `$ #${tag}`);
+        cy.go('back');
+      })
+    })
+  });
+
+
+  it('Authors Section', () => {
+    cy.viewport('macbook-16');
+    cy.get('[data-cy=author-item]').each(($item, idx) => {
+      const text = $item.text().trim();
+      cy.get('[data-cy=author-item]').eq(idx).click();
+      cy.location('search').then(query => {
+        const search = new URLSearchParams(query);
+        const author = search.get('author');
+        cy.wrap(author).should('equal', text);
+        cy.go('back');
+      })
+    })
+  });
+
+
+  it('Contributors Section', () => {
+    cy.viewport('macbook-16');
+    cy.get('[data-cy=contributor-item]').each(($item, idx) => {
+      const text = $item.text().trim();
+      cy.get('[data-cy=contributor-item]').eq(idx).click();
+      cy.location('search').then(query => {
+        const search = new URLSearchParams(query);
+        const contributor = search.get('contributor');
+        cy.wrap(contributor).should('equal', text);
+        cy.go('back');
+      })
+    })
+  });
+
 });
