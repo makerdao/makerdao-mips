@@ -43,12 +43,11 @@
               <span
                 class="headerContent"
                 style="cursor: pointer"
-                (click)="onSendOrder(column)"
-                >{{ column | translate
-                }}<app-asc-des
-                  [direction]="getOrderDirection(column)"
-                ></app-asc-des
-              ></span>
+                (click)="onSendOrder(column)">
+
+                {{ column | translate }}
+                <app-asc-des [direction]="getOrderDirection(column)"></app-asc-des>
+              </span>
             </th>
           </span>
           <span *ngIf="column == 'summary'">
@@ -326,7 +325,7 @@
           [class.maker-expanded-row]="element.expanded"
           [class.maker-hide-row]="(hideParent && element.hide && !statusParameters)"
           [class.maker-hide-row]="hideParent && statusParameters"
-          [attr.hide-row]="element.hide"
+          [attr.data-cy]="((element.hide && !statusParameters) || statusParameters) ? 'non-search-result' : 'search-result'"
         ></tr>
         <tr
           mat-row
