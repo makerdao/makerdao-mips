@@ -992,14 +992,16 @@ export class DetailContentComponent
   }
 
   removeSmartLinking() {
-    const regex = new RegExp('^'+this.mipName+'$');
+    const regexMip = new RegExp('^'+this.mipName+'$');
+    const regexMipSub = new RegExp('^'+this.mipName+'c' +'\\d'+'$');
+
     const nodeList = document.querySelectorAll('a');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
 
     elementArray.forEach(linkElement => {
       const innerText = linkElement.innerText;
 
-      if (innerText.match(regex)){
+      if (innerText.match(regexMip) || innerText.match(regexMipSub)){
         const newSpan = document.createElement('span');
         newSpan.innerHTML = innerText;
         linkElement.parentElement.replaceChild(newSpan, linkElement);
