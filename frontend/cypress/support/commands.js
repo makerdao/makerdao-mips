@@ -1,3 +1,5 @@
+import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +25,22 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+addMatchImageSnapshotCommand();
+
+Cypress.Commands.add('testScreenshot', (selector, image, timeout = 1000) => {
+  if(!selector) {
+    cy.then($all => {
+      cy.wait(timeout);
+      cy.wrap($all).matchImageSnapshot(image)
+    });
+  } else if (typeof selector === 'string') {
+    cy.get(selector).then($el => {
+      cy.wait(timeout);
+      cy.wrap($el).matchImageSnapshot(image);
+    });
+  } else {
+    cy.wait(timeout);
+    cy.wrap(selector).matchImageSnapshot(image);
+  }
+});
