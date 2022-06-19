@@ -8,7 +8,7 @@ const mipsets = [
 
 const columns = ['pos', 'title', 'summary', 'status', 'link'];
 
-describe('MIP Sets View', () => {
+function beforeAllTests(cb) {
   beforeEach(() => {
     cy.visit('');
 
@@ -23,21 +23,25 @@ describe('MIP Sets View', () => {
       cy.visit(url);
     });
 
+    cb && cb();
   });
+}
 
+function runTests() {
   it('All three rows of mispets are shown', () => {
+    cy.wait(400)
     mipsets.forEach(mipset => {
       cy.get(`[data-cy=mipset-row-${mipset}]`)
         .should('exist')
         .invoke('hasClass', 'maker-expanded-row')
         .should('be.false');
 
-      cy.wait(500);
+      cy.wait(700);
 
 
       cy.get(`[data-cy=mipset-row-${mipset}]`).click();
 
-      cy.wait(100);
+      cy.wait(700);
 
       cy.get(`[data-cy=mipset-row-${mipset}]`)
         .invoke('hasClass', 'maker-expanded-row')
@@ -52,4 +56,18 @@ describe('MIP Sets View', () => {
       });
     });
   });
+}
+
+describe('MIP Sets View', () => {
+  beforeAllTests();
+  runTests();
+});
+
+describe('MIP Sets View (Spanish)', () => {
+  beforeAllTests(() => {
+    cy.get('a.language-menu').click();
+
+    cy.get('div.language-menu').find('app-menu').eq(0).click();
+  });
+  runTests();
 });
