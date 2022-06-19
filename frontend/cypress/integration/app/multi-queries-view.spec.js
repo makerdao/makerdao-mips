@@ -21,7 +21,7 @@ describe('Multi Queries View', () => {
 
       const viewName = search.get('customViewName');
 
-      cy.get('[data-cy=title').invoke('text').invoke('trim').should('eq', viewName);
+      cy.get('[data-cy=title]').invoke('text').invoke('trim').should('eq', viewName);
     })
   });
 
