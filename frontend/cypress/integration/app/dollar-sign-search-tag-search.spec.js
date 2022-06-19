@@ -6,15 +6,16 @@ describe('Dollar search: Search by tag', () => {
 
   beforeEach(() => {
     cy.visit('');
+    cy.viewport('macbook-16');
   })
 
   it('MIPs listed should have the tag in the search bar', () => {
     for (const tag of validTags) {
       cy.get('[data-cy=search-input]').clear().type(`$ #${tag}{enter}`);
-      cy.get('tr[data-cy=search-result], tr[data-cy=subporposal-row]').each((_, idx) => {
-        cy.get('tr[data-cy=search-result], tr[data-cy=subporposal-row]').eq(idx).click();
+      cy.forEach('tr[data-cy=search-result], tr[data-cy=subporposal-row]', ($el) => {
+        cy.wrap($el).click();
         cy.get('[data-cy=details-tags]').should('contain', tag);
-        cy.go('back')
+        cy.go('back');
       })
     }
   })
@@ -22,6 +23,7 @@ describe('Dollar search: Search by tag', () => {
   it('Should show "No results found" message', () => {
     for (const tag of invalidTags) {
       cy.get('[data-cy=search-input]').clear().type(`$ #${tag}{enter}`);
+      cy.wait(500);
       cy.get('.no-result p').should('be.visible');
     }
   });
