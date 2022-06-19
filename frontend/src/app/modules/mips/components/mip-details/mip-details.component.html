@@ -76,6 +76,7 @@
           <a
             [routerLink]="['/mips/list']"
             [queryParams]="{ author: author }"
+            data-cy="author-item"
             >{{ author }}</a
           >
         </span>
@@ -95,6 +96,7 @@
             <a *ngIf="(contributor|lowercase) !== 'n/a' && (contributor|lowercase) !== 'none'; else noLink"
               [routerLink]="['/mips/list']"
               [queryParams]="{ contributor: contributor }"
+              data-cy="contributor-item"
               >{{ contributor }}</a>
 
             <ng-template #noLink>{{ contributor }}</ng-template>

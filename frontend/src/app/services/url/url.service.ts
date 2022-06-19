@@ -160,7 +160,7 @@ export class UrlService {
   }
 
   processLink(link: string, fileAddress: string = ''): string {
-  
+
     let href = '';
     if (this.isAValidUrl(link)) {
       //Valid Url link (.md or not)
@@ -176,11 +176,11 @@ export class UrlService {
       //Is not a valid link. instead it is a Relative link
 
       const baseUrl = this.getBaseUrl();
-     
+
       if (baseUrl) {
         href =
           this.mdViewerRoute + this.getMdFromGithubUrl(baseUrl + '/' + link);
-      } 
+      }
     } else if (link.startsWith('#')) {
       // Local links inside the same file
 
