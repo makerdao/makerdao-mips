@@ -15,6 +15,11 @@ describe('Normal List View', () => {
     cy.visit('');
   });
 
+  it('Entire View', () => {
+    Cypress.$('app-button-top').remove();
+    cy.testScreenshot(null, 'normal-view/entire-view');
+  });
+
   it('Table', () => {
     cy.testScreenshot('[data-cy=table-list-mips]', 'normal-view/mips-table');
   });
