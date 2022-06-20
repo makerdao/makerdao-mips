@@ -44,3 +44,11 @@ Cypress.Commands.add('testScreenshot', (selector, image, timeout = 1000) => {
     cy.wrap(selector).matchImageSnapshot(image);
   }
 });
+
+Cypress.Commands.add('forEach', (selector, cb) => {
+  cy.get(selector).each((_, idx) => {
+    cy.get(selector).eq(idx).then($el => {
+      cb && cb($el, idx);
+    })
+  });
+})
