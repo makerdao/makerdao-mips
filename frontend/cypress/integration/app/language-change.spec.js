@@ -7,9 +7,12 @@ describe('Test Language Change', () => {
     cy.get('a.language-menu').click()
 
     cy.get('div.language-menu').find('app-menu').eq(0).click()
+    cy.get('app-list').contains('TÍTULO',{matchCase:false})
     cy.get('app-list').contains('resumen',{matchCase:false})
     cy.get('app-list').contains('estado',{matchCase:false})
     cy.get('app-list').contains('enlaces',{matchCase:false})
+
+
 
     cy.get('a.language-menu').click()
     cy.get('div.language-menu').find('app-menu').eq(1).click()
