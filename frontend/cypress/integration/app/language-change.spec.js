@@ -4,68 +4,56 @@ describe('Test Language Change', () => {
   })
 
   it('should change language when clicking the switcher',()=>{
-    cy.get('a.language-menu').click()
-
-    cy.get('div.language-menu').find('app-menu').eq(0).click()
-    cy.get('app-list').contains('resumen',{matchCase:false})
-    cy.get('app-list').contains('estado',{matchCase:false})
-    cy.get('app-list').contains('enlaces',{matchCase:false})
-
-    cy.get('a.language-menu').click()
-    cy.get('div.language-menu').find('app-menu').eq(1).click()
+    cy.visit('')
     cy.get('app-list').contains('TITLE',{matchCase:false})
     cy.get('app-list').contains('SUMMARY',{matchCase:false})
     cy.get('app-list').contains('STATUS',{matchCase:false})
     cy.get('app-list').contains('LINKS',{matchCase:false})
 
 
-  })
+    let menuHeaders =['Learn','Views','Get in Touch']
 
-  // it('should find MIps containing giving keywords', () => {
-  //   const keywords = ["proposal"];
-  //
-  //   keywords.forEach($word => {
-  //     cy.visit('')
-  //
-  //     cy.get('[data-cy=search-input]').type($word)
-  //     cy.get('[data-cy=search-input]').type('{enter}')
-  //     cy.get('[data-cy=table-list-mips]').should('be.visible')
-  //
-  //     const rows = []
-  //
-  //     cy.get('[data-cy=table-list-mips] tr.maker-element-row').each(($row) => {
-  //
-  //         cy.wrap($row).find("a").then($link => {
-  //           if (Cypress.$($link).hasClass('mipTitleList')) {
-  //             const $href = Cypress.$($link).attr("href");
-  //             rows.push($href);
-  //           }
-  //         });
-  //     });
-  //
-  //       cy.wrap(rows).each($row => {
-  //         cy.visit($row);
-  //         cy.get(".row.row-tree-column").contains($word,{matchCase:false});
-  //       });
-  //     })
-  //   });
-  //
-  // it('should find MIps with the pattern MIP#', () => {
-  //   const values = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-  //
-  //   values.forEach(value => {
-  //     cy.visit('')
-  //     cy.get('[data-cy=search-input]').clear()
-  //     cy.get('[data-cy=search-input]').type('MIP' + value)
-  //     cy.get('[data-cy=search-input]').type('{enter}')
-  //
-  //     cy.get('[data-cy=table-list-mips] tr.maker-element-row td.mat-column-pos').each(($col) => {
-  //       cy.wrap($col).invoke('text').invoke('trim').should($text => {
-  //         if ($text !== '' && $text !== '-1') {
-  //           expect($text).to.contain(value);
-  //         }
-  //       })
-  //     })
-  //   })
-  // })
+    let subMenus = new Array(3);
+    subMenus[0] = ['Primer for Authors','The MIPs Framework','Monthly Governance Cycle']
+    subMenus[1] = ['Status','Core Units','MIP Sets','Living MIPs','Technical','Processes']
+    subMenus[2] = ['Forum','Chat']
+
+    menuHeaders.forEach(($header,$indexHeader)=>{
+      cy.visit('')
+      cy.get('app-nav-menu div').contains($header).click()
+      cy.get('.dropdown-content-first-level').should('be.visible')
+      cy.get('.dropdown-content-first-level a').each(($a,$idx)=>{
+        cy.wrap($a).contains(subMenus[$indexHeader][$idx])
+      })
+    })
+
+    cy.visit('')
+    cy.get('a.language-menu').click()
+
+    cy.get('div.language-menu').find('app-menu').eq(0).click()
+    cy.get('app-list').contains('TÍTULO',{matchCase:false})
+    cy.get('app-list').contains('resumen',{matchCase:false})
+    cy.get('app-list').contains('estado',{matchCase:false})
+    cy.get('app-list').contains('enlaces',{matchCase:false})
+
+    let menuHeadersSpanish =['Aprende','Vistas','Ponte en Contacto']
+
+    let subMenusSpanish = new Array(3);
+    subMenusSpanish[0] = ['Intro para Autores','El Framework de MIP','Ciclo de Gobernanza Mensual']
+    subMenusSpanish[1] = ['Estado','Core Units','MIP Sets','Propuestas Registrales','Técnicas','Procesos']
+    subMenusSpanish[2] = ['Foro','Chat']
+
+    menuHeadersSpanish.forEach(($header,$indexHeader)=>{
+      cy.visit('')
+        cy.get('app-nav-menu div').contains($header).click()
+      cy.get('.dropdown-content-first-level').should('be.visible')
+      cy.get('.dropdown-content-first-level a').each(($a,$idx)=>{
+        cy.wrap($a).contains(subMenusSpanish[$indexHeader][$idx])
+      })
+    })
+
+
+
+
+  })
 })
