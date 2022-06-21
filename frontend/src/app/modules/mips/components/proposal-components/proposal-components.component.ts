@@ -1,16 +1,16 @@
+import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ElementRef,
+  Inject,
   Input,
-  OnChanges,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { LangService } from 'src/app/services/lang/lang.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { LangService } from 'src/app/services/lang/lang.service';
   templateUrl: './proposal-components.component.html',
   styleUrls: ['./proposal-components.component.scss'],
 })
-export class ProposalComponentsComponent implements AfterViewInit {
+export class ProposalComponentsComponent implements OnInit, OnDestroy {
   @Input() sourceData;
   @Input() titleSidebar = 'Contents';
   @Input() showlevelOne: boolean = false;
@@ -28,64 +28,47 @@ export class ProposalComponentsComponent implements AfterViewInit {
   active: any;
   @Input() darkMode: boolean = false;
 
+  currentFragment$ = this.route.fragment;
+
+  get allowedDepths() {
+    if (this.showlevelOne) {
+      return [1, 2, 3];
+    }
+
+    return [2, 3];
+  }
+
+  private subscriptions = new Subscription();
+
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
     private langService: LangService,
-    private cdr: ChangeDetectorRef
+    @Inject(DOCUMENT) private doc: Document
   ) {
     this.translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {
-    this.langService.currentLang$.subscribe((language: string) => {
-      this.translate.use(language);
-    });
+    this.subscriptions.add(
+      this.langService.currentLang$.subscribe((language: string) => {
+        this.translate.use(language);
+      })
+    );
   }
 
-  ngAfterViewInit() {
-    this.route.fragment.subscribe((data) => {
-      this.setActiveLinkSection(data);
-    });
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
-  getLinkBySection(section): string {
-    let url = this.router.url.split('#')[0];
-
-    const escapedText = section.mipComponent
-      ? section.mipComponent
-      : section.heading.toLowerCase().replace(/[^\w]+/g, '-');
-
-    return `${url}#${escapedText}`;
-  }
-
-  idBySection(text: string): string {
-    const pattern = /\bmip[0-9]+c[0-9]+:/i;
-    if (pattern.test(text)) {
-      return this.prefixIdLinkSection + text.split(':')[0];
+  scrollFragmentIntoView(fragment: string) {
+    const target = this.doc.getElementById(fragment);
+    if (target) {
+      target.scrollIntoView();
     }
-
-    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
-
-    return this.prefixIdLinkSection + escapedText;
   }
 
-  setActiveLinkSection(str: string) {
-    this.findSectionLink(str);
-  }
-
-  findSectionLink(str: string) {
-    let elem = document.querySelector('#' + this.prefixIdLinkSection + str);
-
-    if (elem) {
-      this.active = elem.id;
-    }
-
-    this.cdr.detectChanges();
-  }
-
-  scroll(url: string) {
-    location.href = url;
+  trackByIdx(model: any, index) {
+    return index;
   }
 }

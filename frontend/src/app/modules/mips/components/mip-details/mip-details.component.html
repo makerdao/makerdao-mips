@@ -31,7 +31,7 @@
   >
     <span class="row">
       <p class="label">{{ "Tags" | translate }}</p>
-      <p class="info">
+      <p class="info" data-cy="details-tags">
         <span *ngFor="let tag of tags; let i = index">
           <a
 
@@ -62,7 +62,9 @@
       </p>
     </span>
   </div>
+
   <hr *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)" />
+
   <div
     *ngIf="authors && authors.length > 0 && !isEmptyWhenReduce(authors)"
     class="data-container authorsContributors"
@@ -74,6 +76,7 @@
           <a
             [routerLink]="['/mips/list']"
             [queryParams]="{ author: author }"
+            data-cy="author-item"
             >{{ author }}</a
           >
         </span>
@@ -81,20 +84,22 @@
     </span>
     <ng-container
       *ngIf="
-        contribs &&
-        contribs.length > 0 &&
-        !isEmptyWhenReduce(contribs)
+        contributors &&
+        contributors.length > 0 &&
+        !isEmptyWhenReduce(contributors)
       "
     >
-      <span *ngFor="let contributor of contribs" class="row mt-10">
+      <span *ngFor="let contributor of contributors" class="row mt-10">
         <p class="label">{{ "Contributor" | translate }}</p>
         <span class="info">
           <span>
-            <a
+            <a *ngIf="(contributor|lowercase) !== 'n/a' && (contributor|lowercase) !== 'none'; else noLink"
               [routerLink]="['/mips/list']"
               [queryParams]="{ contributor: contributor }"
-              >{{ contributor }}</a
-            >
+              data-cy="contributor-item"
+              >{{ contributor }}</a>
+
+            <ng-template #noLink>{{ contributor }}</ng-template>
           </span>
         </span>
       </span>
