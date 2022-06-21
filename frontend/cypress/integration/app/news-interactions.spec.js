@@ -99,4 +99,15 @@ describe('Test News Interactions', () => {
     })
   })
 
+  it('shouldnt render the new on another views',()=>{
+    cy.visit('/mips/list?mipsetMode=true')
+    cy.get('app-list-page app-news').should('not.exist')
+
+    cy.visit('/mips/details/MIP1')
+    cy.get('app-list-page app-news').should('not.exist')
+
+    cy.visit('/mips/md-viewer?mdUrl=https:%2F%2Fraw.githubusercontent.com%2Fmakerdao%2Fmips%2Fmaster%2Fmeta%2Fprimer_for_authors%2Fprimer_for_authors.md')
+    cy.get('app-list-page app-news').should('not.exist')
+
+  })
 })
