@@ -13,6 +13,7 @@ import {
   ComponentFactoryResolver,
   Injector,
   ChangeDetectorRef,
+  HostListener,
 } from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {environment} from '../../../../../environments/environment';
@@ -75,6 +76,7 @@ export class DetailContentComponent
   positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
   @Input() darkMode: boolean;
   @Input() mip: any;
+  @Input() mipName: string;
   @Output() headingListUpdate = new EventEmitter();
 
   urlOriginal: string;
@@ -100,6 +102,8 @@ export class DetailContentComponent
   smartLinkWindowUp = false;
   titleMdFile = '';
   linkSelect: string;
+
+  mapped: any[];
 
   leftPositions: ConnectedPosition[] = [
     {
@@ -190,36 +194,12 @@ export class DetailContentComponent
     const pattern = /mip[0-9]+c[0-9]+:/i;
     let escapedText;
 
-    const mapped = sections.map((d) => {
+    this.mapped = sections.map((d) => {
       if (pattern.test(d.heading)) {
         return (escapedText = d.heading?.split(':')[0]);
       }
       escapedText = d.heading?.toLowerCase().replace(/[^\w]+/g, '-');
       return escapedText;
-    });
-
-    window.addEventListener('scroll', () => {
-      mapped.forEach((ele) => {
-        const link = document.getElementById(ele);
-        const linkSelected = link?.id;
-        const bound = link?.getBoundingClientRect();
-        if (bound && Math.abs(bound?.y) < 170) {
-          if (this.mdUrl) {
-            this.router.navigate([], {
-              queryParams: {
-                mdUrl: this.queryMdUrl,
-                fromChild: true
-              },
-              fragment: linkSelected,
-            });
-          } else {
-            this.router.navigate([], {
-              fragment: linkSelected,
-            });
-          }
-          this.linkSelect = link?.id;
-        }
-      });
     });
   }
 
@@ -238,13 +218,12 @@ export class DetailContentComponent
   }
 
   isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    return window.matchMedia('(pointer: coarse)').matches
   }
 
   setPreviewFeature() {
     if (!this.isTouchDevice()) {
       const links = document.getElementsByClassName('linkPreview');
-
       for (let index = 0; index < links.length; index++) {
         const element = links.item(index);
         element.addEventListener('mouseover', this.displayPreview);
@@ -538,6 +517,9 @@ export class DetailContentComponent
     this.setPreviewFeature();
     this.appendSubproposalsElements();
     this.appendExtraElements();
+
+    this.addLinksToComponentSummary();
+    this.removeSmartLinking();
   }
 
   async appendSubproposalsElements() {
@@ -965,6 +947,77 @@ export class DetailContentComponent
 
   ngOnDestroy() {
     this.titleService.setTitle('MIPs Portal');
+  }
+
+  addLinksToComponentSummary() {
+    const regex = new RegExp('^'+this.mipName+'c' +'\\d: ');
+    const nodeList = document.querySelectorAll('strong');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    let counter = 0;
+    elementArray.forEach(strongElement => {
+     const innerText = strongElement.innerText;
+
+     if (innerText.match(regex)){
+       counter++;
+       const newLink = document.createElement('a');
+       newLink.href="/mips/details/"+this.mipName+'#'+this.mipName+'c'+counter;
+       newLink.innerHTML = innerText;
+       strongElement.parentElement.replaceChild(newLink, strongElement);
+     }
+     this.cdr.detectChanges();
+    });
+  }
+
+  @HostListener('window:scroll') handleContentScroll() {
+    if (this.route.snapshot.fragment !== this.linkSelect) {
+      this.linkSelect = this.route.snapshot.fragment;
+      return;
+    }
+
+    this.mapped?.find((ele) => {
+      const link = document.getElementById(ele);
+      const linkSelected = link?.id;
+      const bound = link?.getBoundingClientRect();
+      if (bound && bound?.y > -5 && bound?.y < 170) {
+        if (this.mdUrl) {
+          this.router.navigate([], {
+            queryParams: {
+              mdUrl: this.queryMdUrl,
+              fromChild: true
+            },
+            fragment: linkSelected,
+            replaceUrl: true,
+          });
+        } else {
+          this.router.navigate([], {
+            fragment: linkSelected,
+            replaceUrl: true,
+          });
+        }
+        this.linkSelect = link?.id;
+        return true;
+      }
+    });
+  }
+
+  removeSmartLinking() {
+    const regexMip = new RegExp('^'+this.mipName+'$');
+    const regexMipSub = new RegExp('^'+this.mipName+'c' +'\\d'+'$');
+
+    const nodeList = document.querySelectorAll('a');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    elementArray.forEach(linkElement => {
+      const innerText = linkElement.innerText;
+
+      if (innerText.match(regexMip) || innerText.match(regexMipSub)){
+        const newSpan = document.createElement('span');
+        newSpan.innerHTML = innerText;
+        linkElement.parentElement.replaceChild(newSpan, linkElement);
+      }
+      this.cdr.detectChanges();
+    });
   }
 }
 
