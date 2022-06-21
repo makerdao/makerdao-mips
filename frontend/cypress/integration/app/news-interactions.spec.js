@@ -109,5 +109,8 @@ describe('Test News Interactions', () => {
     cy.visit('/mips/md-viewer?mdUrl=https:%2F%2Fraw.githubusercontent.com%2Fmakerdao%2Fmips%2Fmaster%2Fmeta%2Fprimer_for_authors%2Fprimer_for_authors.md')
     cy.get('app-list-page app-news').should('not.exist')
 
+    cy.visit('/mips/details/MIP38#mip38c2-core-unit-state&hideParents=false?')
+    cy.get('app-list-page app-news').should('not.exist')
+
   })
 })
