@@ -11,6 +11,7 @@ describe('Test Menu Interactions', () => {
       cy.get('app-nav-menu div').contains($header).click()
       cy.get('.dropdown-content-first-level').should('be.visible')
       cy.get('.dropdown-content-first-level a').each(($a,$idx)=>{
+        cy.get('.dropdown-content-first-level a').eq($idx).trigger('mouseover');
         cy.get('.dropdown-content-first-level a').eq($idx).click()
         cy.wait(2000)
         cy.visit('')
@@ -29,6 +30,7 @@ describe('Test Menu Interactions', () => {
       cy.get('app-nav-menu div').contains($header).click()
       cy.get('.dropdown-content-first-level').should('be.visible')
       cy.get('.dropdown-content-first-level a').each(($a,$idx)=>{
+        cy.get('.dropdown-content-first-level a').eq($idx).trigger('mouseover');
         cy.get('.dropdown-content-first-level a').eq($idx).click()
         cy.wait(2000)
         cy.visit('')
@@ -38,6 +40,11 @@ describe('Test Menu Interactions', () => {
   })
 
   it("should render submenus on spanish",()=>{
+    cy.get('a.language-menu').click()
+    cy.get('div.language-menu').find('app-menu').eq(0).click()
+
+    cy.wait(2000)
+
     const menuHeaders =['Aprende','Vistas','Ponte en Contacto'];
 
     menuHeaders.forEach($header=>{
@@ -45,6 +52,7 @@ describe('Test Menu Interactions', () => {
       cy.get('app-nav-menu div').contains($header).click()
       cy.get('.dropdown-content-first-level').should('be.visible')
       cy.get('.dropdown-content-first-level a').each(($a,$idx)=>{
+        cy.get('.dropdown-content-first-level a').eq($idx).trigger('mouseover');
         cy.get('.dropdown-content-first-level a').eq($idx).click()
         cy.wait(2000)
         cy.visit('')
