@@ -7,6 +7,9 @@ const mipsets = [
 ];
 
 const columns = ['pos', 'title', 'summary', 'status', 'link'];
+const columnsHeadersSpanish = ['#', 'título', 'resumen', 'estado', 'enlaces'];
+const columnsHeadersEnglish = ['#', 'title', 'summary', 'status', 'links']
+
 
 function beforeAllTests(cb) {
   beforeEach(() => {
@@ -27,7 +30,7 @@ function beforeAllTests(cb) {
   });
 }
 
-function runTests() {
+function runTests(language) {
   it('All three rows of mispets are shown', () => {
     cy.wait(400)
     mipsets.forEach(mipset => {
@@ -54,13 +57,17 @@ function runTests() {
           })
         })
       });
+
+      cy.get('.mat-table thead > tr > th').each(($th,$idx)=>{
+          cy.wrap($th).invoke('text').should('contain',language === 'en' ? columnsHeadersEnglish[$idx]:columnsHeadersSpanish[$idx])
+      })
     });
   });
 }
 
 describe('MIP Sets View', () => {
   beforeAllTests();
-  runTests();
+  runTests('en');
 });
 
 describe('MIP Sets View (Spanish)', () => {
@@ -69,5 +76,5 @@ describe('MIP Sets View (Spanish)', () => {
 
     cy.get('div.language-menu').find('app-menu').eq(0).click();
   });
-  runTests();
+  runTests('es');
 });
