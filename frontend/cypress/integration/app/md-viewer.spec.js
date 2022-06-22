@@ -7,8 +7,11 @@ describe('Test MD Viewer', () => {
       cy.get('app-proposal-components').should('exist')
 
       cy.get('app-proposal-components .container .content div').each($div=>{
-       cy.wrap($div).click({force:true})
-       cy.wait(2000)
+        cy.wrap($div).click({force:true})
+        cy.wait(2000)
+        cy.location().then($loc=>{
+         cy.wrap($div).invoke('text').invoke('trim').should('eq',$loc.hash)
+       })
     })
 
     cy.get('app-detail-content div.container').scrollTo('bottom',{ensureScrollable:false})
@@ -26,4 +29,25 @@ describe('Test MD Viewer', () => {
 
     cy.get('app-detail-content div.container').scrollTo('bottom',{ensureScrollable:false})
   });
+
+  it('should open box container on spanish language', () => {
+    cy.visit('')
+    cy.get('a.language-menu').click()
+    cy.get('div.language-menu').find('app-menu').eq(0).click()
+
+    cy.wait(2000)
+
+    cy.visit('/mips/md-viewer?mdUrl=https:%2F%2Fraw.githubusercontent.com%2Fmakerdao%2Fmips%2Fmaster%2FMIP1%2FMIP1c4-Subproposal-Template.md')
+
+    cy.get('app-proposal-components').should('exist')
+
+    cy.get('app-proposal-components .container .content div').each($div=>{
+      cy.wrap($div).click({force:true})
+      cy.wait(2000)
+    })
+
+    cy.get('app-detail-content div.container').scrollTo('bottom',{ensureScrollable:false})
+  });
+
+
 })
