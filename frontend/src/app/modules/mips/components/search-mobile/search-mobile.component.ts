@@ -131,6 +131,11 @@ export class SearchMobileComponent implements OnInit {
 
   ngOnInit(): void {
     this.control.setValue(this.value);
+
+    if (this.value){
+      this.onOpenCloseInput();
+    }
+
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
   }
@@ -188,6 +193,10 @@ export class SearchMobileComponent implements OnInit {
 
   onKeySearch(event: any): void {
     clearTimeout(this.timeout);
+
+    if (this.control.value.replace("\n",'')===''){
+      this.onOpenCloseInput();
+    }
 
     if (event) {
       let val: string = this.control.value;

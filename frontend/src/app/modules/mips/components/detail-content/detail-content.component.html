@@ -114,14 +114,14 @@
     *ngIf="mip && !mdUrl"
     class="variable-binding"
     [data]="content"
-    (error)="onError($error)"
+    (error)="onError($event)"
     (ready)="onReady()"
   ></markdown>
   <markdown
     *ngIf="!mip && mdUrl"
     class="variable-binding"
     [src]="mdUrl"
-    (error)="onError($error)"
+    (error)="onError($event)"
     (ready)="onReady()"
   ></markdown>
 </div>

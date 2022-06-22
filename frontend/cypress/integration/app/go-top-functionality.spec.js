@@ -26,4 +26,29 @@ describe('Go Top Functionaliy', () => {
 
         cy.get("[data-cy=button-go-top]").should('not.be.visible');
       })
+
+  it('shows and hide Go Top component in darkmode', () => {
+    cy.get('div.darkModeToggler').click()
+    cy.scrollTo(0, 0);
+    cy.get("[data-cy=button-go-top]").should('not.be.visible');
+    cy.scrollTo(0, 500);
+    cy.get("[data-cy=button-go-top]").should('be.visible');
+    cy.get("[data-cy=button-go-top]").click();
+    cy.get("[data-cy=button-go-top]").should('be.visible');
+    cy.scrollTo(0, 0);
+    cy.get("[data-cy=button-go-top]").should('not.be.visible');
+  })
+
+  it('shows and hide Go Top component in spanish language', () => {
+    cy.get('a.language-menu').click()
+    cy.get('div.language-menu').find('app-menu').eq(0).click()
+    cy.scrollTo(0, 0);
+    cy.get("[data-cy=button-go-top]").should('not.be.visible');
+    cy.scrollTo(0, 500);
+    cy.get("[data-cy=button-go-top]").should('be.visible');
+    cy.get("[data-cy=button-go-top]").click();
+    cy.get("[data-cy=button-go-top]").should('be.visible');
+    cy.scrollTo(0, 0);
+    cy.get("[data-cy=button-go-top]").should('not.be.visible');
+  })
   })

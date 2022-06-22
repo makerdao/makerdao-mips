@@ -67,6 +67,7 @@ import { ListMultipleQueriesComponent } from './components/list-multiple-queries
 import { NewsComponent } from './components/news/news.component';
 import { MdInformationComponent } from './components/md-information/md-information.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MipSectionsPipe } from './pipes/mip-sections.pipe';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     LanguageDocumentComponent,
     ListMultipleQueriesComponent,
     MdInformationComponent,
-    NewsComponent
+    NewsComponent,
+    MipSectionsPipe
   ],
   imports: [
     CommonModule,
