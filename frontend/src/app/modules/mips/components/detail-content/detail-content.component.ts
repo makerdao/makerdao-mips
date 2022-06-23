@@ -957,7 +957,7 @@ export class DetailContentComponent
     const motivationNode = document.querySelector('a#motivation');
     const motivationParentIndex = this.getParentNodeIndex(motivationNode);
 
-    const regex = new RegExp('^'+this.mipName+'c' +'\\d: ');
+    const regexMip = new RegExp('^'+this.mipName+'c' +'\\d: ');
     const nodeList = document.querySelectorAll('strong');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
 
@@ -965,7 +965,7 @@ export class DetailContentComponent
     elementArray.forEach(strongElement => {
      const innerText = strongElement.innerText;
 
-     if (innerText.match(regex) && (this.getParentNodeIndex(strongElement) < motivationParentIndex)){
+     if (innerText.match(regexMip) && (this.getParentNodeIndex(strongElement) < motivationParentIndex)){
        counter++;
        const newLink = document.createElement('a');
        newLink.href="/mips/details/"+this.mipName+'#'+this.mipName+'c'+counter;
