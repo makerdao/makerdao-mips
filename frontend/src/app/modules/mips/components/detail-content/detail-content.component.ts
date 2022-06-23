@@ -972,8 +972,27 @@ export class DetailContentComponent
        newLink.innerHTML = innerText;
        strongElement.parentElement.replaceChild(newLink, strongElement);
      }
-     this.cdr.detectChanges();
     });
+    this.cdr.detectChanges();
+  }
+
+  removeSmartLinking() {
+    const regexMip = new RegExp('^'+this.mipName+'$');
+    const regexMipSub = new RegExp('^'+this.mipName+'c' +'\\d'+'$');
+
+    const nodeList = document.querySelectorAll('a');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    elementArray.forEach(linkElement => {
+      const innerText = linkElement.innerText;
+
+      if (innerText.match(regexMip) || innerText.match(regexMipSub)){
+        const newSpan = document.createElement('span');
+        newSpan.innerHTML = innerText;
+        linkElement.parentElement.replaceChild(newSpan, linkElement);
+      }
+    });
+    this.cdr.detectChanges();
   }
 
   @HostListener('window:scroll') handleContentScroll() {
@@ -1008,24 +1027,7 @@ export class DetailContentComponent
     });
   }
 
-  removeSmartLinking() {
-    const regexMip = new RegExp('^'+this.mipName+'$');
-    const regexMipSub = new RegExp('^'+this.mipName+'c' +'\\d'+'$');
 
-    const nodeList = document.querySelectorAll('a');
-    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
-
-    elementArray.forEach(linkElement => {
-      const innerText = linkElement.innerText;
-
-      if (innerText.match(regexMip) || innerText.match(regexMipSub)){
-        const newSpan = document.createElement('span');
-        newSpan.innerHTML = innerText;
-        linkElement.parentElement.replaceChild(newSpan, linkElement);
-      }
-      this.cdr.detectChanges();
-    });
-  }
 }
 
 interface Link {
