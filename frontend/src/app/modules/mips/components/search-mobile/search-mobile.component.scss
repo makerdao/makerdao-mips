@@ -308,3 +308,7 @@ img {
 .mat-spinner circle {
   stroke: #2f80ed;
 }
+
+::ng-deep div.cdk-overlay-connected-position-bounding-box:nth-of-type(2){
+  display:none;
+}
