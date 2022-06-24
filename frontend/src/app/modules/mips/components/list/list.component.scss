@@ -685,7 +685,7 @@ a {
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; 
+      -webkit-box-orient: vertical;
     }
   }
   :host::ng-deep.variable-binding-content.subProposal p{
@@ -916,7 +916,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       }
 
       tr.maker-element-row:not(.maker-expanded-row):hover {
-        .mat-column-pos,  
+        .mat-column-pos,
         .mat-column-title,
         .mat-column-summary,
         .mat-column-status,
@@ -996,3 +996,16 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   display: flex ;
   flex-direction: row;
 }
+
+
+td.mat-cell{
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-top-style: none;
+}
+
+th.mat-header-cell{
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
