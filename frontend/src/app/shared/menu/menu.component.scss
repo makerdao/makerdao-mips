@@ -118,7 +118,7 @@
       }
 
       & > .submenuArrow {
-        border-color: transparent transparent transparent #31394d;
+        border-color: transparent transparent transparent #F5F6FA;
       }
     }
 
@@ -173,7 +173,7 @@
       height: 0;
       border-style: solid;
       border-width: 5px 0 5px 5px;
-      border-color: transparent transparent transparent #b8c5d3;
+      border-color: transparent transparent transparent #202733;
       content: "";
       display: inline-block;
       position: absolute;
@@ -181,6 +181,7 @@
       right: 16px;
       transform: translateY(-50%);
     }
+
   }
 }
 
@@ -400,9 +401,9 @@
 
 @media (max-width: 768px) {
   a.dropdown.dropdown-dark.subMenuActive.dropdown.dropdown-dark.subMenuActive{
-     
+
     background-color: #0e1521 !important;
-    
+
   }
 }
 
@@ -464,3 +465,29 @@
     border-radius: 5px;
   }
 }
+
+::ng-deep .cdk-overlay-dark-backdrop {
+  background-color: #748AA1 !important;
+  opacity: 0;
+  transition:none;
+}
+
+::ng-deep .dark-body .cdk-overlay-dark-backdrop {
+  background-color: #202733 !important;
+  mix-blend-mode: normal;
+  opacity: 0;
+  backdrop-filter: blur(178px);
+}
+
+::ng-deep .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity:0.3;
+}
+
+::ng-deep .dark-body.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity:0.7;
+}
+
+a.dropdown.dropdown-dark > span:hover {
+  color:#F5F6FA;
+}
+
