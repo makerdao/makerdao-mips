@@ -344,7 +344,7 @@
             }"
           >
             <div style="width: calc(100% - 35px)">
-              {{ item.proposal ? "" : "# " + item.mip }}
+              {{ item.proposal ? "" : "#" + item.mip }}
               <img *ngIf="!item.proposal" src="./assets/images/circle.svg" />
               <span class="title">
                 <a routerLink="/mips/details/{{ item.mipName }}">
