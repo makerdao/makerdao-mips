@@ -701,6 +701,10 @@ a {
    -webkit-line-clamp: 1;
    -webkit-box-orient: vertical;
 }
+
+  .proposal-card > div > img {
+    margin-bottom: 3px;
+  }
 }
 
 tr.example-detail-row {
