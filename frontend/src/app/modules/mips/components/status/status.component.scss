@@ -12,36 +12,54 @@
   max-width: 150px;
   min-height: 20px;
   text-transform: uppercase;
+
+  @media (min-width:420px){
+    width:136px;
+  }
 }
 
 .type--ACCEPTED {
   border: 1px solid #27ae60;
   color: #27ae60;
-  width:73px;
+
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .type--REJECTED {
   border: 1px solid #eb5757;
   color: #eb5757;
-  width:73px;
+
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .type--ARCHIVE {
   border: 1px solid #748aa1;
   color: #748aa1;
-  width:68px;
+
+  @media (max-width:419px){
+    width:68px;
+  }
 }
 
 .type--RFC {
   border: 1px solid #f2994a;
   color: #f2994a;
-  width: 35px;
+
+  @media (max-width:419px){
+    width:35px;
+  }
 }
 
 .type--OBSOLETE {
   border: 1px solid #b5b12a;
   color: #b5b12a;
-  width:73px;
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .type--FS {
@@ -54,20 +72,27 @@
 .type--NONE {
   border: 1px solid #e5e9f2;
   color: #e5e9f2;
-  width:40px;
+  @media (max-width:419px){
+    width:40px;
+  }
 }
 
 .type--DEFAULT {
   border: 1px solid #8b4513;
   color: #8b4513;
-  width:82px;
+  @media (max-width:419px){
+    width:82px;
+  }
 }
 
 .type--EMPTY {
   color: #748aa1;
   background: rgba(188, 190, 199, 0.3);
   border: 1px solid rgba(116, 138, 161, 0.5);
-  width:73px;
+
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .smallFont{
