@@ -1025,9 +1025,18 @@ tr.mat-row.maker-element-row:hover {
 
 :host::ng-deep.subset-table {
   td.mat-cell.mat-column-pos {
-    border-bottom:  none;
-    border-bottom-color: transparent;
-    border-top:  none;
+    position:relative;
+    overflow: visible;
+  }
+
+  td.mat-cell.mat-column-pos:after {
+    content:'';
+    position:absolute;
+    bottom:-1px;
+    left:0;
+    width:100%;
+    z-index:1000;
+    border-bottom: 1px solid #FFF;
   }
 
   tr:last-child td.mat-cell {
