@@ -637,8 +637,8 @@ a {
 }
 
 :host::ng-deep.subset-table {
-  td.mat-cell {
-    border-bottom: none;
+  td.mat-cell.mat-column-pos {
+    border-bottom: none !important;
   }
 
   tr:last-child td.mat-cell {
@@ -1030,3 +1030,4 @@ tr.mat-row.maker-element-row:hover {
     background-color: #31394D;
   }
 }
+
