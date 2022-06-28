@@ -6,7 +6,7 @@
   align-items: center;
 
   a{
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -118,7 +118,7 @@
       }
 
       & > .submenuArrow {
-        border-color: transparent transparent transparent #F5F6FA;
+        border-color: transparent transparent transparent #31394d;;
       }
     }
 
@@ -173,7 +173,7 @@
       height: 0;
       border-style: solid;
       border-width: 5px 0 5px 5px;
-      border-color: transparent transparent transparent #202733;
+      border-color: transparent transparent transparent #b8c5d3;
       content: "";
       display: inline-block;
       position: absolute;
@@ -483,11 +483,24 @@
   opacity:0.3;
 }
 
-::ng-deep .dark-body.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+::ng-deep .dark-body .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
   opacity:0.7;
 }
 
-a.dropdown.dropdown-dark > span:hover {
-  color:#F5F6FA;
+a.dropdown.dropdown-dark:hover {
+  span {
+    color:#F5F6FA;
+  }
 }
 
+a.dropdown:hover {
+  .submenuArrow {
+    border-color: transparent transparent transparent #202733 !important;
+  }
+}
+
+a.dropdown.dropdown-dark:hover {
+  .submenuArrow {
+    border-color: transparent transparent transparent #F5F6FA !important;
+  }
+}
