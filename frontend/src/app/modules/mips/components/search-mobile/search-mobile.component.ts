@@ -497,6 +497,12 @@ export class SearchMobileComponent implements OnInit {
     this.loadMoreMipSuggestions.next();
   }
 
+  onPaste($event: ClipboardEvent) {
+    $event.preventDefault();
+    const text = $event.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+  }
+
   initMipSuggestions() {
     const positionStrategy = this.overlay
       .position()
