@@ -195,6 +195,7 @@ export class SearchMobileComponent implements OnInit {
     clearTimeout(this.timeout);
 
     if (this.control.value.replace("\n",'')===''){
+      console.log('Blank Text');
       this.onOpenCloseInput();
     }
 
@@ -263,12 +264,10 @@ export class SearchMobileComponent implements OnInit {
   }
 
   clear(): void {
-    this.showClose = false;
     this.control.setValue('');
     this.text = '';
-    let event = new Event('keyup');
+    const event = new Event('keyup');
     this.inputSearch.nativeElement.dispatchEvent(event);
-    this.onOpenCloseInput();
   }
 
   onOpenCloseInput(): void {
@@ -496,6 +495,12 @@ export class SearchMobileComponent implements OnInit {
 
   onLoadMoreMipSugestions() {
     this.loadMoreMipSuggestions.next();
+  }
+
+  onPaste($event: ClipboardEvent) {
+    $event.preventDefault();
+    const text = $event.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
   }
 
   initMipSuggestions() {

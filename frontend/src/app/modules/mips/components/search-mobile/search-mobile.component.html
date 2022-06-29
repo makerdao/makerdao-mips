@@ -41,6 +41,7 @@
       type="text"
       #search
       (keyup)="onKeySearch($event)"
+      (paste)="onPaste($event)"
       [appAutocomplete]="autocomplete"
       [formControl]="control"
       contenteditable

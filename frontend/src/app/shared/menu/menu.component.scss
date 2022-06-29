@@ -6,7 +6,7 @@
   align-items: center;
 
   a{
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -118,7 +118,7 @@
       }
 
       & > .submenuArrow {
-        border-color: transparent transparent transparent #31394d;
+        border-color: transparent transparent transparent #31394d;;
       }
     }
 
@@ -181,6 +181,7 @@
       right: 16px;
       transform: translateY(-50%);
     }
+
   }
 }
 
@@ -400,9 +401,9 @@
 
 @media (max-width: 768px) {
   a.dropdown.dropdown-dark.subMenuActive.dropdown.dropdown-dark.subMenuActive{
-     
+
     background-color: #0e1521 !important;
-    
+
   }
 }
 
@@ -462,5 +463,44 @@
     height: 21px;
     background-color: #b8c5c3;
     border-radius: 5px;
+  }
+}
+
+::ng-deep .cdk-overlay-dark-backdrop {
+  background-color: #748AA1 !important;
+  opacity: 0;
+  transition:none;
+}
+
+::ng-deep .dark-body .cdk-overlay-dark-backdrop {
+  background-color: #202733 !important;
+  mix-blend-mode: normal;
+  opacity: 0;
+  backdrop-filter: blur(178px);
+}
+
+::ng-deep .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity:0.3;
+}
+
+::ng-deep .dark-body .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity:0.7;
+}
+
+a.dropdown.dropdown-dark:hover {
+  span {
+    color:#F5F6FA;
+  }
+}
+
+a.dropdown:hover {
+  .submenuArrow {
+    border-color: transparent transparent transparent #202733 !important;
+  }
+}
+
+a.dropdown.dropdown-dark:hover {
+  .submenuArrow {
+    border-color: transparent transparent transparent #F5F6FA !important;
   }
 }
