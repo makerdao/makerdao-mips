@@ -27,3 +27,11 @@ Feature: Regular Search
     And Hits Enter
     Then The list of MIPs should be visible
     And The MIPs found should contain the value '2' in its pos column
+
+  Scenario: Performing MIPs search (MIP5)
+    Given The user opens the main page
+    When The user types MIP'5' in the search box
+    And Hits Enter
+    Then The list of MIPs should be visible
+    And The MIPs found should contain the value '5' in its pos column
+
