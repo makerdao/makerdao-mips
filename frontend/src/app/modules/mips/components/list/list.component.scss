@@ -37,7 +37,7 @@ tr.maker-detail-subset-row {
 }
 
 tr.maker-element-row:not(.maker-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 tr.maker-element-row:not(.maker-expanded-row):active {
@@ -703,7 +703,7 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
@@ -818,7 +818,7 @@ tr.maker-element-subsetchildren-row {
 }
 
 tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 .expandedSubset {
@@ -846,7 +846,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       }
     }
     tr.maker-element-row:not(.maker-expanded-row):hover {
-      background: whitesmoke;
+      background: #F5F6FA;
     }
 
     .mobile-container {
@@ -908,16 +908,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       .mat-column-status,
       .mat-column-link {
         border-bottom: 1px solid #31394d !important;
-      }
-
-      tr.maker-element-row:not(.maker-expanded-row):hover {
-        .mat-column-pos,
-        .mat-column-title,
-        .mat-column-summary,
-        .mat-column-status,
-        .mat-column-link {
-          background: #202733 !important;
-        }
       }
 
       tr.maker-element-row:not(.maker-expanded-row):active {
@@ -1041,6 +1031,6 @@ tr.mat-row.maker-element-row:hover {
 }
 
 
-
-
-
+::ng-deep tr.mat-row:hover {
+  background-color: #F5F6FA;
+}
