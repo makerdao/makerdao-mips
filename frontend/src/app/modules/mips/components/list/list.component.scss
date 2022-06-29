@@ -636,15 +636,6 @@ a {
   color: #1aab9b;
 }
 
-:host::ng-deep.subset-table {
-  td.mat-cell {
-    border-bottom: none;
-  }
-
-  tr:last-child td.mat-cell {
-    border-bottom-color: transparent;
-  }
-}
 
 :host::ng-deep.subset-table-children {
   td.mat-cell {
@@ -701,6 +692,10 @@ a {
    -webkit-line-clamp: 1;
    -webkit-box-orient: vertical;
 }
+
+  .proposal-card > div > img {
+    margin-bottom: 3px;
+  }
 }
 
 tr.example-detail-row {
@@ -1009,3 +1004,42 @@ th.mat-header-cell{
   border-bottom-style: solid;
 }
 
+tr.maker-element-row,tr.mat-header-row {
+  background-color: #FFF;
+}
+
+tr.mat-row.maker-element-row:hover {
+  background-color: #F5F6FA;
+}
+
+.maker-container.maker-container-dark {
+  tr.maker-element-row {
+    background-color: #1a202b;
+  }
+
+  tr.mat-header-row {
+    background-color: #31394D;
+  }
+}
+
+
+:host::ng-deep.subset-table {
+  td.mat-cell.mat-column-pos {
+    position:relative;
+    overflow: visible;
+  }
+
+  td.mat-cell.mat-column-pos:after {
+    content:'';
+    position:absolute;
+    bottom:-1px;
+    left:0;
+    width:100%;
+    z-index:1000;
+    border-bottom: 1px solid #FFF;
+  }
+
+  tr:last-child td.mat-cell {
+    border-bottom-color: transparent;
+  }
+}

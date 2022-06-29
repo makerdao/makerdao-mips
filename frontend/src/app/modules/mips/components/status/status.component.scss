@@ -5,62 +5,94 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  width: 136px;
   box-sizing: border-box;
-  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 150px;
   min-height: 20px;
   text-transform: uppercase;
+
+  @media (min-width:420px){
+    width:136px;
+  }
 }
 
 .type--ACCEPTED {
   border: 1px solid #27ae60;
   color: #27ae60;
+
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .type--REJECTED {
   border: 1px solid #eb5757;
   color: #eb5757;
+
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .type--ARCHIVE {
   border: 1px solid #748aa1;
   color: #748aa1;
+
+  @media (max-width:419px){
+    width:68px;
+  }
 }
 
 .type--RFC {
   border: 1px solid #f2994a;
   color: #f2994a;
+
+  @media (max-width:419px){
+    width:35px;
+  }
 }
 
 .type--OBSOLETE {
   border: 1px solid #b5b12a;
   color: #b5b12a;
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .type--FS {
   border: 1px solid #78288c;
   color: #78288c;
   box-sizing: border-box;
+  width: 136px;
 }
 
 .type--NONE {
   border: 1px solid #e5e9f2;
   color: #e5e9f2;
+  @media (max-width:419px){
+    width:40px;
+  }
 }
 
 .type--DEFAULT {
   border: 1px solid #8b4513;
   color: #8b4513;
+  @media (max-width:419px){
+    width:82px;
+  }
 }
 
 .type--EMPTY {
   color: #748aa1;
   background: rgba(188, 190, 199, 0.3);
   border: 1px solid rgba(116, 138, 161, 0.5);
+
+  @media (max-width:419px){
+    width:73px;
+  }
 }
 
 .smallFont{

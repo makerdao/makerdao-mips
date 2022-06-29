@@ -160,7 +160,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
     this.initMipSuggestions();
 
-    if (this.control.value){
+    if (this.control.value) {
       const div = this.inputSearch.nativeElement;
       const s = window.getSelection();
       const r = document.createRange();
@@ -170,6 +170,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
       s.removeAllRanges();
       s.addRange(r);
     }
+
+
+
+
+  }
+
+  onClickCE(event:MouseEvent){
+    alert('CLICKED');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -549,6 +557,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.options = [];
     this.overlayRef.detach();
     this.cdr.detectChanges();
+  }
+
+  onPaste($event: ClipboardEvent) {
+      $event.preventDefault();
+      const text = $event.clipboardData.getData('text/plain');
+      document.execCommand('insertText', false, text);
   }
 }
 
