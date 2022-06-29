@@ -1,5 +1,6 @@
 {
     "baseUrl":"http://localhost:4200",
     "chromeWebSecurity": false,
-    "viewportWidth": 1600
+    "viewportWidth": 1600,
+    "testFiles": "**/*.{feature,features}"
 }
