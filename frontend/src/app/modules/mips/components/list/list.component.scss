@@ -638,7 +638,7 @@ a {
 
 
 :host::ng-deep.subset-table-children {
-  td.mat-cell {
+  td.mat-cell:not(:first-child) {
     border-bottom-color: #ebedf4;
   }
 
@@ -1023,7 +1023,7 @@ tr.mat-row.maker-element-row:hover {
 }
 
 
-:host::ng-deep.subset-table {
+:host::ng-deep.subset-table-children:not(.darkClass) {
   td.mat-cell.mat-column-pos {
     position:relative;
     overflow: visible;
@@ -1036,10 +1036,11 @@ tr.mat-row.maker-element-row:hover {
     left:0;
     width:100%;
     z-index:1000;
-    border-bottom: 1px solid #FFF;
-  }
-
-  tr:last-child td.mat-cell {
-    border-bottom-color: transparent;
+    border-bottom: 4px solid #FFF;
   }
 }
+
+
+
+
+
