@@ -184,6 +184,12 @@ th {
   }
 }
 
+.darkClass td.mat-column-title {
+  &:after {
+    border-bottom: 5px solid #1A202B;
+  }
+}
+
 .summary {
   white-space: nowrap;
   overflow: hidden;
@@ -669,7 +675,7 @@ tr.maker-element-row:not(.maker-expanded-row):hover {
       .mat-column-summary,
       .mat-column-status,
       .mat-column-link {
-        background: #F5F6FA;
+        background: #202733;
       }
     }
   }

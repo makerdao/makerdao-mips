@@ -1034,6 +1034,7 @@ tr.mat-row.maker-element-row:hover {
 ::ng-deep tr.mat-row:hover {
   background-color: #F5F6FA;
 }
+
 tr.mat-row {
   position:relative;
   overflow: visible;
@@ -1061,3 +1062,18 @@ tr.mat-row {
     }
   }
 }
+
+::ng-deep .dark-body tr.mat-row {
+  &:after {
+    border-bottom: 5px solid #1A202B;
+  }
+
+  td:last-of-type {
+    &:after {
+      border-bottom: 5px solid #1A202B !important;
+    }
+  }
+}
+
+
+
