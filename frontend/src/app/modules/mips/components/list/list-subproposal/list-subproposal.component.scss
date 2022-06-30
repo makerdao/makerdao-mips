@@ -41,7 +41,7 @@ tr.maker-element-row:not(.maker-expanded-row):hover {
   .mat-column-summary,
   .mat-column-status,
   .mat-column-link {
-    background: whitesmoke;
+    background: #F5F6FA;
   }
 }
 
@@ -53,7 +53,7 @@ tr.maker-element-row:not(.maker-expanded-row):hover {
   .mat-column-summary,
   .mat-column-status,
   .mat-column-link {
-    background: whitesmoke;
+    background: #F5F6FA;
   }
 }
 tr.maker-element-row:not(.maker-expanded-row):active {
@@ -159,11 +159,11 @@ th {
   max-width: 30px;
   width: 26%;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 24px !important;
+  padding-left: 60px !important;
   padding-right: 35px !important;
   position: relative;
+  overflow:visible;
 
   // .borderBottom {
   //   width: 100%;
@@ -173,6 +173,21 @@ th {
   //   bottom: 0;
   //   left: 0;
   // }
+
+  &:after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:36px;
+    border-bottom: 5px solid #FFF;
+  }
+}
+
+.darkClass td.mat-column-title {
+  &:after {
+    border-bottom: 5px solid #1A202B;
+  }
 }
 
 .summary {
@@ -660,7 +675,7 @@ tr.maker-element-row:not(.maker-expanded-row):hover {
       .mat-column-summary,
       .mat-column-status,
       .mat-column-link {
-        background: whitesmoke;
+        background: #202733;
       }
     }
   }
@@ -687,7 +702,7 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
@@ -801,7 +816,7 @@ tr.maker-element-subsetchildren-row {
 }
 
 tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 .expandedSubset {
