@@ -1034,3 +1034,30 @@ tr.mat-row.maker-element-row:hover {
 ::ng-deep tr.mat-row:hover {
   background-color: #F5F6FA;
 }
+tr.mat-row {
+  position:relative;
+  overflow: visible;
+
+  &:after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:26px;
+    border-bottom: 5px solid #FFF;
+  }
+
+  td:last-child {
+    position:relative;
+    overflow: visible;
+
+    &:after {
+      content:'';
+      position:absolute;
+      right:0;
+      bottom:-1px;
+      width:26px;
+      border-bottom: 5px solid #FFF;
+    }
+  }
+}
