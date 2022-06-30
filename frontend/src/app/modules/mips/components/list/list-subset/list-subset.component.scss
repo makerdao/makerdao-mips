@@ -774,3 +774,44 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   height: 0;
   overflow: hidden;
 }
+
+tr.mat-row {
+  position:relative;
+  overflow: visible;
+
+  &:after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:24px;
+    border-bottom: 5px solid #FFF;
+  }
+
+  td:last-child {
+    position:relative;
+    overflow: visible;
+
+    &:after {
+      content:'';
+      position:absolute;
+      right:0;
+      bottom:-1px;
+      width:30px;
+      border-bottom: 5px solid #FFF;
+    }
+  }
+}
+
+::ng-deep .dark-body tr.mat-row {
+  &:after {
+    border-bottom: 5px solid #1A202B;
+  }
+
+  td:last-of-type {
+    &:after {
+      border-bottom: 5px solid #1A202B !important;
+    }
+  }
+}
+
