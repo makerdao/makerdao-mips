@@ -1014,7 +1014,7 @@ tr.mat-row.maker-element-row:hover {
 
 
 :host::ng-deep.subset-table-children:not(.darkClass) {
-  td.mat-cell.mat-column-pos {
+  td.mat-cell.mat-column-pos,td.mat-cell.mat-column-title {
     position:relative;
     overflow: visible;
   }
@@ -1028,6 +1028,17 @@ tr.mat-row.maker-element-row:hover {
     z-index:1000;
     border-bottom: 4px solid #FFF;
   }
+
+  td.mat-cell.mat-column-title:after {
+    content:'';
+    position:absolute;
+    bottom:-1px;
+    left:0;
+    width:35px;
+    z-index:1000;
+    border-bottom: 4px solid #FFF;
+  }
+
 }
 
 
@@ -1044,7 +1055,7 @@ tr.mat-row {
     position:absolute;
     left:0;
     bottom:-1px;
-    width:26px;
+    width:24px;
     border-bottom: 5px solid #FFF;
   }
 
@@ -1057,7 +1068,7 @@ tr.mat-row {
       position:absolute;
       right:0;
       bottom:-1px;
-      width:26px;
+      width:30px;
       border-bottom: 5px solid #FFF;
     }
   }
@@ -1075,5 +1086,31 @@ tr.mat-row {
   }
 }
 
+::ng-deep tr.mat-row.maker-expanded-row {
+  position:relative;
+  overflow: visible;
 
+  &:after {
+    content:'';
+    position:absolute;
+    left:24px;
+    bottom:0;
+    width:calc(100% - 54px);
+    border-bottom: 1px solid #CCC;
+  }
+}
+
+::ng-deep .dark-body tr.mat-row.maker-expanded-row {
+  position:relative;
+  overflow: visible;
+
+  &:after {
+    content:'';
+    position:absolute;
+    left:24px;
+    bottom:0;
+    width:calc(100% - 54px);
+    border-bottom: 1px solid #444;
+  }
+}
 
