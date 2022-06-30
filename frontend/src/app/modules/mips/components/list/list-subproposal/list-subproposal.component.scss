@@ -159,11 +159,11 @@ th {
   max-width: 30px;
   width: 26%;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 24px !important;
+  padding-left: 60px !important;
   padding-right: 35px !important;
   position: relative;
+  overflow:visible;
 
   // .borderBottom {
   //   width: 100%;
@@ -173,6 +173,15 @@ th {
   //   bottom: 0;
   //   left: 0;
   // }
+
+  &:after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:36px;
+    border-bottom: 5px solid #FFF;
+  }
 }
 
 .summary {
