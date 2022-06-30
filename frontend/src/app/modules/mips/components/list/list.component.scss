@@ -1034,12 +1034,10 @@ tr.mat-row.maker-element-row:hover {
     position:absolute;
     bottom:-1px;
     left:0;
-    width:30px;
+    width:35px;
     z-index:1000;
     border-bottom: 4px solid #FFF;
   }
-
-
 
 }
 
@@ -1087,11 +1085,6 @@ tr.mat-row {
     }
   }
 }
-
-//::ng-deep table.mat-table.subset-table-children tr.mat-row {
-//  color:red !important;
-//}
-
 
 ::ng-deep tr.mat-row.maker-expanded-row {
   position:relative;
