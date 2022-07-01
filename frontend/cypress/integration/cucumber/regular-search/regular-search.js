@@ -2,7 +2,13 @@ Given('The user opens the main page',()=>{
   cy.visit('')
 })
 
+And('English language is selected',()=>{
+  cy.get('a.language-menu').click()
+  cy.get('div.language-menu').find('app-menu').eq(1).click()
+})
+
 When('The user types {string} in the search box',(word)=>{
+  cy.visit('')
   cy.get('[data-cy=search-input]').type(word)
 })
 
