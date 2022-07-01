@@ -2,6 +2,7 @@ Feature: Regular Search
 
  Scenario: Performing regular search (proposal)
     Given The user opens the main page
+    And English language is selected
     When The user types 'proposal' in the search box
     And Hits Enter
     Then The list of MIPs should be visible
@@ -9,6 +10,7 @@ Feature: Regular Search
 
   Scenario: Performing regular search (reference)
     Given The user opens the main page
+    And English language is selected
     When The user types 'reference' in the search box
     And Hits Enter
     Then The list of MIPs should be visible
