@@ -1,4 +1,4 @@
-Feature: Dollar Sign search by tag
+Feature: Dollar Sign search combined
 
  Scenario:Search MIPs containing given statuses combinations (ACCEPTED OR OBSOLETE)
     Given The user opens the main page
