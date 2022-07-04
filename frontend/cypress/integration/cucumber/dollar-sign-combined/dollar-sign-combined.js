@@ -2,6 +2,11 @@ Given('The user opens the main page',()=>{
   cy.visit('')
 })
 
+Given('The user selects the English language',()=>{
+  cy.get('a.language-menu').click()
+  cy.get('div.language-menu').find('app-menu').eq(1).click()
+  cy.wait(2000)
+})
 
 When('Types ACCEPTED,OBSOLETE in the search bar plus Enter',()=>{
   const valueOne = '$OR(@ACCEPTED,@OBSOLETE)';
