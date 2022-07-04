@@ -32,7 +32,7 @@ tr.maker-detail-subset-row {
 }
 
 tr.maker-element-row:not(.maker-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 tr.maker-element-row:not(.maker-expanded-row):active {
@@ -630,10 +630,6 @@ a {
   td.mat-cell {
     border-bottom: none;
   }
-
-  tr:last-child td.mat-cell {
-    border-bottom-color: transparent;
-  }
 }
 
 :host::ng-deep.subset-table-children {
@@ -685,7 +681,7 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
@@ -800,7 +796,7 @@ tr.maker-element-subsetchildren-row {
 }
 
 tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 .expandedSubset {
