@@ -52,7 +52,9 @@ describe('Details View', () => {
   });
 
   it('Tags Section', () => {
-    cy.viewport('macbook-16');
+    cy.get('a.language-menu').click()
+    cy.get('div.language-menu').find('app-menu').eq(1).click()
+    cy.wait(2000)
     cy.get('[data-cy=details-tags] a').each((_, idx) => {
       cy.get('[data-cy=details-tags] a').eq(idx).then($link => {
         const tag = $link.text().trim();
