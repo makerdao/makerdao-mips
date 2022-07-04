@@ -2,11 +2,16 @@ Given('The user opens the main page',()=>{
   cy.visit('')
 })
 
+Given('The user selects the English language',()=>{
+  cy.get('a.language-menu').click()
+  cy.get('div.language-menu').find('app-menu').eq(1).click()
+  cy.wait(2000)
+})
 
 When('Types ACCEPTED,OBSOLETE in the search bar plus Enter',()=>{
   const valueOne = '$OR(@ACCEPTED,@OBSOLETE)';
 
-  // cy.get('[data-cy=search-input]').clear()
+  cy.get('[data-cy=search-input]').clear()
   cy.get('[data-cy=search-input]').type(valueOne)
   cy.get('[data-cy=search-input]').type('{enter}')
 })
@@ -22,7 +27,7 @@ Then('The found MIps should have the statuses either ACCEPTED or OBSOLETE',()=>{
 When('Types RFC,OBSOLETE in the search bar plus Enter',()=>{
   const valueTwo = '$OR(@RFC,@OBSOLETE)';
 
-  // cy.get('[data-cy=search-input]').clear()
+  cy.get('[data-cy=search-input]').clear()
   cy.get('[data-cy=search-input]').type(valueTwo)
   cy.get('[data-cy=search-input]').type('{enter}')
 })
