@@ -173,6 +173,15 @@ th {
   //   bottom: 0;
   //   left: 0;
   // }
+
+  &:after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:36px;
+    border-bottom: 5px solid #FFF;
+  }
 }
 
 .summary {
@@ -687,7 +696,7 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
@@ -801,7 +810,7 @@ tr.maker-element-subsetchildren-row {
 }
 
 tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
-  background: whitesmoke;
+  background: #F5F6FA;
 }
 
 .expandedSubset {
