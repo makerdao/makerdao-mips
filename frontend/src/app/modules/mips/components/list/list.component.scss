@@ -37,7 +37,7 @@ tr.maker-detail-subset-row {
 }
 
 tr.maker-element-row:not(.maker-expanded-row):hover {
-  background: #F5F6FA;
+  background: whitesmoke;
 }
 
 tr.maker-element-row:not(.maker-expanded-row):active {
@@ -703,7 +703,7 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: #F5F6FA;
+  background: whitesmoke;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
@@ -818,7 +818,7 @@ tr.maker-element-subsetchildren-row {
 }
 
 tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
-  background: #F5F6FA;
+  background: whitesmoke;
 }
 
 .expandedSubset {
@@ -846,7 +846,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       }
     }
     tr.maker-element-row:not(.maker-expanded-row):hover {
-      background: #F5F6FA;
+      background: whitesmoke;
     }
 
     .mobile-container {
@@ -908,6 +908,16 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
       .mat-column-status,
       .mat-column-link {
         border-bottom: 1px solid #31394d !important;
+      }
+
+      tr.maker-element-row:not(.maker-expanded-row):hover {
+        .mat-column-pos,
+        .mat-column-title,
+        .mat-column-summary,
+        .mat-column-status,
+        .mat-column-link {
+          background: #202733 !important;
+        }
       }
 
       tr.maker-element-row:not(.maker-expanded-row):active {
@@ -1014,7 +1024,7 @@ tr.mat-row.maker-element-row:hover {
 
 
 :host::ng-deep.subset-table-children:not(.darkClass) {
-  td.mat-cell.mat-column-pos,td.mat-cell.mat-column-title {
+  td.mat-cell.mat-column-pos {
     position:relative;
     overflow: visible;
   }
@@ -1028,89 +1038,9 @@ tr.mat-row.maker-element-row:hover {
     z-index:1000;
     border-bottom: 4px solid #FFF;
   }
-
-  td.mat-cell.mat-column-title:after {
-    content:'';
-    position:absolute;
-    bottom:-1px;
-    left:0;
-    width:35px;
-    z-index:1000;
-    border-bottom: 4px solid #FFF;
-  }
-
 }
 
 
-::ng-deep tr.mat-row:hover {
-  background-color: #F5F6FA;
-}
 
-tr.mat-row {
-  position:relative;
-  overflow: visible;
 
-  &:after {
-    content:'';
-    position:absolute;
-    left:0;
-    bottom:-1px;
-    width:24px;
-    border-bottom: 5px solid #FFF;
-  }
-
-  td:last-child {
-    position:relative;
-    overflow: visible;
-
-    &:after {
-      content:'';
-      position:absolute;
-      right:0;
-      bottom:-1px;
-      width:30px;
-      border-bottom: 5px solid #FFF;
-    }
-  }
-}
-
-::ng-deep .dark-body tr.mat-row {
-  &:after {
-    border-bottom: 5px solid #1A202B;
-  }
-
-  td:last-of-type {
-    &:after {
-      border-bottom: 5px solid #1A202B !important;
-    }
-  }
-}
-
-::ng-deep tr.mat-row.maker-expanded-row {
-  position:relative;
-  overflow: visible;
-
-  &:after {
-    content:'';
-    position:absolute;
-    left:24px;
-    bottom:0;
-    width:calc(100% - 54px);
-    border-bottom: 1px solid #CCC;
-  }
-}
-
-::ng-deep .dark-body tr.mat-row.maker-expanded-row {
-  position:relative;
-  overflow: visible;
-
-  &:after {
-    content:'';
-    position:absolute;
-    left:24px;
-    bottom:0;
-    width:calc(100% - 54px);
-    border-bottom: 1px solid #444;
-  }
-}
 
