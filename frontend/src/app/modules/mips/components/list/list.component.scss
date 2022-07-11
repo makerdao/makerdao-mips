@@ -910,6 +910,16 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         border-bottom: 1px solid #31394d !important;
       }
 
+      tr.maker-element-row:not(.maker-expanded-row):hover {
+        .mat-column-pos,
+        .mat-column-title,
+        .mat-column-summary,
+        .mat-column-status,
+        .mat-column-link {
+          background: #202733 !important;
+        }
+      }
+
       tr.maker-element-row:not(.maker-expanded-row):active {
         background: #202733 !important;
       }
