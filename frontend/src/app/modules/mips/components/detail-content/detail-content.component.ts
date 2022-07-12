@@ -592,13 +592,10 @@ export class DetailContentComponent
           }
         }
       }
-
     }
-
   }
 
   appendExtraElements() {
-
     // DOM manipulation
     const m: HTMLElement = document.querySelector('.variable-binding');
 
@@ -1000,7 +997,7 @@ export class DetailContentComponent
 
   removeSmartLinking() {
     const regexMip = new RegExp('^'+this.mipName+'$');
-    const regexMipSub = new RegExp('^'+this.mipName+'c' +'\\d'+'$');
+    const regexMipSub = new RegExp('^'+this.mipName+'c' +'\\d+'+'$');
 
     const nodeList = document.querySelectorAll('a');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
