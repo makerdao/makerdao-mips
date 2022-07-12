@@ -520,6 +520,7 @@ export class DetailContentComponent
 
     this.addLinksToComponentSummary();
     this.removeSmartLinking();
+    this.addMdViewerLinkToMdFiles();
   }
 
   async appendSubproposalsElements() {
@@ -974,6 +975,27 @@ export class DetailContentComponent
      }
     });
     this.cdr.detectChanges();
+  }
+
+  addMdViewerLinkToMdFiles(): void {
+    const regexMip = new RegExp('^' + this.mipName + '.*' + '\.md' + '$');
+
+    const nodeList = document.querySelectorAll('a');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    elementArray.forEach(linkElement => {
+      const innerText = linkElement.innerText;
+
+      if (innerText.match(regexMip)){
+        const href = linkElement.getAttribute('href');
+        if (!href.includes('md-viewer')){
+          const newLink = this.urlService.processLink(href);
+          linkElement.setAttribute('href', newLink);
+        }
+      }
+    });
+    this.cdr.detectChanges();
+
   }
 
   removeSmartLinking() {
