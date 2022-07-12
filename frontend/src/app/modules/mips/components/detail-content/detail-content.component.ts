@@ -979,23 +979,23 @@ export class DetailContentComponent
 
   addMdViewerLinkToMdFiles(): void {
     const regexMip = new RegExp('^' + this.mipName + '.*' + '\.md' + '$');
+    const regexMipHref = new RegExp('^' + '.*' + this.mipName + '.*' + '\.md' + '$');
 
     const nodeList = document.querySelectorAll('a');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
 
     elementArray.forEach(linkElement => {
       const innerText = linkElement.innerText;
+      const href = linkElement.getAttribute('href');
 
-      if (innerText.match(regexMip)){
-        const href = linkElement.getAttribute('href');
-        if (!href.includes('md-viewer')){
+      if (innerText.match(regexMip) || (href !== null && href.match(regexMipHref))){
+       if (!href.includes('md-viewer')){
           const newLink = this.urlService.processLink(href);
           linkElement.setAttribute('href', newLink);
         }
       }
     });
     this.cdr.detectChanges();
-
   }
 
   removeSmartLinking() {
