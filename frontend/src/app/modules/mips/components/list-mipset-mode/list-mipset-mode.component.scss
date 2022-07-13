@@ -889,3 +889,72 @@ app-sublist {
 ::ng-deep app-list-subproposal table.subset-table-children tr.mat-row  td.mat-column-title {
   padding-left:50px !important;
 }
+
+::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
+  border-bottom: 1px solid #CCC;
+}
+
+::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-pos.mat-cell {
+  position:relative;
+  overflow:visible;
+
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:100%;
+    border-bottom: 1px solid #FFF;
+  }
+}
+
+::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-pos.mat-cell {
+  &:after {
+    border-bottom-width: 49px;
+  }
+}
+
+::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-title.mat-cell {
+  position:relative;
+  overflow:visible;
+
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:30px;
+    border-bottom: 1px solid #FFF;
+  }
+}
+
+::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-title.mat-cell {
+  &:after {
+    border-bottom-width: 49px;
+  }
+}
+
+::ng-deep .dark-body app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-pos.mat-cell {
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:100%;
+    border-bottom: 1px solid #1A202B;
+  }
+}
+
+::ng-deep .dark-body app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-title.mat-cell {
+  position:relative;
+  overflow:visible;
+
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:30px;
+    border-bottom: 1px solid #1A202B;
+  }
+}

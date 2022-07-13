@@ -1071,5 +1071,36 @@ tr.mat-row.maker-element-row:hover {
   }
 }
 
+::ng-deep .dark-body table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-pos.mat-cell {
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:100%;
+    border-bottom: 1px solid #1A202B;
+  }
+}
+
+::ng-deep .dark-body table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-title.mat-cell {
+
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:30px;
+    border-bottom: 1px solid #1A202B;
+  }
+}
+
+::ng-deep app-list-multiple-queries app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:not(:nth-last-child(2)) > td:not(:first-child) {
+  border-bottom: 1px solid #CCC;
+}
+
+//::ng-deep app-list-multiple-queries.is-custom-view app-list-subproposal table.subset-table-children tr.mat-row.maker-detail-row > td {
+//  border-bottom: 1px solid #CCC;
+//}
+
 
 
