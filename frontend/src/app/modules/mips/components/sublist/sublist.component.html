@@ -221,7 +221,7 @@
     mat-row
     *matRowDef="let element; columns: columnsToDisplaySubsetChildren"
     class="maker-element-row"
-    [class.maker-expanded-row]="expandedElementSubsetChildren === element"
+    [class.maker-expanded-row]="expandedElementSubsetChildren === element || element.expanded"
   ></tr>
   <tr
     mat-row

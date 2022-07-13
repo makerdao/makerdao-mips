@@ -673,19 +673,19 @@ a {
 //   }
 // }
 
-:host::ng-deep.mipset-table {
-  td.mat-cell {
-    border-bottom-color: #748aa1;
-  }
-
-  tr:last-child td.mat-cell {
-    border-bottom-color: transparent;
-  }
-}
+//:host::ng-deep.mipset-table {
+//  td.mat-cell {
+//    border-bottom-color: #748aa1;
+//  }
+//
+//  tr:last-child td.mat-cell {
+//    border-bottom-color: transparent;
+//  }
+//}
 
 :host::ng-deep.mipset-table-children {
   td.mat-cell {
-    border-bottom-color: #ebedf4;
+    //border-bottom-color: #ebedf4;
     padding-left: 0px !important;
   }
 
