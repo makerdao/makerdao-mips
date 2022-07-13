@@ -1098,9 +1098,57 @@ tr.mat-row.maker-element-row:hover {
   border-bottom: 1px solid #CCC;
 }
 
-//::ng-deep app-list-multiple-queries.is-custom-view app-list-subproposal table.subset-table-children tr.mat-row.maker-detail-row > td {
-//  border-bottom: 1px solid #CCC;
-//}
+tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
+  position:relative;
+  overflow:visible;
 
+  &:after {
+    content:"";
+    position:absolute;
+    left: 0;
+    bottom:-1px;
+    width:24px;
+    border-bottom: 1px solid #FFF;
+  }
+}
 
+tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
+  position:relative;
+  overflow:visible;
 
+  &:after {
+    content:"";
+    position:absolute;
+    left: 0;
+    bottom:-1px;
+    width:24px;
+    border-bottom: 1px solid #FFF;
+  }
+}
+
+tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
+
+  &:after {
+    border-bottom-width: 49px;
+  }
+}
+
+tr.mat-row.maker-element-row > td.mat-cell.mat-column-links {
+  position:relative;
+  overflow:visible;
+
+  &:after {
+    content:"";
+    position:absolute;
+    right: 0;
+    bottom:-1px;
+    width:35px;
+    border-bottom: 1px solid #FFF;
+  }
+}
+
+tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-links {
+  &:after {
+    border-bottom-width: 49px;
+  }
+}
