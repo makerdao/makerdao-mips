@@ -40,14 +40,12 @@ tr.maker-element-row:not(.maker-expanded-row):active {
 }
 
 .maker-element-row td {
-  border-bottom-width: 0;
-  font-style: normal;
+ font-style: normal;
   font-weight: 500;
   font-size: 14px;
   color: #31394d;
   margin-left: 15px;
   vertical-align: top;
-  // margin-top: 120px;
 
   &.subproposal-title {
     padding-left: 15px;
@@ -630,16 +628,6 @@ a {
   td.mat-cell {
     border-bottom: none;
   }
-}
-
-:host::ng-deep.subset-table-children {
-  td.mat-cell {
-    border-bottom-color: #ebedf4;
-  }
-
-  // td.mat-cell:nth-child(1) {
-  //   padding-left: 22px !important;
-  // }
 }
 
 .subsetColumn {
