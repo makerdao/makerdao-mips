@@ -932,11 +932,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
           color: #2f80ed !important;
         }
 
-        // .mat-column-title .borderBottom {
-        //   display: none !important;
-        // }
-
-        &.maker-element-subset-row,
+       &.maker-element-subset-row,
         &.maker-element-row {
           &:hover,
           &:active {
@@ -1027,6 +1023,14 @@ tr.mat-row.maker-element-row:hover {
   padding-left:50px !important;
 }
 
+::ng-deep table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-title.mat-cell {
+  position:relative;
+  overflow:visible;
+
+
+}
+
+
 ::ng-deep table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-pos.mat-cell {
   position:relative;
   overflow:visible;
@@ -1036,15 +1040,36 @@ tr.mat-row.maker-element-row:hover {
     position:absolute;
     left:0;
     bottom:-1px;
-    width:calc(100% + 20px);
+    width:100%;
     border-bottom: 1px solid #FFF;
   }
 }
 
 ::ng-deep table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-pos.mat-cell {
   &:after {
-    border-bottom: 1px solid #F5F6FA;
+    border-bottom-width: 49px;
   }
 }
+
+::ng-deep table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-title.mat-cell {
+  position:relative;
+  overflow:visible;
+
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:30px;
+    border-bottom: 1px solid #FFF;
+  }
+}
+
+::ng-deep table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-title.mat-cell {
+  &:after {
+    border-bottom-width: 49px;
+  }
+}
+
 
 
