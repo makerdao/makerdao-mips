@@ -774,7 +774,7 @@ tr.maker-element-subsetchildren-row {
 .maker-element-mipset-row {
   td {
     border-bottom-width: 0;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
@@ -884,4 +884,8 @@ app-sublist {
   .arrow-container .arrow-wrapper{
     top: 1px;
   }
+}
+
+::ng-deep app-list-subproposal table.subset-table-children tr.mat-row  td.mat-column-title {
+  padding-left:50px !important;
 }
