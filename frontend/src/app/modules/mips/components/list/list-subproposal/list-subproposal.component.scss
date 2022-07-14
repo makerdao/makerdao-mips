@@ -639,7 +639,7 @@ a {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -799,7 +799,6 @@ tr.maker-element-subsetchildren-row {
 
   .mat-column-link {
     width: 3%;
-    // max-width: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -825,20 +824,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   top: 2px;
 }
 
-
-//::ng-deep .dark-body tr.mat-row {
-//  &:after {
-//    border-bottom: 5px solid #1A202B;
-//  }
-//
-//  td:last-of-type {
-//    &:after {
-//      border-bottom: 5px solid #1A202B !important;
-//    }
-//  }
-//}
-
-
 tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
   position:relative;
   overflow:visible;
@@ -858,3 +843,4 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-link {
     border-bottom-width: 49px;
   }
 }
+
