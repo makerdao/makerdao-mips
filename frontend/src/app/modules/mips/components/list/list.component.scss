@@ -74,9 +74,6 @@ tr.maker-element-row:not(.maker-expanded-row):active {
     margin-left: 6px;
   }
 }
-// .headerContent app-asc-des{
-//   margin-left: 70px!important;
-// }
 
 .linkHeader.headerContent {
   justify-content: center;
@@ -219,12 +216,6 @@ th {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-//---------------End Expand oficial
-
-//----- test
-
-/* Structure */
 
 .loading-height-fixed {
   min-height: 50vh;
@@ -629,14 +620,13 @@ a {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
   color: #1aab9b;
 }
-
 
 :host::ng-deep.subset-table-children {
   td.mat-cell:not(:first-child) {
