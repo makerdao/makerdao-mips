@@ -63,6 +63,7 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   }
 }
 
+
 .headerContent {
   display: flex;
   flex-direction: row;
@@ -1157,4 +1158,7 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-links {
   border-bottom: none !important;
 }
 
+::ng-deep tr.mat-row.maker-element-subset-row.example-expanded-row + tr.mat-row > td {
+  border-bottom: none !important;
+}
 
