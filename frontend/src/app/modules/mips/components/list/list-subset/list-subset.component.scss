@@ -692,10 +692,12 @@ tr.maker-element-subsetchildren-row {
 
 .maker-element-subset-row {
   margin-left: 5.5% !important;
+  margin-right:34px !important;
   display: block;
+  position:relative;
+  overflow:visible;
 
   td {
-    border-bottom-width: 0;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -704,6 +706,28 @@ tr.maker-element-subsetchildren-row {
     height: inherit;
     padding-left: 15px !important;
     border-bottom: 1px solid rgba(26, 171, 155, 0.3);
+    position:relative;
+    overflow:visible;
+
+    &:after {
+      content:'';
+      position:absolute;
+      left:-5.5%;
+      bottom:-1px;
+      width:5.5%;
+      border-bottom: 1px solid #FFF;
+    }
+
+
+  }
+
+  &:after {
+    content:'';
+    position:absolute;
+    right:-34px;
+    bottom:-1px;
+    width:34px;
+    border-bottom: 1px solid #FFF;
   }
 }
 
