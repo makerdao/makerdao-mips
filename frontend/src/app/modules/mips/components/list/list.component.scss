@@ -1104,7 +1104,7 @@ tr.mat-row.maker-element-row:hover {
   }
 }
 
-::ng-deep app-list-multiple-queries app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:not(:nth-last-child(2)) > td:not(:first-child) {
+::ng-deep app-list-multiple-queries app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
   border-bottom: 1px solid #CCC;
 }
 
