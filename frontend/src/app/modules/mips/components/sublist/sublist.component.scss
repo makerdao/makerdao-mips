@@ -624,11 +624,12 @@ a {
 //   }
 // }
 
-:host::ng-deep.subset-table {
+:host::ng-deep.subset-table tr:not(.maker-element-subset-row) {
   td.mat-cell {
     border-bottom: none;
   }
 }
+
 .subsetColumn {
   color: #1aab9b;
 }
@@ -794,4 +795,8 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 .shrinkedSubset {
   height: 0;
   overflow: hidden;
+}
+
+table.mat-table.subset-table {
+  border-spacing: unset !important;
 }
