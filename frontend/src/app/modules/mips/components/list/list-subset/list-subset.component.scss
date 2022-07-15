@@ -607,12 +607,6 @@ a {
 //   }
 // }
 
-:host::ng-deep.subset-table {
-  // td.mat-cell {
-  //    border-bottom-color: rgba(26, 171, 155, 0.3);
-  //    padding-left: 14px !important;
-  // }
-}
 
 .subsetColumn {
   color: #1aab9b;
@@ -644,7 +638,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
 
-tr.example-expanded-row {
+tr.maker-element-subset-row {
   border-bottom: 1px solid rgba(26, 171, 155, 0.3);
   display: block;
 }
