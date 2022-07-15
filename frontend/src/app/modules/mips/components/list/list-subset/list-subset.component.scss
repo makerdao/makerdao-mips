@@ -593,7 +593,7 @@ a {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -800,7 +800,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 
   td:last-of-type {
     &:after {
-      border-bottom: 5px solid #1A202B !important;
+      border-bottom: 5px solid #1A202B;
     }
   }
 }

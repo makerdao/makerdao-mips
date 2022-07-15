@@ -844,3 +844,15 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-link {
   }
 }
 
+::ng-deep .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
+ &:after {
+    bottom:-3px;
+    border-bottom: 10px solid #1A202B !important;
+  }
+}
+
+::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-link {
+  &:after {
+    border-bottom: 55px solid #1A202B !important;
+  }
+}
