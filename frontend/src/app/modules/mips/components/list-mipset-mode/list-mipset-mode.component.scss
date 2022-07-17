@@ -975,11 +975,17 @@ app-sublist {
 }
 
 ::ng-deep tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
-
   &:after {
     border-bottom-width: 53px;
   }
 }
+
+::ng-deep .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
+  &:after {
+    border-bottom: 5px solid #1A202B;
+  }
+}
+
 
 ::ng-deep tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
   position:relative;
@@ -992,6 +998,12 @@ app-sublist {
     bottom:-2px;
     width:35px;
     border-bottom: 5px solid #FFF;
+  }
+}
+
+::ng-deep .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
+  &:after {
+    border-bottom: 5px solid #1A202B;
   }
 }
 
