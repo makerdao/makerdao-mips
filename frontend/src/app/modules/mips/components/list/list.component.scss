@@ -983,7 +983,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   flex-direction: row;
 }
 
-
 td.mat-cell{
   border-bottom-width: 1px;
   border-bottom-style: solid;
@@ -1012,12 +1011,6 @@ tr.maker-element-row,tr.mat-header-row {
 ::ng-deep .maker-container-dark tr.mat-row.maker-element-row.maker-expanded-row:not(:last-child) > td:last-child {
   border-bottom: 1px solid #31394d;
 }
-
-//::ng-deep tr.mat-row.maker-element-row.maker-expanded-row:not(:last-child) > td {
-//  border-bottom: 1px solid #CCC !important;
-//}
-
-
 
 ::ng-deep table.subset-table-children tr.mat-row  td.mat-column-title {
   padding-left:50px !important;
