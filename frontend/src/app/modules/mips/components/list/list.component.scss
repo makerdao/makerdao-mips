@@ -32,8 +32,8 @@ tr.maker-detail-subset-row {
   vertical-align: top;
 
   td {
-    padding-left: 0px !important;
-    padding-right: 0px;
+    padding-left: 0 !important;
+    padding-right: 0;
   }
 }
 
@@ -273,7 +273,7 @@ th {
 
   text-align: center;
   background: #ffffff;
-  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 5px 0;
 
@@ -298,7 +298,7 @@ th {
   width: 100%;
   text-align: center;
   background-color: #ffffff;
-  box-shadow: 0px 1px 4px #e5e9f2;
+  box-shadow: 0 1px 4px #e5e9f2;
   border-radius: 5px;
   color: #748aa1;
   font-weight: 500;
@@ -335,7 +335,7 @@ a {
 .mobile-container {
   padding: 15px;
   background: #ffffff;
-  box-shadow: 0px 1px 4px #e5e9f2;
+  box-shadow: 0 1px 4px #e5e9f2;
   border-radius: 5px;
   height: auto;
   margin-bottom: 15px;
@@ -411,7 +411,7 @@ a {
     padding: 16px;
     background: #f5f6fa;
     border: 1px solid #f5f6fa;
-    box-shadow: 0px 1px 4px #e5e9f2;
+    box-shadow: 0 1px 4px #e5e9f2;
     border-radius: 5px;
     font-style: normal;
     font-weight: normal;
@@ -482,7 +482,7 @@ a {
     padding: 16px;
     background: #f5f6fa;
     border: 1px solid #f5f6fa;
-    box-shadow: 0px 1px 4px #e5e9f2;
+    box-shadow: 0 1px 4px #e5e9f2;
     border-radius: 5px;
     font-style: normal;
     font-weight: normal;
@@ -749,7 +749,7 @@ tr.example-expanded-row {
 }
 
 tr.maker-element-subsetchildren-row {
-  border-bottom: 0px solid #ebedf4;
+  border-bottom: 0 solid #ebedf4;
   display: block;
 
   td {
@@ -841,7 +841,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 
     .no-result {
       background-color: #31394d;
-      box-shadow: 0px 1px 4px 0px #e5e9f2;
+      box-shadow: 0 1px 4px 0px #e5e9f2;
       p {
         color: #748aa1 !important;
       }
@@ -852,7 +852,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 
     .mobile-container {
       background: #31394d;
-      box-shadow: 0px 4px 4px rgb(0 0 0 / 30%);
+      box-shadow: 0 4px 4px rgb(0 0 0 / 30%);
 
       .title,
       .title a {
@@ -946,10 +946,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
             .mat-column-link {
               background: #202733 !important;
             }
-
-            // .mat-column-pos {
-            //   background: #1a202b !important;
-            // }
           }
         }
       }
@@ -983,7 +979,6 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   flex-direction: row;
 }
 
-
 td.mat-cell{
   border-bottom-width: 1px;
   border-bottom-style: solid;
@@ -1012,12 +1007,6 @@ tr.maker-element-row,tr.mat-header-row {
 ::ng-deep .maker-container-dark tr.mat-row.maker-element-row.maker-expanded-row:not(:last-child) > td:last-child {
   border-bottom: 1px solid #31394d;
 }
-
-//::ng-deep tr.mat-row.maker-element-row.maker-expanded-row:not(:last-child) > td {
-//  border-bottom: 1px solid #CCC !important;
-//}
-
-
 
 ::ng-deep table.subset-table-children tr.mat-row  td.mat-column-title {
   padding-left:50px !important;
