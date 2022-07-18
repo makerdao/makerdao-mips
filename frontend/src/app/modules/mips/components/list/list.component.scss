@@ -1174,3 +1174,7 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-links {
 ::ng-deep .maker-container.maker-container-dark .subset-table-children tr.mat-row.maker-element-subset-row.example-expanded-row + tr.mat-row > td {
   border-bottom: none !important;
 }
+
+::ng-deep tr.mat-row.maker-detail-subset-row > td {
+  border-bottom: none;
+}
