@@ -1035,6 +1035,9 @@ app-sublist {
   }
 }
 
+::ng-deep tr.mat-row.maker-element-row:hover {
+  background: #F5F6FA;
+}
 
 ::ng-deep tr.mat-row.maker-element-subset-row.example-expanded-row + tr.mat-row > td {
   border-bottom: none !important;
