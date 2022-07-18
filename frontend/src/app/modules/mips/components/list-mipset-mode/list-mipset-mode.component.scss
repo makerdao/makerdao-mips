@@ -924,7 +924,7 @@ app-sublist {
     left:0;
     bottom:-1px;
     width:30px;
-    border-bottom: 1px solid #FFF;
+    border-bottom: 5px solid #FFF;
   }
 }
 
@@ -1012,3 +1012,14 @@ app-sublist {
     border-bottom-width: 53px;
   }
 }
+
+
+::ng-deep tr.mat-row.maker-element-subset-row.example-expanded-row + tr.mat-row > td {
+  border-bottom: none !important;
+}
+
+::ng-deep app-sublist tr.mat-row.maker-detail-row > td {
+  border-bottom: none !important;
+}
+
+
