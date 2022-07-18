@@ -72,7 +72,7 @@
 
     &.dropdown-dark {
       &:hover {
-        color: #b8c5d3 !important;
+        color: #f5f6fa !important;
 
         .arrowContainer {
           .arrow-light {
@@ -86,7 +86,7 @@
       }
     }
 
-    &.dropdown-dark {
+    &.dropdown-dark:not(:hover) {
       &.subMenu,
       &.subMenuActive  {
         background-color: #0e1521 !important;
@@ -400,9 +400,9 @@
 
 @media (max-width: 768px) {
   a.dropdown.dropdown-dark.subMenuActive.dropdown.dropdown-dark.subMenuActive{
-     
+
     background-color: #0e1521 !important;
-    
+
   }
 }
 
