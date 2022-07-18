@@ -955,10 +955,32 @@ app-sublist {
     left:0;
     bottom:-1px;
     width:30px;
-    border-bottom: 1px solid #1A202B;
+    border-bottom: 5px solid #1A202B;
   }
 }
 
+::ng-deep .dark-body app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-title.mat-cell {
+  &:after {
+    border-bottom-width: 49px;
+  }
+}
+
+::ng-deep .dark-body app-list-subproposal table.subset-table-children tr.mat-row.maker-element-subset-row:hover  td {
+  position:relative;
+  overflow:visible;
+
+  &:after {
+    position: absolute;
+    left: -6%;
+    bottom: -1px;
+    width: 6%;
+    border-bottom: 49px solid #1A202B;
+  }
+}
+
+::ng-deep .dark-body tr.mat-row.maker-element-subset-row:hover {
+  background: #202733 !important;
+}
 
 ::ng-deep tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
   position:relative;
