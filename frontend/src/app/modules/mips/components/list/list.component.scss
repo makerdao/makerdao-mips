@@ -1122,6 +1122,39 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
   }
 }
 
+.maker-container-dark tr.mat-row.maker-element-row:hover:not(:first-child) > td.mat-cell.mat-column-pos {
+  &:after {
+    bottom:unset;
+    top:-1px;
+    border-bottom-width: 100vh;
+  }
+}
+
+.maker-container-dark tr.mat-row.maker-element-row:hover:first-child > td.mat-cell.mat-column-pos {
+  &:after {
+    bottom:unset;
+    top:1px;
+    border-bottom-width: 100vh;
+  }
+}
+
+tr.mat-row.maker-element-row:hover:not(:first-child) > td.mat-cell.mat-column-pos {
+  &:after {
+    bottom:unset;
+    top:-1px;
+    border-bottom-width: 100vh;
+  }
+}
+
+tr.mat-row.maker-element-row:hover:first-child > td.mat-cell.mat-column-pos {
+  &:after {
+    bottom:unset;
+    top:1px;
+    border-bottom-width: 100vh;
+  }
+}
+
+
 tr.mat-row.maker-element-row > td.mat-cell.mat-column-links {
   position:relative;
   overflow:visible;
@@ -1136,11 +1169,24 @@ tr.mat-row.maker-element-row > td.mat-cell.mat-column-links {
   }
 }
 
-tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-links {
+tr.mat-row.maker-element-row:hover:not(:first-child) > td.mat-cell.mat-column-links {
   &:after {
-    border-bottom-width: 49px;
+    bottom:unset;
+    top:-1px;
+    border-bottom-width: 100vh;
   }
 }
+
+tr.mat-row.maker-element-row:hover:first-child > td.mat-cell.mat-column-links {
+  &:after {
+    bottom:unset;
+    top:1px;
+    border-bottom-width: 100vh;
+  }
+}
+
+
+
 
 .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-links {
   &:after {
@@ -1154,6 +1200,24 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-links {
     border-bottom: 51px solid #1A202B;
   }
 }
+
+.maker-container-dark tr.mat-row.maker-element-row:hover:not(:first-child) > td.mat-cell.mat-column-links {
+  &:after {
+    bottom:unset;
+    top:-1px;
+    border-bottom-width: 100vh;
+  }
+}
+
+.maker-container-dark tr.mat-row.maker-element-row:hover:first-child > td.mat-cell.mat-column-links {
+  &:after {
+    bottom:unset;
+    top:1px;
+    border-bottom-width: 100vh;
+  }
+}
+
+
 
  .subsetColumn > td {
    border-bottom: none !important;
