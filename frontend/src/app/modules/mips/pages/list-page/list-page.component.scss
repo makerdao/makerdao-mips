@@ -56,19 +56,6 @@
 
         tr.maker-element-row:hover {
           background: #202733;
-
-          td:first-child {
-            position:relative;
-            overflow:visible;
-
-            &:after {
-              content:'';
-              position:absolute;
-              left:0;
-              width:24px;
-              border-bottom: 49px solid #1A202B;
-            }
-          }
         }
 
         .maker-element-mipset-row td,
