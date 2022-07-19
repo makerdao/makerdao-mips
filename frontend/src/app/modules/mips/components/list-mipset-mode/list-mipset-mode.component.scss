@@ -1048,3 +1048,6 @@ app-sublist {
 }
 
 
+::ng-deep tr.maker-detail-mipset-row > td {
+  border-bottom: none !important;
+}
