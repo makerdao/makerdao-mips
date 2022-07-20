@@ -25,7 +25,6 @@ describe('Multi Queries View', () => {
     })
   });
 
-
   it('Both groups must exist', () => {
     cy.get('[data-cy=multiqueries-row]').each(($row, idx) => {
       if (idx === 0) {
