@@ -37,11 +37,11 @@ tr.maker-detail-subset-row {
   }
 }
 
-tr.maker-element-row:not(.maker-expanded-row):hover {
+tr.maker-element-row:hover {
   background: #F5F6FA;
 }
 
-tr.maker-element-row:not(.maker-expanded-row):active {
+tr.maker-element-row:active {
   background: #efefef;
 }
 
@@ -703,11 +703,11 @@ tr.example-detail-row {
   height: 0;
 }
 
-tr.example-element-row:not(.example-expanded-row):hover {
+tr.example-element-row:hover {
   background: #F5F6FA;
 }
 
-tr.example-element-row:not(.example-expanded-row):active {
+tr.example-element-row:active {
   background: #efefef;
 }
 
@@ -818,7 +818,7 @@ tr.maker-element-subsetchildren-row {
   }
 }
 
-tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
+tr.maker-element-subsetchildren-row:hover {
   background: #F5F6FA;
 }
 
@@ -846,7 +846,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         color: #748aa1 !important;
       }
     }
-    tr.maker-element-row:not(.maker-expanded-row):hover {
+    tr.maker-element-row:hover {
       background: #F5F6FA;
     }
 
@@ -915,7 +915,7 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
         border-bottom: none !important;
       }
 
-      tr.maker-element-row:not(.maker-expanded-row):active {
+      tr.maker-element-row:active {
         background: #202733 !important;
       }
 
