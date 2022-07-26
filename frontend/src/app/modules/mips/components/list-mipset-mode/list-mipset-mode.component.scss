@@ -68,7 +68,6 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   color: #31394d;
   margin-left: 15px;
   vertical-align: top;
-  // margin-top: 120px;
 
   &.subproposal-title {
     padding-left: 15px;
@@ -667,25 +666,8 @@ a {
   color: #748aa1;
 }
 
-// :host::ng-deep {
-//   td.mat-cell {
-//     border-bottom-color: #1aab9b;
-//   }
-// }
-
-//:host::ng-deep.mipset-table {
-//  td.mat-cell {
-//    border-bottom-color: #748aa1;
-//  }
-//
-//  tr:last-child td.mat-cell {
-//    border-bottom-color: transparent;
-//  }
-//}
-
 :host::ng-deep.mipset-table-children {
   td.mat-cell {
-    //border-bottom-color: #ebedf4;
     padding-left: 0px !important;
   }
 
