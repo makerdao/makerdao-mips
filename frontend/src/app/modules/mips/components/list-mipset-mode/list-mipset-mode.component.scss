@@ -1009,47 +1009,6 @@ app-sublist {
 }
 
 
-::ng-deep tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
-  position:relative;
-  overflow:visible;
-
-  &:after {
-    content:"";
-    position:absolute;
-    right: 0;
-    bottom:-2px;
-    width:35px;
-    border-bottom: 5px solid #FFF;
-  }
-}
-
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
-  &:after {
-    border-bottom: 5px solid #1A202B;
-  }
-}
-
-::ng-deep tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-link {
-  &:after {
-    border-bottom-width: 53px;
-  }
-}
-
-::ng-deep tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-link {
-  &:after {
-    bottom:unset;
-    top:-1px;
-    border-bottom-width: 100vh;
-  }
-}
-
-::ng-deep tr.mat-row.maker-element-row:hover:first-of-type > td.mat-cell.mat-column-link {
-  &:after {
-    bottom:unset;
-    top:1px;
-    border-bottom-width: 100vh;
-  }
-}
 
 ::ng-deep tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-pos {
   &:after {
@@ -1060,22 +1019,6 @@ app-sublist {
 }
 
 ::ng-deep tr.mat-row.maker-element-row:hover:first-of-type > td.mat-cell.mat-column-pos {
-  &:after {
-    bottom:unset;
-    top:1px;
-    border-bottom-width: 100vh;
-  }
-}
-
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-link {
-  &:after {
-    bottom:unset;
-    top:-1px;
-    border-bottom-width: 100vh;
-  }
-}
-
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover:first-of-type > td.mat-cell.mat-column-link {
   &:after {
     bottom:unset;
     top:1px;

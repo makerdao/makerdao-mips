@@ -824,35 +824,3 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
   top: 2px;
 }
 
-tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
-  position:relative;
-  overflow:visible;
-
-  &:after {
-    content:"";
-    position:absolute;
-    right: 0;
-    bottom:-1px;
-    width:35px;
-    border-bottom: 5px solid #FFF;
-  }
-}
-
-tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-link {
-  &:after {
-    border-bottom-width: 49px;
-  }
-}
-
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
- &:after {
-    bottom:-3px;
-    border-bottom: 10px solid #1A202B !important;
-  }
-}
-
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-link {
-  &:after {
-    border-bottom: 55px solid #1A202B !important;
-  }
-}
