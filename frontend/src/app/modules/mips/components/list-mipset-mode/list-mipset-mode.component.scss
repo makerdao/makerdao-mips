@@ -68,7 +68,6 @@ tr.maker-element-row:not(.maker-expanded-row):active {
   color: #31394d;
   margin-left: 15px;
   vertical-align: top;
-  // margin-top: 120px;
 
   &.subproposal-title {
     padding-left: 15px;
@@ -667,25 +666,8 @@ a {
   color: #748aa1;
 }
 
-// :host::ng-deep {
-//   td.mat-cell {
-//     border-bottom-color: #1aab9b;
-//   }
-// }
-
-//:host::ng-deep.mipset-table {
-//  td.mat-cell {
-//    border-bottom-color: #748aa1;
-//  }
-//
-//  tr:last-child td.mat-cell {
-//    border-bottom-color: transparent;
-//  }
-//}
-
 :host::ng-deep.mipset-table-children {
   td.mat-cell {
-    //border-bottom-color: #ebedf4;
     padding-left: 0px !important;
   }
 
@@ -910,7 +892,37 @@ app-sublist {
 
 ::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-pos.mat-cell {
   &:after {
-    border-bottom-width: 49px;
+    display:block;
+    left:0;
+    bottom:-2px;
+    height:calc(100% + 8px);
+    width:100%;
+    background:#FFF;
+  }
+}
+
+::ng-deep .dark-body app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row  td.mat-column-pos.mat-cell {
+  position:relative;
+  overflow:visible;
+
+  &:after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:100%;
+    border-bottom: 1px solid #1a202b;
+  }
+}
+
+::ng-deep .dark-body app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-pos.mat-cell {
+  &:after {
+    display:block;
+    left:0;
+    bottom:-2px;
+    height:calc(100% + 8px);
+    width:100%;
+    background:#1a202b;
   }
 }
 
@@ -930,7 +942,12 @@ app-sublist {
 
 ::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-title.mat-cell {
   &:after {
-    border-bottom-width: 49px;
+    display:block;
+    left:0;
+    bottom:-2px;
+    height:calc(100% + 8px);
+    width:30px;
+    background:#FFF;
   }
 }
 
@@ -961,7 +978,12 @@ app-sublist {
 
 ::ng-deep .dark-body app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row:hover  td.mat-column-title.mat-cell {
   &:after {
-    border-bottom-width: 49px;
+    display:block;
+    left:0;
+    bottom:-2px;
+    height:calc(100% + 8px);
+    width:30px;
+    background:#1A202B;
   }
 }
 
@@ -970,11 +992,15 @@ app-sublist {
   overflow:visible;
 
   &:after {
+    content:'';
     position: absolute;
     left: -6%;
-    bottom: -1px;
     width: 6%;
     border-bottom: 49px solid #1A202B;
+    display:block;
+    bottom:-2px;
+    height:calc(100% + 8px);
+    background:#1A202B;
   }
 }
 
@@ -1009,47 +1035,6 @@ app-sublist {
 }
 
 
-::ng-deep tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
-  position:relative;
-  overflow:visible;
-
-  &:after {
-    content:"";
-    position:absolute;
-    right: 0;
-    bottom:-2px;
-    width:35px;
-    border-bottom: 5px solid #FFF;
-  }
-}
-
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-link {
-  &:after {
-    border-bottom: 5px solid #1A202B;
-  }
-}
-
-::ng-deep tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-link {
-  &:after {
-    border-bottom-width: 53px;
-  }
-}
-
-::ng-deep tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-link {
-  &:after {
-    bottom:unset;
-    top:-1px;
-    border-bottom-width: 100vh;
-  }
-}
-
-::ng-deep tr.mat-row.maker-element-row:hover:first-of-type > td.mat-cell.mat-column-link {
-  &:after {
-    bottom:unset;
-    top:1px;
-    border-bottom-width: 100vh;
-  }
-}
 
 ::ng-deep tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-pos {
   &:after {
@@ -1067,27 +1052,14 @@ app-sublist {
   }
 }
 
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-link {
-  &:after {
-    bottom:unset;
-    top:-1px;
-    border-bottom-width: 100vh;
-  }
-}
-
-::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover:first-of-type > td.mat-cell.mat-column-link {
-  &:after {
-    bottom:unset;
-    top:1px;
-    border-bottom-width: 100vh;
-  }
-}
-
 ::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-pos {
   &:after {
-    bottom:unset;
-    top:-1px;
-    border-bottom-width: 100vh;
+    display:block;
+    left:0;
+    bottom:-2px;
+    height:calc(100% + 8px);
+    width:24px;
+    background:#1A202B;
   }
 }
 
