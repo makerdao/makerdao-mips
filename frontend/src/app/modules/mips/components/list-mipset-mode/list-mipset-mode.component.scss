@@ -1091,3 +1091,7 @@ app-sublist {
 ::ng-deep tr.maker-element-mipset-row > td {
   border-bottom-width: 1px !important;
 }
+
+tr.mat-header-row > th {
+  border:none !important;
+}

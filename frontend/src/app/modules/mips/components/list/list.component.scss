@@ -1175,3 +1175,8 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
 ::ng-deep tr.mat-row.maker-detail-subset-row > td {
   border-bottom: none;
 }
+
+
+tr.mat-header-row > th {
+  border:none !important;
+}
