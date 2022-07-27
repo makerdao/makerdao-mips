@@ -872,7 +872,7 @@ app-sublist {
   padding-left:50px !important;
 }
 
-::ng-deep app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
+::ng-deep body:not(.dark-body) app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
   border-bottom: 1px solid #CCC;
 }
 
@@ -1031,24 +1031,6 @@ app-sublist {
 ::ng-deep .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
   &:after {
     border-bottom: 5px solid #1A202B;
-  }
-}
-
-
-
-::ng-deep tr.mat-row.maker-element-row:hover:not(:first-of-type) > td.mat-cell.mat-column-pos {
-  &:after {
-    bottom:unset;
-    top:-1px;
-    border-bottom-width: 100vh;
-  }
-}
-
-::ng-deep tr.mat-row.maker-element-row:hover:first-of-type > td.mat-cell.mat-column-pos {
-  &:after {
-    bottom:unset;
-    top:1px;
-    border-bottom-width: 100vh;
   }
 }
 

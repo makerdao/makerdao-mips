@@ -791,8 +791,13 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
 
   td:last-of-type {
     &:after {
-      border-bottom: 5px solid #1A202B;
+      border-bottom: 5px solid #1A202B
     }
   }
 }
 
+::ng-deep .dark-body tr.mat-row.maker-element-row {
+  td:last-of-type {
+    border-bottom: 1px solid #1A202B !important;
+  }
+}
