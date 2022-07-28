@@ -904,12 +904,15 @@ tr.maker-element-subsetchildren-row:hover {
         border-bottom: 1px solid #31394d !important;
       }
 
-      .mat-column-title,
-      .mat-column-summary,
-      .mat-column-status,
-      .mat-column-links,.mat-column-link {
-        border-bottom: 1px solid #31394d !important;
+      table.mainTable > tbody > tr.maker-element-row {
+        .mat-column-title,
+        .mat-column-summary,
+        .mat-column-status,
+        .mat-column-links,.mat-column-link {
+          border-bottom: 1px solid #31394d !important;
+        }
       }
+
 
       tr.mat-row.maker-detail-row > td {
         border-bottom: none !important;
@@ -1105,9 +1108,9 @@ tr.maker-element-row,tr.mat-header-row {
   }
 }
 
-::ng-deep app-list-multiple-queries app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
-  border-bottom: 1px solid #CCC;
-}
+//::ng-deep app-list-multiple-queries app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
+//  border-bottom: 1px solid #CCC;
+//}
 
 tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
   position:relative;
@@ -1116,10 +1119,12 @@ tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
   &:after {
     content:"";
     position:absolute;
+    display:block;
     left: 0;
-    bottom:-1px;
+    bottom:-4px;
+    height:20px;
     width:24px;
-    border-bottom: 1px solid #FFF;
+    background: #FFF;
   }
 }
 
@@ -1136,8 +1141,7 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
 
 .maker-container-dark tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
   &:after {
-    bottom:-3px;
-    border-bottom: 5px solid #1A202B;
+   background: #1a202b;
   }
 }
 
@@ -1151,6 +1155,14 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
     background:#1A202B;
   }
 }
+
+.maker-container-dark tr.mat-row.maker-element-row:first-of-type:hover > td.mat-cell.mat-column-pos {
+  &:after {
+    height:calc(100% - 3px);
+  }
+}
+
+
 
  .subsetColumn > td {
    border-bottom: none !important;
@@ -1175,7 +1187,6 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
 ::ng-deep tr.mat-row.maker-detail-subset-row > td {
   border-bottom: none;
 }
-
 
 tr.mat-header-row > th {
   border:none !important;
