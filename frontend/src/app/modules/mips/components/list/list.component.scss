@@ -904,12 +904,15 @@ tr.maker-element-subsetchildren-row:hover {
         border-bottom: 1px solid #31394d !important;
       }
 
-      .mat-column-title,
-      .mat-column-summary,
-      .mat-column-status,
-      .mat-column-links,.mat-column-link {
-        border-bottom: 1px solid #31394d !important;
+      table.mainTable > tbody > tr.maker-element-row {
+        .mat-column-title,
+        .mat-column-summary,
+        .mat-column-status,
+        .mat-column-links,.mat-column-link {
+          border-bottom: 1px solid #31394d !important;
+        }
       }
+
 
       tr.mat-row.maker-detail-row > td {
         border-bottom: none !important;
@@ -1105,9 +1108,9 @@ tr.maker-element-row,tr.mat-header-row {
   }
 }
 
-::ng-deep app-list-multiple-queries app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
-  border-bottom: 1px solid #CCC;
-}
+//::ng-deep app-list-multiple-queries app-list-subproposal table.subset-table-children tr.mat-row.maker-element-row > td:not(:first-child) {
+//  border-bottom: 1px solid #CCC;
+//}
 
 tr.mat-row.maker-element-row > td.mat-cell.mat-column-pos {
   position:relative;
