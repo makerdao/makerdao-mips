@@ -654,22 +654,6 @@ a {
   color: #748aa1;
 }
 
-// :host::ng-deep {
-//   td.mat-cell {
-//     border-bottom-color: #1aab9b;
-//   }
-// }
-
-:host::ng-deep.mipset-table {
-  // td.mat-cell {
-  //    border-bottom-color: #748aa1;
-  // }
-
-  tr:last-child td.mat-cell {
-    border-bottom-color: transparent;
-  }
-}
-
 :host::ng-deep.mipset-table-children {
   td.mat-cell {
     border-bottom-color: #ebedf4;
