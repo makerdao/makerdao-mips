@@ -1052,9 +1052,12 @@ app-sublist {
 
 ::ng-deep .maker-container-dark tr.mat-row.maker-element-row:hover:first-of-type > td.mat-cell.mat-column-pos {
   &:after {
-    bottom:unset;
-    top:1px;
-    border-bottom-width: 100vh;
+    display:block;
+    left:0;
+    bottom:-2px;
+    height:calc(100% + 8px);
+    width:24px;
+    background:#1A202B;
   }
 }
 

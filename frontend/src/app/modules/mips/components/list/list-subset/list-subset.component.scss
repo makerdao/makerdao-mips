@@ -801,3 +801,9 @@ tr.maker-element-subsetchildren-row:not(.maker-expanded-row):hover {
     border-bottom: 1px solid #31394d !important;
   }
 }
+
+::ng-deep .dark-body app-list-page > app-list tr.mat-row.maker-element-row {
+  td:not(:last-of-type) {
+    border-bottom: 1px solid #31394d !important;
+  }
+}
