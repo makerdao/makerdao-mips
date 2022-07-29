@@ -911,7 +911,7 @@ tr.maker-element-subsetchildren-row:hover {
         .mat-column-links,.mat-column-link {
           border-bottom: 1px solid #31394d !important;
         }
-      }td.mat-cell.mat-column-pos
+      }
 
 
       tr.mat-row.maker-detail-row > td {
@@ -1158,7 +1158,7 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
 
 .maker-container-dark tr.mat-row.maker-element-row:first-of-type:hover > td.mat-cell.mat-column-pos {
   &:after {
-    height:calc(100%);
+    height:calc(100% - 3px);
   }
 }
 
