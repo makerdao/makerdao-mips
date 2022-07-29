@@ -1158,7 +1158,7 @@ tr.mat-row.maker-element-row:hover > td.mat-cell.mat-column-pos {
 
 .maker-container-dark tr.mat-row.maker-element-row:first-of-type:hover > td.mat-cell.mat-column-pos {
   &:after {
-    height:calc(100% - 3px);
+    height:calc(100%);
   }
 }
 
