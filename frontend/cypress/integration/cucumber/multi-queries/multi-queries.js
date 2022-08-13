@@ -2,6 +2,19 @@ Given('The user opens the main page',()=>{
   cy.visit('')
 })
 
+Given("Dark mode is toggled", () => {
+  cy.get("div.darkModeToggler").click();
+});
+
+Given("The user selects {string} language", (language) => {
+  cy.get("a.language-menu").click();
+  cy.get("div.language-menu")
+    .find("app-menu")
+    .eq(language === "English" ? 1 : 0)
+    .click();
+  cy.wait(2000);
+});
+
 When('The user clicks the menu option for Core Unit',()=>{
   cy.get('[data-cy=menu-views]').click();
   cy.get('[data-cy=menu-coreunits]').click();
