@@ -1,5 +1,5 @@
 const columns = ["pos", "title", "summary", "status", "link"];
-const columnsHeadersEnglish = ["#", "title", "summary", "status", "links"];
+const columnsHeadersSpanish = ['#', 'título', 'resumen', 'estado', 'enlaces'];
 
 Given("The user opens the main page", () => {
   cy.visit("");
