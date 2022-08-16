@@ -13,6 +13,7 @@ Feature: Multi Queries View
     And Dark mode is toggled
     When The user clicks the menu option for Core Unit
     Then The title header should match the customViewName param in the URL
+    And The main container should use the darkmode classes
 
   # Spanish
   Scenario: Testing title should be in a param in the URL (Spanish)
@@ -20,6 +21,7 @@ Feature: Multi Queries View
     And The user selects "Spanish" language
     When The user clicks the menu option for Core Unit
     Then The title header should match the customViewName param in the URL
+    And The headings of the columns should match in Spanish
 
 
   # ------Testing groups Active Subproposals and Archive must exist------
@@ -35,6 +37,7 @@ Feature: Multi Queries View
     And Dark mode is toggled
     When The user clicks the menu option for Core Unit
     Then Both groups must exist
+    And The main container should use the darkmode classes
 
   # Spanish
   Scenario: Testing groups Active Subproposals and Archive must exist (Spanish)
@@ -42,6 +45,7 @@ Feature: Multi Queries View
     And The user selects "Spanish" language
     When The user clicks the menu option for Core Unit
     Then Both groups must exist
+    And The headings of the columns should match in Spanish
 
 
   # ------Query params must exist in the URL------
@@ -57,6 +61,7 @@ Feature: Multi Queries View
     And Dark mode is toggled
     When The user clicks the menu option for Core Unit
     Then Query params must exist in the URL
+    And The main container should use the darkmode classes
 
   # Spanish
   Scenario: Query params must exist in the URL (Spanish)
@@ -64,6 +69,7 @@ Feature: Multi Queries View
     And The user selects "Spanish" language
     When The user clicks the menu option for Core Unit
     Then Query params must exist in the URL
+    And The headings of the columns should match in Spanish
 
   # ------All columns must be visible------
   # Default
@@ -78,6 +84,7 @@ Feature: Multi Queries View
     And Dark mode is toggled
     When The user clicks the menu option for Core Unit
     Then All columns must be visible
+    And The main container should use the darkmode classes
 
   # Spanish
   Scenario: All columns must be visible (Spanish)
@@ -85,4 +92,5 @@ Feature: Multi Queries View
     And The user selects "Spanish" language
     When The user clicks the menu option for Core Unit
     Then All columns must be visible
+    And The headings of the columns should match in Spanish
 
