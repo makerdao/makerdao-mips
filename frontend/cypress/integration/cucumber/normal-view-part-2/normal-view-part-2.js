@@ -1,20 +1,7 @@
 /// <reference types="Cypress" />
-// Component opens on MIPS where they are present
+
 Given("The user opens the main page", () => {
   cy.visit("");
-});
-
-Given("Dark mode is toggled", () => {
-  cy.get("div.darkModeToggler").click();
-});
-
-Given("The user selects {string} language", (language) => {
-  cy.get("a.language-menu").click();
-  cy.get("div.language-menu")
-    .find("app-menu")
-    .eq(language === "English" ? 1 : 0)
-    .click();
-  cy.wait(2000);
 });
 
 When("The user opens all MIPs containing components", () => {
