@@ -1,21 +1,9 @@
+/// <reference types="Cypress" />
 const columns = ["pos", "title", "summary", "status", "link"];
 const columnsHeadersSpanish = ['#', 'título', 'resumen', 'estado', 'enlaces'];
 
 Given("The user opens the main page", () => {
   cy.visit("");
-});
-
-Given("Dark mode is toggled", () => {
-  cy.get("div.darkModeToggler").click();
-});
-
-Given("The user selects {string} language", (language) => {
-  cy.get("a.language-menu").click();
-  cy.get("div.language-menu")
-    .find("app-menu")
-    .eq(language === "English" ? 1 : 0)
-    .click();
-  cy.wait(2000);
 });
 
 When("The user clicks the menu option for Core Unit", () => {
@@ -76,10 +64,6 @@ Then("All columns must be visible", () => {
         cy.wrap($row).find(`td.mat-column-${col}`).should("exist");
       });
     });
-});
-
-Then("The main container should use the darkmode classes", () => {
-  cy.get(".container.list-page-container-dark").should("be.visible");
 });
 
 And("The headings of the columns should match in Spanish", () => {
