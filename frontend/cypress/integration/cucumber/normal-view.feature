@@ -2,12 +2,12 @@ Feature: Normal view
 
  Scenario:Main view should have all columns (english)
     Given The user opens the main page
-    And The user selects English language
+    And The user selects "English" language
     Then The MIps list should have the given columns in English
 
   Scenario:Main view should have all columns (spanish)
     Given The user opens the main page
-    And The user selects Spanish language
+    And The user selects "Spanish" language
     Then The MIps list should have the given columns in Spanish
 
   Scenario: Main view should be initially be sorted by #
