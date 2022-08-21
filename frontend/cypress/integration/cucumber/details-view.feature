@@ -9,9 +9,9 @@ Scenario: Left navigation panel updates the hash in the url and scrolls the sect
   And The view should scroll to the section
 
 Scenario: Scroll down/up should update the hash in url and the selected header in left panel
-  When The user scrolls down to the header "2"
+  When The user scrolls to the header "2"
   Then The location hash should match the header "2"
-  When The user scrolls down to the header "1"
+  When The user scrolls to the header "1"
   Then The location hash should match the header "1"
 
 Scenario: Hovering over a MIP link opens a popup containing the Title and the Summary of the MIP
@@ -41,9 +41,9 @@ Scenario: Left navigation panel updates the hash in the url and scrolls the sect
 
 Scenario: Scroll down/up should update the hash in url and the selected header in left panel (Dark Mode)
   And Dark mode is toggled
-  When The user scrolls down to the header "2"
+  When The user scrolls to the header "2"
   Then The location hash should match the header "2"
-  When The user scrolls down to the header "1"
+  When The user scrolls to the header "1"
   Then The location hash should match the header "1"
 
 Scenario: Hovering over a MIP link opens a popup containing the Title and the Summary of the MIP (Dark Mode)
@@ -77,9 +77,9 @@ Scenario: Left navigation panel updates the hash in the url and scrolls the sect
 
 Scenario: Scroll down/up should update the hash in url and the selected header in left panel (Spanish)
   And The user selects "Spanish" language
-  When The user scrolls down to the header "2"
+  When The user scrolls to the header "2"
   Then The location hash should match the header "2"
-  When The user scrolls down to the header "1"
+  When The user scrolls to the header "1"
   Then The location hash should match the header "1"
 
 Scenario: Hovering over a MIP link opens a popup containing the Title and the Summary of the MIP (Spanish)

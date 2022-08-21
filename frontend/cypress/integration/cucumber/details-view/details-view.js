@@ -44,7 +44,7 @@ Then("The view should scroll to the section", () => {
   });
 });
 
-When("The user scrolls down to the header {string}", (headerNumber) => {
+When("The user scrolls to the header {string}", (headerNumber) => {
   cy.get("h2 a, h3 a")
     .eq(headerNumber)
     .then(($header) => {
