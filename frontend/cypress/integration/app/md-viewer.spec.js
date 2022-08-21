@@ -13,7 +13,7 @@ describe('Test MD Viewer', () => {
         cy.get('app-proposal-components .container .content > div').eq(c).click()
         cy.wait(2000)
         cy.location().then($loc=>{
-          cy.get('app-proposal-components .container .content > div').eq(c).invoke('text').invoke('trim').should('contain',$loc.hash.substring(2).split('-')[0])
+          cy.get('app-proposal-components .container .content > div').eq(c).invoke('text').should('contain',$loc.hash.substring(2).split('-')[0])
           cy.wait(4000)
         })
 
