@@ -14,7 +14,7 @@ Feature: News interactions
     Given news.yaml and var.yaml requests are set to be spied on
     And The user opens the main page
     And The corresponding yaml values are stored
-    Then News title, description and style should match the ones read from the news.yaml file
+    Then News title, description, style and icon should match the ones read from the news.yaml file
 
   Scenario: The news are rendered above the list of MIPs
     Given The user opens the main page
@@ -38,7 +38,7 @@ Feature: News interactions
     And The user opens the main page
     And Dark mode is toggled
     And The corresponding yaml values are stored
-    Then News title, description and style should match the ones read from the news.yaml file
+    Then News title, description, style and icon should match the ones read from the news.yaml file
     And The main container should use the darkmode classes
 
   Scenario: The news are rendered above the list of MIPs (Dark Mode)
@@ -64,7 +64,7 @@ Feature: News interactions
     And The user opens the main page
     And The user selects "Spanish" language
     And The corresponding yaml values are stored
-    Then News title, description and style should match the ones read from the news.yaml file
+    Then News title, description, style and icon should match the ones read from the news.yaml file
 
   Scenario: The news are rendered above the list of MIPs (Spanish)
     Given The user opens the main page

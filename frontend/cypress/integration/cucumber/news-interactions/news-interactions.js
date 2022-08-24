@@ -22,23 +22,20 @@ Given(
   }
 );
 
-Given(
-  "news.yaml and var.yaml requests are set to be spied on",
-  () => {
-    cy.intercept("**/vars.yaml*", (req) => {
-      return req.continue((res) => {
-        vars = jsYaml.load(res.body);
-        // return cy.wrap(jsYaml.load(res.body)).as("vars");
-      });
-    }).as("varsRequest");
-    cy.intercept("**/news.yaml*", (req) => {
-      req.continue((res) => {
-        news = jsYaml.load(res.body);
-        // return cy.wrap(jsYaml.load(res.body)).as("news");
-      });
-    }).as("newsRequest");
-  }
-);
+Given("news.yaml and var.yaml requests are set to be spied on", () => {
+  cy.intercept("**/vars.yaml*", (req) => {
+    return req.continue((res) => {
+      vars = jsYaml.load(res.body);
+      // return cy.wrap(jsYaml.load(res.body)).as("vars");
+    });
+  }).as("varsRequest");
+  cy.intercept("**/news.yaml*", (req) => {
+    req.continue((res) => {
+      news = jsYaml.load(res.body);
+      // return cy.wrap(jsYaml.load(res.body)).as("news");
+    });
+  }).as("newsRequest");
+});
 
 When("The user closes the existent news", () => {
   cy.get(".container-green > .icon > img").click();
@@ -59,7 +56,7 @@ Then("The news should be present again", () => {
 });
 
 Then(
-  "News title, description and style should match the ones read from the news.yaml file",
+  "News title, description, style and icon should match the ones read from the news.yaml file",
   () => {
     cy.get("@vars").then((vars) => {
       cy.get("@news").then((news) => {
@@ -84,9 +81,24 @@ Then(
             .parent()
             .find("[class*=item-description]")[0]
             .textContent.trim();
+          let iconUrl = "";
+          switch (item.type) {
+            case "GREEN":
+              iconUrl = "./assets/images/notification/circle";
+              break;
+            case "YELLOW":
+              iconUrl = "./assets/images/notification/tip-Y";
+              break;
+            case "RED":
+            default:
+              iconUrl = "./assets/images/notification/tip-R";
+              break;
+          }
+
           cy.wrap(elementTitle).should("eq", title);
           cy.wrap(elementDescription).should("eq", description);
           cy.wrap($new.parent().parent()).should("have.class", className);
+          cy.wrap($new.parent().parent()).find(`img[src*='${iconUrl}']`).should('exist');
         });
       });
     });
