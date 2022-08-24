@@ -1,4 +1,4 @@
-Feature: MIP Details View
+Feature: MD Viewer
 
 Background: Default
   Given The user navigates md-view for MIP1c4 first subproposal
