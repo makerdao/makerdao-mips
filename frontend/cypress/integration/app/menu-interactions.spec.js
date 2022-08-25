@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('Test Menu Interactions', () => {
   beforeEach(() => {
     cy.visit('')
