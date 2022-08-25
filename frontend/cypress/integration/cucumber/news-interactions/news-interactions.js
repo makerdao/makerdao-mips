@@ -4,11 +4,12 @@ import jsYaml from "js-yaml";
 let vars = {};
 let news = {};
 
-Given("The user opens the main page", () => {
-  cy.visit("");
-});
+// Given("The user opens the main page", () => {
+//   cy.visit("");
+// });
 
 Given("The corresponding yaml values are stored", () => {
+  cy.wait(100);
   cy.wait("@newsRequest").then(() => cy.wrap(news).as("news"));
   cy.wait("@varsRequest").then(() => cy.wrap(vars).as("vars"));
 });
