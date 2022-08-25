@@ -10,7 +10,7 @@ Feature: News interactions
     And The page is reloaded
     Then The news should be present again
 
-  Scenario: The news display with the propper title, description and style
+  Scenario: The news display with the propper title, description, style and icon
     Given news.yaml and var.yaml requests are set to be spied on
     And The user opens the main page
     And The corresponding yaml values are stored
@@ -33,7 +33,7 @@ Feature: News interactions
     Then The news should be present again
     And The main container should use the darkmode classes
 
-  Scenario: The news are displayed with the propper title, description and style (Dark Mode)
+  Scenario: The news are displayed with the propper title, description, style and icon (Dark Mode)
     Given news.yaml and var.yaml requests are set to be spied on
     And The user opens the main page
     And Dark mode is toggled
@@ -59,7 +59,7 @@ Feature: News interactions
     And The page is reloaded
     Then The news should be present again
 
-  Scenario: The news display with the propper title, description and style (Spanish)
+  Scenario: The news display with the propper title, description, style and icon (Spanish)
     Given news.yaml and var.yaml requests are set to be spied on
     And The user opens the main page
     And The user selects "Spanish" language
