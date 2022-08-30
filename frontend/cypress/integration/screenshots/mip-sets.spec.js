@@ -28,8 +28,8 @@ describe("Normal List View", () => {
 
   it(`Mip sets`, () => {
     mipsets.forEach((mipset, idx) => {
-      cy.wait(700);
       fakeMips();
+      cy.wait(700);
       cy.get(`[data-cy=mipset-row-${mipset}]`).click();
       cy.wait("@MIPs");
       cy.get("tr.maker-detail-mipset-row")
@@ -37,6 +37,8 @@ describe("Normal List View", () => {
         .then(($el) => {
           cy.testScreenshot($el, `mip-sets/${mipset}-content`);
         });
+      // so it includes the dropdown menu status
+      cy.testScreenshot(null, `mip-sets/${mipset}-entire-view`);
       cy.get(`[data-cy=mipset-row-${mipset}]`).click();
       cy.wait(700);
     });
