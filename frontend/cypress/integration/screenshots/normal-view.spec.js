@@ -5,6 +5,7 @@ const { fakeMips } = require("../../helpers/fake-mip");
 const { fakeNews } = require("../../helpers/fake-news");
 const { fakeVars } = require("../../helpers/fake-vars");
 
+
 describe('Normal List View', () => {
   before(() => {
     fakeVars();

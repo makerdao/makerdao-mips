@@ -23,12 +23,9 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 }
 
-module.exports = (on, config) => {
-  addMatchImageSnapshotPlugin(on, config);
-};
-
 const cucumber = require('cypress-cucumber-preprocessor').default
 module.exports = (on, config) => {
+  addMatchImageSnapshotPlugin(on, config);
   on('file:preprocessor', cucumber())
 }
 
