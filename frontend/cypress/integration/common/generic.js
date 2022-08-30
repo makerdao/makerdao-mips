@@ -2,14 +2,18 @@
 
 import { And } from "cypress-cucumber-preprocessor/steps";
 
-And('{string} ms are past',(ms)=>{
-    cy.wait(+ms);
-})
+And("The viewport is fixed to macbook-16", () => {
+  cy.viewport("macbook-16");
+});
 
-And('The page is reloaded',()=>{
-    cy.reload();
-})
+And("{string} ms are past", (ms) => {
+  cy.wait(+ms);
+});
 
-And('The user opens the main page',()=>{
-    cy.visit('');
-})
+And("The page is reloaded", () => {
+  cy.reload();
+});
+
+And("The user opens the main page", () => {
+  cy.visit("");
+});
