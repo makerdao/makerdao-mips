@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+
 const { fakeMenu } = require("../../../../helpers/fake-menu");
 const { fakeMips } = require("../../../../helpers/fake-mip");
 const { fakeNews } = require("../../../../helpers/fake-news");
@@ -11,24 +12,28 @@ Given("Backend data is set to be mocked", () => {
   fakeMenu();
 });
 
-Then("MIP description component matches snapshot", () => {
+Given("Vars data is set to be mocked in spanish",()=>{
+  fakeVars('es');
+})
+
+Then("MIP description component matches snapshot with image {string}", (imageName) => {
   cy.get("[data-cy=table-list-mips] tbody tr")
     .first()
     .then(($tr) => {
       cy.wrap($tr).find("td.mat-column-summary button").click();
-      cy.testScreenshot($tr, "normal-view/mip-row-with-expanded-description");
+      cy.testScreenshot($tr, imageName);
       cy.wrap($tr).find("td.mat-column-summary button").click();
     });
 });
 
-Then("MIP components match snapshots", () => {
+Then("MIP component matches snapshot with image {string}", (imageName) => {
   cy.get("[data-cy=table-list-mips] tbody tr")
     .first()
     .then(($tr) => {
       cy.wrap($tr).find("td:first-child button").click();
       cy.testScreenshot(
         $tr.next(),
-        "normal-view/mip-row-with-expanded-components"
+        imageName
       );
     });
 });
