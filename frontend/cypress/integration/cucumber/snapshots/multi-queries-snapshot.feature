@@ -1,4 +1,4 @@
-Feature: Nulti queries snapshots
+Feature: Multi queries snapshots
 
   Background: Preset conditions
     Given The viewport is fixed to macbook-16

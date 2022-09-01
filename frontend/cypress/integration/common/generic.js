@@ -1,7 +1,5 @@
 /// <reference types="Cypress" />
 
-import { And } from "cypress-cucumber-preprocessor/steps";
-
 And("The viewport is fixed to macbook-16", () => {
   cy.viewport("macbook-16");
 });
@@ -16,4 +14,20 @@ And("The page is reloaded", () => {
 
 And("The user opens the main page", () => {
   cy.visit("");
+});
+
+const { fakeMenu } = require("../../helpers/fake-menu");
+const { fakeMips } = require("../../helpers/fake-mip");
+const { fakeNews } = require("../../helpers/fake-news");
+const { fakeVars } = require("../../helpers/fake-vars");
+
+And("Backend data is set to be mocked", () => {
+  fakeVars();
+  fakeNews();
+  fakeMips();
+  fakeMenu();
+});
+
+And("Vars data is set to be mocked in spanish", () => {
+  fakeVars("es");
 });
