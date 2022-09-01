@@ -9,13 +9,17 @@ Feature: MIP sets snapshots
   Scenario: Global Snapshot
     And MIP Set number "1" is open
     Then Global snapshot matches with image "mip-sets/entire-view"
+    And MIP Set number "1" should match snapshot with image suffix "content"
+
 
   Scenario: Global Snapshot (Dark Mode)
     And Dark mode is toggled
     And MIP Set number "1" is open
     Then Global snapshot matches with image "mip-sets/entire-view-dark"
+    And MIP Set number "1" should match snapshot with image suffix "content-dark"
 
   Scenario: Global Snapshot (Spanish)
     And The user selects "Spanish" language
     And MIP Set number "1" is open
     Then Global snapshot matches with image "mip-sets/entire-view-spanish"
+    And MIP Set number "1" should match snapshot with image suffix "content-spanish"
