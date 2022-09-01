@@ -18,6 +18,7 @@ And("The user opens the main page", () => {
 
 const { fakeMenu } = require("../../helpers/fake-menu");
 const { fakeMips } = require("../../helpers/fake-mip");
+const { fakeMip } = require("../../helpers/fake-mip-details");
 const { fakeNews } = require("../../helpers/fake-news");
 const { fakeVars } = require("../../helpers/fake-vars");
 
@@ -25,6 +26,7 @@ And("Backend data is set to be mocked", () => {
   fakeVars();
   fakeNews();
   fakeMips();
+  fakeMip();
   fakeMenu();
 });
 
