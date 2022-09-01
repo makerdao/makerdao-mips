@@ -42,25 +42,19 @@ describe("Details View", () => {
       });
   });
 
-  describe("at the bottom", () => {
-    before(() => {
-      cy.scrollTo("bottom", { ensureScrollable: false });
-    });
+  it("References", () => {
+    cy.get("app-references")
+      .first()
+      .then(($el) => {
+        cy.testScreenshot($el, "details-view/references");
+      });
+  });
 
-    it("References", () => {
-      cy.get("app-references")
-        .first()
-        .then(($el) => {
-          cy.testScreenshot($el, "details-view/references");
-        });
-    });
-
-    it("Recent changes", () => {
-      cy.get("#pull-request-history")
-        .first()
-        .then(($el) => {
-          cy.testScreenshot($el, "details-view/recent-changes");
-        });
-    });
+  it("Recent changes", () => {
+    cy.get("#pull-request-history")
+      .first()
+      .then(($el) => {
+        cy.testScreenshot($el, "details-view/recent-changes");
+      });
   });
 });
