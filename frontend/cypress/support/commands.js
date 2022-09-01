@@ -1,4 +1,4 @@
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+import { addMatchImageSnapshotCommand } from "cypress-image-snapshot/command";
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -28,27 +28,29 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 addMatchImageSnapshotCommand();
 
-Cypress.Commands.add('testScreenshot', (selector, image, timeout = 1000) => {
-  if(!selector) {
-    cy.then($all => {
+Cypress.Commands.add("testScreenshot", (selector, image, timeout = 1000) => {
+  if (!selector) {
+    cy.then(($all) => {
       cy.wait(timeout);
-      cy.wrap($all).matchImageSnapshot(image)
+      cy.wrap($all).matchImageSnapshot(image);
     });
-  } else if (typeof selector === 'string') {
-    cy.get(selector).then($el => {
+  } else if (typeof selector === "string") {
+    cy.get(selector).then(($el) => {
       cy.wait(timeout);
-      cy.wrap($el).matchImageSnapshot(image);
+      cy.wrap($el).scrollIntoView().matchImageSnapshot(image);
     });
   } else {
     cy.wait(timeout);
-    cy.wrap(selector).matchImageSnapshot(image);
+    cy.wrap(selector).scrollIntoView().matchImageSnapshot(image);
   }
 });
 
-Cypress.Commands.add('forEach', (selector, cb) => {
+Cypress.Commands.add("forEach", (selector, cb) => {
   cy.get(selector).each((_, idx) => {
-    cy.get(selector).eq(idx).then($el => {
-      cb && cb($el, idx);
-    })
+    cy.get(selector)
+      .eq(idx)
+      .then(($el) => {
+        cb && cb($el, idx);
+      });
   });
-})
+});
