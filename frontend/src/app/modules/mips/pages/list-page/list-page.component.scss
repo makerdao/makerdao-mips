@@ -49,6 +49,7 @@
           border-bottom-color: #31394d;
           a,
           p,
+          ul,
           em {
             color: #b8c5d3;
           }
@@ -85,7 +86,8 @@
           .mat-column-title,
           .mat-column-summary,
           .mat-column-status,
-          .mat-column-link {            background: #202733 !important;
+          .mat-column-link {
+            background: #202733 !important;
           }
         }
       }
