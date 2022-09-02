@@ -11,7 +11,7 @@ const mipsets = [
   "core-unit-framework-mipset",
 ];
 
-describe("Normal List View", () => {
+describe("Mip Sets View", () => {
   before(() => {
     fakeVars();
     fakeNews();
@@ -22,7 +22,7 @@ describe("Normal List View", () => {
   });
 
   it("Entire View", () => {
-    // Cypress.$('app-button-top').remove();
+    Cypress.$('app-button-top').remove();
     cy.testScreenshot(null, "mip-sets/entire-view");
   });
 
