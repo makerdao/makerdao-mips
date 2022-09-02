@@ -11,7 +11,7 @@ describe("Normal List View", () => {
     };
     const params = new URLSearchParams(search);
     const url = `/mips/list?${params.toString()}`;
-    cy.viewport('macbook-16');
+    cy.viewport(1536, 600);
     cy.visit(url);
   });
 

@@ -13,7 +13,7 @@ describe("Details View", () => {
     fakeMips();
     fakeMip();
     fakeMenu();
-    cy.viewport("macbook-16");
+    cy.viewport(1536, 600);
     cy.visit("/mips/details/MIP1");
   });
 

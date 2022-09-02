@@ -2,7 +2,7 @@ Feature: Details view snapshots
 
   Background: Preset conditions
     Given Backend data is set to be mocked
-    And The viewport is fixed to macbook-16
+    And The viewport is fixed to 1536x600
     And The user opens Details view for MIP1
 
   Scenario: Global Snapshot
