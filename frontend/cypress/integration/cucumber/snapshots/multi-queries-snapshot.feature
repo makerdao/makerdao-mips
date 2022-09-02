@@ -1,7 +1,7 @@
 Feature: Multi queries snapshots
 
   Background: Preset conditions
-    Given The viewport is fixed to macbook-16
+    Given The viewport is fixed to 1536x600
     And Search params are passed in the url
 
   Scenario: Global Snapshot

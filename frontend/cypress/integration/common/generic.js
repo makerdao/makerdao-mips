@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
-And("The viewport is fixed to macbook-16", () => {
-  cy.viewport("macbook-16");
+And("The viewport is fixed to 1536x600", () => {
+  cy.viewport(1536, 600);
 });
 
 And("{string} ms are past", (ms) => {

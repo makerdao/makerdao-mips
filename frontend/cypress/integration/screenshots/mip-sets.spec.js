@@ -17,7 +17,7 @@ describe("Mip Sets View", () => {
     fakeNews();
     fakeMips();
     fakeMenu();
-    cy.viewport("macbook-16");
+    cy.viewport(1536, 600);
     cy.visit("/mips/list?mipsetMode=true");
   });
 
