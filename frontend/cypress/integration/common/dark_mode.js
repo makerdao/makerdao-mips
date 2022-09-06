@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 And("Dark mode is toggled", () => {
-  cy.get("div.darkModeToggler").click();
+  cy.get("div.darkModeToggler").click().trigger("blur");
 });
 
 Then("The main container should use the darkmode classes", () => {

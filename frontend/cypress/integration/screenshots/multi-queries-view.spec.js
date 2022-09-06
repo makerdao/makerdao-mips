@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("Normal List View", () => {
+describe("Multi queries View", () => {
   before(() => {
     const search = {
       customViewName: 'Dai Foundation Core Unit (DAIF-001) Subproposals',
