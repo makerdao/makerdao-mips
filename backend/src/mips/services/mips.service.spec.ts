@@ -1038,13 +1038,18 @@ describe("MIPsService", () => {
 
     describe('update', () => {
         it('update MIP', async () => {
-            const result = await mipsService.update(mipMock._id, mipMock);
+            jest.spyOn(MIPsService.prototype, 'addSearcheableFields')
+                .mockReturnValueOnce(mipSearcheableMock);
+                
+            const result = await mipsService.update(mipMock._id, mipToBeSearcheableMock);
 
             expect(result).toEqual(mipData);
+            expect(MIPsService.prototype.addSearcheableFields).toBeCalledTimes(1);
+            expect(MIPsService.prototype.addSearcheableFields).toBeCalledWith(mipToBeSearcheableMock);
             expect(findOneAndUpdate).toBeCalledTimes(1);
             expect(findOneAndUpdate).toBeCalledWith(
                 { _id: mipMock._id },
-                { $set: mipMock },
+                { $set: mipSearcheableMock },
                 { new: true, useFindAndModify: false }
             );
             expect(leanOne).toBeCalledTimes(1);
