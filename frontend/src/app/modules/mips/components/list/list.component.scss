@@ -1,6 +1,7 @@
 table {
   width: 100%;
-  background-color: transparent;
+  background-color: #ffffff;
+  padding-right: 20px;
 }
 
 mat-paginator {
@@ -949,6 +950,19 @@ tr.maker-element-subsetchildren-row:hover {
 
       table {
         background-color: #1a202b;
+
+        th:last-child {
+          &::after {
+            content: "";
+            display: inline-block;
+            height: 56px;
+            width: 30px;
+            background-color: #31394d;
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+        }
       }
 
       .variable-binding {
