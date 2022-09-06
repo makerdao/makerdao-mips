@@ -10,6 +10,7 @@
     "test": "cypress run --spec \"**/*.feature\"",
     "lint": "ng lint",
     "e2e": "npx cypress open",
+    "snapshots": "npx cypress run --headless --config-file=cypress-snapshots-headless.json",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
     "storybook": "npm run docs:json && start-storybook -p 6006",
     "build-storybook": "npm run docs:json && build-storybook"

@@ -1,7 +1,7 @@
 Feature: MIP sets snapshots
 
   Background: Preset conditions
-    Given The viewport is fixed to macbook-16
+    Given The viewport is fixed to 1536x600
     And Backend data is set to be mocked
     And The user opens MIP Sets view
     And The go-to-top button is removed from the view
