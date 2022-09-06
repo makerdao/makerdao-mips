@@ -542,7 +542,7 @@ export class MIPsService {
     return this.mipsDoc
       .findOneAndUpdate(
         { _id: id },
-        { $set: mIPs },
+        { $set: this.addSearcheableFields(mIPs) },
         { new: true, useFindAndModify: false }
       )
       .lean(true);
