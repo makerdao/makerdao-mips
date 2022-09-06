@@ -4,6 +4,10 @@ And("The viewport is fixed to 1536x600", () => {
   cy.viewport(1536, 600);
 });
 
+And("The viewport is fixed to 375x667", () => {
+  cy.viewport(375, 667);
+});
+
 And("{string} ms are past", (ms) => {
   cy.wait(+ms);
 });
