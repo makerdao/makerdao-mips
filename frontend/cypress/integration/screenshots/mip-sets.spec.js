@@ -32,6 +32,7 @@ describe("Mip Sets View", () => {
       cy.wait(700);
       cy.get(`[data-cy=mipset-row-${mipset}]`).click();
       cy.wait("@MIPs");
+      cy.wait(700);
       cy.get("tr.maker-detail-mipset-row")
         .eq(idx)
         .then(($el) => {
@@ -39,6 +40,7 @@ describe("Mip Sets View", () => {
         });
       // so it includes the dropdown menu status
       cy.testScreenshot(null, `mip-sets/${mipset}-entire-view`);
+      cy.wait(700);
       cy.get(`[data-cy=mipset-row-${mipset}]`).click();
       cy.wait(700);
     });
