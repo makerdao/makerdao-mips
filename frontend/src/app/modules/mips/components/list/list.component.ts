@@ -126,7 +126,7 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() showHead: boolean = true;
   @Input() query: string;
   @Input() darkMode = false;
-  @Input() statusParameters
+  @Input() statusParameters;
   markdown = `## Markdown __rulez__!
 ---
 
@@ -168,9 +168,9 @@ const language = 'typescript';
     this.currentSortingColumn =
       this.orderService.order.field == OrderFieldName[OrderFieldName.Number]
         ? 'pos'
-        : (
-            OrderFieldName[this.orderService.order.field] as string
-          )?.toLowerCase();
+        : (OrderFieldName[
+            this.orderService.order.field
+          ] as string)?.toLowerCase();
     this.ascOrderSorting = this.orderService.order.direction == 'ASC';
     this.subscriptionSearchService = this.searchService.search$.subscribe(
       (data) => {
@@ -391,8 +391,9 @@ const language = 'typescript';
               }
 
               const subsetRows: ISubsetDataElement[] = [];
-              const components: ComponentMip[] =
-                this.dataSourceTable.data[index].components;
+              const components: ComponentMip[] = this.dataSourceTable.data[
+                index
+              ].components;
               let indexComp: number;
               let componentMipTitle = '';
 
@@ -445,6 +446,12 @@ const language = 'typescript';
   addSubsetField = (item: any) => {
     let subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
+
+    // this conditional is only to fix some css issue
+    if (!item.sentenceSummary) {
+      item.sentenceSummary = '<p style="width:150px;"></p>'; // this is just to allow the arrow of the align the sentence summary with others arrows
+    }
+
     return item;
   };
 
@@ -489,4 +496,3 @@ export interface DataElement {
   forum: string;
   proposal: string;
 }
-
