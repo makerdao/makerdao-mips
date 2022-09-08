@@ -4,6 +4,28 @@
 
 table {
   width: 100%;
+
+  &.tableMipSet {
+    padding-right: 20px;
+
+    th:last-child {
+      &::after {
+        content: "";
+        display: inline-block;
+        height: 56px;
+        width: 30px;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }  
+}
+
+:host::ng-deep table.mat-table.tableMipSet {
+   tbody {
+      visibility: collapse;
+    }
 }
 
 .centerVertically {
@@ -76,6 +98,10 @@ tr.maker-element-row:not(.maker-expanded-row):active {
       color: #2f80ed;
     }
   }
+}
+
+.mipTitleList {
+  top: 1px;
 }
 
 .maker-element-detail {
@@ -176,6 +202,8 @@ th {
   max-width: 90%;
   float: left;
   font-weight: normal;
+  position: relative;
+  top: -1px;
 }
 
 .mat-column-summary {
@@ -202,7 +230,7 @@ th {
   }
 }
 
-.mat-column-link {
+.mat-column-links {
   width: 5%;
   // max-width: 10px;
   white-space: nowrap;
@@ -306,6 +334,28 @@ table {
 .maker-container-dark {
   .no-result {
     background-color: #31394d;
+  }
+
+  table {
+    width: 100%;
+  
+    &.tableMipSet {
+      padding-right: 20px;
+  
+      th:last-child {
+        &::after {
+          content: "";
+          display: inline-block;
+          height: 56px;
+          width: 30px;
+          background-color: #31394d;
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+    
   }
 }
 
@@ -578,6 +628,50 @@ a {
   }
 }
 
+.arrow-container-pos {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+  top: 24px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
+
+  .arrow-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    .arrow {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      transform: translate(50%, -50%);
+    }
+  }
+
+  .expanded {
+    margin-left: 15px;
+    -webkit-transition: 500ms ease all;
+    -moz-transition: 500ms ease all;
+    -o-transition: 500ms ease all;
+    transition: 500ms ease all;
+    float: right;
+    vertical-align: middle;
+  }
+
+  .rotate {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+
 .arrow-container {
   height: 35px;
   width: 35px;
@@ -808,7 +902,7 @@ tr.maker-element-subsetchildren-row {
     padding-right: 30px;
   }
 
-  .mat-column-link {
+  .mat-column-links {
     width: 3%;
     // max-width: 10px;
     white-space: nowrap;
