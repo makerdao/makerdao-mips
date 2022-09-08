@@ -730,6 +730,12 @@ export class ListPageComponent implements OnInit, AfterViewInit {
   addSubsetField = (item: any) => {
     const subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
+
+    // this conditional is only to fix some css issue
+    if (!item.sentenceSummary) {
+      item.sentenceSummary = '<p style="width:150px;"></p>'; // this is just to allow the arrow of the align the sentence summary with others arrows
+    }
+    
     return item;
   };
 
