@@ -970,15 +970,6 @@ app-sublist {
 }
 
 ::ng-deep
-  body:not(.dark-body)
-  app-list-subproposal
-  table.subset-table-children
-  tr.mat-row.maker-element-row
-  > td:not(:first-child) {
-  border-bottom: 1px solid #ccc;
-}
-
-::ng-deep
   app-list-subproposal
   table.subset-table-children
   tr.mat-row.maker-element-row
