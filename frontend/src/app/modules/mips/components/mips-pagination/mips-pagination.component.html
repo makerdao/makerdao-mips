@@ -23,6 +23,10 @@
         [matRippleCentered]="true"
         (click)="minus()"
         matTooltip="Previous"
+        [matTooltipClass]="{
+          'mat-tooltip': true,
+          'tooltip-darkmode': darkMode
+        }"
         [disabled]="mipPosition <= 0"
       >
         <span class="frame"
@@ -35,6 +39,10 @@
         [matRippleCentered]="true"
         (click)="loadMipsData()"
         matTooltip="Next"
+        [matTooltipClass]="{
+          'mat-tooltip': true,
+          'tooltip-darkmode': darkMode
+        }"
         [disabled]="mipPosition >= total - 1"
       >
         <span class="frame"
