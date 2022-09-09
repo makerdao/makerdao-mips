@@ -56,7 +56,7 @@
       li {
         display: inline-block;
 
-        &+li::before {
+        & + li::before {
           padding: 4px;
           content: "/\00a0";
         }
@@ -122,6 +122,19 @@
   }
 }
 
+:host::ng-deep.mat-tooltip {
+  color: white;
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgba(26, 171, 155, 0.9);
+
+  &.tooltip-darkmode {
+    background-color: #31394d !important;
+    color: #adccf7 !important;
+    border-radius: 6px !important;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .wrapper {
     margin-bottom: 20px;
@@ -139,11 +152,9 @@
 }
 
 @media screen and (max-width: 1024px) {
-
   .container.container-dark {
     background: #000000;
-    box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
-
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -151,7 +162,6 @@
   .mobileIndex {
     display: none;
   }
-
 }
 
 @media screen and (max-width: 1199px) {
