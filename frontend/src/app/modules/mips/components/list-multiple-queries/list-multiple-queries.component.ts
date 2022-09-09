@@ -32,6 +32,7 @@ import {
   OrderFieldName,
 } from '../../types/order';
 import { ISubsetDataElement } from '../../types/subset';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-list-multiple-queries',
@@ -61,6 +62,7 @@ import { ISubsetDataElement } from '../../types/subset';
   ],
 })
 export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
+  dataSourceTable = new MatTableDataSource<any>();
   mipsAux: IMip[] = [];
   dataSourceMultiQueriesRows: IMultipleQueryDataElement[] = [];
   columnsToDisplayMultiQueries = ['queryName'];
@@ -138,6 +140,25 @@ export class ListMultipleQueriesComponent implements OnInit, OnDestroy {
       this.displayWidth = window.innerWidth;
       this.cdr.detectChanges();
     };
+
+    // this data is to fill the mipset table in order to align this table with the sub tables
+    // but the row containing this data will be collapsed
+    this.dataSourceTable.data = [
+      {
+        proposal: '',
+        mipFather: true,
+        mip: -1,
+        mipName: 'NOMIP',
+        sentenceSummary:
+          'MIP defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.',
+        status: 'Accepted',
+        title: '',
+        subproposalsCount: 2,
+        votingPortalLink: '',
+        forumLink: '',
+        mipCodeNumber: 'NOMIP',
+      },
+    ];
   }
 
   queryRows() {

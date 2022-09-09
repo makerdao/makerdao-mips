@@ -1,5 +1,5 @@
 <div class="maker-container" [ngClass]="{ 'maker-container-dark': darkMode }">
-  <table mat-table [dataSource]="null" multiTemplateDataRows class="no-mobile">
+  <table mat-table [dataSource]="dataSourceTable" multiTemplateDataRows class="no-mobile tableMipSet">
     <ng-container
       matColumnDef="{{ column }}"
       *ngFor="let column of columnsToDisplay"
@@ -40,9 +40,94 @@
           {{ column | translate}}
         </th>
       </span>
+      <!-- all these td will be collapsed, the purpose of this td is to align the subtables with the header -->
+      <span *ngIf="column == 'title'">
+        <td
+          class="tooltip"
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{ 'subproposal-title': element.proposal }"
+          style="cursor: pointer;"
+        >
+          <a class="mipTitleList" style="position: relative;">
+            <div class="cover"></div>
+            <br />{{ element[column] }}</a
+          >
+        </td>
+      </span>
+      <span *ngIf="column == 'status'">
+        <td mat-cell *matCellDef="let element">
+          <div class="space-status"></div>
+          <app-status
+            [type]="'ACCEPTED'"
+            [value]="'accepted'"
+            style="cursor: pointer;"
+          ></app-status>
+        </td>
+      </span>
+      <span *ngIf="column == 'links'">
+        <td mat-cell *matCellDef="let element">
+          <div class="space-status"></div>
+          <app-social
+            votingPortalLink="{{ element?.votingPortalLink }}"
+            forumLink="{{ element?.forumLink }}"
+            [githubLink]="element.filename"
+          ></app-social>
+        </td>
+      </span>
+      <span *ngIf="column == 'pos'">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          style="cursor: pointer; position: relative;"
+        >
+          <br />
+
+          {{ element.proposal ? "" : element.mip }}
+          <div>
+            <button
+              mat-icon-button
+              *ngIf="!element.proposal && element.mipFather"
+              class="arrow-container-pos"
+              style="right: 0;"
+            >
+              <div class="arrow-wrapper expanded">
+                <img class="arrow" [src]="'./assets/images/down_hover.svg'" />
+              </div>
+            </button>
+          </div>
+        </td>
+      </span>
+      <span *ngIf="column == 'summary'">
+        <td
+          style="position: relative; cursor: pointer;"
+          mat-cell
+          *matCellDef="let element"
+        >
+          <div style="cursor: pointer;">
+            <a class="summary" *ngIf="!element.expandedSummary"
+              ><br />
+              <markdown
+                class="variable-binding variable-binding-summary"
+                [data]="element.sentenceSummary"
+              ></markdown
+            ></a>
+          </div>
+          <button mat-icon-button class="arrow-container-pos">
+            <div class="arrow-wrapper expanded">
+              <img class="arrow" [src]="'./assets/images/down_hover.svg'" />
+            </div>
+          </button>
+        </td>
+      </span>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr
+      mat-row
+      *matRowDef="let element; columns: columnsToDisplay"
+      class="maker-element-row"
+    ></tr>
   </table>
 
   <div *ngIf="loading" class="maker-loading-shade">
