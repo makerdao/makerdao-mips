@@ -190,20 +190,20 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
     // but the row containing this data will be collapsed
     this.dataSourceTable.data = [
       {
-          "proposal": "",
-          "mipFather": true,
-          "mip": -1,
-          "mipName": "NOMIP",
-          "sentenceSummary": "MIP defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.",
-          "status": "Accepted",
-          "title": "",
-          "subproposalsCount": 2,
-          "votingPortalLink": "",
-          "forumLink": "",
-          "mipCodeNumber": "NOMIP"
+        proposal: '',
+        mipFather: true,
+        mip: -1,
+        mipName: 'NOMIP',
+        sentenceSummary:
+          'MIP defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.',
+        status: 'Accepted',
+        title: '',
+        subproposalsCount: 2,
+        votingPortalLink: '',
+        forumLink: '',
+        mipCodeNumber: 'NOMIP',
       },
-      
-  ];
+    ];
   }
 
   searchTagsMipset() {
