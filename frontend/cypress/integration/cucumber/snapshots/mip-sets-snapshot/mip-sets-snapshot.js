@@ -8,6 +8,8 @@ const mipsets = [
 
 Given("The user opens MIP Sets view", () => {
   cy.visit("/mips/list?mipsetMode=true");
+  cy.get(".maker-loading-shade").should("not.exist");
+  cy.wait(1000);
 });
 
 And("MIP Set number {string} is open", (mipNumber) => {

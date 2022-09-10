@@ -19,10 +19,11 @@ describe("Mip Sets View", () => {
     fakeMenu();
     cy.viewport(1536, 600);
     cy.visit("/mips/list?mipsetMode=true");
+    cy.get(".maker-loading-shade").should("not.exist");
   });
 
   it("Entire View", () => {
-    Cypress.$('app-button-top').remove();
+    Cypress.$("app-button-top").remove();
     cy.testScreenshot(null, "mip-sets/entire-view");
   });
 

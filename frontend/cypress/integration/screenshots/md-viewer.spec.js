@@ -17,6 +17,7 @@ describe("Details View", () => {
     cy.visit(
       "/mips/md-viewer?mdUrl=https:%2F%2Fraw.githubusercontent.com%2Fmakerdao%2Fmips%2Fmaster%2FMIP1%2FMIP1c4-Subproposal-Template.md"
     );
+    cy.get(".maker-loading-shade").should("not.exist");
   });
 
   it("Entire View", () => {
