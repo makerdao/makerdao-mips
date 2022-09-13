@@ -1012,7 +1012,11 @@ export class DetailContentComponent
         );
 
         links.forEach((link) => {
-          if (link.innerText === componentName) {
+          if (
+            link.innerText === componentName ||
+            link.innerText.startsWith(`${componentName}:`) ||
+            link.innerText === this.mipName
+          ) {
             const newSpan = document.createElement('span');
             newSpan.innerHTML = link.innerText;
             link.parentElement.replaceChild(newSpan, link);
