@@ -1,5 +1,7 @@
 Feature: Menu interactions
 
+  #Dark Mode
+
   Scenario Outline: Navigates to corresponding view wen clicking non-dropdown menu items
     Given The user opens the main page
     When Menu "<menu>" is open
