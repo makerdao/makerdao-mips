@@ -26,6 +26,11 @@ When("Leaf menu item {string} is clicked", (subMenu) => {
   cy.intercept('*').as('anyRequest');
 });
 
+When("Leaf subMenu item {string} is clicked",(subMenuItem)=>{
+  cy.get("div.dropdown-content.fadeInMenuDownAnimation > app-menu").contains(subMenuItem).click({force:true});
+  cy.intercept('*').as('anyRequest');
+})
+
 Then("Should visit {string}", (url) => {
   cy.wait('@anyRequest')
   cy.location('href').should("contain", url);
