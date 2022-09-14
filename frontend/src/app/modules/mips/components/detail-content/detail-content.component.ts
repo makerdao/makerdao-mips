@@ -996,22 +996,36 @@ export class DetailContentComponent
   }
 
   removeSmartLinking() {
-    const regexMip = new RegExp('^'+this.mipName+'$');
-    const regexMipSub = new RegExp('^'+this.mipName+'c' +'\\d+'+'$');
+    const m: HTMLElement = document.querySelector('.variable-binding');
+    const h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
+      'h3'
+    );
 
-    const nodeList = document.querySelectorAll('a');
-    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+    for (let i = 0; i < h3s.length; i++) {
+      const element = h3s.item(i);
+      let nextSibling = element.nextElementSibling;
+      const componentName = element.firstElementChild.id;
 
-    elementArray.forEach(linkElement => {
-      const innerText = linkElement.innerText;
+      while (nextSibling && nextSibling.nodeName !== 'H3') {
+        const links: NodeListOf<HTMLAnchorElement> = nextSibling.querySelectorAll(
+          'a'
+        );
 
-      if (innerText.match(regexMip) || innerText.match(regexMipSub)){
-        const newSpan = document.createElement('span');
-        newSpan.innerHTML = innerText;
-        linkElement.parentElement.replaceChild(newSpan, linkElement);
+        links.forEach((link) => {
+          if (
+            link.innerText === componentName ||
+            link.innerText.startsWith(`${componentName}:`) ||
+            link.innerText === this.mipName
+          ) {
+            const newSpan = document.createElement('span');
+            newSpan.innerHTML = link.innerText;
+            link.parentElement.replaceChild(newSpan, link);
+          }
+        });
+
+        nextSibling = nextSibling.nextElementSibling;
       }
-    });
-    this.cdr.detectChanges();
+    }
   }
 
   @HostListener('window:scroll') handleContentScroll() {
