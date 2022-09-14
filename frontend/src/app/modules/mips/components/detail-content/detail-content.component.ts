@@ -997,12 +997,12 @@ export class DetailContentComponent
 
   removeSmartLinking() {
     const m: HTMLElement = document.querySelector('.variable-binding');
-    const h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
-      'h3'
+    const hs: NodeListOf<HTMLHeadingElement> = m.querySelectorAll(
+      'h5, h4, h3, h2, h1'
     );
 
-    for (let i = 0; i < h3s.length; i++) {
-      const element = h3s.item(i);
+    for (let i = 0; i < hs.length; i++) {
+      const element = hs.item(i);
       let nextSibling = element.nextElementSibling;
       const componentName = element.firstElementChild.id;
 
