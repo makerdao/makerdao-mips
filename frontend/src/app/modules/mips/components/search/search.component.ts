@@ -250,19 +250,15 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.options = [];
         this.isQueryMode = false;
 
-        if (event.keyCode === 13 && !this.selectedAutocompleteOptionByEnter) {
-          if (
-            this.inputSearch.nativeElement.constructor === HTMLInputElement
-          ) {
+        this.timeout = setTimeout(() => {
+          if (this.inputSearch.nativeElement.constructor === HTMLInputElement) {
             this.send.emit(event);
           } else {
-            event.target.value = (
-              this.inputSearch.nativeElement as HTMLElement
-            ).innerText;
-
+            event.target.value = (this.inputSearch
+              .nativeElement as HTMLElement).innerText;
             this.send.emit(event);
           }
-        }
+        }, 1000);
       }
     }
   }
@@ -545,6 +541,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.viewContainerRef
     );
     this.overlayRef.attach(template);
+    const widthTextBoxWrapper = (this.textBoxWrapper
+      .nativeElement as HTMLDivElement).getBoundingClientRect().width;
+    this.overlayRef.updateSize({ width: widthTextBoxWrapper });
+
     overlayClickOutside(
       this.overlayRef,
       this.textBoxWrapper.nativeElement
