@@ -978,7 +978,8 @@ export class DetailContentComponent
     const regexMip = new RegExp('^' + this.mipName + '.*' + '\.md' + '$');
     const regexMipHref = new RegExp('^' + '.*' + this.mipName + '.*' + '\.md' + '$');
 
-    const nodeList = document.querySelectorAll('a');
+    const m: HTMLElement = document.querySelector('.variable-binding');
+    const nodeList = m.querySelectorAll('a');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
 
     elementArray.forEach(linkElement => {
