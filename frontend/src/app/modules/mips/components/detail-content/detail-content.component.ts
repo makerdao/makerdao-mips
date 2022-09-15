@@ -997,20 +997,23 @@ export class DetailContentComponent
   }
 
   removeSmartLinking() {
+    let element: HTMLHeadingElement = null;
+    let nextSibling: Element | null = null;
+    let componentName: string = '';
+    let links: NodeListOf<HTMLAnchorElement> = null;
+    let newSpan: HTMLSpanElement = null;
     const m: HTMLElement = document.querySelector('.variable-binding');
     const hs: NodeListOf<HTMLHeadingElement> = m.querySelectorAll(
       'h5, h4, h3, h2, h1'
     );
 
     for (let i = 0; i < hs.length; i++) {
-      const element = hs.item(i);
-      let nextSibling = element.nextElementSibling;
-      const componentName = element.firstElementChild.id;
+      element = hs.item(i);
+      nextSibling = element.nextElementSibling;
+      componentName = element.firstElementChild?.id;
 
       while (nextSibling && nextSibling.nodeName !== 'H3') {
-        const links: NodeListOf<HTMLAnchorElement> = nextSibling.querySelectorAll(
-          'a'
-        );
+        links = nextSibling.querySelectorAll('a');
 
         links.forEach((link) => {
           if (
@@ -1018,7 +1021,7 @@ export class DetailContentComponent
             link.innerText.startsWith(`${componentName}:`) ||
             link.innerText === this.mipName
           ) {
-            const newSpan = document.createElement('span');
+            newSpan = document.createElement('span');
             newSpan.innerHTML = link.innerText;
             link.parentElement.replaceChild(newSpan, link);
           }
