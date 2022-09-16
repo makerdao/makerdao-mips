@@ -7,6 +7,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -39,7 +40,7 @@ import {TemplatePortal} from '@angular/cdk/portal';
     ]),
   ],
 })
-export class SearchComponent implements OnInit, AfterViewInit {
+export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() placeHolder? = 'Search on the list';
   @Input() imageDir? = '../../../../../assets/images/magnifier.png';
   @Input() imageClose? = '../../../../../assets/images/close.png';
@@ -563,6 +564,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
       $event.preventDefault();
       const text = $event.clipboardData.getData('text/plain');
       document.execCommand('insertText', false, text);
+  }
+
+  ngOnDestroy(): void {
+    if (this.overlayRef) {
+      this.overlayRef.detach();
+    }
   }
 }
 
