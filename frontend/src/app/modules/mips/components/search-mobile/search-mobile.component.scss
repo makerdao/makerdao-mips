@@ -310,6 +310,6 @@ img {
 }
 
 /* Hides second overlay of MIPs suggestions (displayed wrongly) */
-::ng-deep div.cdk-overlay-connected-position-bounding-box:nth-of-type(2){
+:host::ng-deep div.cdk-overlay-connected-position-bounding-box:nth-of-type(2){
   display:none;
 }
