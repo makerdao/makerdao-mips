@@ -12,6 +12,7 @@ import {
   TemplateRef,
   ElementRef,
   ViewContainerRef,
+  OnDestroy,
 } from '@angular/core';
 import { fromEvent, Subject, Subscription } from 'rxjs';
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
@@ -38,7 +39,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
     ]),
   ],
 })
-export class SearchMobileComponent implements OnInit {
+export class SearchMobileComponent implements OnInit, OnDestroy {
   @Input() placeHolder? = 'Search on the list';
   @Output() send = new EventEmitter();
   @Output() open = new EventEmitter<boolean>();
@@ -131,6 +132,11 @@ export class SearchMobileComponent implements OnInit {
 
   ngOnInit(): void {
     this.control.setValue(this.value);
+
+    if (this.value){
+      this.onOpenCloseInput();
+    }
+
     this.showClose = this.value ? true : false;
     this.initPositionHelpPopup();
   }
@@ -188,6 +194,10 @@ export class SearchMobileComponent implements OnInit {
 
   onKeySearch(event: any): void {
     clearTimeout(this.timeout);
+
+    if (this.control.value.replace("\n",'')===''){
+      this.onOpenCloseInput();
+    }
 
     if (event) {
       let val: string = this.control.value;
@@ -254,12 +264,10 @@ export class SearchMobileComponent implements OnInit {
   }
 
   clear(): void {
-    this.showClose = false;
     this.control.setValue('');
     this.text = '';
-    let event = new Event('keyup');
+    const event = new Event('keyup');
     this.inputSearch.nativeElement.dispatchEvent(event);
-    this.onOpenCloseInput();
   }
 
   onOpenCloseInput(): void {
@@ -489,6 +497,12 @@ export class SearchMobileComponent implements OnInit {
     this.loadMoreMipSuggestions.next();
   }
 
+  onPaste($event: ClipboardEvent) {
+    $event.preventDefault();
+    const text = $event.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+  }
+
   initMipSuggestions() {
     const positionStrategy = this.overlay
       .position()
@@ -529,6 +543,12 @@ export class SearchMobileComponent implements OnInit {
     ).subscribe(() => {
       this.overlayRef.detach();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.overlayRef) {
+      this.overlayRef.detach();
+    }
   }
 }
 

@@ -49,10 +49,16 @@
           border-bottom-color: #31394d;
           a,
           p,
+          ul,
           em {
             color: #b8c5d3;
           }
         }
+
+        tr.maker-element-row:hover {
+          background: #202733;
+        }
+
         .maker-element-mipset-row td,
         .maker-element-subset-row td {
           color: #478ded !important;

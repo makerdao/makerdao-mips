@@ -6,6 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -70,6 +71,7 @@ const clone = require('rfdc')();
 export class ListMipsetModeComponent implements OnInit, OnDestroy {
   dataSourceMipsetRows: IMIPsetDataElement[] = [];
   columnsToDisplayMipset = ['mipset'];
+  dataSourceTable = new MatTableDataSource<any>();
   expandedElementMipset: IMIPsetDataElement | null;
   isArrowMipsetDownOnMouseOver = false;
   currentMipsetRowOver: any;
@@ -183,6 +185,25 @@ export class ListMipsetModeComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    // this data is to fill the mipset table in order to align this table with the sub tables
+    // but the row containing this data will be collapsed
+    this.dataSourceTable.data = [
+      {
+        proposal: '',
+        mipFather: true,
+        mip: -1,
+        mipName: 'NOMIP',
+        sentenceSummary:
+          'MIP defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.',
+        status: 'Accepted',
+        title: '',
+        subproposalsCount: 2,
+        votingPortalLink: '',
+        forumLink: '',
+        mipCodeNumber: 'NOMIP',
+      },
+    ];
   }
 
   searchTagsMipset() {

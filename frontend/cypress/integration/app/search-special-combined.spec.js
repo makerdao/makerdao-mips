@@ -43,6 +43,10 @@ describe('Special Search', () => {
   });
 
   it('Results should have tha entered tags', () => {
+    cy.get('a.language-menu').click()
+    cy.get('div.language-menu').find('app-menu').eq(0).click()
+    cy.wait(2000)
+
     const dataset = [
       ['collateral-onboarding', 'mip-set'],
       ['core unit', 'facilitator', 'personnel-xboarding']

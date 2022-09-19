@@ -13,6 +13,7 @@ import {
   ComponentFactoryResolver,
   Injector,
   ChangeDetectorRef,
+  HostListener,
 } from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {environment} from '../../../../../environments/environment';
@@ -75,6 +76,7 @@ export class DetailContentComponent
   positionPopup: ConnectedPosition[] = new Array<ConnectedPosition>();
   @Input() darkMode: boolean;
   @Input() mip: any;
+  @Input() mipName: string;
   @Output() headingListUpdate = new EventEmitter();
 
   urlOriginal: string;
@@ -100,6 +102,8 @@ export class DetailContentComponent
   smartLinkWindowUp = false;
   titleMdFile = '';
   linkSelect: string;
+
+  mapped: any[];
 
   leftPositions: ConnectedPosition[] = [
     {
@@ -190,36 +194,12 @@ export class DetailContentComponent
     const pattern = /mip[0-9]+c[0-9]+:/i;
     let escapedText;
 
-    const mapped = sections.map((d) => {
+    this.mapped = sections.map((d) => {
       if (pattern.test(d.heading)) {
         return (escapedText = d.heading?.split(':')[0]);
       }
       escapedText = d.heading?.toLowerCase().replace(/[^\w]+/g, '-');
       return escapedText;
-    });
-
-    window.addEventListener('scroll', () => {
-      mapped.forEach((ele) => {
-        const link = document.getElementById(ele);
-        const linkSelected = link?.id;
-        const bound = link?.getBoundingClientRect();
-        if (bound && Math.abs(bound?.y) < 170) {
-          if (this.mdUrl) {
-            this.router.navigate([], {
-              queryParams: {
-                mdUrl: this.queryMdUrl,
-                fromChild: true
-              },
-              fragment: linkSelected,
-            });
-          } else {
-            this.router.navigate([], {
-              fragment: linkSelected,
-            });
-          }
-          this.linkSelect = link?.id;
-        }
-      });
     });
   }
 
@@ -238,13 +218,12 @@ export class DetailContentComponent
   }
 
   isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    return window.matchMedia('(pointer: coarse)').matches
   }
 
   setPreviewFeature() {
     if (!this.isTouchDevice()) {
       const links = document.getElementsByClassName('linkPreview');
-
       for (let index = 0; index < links.length; index++) {
         const element = links.item(index);
         element.addEventListener('mouseover', this.displayPreview);
@@ -538,6 +517,10 @@ export class DetailContentComponent
     this.setPreviewFeature();
     this.appendSubproposalsElements();
     this.appendExtraElements();
+
+    this.addLinksToComponentSummary();
+    this.removeSmartLinking();
+    this.addMdViewerLinkToMdFiles();
   }
 
   async appendSubproposalsElements() {
@@ -609,13 +592,10 @@ export class DetailContentComponent
           }
         }
       }
-
     }
-
   }
 
   appendExtraElements() {
-
     // DOM manipulation
     const m: HTMLElement = document.querySelector('.variable-binding');
 
@@ -966,6 +946,125 @@ export class DetailContentComponent
   ngOnDestroy() {
     this.titleService.setTitle('MIPs Portal');
   }
+
+  getParentNodeIndex(elem){
+    return [...elem.parentNode.parentNode.children].indexOf(elem.parentNode)
+  }
+
+  addLinksToComponentSummary() {
+    const motivationNode = document.querySelector('a#motivation');
+    const motivationParentIndex = this.getParentNodeIndex(motivationNode);
+
+    const regexMip = new RegExp('^'+this.mipName+'c' +'\\d: ');
+    const nodeList = document.querySelectorAll('strong');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    let counter = 0;
+    elementArray.forEach(strongElement => {
+     const innerText = strongElement.innerText;
+
+     if (innerText.match(regexMip) && (this.getParentNodeIndex(strongElement) < motivationParentIndex)){
+       counter++;
+       const newLink = document.createElement('a');
+       newLink.href="/mips/details/"+this.mipName+'#'+this.mipName+'c'+counter;
+       newLink.innerHTML = innerText;
+       strongElement.parentElement.replaceChild(newLink, strongElement);
+     }
+    });
+    this.cdr.detectChanges();
+  }
+
+  addMdViewerLinkToMdFiles(): void {
+    const regexMip = new RegExp('^' + this.mipName + '.*' + '\.md' + '$');
+    const regexMipHref = new RegExp('^' + '.*' + this.mipName + '.*' + '\.md' + '$');
+
+    const m: HTMLElement = document.querySelector('.variable-binding');
+    const nodeList = m.querySelectorAll('a');
+    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+
+    elementArray.forEach(linkElement => {
+      const innerText = linkElement.innerText;
+      const href = linkElement.getAttribute('href');
+
+      if (innerText.match(regexMip) || (href !== null && href.match(regexMipHref))){
+       if (!href.includes('md-viewer')){
+          const newLink = this.urlService.processLink(href);
+          linkElement.setAttribute('href', newLink);
+        }
+      }
+    });
+    this.cdr.detectChanges();
+  }
+
+  removeSmartLinking() {
+    let element: HTMLHeadingElement = null;
+    let nextSibling: Element | null = null;
+    let componentName: string = '';
+    let links: NodeListOf<HTMLAnchorElement> = null;
+    let newSpan: HTMLSpanElement = null;
+    const m: HTMLElement = document.querySelector('.variable-binding');
+    const hs: NodeListOf<HTMLHeadingElement> = m.querySelectorAll(
+      'h5, h4, h3, h2, h1'
+    );
+
+    for (let i = 0; i < hs.length; i++) {
+      element = hs.item(i);
+      nextSibling = element.nextElementSibling;
+      componentName = element.firstElementChild?.id;
+
+      while (nextSibling && nextSibling.nodeName !== 'H3') {
+        links = nextSibling.querySelectorAll('a');
+
+        links.forEach((link) => {
+          if (
+            link.innerText === componentName ||
+            link.innerText.startsWith(`${componentName}:`) ||
+            link.innerText === this.mipName
+          ) {
+            newSpan = document.createElement('span');
+            newSpan.innerHTML = link.innerText;
+            link.parentElement.replaceChild(newSpan, link);
+          }
+        });
+
+        nextSibling = nextSibling.nextElementSibling;
+      }
+    }
+  }
+
+  @HostListener('window:scroll') handleContentScroll() {
+    if (this.route.snapshot.fragment !== this.linkSelect) {
+      this.linkSelect = this.route.snapshot.fragment;
+      return;
+    }
+
+    this.mapped?.find((ele) => {
+      const link = document.getElementById(ele);
+      const linkSelected = link?.id;
+      const bound = link?.getBoundingClientRect();
+      if (bound && bound?.y > -5 && bound?.y < 170) {
+        if (this.mdUrl) {
+          this.router.navigate([], {
+            queryParams: {
+              mdUrl: this.queryMdUrl,
+              fromChild: true
+            },
+            fragment: linkSelected,
+            replaceUrl: true,
+          });
+        } else {
+          this.router.navigate([], {
+            fragment: linkSelected,
+            replaceUrl: true,
+          });
+        }
+        this.linkSelect = link?.id;
+        return true;
+      }
+    });
+  }
+
+
 }
 
 interface Link {

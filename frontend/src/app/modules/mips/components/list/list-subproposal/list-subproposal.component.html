@@ -4,7 +4,7 @@
   [dataSource]="dataSource"
   multiTemplateDataRows
   class="subset-table-children"
-  [ngClass]="{'darkClass': darkModeService.getDarkMode()}"
+  [ngClass]="{ darkClass: darkModeService.getDarkMode() }"
 >
   <ng-container
     matColumnDef="{{ column }}"
@@ -39,7 +39,6 @@
         (click)="onNavigateToDetails(element.mipName)"
         style="cursor: pointer;"
       >
-        <div class="borderBottom"></div>
         <a
           routerLink="/mips/details/{{ element.mipName }}"
           style="position: relative;"
@@ -70,9 +69,8 @@
         mat-cell
         *matCellDef="let element"
         (click)="onNavigateToDetails(element.mipName)"
-        style="cursor: pointer;position:relative;"
+        style="cursor: pointer; position: relative;"
       >
-        <div class="borderBottom"></div>
         <div class="space-status"></div>
         <app-status
           [type]="getStatusType(element.status)"
@@ -88,7 +86,7 @@
         (click)="onNavigateToDetails(element.mipName)"
         style="cursor: pointer;"
       >
-      <div class="borderBottom"></div>
+        <div class="borderBottom"></div>
         <div class="space-status"></div>
         <app-social
           votingPortalLink="{{ element?.votingPortalLink }}"
@@ -119,7 +117,6 @@
         *matCellDef="let element"
         (click)="onNavigateToDetails(element.mipName)"
       >
-        <div class="borderBottom"></div>
         <div style="cursor: pointer;">
           <a class="summary" *ngIf="selected != element._id"
             ><br />
@@ -136,7 +133,8 @@
             ></markdown>
           </a>
         </div>
-        <div
+        <button
+          mat-icon-button
           class="arrow-container"
           (click)="
             updateSelected(element._id, $event);
@@ -162,7 +160,7 @@
               "
             />
           </div>
-        </div>
+        </button>
       </td>
     </span>
   </ng-container>

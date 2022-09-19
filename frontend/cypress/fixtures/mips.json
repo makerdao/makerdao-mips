@@ -1,0 +1,230 @@
+{
+  "items": [
+    {
+      "_id": "62a4f7dade589239b6adf272",
+      "components": [
+        {
+          "cName": "MIP0c1",
+          "cTitle": "Definitions of the Maker Improvement Proposal Framework",
+          "cBody": "*Defines core concepts of the MIP Framework.*"
+        },
+        {
+          "cName": "MIP0c2",
+          "cTitle": "Core Principles",
+          "cBody": "*Sets the principles that all MIPs should aim to follow.*"
+        },
+        {
+          "cName": "MIP0c3",
+          "cTitle": "The MIP Lifecycle",
+          "cBody": "*Defines the formal stages in the lifecycle of MIPs from conception to approval, rejection, or deferral.*"
+        },
+        {
+          "cName": "MIP0c4",
+          "cTitle": "MIP Components and MIP Component Types",
+          "cBody": "*Defines MIP Components and their types.*"
+        },
+        {
+          "cName": "MIP0c5",
+          "cTitle": "MIP Replacement Process",
+          "cBody": "*Defines the process for replacing MIPs.*"
+        },
+        {
+          "cName": "MIP0c6",
+          "cTitle": "Supporting Materials",
+          "cBody": "*Defines how to include external materials in MIPs.*"
+        },
+        {
+          "cName": "MIP0c7",
+          "cTitle": "MIP Templates",
+          "cBody": "*Provides the MIP templates for both General and Technical MIPs.*"
+        },
+        {
+          "cName": "MIP0c8",
+          "cTitle": "MIP0 Domain Role Dependencies",
+          "cBody": "*Defines the core roles essential to the MIP Framework.*"
+        },
+        {
+          "cName": "MIP0c9",
+          "cTitle": "MIP Editor Role",
+          "cBody": "*Defines the responsibilities of the MIP Editor role and the criteria and grounds for their removal.*"
+        },
+        {
+          "cName": "MIP0c10",
+          "cTitle": "Governance Facilitator Role",
+          "cBody": "*Defines the Governance Facilitator role's responsibilities and the criteria and grounds for their removal.*"
+        },
+        {
+          "cName": "MIP0c11",
+          "cTitle": "Core Personnel Onboarding (`OBSOLETE`)",
+          "cBody": "*Rendered obsolete by the Core Unit Framework (See [MIP38](https://github.com/makerdao/mips/blob/master/MIP38/mip38.md), [MIP39](https://github.com/makerdao/mips/blob/master/MIP39/mip39.md), [MIP40](https://github.com/makerdao/mips/blob/master/MIP40/mip40.md), [MIP41](https://github.com/makerdao/mips/blob/master/MIP41/mip41.md))*"
+        },
+        {
+          "cName": "MIP0c12",
+          "cTitle": "Core Personnel Offboarding (`OBSOLETE`)",
+          "cBody": "*Rendered obsolete by the Core Unit Framework (See [MIP38](https://github.com/makerdao/mips/blob/master/MIP38/mip38.md), [MIP39](https://github.com/makerdao/mips/blob/master/MIP39/mip39.md), [MIP40](https://github.com/makerdao/mips/blob/master/MIP40/mip40.md), [MIP41](https://github.com/makerdao/mips/blob/master/MIP41/mip41.md))*"
+        },
+        {
+          "cName": "MIP0c13",
+          "cTitle": "MIP Set Management",
+          "cBody": "*Defines procedures for managing MIP Sets.*"
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 0,
+      "filename": "MIP0/mip0.md",
+      "mipName": "MIP0",
+      "sentenceSummary": "MIP0 defines the *Maker Improvement Proposals (MIPs) Framework* for all subsequent MIPs to utilize.",
+      "paragraphSummary": "MIP0 defines the *Maker Improvement Proposals (MIPs) Framework* for all subsequent MIPs to utilize. This MIP is the foundational MIP that provides the necessary templates, processes, and guidelines for working within the framework and defines the key roles required for the operation of the MIPs Process.",
+      "status": "Accepted",
+      "title": "The Maker Improvement Proposal Framework",
+      "subproposalsCount": 3,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902",
+      "mipCodeNumber": "MIP0000"
+    },
+    {
+      "_id": "62a4f7dade589239b6adf273",
+      "components": [
+        {
+          "cName": "MIP1c1",
+          "cTitle": "Definitions",
+          "cBody": "Defines what is meant by a problem space and a Governance Paradigm."
+        },
+        {
+          "cName": "MIP1c2",
+          "cTitle": "The Initial Problem Space",
+          "cBody": "Defines an initial list of problems that will need to be solved in order for there to be a complete Governance Paradigm."
+        },
+        {
+          "cName": "MIP1c3",
+          "cTitle": "Changing the Governance Paradigm",
+          "cBody": "Defines MIPs and MIP Sets as the method used to amend or replace the Governance Paradigm."
+        },
+        {
+          "cName": "MIP1c4",
+          "cTitle": "Changing the Problem Space",
+          "cBody": "A process component that provides a method and a template for adjusting the problem space."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 1,
+      "filename": "MIP1/mip1.md",
+      "mipName": "MIP1",
+      "sentenceSummary": "MIP1 defines and describes Governance Paradigms and problem spaces.",
+      "paragraphSummary": "A Governance Paradigm is a complete and specific group of MIP Sets that solves an entire problem space. A problem space is defined as a list of issues that must be addressed in order for the Maker Protocol to be able to sustain itself and grow into the future Maker governance.",
+      "status": "Accepted",
+      "title": "Maker Governance Paradigms",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip1-maker-governance-paradigms/1903",
+      "mipCodeNumber": "MIP0001"
+    },
+    {
+      "_id": "62a4f7dade589239b6adf2c7",
+      "components": [
+        {
+          "cName": "MIP2c1",
+          "cTitle": "Interim Phase 1",
+          "cBody": "Defines the first interim phase, in which the feedback period and freeze period for MIPs are ignored until 3 months after a core governance framework and a functional collateral onboarding process are implemented through MIPs."
+        },
+        {
+          "cName": "MIP2c2",
+          "cTitle": "Interim Phase 2",
+          "cBody": "Defines the second interim phase, in which the feedback period and freeze period for MIPs are reduced until the initial problem space has been addressed."
+        },
+        {
+          "cName": "MIP2c3",
+          "cTitle": "MIP2 Obsolescence",
+          "cBody": "Defines the obsolescence of this MIP once the interim phases have passed."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 2,
+      "filename": "MIP2/mip2.md",
+      "mipName": "MIP2",
+      "sentenceSummary": "MIP2 details two interim phases during which logic defined in MIP0 is overridden.",
+      "paragraphSummary": "This proposal details the process of how Maker Governance can bootstrap the setup and implementation of the first Governance Paradigm. More specifically, it defines two phases:1. **Phase 1:** when a core governance framework is put in place and a functional collateral onboarding process is ratified.\n2. **Phase 2:** when the Problem Space is in the process of being addressed with MIPs and MIP Sets.\n\nLastly, the proposal states that MIP2 itself will become obsolete when the Problem Space has officially been addressed.",
+      "status": "Accepted",
+      "title": "Launch Period",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip2-launch-period/1904",
+      "mipCodeNumber": "MIP0002"
+    },
+    {
+      "_id": "62a4f7dade589239b6adf317",
+      "components": [
+        {
+          "cName": "MIP4c1",
+          "cTitle": "Purpose Description",
+          "cBody": "Suggests the purpose of the amendment and removal processes and possible reasons for using each process."
+        },
+        {
+          "cName": "MIP4c2",
+          "cTitle": "Amendment Process for MIPs Older than 3 Months",
+          "cBody": "A process component which defines a method and template for the amendment of an accepted MIP older than 3 Months."
+        },
+        {
+          "cName": "MIP4c3",
+          "cTitle": "Amendment Process for MIPs Younger than 3 Months",
+          "cBody": "A process component which defines a method and template for the amendment of an accepted MIP younger than 3 Months."
+        },
+        {
+          "cName": "MIP4c4",
+          "cTitle": "MIP Removal Process",
+          "cBody": "A process component which defines a method and template for the removal of an accepted MIP."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 4,
+      "filename": "MIP4/mip4.md",
+      "mipName": "MIP4",
+      "sentenceSummary": "MIP4 defines processes for the amendment and removal of accepted MIPs.",
+      "paragraphSummary": "The Amendment and Removal Process-MIP outlines the process for very small and relatively superficial changes to MIPs. This MIP Contains two Process Components, the first dealing with the Removal of ratified MIPs, and the second dealing with Amending current active MIPs.",
+      "status": "Accepted",
+      "title": "MIP Amendment and Removal Process",
+      "subproposalsCount": 23,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip4-mip-amendment-and-removal-process/1906",
+      "mipCodeNumber": "MIP0004"
+    },
+    {
+      "_id": "62a4f7dade589239b6adf3a6",
+      "components": [
+        {
+          "cName": "MIP6c1",
+          "cTitle": "Process Overview",
+          "cBody": "Provides an overview of the collateral application form submission process, which includes location, involved stakeholders, and the next phase."
+        },
+        {
+          "cName": "MIP6c2",
+          "cTitle": "Application Template",
+          "cBody": "Provides a collateral application form template to be used in the submission process defined in MIP6c1."
+        },
+        {
+          "cName": "MIP6c3",
+          "cTitle": "Application Template Amendment Process",
+          "cBody": "A process component that defines a method and template to amend the collateral application form template defined in MIP6c2."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 6,
+      "filename": "MIP6/mip6.md",
+      "mipName": "MIP6",
+      "sentenceSummary": "MIP6 defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.",
+      "paragraphSummary": "The purpose of this proposal is to standardize the collateral onboarding application template that community members and third-party projects can use to begin the process of getting their collateral onboarded to the Maker Protocol.",
+      "status": "Accepted",
+      "title": "Collateral Onboarding Application",
+      "subproposalsCount": 2,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip6-collateral-onboarding-form-forum-template/1908",
+      "mipCodeNumber": "MIP0006"
+    }
+  ],
+  "total": 5
+}

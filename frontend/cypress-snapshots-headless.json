@@ -1,0 +1,7 @@
+{
+    "baseUrl":"http://localhost:4200",
+    "chromeWebSecurity": false,
+    "viewportWidth": 1600,
+    "testFiles": ["**/snapshots/*.{feature,features}","**/screenshots/*.spec.js"],
+    "screenshotsFolder":"cypress/snapshot-headless/screenshots"
+}

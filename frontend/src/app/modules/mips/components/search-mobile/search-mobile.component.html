@@ -41,6 +41,7 @@
       type="text"
       #search
       (keyup)="onKeySearch($event)"
+      (paste)="onPaste($event)"
       [appAutocomplete]="autocomplete"
       [formControl]="control"
       contenteditable
@@ -51,7 +52,7 @@
   </div>
   <div
     class="close-container"
-    *ngIf="showClose && !!valueWithoutLineBreaks && (!isQueryMode || error)"
+    *ngIf="showInput && showClose && !!valueWithoutLineBreaks && (!isQueryMode || error)"
     (click)="clear()"
   >
     <img src="../../../../../assets/images/close.svg" class="imageClose" />

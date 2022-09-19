@@ -82,7 +82,7 @@ export class SublistComponent implements OnInit, OnChanges {
     private mipsService: MipsService,
     private cdr: ChangeDetectorRef,
     private searchService: SearchService,
-    public darkModeService:DarkModeService,
+    public darkModeService: DarkModeService,
     private filterService: FilterService
   ) {}
 
@@ -245,6 +245,12 @@ export class SublistComponent implements OnInit, OnChanges {
   addSubsetField = (item: any) => {
     let subset: string = (item.mipName as string)?.split('SP')[0];
     item.subset = subset;
+
+    // this conditional is only to fix some css issue
+    if (!item.sentenceSummary) {
+      item.sentenceSummary = '<p style="width:150px;"></p>'; // this is just to allow the arrow of the align the sentence summary with others arrows
+    }
+
     return item;
   };
 
