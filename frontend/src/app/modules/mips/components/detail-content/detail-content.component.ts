@@ -947,30 +947,40 @@ export class DetailContentComponent
     this.titleService.setTitle('MIPs Portal');
   }
 
-  getParentNodeIndex(elem){
-    return [...elem.parentNode.parentNode.children].indexOf(elem.parentNode)
-  }
-
   addLinksToComponentSummary() {
-    const motivationNode = document.querySelector('a#motivation');
-    const motivationParentIndex = this.getParentNodeIndex(motivationNode);
-    const regexMip = new RegExp('^'+this.mipName+'c' +'\\d+:');    
-    const nodeList = document.querySelectorAll('strong');
-    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+    const hsNodeName = ['H1', 'H2', 'H3', 'H4', 'H5'];
+    let cslEl: HTMLAnchorElement;
+    let h: HTMLHeadElement;
+    let nextSibling: Element | null = null;
+    const m: HTMLElement = document.querySelector('.variable-binding');
+    cslEl = m.querySelector('a#component-summary');
+    h = cslEl?.parentElement;
+    const regexMip = new RegExp('^' + this.mipName + 'c' + '\\d+:');
+    nextSibling = h.nextElementSibling;
 
-    let counter = 0;
-    elementArray.forEach(strongElement => {
-     const innerText = strongElement.innerText;
+    while (nextSibling && !hsNodeName.includes(nextSibling.nodeName)) {
+      const s = nextSibling.querySelectorAll('strong');
 
-     if (innerText.match(regexMip) && (this.getParentNodeIndex(strongElement) < motivationParentIndex)){
-       counter++;
-       const newLink = document.createElement('a');
-       newLink.href="/mips/details/"+this.mipName+'#'+this.mipName+'c'+counter;
-       newLink.innerHTML = innerText;
-       strongElement.parentElement.replaceChild(newLink, strongElement);
-     }
-    });
-    this.cdr.detectChanges();
+      s.forEach((element) => {
+        if (regexMip.test(element.innerText)) {
+          const componentNumber = element.innerText
+            .match(new RegExp('^' + this.mipName + 'c' + '\\d+'))[0]
+            .split('c')[1];
+          const newLink = document.createElement('a');
+          newLink.href =
+            '/mips/details/' +
+            this.mipName +
+            '#' +
+            this.mipName +
+            'c' +
+            componentNumber;
+          newLink.innerHTML = element.innerText;
+          element.parentElement.replaceChild(newLink, element);
+        }
+      });
+
+      nextSibling = nextSibling.nextElementSibling;
+    }
   }
 
   addMdViewerLinkToMdFiles(): void {
