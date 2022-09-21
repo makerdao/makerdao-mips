@@ -948,7 +948,6 @@ export class DetailContentComponent
   }
 
   addLinksToComponentSummary() {
-    const hsNodeName = ['H1', 'H2', 'H3', 'H4', 'H5'];
     let cslEl: HTMLAnchorElement;
     let h: HTMLHeadElement;
     let nextSibling: Element | null = null;
@@ -958,7 +957,7 @@ export class DetailContentComponent
     const regexMip = new RegExp('^' + this.mipName + 'c' + '\\d+:');
     nextSibling = h.nextElementSibling;
 
-    while (nextSibling && !hsNodeName.includes(nextSibling.nodeName)) {
+    while (nextSibling && nextSibling.nodeName !== 'H2') {
       const s = nextSibling.querySelectorAll('strong');
 
       s.forEach((element) => {
