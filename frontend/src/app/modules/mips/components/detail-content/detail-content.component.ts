@@ -954,8 +954,7 @@ export class DetailContentComponent
   addLinksToComponentSummary() {
     const motivationNode = document.querySelector('a#motivation');
     const motivationParentIndex = this.getParentNodeIndex(motivationNode);
-
-    const regexMip = new RegExp('^'+this.mipName+'c' +'\\d: ');
+    const regexMip = new RegExp('^'+this.mipName+'c' +'\\d+:');    
     const nodeList = document.querySelectorAll('strong');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
 
