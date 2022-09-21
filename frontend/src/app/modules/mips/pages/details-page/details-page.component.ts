@@ -183,6 +183,10 @@ export class DetailsPageComponent implements OnInit {
           sectionsRaw: this.translateKeywords(sectionsRaw, metaVars),
         };
 
+        this.sections = this.sections.map((item) => ({
+          ...item,
+          initialName: item.heading,
+        }));
         this.sections = this.translateKeywords(
           [...this.sections],
           metaVars,
