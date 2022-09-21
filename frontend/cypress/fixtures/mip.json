@@ -2,114 +2,78 @@
   "mip": {
     "components": [
       {
-        "cName": "MIP1c1",
-        "cTitle": "Definitions",
-        "cBody": "Defines what is meant by a problem space and a Governance Paradigm."
+        "cName": "MIP6c1",
+        "cTitle": "Process Overview",
+        "cBody": "Provides an overview of the collateral application form submission process, which includes location, involved stakeholders, and the next phase."
       },
       {
-        "cName": "MIP1c2",
-        "cTitle": "The Initial Problem Space",
-        "cBody": "Defines an initial list of problems that will need to be solved in order for there to be a complete Governance Paradigm."
+        "cName": "MIP6c2",
+        "cTitle": "Application Template",
+        "cBody": "Provides a collateral application form template to be used in the submission process defined in MIP6c1."
       },
       {
-        "cName": "MIP1c3",
-        "cTitle": "Changing the Governance Paradigm",
-        "cBody": "Defines MIPs and MIP Sets as the method used to amend or replace the Governance Paradigm."
-      },
-      {
-        "cName": "MIP1c4",
-        "cTitle": "Changing the Problem Space",
-        "cBody": "A process component that provides a method and a template for adjusting the problem space."
+        "cName": "MIP6c3",
+        "cTitle": "Application Template Amendment Process",
+        "cBody": "A process component that defines a method and template to amend the collateral application form template defined in MIP6c2."
       }
     ],
     "references": [
       {
-        "name": "MIP1c4-Subproposal-Template.md",
-        "link": "MIP1c4-Subproposal-Template.md"
+        "name": "MIP6c2-Collateral-Application-Template.md",
+        "link": "MIP6c2-Collateral-Application-Template.md"
+      },
+      {
+        "name": "MIP6c3-Subproposal-Template.md",
+        "link": "MIP6c3-Subproposal-Template.md"
       }
     ],
     "sectionsRaw": [
-      "# MIP1: Maker Governance Paradigms\n\n",
+      "# MIP6: Collateral Onboarding Application\n\n",
       "## Preamble\n\n",
-      "```\nMIP#: 1\nTitle: Maker Governance Paradigms\nAuthor(s): Rune Christensen (@Rune23) and Charles St.Louis (@CPSTL)\nContributors: @LongForWisdom\nTags: process, governance, mip-set, core-governance-mipset\nType: Process\nStatus: Accepted\nDate Proposed: 2020-04-06\nDate Ratified: 2020-05-2\nDependencies: n/a\nReplaces: n/a\nRatification Poll URL: \nForum URL: https://forum.makerdao.com/t/mip1-maker-governance-paradigms/1903\n```\n\n",
+      "```\nMIP#: 6\nTitle: Collateral Onboarding Application\nAuthor(s): Charles St.Louis (@CPSTL), Rune Christensen (@Rune23)\nContributors: @LongForWisdom, Leo Jsaraceno (Mitote), Helge Andreas Qvam (@planet_X)\nTags: process, collateral-onboarding, mip-set, collateral-onboarding-mipset\nType: Process\nStatus: Accepted\nDate Proposed: 2020-04-06\nDate Ratified: 2020-05-02\nLast Amended: 2020-06-25\nDependencies: n/a\nReplaces: n/a\nRatification Poll URL:\nForum URL: https://forum.makerdao.com/t/mip6-collateral-onboarding-form-forum-template/1908\nExtra: This MIP has been amended. See [MIP4c2-SP1](https://mips.makerdao.com/mips/details/MIP4c2SP1). The original version can be found [here](https://github.com/makerdao/mips/blob/977f0fbf2943252659145156ddae7e657246ecac/MIP6/mip6.md).\n```\n\n",
       "## References\n\n",
-      "**[MIP1c4-Subproposal-Template.md](MIP1c4-Subproposal-Template.md)**  ",
+      "**[MIP6c2-Collateral-Application-Template.md](MIP6c2-Collateral-Application-Template.md)**\n**[MIP6c3-Subproposal-Template.md](MIP6c3-Subproposal-Template.md)**",
       "\n\n",
       "## Sentence Summary\n\n",
-      "MIP1 defines and describes Governance Paradigms and problem spaces.",
+      "MIP6 defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.",
       "\n\n",
       "## Paragraph Summary\n\n",
-      "A Governance Paradigm is a complete and specific group of MIP Sets that solves an entire problem space. A problem space is defined as a list of issues that must be addressed in order for the Maker Protocol to be able to sustain itself and grow into the future Maker governance.",
+      "The purpose of this proposal is to standardize the collateral onboarding application template that community members and third-party projects can use to begin the process of getting their collateral onboarded to the Maker Protocol.",
       "\n\n",
       "## Component Summary\n\n",
-      "**MIP1c1: Definitions**  \nDefines what is meant by a problem space and a Governance Paradigm.",
+      "**MIP6c1: Process Overview**\nProvides an overview of the collateral application form submission process, which includes location, involved stakeholders, and the next phase.",
       "\n\n",
-      "**MIP1c2: The Initial Problem Space**  \nDefines an initial list of problems that will need to be solved in order for there to be a complete Governance Paradigm.",
+      "**MIP6c2: Application Template**\nProvides a collateral application form template to be used in the submission process defined in [MIP6c1](mips/details/MIP6#MIP6c1 \"smart-Component\").",
       "\n\n",
-      "**MIP1c3: Changing the Governance Paradigm**  \nDefines MIPs and MIP Sets as the method used to amend or replace the Governance Paradigm.",
-      "\n\n",
-      "**MIP1c4: Changing the Problem Space**  \nA process component that provides a method and a template for adjusting the problem space.",
+      "**MIP6c3: Application Template Amendment Process**\nA process component that defines a method and template to amend the collateral application form template defined in [MIP6c2](mips/details/MIP6#MIP6c2 \"smart-Component\").",
       "\n\n",
       "## Motivation\n\n",
-      "The goal of having a defined governance paradigm is to give the community a complete overview of what specific MIPs are used to address specific problems. By having a Governance Paradigm in place, the community can reform and upgrade specific parts of the governance process while complexity and dependency issues are kept in check. At the same time, it also makes it more clear how the community can completely replace and overhaul the governance process, and create something new, while guaranteeing that all the problems that were solved by the old process are also fully solved by the new process.",
+      "This proposal aims to layout one part of the generalized process for adding collateral types to the Maker Protocol. This generalized process will allow the community to get an idea of what the applying collateral is, an overview of the risks, and an understanding of the potential benefits to Maker. A consistent application form allows prospective collateral types to be easily compared by the community. The pitch materials enable the interested party to generate interest from the Maker community.",
       "\n\n",
-      "It is important at all times to have the best possible estimate of what the long-term problem space list will look like. The current list defined within this MIP represents the problems that the Maker Foundation currently believes need to be addressed in order to enable MakerDAO to become self-sustainable. The expectation is that this list will be changed over time as practical experience of the community is gained. After the ratification of this MIP, the Maker community can use the subproposal process to change the list at any time. Therefore, the problem space list is not permanent. The problem space list serves as a best estimate for the problems the Maker community must solve for over the course of the next few years and is expected to change as more information become available. ",
+      "Although this is only one component of the overall collateral onboarding process, this proposed standard would decrease confusion surrounding how to start the process of getting collateral added to the Maker Protocol and, ultimately, increase the onboarding speed at which new collateral types can be onboarded.",
       "\n\n",
       "## Specification / Proposal Details\n\n",
-      "### MIP1c1: Definitions \n\n",
-      "**Problem Space**",
+      "### MIP6c1: Process Overview\n\n",
+      "**Collateral Onboarding Form / Form Template**",
+      "1.  Fill out the application/questions in as much detail as you're willing.\n\n    -   Once filled out, the application must be published on the official MakerDAO forum and should be posted within the `Collateral Onboarding Applications ([MIP6](mips/details/MIP6 \"smart-Mip\"))` subcategory within the `Collateral Onboarding` category.\n    -   This post should have the tag `collateral-app.`\n    -   Note that an 'interested party' refers to anybody willing to act as a stakeholder for this onboarding process.\n\n2.  After the submission on the forum, the community will likely have follow up questions. While not a requirement, answering questions about your project may help generate support or excitement for the proposed collateral type. Additionally, the interested party may organize an optional call to pitch their proposal as well as open up further discussion to the community.\n\n3. Once the [MIP6](mips/details/MIP6 \"smart-Mip\") application has been published for at least two full weeks, it is eligible for a Community Greenlight poll defined in [MIP9](https://github.com/makerdao/mips/blob/master/MIP9/mip9.md).\n\n",
+      "### Community Introduction Process Overview Diagram\n\n",
+      "<img width=\"635\" alt=\"mip6-a\" src=\"https://user-images.githubusercontent.com/32653033/83067804-49cb6a00-a035-11ea-9841-73b66df52fef.png\">\n\n",
+      "---\n",
+      "### MIP6c2: Application Template\n\n",
+      "MIP6c2 defines a template for collateral applications, as described in [MIP6c1](mips/details/MIP6#MIP6c1 \"smart-Component\"). This template is located at **[MIP6c2-Collateral-Application-Template.md](MIP6c2-Collateral-Application-Template.md)**. This template is considered ratified once this MIP moves to Accepted status.",
       "\n\n",
-      "A problem space is the representation of a particular problem or field of problems that must be addressed in order for the Maker Protocol to be able to sustain itself. Examples of problem spaces would be the process of onboarding new collateral types or the Maker governance decision process. Both of these complex problems require their own guidelines and produce their own set of learning experiences.",
+      "Responses to these questions serve as an introduction to the community; this minimum set of information helps intrigued community members research the project independently. Other pitch materials of all sorts are encouraged if the applicant believes it will help them garner support and excitement for the collateral.",
       "\n\n",
-      "Note that Problem Spaces do not define any persons or groups working in them, they are theoretical and largely static entities. Problem Spaces exist even if no one is working in that space.",
+      "---\n",
+      "### MIP6c3: Application Template Amendment Process\n\n",
+      "MIP6c3 is a Process MIP component that allows the modification of the template defined in [MIP6c2](mips/details/MIP6#MIP6c2 \"smart-Component\") using a subproposal. [MIP6c3](mips/details/MIP6#MIP6c3 \"smart-Component\") subproposals have the following parameters:",
+      "- **Default Feedback Period**: 1 month\n- **Frozen Period**: 1 week\n\n",
+      "MIP6c3 subproposals must use the template located at  **[MIP6c3-Subproposal-Template.md](MIP6c3-Subproposal-Template.md)**. This template is considered ratified once this MIP moves to Accepted status.",
       "\n\n",
-      "**The Governance Paradigm Problem Space**",
-      "\n\n",
-      "A complete list of known major issues, challenges, and opportunities that the Maker Community believes Maker Governance must be able to skillfully address and manage in order to continue to function and grow.",
-      "\n\n",
-      "**The Governance Paradigm**",
-      "\n\n",
-      "A complete set of processes, implemented through MIPs, that allows Maker Governance to address all of the items in the Governance Paradigm Problem Space.",
-      "\n\n",
-      "**MIP Sets**",
-      "\n\n",
-      "A MIP Set is a group of several MIPs that are interdependent, in which without the entire set of MIPs existing, one or more MIPs in the Set becomes inconsistent, invalid or nonsensical. The intention is for MIP sets to together describe a single complex behaviour in such a way that allows each individual MIP to be written following the principle of Specificity but work together as a cohesive modular whole. ",
-      "\n\n",
-      "---\n\n",
-      "### MIP1c2: The Initial Problem Space\n\n",
-      "**Problem Space List**",
-      "\n\n",
-      "The current Governance Paradigm Problem Space is defined as follows and is organized in loose order of priority from a risk and complexity perspective:",
-      "\n\n",
-      "1.  **Core Governance Framework:** Key governance structures laying the backbone of long-term governance, such as processes detailing how to organize executive votes and other critical processes. This is an important aspect of long-run governance and we need to put a formal structure in place in order to provide a path for all future problems to be addressed efficiently.\n2.  **Collateral Onboarding**: A standardized process for adding collateral types to the Maker Protocol as well as a defined process for continuous management. Adding collateral to the Protocol is important for the diversification of the collateral portfolio, which is fundamental to the stability of Dai. Since Collateral onboarding is a core component of the Protocol, the Maker community requires a structured process for it to go smoothly and efficiently. \n3.  **Decentralized Oracle Freeze Module:** Enable MKR holders to easily freeze the oracles in case of an oracle attack.\n4.  **Appeals Process:** Enable MKR holders who abuse the Decentralized Oracle Freeze Module or other MKR-deposit based systems to be punished, as well as to appeal that punishment to MKR governance. An appeals process is important for both decentralized security modules and voter incentivization. \n5.  **Dai Stabilization Cycle:** Manages Dai stability and other weekly adjustments. The stabilization cycle is necessary for the long-term formalization of the already existing process in order to improve transparency and accessibility.\n6.  **Vote Delegation:** Enable vote delegation and manage the surrounding social processes. Vote delegation is crucial for long-run governance as it empowers all MKR holders to have a say by pooling their MKR to vote. Overall, vote delegation helps promote voting outcomes that more accurately represent the broader community's public discussion. \n7.  **Synthetic Assets:** Onboard new synthetic assets and manage them on an ongoing basis. The onboarding of assets is a core component of the Protocol, thus the Maker community will require a structured process for it to go smoothly. Adding new synthetic asset types to the Maker also makes crypto assets more available to people across the globe.     \n8.  **Oracles:** As more collateral assets get onboarded to the Maker Protocol there needs to be a focus on how to scale oracles while maintaining their security. Formalizing the oracle requirements and structuring a formal process for onboarding and offboarding them is crucial to that.\n9.  **Emergency Oracles:** Ensure emergency shutdown and oracle freeze will happen on time. Emergency oracles are crucial for keeping prices stable during the event of an emergency shutdown of the Maker Protocol. Creating a formal process for emergency oracles also ultimately helps protect both Dai and Vault owners.\n10.  **Dai Stability Adjustment Module:** Automate Dai stability management. In the long-run, Maker governance cannot maintain the current manual process of running executive votes to constantly compute stability management, especially as more assets get onboarded to the Protocol. The DS Adjustment module will enable the continuation of stability management without the need to run executive votes. \n11.  **Website and Social Media:** Operate [makerdao.com](http://makerdao.com/) and all official social media accounts. Communications and marketing are crucial for the brand of Maker and it is important that MKR holders have a say on how the DAO is publicly represented. The social accounts for Maker are currently maintained and run by the Maker Foundation. As we move closer towards the dissolution of the Foundation, these accounts and communication channels will need to be managed by the community and will require a formalized process in order to do so.\n12.  **Guardian Entities and Reserves:** Source and manage a diversified reserve infrastructure. Having off-chain reserves improves the resilience of Dai during market crashes, and Guardians and reserves should decrease the risk of MKR dilution. \n13.  **Vote Incentives:** Incentivize voting turnout and create a value-driven delegate ecosystem. Enabling incentive structures that increase voter engagement is beneficial to the broader Maker system because the bigger and more engaged the MKR voter base is, the less likely a governance attack can occur. Adding a formal voter incentive structure also allows the vote delegation mechanism to become self-sufficient in the long-run.\n14.  **Revisit Auction Design:** A redesign of the auction mechanisms in the Maker Protocol. The current auctions system design was intended to be a short-term solution, so a redesign of the auctions could increase the efficiency of the system and reduce the probability of unexpected outcomes. \n15.  **Dai Foundation:** Manage and fund the entity that controls legal and centralized assets, such as trademarks and copyrights, that are critical to MakerDAO. This is important for the safeguarding of the assets and preventing any possible misuse. It is critical that the community is able to have a formalized process for funding and interacting with the Dai Foundation.\n\n    \n",
-      "**Important Note**",
-      "\n\n",
-      "The problem spaces listed above are not final but rather estimates of the problems the Maker Foundation believes will need to be addressed over the course of the next few years on our path to self-sustainability. Overall, this is a starting point and does not represent a long term commitment. It is expected that it will change over time based on the needs and experience of the Maker community.  ",
-      "\n\n",
-      "---\n\n",
-      "### MIP1c3: Changing the Governance Paradigm\n\n",
-      "**Amending the Governance Paradigm**",
-      "\n\n",
-      "A Governance Paradigm can be amended by replacing specific MIPs, or an entire MIP Set, in the Governance Paradigm while maintaining correct interfacing with all other MIPs within the MIP set and wider Governance Paradigm.",
-      "\n\n",
-      "**Replacing a Governance Paradigm**",
-      "\n\n",
-      "A governance paradigm can be replaced in its entirety by replacing all MIPs in the Governance Paradigm with a complete grouping of new MIPs, contained in MIP Sets that fully address all items in the Governance Paradigm Problem Space",
-      "\n\n",
-      "An individual MIP or MIP Set in the active Governance Paradigm cannot be replaced if the replacement doesn't properly interact with the other MIPs in the Governance Paradigm that the replaced MIP is dependent on, or that are dependent on the replaced MIP. Otherwise, the Governance Paradigm as a whole could break and MIPs could stop functioning correctly due to interdependency issues. Thus, you have to either replace an individual MIP or MIP Set in a Governance Paradigm or replace the entire Governance Paradigm with a completely new grouping of MIP Sets that fully address all items in the Governance Paradigm Problem Space.",
-      "\n\n",
-      "---\n\n",
-      "### MIP1c4: Changing the Problem Space\n\n",
-      "If Maker Governance wishes to change the Governance Paradigm and processes more drastically, they need to alter the Governance Paradigm Problem Space. In most cases, this is done by expanding the Problem Space after practical experience makes it clear there are additional problems, challenges or opportunities that Maker Governance needs a clear predetermined process to deal with. However, it could also be reducing the scope of the Problem Space, or changing the language or logical grouping of some of its aspects.",
-      "\n\n",
-      "MIP1c4 is a Process MIP component that allows the creation of subproposals that can add or delete items in the Governance Paradigm Problem Space. [MIP1c4](mips/details/MIP1#MIP1c4 \"smart-Component\") subproposals have the following parameters:",
-      "-   **Feedback Period**: 3 months\n-   **Frozen Period**: 1 month\n\n",
-      "MIP1c4 subproposals must use the template located at  **[MIP1c4-Subproposal-Template.md](MIP1c4-Subproposal-Template.md)**. This template is considered ratified once this MIP moves to Accepted status.",
-      "\n\n\n",
       "---\n"
     ],
     "sections": [
-      { "heading": "MIP1: Maker Governance Paradigms", "depth": 1 },
+      { "heading": "MIP6: Collateral Onboarding Application", "depth": 1 },
       { "heading": "Preamble", "depth": 2 },
       { "heading": "References", "depth": 2 },
       { "heading": "Sentence Summary", "depth": 2 },
@@ -118,67 +82,88 @@
       { "heading": "Motivation", "depth": 2 },
       { "heading": "Specification / Proposal Details", "depth": 2 },
       {
-        "heading": "MIP1c1: Definitions",
+        "heading": "MIP6c1: Process Overview",
         "depth": 3,
-        "mipComponent": "MIP1c1"
+        "mipComponent": "MIP6c1"
       },
       {
-        "heading": "MIP1c2: The Initial Problem Space",
-        "depth": 3,
-        "mipComponent": "MIP1c2"
+        "heading": "Community Introduction Process Overview Diagram",
+        "depth": 3
       },
       {
-        "heading": "MIP1c3: Changing the Governance Paradigm",
+        "heading": "MIP6c2: Application Template",
         "depth": 3,
-        "mipComponent": "MIP1c3"
+        "mipComponent": "MIP6c2"
       },
       {
-        "heading": "MIP1c4: Changing the Problem Space",
+        "heading": "MIP6c3: Application Template Amendment Process",
         "depth": 3,
-        "mipComponent": "MIP1c4"
+        "mipComponent": "MIP6c3"
       }
     ],
     "dependencies": ["n/a"],
-    "tags": ["process", "governance", "mip-set", "core-governance-mipset"],
-    "contributors": ["@LongForWisdom"],
-    "author": ["Rune Christensen (@Rune23) and Charles St.Louis (@CPSTL)"],
+    "tags": [
+      "process",
+      "collateral-onboarding",
+      "mip-set",
+      "collateral-onboarding-mipset"
+    ],
+    "contributors": [
+      "@LongForWisdom",
+      "Leo Jsaraceno (Mitote)",
+      "Helge Andreas Qvam (@planet_X)"
+    ],
+    "author": ["Charles St.Louis (@CPSTL)", "Rune Christensen (@Rune23)"],
     "proposal": "",
-    "extra": [],
-    "mipFather": false,
+    "extra": [
+      "This MIP has been amended. See [MIP4c2-SP1](https://mips.makerdao.com/mips/details/MIP4c2SP1). The original version can be found [here](https://github.com/makerdao/mips/blob/977f0fbf2943252659145156ddae7e657246ecac/MIP6/mip6.md)."
+    ],
+    "mipFather": true,
     "subproposal": -1,
-    "mip": 1,
+    "mip": 6,
     "language": "en",
-    "_id": "62a4faad2ebbc173a951f477",
-    "hash": "9e8798ed25a40cad491842d5e04df842fcaa0b12",
-    "filename": "MIP1/mip1.md",
-    "mipName": "MIP1",
-    "sentenceSummary": "MIP1 defines and describes Governance Paradigms and problem spaces.",
-    "paragraphSummary": "A Governance Paradigm is a complete and specific group of MIP Sets that solves an entire problem space. A problem space is defined as a list of issues that must be addressed in order for the Maker Protocol to be able to sustain itself and grow into the future Maker governance.",
+    "_id": "63176fb6a7aebc1c501540c1",
+    "hash": "42de5a90946c6d1196ab4103c52f788c88501435",
+    "filename": "MIP6/mip6.md",
+    "mipName": "MIP6",
+    "sentenceSummary": "MIP6 defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.",
+    "paragraphSummary": "The purpose of this proposal is to standardize the collateral onboarding application template that community members and third-party projects can use to begin the process of getting their collateral onboarded to the Maker Protocol.",
     "dateProposed": "2020-04-06",
-    "dateRatified": "2020-05-2",
+    "dateRatified": "2020-05-02",
     "replaces": "n/a",
     "status": "Accepted",
-    "title": "Maker Governance Paradigms",
+    "title": "Collateral Onboarding Application",
     "types": "Process",
-    "subproposalsCount": 0,
+    "subproposalsCount": 2,
     "votingPortalLink": "",
-    "forumLink": "https://forum.makerdao.com/t/mip1-maker-governance-paradigms/1903",
-    "mipCodeNumber": "MIP0001"
+    "forumLink": "https://forum.makerdao.com/t/mip6-collateral-onboarding-form-forum-template/1908",
+    "mipCodeNumber": "MIP0006"
   },
   "pullRequests": { "open": 0, "close": 0, "items": [] },
-  "subproposals": [],
+  "subproposals": [
+    {
+      "_id": "63176fb6a7aebc1c501540bf",
+      "mipName": "MIP6c3SP1",
+      "title": "RWA Only Supplement to Collateral Onboarding Application"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540c0",
+      "mipName": "MIP6c3SP2",
+      "title": "Subproposal for changing the collateral application form"
+    }
+  ],
   "languagesAvailables": [
-    { "language": "en", "_id": "62a4faad2ebbc173a951f477", "mipName": "MIP1" }
+    { "language": "en", "_id": "63176fb6a7aebc1c501540c1", "mipName": "MIP6" }
   ],
   "metaVars": [
     {
-      "_id": "631031d38d784873c853e877",
+      "_id": "6328d7d9553d621c6f02bb64",
       "language": "es",
       "translations": "strings:\n  learn: Aprende\n  portaldoc: El Portal de MIP\n  primer: Intro para Autores\n  mip0: El Framework de MIP\n  mip51: Ciclo de Gobernanza Mensual\n  views: Vistas\n  status: Estado\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Aceptada\n  obsolete: Obsoleta\n  rejected: Rechazada\n  withdrawn: Retirada\n  coreunits: Core Units\n  allcus: Todas (MIP38c2)\n  activebudgets: Presupuestos Activos\n  spsinforce: Subpropuestas en Vigor\n  archive: Archivo\n  living: Propuestas Registrales\n  technical: Técnicas\n  implemented: Implementadas\n  pending: Pendientes de Implementación\n  process: Procesos\n  contact: Ponte en Contacto\n  forum: Foro\n  chat: Chat\nreserved:\n  Preamble: Preámbulo\n  'MIP#': 'MIP#'\n  Title: Título\n  Author(s): Autor(es)\n  Contributors: Colaboradores\n  Type: Tipo\n  Status: Estado\n  Date Proposed: Fecha de Proposición\n  Date Ratified: Fecha de Ratificación\n  Last Amended: Última Modificación\n  Dependencies: Dependencias\n  Replaces: Reemplaza\n  References: Referencias\n  Sentence Summary: Resumen Corto\n  Paragraph Summary: Resumen Largo\n  Component Summary: Índice de Componentes\nnews:\n  description1: \"Descripción uno.\"\n  description2: \"Descripción dos\"\n  description3: \"Descripción tres\"\n  link1: \"https://mips.makerdao.com/mips/details/MIP0\"\n  linkforum1: \"https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\"\n  linkmd1: \"https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\"\n  title1: \"Hubo algunos cambios.\"\n  title2: \"Título dos\"\n  title3: \"Título tres\"\n",
       "__v": 0
     },
     {
-      "_id": "631031d38d784873c853e878",
+      "_id": "6328d7d9553d621c6f02bb65",
       "language": "en",
       "translations": "strings:\n  learn: Learn\n  portaldoc: The MIPs Portal\n  primer: Primer for Authors\n  mip0: The MIPs Framework\n  mip51: Monthly Governance Cycle\n  views: Views\n  status: Status\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Accepted\n  obsolete: Obsolete\n  rejected: Rejected\n  withdrawn: Withdrawn\n  coreunits: Core Units\n  allcus: All (MIP38c2)\n  activebudgets: Active Budgets\n  spsinforce: Subproposals in Force\n  archive: Archive\n  living: Living MIPs\n  technical: Technical\n  implemented: Implemented\n  pending: Pending Implementation\n  process: Processes\n  contact: Get in Touch\n  forum: Forum\n  chat: Chat\nreserved:\n  Preamble: Preamble\n  'MIP#': 'MIP#'\n  Title: Title\n  Author(s): Author(s)\n  Contributors: Contributors\n  Type: Type\n  Status: Status\n  Date Proposed: Date Proposed\n  Date Ratified: Date Ratified\n  Last Amended: Last Amended\n  Dependencies: Dependencies\n  Replaces: Replaces\n  References: References\n  Sentence Summary: Sentence Summary\n  Paragraph Summary: Paragraph Summary\n  Component Summary: Component Summary\nnews: \n  title1: There were some chanages. \n  description1: Description one.\n  link1: https://mips.makerdao.com/mips/details/MIP0\n  linkforum1: https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\n  linkmd1: https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\n  title2: Title two\n  description2: Description two\n  title3: Title three\n  description3: Description three\n",
       "__v": 0

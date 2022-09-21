@@ -13,6 +13,7 @@ When("The user clicks the last entry in the content table", () => {
       const id = $link.attr("id");
       const sectionName = id.substring(12);
       cy.wrap(sectionName).as("sectionName");
+      cy.wait(300);
       cy.wrap($link).click({ force: true });
     });
 });
@@ -24,6 +25,7 @@ Then("The section name should match the location hash", () => {
 });
 
 Then("The view should scroll to the section", () => {
+  cy.wait(1000);
   cy.get("@sectionName").then((sectionName) => {
     cy.window().then((win) => {
       const $section = Cypress.$(`#${sectionName}`);

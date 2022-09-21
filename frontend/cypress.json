@@ -1,6 +1,7 @@
 {
-    "baseUrl":"http://localhost:4200",
-    "chromeWebSecurity": false,
-    "viewportWidth": 1600,
-    "testFiles": ["**/*.{feature,features}","**/*.spec.js"]
+  "baseUrl": "http://localhost:4200",
+  "chromeWebSecurity": false,
+  "viewportWidth": 1600,
+  "testFiles": ["**/*.{feature,features}", "**/*.spec.js"],
+  "retries": { "runMode": 2, "openMode": 2 }
 }

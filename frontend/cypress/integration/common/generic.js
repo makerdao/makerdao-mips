@@ -20,9 +20,11 @@ And("The user opens the main page", () => {
   cy.visit("");
 });
 
+
 const { fakeMenu } = require("../../helpers/fake-menu");
 const { fakeMips } = require("../../helpers/fake-mip");
 const { fakeMip } = require("../../helpers/fake-mip-details");
+const { fakeMipBy } = require("../../helpers/fake-mip-by");
 const { fakeNews } = require("../../helpers/fake-news");
 const { fakeVars } = require("../../helpers/fake-vars");
 
@@ -31,6 +33,7 @@ And("Backend data is set to be mocked", () => {
   fakeNews();
   fakeMips();
   fakeMip();
+  fakeMipBy();
   fakeMenu();
 });
 
