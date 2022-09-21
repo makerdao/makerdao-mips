@@ -1005,6 +1005,7 @@ export class DetailContentComponent
   }
 
   removeSmartLinking() {
+    const hsNodeName = ['H1', 'H2', 'H3', 'H4', 'H5'];
     let element: HTMLHeadingElement = null;
     let nextSibling: Element | null = null;
     let componentName: string = '';
@@ -1014,24 +1015,30 @@ export class DetailContentComponent
     const hs: NodeListOf<HTMLHeadingElement> = m.querySelectorAll(
       'h5, h4, h3, h2, h1'
     );
+    const regexMip = new RegExp('^' + this.mipName + 'c' + '\\d+');
 
     for (let i = 0; i < hs.length; i++) {
       element = hs.item(i);
       nextSibling = element.nextElementSibling;
       componentName = element.firstElementChild?.id;
 
-      while (nextSibling && nextSibling.nodeName !== 'H3') {
+      while (nextSibling && !hsNodeName.includes(nextSibling.nodeName)) {
         links = nextSibling.querySelectorAll('a');
 
         links.forEach((link) => {
-          if (
-            link.innerText === componentName ||
-            link.innerText.startsWith(`${componentName}:`) ||
-            link.innerText === this.mipName
-          ) {
+          if (link.innerText === this.mipName) {
             newSpan = document.createElement('span');
             newSpan.innerHTML = link.innerText;
             link.parentElement.replaceChild(newSpan, link);
+          } else if (regexMip.test(componentName)) {
+            if (
+              link.innerText === componentName ||
+              link.innerText.startsWith(`${componentName}:`)
+            ) {
+              newSpan = document.createElement('span');
+              newSpan.innerHTML = link.innerText;
+              link.parentElement.replaceChild(newSpan, link);
+            }
           }
         });
 
