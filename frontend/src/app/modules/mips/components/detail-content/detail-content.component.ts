@@ -955,7 +955,18 @@ export class DetailContentComponent
     let h: HTMLHeadElement;
     let nextSibling: Element | null = null;
     const m: HTMLElement = document.querySelector('.variable-binding');
-    cslEl = m.querySelector('a#component-summary');
+    let escapedText = 'component-summary';
+    const index = this.sourceData.findIndex(
+      (item) => item.initialName === 'Component Summary'
+    );
+
+    if (index > -1) {
+      escapedText = this.sourceData[index].heading
+        .toLowerCase()
+        .replace(/[^\w]+/g, '-');
+    }
+
+    cslEl = m.querySelector(`a#${escapedText}`);
     h = cslEl?.parentElement;
     const regexMip = new RegExp('^' + this.mipName + 'c' + '\\d+:');
     nextSibling = h?.nextElementSibling;
