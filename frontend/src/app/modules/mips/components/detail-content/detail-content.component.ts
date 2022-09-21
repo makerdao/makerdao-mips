@@ -948,6 +948,9 @@ export class DetailContentComponent
   }
 
   addLinksToComponentSummary() {
+    const contentMipComponents = this.mip.sections.filter(
+      (item) => item.mipComponent
+    );
     let cslEl: HTMLAnchorElement;
     let h: HTMLHeadElement;
     let nextSibling: Element | null = null;
@@ -955,13 +958,21 @@ export class DetailContentComponent
     cslEl = m.querySelector('a#component-summary');
     h = cslEl?.parentElement;
     const regexMip = new RegExp('^' + this.mipName + 'c' + '\\d+:');
-    nextSibling = h.nextElementSibling;
+    nextSibling = h?.nextElementSibling;
 
     while (nextSibling && nextSibling.nodeName !== 'H2') {
       const s = nextSibling.querySelectorAll('strong');
 
       s.forEach((element) => {
-        if (regexMip.test(element.innerText)) {
+        let searchMatch = element.innerText.match(regexMip);
+        let match = searchMatch ? searchMatch[0].split(':')[0] : '';
+
+        if (
+          regexMip.test(element.innerText) &&
+          contentMipComponents.findIndex(
+            (item) => item.mipComponent === match
+          ) > -1
+        ) {
           const componentNumber = element.innerText
             .match(new RegExp('^' + this.mipName + 'c' + '\\d+'))[0]
             .split('c')[1];
