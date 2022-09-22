@@ -1,0 +1,172 @@
+{
+  "mip": {
+    "components": [
+      {
+        "cName": "MIP6c1",
+        "cTitle": "Process Overview",
+        "cBody": "Provides an overview of the collateral application form submission process, which includes location, involved stakeholders, and the next phase."
+      },
+      {
+        "cName": "MIP6c2",
+        "cTitle": "Application Template",
+        "cBody": "Provides a collateral application form template to be used in the submission process defined in MIP6c1."
+      },
+      {
+        "cName": "MIP6c3",
+        "cTitle": "Application Template Amendment Process",
+        "cBody": "A process component that defines a method and template to amend the collateral application form template defined in MIP6c2."
+      }
+    ],
+    "references": [
+      {
+        "name": "MIP6c2-Collateral-Application-Template.md",
+        "link": "MIP6c2-Collateral-Application-Template.md"
+      },
+      {
+        "name": "MIP6c3-Subproposal-Template.md",
+        "link": "MIP6c3-Subproposal-Template.md"
+      }
+    ],
+    "sectionsRaw": [
+      "# MIP6: Collateral Onboarding Application\n\n",
+      "## Preamble\n\n",
+      "```\nMIP#: 6\nTitle: Collateral Onboarding Application\nAuthor(s): Charles St.Louis (@CPSTL), Rune Christensen (@Rune23)\nContributors: @LongForWisdom, Leo Jsaraceno (Mitote), Helge Andreas Qvam (@planet_X)\nTags: process, collateral-onboarding, mip-set, collateral-onboarding-mipset\nType: Process\nStatus: Accepted\nDate Proposed: 2020-04-06\nDate Ratified: 2020-05-02\nLast Amended: 2020-06-25\nDependencies: n/a\nReplaces: n/a\nRatification Poll URL:\nForum URL: https://forum.makerdao.com/t/mip6-collateral-onboarding-form-forum-template/1908\nExtra: This MIP has been amended. See [MIP4c2-SP1](https://mips.makerdao.com/mips/details/MIP4c2SP1). The original version can be found [here](https://github.com/makerdao/mips/blob/977f0fbf2943252659145156ddae7e657246ecac/MIP6/mip6.md).\n```\n\n",
+      "## References\n\n",
+      "**[MIP6c2-Collateral-Application-Template.md](MIP6c2-Collateral-Application-Template.md)**\n**[MIP6c3-Subproposal-Template.md](MIP6c3-Subproposal-Template.md)**",
+      "\n\n",
+      "## Sentence Summary\n\n",
+      "MIP6 defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.",
+      "\n\n",
+      "## Paragraph Summary\n\n",
+      "The purpose of this proposal is to standardize the collateral onboarding application template that community members and third-party projects can use to begin the process of getting their collateral onboarded to the Maker Protocol.",
+      "\n\n",
+      "## Component Summary\n\n",
+      "**MIP6c1: Process Overview**\nProvides an overview of the collateral application form submission process, which includes location, involved stakeholders, and the next phase.",
+      "\n\n",
+      "**MIP6c2: Application Template**\nProvides a collateral application form template to be used in the submission process defined in [MIP6c1](mips/details/MIP6#MIP6c1 \"smart-Component\").",
+      "\n\n",
+      "**MIP6c3: Application Template Amendment Process**\nA process component that defines a method and template to amend the collateral application form template defined in [MIP6c2](mips/details/MIP6#MIP6c2 \"smart-Component\").",
+      "\n\n",
+      "## Motivation\n\n",
+      "This proposal aims to layout one part of the generalized process for adding collateral types to the Maker Protocol. This generalized process will allow the community to get an idea of what the applying collateral is, an overview of the risks, and an understanding of the potential benefits to Maker. A consistent application form allows prospective collateral types to be easily compared by the community. The pitch materials enable the interested party to generate interest from the Maker community.",
+      "\n\n",
+      "Although this is only one component of the overall collateral onboarding process, this proposed standard would decrease confusion surrounding how to start the process of getting collateral added to the Maker Protocol and, ultimately, increase the onboarding speed at which new collateral types can be onboarded.",
+      "\n\n",
+      "## Specification / Proposal Details\n\n",
+      "### MIP6c1: Process Overview\n\n",
+      "**Collateral Onboarding Form / Form Template**",
+      "1.  Fill out the application/questions in as much detail as you're willing.\n\n    -   Once filled out, the application must be published on the official MakerDAO forum and should be posted within the `Collateral Onboarding Applications ([MIP6](mips/details/MIP6 \"smart-Mip\"))` subcategory within the `Collateral Onboarding` category.\n    -   This post should have the tag `collateral-app.`\n    -   Note that an 'interested party' refers to anybody willing to act as a stakeholder for this onboarding process.\n\n2.  After the submission on the forum, the community will likely have follow up questions. While not a requirement, answering questions about your project may help generate support or excitement for the proposed collateral type. Additionally, the interested party may organize an optional call to pitch their proposal as well as open up further discussion to the community.\n\n3. Once the [MIP6](mips/details/MIP6 \"smart-Mip\") application has been published for at least two full weeks, it is eligible for a Community Greenlight poll defined in [MIP9](https://github.com/makerdao/mips/blob/master/MIP9/mip9.md).\n\n",
+      "### Community Introduction Process Overview Diagram\n\n",
+      "<img width=\"635\" alt=\"mip6-a\" src=\"https://user-images.githubusercontent.com/32653033/83067804-49cb6a00-a035-11ea-9841-73b66df52fef.png\">\n\n",
+      "---\n",
+      "### MIP6c2: Application Template\n\n",
+      "MIP6c2 defines a template for collateral applications, as described in [MIP6c1](mips/details/MIP6#MIP6c1 \"smart-Component\"). This template is located at **[MIP6c2-Collateral-Application-Template.md](MIP6c2-Collateral-Application-Template.md)**. This template is considered ratified once this MIP moves to Accepted status.",
+      "\n\n",
+      "Responses to these questions serve as an introduction to the community; this minimum set of information helps intrigued community members research the project independently. Other pitch materials of all sorts are encouraged if the applicant believes it will help them garner support and excitement for the collateral.",
+      "\n\n",
+      "---\n",
+      "### MIP6c3: Application Template Amendment Process\n\n",
+      "MIP6c3 is a Process MIP component that allows the modification of the template defined in [MIP6c2](mips/details/MIP6#MIP6c2 \"smart-Component\") using a subproposal. [MIP6c3](mips/details/MIP6#MIP6c3 \"smart-Component\") subproposals have the following parameters:",
+      "- **Default Feedback Period**: 1 month\n- **Frozen Period**: 1 week\n\n",
+      "MIP6c3 subproposals must use the template located at  **[MIP6c3-Subproposal-Template.md](MIP6c3-Subproposal-Template.md)**. This template is considered ratified once this MIP moves to Accepted status.",
+      "\n\n",
+      "---\n"
+    ],
+    "sections": [
+      { "heading": "MIP6: Collateral Onboarding Application", "depth": 1 },
+      { "heading": "Preamble", "depth": 2 },
+      { "heading": "References", "depth": 2 },
+      { "heading": "Sentence Summary", "depth": 2 },
+      { "heading": "Paragraph Summary", "depth": 2 },
+      { "heading": "Component Summary", "depth": 2 },
+      { "heading": "Motivation", "depth": 2 },
+      { "heading": "Specification / Proposal Details", "depth": 2 },
+      {
+        "heading": "MIP6c1: Process Overview",
+        "depth": 3,
+        "mipComponent": "MIP6c1"
+      },
+      {
+        "heading": "Community Introduction Process Overview Diagram",
+        "depth": 3
+      },
+      {
+        "heading": "MIP6c2: Application Template",
+        "depth": 3,
+        "mipComponent": "MIP6c2"
+      },
+      {
+        "heading": "MIP6c3: Application Template Amendment Process",
+        "depth": 3,
+        "mipComponent": "MIP6c3"
+      }
+    ],
+    "dependencies": ["n/a"],
+    "tags": [
+      "process",
+      "collateral-onboarding",
+      "mip-set",
+      "collateral-onboarding-mipset"
+    ],
+    "contributors": [
+      "@LongForWisdom",
+      "Leo Jsaraceno (Mitote)",
+      "Helge Andreas Qvam (@planet_X)"
+    ],
+    "author": ["Charles St.Louis (@CPSTL)", "Rune Christensen (@Rune23)"],
+    "proposal": "",
+    "extra": [
+      "This MIP has been amended. See [MIP4c2-SP1](https://mips.makerdao.com/mips/details/MIP4c2SP1). The original version can be found [here](https://github.com/makerdao/mips/blob/977f0fbf2943252659145156ddae7e657246ecac/MIP6/mip6.md)."
+    ],
+    "mipFather": true,
+    "subproposal": -1,
+    "mip": 6,
+    "language": "en",
+    "_id": "63176fb6a7aebc1c501540c1",
+    "hash": "42de5a90946c6d1196ab4103c52f788c88501435",
+    "filename": "MIP6/mip6.md",
+    "mipName": "MIP6",
+    "sentenceSummary": "MIP6 defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.",
+    "paragraphSummary": "The purpose of this proposal is to standardize the collateral onboarding application template that community members and third-party projects can use to begin the process of getting their collateral onboarded to the Maker Protocol.",
+    "dateProposed": "2020-04-06",
+    "dateRatified": "2020-05-02",
+    "replaces": "n/a",
+    "status": "Accepted",
+    "title": "Collateral Onboarding Application",
+    "types": "Process",
+    "subproposalsCount": 2,
+    "votingPortalLink": "",
+    "forumLink": "https://forum.makerdao.com/t/mip6-collateral-onboarding-form-forum-template/1908",
+    "mipCodeNumber": "MIP0006"
+  },
+  "pullRequests": { "open": 0, "close": 0, "items": [] },
+  "subproposals": [
+    {
+      "_id": "63176fb6a7aebc1c501540bf",
+      "mipName": "MIP6c3SP1",
+      "title": "RWA Only Supplement to Collateral Onboarding Application"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540c0",
+      "mipName": "MIP6c3SP2",
+      "title": "Subproposal for changing the collateral application form"
+    }
+  ],
+  "languagesAvailables": [
+    { "language": "en", "_id": "63176fb6a7aebc1c501540c1", "mipName": "MIP6" }
+  ],
+  "metaVars": [
+    {
+      "_id": "6328d7d9553d621c6f02bb64",
+      "language": "es",
+      "translations": "strings:\n  learn: Aprende\n  portaldoc: El Portal de MIP\n  primer: Intro para Autores\n  mip0: El Framework de MIP\n  mip51: Ciclo de Gobernanza Mensual\n  views: Vistas\n  status: Estado\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Aceptada\n  obsolete: Obsoleta\n  rejected: Rechazada\n  withdrawn: Retirada\n  coreunits: Core Units\n  allcus: Todas (MIP38c2)\n  activebudgets: Presupuestos Activos\n  spsinforce: Subpropuestas en Vigor\n  archive: Archivo\n  living: Propuestas Registrales\n  technical: Técnicas\n  implemented: Implementadas\n  pending: Pendientes de Implementación\n  process: Procesos\n  contact: Ponte en Contacto\n  forum: Foro\n  chat: Chat\nreserved:\n  Preamble: Preámbulo\n  'MIP#': 'MIP#'\n  Title: Título\n  Author(s): Autor(es)\n  Contributors: Colaboradores\n  Type: Tipo\n  Status: Estado\n  Date Proposed: Fecha de Proposición\n  Date Ratified: Fecha de Ratificación\n  Last Amended: Última Modificación\n  Dependencies: Dependencias\n  Replaces: Reemplaza\n  References: Referencias\n  Sentence Summary: Resumen Corto\n  Paragraph Summary: Resumen Largo\n  Component Summary: Índice de Componentes\nnews:\n  description1: \"Descripción uno.\"\n  description2: \"Descripción dos\"\n  description3: \"Descripción tres\"\n  link1: \"https://mips.makerdao.com/mips/details/MIP0\"\n  linkforum1: \"https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\"\n  linkmd1: \"https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\"\n  title1: \"Hubo algunos cambios.\"\n  title2: \"Título dos\"\n  title3: \"Título tres\"\n",
+      "__v": 0
+    },
+    {
+      "_id": "6328d7d9553d621c6f02bb65",
+      "language": "en",
+      "translations": "strings:\n  learn: Learn\n  portaldoc: The MIPs Portal\n  primer: Primer for Authors\n  mip0: The MIPs Framework\n  mip51: Monthly Governance Cycle\n  views: Views\n  status: Status\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Accepted\n  obsolete: Obsolete\n  rejected: Rejected\n  withdrawn: Withdrawn\n  coreunits: Core Units\n  allcus: All (MIP38c2)\n  activebudgets: Active Budgets\n  spsinforce: Subproposals in Force\n  archive: Archive\n  living: Living MIPs\n  technical: Technical\n  implemented: Implemented\n  pending: Pending Implementation\n  process: Processes\n  contact: Get in Touch\n  forum: Forum\n  chat: Chat\nreserved:\n  Preamble: Preamble\n  'MIP#': 'MIP#'\n  Title: Title\n  Author(s): Author(s)\n  Contributors: Contributors\n  Type: Type\n  Status: Status\n  Date Proposed: Date Proposed\n  Date Ratified: Date Ratified\n  Last Amended: Last Amended\n  Dependencies: Dependencies\n  Replaces: Replaces\n  References: References\n  Sentence Summary: Sentence Summary\n  Paragraph Summary: Paragraph Summary\n  Component Summary: Component Summary\nnews: \n  title1: There were some chanages. \n  description1: Description one.\n  link1: https://mips.makerdao.com/mips/details/MIP0\n  linkforum1: https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\n  linkmd1: https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\n  title2: Title two\n  description2: Description two\n  title3: Title three\n  description3: Description three\n",
+      "__v": 0
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "mip": {
+    "components": [
+      {
+        "cName": "MIP8c1",
+        "cTitle": "Domain Greenlight Process",
+        "cBody": "Defines the domain greenlight process and its interaction with the collateral onboarding process."
+      },
+      {
+        "cName": "MIP8c2",
+        "cTitle": "Domain Greenlight Outcomes",
+        "cBody": "Defines the possible outcomes from the domain greenlight process."
+      },
+      {
+        "cName": "MIP8c3",
+        "cTitle": "Domain Greenlight Requirements",
+        "cBody": "Defines the responsibilities of the domain teams in the domain greenlight process."
+      }
+    ],
+    "references": [{ "name": "No referenced materials.", "link": "" }],
+    "sectionsRaw": [
+      "# MIP8: Domain Greenlight\n\n",
+      "## Preamble\n\n",
+      "```\nMIP#: 8\nTitle: Domain Greenlight\nAuthor(s): Charles St.Louis (@CPSTL), Rune Christensen (@Rune23)\nContributors: @LongForWisdom, Leo Jsaraceno (@Mitote), Helge Andreas Qvam (@planet_X)\nTags: process, collateral-onboarding, mip-set, collateral-onboarding-mipset\nType: Process\nStatus: Accepted\nDate Proposed: 2020-04-06\nDate Ratified: 2020-05-02\nLast Amended: 2020-06-25\nDependencies: n/a\nReplaces: n/a\nRatification Poll URL:\nForum URL: https://forum.makerdao.com/t/mip8-domain-greenlight/1910\nExtra: This MIP has been amended. See [MIP4c2-SP8](https://mips.makerdao.com/mips/details/MIP4c2SP8). The original version can be found [here](https://github.com/makerdao/mips/blob/a563ad964feb56e1da47f372b3df729cf1112108/MIP8/mip8.md).\n```\n\n",
+      "## References\n\n",
+      "No referenced materials.",
+      "\n\n",
+      "## Sentence Summary\n\n",
+      "MIP8 defines the process by which domain teams signal that a potential collateral type is worth investigating its inclusion in the Maker Protocol.",
+      "\n\n",
+      "## Paragraph Summary\n\n",
+      "This proposal defines the process where at least one domain team from each domain (Risk, Smart Contracts, Oracles, Legal, etc.) \"Greenlights\" the collateral type (based on research) in order for the collateral onboarding process to proceed.",
+      "\n\n",
+      "## Component Summary\n\n\n",
+      "**MIP8c1: Domain Greenlight Process**  \nDefines the domain greenlight process and its interaction with the collateral onboarding process.",
+      "\n\n",
+      "**MIP8c2: Domain Greenlight Outcomes**  \nDefines the possible outcomes from the domain greenlight process.",
+      "\n\n",
+      "**MIP8c3: Domain Greenlight Requirements**  \nDefines the responsibilities of the domain teams in the domain greenlight process.",
+      "\n\n\n",
+      "## Motivation\n\n",
+      "The goal of this proposal is to define and inform the community about the pre-evaluation stage (Domain Greenlight) with the aim of identifying any show-stopping problems before domain teams spend time working on the work requirements to get a collateral type added to the Maker Protocol. ",
+      "\n\n",
+      "## Specification / Proposal Details\n\n",
+      "### MIP8c1: Domain Greenlight Process\n\n",
+      "- For an asset to be onboarded to the Maker Protocol, domain work must be completed by risk, oracle, smart contracts, and optionally legal domain teams. Domain greenlight is the process through which domain teams signal their willingness to complete domain work on a proposed collateral asset.\n- The domain greenlight process occurs after a proposed collateral asset has passed a [MIP9](mips/details/MIP9 \"smart-Mip\") Community Greenlight Poll.\n- If any domain team signals unwillingness to work on a proposed collateral asset, it does not mean that the asset will never be included as collateral in the Maker Protocol.\n- If at least one domain team from the risk, oracle, and smart contracts domains do not greenlight a proposed collateral asset, the onboarding process for that asset awaits alternative domain teams willing to perform the domain work.\n\n",
+      "#### Domain Greenlight Process Overview Diagram\n\n",
+      "<img width=\"839\" alt=\"mip8-a\" src=\"https://user-images.githubusercontent.com/32653033/83055609-0f0c0680-a022-11ea-9d93-6cad0a2ef8a3.png\">\n\n",
+      "---\n",
+      "    \n",
+      "### MIP8c2: Domain Greenlight Outcomes\n\n",
+      "**Greenlit**",
+      "\n\n",
+      "- If **greenlit**, the domain team has signaled their willingness to complete the domain work required to add the collateral asset to the Maker Protocol.\n\n",
+      "**Deferred**",
+      "\n\n",
+      "- The **Deferred** status signals that the domain team is willing to complete the domain work required to add the collateral asset to the Maker Protocol provided specific criteria are met.\n- The resumption criterion must be defined and communicated clearly by the domain team on the official forum as part of this outcome.\n- Until all deferred criteria are met, the deferring domain team will not proceed with the domain work required to add the collateral asset to the Maker Protocol.\n\n",
+      "**Rejected**",
+      "\n\n",
+      "- The **Rejected** status signals that the domain team is unwilling to complete the domain work required to add the collateral asset to the Maker Protocol.\n- Optionally, the domain team may provide a reason for this rejection as part of this outcome.\n\n",
+      "---\n\n",
+      "### MIP8c3: Domain Greenlight Requirements\n\n",
+      "- Communication from domain teams regarding domain greenlight must come within two weeks of the end of the [MIP9](mips/details/MIP9 \"smart-Mip\") Community Greenlight poll on the official forum.\n- A domain team should aim to signal their greenlight outcome within two weeks of the end of the [MIP9](mips/details/MIP9 \"smart-Mip\") Community Greenlight poll.\n- If a domain team cannot signal their greenlight outcome, they must do the following before the target date passes:\n    - Post a reason for the delay on the official forum.\n    - Post a new target date for communicating their domain greenlight outcome on the official forum.\n- If subsequent dates will be missed, communication should be provided before the deadline passes, and should include a new target date.\n- If further information becomes available that changes the domain team's assessment, they can modify their greenlight outcome by posting on the official forum at any time.\n- If a deferred outcome is given, resumption criteria must be provided on the official forum.\n- If resumption criteria from a deferred outcome are met, the greenlight outcome should be modified to greenlit.\n\n",
+      "---\n"
+    ],
+    "sections": [
+      { "heading": "MIP8: Domain Greenlight", "depth": 1 },
+      { "heading": "Preamble", "depth": 2 },
+      { "heading": "References", "depth": 2 },
+      { "heading": "Sentence Summary", "depth": 2 },
+      { "heading": "Paragraph Summary", "depth": 2 },
+      { "heading": "Component Summary", "depth": 2 },
+      { "heading": "Motivation", "depth": 2 },
+      { "heading": "Specification / Proposal Details", "depth": 2 },
+      {
+        "heading": "MIP8c1: Domain Greenlight Process",
+        "depth": 3,
+        "mipComponent": "MIP8c1"
+      },
+      { "heading": "Domain Greenlight Process Overview Diagram", "depth": 4 },
+      {
+        "heading": "MIP8c2: Domain Greenlight Outcomes",
+        "depth": 3,
+        "mipComponent": "MIP8c2"
+      },
+      {
+        "heading": "MIP8c3: Domain Greenlight Requirements",
+        "depth": 3,
+        "mipComponent": "MIP8c3"
+      }
+    ],
+    "dependencies": ["n/a"],
+    "tags": [
+      "process",
+      "collateral-onboarding",
+      "mip-set",
+      "collateral-onboarding-mipset"
+    ],
+    "contributors": [
+      "@LongForWisdom",
+      "Leo Jsaraceno (@Mitote)",
+      "Helge Andreas Qvam (@planet_X)"
+    ],
+    "author": ["Charles St.Louis (@CPSTL)", "Rune Christensen (@Rune23)"],
+    "proposal": "",
+    "extra": [
+      "This MIP has been amended. See [MIP4c2-SP8](https://mips.makerdao.com/mips/details/MIP4c2SP8). The original version can be found [here](https://github.com/makerdao/mips/blob/a563ad964feb56e1da47f372b3df729cf1112108/MIP8/mip8.md)."
+    ],
+    "mipFather": false,
+    "subproposal": -1,
+    "mip": 8,
+    "language": "en",
+    "_id": "63176fb6a7aebc1c501540e0",
+    "hash": "d25140c24a6b77e375707ad8b39354d6aa2240c9",
+    "filename": "MIP8/mip8.md",
+    "mipName": "MIP8",
+    "sentenceSummary": "MIP8 defines the process by which domain teams signal that a potential collateral type is worth investigating its inclusion in the Maker Protocol.",
+    "paragraphSummary": "This proposal defines the process where at least one domain team from each domain (Risk, Smart Contracts, Oracles, Legal, etc.) \"Greenlights\" the collateral type (based on research) in order for the collateral onboarding process to proceed.",
+    "dateProposed": "2020-04-06",
+    "dateRatified": "2020-05-02",
+    "replaces": "n/a",
+    "status": "Accepted",
+    "title": "Domain Greenlight",
+    "types": "Process",
+    "subproposalsCount": 0,
+    "votingPortalLink": "",
+    "forumLink": "https://forum.makerdao.com/t/mip8-domain-greenlight/1910",
+    "mipCodeNumber": "MIP0008"
+  },
+  "pullRequests": { "open": 0, "close": 0, "items": [] },
+  "subproposals": [],
+  "languagesAvailables": [
+    { "language": "en", "_id": "63176fb6a7aebc1c501540e0", "mipName": "MIP8" }
+  ],
+  "metaVars": [
+    {
+      "_id": "632b5f8c553d621c6f02f3f1",
+      "language": "es",
+      "translations": "strings:\n  learn: Aprende\n  portaldoc: El Portal de MIP\n  primer: Intro para Autores\n  mip0: El Framework de MIP\n  mip51: Ciclo de Gobernanza Mensual\n  views: Vistas\n  status: Estado\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Aceptada\n  obsolete: Obsoleta\n  rejected: Rechazada\n  withdrawn: Retirada\n  coreunits: Core Units\n  allcus: Todas (MIP38c2)\n  activebudgets: Presupuestos Activos\n  spsinforce: Subpropuestas en Vigor\n  archive: Archivo\n  living: Propuestas Registrales\n  technical: Técnicas\n  implemented: Implementadas\n  pending: Pendientes de Implementación\n  process: Procesos\n  contact: Ponte en Contacto\n  forum: Foro\n  chat: Chat\nreserved:\n  Preamble: Preámbulo\n  'MIP#': 'MIP#'\n  Title: Título\n  Author(s): Autor(es)\n  Contributors: Colaboradores\n  Type: Tipo\n  Status: Estado\n  Date Proposed: Fecha de Proposición\n  Date Ratified: Fecha de Ratificación\n  Last Amended: Última Modificación\n  Dependencies: Dependencias\n  Replaces: Reemplaza\n  References: Referencias\n  Sentence Summary: Resumen Corto\n  Paragraph Summary: Resumen Largo\n  Component Summary: Índice de Componentes\nnews:\n  description1: \"Descripción uno.\"\n  description2: \"Descripción dos\"\n  description3: \"Descripción tres\"\n  link1: \"https://mips.makerdao.com/mips/details/MIP0\"\n  linkforum1: \"https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\"\n  linkmd1: \"https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\"\n  title1: \"Hubo algunos cambios.\"\n  title2: \"Título dos\"\n  title3: \"Título tres\"\n",
+      "__v": 0
+    },
+    {
+      "_id": "632b5f8c553d621c6f02f3f2",
+      "language": "en",
+      "translations": "strings:\n  learn: Learn\n  portaldoc: The MIPs Portal\n  primer: Primer for Authors\n  mip0: The MIPs Framework\n  mip51: Monthly Governance Cycle\n  views: Views\n  status: Status\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Accepted\n  obsolete: Obsolete\n  rejected: Rejected\n  withdrawn: Withdrawn\n  coreunits: Core Units\n  allcus: All (MIP38c2)\n  activebudgets: Active Budgets\n  spsinforce: Subproposals in Force\n  archive: Archive\n  living: Living MIPs\n  technical: Technical\n  implemented: Implemented\n  pending: Pending Implementation\n  process: Processes\n  contact: Get in Touch\n  forum: Forum\n  chat: Chat\nreserved:\n  Preamble: Preamble\n  'MIP#': 'MIP#'\n  Title: Title\n  Author(s): Author(s)\n  Contributors: Contributors\n  Type: Type\n  Status: Status\n  Date Proposed: Date Proposed\n  Date Ratified: Date Ratified\n  Last Amended: Last Amended\n  Dependencies: Dependencies\n  Replaces: Replaces\n  References: References\n  Sentence Summary: Sentence Summary\n  Paragraph Summary: Paragraph Summary\n  Component Summary: Component Summary\nnews: \n  title1: There were some chanages. \n  description1: Description one.\n  link1: https://mips.makerdao.com/mips/details/MIP0\n  linkforum1: https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\n  linkmd1: https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\n  title2: Title two\n  description2: Description two\n  title3: Title three\n  description3: Description three\n",
+      "__v": 0
+    }
+  ]
+}

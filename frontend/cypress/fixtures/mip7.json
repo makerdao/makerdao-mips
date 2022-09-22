@@ -1,0 +1,242 @@
+{
+  "mip": {
+    "components": [
+      {
+        "cName": "MIP7c1",
+        "cTitle": "Domain Team Descriptions",
+        "cBody": "Describes the various domain teams and their responsibilities as they relate to the collateral onboarding process."
+      },
+      {
+        "cName": "MIP7c2",
+        "cTitle": "The Current Domain Roles List",
+        "cBody": "A list component that is kept up-to-date with the currently ratified domain teams."
+      },
+      {
+        "cName": "MIP7c3",
+        "cTitle": "Domain Team onboarding",
+        "cBody": "A process component that defines a method and a template that allows the onboarding of domain teams."
+      },
+      {
+        "cName": "MIP7c4",
+        "cTitle": "Domain Team offboarding",
+        "cBody": "A process component that defines a method and a template that allows the offboarding of domain teams."
+      }
+    ],
+    "references": [
+      {
+        "name": "MIP7c3-Subproposal-Template.md",
+        "link": "MIP7c3-Subproposal-Template.md"
+      },
+      {
+        "name": "MIP7c4-Subproposal-Template.md",
+        "link": "MIP7c4-Subproposal-Template.md"
+      }
+    ],
+    "sectionsRaw": [
+      "# MIP7: Onboarding and Offboarding Domain Teams (Collateral Onboarding)\n\n",
+      "## Preamble\n\n",
+      "```\nMIP#: 7\nTitle: Onboarding and Offboarding Domain Teams (Collateral Onboarding)\nAuthor(s): Charles St.Louis (@CPSTL), Rune Christensen (@Rune23)\nContributors: @LongForWisdom, Leo Jsaraceno (@Mitote), Helge Andreas Qvam (@planet_X)\nTags: process, personnel-xboarding, mip-set, collateral-onboarding-mipset, living\nType: Process\nStatus: Accepted\nDate Proposed: 2020-04-06\nDate Ratified: 2020-05-02\nDependencies: n/a\nReplaces: n/a\nRatification Poll URL: \nForum URL: https://forum.makerdao.com/t/mip7-onboarding-and-offboarding-domain-teams-for-collateral-onboarding/1909\nExtra: This MIP has been amended. See [MIP4c2-SP18](https://mips.makerdao.com/mips/details/MIP4c2SP18). The original version can be found [here](https://github.com/makerdao/mips/blob/c15afc813a5008eca2213ac0bb5eba42fbdf9403/MIP7/mip7.md).\n```\n\n",
+      "## References\n\n",
+      "**[MIP7c3-Subproposal-Template.md](MIP7c3-Subproposal-Template.md)**  \n**[MIP7c4-Subproposal-Template.md](MIP7c4-Subproposal-Template.md)**  ",
+      "\n\n",
+      "## Sentence Summary\n\n",
+      "MIP7 defines processes for onboarding and offboarding domain teams.",
+      "\n\n",
+      "## Paragraph Summary\n\n",
+      "The Domain Teams Onboarding & Offboarding proposal provides a predictable framework for both onboarding and offboarding domain teams required for the collateral onboarding process.",
+      "\n\n",
+      "## Component Summary\n\n",
+      "**MIP7c1: Domain Team Descriptions**  \nDescribes the various domain teams and their responsibilities as they relate to the collateral onboarding process.",
+      "\n\n",
+      "**MIP7c2: The Current Domain Roles List**  \nA list component that is kept up-to-date with the currently ratified domain teams.",
+      "\n\n",
+      "**MIP7c3: Domain Team onboarding**  \nA process component that defines a method and a template that allows the onboarding of domain teams.",
+      "\n\n",
+      "**MIP7c4: Domain Team offboarding**  \nA process component that defines a method and a template that allows the offboarding of domain teams.",
+      "\n\n",
+      "## Motivation\n\n",
+      "The Maker Protocol requires a decentralized workforce in order to onboard new collateral assets. This MIP  describes Domain Teams that are needed in the collateral onboarding process and highlights their special authority in the governance system to oversee critical processes and mitigate risk.",
+      "\n\n",
+      "## Specification / Proposal Details\n\n",
+      "### MIP7c1: Domain Team Descriptions\n\n",
+      "- **Collateral Engineering Services Teams** are responsible for managing the collateral onboarding and maintenance process and may include technical advisory services, collateral assessments, collateral process enhancements, and creating the technical work product independently or inconjunction with the Smart Contracts Teams for collateral onboarding proposals and maintenance activities.\n- **Oracle Teams** are responsible for designing oracle feed mechanisms for new collateral types, compelling the oracles to upgrade their nodes with new price feeds for new collateral types via [MIP10](mips/details/MIP10 \"smart-Mip\"), and creating the oracle work product for collateral onboarding.\n- **Smart Contracts Teams** are responsible for developing and deploying the collateral adapter for new collateral onboarding, and creating the technical work product for collateral onboarding proposals.\n- **Risk Teams** are responsible for creating the risk construct for a collateral onboarding proposal. As a part of the collateral on-boarding process, they also need to get a general model ratified on which they can base their risk construct.\n- **Legal Teams** are in some cases necessary for collateral onboarding, when dealing with assets that have legal claims attached to them. They create the legal work product for collateral onboarding.\n\n",
+      "---\n\n",
+      "### MIP7c2: The Current Domain Roles List\n\n",
+      "This list can be amended through the onboarding ([MIP7c3](mips/details/MIP7#MIP7c3 \"smart-Component\")) and offboarding components ([MIP7c4](mips/details/MIP7#MIP7c4 \"smart-Component\")) of [MIP7](mips/details/MIP7 \"smart-Mip\").",
+      "\n\n",
+      "**Entries into this list should follow the following template:**",
+      "\n\n",
+      "```\nTeam Name: The name of the onboarded domain team.\n- Sub-proposal Number (MIP7c3-SP): #\n- Domain: The domain in which the team operates.\n- Date Added: (yyyy-mm-dd)\n```\n\n",
+      "**Active Domain Teams List**",
+      "\n\n",
+      "**1. Oracle Domain Teams:**",
+      "- **Team Name:** Green Team\n    - **Sub-proposal Number (MIP7c3-SP):** n/a (Oracle Team was ratified prior to the MIPs process. Reference: [Mandate: Oracle Teams](https://forum.makerdao.com/t/mandate-oracle-teams/443))\n    - **Domain:** Oracle\n    - **Date Added:** 2019-10-7 [Poll: Ratify the Interim Oracle Team Mandate](https://vote.makerdao.com/polling-proposal/qmas1bqrquo2h41qv4fa8hpek9ukb7dlwtpkpn62r5hhmq)\n\n",
+      "**2. Smart Contracts Domain Teams:**",
+      "\n\n",
+      "- **Team Name:** Blue Team\n    - **Sub-proposal Number (MIP7c3-SP):** 1\n    - **Domain:** Smart Contracts\n    - **Date Added:** 2020-05-02 [Ratification Vote](https://vote.makerdao.com/executive-proposal/lower-usdc-sf-add-wbtc-ratify-the-initial-mips-and-subproposals)\n\n",
+      "**3. Risk Domain Teams:**",
+      "- **Team Name:** Red Team\n    - **Sub-proposal Number (MIP7c3-SP):** 2\n    - **Domain:** Risk\n    - **Date Added:** 2020-06-25 [Ratification Vote](https://mkrgov.science/executive/0x1d51ca29e35b6ce30167f634dd21376da1341d9b)\n\n",
+      "**4. Collateral Engineering Services Domain Teams:**",
+      "- **Team Name: CES-001**\n    - **Sub-proposal Number (MIP7c3-SP):** 7\n    - **Domain:** Collateral Engineering Services\n    - **Date Added:** 2022-04-25 [Ratification Poll](https://vote.makerdao.com/polling/QmVAD1ZD)\n\n",
+      "**5. Legal Domain Teams:**",
+      "\n\n",
+      "---\n",
+      "### MIP7c3: Domain Team Onboarding\n\n",
+      "MIP7c3 is a Process MIP component that allows the onboarding of a domain team using a subproposal. ",
+      "\n\n",
+      "If onboarded through a [MIP7c3](mips/details/MIP7#MIP7c3 \"smart-Component\") subproposal, the domain team is added to the The Current Domain Team Roles list defined in [MIP7c2](mips/details/MIP7#MIP7c2 \"smart-Component\") by a MIP Editor.",
+      "\n\n",
+      "MIP7c3 subproposals have the following parameters:",
+      "- **Feedback Period**: 3 months\n- **Frozen Period**: 1 month\n\n",
+      "MIP7c3 subproposals must use the template located at  **[MIP7c3-Subproposal-Template.md](MIP7c3-Subproposal-Template.md)**. This template is considered ratified once this MIP moves to Accepted status.",
+      "\n\n",
+      "---\n\n",
+      "### MIP7c4: Domain Team offboarding\n\n",
+      "MIP7c4 is a Process MIP component that allows the removal of a domain team using a subproposal.",
+      "\n\n",
+      "If offboarded through a [MIP7c4](mips/details/MIP7#MIP7c4 \"smart-Component\") subproposal the domain team is removed from the Current Domain Team Roles list defined in [MIP7c2](mips/details/MIP7#MIP7c2 \"smart-Component\") by a MIP Editor.",
+      "\n\n",
+      " [MIP7c4](mips/details/MIP7#MIP7c4 \"smart-Component\") subproposals have the following parameters:",
+      "- **Feedback Period**: 0 days\n- **Frozen Period**: 0 days\n\n",
+      "MIP7c4 subproposals must use the template located at  **[MIP7c4-Subproposal-Template.md](MIP7c4-Subproposal-Template.md)**. This template is considered ratified once this MIP moves to Accepted status.",
+      "\n\n",
+      "---\n"
+    ],
+    "sections": [
+      {
+        "heading": "MIP7: Onboarding and Offboarding Domain Teams (Collateral Onboarding)",
+        "depth": 1
+      },
+      { "heading": "Preamble", "depth": 2 },
+      { "heading": "References", "depth": 2 },
+      { "heading": "Sentence Summary", "depth": 2 },
+      { "heading": "Paragraph Summary", "depth": 2 },
+      { "heading": "Component Summary", "depth": 2 },
+      { "heading": "Motivation", "depth": 2 },
+      { "heading": "Specification / Proposal Details", "depth": 2 },
+      {
+        "heading": "MIP7c1: Domain Team Descriptions",
+        "depth": 3,
+        "mipComponent": "MIP7c1"
+      },
+      {
+        "heading": "MIP7c2: The Current Domain Roles List",
+        "depth": 3,
+        "mipComponent": "MIP7c2"
+      },
+      {
+        "heading": "MIP7c3: Domain Team Onboarding",
+        "depth": 3,
+        "mipComponent": "MIP7c3"
+      },
+      {
+        "heading": "MIP7c4: Domain Team offboarding",
+        "depth": 3,
+        "mipComponent": "MIP7c4"
+      }
+    ],
+    "dependencies": ["n/a"],
+    "tags": [
+      "process",
+      "personnel-xboarding",
+      "mip-set",
+      "collateral-onboarding-mipset",
+      "living"
+    ],
+    "contributors": [
+      "@LongForWisdom",
+      "Leo Jsaraceno (@Mitote)",
+      "Helge Andreas Qvam (@planet_X)"
+    ],
+    "author": ["Charles St.Louis (@CPSTL)", "Rune Christensen (@Rune23)"],
+    "proposal": "",
+    "extra": [
+      "This MIP has been amended. See [MIP4c2-SP18](https://mips.makerdao.com/mips/details/MIP4c2SP18). The original version can be found [here](https://github.com/makerdao/mips/blob/c15afc813a5008eca2213ac0bb5eba42fbdf9403/MIP7/mip7.md)."
+    ],
+    "mipFather": true,
+    "subproposal": -1,
+    "mip": 7,
+    "language": "en",
+    "_id": "63176fb6a7aebc1c501540d8",
+    "hash": "5fdeba4503bb7fbc516f325e4b11e2986335f43d",
+    "filename": "MIP7/mip7.md",
+    "mipName": "MIP7",
+    "sentenceSummary": "MIP7 defines processes for onboarding and offboarding domain teams.",
+    "paragraphSummary": "The Domain Teams Onboarding & Offboarding proposal provides a predictable framework for both onboarding and offboarding domain teams required for the collateral onboarding process.",
+    "dateProposed": "2020-04-06",
+    "dateRatified": "2020-05-02",
+    "replaces": "n/a",
+    "status": "Accepted",
+    "title": "Onboarding and Offboarding Domain Teams (Collateral Onboarding)",
+    "types": "Process",
+    "subproposalsCount": 9,
+    "votingPortalLink": "",
+    "forumLink": "https://forum.makerdao.com/t/mip7-onboarding-and-offboarding-domain-teams-for-collateral-onboarding/1909",
+    "mipCodeNumber": "MIP0007"
+  },
+  "pullRequests": { "open": 0, "close": 0, "items": [] },
+  "subproposals": [
+    {
+      "_id": "63176fb6a7aebc1c501540cf",
+      "mipName": "MIP7c3SP1",
+      "title": "MIP7c3-SP1: Domain Team Onboarding (Smart Contracts Domain Team)"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d0",
+      "mipName": "MIP7c3SP2",
+      "title": "MIP7c3-SP2: Domain Team Onboarding (Risk Domain Team)"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d1",
+      "mipName": "MIP7c3SP3",
+      "title": "MIP7c3-SP3: Domain Team Onboarding (Risk Domain Team)"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d2",
+      "mipName": "MIP7c3SP4",
+      "title": "MIP7c3-SP4: Subproposal Template for Smart Contracts Domain Team Onboarding"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d3",
+      "mipName": "MIP7c3SP5",
+      "title": "MIP7c3-SP5: Domain Team Onboarding (Risk Domain Team)"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d4",
+      "mipName": "MIP7c3SP6",
+      "title": "MIP7c3-SP6: Domain Team Onboarding (Smart Contract Team)"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d5",
+      "mipName": "MIP7c3SP7",
+      "title": "MIP7c3-SP7: CES Domain Team Onboarding"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d6",
+      "mipName": "MIP7c4SP1",
+      "title": "MIP7c4-SP1: Subproposal to Offboard Risk Domain Team"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d7",
+      "mipName": "MIP7c4SP2",
+      "title": "MIP7c4-SP2: Subproposal Template for Smart Contract Domain Team Offboarding"
+    }
+  ],
+  "languagesAvailables": [
+    { "language": "en", "_id": "63176fb6a7aebc1c501540d8", "mipName": "MIP7" }
+  ],
+  "metaVars": [
+    {
+      "_id": "632b5f8c553d621c6f02f3f1",
+      "language": "es",
+      "translations": "strings:\n  learn: Aprende\n  portaldoc: El Portal de MIP\n  primer: Intro para Autores\n  mip0: El Framework de MIP\n  mip51: Ciclo de Gobernanza Mensual\n  views: Vistas\n  status: Estado\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Aceptada\n  obsolete: Obsoleta\n  rejected: Rechazada\n  withdrawn: Retirada\n  coreunits: Core Units\n  allcus: Todas (MIP38c2)\n  activebudgets: Presupuestos Activos\n  spsinforce: Subpropuestas en Vigor\n  archive: Archivo\n  living: Propuestas Registrales\n  technical: Técnicas\n  implemented: Implementadas\n  pending: Pendientes de Implementación\n  process: Procesos\n  contact: Ponte en Contacto\n  forum: Foro\n  chat: Chat\nreserved:\n  Preamble: Preámbulo\n  'MIP#': 'MIP#'\n  Title: Título\n  Author(s): Autor(es)\n  Contributors: Colaboradores\n  Type: Tipo\n  Status: Estado\n  Date Proposed: Fecha de Proposición\n  Date Ratified: Fecha de Ratificación\n  Last Amended: Última Modificación\n  Dependencies: Dependencias\n  Replaces: Reemplaza\n  References: Referencias\n  Sentence Summary: Resumen Corto\n  Paragraph Summary: Resumen Largo\n  Component Summary: Índice de Componentes\nnews:\n  description1: \"Descripción uno.\"\n  description2: \"Descripción dos\"\n  description3: \"Descripción tres\"\n  link1: \"https://mips.makerdao.com/mips/details/MIP0\"\n  linkforum1: \"https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\"\n  linkmd1: \"https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\"\n  title1: \"Hubo algunos cambios.\"\n  title2: \"Título dos\"\n  title3: \"Título tres\"\n",
+      "__v": 0
+    },
+    {
+      "_id": "632b5f8c553d621c6f02f3f2",
+      "language": "en",
+      "translations": "strings:\n  learn: Learn\n  portaldoc: The MIPs Portal\n  primer: Primer for Authors\n  mip0: The MIPs Framework\n  mip51: Monthly Governance Cycle\n  views: Views\n  status: Status\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Accepted\n  obsolete: Obsolete\n  rejected: Rejected\n  withdrawn: Withdrawn\n  coreunits: Core Units\n  allcus: All (MIP38c2)\n  activebudgets: Active Budgets\n  spsinforce: Subproposals in Force\n  archive: Archive\n  living: Living MIPs\n  technical: Technical\n  implemented: Implemented\n  pending: Pending Implementation\n  process: Processes\n  contact: Get in Touch\n  forum: Forum\n  chat: Chat\nreserved:\n  Preamble: Preamble\n  'MIP#': 'MIP#'\n  Title: Title\n  Author(s): Author(s)\n  Contributors: Contributors\n  Type: Type\n  Status: Status\n  Date Proposed: Date Proposed\n  Date Ratified: Date Ratified\n  Last Amended: Last Amended\n  Dependencies: Dependencies\n  Replaces: Replaces\n  References: References\n  Sentence Summary: Sentence Summary\n  Paragraph Summary: Paragraph Summary\n  Component Summary: Component Summary\nnews: \n  title1: There were some chanages. \n  description1: Description one.\n  link1: https://mips.makerdao.com/mips/details/MIP0\n  linkforum1: https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\n  linkmd1: https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\n  title2: Title two\n  description2: Description two\n  title3: Title three\n  description3: Description three\n",
+      "__v": 0
+    }
+  ]
+}

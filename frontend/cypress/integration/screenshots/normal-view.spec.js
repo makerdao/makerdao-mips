@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 const { fakeMenu } = require("../../helpers/fake-menu");
-const { fakeMips } = require("../../helpers/fake-mip");
+const { fakeMips } = require("../../helpers/fake-mips");
 const { fakeNews } = require("../../helpers/fake-news");
 const { fakeVars } = require("../../helpers/fake-vars");
 

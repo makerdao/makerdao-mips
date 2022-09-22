@@ -1,6 +1,12 @@
 Feature: Dollar Sign search combined
 
- Scenario:Search MIPs containing given statuses combinations (ACCEPTED OR OBSOLETE)
+# TODO add mips variety
+# TODO add mip specific files for most/ all added mips
+
+  Background: Default
+    Given Backend data is set to be mocked
+
+  Scenario:Search MIPs containing given statuses combinations (ACCEPTED OR OBSOLETE)
     Given The user opens the main page
     When Types ACCEPTED,OBSOLETE in the search bar plus Enter
     Then The found MIps should have the statuses either ACCEPTED or OBSOLETE
@@ -10,6 +16,7 @@ Feature: Dollar Sign search combined
     When Types RFC,OBSOLETE in the search bar plus Enter
     Then The found MIps should have the statuses either RFC or OBSOLETE
 
+@focus
   Scenario:Search MIPs containing a combination of tags (collateral-onboarding, mip-set)
     Given The user opens the main page
     Given The user selects the English language

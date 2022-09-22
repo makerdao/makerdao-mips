@@ -1,7 +1,10 @@
 Feature: MD Viewer
 
 Background: Default
-  Given The user navigates md-view for MIP1c4 first subproposal
+  Given Backend data is set to be mocked
+  And MIP4 github raw content is set to be mocked
+  And The user navigates md-view for MIP1c4 first subproposal
+
 Scenario: Left navigation panel updates the hash in the url and scrolls the section into view
   When The user clicks the last entry in the content table
   Then The section name should match the location hash
