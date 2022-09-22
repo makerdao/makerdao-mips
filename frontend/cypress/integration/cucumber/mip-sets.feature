@@ -1,5 +1,8 @@
 Feature: MIP Sets View
 
+  Background: Mock
+    Given Backend data is set to be mocked
+
   Scenario: MIP Sets View (English)
     Given The user opens the main page
     When The user clicks the menu option for MIP Sets

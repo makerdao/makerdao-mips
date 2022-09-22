@@ -27,6 +27,7 @@ const { fakeMipSpecific } = require("../../helpers/fake-mip-specific");
 const { fakeMipBy } = require("../../helpers/fake-mip-by");
 const { fakeNews } = require("../../helpers/fake-news");
 const { fakeVars } = require("../../helpers/fake-vars");
+const { fakeI18n } = require("../../helpers/fake-i18n");
 
 And("Backend data is set to be mocked", () => {
   fakeVars();
@@ -36,6 +37,7 @@ And("Backend data is set to be mocked", () => {
   fakeMipBy();
   fakeMenu();
   fakeMenuLang();
+  fakeI18n();
 });
 
 And("Vars data is set to be mocked in spanish", () => {
