@@ -20,8 +20,8 @@ And("The user opens the main page", () => {
   cy.visit("");
 });
 
-
 const { fakeMenu } = require("../../helpers/fake-menu");
+const { fakeMenuLang } = require("../../helpers/fake-menu-lang");
 const { fakeMips } = require("../../helpers/fake-mip");
 const { fakeMip } = require("../../helpers/fake-mip-details");
 const { fakeMipBy } = require("../../helpers/fake-mip-by");
@@ -35,8 +35,13 @@ And("Backend data is set to be mocked", () => {
   fakeMip();
   fakeMipBy();
   fakeMenu();
+  fakeMenuLang();
 });
 
 And("Vars data is set to be mocked in spanish", () => {
   fakeVars("es");
+});
+
+And("MIPs list is set to be mocked as a large list", () => {
+  fakeMips(true);
 });

@@ -1,0 +1,14 @@
+{
+  "children": [
+    {
+      "id": "es",
+      "name": "Spanish",
+      "img": "../../../assets/images/es-flag.svg"
+    },
+    {
+      "id": "en",
+      "name": "English",
+      "img": "../../../assets/images/en-flag.svg"
+    }
+  ]
+}
