@@ -1,0 +1,260 @@
+{
+  "items": [
+    {
+      "_id": "63176fb6a7aebc1c5015401c",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP1.md",
+      "mipName": "MIP4c2SP1",
+      "sentenceSummary": "Removing the requirement that Domain Greenlight process (MIP8) be completed before Community Greenlight Polls take place.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP1: MIP6 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0001"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015401d",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP10.md",
+      "mipName": "MIP4c2SP10",
+      "sentenceSummary": "MIP4c2-SP10 amends MIP0 to be compatible with the Domain Framework MIP Set.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP10: MIP0 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0010"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015401e",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP11.md",
+      "mipName": "MIP4c2SP11",
+      "sentenceSummary": "MIP4c2-SP11 amends MIP24 to be compatible with the Core Unit Operating Model MIP Set.",
+      "status": "RFC",
+      "title": "MIP4c2-SP11: MIP24 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0011"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015401f",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP12.md",
+      "mipName": "MIP4c2SP12",
+      "sentenceSummary": "MIP4c2-SP12 amends MIP16 to make it compatible with the Core Unit Operating Model MIP Set.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP12: MIP16 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0012"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154020",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP13.md",
+      "mipName": "MIP4c2SP13",
+      "sentenceSummary": "MIP4c2-SP13 amends MIP0 to be more precise in regards to the management of MIP Sets.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP13: MIP0 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0013"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154021",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP14.md",
+      "mipName": "MIP4c2SP14",
+      "sentenceSummary": "MIP4c2-SP14 amends MIP0 with the intent of making it easier to read and navigate.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP14: MIP0 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0014"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154022",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP15.md",
+      "mipName": "MIP4c2SP15",
+      "status": "RFC",
+      "title": "MIP4c2-SP15: Core Unit Offboarding Process Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0015"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154023",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP16.md",
+      "mipName": "MIP4c2SP16",
+      "status": "Accepted",
+      "title": "MIP4c2-SP16: MIP55 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0016"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154024",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP17.md",
+      "mipName": "MIP4c2SP17",
+      "status": "Accepted",
+      "title": "MIP4c2-SP17: Rapid Payment for Small Bug Bounties (MIP64, MIP40c3-SP42 Amendment)",
+      "votingPortalLink": "https://vote.makerdao.com/polling/QmRdVByP?network=mainnet#poll-detail",
+      "forumLink": "https://forum.makerdao.com/t/mip4c2-sp17-rapid-payment-for-small-bug-bounties-mip64-mip40c3-sp42-amendment/12869",
+      "mipCodeNumber": "MIP0004c0002SP0017"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154025",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP18.md",
+      "mipName": "MIP4c2SP18",
+      "status": "Accepted",
+      "title": "MIP4c2-SP18: MIP7 Amendments",
+      "votingPortalLink": "https://vote.makerdao.com/polling/QmVAD1ZD",
+      "forumLink": "https://forum.makerdao.com/t/mip4c2-sp18-mip7-amendments/13788",
+      "mipCodeNumber": "MIP0004c0002SP0018"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154026",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP19.md",
+      "mipName": "MIP4c2SP19",
+      "status": "Accepted",
+      "title": "Budget Framework Replacement",
+      "votingPortalLink": "https://vote.makerdao.com/polling/QmXVjbWG",
+      "forumLink": "https://forum.makerdao.com/t/mip4c2-sp19-mip40-budget-process-amendment/14250",
+      "mipCodeNumber": "MIP0004c0002SP0019"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154027",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP2.md",
+      "mipName": "MIP4c2SP2",
+      "sentenceSummary": "MIP4c2-SP2 amends MIP8 so that the Domain Greenlight process occur after the Community Greenlight Poll (MIP9).",
+      "status": "Accepted",
+      "title": "MIP4c2-SP2: MIP8 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0002"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154028",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP20.md",
+      "mipName": "MIP4c2SP20",
+      "status": "RFC",
+      "title": "MIP4c2-SP20: MIP16 Amendments",
+      "forumLink": "https://forum.makerdao.com/t/mip4c2-sp20-mip16-amendments/14980",
+      "mipCodeNumber": "MIP0004c0002SP0020"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154029",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP21.md",
+      "mipName": "MIP4c2SP21",
+      "status": "RFC",
+      "title": "MIP4c2-SP21: Add Retrospection Process to prune unused MIPs",
+      "mipCodeNumber": "MIP0004c0002SP0021"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015402a",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP3.md",
+      "mipName": "MIP4c2SP3",
+      "sentenceSummary": "MIP4c2-SP3 rearranges the collateral onboarding process to allow MIP9 to occur before MIP8.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP3: MIP9 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0003"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015402b",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP4.md",
+      "mipName": "MIP4c2SP4",
+      "sentenceSummary": "MIP4c2-SP4 allows collateral onboarding to operate without having General Risk Model ratified through MIP11.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP4: MIP12 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0004"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015402c",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP5.md",
+      "mipName": "MIP4c2SP5",
+      "sentenceSummary": "MIP4c2-SP5 amends MIP12 to remove dependencies on MIP6, MIP8, and MIP9.",
+      "status": "Rejected",
+      "title": "MIP4c2-SP5: MIP12 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0005"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015402d",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP6.md",
+      "mipName": "MIP4c2SP6",
+      "sentenceSummary": "MIP4c2-SP6 adds a calendar exception: no governance cycle in the month of December.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP6: Calendar Exceptions",
+      "mipCodeNumber": "MIP0004c0002SP0006"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015402e",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP7.md",
+      "mipName": "MIP4c2SP7",
+      "sentenceSummary": "MIP4c2-SP7 allows MIP amendments to use the weekly governance cycle for the first three months after a MIP has passed. It also allows multiple MIP amendments/removals in one proposal.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP7: MIP4 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0007"
+    },
+    {
+      "_id": "63176fb6a7aebc1c5015402f",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c2-Subproposals/MIP4c2-SP8.md",
+      "mipName": "MIP4c2SP8",
+      "sentenceSummary": "MIP4c2-SP8 introduces a second poll date on the 1st Monday of each month.",
+      "status": "Accepted",
+      "title": "MIP4c2-SP8: MIP 9 Amendments",
+      "mipCodeNumber": "MIP0004c0002SP0008"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154030",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c3-Subproposals/MIP4c3-SP1.md",
+      "mipName": "MIP4c3SP1",
+      "status": "Accepted",
+      "title": "MIP4c3-SP1: Amend MIP64 to clarify critical web bounty amount",
+      "votingPortalLink": "https://vote.makerdao.com/polling/QmQD5PDm#poll-detail",
+      "forumLink": "https://forum.makerdao.com/t/mip4c3-sp1-amend-mip64-to-clarify-critical-web-bounty-amount/13439",
+      "mipCodeNumber": "MIP0004c0003SP0001"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154031",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c3-Subproposals/MIP4c3-SP2.md",
+      "mipName": "MIP4c3SP2",
+      "status": "Accepted",
+      "title": "MIP4c3-SP2: MIP62 Amendments",
+      "forumLink": "https://forum.makerdao.com/t/mip4c3-sp2-amend-mip62-following-mkt-001-offboarding/13779",
+      "mipCodeNumber": "MIP0004c0003SP0002"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154032",
+      "proposal": "MIP4",
+      "mip": 4,
+      "filename": "MIP4/MIP4c3-Subproposals/MIP4c3-SP3.md",
+      "mipName": "MIP4c3SP3",
+      "status": "Accepted",
+      "title": "MIP4c3-SP3: Amend MIP64 to allow more flexibility in scope",
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip4c3sp3-amend-mip64-to-allow-more-flexibility-in-scope/14200",
+      "mipCodeNumber": "MIP0004c0003SP0003"
+    }
+  ],
+  "total": 23
+}
