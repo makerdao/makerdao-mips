@@ -947,31 +947,76 @@ export class DetailContentComponent
     this.titleService.setTitle('MIPs Portal');
   }
 
-  getParentNodeIndex(elem){
-    return [...elem.parentNode.parentNode.children].indexOf(elem.parentNode)
-  }
-
   addLinksToComponentSummary() {
-    const motivationNode = document.querySelector('a#motivation');
-    const motivationParentIndex = this.getParentNodeIndex(motivationNode);
+    const sections = this.mip.sections;
+    let cslEl: HTMLAnchorElement;
+    let h: HTMLHeadElement;
+    let nextSibling: Element | null = null;
+    const m: HTMLElement = document.querySelector('.variable-binding');
+    let escapedText = 'component-summary';
+    const index = this.sourceData.findIndex(
+      (item: any) => item.initialName === 'Component Summary'
+    );
 
-    const regexMip = new RegExp('^'+this.mipName+'c' +'\\d: ');
-    const nodeList = document.querySelectorAll('strong');
-    const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
+    if (index > -1) {
+      escapedText = this.sourceData[index].heading
+        .toLowerCase()
+        .replace(/[^\w]+/g, '-');
+    }
 
-    let counter = 0;
-    elementArray.forEach(strongElement => {
-     const innerText = strongElement.innerText;
+    cslEl = m.querySelector(`a#${escapedText}`);
+    h = cslEl?.parentElement;
+    const regexMip = new RegExp('^' + this.mipName + '(c' + '\\d+)?' + ':');
+    nextSibling = h?.nextElementSibling;
 
-     if (innerText.match(regexMip) && (this.getParentNodeIndex(strongElement) < motivationParentIndex)){
-       counter++;
-       const newLink = document.createElement('a');
-       newLink.href="/mips/details/"+this.mipName+'#'+this.mipName+'c'+counter;
-       newLink.innerHTML = innerText;
-       strongElement.parentElement.replaceChild(newLink, strongElement);
-     }
-    });
-    this.cdr.detectChanges();
+    while (nextSibling && nextSibling.nodeName !== 'H2') {
+      const s = nextSibling.querySelectorAll('strong');
+
+      s.forEach((element) => {
+        let searchMatch = element.innerText.match(regexMip);
+        let match = searchMatch ? searchMatch[0].split(':')[0] : '';
+
+        if (
+          regexMip.test(element.innerText) &&
+          sections.findIndex(
+            (item) =>
+              item.mipComponent === match || item.heading === element.innerText
+          ) > -1
+        ) {
+          if (sections.findIndex((item: any) => item.mipComponent === match) > -1) {
+            const componentNumber = element.innerText
+              .match(new RegExp('^' + this.mipName + 'c' + '\\d+'))[0]
+              .split('c')[1];
+            const newLink = document.createElement('a');
+            newLink.href =
+              '/mips/details/' +
+              this.mipName +
+              '#' +
+              this.mipName +
+              'c' +
+              componentNumber;
+            newLink.innerHTML = element.innerText;
+            element.parentElement.replaceChild(newLink, element);
+          } else {
+            const index = this.sourceData.findIndex(
+              (item) => item.initialName === 'Component Summary'
+            );
+            let escapedText = '';
+            if (index > -1) {
+              escapedText = element.innerText
+                .toLowerCase()
+                .replace(/[^\w]+/g, '-');
+            }
+            const newLink = document.createElement('a');
+            newLink.href = '/mips/details/' + this.mipName + '#' + escapedText;
+            newLink.innerHTML = element.innerText;
+            element.parentElement.replaceChild(newLink, element);
+          }
+        }
+      });
+
+      nextSibling = nextSibling.nextElementSibling;
+    }
   }
 
   addMdViewerLinkToMdFiles(): void {
@@ -997,6 +1042,7 @@ export class DetailContentComponent
   }
 
   removeSmartLinking() {
+    const hsNodeName = ['H1', 'H2', 'H3', 'H4', 'H5'];
     let element: HTMLHeadingElement = null;
     let nextSibling: Element | null = null;
     let componentName: string = '';
@@ -1006,24 +1052,30 @@ export class DetailContentComponent
     const hs: NodeListOf<HTMLHeadingElement> = m.querySelectorAll(
       'h5, h4, h3, h2, h1'
     );
+    const regexMip = new RegExp('^' + this.mipName + 'c' + '\\d+');
 
     for (let i = 0; i < hs.length; i++) {
       element = hs.item(i);
       nextSibling = element.nextElementSibling;
       componentName = element.firstElementChild?.id;
 
-      while (nextSibling && nextSibling.nodeName !== 'H3') {
+      while (nextSibling && !hsNodeName.includes(nextSibling.nodeName)) {
         links = nextSibling.querySelectorAll('a');
 
         links.forEach((link) => {
-          if (
-            link.innerText === componentName ||
-            link.innerText.startsWith(`${componentName}:`) ||
-            link.innerText === this.mipName
-          ) {
+          if (link.innerText === this.mipName) {
             newSpan = document.createElement('span');
             newSpan.innerHTML = link.innerText;
             link.parentElement.replaceChild(newSpan, link);
+          } else if (regexMip.test(componentName)) {
+            if (
+              link.innerText === componentName ||
+              link.innerText.startsWith(`${componentName}:`)
+            ) {
+              newSpan = document.createElement('span');
+              newSpan.innerHTML = link.innerText;
+              link.parentElement.replaceChild(newSpan, link);
+            }
           }
         });
 
