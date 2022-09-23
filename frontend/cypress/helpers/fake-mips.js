@@ -6,5 +6,5 @@ export function fakeMips(large = false) {
     {
       fixture: large ? "mips_large.json" : "mips.json",
     }
-  ).as("MIPs");
+  ).as(large? "MIPsLarge" : "MIPs");
 }
