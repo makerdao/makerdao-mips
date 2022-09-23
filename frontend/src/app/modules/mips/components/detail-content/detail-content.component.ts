@@ -948,16 +948,14 @@ export class DetailContentComponent
   }
 
   addLinksToComponentSummary() {
-    const contentMipComponents = this.mip.sections.filter(
-      (item) => item.mipComponent
-    );
+    const sections = this.mip.sections;
     let cslEl: HTMLAnchorElement;
     let h: HTMLHeadElement;
     let nextSibling: Element | null = null;
     const m: HTMLElement = document.querySelector('.variable-binding');
     let escapedText = 'component-summary';
     const index = this.sourceData.findIndex(
-      (item) => item.initialName === 'Component Summary'
+      (item: any) => item.initialName === 'Component Summary'
     );
 
     if (index > -1) {
@@ -968,7 +966,7 @@ export class DetailContentComponent
 
     cslEl = m.querySelector(`a#${escapedText}`);
     h = cslEl?.parentElement;
-    const regexMip = new RegExp('^' + this.mipName + 'c' + '\\d+:');
+    const regexMip = new RegExp('^' + this.mipName + '(c' + '\\d+)?' + ':');
     nextSibling = h?.nextElementSibling;
 
     while (nextSibling && nextSibling.nodeName !== 'H2') {
@@ -980,23 +978,40 @@ export class DetailContentComponent
 
         if (
           regexMip.test(element.innerText) &&
-          contentMipComponents.findIndex(
-            (item) => item.mipComponent === match
+          sections.findIndex(
+            (item) =>
+              item.mipComponent === match || item.heading === element.innerText
           ) > -1
         ) {
-          const componentNumber = element.innerText
-            .match(new RegExp('^' + this.mipName + 'c' + '\\d+'))[0]
-            .split('c')[1];
-          const newLink = document.createElement('a');
-          newLink.href =
-            '/mips/details/' +
-            this.mipName +
-            '#' +
-            this.mipName +
-            'c' +
-            componentNumber;
-          newLink.innerHTML = element.innerText;
-          element.parentElement.replaceChild(newLink, element);
+          if (sections.findIndex((item: any) => item.mipComponent === match) > -1) {
+            const componentNumber = element.innerText
+              .match(new RegExp('^' + this.mipName + 'c' + '\\d+'))[0]
+              .split('c')[1];
+            const newLink = document.createElement('a');
+            newLink.href =
+              '/mips/details/' +
+              this.mipName +
+              '#' +
+              this.mipName +
+              'c' +
+              componentNumber;
+            newLink.innerHTML = element.innerText;
+            element.parentElement.replaceChild(newLink, element);
+          } else {
+            const index = this.sourceData.findIndex(
+              (item) => item.initialName === 'Component Summary'
+            );
+            let escapedText = '';
+            if (index > -1) {
+              escapedText = element.innerText
+                .toLowerCase()
+                .replace(/[^\w]+/g, '-');
+            }
+            const newLink = document.createElement('a');
+            newLink.href = '/mips/details/' + this.mipName + '#' + escapedText;
+            newLink.innerHTML = element.innerText;
+            element.parentElement.replaceChild(newLink, element);
+          }
         }
       });
 
