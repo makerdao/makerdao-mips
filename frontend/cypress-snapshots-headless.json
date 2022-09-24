@@ -3,8 +3,7 @@
   "chromeWebSecurity": false,
   "viewportWidth": 1600,
   "testFiles": [
-    "**/snapshots/*.{feature,features}",
-    "**/screenshots/*.spec.js"
+    "**/snapshots/*.{feature,features}"
   ],
   "screenshotsFolder": "cypress/snapshot-headless/screenshots",
   "retries": { "runMode": 2, "openMode": 2 }
