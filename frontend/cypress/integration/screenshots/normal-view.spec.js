@@ -46,7 +46,7 @@ describe('Normal List View', () => {
   });
 
   it('MIP components', () => {
-    cy.get('[data-cy=table-list-mips] tbody tr').first().then($tr => {
+    cy.get('[data-cy=table-list-mips] tbody tr').eq(4).then($tr => {
       cy.wrap($tr).find('td:first-child button').click();
       cy.testScreenshot($tr.next(), 'normal-view/mip-row-with-expanded-components');
     })
