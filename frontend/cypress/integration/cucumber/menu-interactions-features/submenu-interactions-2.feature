@@ -1,5 +1,11 @@
 Feature: Submenu interactions
 
+  Background: Mocks
+    Given Backend data is set to be mocked
+    And Origin "https://mips.makerdao.com" is set to be mocked as baseUrl with alias "mips"
+    And Origin "http://chat.makerdao.com" is set to be mocked as fake site with alias "chat"
+    And Origin "https://forum.makerdao.com" is set to be mocked as fake site with alias "chat"
+
   Scenario Outline: Submenu items navigate to the expected links
     Given The user opens the main page
     When Menu "<menu>" is open

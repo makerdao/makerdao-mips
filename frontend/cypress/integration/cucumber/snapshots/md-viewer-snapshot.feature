@@ -2,6 +2,7 @@ Feature: MD viewer snapshots
 
   Background: Preset conditions
     Given Backend data is set to be mocked
+    And MIP4 github raw content is set to be mocked
 
   ## ----------------------DESKTOP-----------------------
   Scenario: Global Snapshot

@@ -44,7 +44,7 @@ Then("The MIPs list should be sorted by #", () => {
 
 When("The user clicks the title column header", () => {
   cy.intercept("**/mips/findall*").as("sortRequest");
-  cy.scrollTo("bottom").wait(1000);
+  cy.scrollTo("bottom");
   cy.get(
     "[data-cy=table-list-mips] > thead > tr > th.mat-column-title .headerContent"
   ).click();
@@ -52,72 +52,43 @@ When("The user clicks the title column header", () => {
   cy.get("div.maker-loading-shade").should("not.exist");
 });
 
-Then("The MIps list should be sorted by title ascending", () => {
-  cy.get(
-    "[data-cy=table-list-mips] > tbody > tr[data-cy=search-result] > td.mat-column-title"
-  ).then(($titles) => {
-    console.log($titles);
-    const titles = $titles.map((_, $title) => $title.textContent.trim()).get();
-    console.log(titles);
-    cy.wrap(titles).should("deep.equal", titles.slice().sort());
-  });
-});
 
 When("The user clicks the title column header again", () => {
-  cy.scrollTo("bottom").wait(1000);
+  cy.scrollTo("bottom");
   cy.get(
     "[data-cy=table-list-mips] > thead > tr > th.mat-column-title .headerContent"
   ).click();
   cy.get("div.maker-loading-shade ng-star-inserted").should("not.exist");
 });
 
-Then("The MIps list should be sorted by title descending", () => {
-  cy.get(
-    "[data-cy=table-list-mips] > tbody > tr[data-cy=search-result] > td.mat-column-title"
-  ).then(($titles) => {
-    const titles = $titles.map((_, $title) => $title.textContent.trim()).get();
-    cy.wrap(titles).should("deep.equal", titles.slice().sort().reverse());
-  });
-});
-
 When("The user clicks the status column header", () => {
-  cy.scrollTo("bottom").wait(1000);
+  cy.scrollTo("bottom");
   cy.get(
     "[data-cy=table-list-mips] > thead > tr > th.mat-column-status .headerContent"
   ).click();
+  cy.wait("@MIPs");
 });
 
-Then("The MIps list should be sorted by status ascending", () => {
-  cy.get(
-    "[data-cy=table-list-mips] > tbody > tr[data-cy=search-result] > td.mat-column-status"
-  ).then(($statuses) => {
-    const statuses = $statuses
-      .map((_, $status) => $status.textContent.trim())
-      .get();
-    cy.wrap(statuses).should("deep.equal", statuses.slice().sort());
-  });
-});
+Then(
+  "The MIps list should be sorted by {string} {string}",
+  (criteria, order) => {
+    let str = `order=${order === "descending" ? "-" : ""}${criteria}`;
+    cy.get("@MIPs").then((req) => {
+      cy.wrap(req.request.url).should("include", str);
+    });
+  }
+);
 
 When("The user clicks the status column header again", () => {
-  cy.scrollTo("bottom").wait(1000);
+  cy.scrollTo("bottom");
   cy.get(
     "[data-cy=table-list-mips] > thead > tr > th.mat-column-status .headerContent"
   ).click();
 });
 
-Then("The MIps list should be sorted by status descending", () => {
-  cy.get(
-    "[data-cy=table-list-mips] > tbody > tr[data-cy=search-result] > td.mat-column-status"
-  ).then(($statuses) => {
-    const statuses = $statuses
-      .map((_, $status) => $status.textContent.trim())
-      .get();
-    cy.wrap(statuses).should("deep.equal", statuses.slice().sort().reverse());
-  });
-});
 
-Then("The MIps list should have length 10", () => {
-  cy.get("tr[data-cy=search-result]").should("have.length", 10);
+Then("The MIPs list should have length {string}", (length) => {
+  cy.get("tr[data-cy=search-result]").should("have.length", +length);
 });
 
 Then("Loading plus component should not exist", () => {
@@ -125,21 +96,18 @@ Then("Loading plus component should not exist", () => {
 });
 
 When("The user scrolls to the bottom", () => {
-  cy.scrollTo("bottom").wait(100);
+  cy.scrollTo("bottom");
 });
 
 Then("Loading plus component should be visible", () => {
   cy.get(".loading-plus").should("be.visible");
 });
 
-And("The MIPs list should have length 20", () => {
-  cy.get("tr[data-cy=search-result]").should("have.length", 20);
+Then("Loading plus component should appear for a moment", () => {
+  cy.get(".loading-plus").should("be.visible");
+  cy.get(".loading-plus").should("not.exist");
 });
 
 And("Loading plus component should not exist", () => {
-  cy.get(".loading-plus").should("not.exist").wait(100);
-});
-
-And("The MIPs list should have length 30", () => {
-  cy.get("tr[data-cy=search-result]").should("have.length", 30);
+  cy.get(".loading-plus").should("not.exist");
 });

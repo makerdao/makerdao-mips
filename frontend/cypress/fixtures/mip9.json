@@ -1,0 +1,184 @@
+{
+  "mip": {
+    "components": [
+      {
+        "cName": "MIP9c1",
+        "cTitle": "The Community Greenlight Process",
+        "cBody": "Defines the community greenlight process and its interaction with the collateral onboarding process."
+      },
+      {
+        "cName": "MIP9c2",
+        "cTitle": "The Community Greenlight Outcomes",
+        "cBody": "Defines the possible outcomes from the community greenlight process."
+      },
+      {
+        "cName": "MIP9c3",
+        "cTitle": "The Community Greenlight Requirements",
+        "cBody": "Defines the responsibilities of the Governance Facilitators in the community greenlight process."
+      },
+      {
+        "cName": "MIP9c4",
+        "cTitle": "Community Greenlight Poll Template",
+        "cBody": "Defines a governance poll template to be used in the on-chain Community Greenlight poll."
+      }
+    ],
+    "references": [{ "name": "No referenced materials.", "link": "" }],
+    "sectionsRaw": [
+      "# MIP9: Community Greenlight\n\n",
+      "## Preamble\n\n",
+      "```\nMIP#: 9\nTitle: Community Greenlight\nAuthor(s): Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)\nContributors: @LongForWisdom, Leo Jsaraceno (@Mitote), Helge Andreas Qvam (@planet_X), Elihu (@Elihu)\nTags: process, collateral-onboarding, mip-set, collateral-onboarding-mipset\nType: Process\nStatus: Accepted\nDate Proposed: 2020-04-06\nDate Ratified: 2020-05-02\nLast Amended: 2021-04-29\nDependencies: [MIP6](mips/details/MIP6 \"smart-Mip\")\nReplaces: n/a\nRatification Poll URL:\nForum URL: https://forum.makerdao.com/t/mip9-community-greenlight/1911\nExtra: This MIP has been amended. See [MIP4c2-SP3](https://mips.makerdao.com/mips/details/MIP4c2SP3), [MIP4c2-SP8](https://mips.makerdao.com/mips/details/MIP4c2SP8). The original version can be found [here](https://github.com/makerdao/mips/blob/ebc3cb4c3cb1b1381901c15cffbf062cd1f0d585/MIP9/mip9.md).\n```\n\n",
+      "## References\n\n",
+      "No referenced materials.",
+      "\n\n",
+      "## Sentence Summary\n\n",
+      "MIP9 defines the process by which MKR Token Holders can signal their judgment on the value of a potential collateral type before domain teams spend time thoroughly investigating its inclusion into the Maker Protocol.",
+      "\n\n",
+      "## Paragraph Summary\n\n",
+      "This proposal aims to standardize the process for allowing MKR Token Holders to inform the Domain Teams of their preferences for collateral types that have been proposed through [MIP6](mips/details/MIP6 \"smart-Mip\"). The preferences of the MKR Token holders are expressed in the form of an on-chain governance poll. The governance polls (Community Greenlight polls) are published at the start of the first and third weeks of the governance cycle and will run for a period of two weeks.",
+      "\n\n",
+      "## Component Summary\n\n",
+      "**MIP9c1: The Community Greenlight Process**\nDefines the community greenlight process and its interaction with the collateral onboarding process.",
+      "\n\n",
+      "**MIP9c2: The Community Greenlight Outcomes**\nDefines the possible outcomes from the community greenlight process.",
+      "\n\n",
+      "**MIP9c3: The Community Greenlight Requirements**\nDefines the responsibilities of the Governance Facilitators in the community greenlight process.",
+      "\n\n",
+      "**MIP9c4: Community Greenlight Poll Template**\nDefines a governance poll template to be used in the on-chain Community Greenlight poll.",
+      "\n\n",
+      "## Motivation\n\n",
+      "While domain teams are free to choose their own workload, an on-chain governance poll provides the Domain Teams key insights into the community's sentiment for each collateral type that has been proposed. In addition to this, it is important to gather the opinion of MKR Token Holders towards the proposed collateral asset before the full domain work takes place. This helps prevent work from being wasted on undesirable collateral types.",
+      "\n\n",
+      "## Specification / Proposal Details\n\n",
+      "### MIP9c1: The Community Greenlight Process\n\n",
+      "- For an asset to be onboarded to the Maker Protocol, it must pass an executive vote as part of [MIP12](mips/details/MIP12 \"smart-Mip\"). Community greenlight is the process through which early sentiment is measured and used to direct the work of domain teams towards assets that MKR Holders will be willing to onboard after work has been completed.\n- The community greenlight process for a potential collateral asset consists of an on-chain governance poll using the template defined in [MIP9c4](mips/details/MIP9#MIP9c4 \"smart-Component\").\n- The community greenlight polls occur at fixed times each governance cycle, starting on the 1st and 3rd Mondays of the month and running for a period of 2 full weeks.\n- A potential collateral asset is valid for a community greenlight poll if it has a [MIP6](mips/details/MIP6 \"smart-Mip\") Application that has been published on the official forum for a period of 2 weeks prior to the start date of the greenlight poll.\n\n",
+      "#### Community Greenlight Process Overview Diagram\n\n",
+      "<img width=\"722\" alt=\"mip9-a\" src=\"https://user-images.githubusercontent.com/32653033/83067877-65367500-a035-11ea-9fb9-acefca9ec366.png\">\n\n",
+      "---\n\n",
+      "### MIP9c2: The Community Greenlight Outcomes\n\n",
+      "**Greenlit**",
+      "\n\n",
+      "- The community greenlight poll for the potential collateral asset ends with more greenlight votes than deferred votes.\n- The potential collateral asset is marked as having been greenlit by the community.\n- Domain teams may feel confident in allocating time to work on the potential collateral asset.\n- The potential collateral asset is now eligible for the domain greenlight process defined in [MIP8](mips/details/MIP8 \"smart-Mip\").\n\n",
+      "**Deferred**",
+      "\n\n",
+      "- The community greenlight poll for the potential collateral asset ends with more defer votes than greenlight votes.\n- The potential collateral asset is marked as having been deferred by the community.\n- Domain teams may still choose to work on a collateral type that has been deferred if they are confident that governance will approve future inclusion.\n- Community greenlight polls for assets that have been deferred can be rerun in the future at the discretion of the Governance Facilitators.\n\n",
+      "**Community Greenlight Poll Scoring**",
+      "\n\n",
+      "The polls are scored as follows:",
+      "\n\n",
+      "- Score = Yes Votes - No Votes\n- Score > 0 = Greenlit\n- Score < 0 = Deferred\n\n",
+      "Community Greenlight poll scores provide a reasonable first approximation of which assets domain teams should prioritize. However, this prioritization is not binding on the domain teams. Domain teams are free to determine the order in which they perform domain greenlights and domain work.",
+      "\n\n",
+      "---\n\n",
+      "### MIP9c3: The Community Greenlight Requirements\n\n",
+      "- The Governance Facilitators are responsible for creating a Community Greenlight Poll for each valid potential collateral asset bi-monthly.\n- If a previously deferred potential collateral asset is included in the bi-monthly greenlight polls, a reason must be communicated to the community via the official forum before the greenlight poll occurs.\n- The Governance Facilitators are responsible for maintaining a list of collaterals based on the outcome of the individual Community Greenlight Polls. This list should include collateral types that have been both greenlit and deferred.\n- At the Governance Facilitators’ discretion, community greenlight polls may be deferred to a later date.\n- At the Governance Facilitator’s discretion, community greenlight polls may be deferred to a later date.\n- If the Governance Facilitators opt to defer community greenlight polls, a reason must be communicated to the community via the official forum before the greenlight poll was scheduled to take place.\n\n",
+      "---\n\n",
+      "### MIP9c4: Community Greenlight Poll Template\n\n",
+      "In this template, the asset ETH is used as an example collateral type.",
+      "\n\n",
+      "Additional informational material or reference links may be added to the poll content at the discretion of the Governance Facilitators.",
+      "\n\n",
+      "**Governance Poll Template:**",
+      "\n\n",
+      "**Poll Title**\n[MIP9](mips/details/MIP9 \"smart-Mip\") Community Greenlight Poll: ETH (Ether)",
+      "\n\n",
+      "**Description**\nIf greenlight votes exceed defer votes, this poll is to be taken as a signal to domain teams that MKR Token Holders have approved further domain work with the aim of adding ETH (Ether) as a collateral asset to the Maker Protocol.",
+      "\n\n",
+      "**Duration of Poll**\nTwo weeks",
+      "\n\n",
+      "**Poll Options**",
+      "\n\n",
+      "- Yes (Greenlight)\n- No (Defer)\n"
+    ],
+    "sections": [
+      { "heading": "MIP9: Community Greenlight", "depth": 1 },
+      { "heading": "Preamble", "depth": 2 },
+      { "heading": "References", "depth": 2 },
+      { "heading": "Sentence Summary", "depth": 2 },
+      { "heading": "Paragraph Summary", "depth": 2 },
+      { "heading": "Component Summary", "depth": 2 },
+      { "heading": "Motivation", "depth": 2 },
+      { "heading": "Specification / Proposal Details", "depth": 2 },
+      {
+        "heading": "MIP9c1: The Community Greenlight Process",
+        "depth": 3,
+        "mipComponent": "MIP9c1"
+      },
+      {
+        "heading": "Community Greenlight Process Overview Diagram",
+        "depth": 4
+      },
+      {
+        "heading": "MIP9c2: The Community Greenlight Outcomes",
+        "depth": 3,
+        "mipComponent": "MIP9c2"
+      },
+      {
+        "heading": "MIP9c3: The Community Greenlight Requirements",
+        "depth": 3,
+        "mipComponent": "MIP9c3"
+      },
+      {
+        "heading": "MIP9c4: Community Greenlight Poll Template",
+        "depth": 3,
+        "mipComponent": "MIP9c4"
+      }
+    ],
+    "dependencies": ["MIP6"],
+    "tags": [
+      "process",
+      "collateral-onboarding",
+      "mip-set",
+      "collateral-onboarding-mipset"
+    ],
+    "contributors": [
+      "@LongForWisdom",
+      "Leo Jsaraceno (@Mitote)",
+      "Helge Andreas Qvam (@planet_X)",
+      "Elihu (@Elihu)"
+    ],
+    "author": ["Rune Christensen (@Rune23)", "Charles St.Louis (@CPSTL)"],
+    "proposal": "",
+    "extra": [
+      "This MIP has been amended. See [MIP4c2-SP3](https://mips.makerdao.com/mips/details/MIP4c2SP3), [MIP4c2-SP8](https://mips.makerdao.com/mips/details/MIP4c2SP8). The original version can be found [here](https://github.com/makerdao/mips/blob/ebc3cb4c3cb1b1381901c15cffbf062cd1f0d585/MIP9/mip9.md)."
+    ],
+    "mipFather": false,
+    "subproposal": -1,
+    "mip": 9,
+    "language": "en",
+    "_id": "63176fb6a7aebc1c501540e1",
+    "hash": "30f44620c2d5278c2cbae477b95ab9e298f08901",
+    "filename": "MIP9/mip9.md",
+    "mipName": "MIP9",
+    "sentenceSummary": "MIP9 defines the process by which MKR Token Holders can signal their judgment on the value of a potential collateral type before domain teams spend time thoroughly investigating its inclusion into the Maker Protocol.",
+    "paragraphSummary": "This proposal aims to standardize the process for allowing MKR Token Holders to inform the Domain Teams of their preferences for collateral types that have been proposed through MIP6. The preferences of the MKR Token holders are expressed in the form of an on-chain governance poll. The governance polls (Community Greenlight polls) are published at the start of the first and third weeks of the governance cycle and will run for a period of two weeks.",
+    "dateProposed": "2020-04-06",
+    "dateRatified": "2020-05-02",
+    "replaces": "n/a",
+    "status": "Accepted",
+    "title": "Community Greenlight",
+    "types": "Process",
+    "subproposalsCount": 0,
+    "votingPortalLink": "",
+    "forumLink": "https://forum.makerdao.com/t/mip9-community-greenlight/1911",
+    "mipCodeNumber": "MIP0009"
+  },
+  "pullRequests": { "open": 0, "close": 0, "items": [] },
+  "subproposals": [],
+  "languagesAvailables": [
+    { "language": "en", "_id": "63176fb6a7aebc1c501540e1", "mipName": "MIP9" }
+  ],
+  "metaVars": [
+    {
+      "_id": "632b5f8c553d621c6f02f3f1",
+      "language": "es",
+      "translations": "strings:\n  learn: Aprende\n  portaldoc: El Portal de MIP\n  primer: Intro para Autores\n  mip0: El Framework de MIP\n  mip51: Ciclo de Gobernanza Mensual\n  views: Vistas\n  status: Estado\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Aceptada\n  obsolete: Obsoleta\n  rejected: Rechazada\n  withdrawn: Retirada\n  coreunits: Core Units\n  allcus: Todas (MIP38c2)\n  activebudgets: Presupuestos Activos\n  spsinforce: Subpropuestas en Vigor\n  archive: Archivo\n  living: Propuestas Registrales\n  technical: Técnicas\n  implemented: Implementadas\n  pending: Pendientes de Implementación\n  process: Procesos\n  contact: Ponte en Contacto\n  forum: Foro\n  chat: Chat\nreserved:\n  Preamble: Preámbulo\n  'MIP#': 'MIP#'\n  Title: Título\n  Author(s): Autor(es)\n  Contributors: Colaboradores\n  Type: Tipo\n  Status: Estado\n  Date Proposed: Fecha de Proposición\n  Date Ratified: Fecha de Ratificación\n  Last Amended: Última Modificación\n  Dependencies: Dependencias\n  Replaces: Reemplaza\n  References: Referencias\n  Sentence Summary: Resumen Corto\n  Paragraph Summary: Resumen Largo\n  Component Summary: Índice de Componentes\nnews:\n  description1: \"Descripción uno.\"\n  description2: \"Descripción dos\"\n  description3: \"Descripción tres\"\n  link1: \"https://mips.makerdao.com/mips/details/MIP0\"\n  linkforum1: \"https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\"\n  linkmd1: \"https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\"\n  title1: \"Hubo algunos cambios.\"\n  title2: \"Título dos\"\n  title3: \"Título tres\"\n",
+      "__v": 0
+    },
+    {
+      "_id": "632b5f8c553d621c6f02f3f2",
+      "language": "en",
+      "translations": "strings:\n  learn: Learn\n  portaldoc: The MIPs Portal\n  primer: Primer for Authors\n  mip0: The MIPs Framework\n  mip51: Monthly Governance Cycle\n  views: Views\n  status: Status\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Accepted\n  obsolete: Obsolete\n  rejected: Rejected\n  withdrawn: Withdrawn\n  coreunits: Core Units\n  allcus: All (MIP38c2)\n  activebudgets: Active Budgets\n  spsinforce: Subproposals in Force\n  archive: Archive\n  living: Living MIPs\n  technical: Technical\n  implemented: Implemented\n  pending: Pending Implementation\n  process: Processes\n  contact: Get in Touch\n  forum: Forum\n  chat: Chat\nreserved:\n  Preamble: Preamble\n  'MIP#': 'MIP#'\n  Title: Title\n  Author(s): Author(s)\n  Contributors: Contributors\n  Type: Type\n  Status: Status\n  Date Proposed: Date Proposed\n  Date Ratified: Date Ratified\n  Last Amended: Last Amended\n  Dependencies: Dependencies\n  Replaces: Replaces\n  References: References\n  Sentence Summary: Sentence Summary\n  Paragraph Summary: Paragraph Summary\n  Component Summary: Component Summary\nnews: \n  title1: There were some chanages. \n  description1: Description one.\n  link1: https://mips.makerdao.com/mips/details/MIP0\n  linkforum1: https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\n  linkmd1: https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\n  title2: Title two\n  description2: Description two\n  title3: Title three\n  description3: Description three\n",
+      "__v": 0
+    }
+  ]
+}

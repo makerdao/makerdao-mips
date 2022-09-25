@@ -1,6 +1,10 @@
 Feature: Go Top functionality
 
- Scenario: Show and Hide Go Top component
+  Background: Mock
+    Given Backend data is set to be mocked
+    And MIPs list is set to be mocked as a large list
+
+  Scenario: Show and Hide Go Top component
     Given The user opens the main page
     Then Go Top component should not be visible
     When Scrolls down 500 pixels

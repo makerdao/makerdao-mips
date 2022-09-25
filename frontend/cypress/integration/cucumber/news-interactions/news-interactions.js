@@ -1,17 +1,22 @@
 /// <reference types="Cypress" />
 import jsYaml from "js-yaml";
 
-let vars = {};
-let news = {};
+Given("The corresponding yaml values are read", () => {
+  cy.fixture("fakeNews.yaml").then((news) => {
+    cy.wrap(jsYaml.load(news)).as("news");
+  });
+  cy.fixture("vars.yaml").then((vars) => {
+    cy.wrap(jsYaml.load(vars)).as("vars");
+  });
+});
 
-// Given("The user opens the main page", () => {
-//   cy.visit("");
-// });
-
-Given("The corresponding yaml values are stored", () => {
-  cy.wait(100);
-  cy.wait("@newsRequest").then(() => cy.wrap(news).as("news"));
-  cy.wait("@varsRequest").then(() => cy.wrap(vars).as("vars"));
+Given("The corresponding yaml values are read in spanish", () => {
+  cy.fixture("fakeNews.yaml").then((news) => {
+    cy.wrap(jsYaml.load(news)).as("news");
+  });
+  cy.fixture("vars-es.yaml").then((vars) => {
+    cy.wrap(jsYaml.load(vars)).as("vars");
+  });
 });
 
 Given(
@@ -22,21 +27,6 @@ Given(
     );
   }
 );
-
-Given("news.yaml and var.yaml requests are set to be spied on", () => {
-  cy.intercept("**/vars.yaml*", (req) => {
-    return req.continue((res) => {
-      vars = jsYaml.load(res.body);
-      // return cy.wrap(jsYaml.load(res.body)).as("vars");
-    });
-  }).as("varsRequest");
-  cy.intercept("**/news.yaml*", (req) => {
-    req.continue((res) => {
-      news = jsYaml.load(res.body);
-      // return cy.wrap(jsYaml.load(res.body)).as("news");
-    });
-  }).as("newsRequest");
-});
 
 When("The user closes the existent news", () => {
   cy.get(".container-green > .icon > img").click();
@@ -99,7 +89,9 @@ Then(
           cy.wrap(elementTitle).should("eq", title);
           cy.wrap(elementDescription).should("eq", description);
           cy.wrap($new.parent().parent()).should("have.class", className);
-          cy.wrap($new.parent().parent()).find(`img[src*='${iconUrl}']`).should('exist');
+          cy.wrap($new.parent().parent())
+            .find(`img[src*='${iconUrl}']`)
+            .should("exist");
         });
       });
     });

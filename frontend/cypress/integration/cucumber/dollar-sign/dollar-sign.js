@@ -20,3 +20,5 @@ Then('The found MIps should contain the tag {string}',(tag)=>{
     cy.go('back');
   })
 })
+
+

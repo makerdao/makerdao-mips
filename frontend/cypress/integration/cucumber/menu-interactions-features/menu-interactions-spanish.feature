@@ -1,5 +1,12 @@
 Feature: Menu interactions
 
+  Background: Mocks
+    Given Backend data is set to be mocked
+    And Vars data is set to be mocked in spanish
+    And Origin "https://mips.makerdao.com" is set to be mocked as baseUrl with alias "mips"
+    And Origin "http://chat.makerdao.com" is set to be mocked as fake site with alias "chat"
+    And Origin "https://forum.makerdao.com" is set to be mocked as fake site with alias "chat"
+
   #Spanish
 
   Scenario Outline: Navigates to corresponding view wen clicking non-dropdown menu items (Spanish)
@@ -18,4 +25,4 @@ Feature: Menu interactions
       | Vistas            | Propuestas Registrales      | /mips/list?search=$AND(@Accepted,%23living)                                                                                                |
       | Vistas            | Procesos                    | /mips/list?search=$AND(%23process,@ACCEPTED)&orderDirection=ASC&hideParents=false                                                          |
       | Ponte en Contacto | Foro                        | forum.makerdao.com/c/mips/                                                                                                                 |
-      | Ponte en Contacto | Chat                        | discord.com/invite/RBRumCpEDH                                                                                                              |
+      | Ponte en Contacto | Chat                        | chat.makerdao.com                                                                                                                          |

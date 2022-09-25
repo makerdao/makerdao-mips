@@ -20,6 +20,17 @@ When("The user opens all components containing subproposals", () => {
   });
 });
 
+And("Find all request is mocked to return components instead",()=>{
+  cy.intercept(
+    {
+      pathname: "/mips/findall",
+    },
+    {
+      fixture: "mip4-components.json",
+    }
+  ).as("MIP components");
+})
+
 When("The user clicks the first subproposal in ascendent order", () => {
   let rows = [];
   cy.get("tr[role=row]").each((row) => {
