@@ -12,6 +12,7 @@ import {
   TemplateRef,
   ElementRef,
   ViewContainerRef,
+  OnDestroy,
 } from '@angular/core';
 import { fromEvent, Subject, Subscription } from 'rxjs';
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
@@ -38,7 +39,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
     ]),
   ],
 })
-export class SearchMobileComponent implements OnInit {
+export class SearchMobileComponent implements OnInit, OnDestroy {
   @Input() placeHolder? = 'Search on the list';
   @Output() send = new EventEmitter();
   @Output() open = new EventEmitter<boolean>();
@@ -195,7 +196,6 @@ export class SearchMobileComponent implements OnInit {
     clearTimeout(this.timeout);
 
     if (this.control.value.replace("\n",'')===''){
-      console.log('Blank Text');
       this.onOpenCloseInput();
     }
 
@@ -543,6 +543,12 @@ export class SearchMobileComponent implements OnInit {
     ).subscribe(() => {
       this.overlayRef.detach();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.overlayRef) {
+      this.overlayRef.detach();
+    }
   }
 }
 
