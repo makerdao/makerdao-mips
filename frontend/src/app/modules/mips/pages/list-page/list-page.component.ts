@@ -25,6 +25,7 @@ import {OrderService} from '../../services/order.service';
 import {ComponentMip} from '../../types/component-mip';
 import {ISubsetDataElement} from '../../types/subset';
 import {DarkModeService} from 'src/app/services/dark-mode/dark-mode.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-list-page',
@@ -84,9 +85,9 @@ export class ListPageComponent implements OnInit, AfterViewInit {
     private orderService: OrderService,
     private searchService: SearchService,
     public darkModeService: DarkModeService,
-    private filterService: FilterService
-  ) {
-  }
+    private filterService: FilterService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {
     this.initParametersToLoadData();
@@ -231,8 +232,8 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   initSearch() {
     const queryParams: QueryParams = this.queryParamsListService.queryParams;
-    this.search = queryParams.search;
-    this.searchService.search.next(queryParams.search);
+    this.search = this.sanitizer.sanitize(1, queryParams.search);
+    this.searchService.search.next(this.search);
   }
 
   initOrderBy() {
@@ -871,7 +872,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   onSendSearch(event: any): void {
     const search = event.target.value.toLowerCase().trim();
-    this.search = event.target.value;
+    this.search = this.sanitizer.sanitize(1, event.target.value);
     this.searchService.search.next(event.target.value);
 
     this.showHideParentCheckbox = !!this.search;
@@ -920,7 +921,7 @@ export class ListPageComponent implements OnInit, AfterViewInit {
       this.limitAux = 10;
       this.mips = [];
       this.page = 0;
-      this.search = event.target.value;
+      this.search = this.sanitizer.sanitize(1, event.target.value);
       this.searchMips();
       this.setQueryParams();
     }
