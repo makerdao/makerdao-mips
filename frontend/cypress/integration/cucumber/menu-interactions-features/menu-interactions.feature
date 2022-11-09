@@ -1,5 +1,12 @@
 Feature: Menu interactions
 
+  Background: Mocks
+    Given Backend data is set to be mocked
+    And Origin "https://mips.makerdao.com" is set to be mocked as baseUrl with alias "mips"
+    And Origin "http://chat.makerdao.com" is set to be mocked as fake site with alias "chat"
+    And Origin "https://forum.makerdao.com" is set to be mocked as fake site with alias "chat"
+
+
   Scenario Outline: Navigates to corresponding view wen clicking non-dropdown menu items
     Given The user opens the main page
     When Menu "<menu>" is open
@@ -15,4 +22,4 @@ Feature: Menu interactions
       | Views        | Living MIPs              | /mips/list?search=$AND(@Accepted,%23living)                                                                                                |
       | Views        | Processes                | /mips/list?search=$AND(%23process,@ACCEPTED)&orderDirection=ASC&hideParents=false                                                          |
       | Get in Touch | Forum                    | forum.makerdao.com/c/mips/                                                                                                                 |
-      | Get in Touch | Chat                     | discord.com/invite/RBRumCpEDH                                                                                                              |
+      | Get in Touch | Chat                     | chat.makerdao.com                                                                                                                          |

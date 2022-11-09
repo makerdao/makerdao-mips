@@ -1,5 +1,8 @@
 Feature: Dark Mode
 
+  Background: Mock
+    Given Backend data is set to be mocked
+
   Scenario Outline: Check dark mode for multiple components
     Given The user opens the main page
     When Dark mode is toggled

@@ -1,15 +1,22 @@
-Feature: Submenu interactions
+Feature: Submenu interactions                                                                                                          |
 
+  Background: Mocks
+    Given Backend data is set to be mocked
+    And Origin "https://mips.makerdao.com" is set to be mocked as baseUrl with alias "mips"
+    And Origin "http://chat.makerdao.com" is set to be mocked as fake site with alias "chat"
+    And Origin "https://forum.makerdao.com" is set to be mocked as fake site with alias "chat"
+
+  #Dark Mode
   Scenario Outline: Submenu items navigate to the expected links
     Given The user opens the main page
+    And Dark mode is toggled
     When Menu "<menu>" is open
     And Mouse goes over submenu dropdown "<subMenu>"
     And Leaf subMenu item "<subMenuItem>" is clicked
     Then Should visit "<url>"
 
     Examples:
-      | menu | subMenu | subMenuItem | url |
-
+      | menu  | subMenu    | subMenuItem                            | url                                                                                                                                                                                                     |
       # Core units
       | Views | Core Units | ORA-001: Oracles                       | /mips/list?customViewName=Oracles%20Core%20Unit%20(ORA-001)%20Subproposals&_Active%20Subproposals=$AND(%23active,%23cu-ora-001)&_Archive=$AND(NOT(%23active),%23cu-ora-001)                             |
       | Views | Core Units | PE-001: Protocol Engineering           | /mips/list?customViewName=Protocol%20Engineering%20Core%20Unit%20(PE-001)%20Subproposals&_Active%20Subproposals=$AND(%23active,%23cu-pe-001)&_Archive=$AND(NOT(%23active),%23cu-pe-001)                 |

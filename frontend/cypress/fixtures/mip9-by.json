@@ -1,0 +1,7 @@
+{
+  "_id": "63176fb6a7aebc1c501540e1",
+  "mipName": "MIP9",
+  "sentenceSummary": "MIP9 defines the process by which MKR Token Holders can signal their judgment on the value of a potential collateral type before domain teams spend time thoroughly investigating its inclusion into the Maker Protocol.",
+  "paragraphSummary": "This proposal aims to standardize the process for allowing MKR Token Holders to inform the Domain Teams of their preferences for collateral types that have been proposed through MIP6. The preferences of the MKR Token holders are expressed in the form of an on-chain governance poll. The governance polls (Community Greenlight polls) are published at the start of the first and third weeks of the governance cycle and will run for a period of two weeks.",
+  "title": "Community Greenlight"
+}

@@ -6,6 +6,13 @@ Given("The user navigates md-view for MIP1c4 first subproposal", () => {
   );
 });
 
+Given("MIP4 github raw content is set to be mocked", () => {
+  cy.intercept(
+    "https://raw.githubusercontent.com/makerdao/mips/master/MIP1/MIP1c4-Subproposal-Template.md",
+    { fixture: "mip4-raw.txt" }
+  ).as('MIP4Raw');
+});
+
 When("The user clicks the last entry in the content table", () => {
   cy.get("app-proposal-components a")
     .last()

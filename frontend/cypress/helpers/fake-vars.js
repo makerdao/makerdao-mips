@@ -5,5 +5,5 @@ export function fakeVars(lang = 'en', value) {
     fixture = `vars-${lang}.yaml`;
   }
 
-  cy.intercept('GET', '**/mips/master/meta/vars.yaml*', { fixture }).as('Vars');
+  cy.intercept('GET', '**/meta/vars.yaml*', { fixture }).as('Vars');
 }

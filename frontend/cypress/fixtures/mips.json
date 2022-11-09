@@ -1,89 +1,6 @@
 {
   "items": [
     {
-      "_id": "62a4f7dade589239b6adf272",
-      "components": [
-        {
-          "cName": "MIP0c1",
-          "cTitle": "Definitions of the Maker Improvement Proposal Framework",
-          "cBody": "*Defines core concepts of the MIP Framework.*"
-        },
-        {
-          "cName": "MIP0c2",
-          "cTitle": "Core Principles",
-          "cBody": "*Sets the principles that all MIPs should aim to follow.*"
-        },
-        {
-          "cName": "MIP0c3",
-          "cTitle": "The MIP Lifecycle",
-          "cBody": "*Defines the formal stages in the lifecycle of MIPs from conception to approval, rejection, or deferral.*"
-        },
-        {
-          "cName": "MIP0c4",
-          "cTitle": "MIP Components and MIP Component Types",
-          "cBody": "*Defines MIP Components and their types.*"
-        },
-        {
-          "cName": "MIP0c5",
-          "cTitle": "MIP Replacement Process",
-          "cBody": "*Defines the process for replacing MIPs.*"
-        },
-        {
-          "cName": "MIP0c6",
-          "cTitle": "Supporting Materials",
-          "cBody": "*Defines how to include external materials in MIPs.*"
-        },
-        {
-          "cName": "MIP0c7",
-          "cTitle": "MIP Templates",
-          "cBody": "*Provides the MIP templates for both General and Technical MIPs.*"
-        },
-        {
-          "cName": "MIP0c8",
-          "cTitle": "MIP0 Domain Role Dependencies",
-          "cBody": "*Defines the core roles essential to the MIP Framework.*"
-        },
-        {
-          "cName": "MIP0c9",
-          "cTitle": "MIP Editor Role",
-          "cBody": "*Defines the responsibilities of the MIP Editor role and the criteria and grounds for their removal.*"
-        },
-        {
-          "cName": "MIP0c10",
-          "cTitle": "Governance Facilitator Role",
-          "cBody": "*Defines the Governance Facilitator role's responsibilities and the criteria and grounds for their removal.*"
-        },
-        {
-          "cName": "MIP0c11",
-          "cTitle": "Core Personnel Onboarding (`OBSOLETE`)",
-          "cBody": "*Rendered obsolete by the Core Unit Framework (See [MIP38](https://github.com/makerdao/mips/blob/master/MIP38/mip38.md), [MIP39](https://github.com/makerdao/mips/blob/master/MIP39/mip39.md), [MIP40](https://github.com/makerdao/mips/blob/master/MIP40/mip40.md), [MIP41](https://github.com/makerdao/mips/blob/master/MIP41/mip41.md))*"
-        },
-        {
-          "cName": "MIP0c12",
-          "cTitle": "Core Personnel Offboarding (`OBSOLETE`)",
-          "cBody": "*Rendered obsolete by the Core Unit Framework (See [MIP38](https://github.com/makerdao/mips/blob/master/MIP38/mip38.md), [MIP39](https://github.com/makerdao/mips/blob/master/MIP39/mip39.md), [MIP40](https://github.com/makerdao/mips/blob/master/MIP40/mip40.md), [MIP41](https://github.com/makerdao/mips/blob/master/MIP41/mip41.md))*"
-        },
-        {
-          "cName": "MIP0c13",
-          "cTitle": "MIP Set Management",
-          "cBody": "*Defines procedures for managing MIP Sets.*"
-        }
-      ],
-      "proposal": "",
-      "mipFather": true,
-      "mip": 0,
-      "filename": "MIP0/mip0.md",
-      "mipName": "MIP0",
-      "sentenceSummary": "MIP0 defines the *Maker Improvement Proposals (MIPs) Framework* for all subsequent MIPs to utilize.",
-      "paragraphSummary": "MIP0 defines the *Maker Improvement Proposals (MIPs) Framework* for all subsequent MIPs to utilize. This MIP is the foundational MIP that provides the necessary templates, processes, and guidelines for working within the framework and defines the key roles required for the operation of the MIPs Process.",
-      "status": "Accepted",
-      "title": "The Maker Improvement Proposal Framework",
-      "subproposalsCount": 3,
-      "votingPortalLink": "",
-      "forumLink": "https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902",
-      "mipCodeNumber": "MIP0000"
-    },
-    {
       "_id": "62a4f7dade589239b6adf273",
       "components": [
         {
@@ -224,7 +141,117 @@
       "votingPortalLink": "",
       "forumLink": "https://forum.makerdao.com/t/mip6-collateral-onboarding-form-forum-template/1908",
       "mipCodeNumber": "MIP0006"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d8",
+      "components": [
+        {
+          "cName": "MIP7c1",
+          "cTitle": "Domain Team Descriptions",
+          "cBody": "Describes the various domain teams and their responsibilities as they relate to the collateral onboarding process."
+        },
+        {
+          "cName": "MIP7c2",
+          "cTitle": "The Current Domain Roles List",
+          "cBody": "A list component that is kept up-to-date with the currently ratified domain teams."
+        },
+        {
+          "cName": "MIP7c3",
+          "cTitle": "Domain Team onboarding",
+          "cBody": "A process component that defines a method and a template that allows the onboarding of domain teams."
+        },
+        {
+          "cName": "MIP7c4",
+          "cTitle": "Domain Team offboarding",
+          "cBody": "A process component that defines a method and a template that allows the offboarding of domain teams."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 7,
+      "filename": "MIP7/mip7.md",
+      "mipName": "MIP7",
+      "sentenceSummary": "MIP7 defines processes for onboarding and offboarding domain teams.",
+      "paragraphSummary": "The Domain Teams Onboarding & Offboarding proposal provides a predictable framework for both onboarding and offboarding domain teams required for the collateral onboarding process.",
+      "status": "Accepted",
+      "title": "Onboarding and Offboarding Domain Teams (Collateral Onboarding)",
+      "subproposalsCount": 9,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip7-onboarding-and-offboarding-domain-teams-for-collateral-onboarding/1909",
+      "mipCodeNumber": "MIP0007"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540e0",
+      "components": [
+        {
+          "cName": "MIP8c1",
+          "cTitle": "Domain Greenlight Process",
+          "cBody": "Defines the domain greenlight process and its interaction with the collateral onboarding process."
+        },
+        {
+          "cName": "MIP8c2",
+          "cTitle": "Domain Greenlight Outcomes",
+          "cBody": "Defines the possible outcomes from the domain greenlight process."
+        },
+        {
+          "cName": "MIP8c3",
+          "cTitle": "Domain Greenlight Requirements",
+          "cBody": "Defines the responsibilities of the domain teams in the domain greenlight process."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 8,
+      "filename": "MIP8/mip8.md",
+      "mipName": "MIP8",
+      "sentenceSummary": "MIP8 defines the process by which domain teams signal that a potential collateral type is worth investigating its inclusion in the Maker Protocol.",
+      "paragraphSummary": "This proposal defines the process where at least one domain team from each domain (Risk, Smart Contracts, Oracles, Legal, etc.) \"Greenlights\" the collateral type (based on research) in order for the collateral onboarding process to proceed.",
+      "status": "Accepted",
+      "title": "Domain Greenlight",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip8-domain-greenlight/1910",
+      "mipCodeNumber": "MIP0008"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540e1",
+      "components": [
+        {
+          "cName": "MIP9c1",
+          "cTitle": "The Community Greenlight Process",
+          "cBody": "Defines the community greenlight process and its interaction with the collateral onboarding process."
+        },
+        {
+          "cName": "MIP9c2",
+          "cTitle": "The Community Greenlight Outcomes",
+          "cBody": "Defines the possible outcomes from the community greenlight process."
+        },
+        {
+          "cName": "MIP9c3",
+          "cTitle": "The Community Greenlight Requirements",
+          "cBody": "Defines the responsibilities of the Governance Facilitators in the community greenlight process."
+        },
+        {
+          "cName": "MIP9c4",
+          "cTitle": "Community Greenlight Poll Template",
+          "cBody": "Defines a governance poll template to be used in the on-chain Community Greenlight poll."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 9,
+      "filename": "MIP9/mip9.md",
+      "mipName": "MIP9",
+      "sentenceSummary": "MIP9 defines the process by which MKR Token Holders can signal their judgment on the value of a potential collateral type before domain teams spend time thoroughly investigating its inclusion into the Maker Protocol.",
+      "paragraphSummary": "This proposal aims to standardize the process for allowing MKR Token Holders to inform the Domain Teams of their preferences for collateral types that have been proposed through MIP6. The preferences of the MKR Token holders are expressed in the form of an on-chain governance poll. The governance polls (Community Greenlight polls) are published at the start of the first and third weeks of the governance cycle and will run for a period of two weeks.",
+      "status": "Accepted",
+      "title": "Community Greenlight",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip9-community-greenlight/1911",
+      "mipCodeNumber": "MIP0009"
     }
+
   ],
-  "total": 5
+  "total": 7
 }

@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 const { fakeMenu } = require("../../helpers/fake-menu");
-const { fakeMips } = require("../../helpers/fake-mip");
+const { fakeMips } = require("../../helpers/fake-mips");
 const { fakeNews } = require("../../helpers/fake-news");
 const { fakeVars } = require("../../helpers/fake-vars");
 
@@ -46,7 +46,7 @@ describe('Normal List View', () => {
   });
 
   it('MIP components', () => {
-    cy.get('[data-cy=table-list-mips] tbody tr').first().then($tr => {
+    cy.get('[data-cy=table-list-mips] tbody tr').eq(4).then($tr => {
       cy.wrap($tr).find('td:first-child button').click();
       cy.testScreenshot($tr.next(), 'normal-view/mip-row-with-expanded-components');
     })

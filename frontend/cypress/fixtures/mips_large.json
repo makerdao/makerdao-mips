@@ -1,0 +1,450 @@
+{
+  "items": [
+    {
+      "_id": "63176fb6a7aebc1c50153f8f",
+      "components": [
+        {
+          "cName": "MIP1c1",
+          "cTitle": "Definitions",
+          "cBody": "Defines what is meant by a problem space and a Governance Paradigm."
+        },
+        {
+          "cName": "MIP1c2",
+          "cTitle": "The Initial Problem Space",
+          "cBody": "Defines an initial list of problems that will need to be solved in order for there to be a complete Governance Paradigm."
+        },
+        {
+          "cName": "MIP1c3",
+          "cTitle": "Changing the Governance Paradigm",
+          "cBody": "Defines MIPs and MIP Sets as the method used to amend or replace the Governance Paradigm."
+        },
+        {
+          "cName": "MIP1c4",
+          "cTitle": "Changing the Problem Space",
+          "cBody": "A process component that provides a method and a template for adjusting the problem space."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 1,
+      "filename": "MIP1/mip1.md",
+      "mipName": "MIP1",
+      "sentenceSummary": "MIP1 defines and describes Governance Paradigms and problem spaces.",
+      "paragraphSummary": "A Governance Paradigm is a complete and specific group of MIP Sets that solves an entire problem space. A problem space is defined as a list of issues that must be addressed in order for the Maker Protocol to be able to sustain itself and grow into the future Maker governance.",
+      "status": "Accepted",
+      "title": "Maker Governance Paradigms",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip1-maker-governance-paradigms/1903",
+      "mipCodeNumber": "MIP0001"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50153fe3",
+      "components": [
+        {
+          "cName": "MIP2c1",
+          "cTitle": "Interim Phase 1",
+          "cBody": "Defines the first interim phase, in which the feedback period and freeze period for MIPs are ignored until 3 months after a core governance framework and a functional collateral onboarding process are implemented through MIPs."
+        },
+        {
+          "cName": "MIP2c2",
+          "cTitle": "Interim Phase 2",
+          "cBody": "Defines the second interim phase, in which the feedback period and freeze period for MIPs are reduced until the initial problem space has been addressed."
+        },
+        {
+          "cName": "MIP2c3",
+          "cTitle": "MIP2 Obsolescence",
+          "cBody": "Defines the obsolescence of this MIP once the interim phases have passed."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 2,
+      "filename": "MIP2/mip2.md",
+      "mipName": "MIP2",
+      "sentenceSummary": "MIP2 details two interim phases during which logic defined in MIP0 is overridden.",
+      "paragraphSummary": "This proposal details the process of how Maker Governance can bootstrap the setup and implementation of the first Governance Paradigm. More specifically, it defines two phases:1. **Phase 1:** when a core governance framework is put in place and a functional collateral onboarding process is ratified.\n2. **Phase 2:** when the Problem Space is in the process of being addressed with MIPs and MIP Sets.\n\nLastly, the proposal states that MIP2 itself will become obsolete when the Problem Space has officially been addressed.",
+      "status": "Accepted",
+      "title": "Launch Period",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip2-launch-period/1904",
+      "mipCodeNumber": "MIP0002"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50154033",
+      "components": [
+        {
+          "cName": "MIP4c1",
+          "cTitle": "Purpose Description",
+          "cBody": "Suggests the purpose of the amendment and removal processes and possible reasons for using each process."
+        },
+        {
+          "cName": "MIP4c2",
+          "cTitle": "Amendment Process for MIPs Older than 3 Months",
+          "cBody": "A process component which defines a method and template for the amendment of an accepted MIP older than 3 Months."
+        },
+        {
+          "cName": "MIP4c3",
+          "cTitle": "Amendment Process for MIPs Younger than 3 Months",
+          "cBody": "A process component which defines a method and template for the amendment of an accepted MIP younger than 3 Months."
+        },
+        {
+          "cName": "MIP4c4",
+          "cTitle": "MIP Removal Process",
+          "cBody": "A process component which defines a method and template for the removal of an accepted MIP."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 4,
+      "filename": "MIP4/mip4.md",
+      "mipName": "MIP4",
+      "sentenceSummary": "MIP4 defines processes for the amendment and removal of accepted MIPs.",
+      "paragraphSummary": "The Amendment and Removal Process-MIP outlines the process for very small and relatively superficial changes to MIPs. This MIP Contains two Process Components, the first dealing with the Removal of ratified MIPs, and the second dealing with Amending current active MIPs.",
+      "status": "Accepted",
+      "title": "MIP Amendment and Removal Process",
+      "subproposalsCount": 23,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip4-mip-amendment-and-removal-process/1906",
+      "mipCodeNumber": "MIP0004"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540c1",
+      "components": [
+        {
+          "cName": "MIP6c1",
+          "cTitle": "Process Overview",
+          "cBody": "Provides an overview of the collateral application form submission process, which includes location, involved stakeholders, and the next phase."
+        },
+        {
+          "cName": "MIP6c2",
+          "cTitle": "Application Template",
+          "cBody": "Provides a collateral application form template to be used in the submission process defined in MIP6c1."
+        },
+        {
+          "cName": "MIP6c3",
+          "cTitle": "Application Template Amendment Process",
+          "cBody": "A process component that defines a method and template to amend the collateral application form template defined in MIP6c2."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 6,
+      "filename": "MIP6/mip6.md",
+      "mipName": "MIP6",
+      "sentenceSummary": "MIP6 defines a standardized application form used to kick off the process of onboarding a new collateral asset to the Maker Protocol.",
+      "paragraphSummary": "The purpose of this proposal is to standardize the collateral onboarding application template that community members and third-party projects can use to begin the process of getting their collateral onboarded to the Maker Protocol.",
+      "status": "Accepted",
+      "title": "Collateral Onboarding Application",
+      "subproposalsCount": 2,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip6-collateral-onboarding-form-forum-template/1908",
+      "mipCodeNumber": "MIP0006"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540d8",
+      "components": [
+        {
+          "cName": "MIP7c1",
+          "cTitle": "Domain Team Descriptions",
+          "cBody": "Describes the various domain teams and their responsibilities as they relate to the collateral onboarding process."
+        },
+        {
+          "cName": "MIP7c2",
+          "cTitle": "The Current Domain Roles List",
+          "cBody": "A list component that is kept up-to-date with the currently ratified domain teams."
+        },
+        {
+          "cName": "MIP7c3",
+          "cTitle": "Domain Team onboarding",
+          "cBody": "A process component that defines a method and a template that allows the onboarding of domain teams."
+        },
+        {
+          "cName": "MIP7c4",
+          "cTitle": "Domain Team offboarding",
+          "cBody": "A process component that defines a method and a template that allows the offboarding of domain teams."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 7,
+      "filename": "MIP7/mip7.md",
+      "mipName": "MIP7",
+      "sentenceSummary": "MIP7 defines processes for onboarding and offboarding domain teams.",
+      "paragraphSummary": "The Domain Teams Onboarding & Offboarding proposal provides a predictable framework for both onboarding and offboarding domain teams required for the collateral onboarding process.",
+      "status": "Accepted",
+      "title": "Onboarding and Offboarding Domain Teams (Collateral Onboarding)",
+      "subproposalsCount": 9,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip7-onboarding-and-offboarding-domain-teams-for-collateral-onboarding/1909",
+      "mipCodeNumber": "MIP0007"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540e0",
+      "components": [
+        {
+          "cName": "MIP8c1",
+          "cTitle": "Domain Greenlight Process",
+          "cBody": "Defines the domain greenlight process and its interaction with the collateral onboarding process."
+        },
+        {
+          "cName": "MIP8c2",
+          "cTitle": "Domain Greenlight Outcomes",
+          "cBody": "Defines the possible outcomes from the domain greenlight process."
+        },
+        {
+          "cName": "MIP8c3",
+          "cTitle": "Domain Greenlight Requirements",
+          "cBody": "Defines the responsibilities of the domain teams in the domain greenlight process."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 8,
+      "filename": "MIP8/mip8.md",
+      "mipName": "MIP8",
+      "sentenceSummary": "MIP8 defines the process by which domain teams signal that a potential collateral type is worth investigating its inclusion in the Maker Protocol.",
+      "paragraphSummary": "This proposal defines the process where at least one domain team from each domain (Risk, Smart Contracts, Oracles, Legal, etc.) \"Greenlights\" the collateral type (based on research) in order for the collateral onboarding process to proceed.",
+      "status": "Accepted",
+      "title": "Domain Greenlight",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip8-domain-greenlight/1910",
+      "mipCodeNumber": "MIP0008"
+    },
+    {
+      "_id": "63176fb6a7aebc1c501540e1",
+      "components": [
+        {
+          "cName": "MIP9c1",
+          "cTitle": "The Community Greenlight Process",
+          "cBody": "Defines the community greenlight process and its interaction with the collateral onboarding process."
+        },
+        {
+          "cName": "MIP9c2",
+          "cTitle": "The Community Greenlight Outcomes",
+          "cBody": "Defines the possible outcomes from the community greenlight process."
+        },
+        {
+          "cName": "MIP9c3",
+          "cTitle": "The Community Greenlight Requirements",
+          "cBody": "Defines the responsibilities of the Governance Facilitators in the community greenlight process."
+        },
+        {
+          "cName": "MIP9c4",
+          "cTitle": "Community Greenlight Poll Template",
+          "cBody": "Defines a governance poll template to be used in the on-chain Community Greenlight poll."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 9,
+      "filename": "MIP9/mip9.md",
+      "mipName": "MIP9",
+      "sentenceSummary": "MIP9 defines the process by which MKR Token Holders can signal their judgment on the value of a potential collateral type before domain teams spend time thoroughly investigating its inclusion into the Maker Protocol.",
+      "paragraphSummary": "This proposal aims to standardize the process for allowing MKR Token Holders to inform the Domain Teams of their preferences for collateral types that have been proposed through MIP6. The preferences of the MKR Token holders are expressed in the form of an on-chain governance poll. The governance polls (Community Greenlight polls) are published at the start of the first and third weeks of the governance cycle and will run for a period of two weeks.",
+      "status": "Accepted",
+      "title": "Community Greenlight",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip9-community-greenlight/1911",
+      "mipCodeNumber": "MIP0009"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50153fc4",
+      "components": [
+        {
+          "cName": "MIP10c1",
+          "cTitle": "Oracle Onboarding (OT)",
+          "cBody": "Defines a process for onboarding new oracles into the Maker Protocol."
+        },
+        {
+          "cName": "MIP10c2",
+          "cTitle": "Process for Oracle Onboarding Request",
+          "cBody": "A process component that defines the method and template to request a new Oracle."
+        },
+        {
+          "cName": "MIP10c3",
+          "cTitle": "Process to Onboard Oracle (OT)",
+          "cBody": "A process component that defines the method and template for the Oracle Team to onboard a new Oracle."
+        },
+        {
+          "cName": "MIP10c4",
+          "cTitle": "Process to Offboard Oracle",
+          "cBody": "A process component that defines the method and template to offboard an Oracle in the case it has become obsolete or otherwise undesirable."
+        },
+        {
+          "cName": "MIP10c5",
+          "cTitle": "List of Active Oracles",
+          "cBody": "A list component that is kept-up-to-date with the currently active Oracles and their properties."
+        },
+        {
+          "cName": "MIP10c6",
+          "cTitle": "Process for Data Model Update Request",
+          "cBody": "A process component that defines the method and template to request to update a Data Model."
+        },
+        {
+          "cName": "MIP10c7",
+          "cTitle": "Process to Update Oracle Data Model (OT)",
+          "cBody": "A process component that defines the method and template for the Oracle Team to update the Data Model of an asset pair."
+        },
+        {
+          "cName": "MIP10c8",
+          "cTitle": "List of Oracle Data Models",
+          "cBody": "A list component that is kept up-to-date with the ratified Oracle Data Models.\n\n"
+        },
+        {
+          "cName": "MIP10c9",
+          "cTitle": "Process to Whitelist Oracle Access",
+          "cBody": "A process component that defines the method and template to whitelist access for a specific Oracle."
+        },
+        {
+          "cName": "MIP10c10",
+          "cTitle": "Process to Remove Oracle Access",
+          "cBody": "A process component that defines the method and template to remove whitelist access for a specific Oracle."
+        },
+        {
+          "cName": "MIP10c11",
+          "cTitle": "List of Oracle Whitelists",
+          "cBody": "A list component that is kept up-to-date with the whitelist for each Oracle."
+        },
+        {
+          "cName": "MIP10c12",
+          "cTitle": "Process to Update Oracle Access Fee",
+          "cBody": "A process component that defines the method and template to update the Oracle Access Fee.\n\n"
+        },
+        {
+          "cName": "MIP10c13",
+          "cTitle": "Process to Appoint Dark Feed",
+          "cBody": "A process component that defines the method and template to appoint a Dark Feed."
+        },
+        {
+          "cName": "MIP10c14",
+          "cTitle": "Process to Appoint Light Feed",
+          "cBody": "A process component that defines the method and template to appoint a Light Feed."
+        },
+        {
+          "cName": "MIP10c15",
+          "cTitle": "Process to Appoint Feed (OT)",
+          "cBody": "A process component that defines the method and template for the Oracle Team to appoint a Feed."
+        },
+        {
+          "cName": "MIP10c16",
+          "cTitle": "Process to Remove Feed",
+          "cBody": "A process component that defines the method and template to remove a Feed."
+        },
+        {
+          "cName": "MIP10c17",
+          "cTitle": "List of Feeds",
+          "cBody": "A list component that is kept up-to-date with the current Feeds."
+        },
+        {
+          "cName": "MIP10c18",
+          "cTitle": "Process to Update Feed Stipend",
+          "cBody": "A process component that defines the method and template to update the Feed Stipend.\n\n"
+        },
+        {
+          "cName": "MIP10c19",
+          "cTitle": "Process to Update Oracle Expiration Time",
+          "cBody": "A process component that defines the method and template to update the Oracle Expiration Time."
+        },
+        {
+          "cName": "MIP10c20",
+          "cTitle": "Process to Update Oracle Spread",
+          "cBody": "A process component that defines the method and template to update the Oracle Spread."
+        },
+        {
+          "cName": "MIP10c21",
+          "cTitle": "Process to Update Oracle Security Module Delay",
+          "cBody": "A process component that defines the method and template to update the Oracle Security Module Delay."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 10,
+      "filename": "MIP10/mip10.md",
+      "mipName": "MIP10",
+      "sentenceSummary": "MIP10 defines how oracles are onboarded, offboarded and managed in order to support the Maker Protocol.",
+      "paragraphSummary": "This proposal defines the processes for onboarding, offboarding and managing Oracles. This encompasses a diverse array of components. Beginning with selecting Data Models for assets which are used for computing aggregated data into a canonical price. Continuing onward, processes are defined for adding and removing Feeds, agents who run Data Models and publish the resulting prices. Furthermore, it describes the governance procedures for creating new Oracles for new asset classes, whether they be collateral in the Maker Protocol or request by 3rd parties. Governance controls access to read prices from the Oracles through a whitelist, enabling MKR token holders to earn revenue through regulating whitelist access. It is the responsibility of governance to administer a host of risk parameters including the Oracle Security Module Delay, Oracle Expiration Time, and Oracle Spread to ensure the proper operation of the Oracle infrastructure.",
+      "status": "Accepted",
+      "title": "Oracle Management",
+      "subproposalsCount": 52,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip17-weekly-actual-debt-ceiling-and-actual-risk-premium-adjustments/3021",
+      "mipCodeNumber": "MIP0010"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50153fc5",
+      "components": [
+        {
+          "cName": "MIP11c1",
+          "cTitle": "General Risk Model Requirements",
+          "cBody": "Describes the concept of a general risk model and defines both the required components that all general risk models must have and optional components that a general risk model may have."
+        },
+        {
+          "cName": "MIP11c2",
+          "cTitle": "List of Active General Risk Models",
+          "cBody": "A list component that is kept up-to-date with the currently active general risk models."
+        },
+        {
+          "cName": "MIP11c3",
+          "cTitle": "Process for Onboarding",
+          "cBody": "A process component that defines a method and a template for onboarding a general risk model."
+        },
+        {
+          "cName": "MIP11c4",
+          "cTitle": "Process for offboarding",
+          "cBody": "A process component that defines a method and a template for offboarding a general risk model."
+        }
+      ],
+      "proposal": "",
+      "mipFather": false,
+      "mip": 11,
+      "filename": "MIP11/mip11.md",
+      "mipName": "MIP11",
+      "sentenceSummary": "MIP11 defines the requirements of general risk models and how they are onboarded and offboarded from the Maker Protocol.",
+      "paragraphSummary": "This proposal defines the process and requirements for risk teams to onboard general risk models for use in collateral onboarding in MIP12.",
+      "status": "Accepted",
+      "title": "Collateral Onboarding General Risk Model Management",
+      "subproposalsCount": 0,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip17-weekly-actual-debt-ceiling-and-actual-risk-premium-adjustments/3021",
+      "mipCodeNumber": "MIP0011"
+    },
+    {
+      "_id": "63176fb6a7aebc1c50153fce",
+      "components": [
+        {
+          "cName": "MIP12c1",
+          "cTitle": "Domain Team Requirements for Onboarding Collateral Type to the Maker Protocol",
+          "cBody": "Lists the required and optional domain teams involved in onboarding a collateral type to the Maker Protocol as well as a high-level overview of the domain work required."
+        },
+        {
+          "cName": "MIP12c2",
+          "cTitle": "Proposing New Risk Parameters, Oracles, and Collateral Adapters",
+          "cBody": "A process component that defines a method, a template, and the requirements for proposing new risk parameters, oracles, or collateral adaptors for collateral types."
+        },
+        {
+          "cName": "MIP12c3",
+          "cTitle": "Collateral Type Checklist (Governance)",
+          "cBody": "Defines a checklist of actions that must be completed before and after governance approval of a collateral type."
+        }
+      ],
+      "proposal": "",
+      "mipFather": true,
+      "mip": 12,
+      "filename": "MIP12/mip12.md",
+      "mipName": "MIP12",
+      "sentenceSummary": "MIP12 defines the domain team and documentation requirements for adding or changing collateral packages in the Maker Protocol.",
+      "paragraphSummary": "This proposal defines the documentation and work requirements for the onboarding of new collateral types to the Maker Protocol, specifically the domain teams' objectives and requirements to deliver it in a unified MIP12 subproposal (MIP12-SP).",
+      "status": "Accepted",
+      "title": "Collateral and Risk Parameter Management",
+      "subproposalsCount": 8,
+      "votingPortalLink": "",
+      "forumLink": "https://forum.makerdao.com/t/mip17-weekly-actual-debt-ceiling-and-actual-risk-premium-adjustments/3021",
+      "mipCodeNumber": "MIP0012"
+    }
+  ],
+  "total": 57
+}

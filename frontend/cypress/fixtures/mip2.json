@@ -1,0 +1,146 @@
+{
+  "mip": {
+    "components": [
+      {
+        "cName": "MIP2c1",
+        "cTitle": "Interim Phase 1",
+        "cBody": "Defines the first interim phase, in which the feedback period and freeze period for MIPs are ignored until 3 months after a core governance framework and a functional collateral onboarding process are implemented through MIPs."
+      },
+      {
+        "cName": "MIP2c2",
+        "cTitle": "Interim Phase 2",
+        "cBody": "Defines the second interim phase, in which the feedback period and freeze period for MIPs are reduced until the initial problem space has been addressed."
+      },
+      {
+        "cName": "MIP2c3",
+        "cTitle": "MIP2 Obsolescence",
+        "cBody": "Defines the obsolescence of this MIP once the interim phases have passed."
+      }
+    ],
+    "references": [{ "name": "No referenced materials.", "link": "" }],
+    "sectionsRaw": [
+      "# MIP2: Launch Period\n\n",
+      "## Preamble\n\n",
+      "```\nMIP#: 2\nTitle: Launch Period\nAuthor(s): Rune Christensen (@Rune23), Charles St.Louis (@CPSTL)\nContributors: @LongForWisdom\nTags: process, governance, mip-set, core-governance-mipset\nType: Process\nStatus: Accepted\nDate Proposed: 2020-04-06\nDate Ratified: 2020-05-02\nDependencies: [MIP0](mips/details/MIP0 \"smart-Mip\"), [MIP1](mips/details/MIP1 \"smart-Mip\")\nReplaces: n/a\nRatification Poll URL:\nForum URL: https://forum.makerdao.com/t/mip2-launch-period/1904\n```\n\n",
+      "## References\n\n",
+      "No referenced materials.",
+      "\n\n",
+      "## Sentence Summary\n\n",
+      "MIP2 details two interim phases during which logic defined in [MIP0](mips/details/MIP0 \"smart-Mip\") is overridden.",
+      "\n\n",
+      "## Paragraph Summary\n\n",
+      "This proposal details the process of how Maker Governance can bootstrap the setup and implementation of the first Governance Paradigm. More specifically, it defines two phases:",
+      "1. **Phase 1:** when a core governance framework is put in place and a functional collateral onboarding process is ratified.\n2. **Phase 2:** when the Problem Space is in the process of being addressed with MIPs and MIP Sets.\n\n",
+      "Lastly, the proposal states that [MIP2](mips/details/MIP2 \"smart-Mip\") itself will become obsolete when the Problem Space has officially been addressed.",
+      "\n\n",
+      "## Component Summary\n\n",
+      "**MIP2c1: Interim Phase 1**\nDefines the first interim phase, in which the feedback period and freeze period for MIPs are ignored until 3 months after a core governance framework and a functional collateral onboarding process are implemented through MIPs.",
+      "\n\n",
+      "**MIP2c2: Interim Phase 2**\nDefines the second interim phase, in which the feedback period and freeze period for MIPs are reduced until the initial problem space has been addressed.",
+      "\n\n",
+      "**MIP2c3: [MIP2](mips/details/MIP2 \"smart-Mip\") Obsolescence**\nDefines the obsolescence of this MIP once the interim phases have passed.",
+      "\n\n",
+      "## Motivation\n\n",
+      "One of the critical motivations of the MIP framework is that there are a finite number of critical issues that must be covered with appropriate governance processes for the Maker system to be safe (see [MIP1](mips/details/MIP1 \"smart-Mip\") Governance Paradigms).",
+      "\n\n",
+      "At the same time, the goal is also to ensure that the process of implementing and altering critical governance process logic is done at a pace that gives the community enough time to scrutinize and understand specific ideas.",
+      "\n\n",
+      "However, these two goals contradict each other in the initial \"launch period\" where there isn't a formal governance framework in place yet. As a result, the need to \"cover all bases\" by having a robust, simple solution for governance processes in place for all critical risks takes precedent over the goal of slowing down and deeply scrutinizing all proposals. Without proactive solutions in place, the community could be forced into undesirable reactive decision making in the event a critical problem or an opportunity occurs that doesn't yet have a defined process. Reactive decision making has the potential of bad precedents that weren’t fully understood at the time.",
+      "\n\n",
+      "As a result, the community should prioritize getting the initial processes in place that will cover all the critical risks and opportunities that are built as a formalization of existing processes or knowledge in the community and Maker Foundation. Once the initial governance paradigm is in place the community can amend or replace it as necessary to build a more permanent and robust paradigm, taking advantage of the practical knowledge gained in the interim period.",
+      "\n\n",
+      "## Specification / Proposal Details\n\n",
+      "### MIP2c1: Interim Phase 1\n\n",
+      "**Interim Phase 1 commences when the governance timing vote elects that the initial MIPs should proceed with the ratification vote. During Interim Phase 1, the following logic overrides that defined in [MIP0](mips/details/MIP0 \"smart-Mip\"):**",
+      "1. The Feedback Period and Frozen Period defined in [MIP0](mips/details/MIP0 \"smart-Mip\") are ignored for both MIPs and Subproposals.\n2. Multiple MIPs and Subproposals and can be voted in with a single vote.\n    - Before the vote, alternatives to the MIPs within the MIP Set can be proposed if they interface correctly with all the other MIPs within the Set.\n\n",
+      "**During Interim Phase 1, the following additional logic is applied to the MIPs process defined in [MIP0](mips/details/MIP0 \"smart-Mip\"):**",
+      "1. A single vote approves or rejects all MIPs and Subproposals during phase 1.\n2. If rejected, MIPs can be reintroduced to the community for another vote once the issues that resulted in its initial rejection have been addressed.\n\n",
+      "Interim Phase 1 ends 3 months after there is a formal a core governance framework in place and a functional collateral onboarding process.",
+      "\n\n",
+      "---\n",
+      "### MIP2c2: Interim Phase 2\n\n",
+      "Interim Phase 2 commences as Interim Phase 1 ends.",
+      "\n\n",
+      "**During Interim Phase 2, the following logic overrides that defined in [MIP0](mips/details/MIP0 \"smart-Mip\"):**",
+      "1. The Feedback Period and Frozen Period defined in [MIP0](mips/details/MIP0 \"smart-Mip\") are ignored for both MIPs and Subproposals.\n\n",
+      "**During Interim Phase 2, the following additional logic is applied to the MIPs process defined in [MIP0](mips/details/MIP0 \"smart-Mip\"):**",
+      "\n\n",
+      "1. The Feedback Period for the MIPs and Subproposals going through the MIPs process is 1 month unless otherwise defined to be shorter.\n2. The Frozen Period for the MIPs and Subproposals going through the MIPs process is 1 week unless otherwise defined to be shorter.\n3. If rejected, MIPs and Subproposals can be reintroduced to the community for another vote once the issues that resulted in its initial rejection have been addressed.\n\n",
+      "Interim Phase 2 ends when the Problem Space has been addressed. More specifically, this is when MIP Sets have been ratified that have addressed each problem statement within the Problem Space.",
+      "\n\n",
+      "---\n",
+      "### MIP2c3: MIP2 Obsolescence\n\n",
+      "Once the Problem space has been addressed, [MIP2](mips/details/MIP2 \"smart-Mip\") stops having an effect and the Feedback Period and Frozen Period defined in [MIP0](mips/details/MIP0 \"smart-Mip\") take effect immediately. Furthermore, [MIP2](mips/details/MIP2 \"smart-Mip\") is immediately granted the `Obsolete` status, meaning anything defined within [MIP2](mips/details/MIP2 \"smart-Mip\") should no longer be considered to be the active standard."
+    ],
+    "sections": [
+      { "heading": "MIP2: Launch Period", "depth": 1 },
+      { "heading": "Preamble", "depth": 2 },
+      { "heading": "References", "depth": 2 },
+      { "heading": "Sentence Summary", "depth": 2 },
+      { "heading": "Paragraph Summary", "depth": 2 },
+      { "heading": "Component Summary", "depth": 2 },
+      { "heading": "Motivation", "depth": 2 },
+      { "heading": "Specification / Proposal Details", "depth": 2 },
+      {
+        "heading": "MIP2c1: Interim Phase 1",
+        "depth": 3,
+        "mipComponent": "MIP2c1"
+      },
+      {
+        "heading": "MIP2c2: Interim Phase 2",
+        "depth": 3,
+        "mipComponent": "MIP2c2"
+      },
+      {
+        "heading": "MIP2c3: MIP2 Obsolescence",
+        "depth": 3,
+        "mipComponent": "MIP2c3"
+      }
+    ],
+    "dependencies": ["MIP0", "MIP1"],
+    "tags": ["process", "governance", "mip-set", "core-governance-mipset"],
+    "contributors": ["@LongForWisdom"],
+    "author": ["Rune Christensen (@Rune23)", "Charles St.Louis (@CPSTL)"],
+    "proposal": "",
+    "extra": [],
+    "mipFather": false,
+    "subproposal": -1,
+    "mip": 2,
+    "language": "en",
+    "_id": "63176fb6a7aebc1c50153fe3",
+    "hash": "98545580fb3bdb8031967fa4276cc4724bc91a8c",
+    "filename": "MIP2/mip2.md",
+    "mipName": "MIP2",
+    "sentenceSummary": "MIP2 details two interim phases during which logic defined in MIP0 is overridden.",
+    "paragraphSummary": "This proposal details the process of how Maker Governance can bootstrap the setup and implementation of the first Governance Paradigm. More specifically, it defines two phases:1. **Phase 1:** when a core governance framework is put in place and a functional collateral onboarding process is ratified.\n2. **Phase 2:** when the Problem Space is in the process of being addressed with MIPs and MIP Sets.\n\nLastly, the proposal states that MIP2 itself will become obsolete when the Problem Space has officially been addressed.",
+    "dateProposed": "2020-04-06",
+    "dateRatified": "2020-05-02",
+    "replaces": "n/a",
+    "status": "Accepted",
+    "title": "Launch Period",
+    "types": "Process",
+    "subproposalsCount": 0,
+    "votingPortalLink": "",
+    "forumLink": "https://forum.makerdao.com/t/mip2-launch-period/1904",
+    "mipCodeNumber": "MIP0002"
+  },
+  "pullRequests": { "open": 0, "close": 0, "items": [] },
+  "subproposals": [],
+  "languagesAvailables": [
+    { "language": "en", "_id": "63176fb6a7aebc1c50153fe3", "mipName": "MIP2" }
+  ],
+  "metaVars": [
+    {
+      "_id": "632b5f8c553d621c6f02f3f1",
+      "language": "es",
+      "translations": "strings:\n  learn: Aprende\n  portaldoc: El Portal de MIP\n  primer: Intro para Autores\n  mip0: El Framework de MIP\n  mip51: Ciclo de Gobernanza Mensual\n  views: Vistas\n  status: Estado\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Aceptada\n  obsolete: Obsoleta\n  rejected: Rechazada\n  withdrawn: Retirada\n  coreunits: Core Units\n  allcus: Todas (MIP38c2)\n  activebudgets: Presupuestos Activos\n  spsinforce: Subpropuestas en Vigor\n  archive: Archivo\n  living: Propuestas Registrales\n  technical: Técnicas\n  implemented: Implementadas\n  pending: Pendientes de Implementación\n  process: Procesos\n  contact: Ponte en Contacto\n  forum: Foro\n  chat: Chat\nreserved:\n  Preamble: Preámbulo\n  'MIP#': 'MIP#'\n  Title: Título\n  Author(s): Autor(es)\n  Contributors: Colaboradores\n  Type: Tipo\n  Status: Estado\n  Date Proposed: Fecha de Proposición\n  Date Ratified: Fecha de Ratificación\n  Last Amended: Última Modificación\n  Dependencies: Dependencias\n  Replaces: Reemplaza\n  References: Referencias\n  Sentence Summary: Resumen Corto\n  Paragraph Summary: Resumen Largo\n  Component Summary: Índice de Componentes\nnews:\n  description1: \"Descripción uno.\"\n  description2: \"Descripción dos\"\n  description3: \"Descripción tres\"\n  link1: \"https://mips.makerdao.com/mips/details/MIP0\"\n  linkforum1: \"https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\"\n  linkmd1: \"https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\"\n  title1: \"Hubo algunos cambios.\"\n  title2: \"Título dos\"\n  title3: \"Título tres\"\n",
+      "__v": 0
+    },
+    {
+      "_id": "632b5f8c553d621c6f02f3f2",
+      "language": "en",
+      "translations": "strings:\n  learn: Learn\n  portaldoc: The MIPs Portal\n  primer: Primer for Authors\n  mip0: The MIPs Framework\n  mip51: Monthly Governance Cycle\n  views: Views\n  status: Status\n  rfc: RFC\n  fs: Formal Submission\n  accepted: Accepted\n  obsolete: Obsolete\n  rejected: Rejected\n  withdrawn: Withdrawn\n  coreunits: Core Units\n  allcus: All (MIP38c2)\n  activebudgets: Active Budgets\n  spsinforce: Subproposals in Force\n  archive: Archive\n  living: Living MIPs\n  technical: Technical\n  implemented: Implemented\n  pending: Pending Implementation\n  process: Processes\n  contact: Get in Touch\n  forum: Forum\n  chat: Chat\nreserved:\n  Preamble: Preamble\n  'MIP#': 'MIP#'\n  Title: Title\n  Author(s): Author(s)\n  Contributors: Contributors\n  Type: Type\n  Status: Status\n  Date Proposed: Date Proposed\n  Date Ratified: Date Ratified\n  Last Amended: Last Amended\n  Dependencies: Dependencies\n  Replaces: Replaces\n  References: References\n  Sentence Summary: Sentence Summary\n  Paragraph Summary: Paragraph Summary\n  Component Summary: Component Summary\nnews: \n  title1: There were some chanages. \n  description1: Description one.\n  link1: https://mips.makerdao.com/mips/details/MIP0\n  linkforum1: https://forum.makerdao.com/t/mip0-the-maker-improvement-proposal-framework/1902\n  linkmd1: https://github.com/DSpotDevelopers/mips/blob/master/MIP0/General-MIP-Template.md\n  title2: Title two\n  description2: Description two\n  title3: Title three\n  description3: Description three\n",
+      "__v": 0
+    }
+  ]
+}

@@ -21,19 +21,29 @@ And("The user opens the main page", () => {
 });
 
 const { fakeMenu } = require("../../helpers/fake-menu");
-const { fakeMips } = require("../../helpers/fake-mip");
-const { fakeMip } = require("../../helpers/fake-mip-details");
+const { fakeMenuLang } = require("../../helpers/fake-menu-lang");
+const { fakeMips } = require("../../helpers/fake-mips");
+const { fakeMipSpecific } = require("../../helpers/fake-mip-specific");
+const { fakeMipBy } = require("../../helpers/fake-mip-by");
 const { fakeNews } = require("../../helpers/fake-news");
 const { fakeVars } = require("../../helpers/fake-vars");
+const { fakeI18n } = require("../../helpers/fake-i18n");
 
 And("Backend data is set to be mocked", () => {
   fakeVars();
   fakeNews();
   fakeMips();
-  fakeMip();
+  fakeMipSpecific();
+  fakeMipBy();
   fakeMenu();
+  fakeMenuLang();
+  fakeI18n();
 });
 
 And("Vars data is set to be mocked in spanish", () => {
   fakeVars("es");
+});
+
+And("MIPs list is set to be mocked as a large list", () => {
+  fakeMips(true);
 });
