@@ -15,23 +15,23 @@ import {
   ChangeDetectorRef,
   HostListener,
 } from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {environment} from '../../../../../environments/environment';
-import {MarkdownService} from 'ngx-markdown';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MipsService} from '../../services/mips.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { environment } from '../../../../../environments/environment';
+import { MarkdownService } from 'ngx-markdown';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MipsService } from '../../services/mips.service';
 import {
   ConnectedPosition,
   FlexibleConnectedPositionStrategyOrigin,
   Overlay,
   OverlayRef,
 } from '@angular/cdk/overlay';
-import {TemplatePortal} from '@angular/cdk/portal';
-import {Observable, Subscription} from 'rxjs';
-import {Title} from '@angular/platform-browser';
-import {UrlService} from 'src/app/services/url/url.service';
-import {SubproposalsComponent} from '../subproposals/subproposals.component';
-import {MdInformationComponent} from '../md-information/md-information.component';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Observable, Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
+import { UrlService } from 'src/app/services/url/url.service';
+import { SubproposalsComponent } from '../subproposals/subproposals.component';
+import { MdInformationComponent } from '../md-information/md-information.component';
 
 @Component({
   selector: 'app-detail-content',
@@ -40,10 +40,10 @@ import {MdInformationComponent} from '../md-information/md-information.component
   animations: [
     trigger('enterLeaveSmooth', [
       transition(':enter', [
-        style({opacity: 0, transform: 'scale(0.9)'}),
-        animate(50, style({opacity: 1, transform: 'scale(1)'})),
+        style({ opacity: 0, transform: 'scale(0.9)' }),
+        animate(50, style({ opacity: 1, transform: 'scale(1)' })),
       ]),
-      transition(':leave', [animate(100, style({opacity: 0}))]),
+      transition(':leave', [animate(100, style({ opacity: 0 }))]),
     ]),
   ],
   host: {
@@ -64,12 +64,11 @@ export class DetailContentComponent
     private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector,
     private cdr: ChangeDetectorRef
-  ) {
-  }
+  ) {}
 
   gitHubUrl = environment.repoUrl;
   @Input() mdUrl: string | undefined;
-  queryMdUrl : string;
+  queryMdUrl: string;
   @Input() sourceData;
   mdFileName = '';
   openMore: boolean;
@@ -218,7 +217,7 @@ export class DetailContentComponent
   }
 
   isTouchDevice() {
-    return window.matchMedia('(pointer: coarse)').matches
+    return window.matchMedia('(pointer: coarse)').matches;
   }
 
   setPreviewFeature() {
@@ -236,8 +235,8 @@ export class DetailContentComponent
     const positionsOfTheSmartLinkWindow: ConnectedPosition[] = center
       ? this.centerPositions
       : leftSide
-        ? this.leftPositions
-        : this.rightPositions;
+      ? this.leftPositions
+      : this.rightPositions;
 
     const positionStrategy = this.overlay
       .position()
@@ -299,8 +298,8 @@ export class DetailContentComponent
         this.triangleCenter = true;
       }
 
-      const element: HTMLElement =
-        this.previewRef.nativeElement.parentElement.parentElement;
+      const element: HTMLElement = this.previewRef.nativeElement.parentElement
+        .parentElement;
       element.style.marginTop = '17px';
       element.style.marginBottom = '17px';
     });
@@ -341,11 +340,10 @@ export class DetailContentComponent
                 .getMipBy('mipName', mipName)
                 .subscribe((data) => {
                   if (data) {
-                    const posStrategy: FlexibleConnectedPositionStrategyOrigin =
-                      e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
                     this.showOverview(
-                      {...data, typeOfView: 'mipName'},
+                      { ...data, typeOfView: 'mipName' },
                       posStrategy,
                       leftSide,
                       center
@@ -369,8 +367,7 @@ export class DetailContentComponent
                 .getMipBy('mipComponent', mipComponent)
                 .subscribe((data) => {
                   if (data) {
-                    const posStrategy: FlexibleConnectedPositionStrategyOrigin =
-                      e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
                     const components = data.components;
                     const mipComponentName =
@@ -420,11 +417,10 @@ export class DetailContentComponent
                 .getMipBy('mipSubproposal', mipSubproposal)
                 .subscribe((data) => {
                   if (data) {
-                    const posStrategy: FlexibleConnectedPositionStrategyOrigin =
-                      e.target as HTMLElement;
+                    const posStrategy: FlexibleConnectedPositionStrategyOrigin = e.target as HTMLElement;
 
                     this.showOverview(
-                      {...data, typeOfView: 'mipSubproposal'},
+                      { ...data, typeOfView: 'mipSubproposal' },
                       posStrategy,
                       leftSide,
                       center
@@ -540,24 +536,24 @@ export class DetailContentComponent
 
       // DOM manipulation
       const m: HTMLElement = document.querySelector('.variable-binding');
-      const h3s: HTMLCollectionOf<HTMLHeadingElement> =
-        m.getElementsByTagName('h3');
+      const h3s: HTMLCollectionOf<HTMLHeadingElement> = m.getElementsByTagName(
+        'h3'
+      );
 
       for (const key in this.subproposalsGroup) {
         if (Object.prototype.hasOwnProperty.call(this.subproposalsGroup, key)) {
           for (let i = 0; i < h3s.length; i++) {
             const element = h3s.item(i);
             if (element.innerText.startsWith(key)) {
-              const componentFactory =
-                this.componentFactoryResolver.resolveComponentFactory(
-                  SubproposalsComponent
-                );
+              const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+                SubproposalsComponent
+              );
               const componentRef = componentFactory.create(this.injector);
               componentRef.instance.subproposals = [
                 ...this.subproposalsGroup[key],
               ];
               componentRef.hostView.detectChanges();
-              const {nativeElement} = componentRef.location;
+              const { nativeElement } = componentRef.location;
 
               // search in DOM the next component section
               let found = false;
@@ -602,21 +598,16 @@ export class DetailContentComponent
     const extra = this.mip?.extra || [];
 
     extra.reverse().forEach((item) => {
-      const componentFactory =
-        this.componentFactoryResolver.resolveComponentFactory(
-          MdInformationComponent
-        );
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+        MdInformationComponent
+      );
       const componentRef = componentFactory.create(this.injector);
-      componentRef.instance.additionalInformation = [
-        item
-      ];
+      componentRef.instance.additionalInformation = [item];
       componentRef.hostView.detectChanges();
-      const {nativeElement} = componentRef.location;
+      const { nativeElement } = componentRef.location;
 
       m.insertAdjacentElement('afterbegin', nativeElement);
-    })
-
-
+    });
   }
 
   addSubsetField = (item: any) => {
@@ -646,7 +637,7 @@ export class DetailContentComponent
   sortSubproposalGroup(arr: any[]) {
     return arr.sort(function (a: any, b: any) {
       return (a.mipName as string).includes('SP') &&
-      a.mipName.split('SP').length > 1
+        a.mipName.split('SP').length > 1
         ? +a.mipName.split('SP')[1] < +b.mipName.split('SP')[1]
           ? -1
           : 1
@@ -664,8 +655,8 @@ export class DetailContentComponent
       inarray: [],
     };
 
-    filter.notequals.push({field: 'mip', value: -1});
-    filter.equals.push({field: 'proposal', value: this.mip.mipName});
+    filter.notequals.push({ field: 'mip', value: -1 });
+    filter.equals.push({ field: 'proposal', value: this.mip.mipName });
 
     return this.mipsService
       .searchMips(
@@ -720,7 +711,7 @@ export class DetailContentComponent
         style = `style="display:none;"`;
       }
 
-      this.headingStructure.push({heading: htmlCleanedText, depth: level});
+      this.headingStructure.push({ heading: htmlCleanedText, depth: level });
 
       if (this.mdUrl && level === 1) {
         this.titleMdFile = text;
@@ -773,7 +764,7 @@ export class DetailContentComponent
         link: href,
       };
 
-      this.links.push({...link});
+      this.links.push({ ...link });
 
       if (
         !link.name.includes('Template') &&
@@ -798,8 +789,8 @@ export class DetailContentComponent
         const relText = newTitle?.includes('smart')
           ? 'rel="' + newTitle + '"'
           : title?.includes('smart')
-            ? 'rel="' + title + '"'
-            : '';
+          ? 'rel="' + title + '"'
+          : '';
 
         return `<a id="${link.id}" class="linkPreview" ${relText}
         newTitle
@@ -864,8 +855,7 @@ export class DetailContentComponent
         if (
           link.link.includes(this.gitHubUrl) ||
           link.link.includes('https://github.com/makerdao/mips/blob') ||
-          link.link.includes('https://github.com/makerdao/mips/tree') ||
-          link.link.includes('https://forum.makerdao.com')
+          link.link.includes('https://github.com/makerdao/mips/tree')
         ) {
           if (link.link.includes('MIP')) {
             const mip = link.link.replace(`${this.gitHubUrl}/`, '').split('#');
@@ -983,7 +973,9 @@ export class DetailContentComponent
               item.mipComponent === match || item.heading === element.innerText
           ) > -1
         ) {
-          if (sections.findIndex((item: any) => item.mipComponent === match) > -1) {
+          if (
+            sections.findIndex((item: any) => item.mipComponent === match) > -1
+          ) {
             const componentNumber = element.innerText
               .match(new RegExp('^' + this.mipName + 'c' + '\\d+'))[0]
               .split('c')[1];
@@ -1020,19 +1012,24 @@ export class DetailContentComponent
   }
 
   addMdViewerLinkToMdFiles(): void {
-    const regexMip = new RegExp('^' + this.mipName + '.*' + '\.md' + '$');
-    const regexMipHref = new RegExp('^' + '.*' + this.mipName + '.*' + '\.md' + '$');
+    const regexMip = new RegExp('^' + this.mipName + '.*' + '.md' + '$');
+    const regexMipHref = new RegExp(
+      '^' + '.*' + this.mipName + '.*' + '.md' + '$'
+    );
 
     const m: HTMLElement = document.querySelector('.variable-binding');
     const nodeList = m.querySelectorAll('a');
     const elementArray: HTMLElement[] = Array.prototype.slice.call(nodeList, 0);
 
-    elementArray.forEach(linkElement => {
+    elementArray.forEach((linkElement) => {
       const innerText = linkElement.innerText;
       const href = linkElement.getAttribute('href');
 
-      if (innerText.match(regexMip) || (href !== null && href.match(regexMipHref))){
-       if (!href.includes('md-viewer')){
+      if (
+        innerText.match(regexMip) ||
+        (href !== null && href.match(regexMipHref))
+      ) {
+        if (!href.includes('md-viewer')) {
           const newLink = this.urlService.processLink(href);
           linkElement.setAttribute('href', newLink);
         }
@@ -1099,7 +1096,7 @@ export class DetailContentComponent
           this.router.navigate([], {
             queryParams: {
               mdUrl: this.queryMdUrl,
-              fromChild: true
+              fromChild: true,
             },
             fragment: linkSelected,
             replaceUrl: true,
@@ -1115,8 +1112,6 @@ export class DetailContentComponent
       }
     });
   }
-
-
 }
 
 interface Link {
