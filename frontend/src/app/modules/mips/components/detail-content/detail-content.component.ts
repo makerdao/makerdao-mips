@@ -484,6 +484,11 @@ export class DetailContentComponent
     this.overrideDefaultTables();
     this.overrideDefaultImg();
 
+    if (this.mip.tags.includes('endgame')) {
+      const htmlFromMd = this.markdownService.compile(this.content, true);
+      this.content = this.hwrap(htmlFromMd);
+    }
+
     this.urlOriginal =
       this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
 
@@ -492,6 +497,66 @@ export class DetailContentComponent
     if (nameMdMatch && nameMdMatch[0]) {
       this.mdFileName = nameMdMatch[0].replace('/', '');
     }
+  }
+
+  hwrap(rawHtml: string) {
+    const splitHtml = rawHtml.split('\n');
+    let acc = [];
+    let cur_level = 0;
+    let last_level = 0;
+
+    function add(line: string) {
+      if (cur_level > last_level) {
+        acc.push("<div class='h" + cur_level + "'>\n");
+      }
+      if (cur_level < last_level) {
+        for (let i = 0; i < last_level - cur_level; i++) {
+          acc.push('</div>\n');
+        }
+      }
+      acc.push(line);
+    }
+
+    for (let line of splitHtml) {
+      switch (line.trim().slice(1, 3)) {
+        case 'h1':
+          cur_level = 1;
+          add(line);
+          last_level = 1;
+          break;
+        case 'h2':
+          cur_level = 2;
+          add(line);
+          last_level = 2;
+          break;
+        case 'h3':
+          cur_level = 3;
+          add(line);
+          last_level = 3;
+          break;
+        case 'h4':
+          cur_level = 4;
+          add(line);
+          last_level = 4;
+          break;
+        case 'h5':
+          cur_level = 5;
+          add(line);
+          last_level = 5;
+          break;
+        case 'h6':
+          cur_level = 6;
+          add(line);
+          last_level = 6;
+          break;
+        default:
+          acc.push(line);
+      }
+    }
+    for (let i = 0; i < last_level; i++) {
+      acc.push('</div>\n');
+    }
+    return acc.join('');
   }
 
   onReady() {
