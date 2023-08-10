@@ -104,6 +104,41 @@ export class DetailContentComponent
 
   mapped: any[];
 
+  // abbrMapping = [
+  //   {
+  //     abbreviation: 'AVC',
+  //     expansion: 'Aligned Voter Committee',
+  //   },
+  //   {
+  //     abbreviation: 'AD',
+  //     expansion: 'Aligned Delegate',
+  //   },
+  //   {
+  //     abbreviation: 'AC',
+  //     expansion: 'Aligned Conserver',
+  //   },
+  //   {
+  //     abbreviation: 'EGF',
+  //     expansion: 'Easy Governance Frontend',
+  //   },
+  //   {
+  //     abbreviation: 'PD',
+  //     expansion: 'Prime Delegate',
+  //   },
+  //   {
+  //     abbreviation: 'PDM',
+  //     expansion: 'Protocol Delegation Module',
+  //   },
+  //   {
+  //     abbreviation: 'RD',
+  //     expansion: 'Reserve Delegate',
+  //   },
+  //   {
+  //     abbreviation: 'GSL',
+  //     expansion: 'Governance Strategy Link',
+  //   },
+  // ];
+
   leftPositions: ConnectedPosition[] = [
     {
       originX: 'start',
@@ -484,10 +519,13 @@ export class DetailContentComponent
     this.overrideDefaultTables();
     this.overrideDefaultImg();
 
+    const htmlFromMd = this.markdownService.compile(this.content, true);
+
     if (this.mip.tags.includes('endgame')) {
-      const htmlFromMd = this.markdownService.compile(this.content, true);
       this.content = this.hwrap(htmlFromMd);
     }
+
+    // this.content = this.applyAbbreviations(htmlFromMd);
 
     this.urlOriginal =
       this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
@@ -517,7 +555,7 @@ export class DetailContentComponent
       acc.push(line);
     }
 
-    for (let line of splitHtml) {
+    for (let [i, line] of splitHtml.entries()) {
       switch (line.trim().slice(1, 3)) {
         case 'h1':
           cur_level = 1;
@@ -545,9 +583,20 @@ export class DetailContentComponent
           last_level = 5;
           break;
         case 'h6':
-          cur_level = 6;
+          const titleIndexMatched = splitHtml[i + 1].match(
+            /(\d+-){5,}\d[a-zA-z]?/
+          );
+          const titleIndex = Array.isArray(titleIndexMatched)
+            ? titleIndexMatched[0]
+            : undefined;
+
+          const titleLevel = titleIndex
+            ? titleIndex.split('-').length + 1
+            : undefined;
+
+          cur_level = titleLevel || 6;
           add(line);
-          last_level = 6;
+          last_level = titleLevel || 6;
           break;
         default:
           acc.push(line);
@@ -558,6 +607,18 @@ export class DetailContentComponent
     }
     return acc.join('');
   }
+
+  // applyAbbreviations(rawHtml: string) {
+  //   let newHtml = rawHtml;
+
+  //   for (const abbr of this.abbrMapping) {
+  //     const regEx = new RegExp(`${abbr.abbreviation}s?`, 'g');
+  //     console.log(regEx);
+  //     newHtml = rawHtml.replace(regEx, abbr.expansion);
+  //   }
+
+  //   return newHtml;
+  // }
 
   onReady() {
     if (this.mdUrl) {
@@ -786,7 +847,13 @@ export class DetailContentComponent
              <h${level} ${style}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
-               </a>${text}</h${level}>`;
+               </a>${text}${
+          level < 3
+            ? ''
+            : `<a name="${escapedText}-arrow-icon" id="${escapedText}-arrow-icon" class="anchor" href="${url}#${escapedText}">
+                 <i id="${escapedText}-arrow-icon" class="fas fa-link"></i>
+               </a>`
+        }</h${level}>`;
       }
     };
   }
