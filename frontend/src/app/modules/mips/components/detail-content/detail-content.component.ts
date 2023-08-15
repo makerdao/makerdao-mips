@@ -104,40 +104,60 @@ export class DetailContentComponent
 
   mapped: any[];
 
-  // abbrMapping = [
-  //   {
-  //     abbreviation: 'AVC',
-  //     expansion: 'Aligned Voter Committee',
-  //   },
-  //   {
-  //     abbreviation: 'AD',
-  //     expansion: 'Aligned Delegate',
-  //   },
-  //   {
-  //     abbreviation: 'AC',
-  //     expansion: 'Aligned Conserver',
-  //   },
-  //   {
-  //     abbreviation: 'EGF',
-  //     expansion: 'Easy Governance Frontend',
-  //   },
-  //   {
-  //     abbreviation: 'PD',
-  //     expansion: 'Prime Delegate',
-  //   },
-  //   {
-  //     abbreviation: 'PDM',
-  //     expansion: 'Protocol Delegation Module',
-  //   },
-  //   {
-  //     abbreviation: 'RD',
-  //     expansion: 'Reserve Delegate',
-  //   },
-  //   {
-  //     abbreviation: 'GSL',
-  //     expansion: 'Governance Strategy Link',
-  //   },
-  // ];
+  abbrMapping = [
+    {
+      abbreviation: 'AVC',
+      expansion: 'Aligned Voter Committee',
+    },
+    {
+      abbreviation: 'AD',
+      expansion: 'Aligned Delegate',
+    },
+    {
+      abbreviation: 'AC',
+      expansion: 'Aligned Conserver',
+    },
+    {
+      abbreviation: 'CAIS',
+      expansion: 'Core Artificial Intelligence System',
+    },
+    {
+      abbreviation: 'DSR',
+      expansion: 'Dai Saving Rate',
+    },
+    {
+      abbreviation: 'EDSR',
+      expansion: 'Enhanced Dai Saving Rate',
+    },
+    {
+      abbreviation: 'EGF',
+      expansion: 'Easy Governance Frontend',
+    },
+    {
+      abbreviation: 'GAIT',
+      expansion: 'Governance Artificial Intelligence Tools',
+    },
+    {
+      abbreviation: 'GSL',
+      expansion: 'Governance Strategy Link',
+    },
+    {
+      abbreviation: 'PDM',
+      expansion: 'Protocol Delegation Module',
+    },
+    {
+      abbreviation: 'PD',
+      expansion: 'Prime Delegate',
+    },
+    {
+      abbreviation: 'RD',
+      expansion: 'Reserve Delegate',
+    },
+    {
+      abbreviation: 'RF',
+      expansion: 'Resiliency Fund',
+    },
+  ];
 
   leftPositions: ConnectedPosition[] = [
     {
@@ -519,13 +539,12 @@ export class DetailContentComponent
     this.overrideDefaultTables();
     this.overrideDefaultImg();
 
-    const htmlFromMd = this.markdownService.compile(this.content, true);
-
-    if (this.mip.tags.includes('endgame')) {
+    if (this.mip.tags?.includes('endgame')) {
+      const htmlFromMd = this.markdownService.compile(this.content, true);
       this.content = this.hwrap(htmlFromMd);
     }
 
-    // this.content = this.applyAbbreviations(htmlFromMd);
+    this.content = this.applyAbbreviations(this.content);
 
     this.urlOriginal =
       this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
@@ -540,15 +559,14 @@ export class DetailContentComponent
   hwrap(rawHtml: string) {
     const splitHtml = rawHtml.split('\n');
     let acc = [];
-    let cur_level = 0;
     let last_level = 0;
 
-    function add(line: string) {
-      if (cur_level > last_level) {
-        acc.push("<div class='h" + cur_level + "'>\n");
+    function add(line: string, level: number) {
+      if (level > last_level) {
+        acc.push("<div class='h" + level + "'>\n");
       }
-      if (cur_level < last_level) {
-        for (let i = 0; i < last_level - cur_level; i++) {
+      if (level < last_level) {
+        for (let i = 0; i < last_level - level; i++) {
           acc.push('</div>\n');
         }
       }
@@ -558,44 +576,38 @@ export class DetailContentComponent
     for (let [i, line] of splitHtml.entries()) {
       switch (line.trim().slice(1, 3)) {
         case 'h1':
-          cur_level = 1;
-          add(line);
+          add(line, 1);
           last_level = 1;
           break;
         case 'h2':
-          cur_level = 2;
-          add(line);
+          add(line, 2);
           last_level = 2;
           break;
         case 'h3':
-          cur_level = 3;
-          add(line);
+          add(line, 3);
           last_level = 3;
           break;
         case 'h4':
-          cur_level = 4;
-          add(line);
+          add(line, 4);
           last_level = 4;
           break;
         case 'h5':
-          cur_level = 5;
-          add(line);
+          add(line, 5);
           last_level = 5;
           break;
         case 'h6':
-          const titleIndexMatched = splitHtml[i + 1].match(
-            /(\d+-){5,}\d[a-zA-z]?/
+          // Take the i + 3 line which has the title text content
+          const titleIndexMatched = splitHtml[i + 3].match(
+            /(\d+\.){5,}\d+[a-zA-z]?/
           );
           const titleIndex = Array.isArray(titleIndexMatched)
             ? titleIndexMatched[0]
             : undefined;
 
           const titleLevel = titleIndex
-            ? titleIndex.split('-').length + 1
+            ? titleIndex.split('.').length + 1
             : undefined;
-
-          cur_level = titleLevel || 6;
-          add(line);
+          add(line, titleLevel || 6);
           last_level = titleLevel || 6;
           break;
         default:
@@ -608,17 +620,20 @@ export class DetailContentComponent
     return acc.join('');
   }
 
-  // applyAbbreviations(rawHtml: string) {
-  //   let newHtml = rawHtml;
+  applyAbbreviations(rawHtml: string) {
+    let newHtml = rawHtml;
 
-  //   for (const abbr of this.abbrMapping) {
-  //     const regEx = new RegExp(`${abbr.abbreviation}s?`, 'g');
-  //     console.log(regEx);
-  //     newHtml = rawHtml.replace(regEx, abbr.expansion);
-  //   }
+    for (const abbr of this.abbrMapping) {
+      const regEx = new RegExp(`(${abbr.abbreviation})(s?)`, 'g');
 
-  //   return newHtml;
-  // }
+      newHtml = newHtml.replace(
+        regEx,
+        `<abbr title="${abbr.expansion}$2">$1$2</abbr>`
+      );
+    }
+
+    return newHtml;
+  }
 
   onReady() {
     if (this.mdUrl) {
