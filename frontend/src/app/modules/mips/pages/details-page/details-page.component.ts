@@ -61,7 +61,14 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
       if (queryParam.has('mdUrl') && !queryParam.has('fromChild')) {
-        const url = queryParam.get('mdUrl');
+        const rawUrl = queryParam.get('mdUrl');
+        let url = '';
+
+        try {
+          url = new URL(rawUrl).href;
+        } catch {
+          url = rawUrl;
+        }
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
         const isUrlFromValidOrganization =
