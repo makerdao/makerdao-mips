@@ -72,10 +72,14 @@ export class DetailsPageComponent implements OnInit {
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
         const isUrlFromValidOrganization =
-          url.toLowerCase().startsWith('https://github.com/makerdao/mips') ||
           url
             .toLowerCase()
-            .startsWith('https://raw.githubusercontent.com/makerdao/mips');
+            .startsWith('https://github.com/makerdao/mips/blob/master') ||
+          url
+            .toLowerCase()
+            .startsWith(
+              'https://raw.githubusercontent.com/makerdao/mips/master'
+            );
 
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
