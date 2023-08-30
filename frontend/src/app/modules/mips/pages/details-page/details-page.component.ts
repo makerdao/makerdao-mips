@@ -67,7 +67,7 @@ export class DetailsPageComponent implements OnInit {
         try {
           url = new URL(rawUrl).href;
         } catch {
-          url = rawUrl;
+          console.log('ERROR: Could not parse a valid URL');
         }
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
