@@ -538,6 +538,7 @@ export class DetailContentComponent
     this.overrideDefaultHeadings();
     this.overrideDefaultTables();
     this.overrideDefaultImg();
+    this.overrideDefaultCode();
 
     if (this.mip.tags?.includes('endgame')) {
       const htmlFromMd = this.markdownService.compile(this.content, true);
@@ -621,18 +622,48 @@ export class DetailContentComponent
   }
 
   applyAbbreviations(rawHtml: string) {
-    let newHtml = rawHtml;
+    const parser = new DOMParser();
+    const htmlDocument = parser.parseFromString(rawHtml, 'text/html');
+    const headings = htmlDocument.querySelectorAll('H1, H2, H3, H4, H5, H6');
 
-    for (const abbr of this.abbrMapping) {
-      const regEx = new RegExp(`(${abbr.abbreviation})(s?)`, 'g');
+    Array.from(headings).forEach((heading) => {
+      const abbrs = { ...this.abbrMapping };
+      for (
+        let sibling = heading.nextElementSibling;
+        sibling;
+        sibling = sibling.nextElementSibling
+      ) {
+        // We iterate for each sibling under each heading
+        if (sibling.tagName === 'P') {
+          for (const key in abbrs) {
+            let replacedString = sibling.innerHTML.replace(
+              new RegExp(`\\b${abbrs[key].abbreviation}s?\\b`),
+              `<abbr title="${abbrs[key].expansion}">${abbrs[key].abbreviation}</abbr>`
+            );
+            if (replacedString !== sibling.innerHTML) {
+              // If there was a replacement...
+              sibling.innerHTML = replacedString; // We apply it
+              delete abbrs[key]; // And we eliminate the key from the copy so it won't expand it again if found in another <p> in the same heading
+            }
+          }
+        }
+        if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(sibling.tagName)) {
+          // If the sibling found is another heading tag, we stop consuming and continue to the next heading
+          break;
+        }
+      }
+    });
 
-      newHtml = newHtml.replace(
-        regEx,
-        `<abbr title="${abbr.expansion}$2">$1$2</abbr>`
-      );
-    }
+    const serializer = new XMLSerializer();
+    const serializedHtml = serializer
+      .serializeToString(htmlDocument)
+      .replace(/\n\n/, '');
 
-    return newHtml;
+    const finalHtml = serializedHtml
+      .replace(/<html.*body>/, '')
+      .replace(/<\/body.*\/html>/, '');
+
+    return finalHtml;
   }
 
   onReady() {
@@ -826,6 +857,12 @@ export class DetailContentComponent
     }
   }
 
+  overrideDefaultCode() {
+    this.markdownService.renderer.code = (code) => {
+      return `<pre><code>${code.split('\n').join('<br />')}</code></pre>`;
+    };
+  }
+
   overrideDefaultHeadings() {
     const url = this.router.url.split('#')[0];
 
@@ -862,13 +899,7 @@ export class DetailContentComponent
              <h${level} ${style}>
                <a name="${escapedText}" id="${escapedText}" class="anchor" href="${url}#${escapedText}">
                  <i id="${escapedText}" class="fas fa-link"></i>
-               </a>${text}${
-          level < 3
-            ? ''
-            : `<a name="${escapedText}-arrow-icon" id="${escapedText}-arrow-icon" class="anchor" href="${url}#${escapedText}">
-                 <i id="${escapedText}-arrow-icon" class="fas fa-link"></i>
-               </a>`
-        }</h${level}>`;
+               </a>${text}</h${level}>`;
       }
     };
   }

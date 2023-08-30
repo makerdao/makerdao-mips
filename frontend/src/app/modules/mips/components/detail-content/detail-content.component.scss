@@ -251,6 +251,7 @@
     margin-left: 0.5em;
     vertical-align: -1px;
     content: "\f0d7";
+    color: #7da49f;
   }
 
   .h4,
@@ -283,8 +284,9 @@
   }
 
   th {
-    background: #1aab9b;
-    color: #fff;
+    background: #c9f1ec;
+    font-weight: normal;
+    color: #31394d;
     padding: 1em;
   }
 
@@ -402,7 +404,6 @@
   }
 
   table {
-    border: 1px solid #e2e4e7;
     border-collapse: collapse;
     width: max-content;
     max-width: 100%;
@@ -422,13 +423,13 @@
     font-size: 16px;
     line-height: 22px;
     color: #31394d;
+    white-space: nowrap;
   }
 
   th {
     font-style: normal;
     font-size: 16px;
     line-height: 22px;
-    color: #31394d;
   }
 
   tr:nth-child(even) {
@@ -1011,6 +1012,10 @@ p {
         color: #5c99f0 !important;
       }
 
+      th abbr {
+        color: white !important;
+      }
+
       tr:nth-child(odd),
       tr:nth-child(odd) > td {
         color: #b8c5d3 !important;
@@ -1058,8 +1063,17 @@ p {
         color: white;
       }
 
+      .h3 > h3:after,
+      .h4 > h4:after,
+      .h5 > h5:after,
+      .h6 > h6:after,
+      .h7 > h6:after,
+      .h8 > h6:after {
+        color: #4b68a1;
+      }
+
       th {
-        background: #5e83ca;
+        background: #4b68a1;
         color: white !important;
       }
     }
