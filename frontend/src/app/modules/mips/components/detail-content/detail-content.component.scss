@@ -224,6 +224,79 @@
     }
   }
 
+  .h3 > h3,
+  .h4 > h4,
+  .h5 > h5,
+  .h6 > h6,
+  .h7 > h6,
+  .h8 > h6 {
+    font-size: 1em;
+    border-radius: 7px;
+    background: #b3ebe4;
+    padding: 0.5em;
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    font-weight: normal;
+  }
+
+  .h3 > h3:after,
+  .h4 > h4:after,
+  .h5 > h5:after,
+  .h6 > h6:after,
+  .h7 > h6:after,
+  .h8 > h6:after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    margin-left: 0.5em;
+    vertical-align: -1px;
+    content: "\f0d7";
+    color: #7da49f;
+  }
+
+  .h4,
+  .h5,
+  .h6,
+  .h7,
+  .h8 {
+    border-left: dotted 1px #888;
+    padding-left: 1em;
+  }
+
+  .h4 {
+    margin-left: 2em;
+  }
+
+  .h5 {
+    margin-left: 2em;
+  }
+
+  .h6 {
+    margin-left: 2em;
+  }
+
+  .h7 {
+    margin-left: 2em;
+  }
+
+  .h8 {
+    margin-left: 2em;
+  }
+
+  th {
+    background: #c9f1ec;
+    font-weight: normal;
+    color: #31394d;
+    padding: 1em;
+  }
+
+  td {
+    text-align: center;
+    padding: 0.5em;
+    border: 1px solid #bbb;
+    background: #fff;
+  }
+
   a.anchor {
     outline: none;
 
@@ -331,7 +404,6 @@
   }
 
   table {
-    border: 1px solid #e2e4e7;
     border-collapse: collapse;
     width: max-content;
     max-width: 100%;
@@ -351,13 +423,13 @@
     font-size: 16px;
     line-height: 22px;
     color: #31394d;
+    white-space: nowrap;
   }
 
   th {
     font-style: normal;
     font-size: 16px;
     line-height: 22px;
-    color: #31394d;
   }
 
   tr:nth-child(even) {
@@ -920,7 +992,7 @@ p {
   &.container-dark {
     background: #1a202b;
     box-shadow: none;
-    padding: 0;
+    padding: 30px 70px 30px 40px;
 
     .title-bold {
       color: #5c99f0;
@@ -938,6 +1010,10 @@ p {
       th,
       th * {
         color: #5c99f0 !important;
+      }
+
+      th abbr {
+        color: white !important;
       }
 
       tr:nth-child(odd),
@@ -975,6 +1051,30 @@ p {
         & {
           color: #98c0f5;
         }
+      }
+
+      .h3 > h3,
+      .h4 > h4,
+      .h5 > h5,
+      .h6 > h6,
+      .h7 > h6,
+      .h8 > h6 {
+        background-color: #5e83ca;
+        color: white;
+      }
+
+      .h3 > h3:after,
+      .h4 > h4:after,
+      .h5 > h5:after,
+      .h6 > h6:after,
+      .h7 > h6:after,
+      .h8 > h6:after {
+        color: #4b68a1;
+      }
+
+      th {
+        background: #4b68a1;
+        color: white !important;
       }
     }
   }
