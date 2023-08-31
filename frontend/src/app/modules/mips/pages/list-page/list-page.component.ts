@@ -232,7 +232,18 @@ export class ListPageComponent implements OnInit, AfterViewInit {
 
   initSearch() {
     const queryParams: QueryParams = this.queryParamsListService.queryParams;
-    this.search = this.sanitizer.sanitize(1, queryParams.search);
+
+    // Parse query param to detect any unwanted encoded HTML, then sanitize it
+    let parsedTextSearchParam = null;
+    if (queryParams.search) {
+      const parsedSearchParam = new DOMParser().parseFromString(
+        queryParams.search,
+        'text/html'
+      );
+      parsedTextSearchParam = parsedSearchParam.documentElement.textContent;
+    }
+
+    this.search = this.sanitizer.sanitize(1, parsedTextSearchParam);
     this.searchService.search.next(this.search);
   }
 

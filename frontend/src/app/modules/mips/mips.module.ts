@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MipsRoutingModule } from './mips-routing.module';
@@ -129,7 +129,9 @@ import { MipSectionsPipe } from './pipes/mip-sections.pipe';
     InfiniteScrollModule,
     MatIconModule,
     MatTooltipModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE,
+    }),
     OverlayModule,
     MatDialogModule,
     ReactiveFormsModule,

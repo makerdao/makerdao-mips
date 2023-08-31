@@ -61,14 +61,21 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
       if (queryParam.has('mdUrl') && !queryParam.has('fromChild')) {
-        const url = queryParam.get('mdUrl');
+        const rawUrl = queryParam.get('mdUrl');
+        let url = '';
+
+        try {
+          url = new URL(rawUrl).href;
+        } catch {
+          console.log('ERROR: Could not parse a valid URL');
+        }
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
         const isUrlFromValidOrganization =
-          url.toLowerCase().startsWith('https://github.com/makerdao/mips') ||
-          url
-            .toLowerCase()
-            .startsWith('https://raw.githubusercontent.com/makerdao/mips');
+          url.startsWith('https://github.com/makerdao/mips/blob/master') ||
+          url.startsWith(
+            'https://raw.githubusercontent.com/makerdao/mips/master'
+          );
 
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
