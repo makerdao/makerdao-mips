@@ -115,6 +115,10 @@ export class MipsService {
     });
   }
 
+  getMipAbbreviationList(): Observable<any> {
+    return this.http.get('https://raw.githubusercontent.com/makerdao/mips/master/meta/abbrMapping.json')
+  } 
+
   sendFeedBack(subject: string, description: string): Observable<any> {
     return this.http.post(`${environment.feedBackFormUrl}`, {
       subject,
