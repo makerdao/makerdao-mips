@@ -483,6 +483,14 @@ export class DetailContentComponent
     this.overrideDefaultHeadings();
     this.overrideDefaultTables();
     this.overrideDefaultImg();
+    this.overrideDefaultCode();
+
+    if (this.mip.tags?.includes('endgame')) {
+      const htmlFromMd = this.markdownService.compile(this.content, true);
+      this.content = this.wrapHeadings(htmlFromMd);
+    }
+
+    this.applyAbbreviations();
 
     this.urlOriginal =
       this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
@@ -492,6 +500,121 @@ export class DetailContentComponent
     if (nameMdMatch && nameMdMatch[0]) {
       this.mdFileName = nameMdMatch[0].replace('/', '');
     }
+  }
+
+  wrapHeadings(rawHtml: string) {
+    const splitHtml = rawHtml.split('\n');
+    let acc = [];
+    let last_level = 0;
+
+    function add(line: string, level: number) {
+      if (level > last_level) {
+        acc.push("<div class='h" + level + "'>\n");
+      }
+      if (level < last_level) {
+        for (let i = 0; i < last_level - level; i++) {
+          acc.push('</div>\n');
+        }
+      }
+      acc.push(line);
+    }
+
+    for (let [i, line] of splitHtml.entries()) {
+      switch (line.trim().slice(1, 3)) {
+        case 'h1':
+          add(line, 1);
+          last_level = 1;
+          break;
+        case 'h2':
+          add(line, 2);
+          last_level = 2;
+          break;
+        case 'h3':
+          add(line, 3);
+          last_level = 3;
+          break;
+        case 'h4':
+          add(line, 4);
+          last_level = 4;
+          break;
+        case 'h5':
+          add(line, 5);
+          last_level = 5;
+          break;
+        case 'h6':
+          // Take the i + 3 line which has the title text content
+          const titleIndexMatched = splitHtml[i + 3].match(
+            /(\d+\.){5,}\d+[a-zA-z]?/
+          );
+          const titleIndex = Array.isArray(titleIndexMatched)
+            ? titleIndexMatched[0]
+            : undefined;
+
+          const titleLevel = titleIndex
+            ? titleIndex.split('.').length + 1
+            : undefined;
+          add(line, titleLevel || 6);
+          last_level = titleLevel || 6;
+          break;
+        default:
+          acc.push(line);
+      }
+    }
+    for (let i = 0; i < last_level; i++) {
+      acc.push('</div>\n');
+    }
+    return acc.join('');
+  }
+
+  applyAbbreviations() {
+    this.mipsService.getMipAbbreviationList().subscribe((abbrMapping) => {
+        try {
+          if (abbrMapping.length) {
+            const parser = new DOMParser();
+            const htmlDocument = parser.parseFromString(this.content, 'text/html');
+            const headings = htmlDocument.querySelectorAll('H1, H2, H3, H4, H5, H6');
+        
+            Array.from(headings).forEach((heading) => {
+              const abbrs = { ...abbrMapping };
+              for (
+                let sibling = heading.nextElementSibling;
+                sibling;
+                sibling = sibling.nextElementSibling
+              ) {
+                // We iterate for each sibling under each heading
+                if (sibling.tagName === 'P') {
+                  for (const key in abbrs) {
+                    let replacedString = sibling.innerHTML.replace(
+                      new RegExp(`\\b${abbrs[key].abbreviation}s?\\b`),
+                      `<abbr title="${abbrs[key].expansion}">${abbrs[key].abbreviation}</abbr>`
+                    );
+                    if (replacedString !== sibling.innerHTML) {
+                      // If there was a replacement...
+                      sibling.innerHTML = replacedString; // We apply it
+                      delete abbrs[key]; // And we eliminate the key from the copy so it won't expand it again if found in another <p> in the same heading
+                    }
+                  }
+                }
+                if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(sibling.tagName)) {
+                  // If the sibling found is another heading tag, we stop consuming and continue to the next heading
+                  break;
+                }
+              }
+            });
+
+            const serializer = new XMLSerializer();
+            const serializedHtml = serializer
+              .serializeToString(htmlDocument)
+              .replace(/\n\n/, '')
+              .replace(/<html.*body>/, '')
+              .replace(/<\/body.*\/html>/, '');
+        
+            this.content = serializedHtml;
+          }
+      } catch (e) {
+        console.log('There was an error while fetching the abbreviations file: ', e.message)
+      }
+      })
   }
 
   onReady() {
@@ -683,6 +806,12 @@ export class DetailContentComponent
     if (el) {
       el.scrollIntoView();
     }
+  }
+
+  overrideDefaultCode() {
+    this.markdownService.renderer.code = (code) => {
+      return `<pre><code>${code.split('\n').join('<br />')}</code></pre>`;
+    };
   }
 
   overrideDefaultHeadings() {
