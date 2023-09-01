@@ -104,61 +104,6 @@ export class DetailContentComponent
 
   mapped: any[];
 
-  abbrMapping = [
-    {
-      abbreviation: 'AVC',
-      expansion: 'Aligned Voter Committee',
-    },
-    {
-      abbreviation: 'AD',
-      expansion: 'Aligned Delegate',
-    },
-    {
-      abbreviation: 'AC',
-      expansion: 'Aligned Conserver',
-    },
-    {
-      abbreviation: 'CAIS',
-      expansion: 'Core Artificial Intelligence System',
-    },
-    {
-      abbreviation: 'DSR',
-      expansion: 'Dai Saving Rate',
-    },
-    {
-      abbreviation: 'EDSR',
-      expansion: 'Enhanced Dai Saving Rate',
-    },
-    {
-      abbreviation: 'EGF',
-      expansion: 'Easy Governance Frontend',
-    },
-    {
-      abbreviation: 'GAIT',
-      expansion: 'Governance Artificial Intelligence Tools',
-    },
-    {
-      abbreviation: 'GSL',
-      expansion: 'Governance Strategy Link',
-    },
-    {
-      abbreviation: 'PDM',
-      expansion: 'Protocol Delegation Module',
-    },
-    {
-      abbreviation: 'PD',
-      expansion: 'Prime Delegate',
-    },
-    {
-      abbreviation: 'RD',
-      expansion: 'Reserve Delegate',
-    },
-    {
-      abbreviation: 'RF',
-      expansion: 'Resiliency Fund',
-    },
-  ];
-
   leftPositions: ConnectedPosition[] = [
     {
       originX: 'start',
@@ -545,7 +490,7 @@ export class DetailContentComponent
       this.content = this.hwrap(htmlFromMd);
     }
 
-    this.content = this.applyAbbreviations(this.content);
+    this.applyAbbreviations();
 
     this.urlOriginal =
       this.urlService.getGithubLinkFromMdRaw(this.mdUrl) || this.mdUrl;
@@ -621,49 +566,55 @@ export class DetailContentComponent
     return acc.join('');
   }
 
-  applyAbbreviations(rawHtml: string) {
-    const parser = new DOMParser();
-    const htmlDocument = parser.parseFromString(rawHtml, 'text/html');
-    const headings = htmlDocument.querySelectorAll('H1, H2, H3, H4, H5, H6');
+  applyAbbreviations() {
+    this.mipsService.getMipAbbreviationList().subscribe((abbrMapping) => {
+        try {
+          if (abbrMapping.length) {
+            const parser = new DOMParser();
+            const htmlDocument = parser.parseFromString(this.content, 'text/html');
+            const headings = htmlDocument.querySelectorAll('H1, H2, H3, H4, H5, H6');
+        
+            Array.from(headings).forEach((heading) => {
+              const abbrs = { ...abbrMapping };
+              for (
+                let sibling = heading.nextElementSibling;
+                sibling;
+                sibling = sibling.nextElementSibling
+              ) {
+                // We iterate for each sibling under each heading
+                if (sibling.tagName === 'P') {
+                  for (const key in abbrs) {
+                    let replacedString = sibling.innerHTML.replace(
+                      new RegExp(`\\b${abbrs[key].abbreviation}s?\\b`),
+                      `<abbr title="${abbrs[key].expansion}">${abbrs[key].abbreviation}</abbr>`
+                    );
+                    if (replacedString !== sibling.innerHTML) {
+                      // If there was a replacement...
+                      sibling.innerHTML = replacedString; // We apply it
+                      delete abbrs[key]; // And we eliminate the key from the copy so it won't expand it again if found in another <p> in the same heading
+                    }
+                  }
+                }
+                if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(sibling.tagName)) {
+                  // If the sibling found is another heading tag, we stop consuming and continue to the next heading
+                  break;
+                }
+              }
+            });
 
-    Array.from(headings).forEach((heading) => {
-      const abbrs = { ...this.abbrMapping };
-      for (
-        let sibling = heading.nextElementSibling;
-        sibling;
-        sibling = sibling.nextElementSibling
-      ) {
-        // We iterate for each sibling under each heading
-        if (sibling.tagName === 'P') {
-          for (const key in abbrs) {
-            let replacedString = sibling.innerHTML.replace(
-              new RegExp(`\\b${abbrs[key].abbreviation}s?\\b`),
-              `<abbr title="${abbrs[key].expansion}">${abbrs[key].abbreviation}</abbr>`
-            );
-            if (replacedString !== sibling.innerHTML) {
-              // If there was a replacement...
-              sibling.innerHTML = replacedString; // We apply it
-              delete abbrs[key]; // And we eliminate the key from the copy so it won't expand it again if found in another <p> in the same heading
-            }
+            const serializer = new XMLSerializer();
+            const serializedHtml = serializer
+              .serializeToString(htmlDocument)
+              .replace(/\n\n/, '')
+              .replace(/<html.*body>/, '')
+              .replace(/<\/body.*\/html>/, '');
+        
+            this.content = serializedHtml;
           }
-        }
-        if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(sibling.tagName)) {
-          // If the sibling found is another heading tag, we stop consuming and continue to the next heading
-          break;
-        }
+      } catch (e) {
+        console.log('There was an error while fetching the abbreviations file: ', e.message)
       }
-    });
-
-    const serializer = new XMLSerializer();
-    const serializedHtml = serializer
-      .serializeToString(htmlDocument)
-      .replace(/\n\n/, '');
-
-    const finalHtml = serializedHtml
-      .replace(/<html.*body>/, '')
-      .replace(/<\/body.*\/html>/, '');
-
-    return finalHtml;
+      })
   }
 
   onReady() {
