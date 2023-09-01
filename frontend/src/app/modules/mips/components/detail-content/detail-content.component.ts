@@ -487,7 +487,7 @@ export class DetailContentComponent
 
     if (this.mip.tags?.includes('endgame')) {
       const htmlFromMd = this.markdownService.compile(this.content, true);
-      this.content = this.hwrap(htmlFromMd);
+      this.content = this.wrapHeadings(htmlFromMd);
     }
 
     this.applyAbbreviations();
@@ -502,7 +502,7 @@ export class DetailContentComponent
     }
   }
 
-  hwrap(rawHtml: string) {
+  wrapHeadings(rawHtml: string) {
     const splitHtml = rawHtml.split('\n');
     let acc = [];
     let last_level = 0;

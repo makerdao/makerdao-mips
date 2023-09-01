@@ -1,11 +1,11 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MipsService } from '../../services/mips.service';
 import { UrlService } from 'src/app/services/url/url.service';
 import { LangService } from 'src/app/services/lang/lang.service';
 import { Language } from 'src/app/data-types/languages';
 import { DarkModeService } from 'src/app/services/dark-mode/dark-mode.service';
-import {DetailContentComponent} from '../../components/detail-content/detail-content.component';
+import { DetailContentComponent } from '../../components/detail-content/detail-content.component';
 const YAML = require('yaml');
 @Component({
   selector: 'app-details-page',
@@ -61,11 +61,26 @@ export class DetailsPageComponent implements OnInit {
 
     this.activedRoute.queryParamMap.subscribe((queryParam) => {
       if (queryParam.has('mdUrl') && !queryParam.has('fromChild')) {
-        const url = queryParam.get('mdUrl');
+        const rawUrl = queryParam.get('mdUrl');
+        let url = '';
+
+        try {
+          url = new URL(rawUrl).href;
+        } catch {
+          console.log('ERROR: Could not parse a valid URL');
+        }
 
         const shouldUpdateUrl = this.urlService.getMdFromGithubUrl(url);
+        const isUrlFromValidOrganization =
+          url.startsWith('https://github.com/makerdao/mips/blob/master') ||
+          url.startsWith(
+            'https://raw.githubusercontent.com/makerdao/mips/master'
+          );
+
         if (shouldUpdateUrl) {
           this.router.navigateByUrl(this.urlService.transformLinkForMd(url));
+        } else if (!isUrlFromValidOrganization) {
+          this.router.navigate(['page-not-found']);
         } else this.mdUrl = url;
         this.moveToElement();
       }
@@ -78,7 +93,7 @@ export class DetailsPageComponent implements OnInit {
       this.sections = null;
       this.sections = event;
 
-      if (this.detail){
+      if (this.detail) {
         this.detail.sections = this.sections;
         this.detail.doReloadSourceData();
       }
@@ -170,9 +185,9 @@ export class DetailsPageComponent implements OnInit {
           (this.sections as []).splice(indexReferencesSection, 1);
         }
 
-        let indexReferencesHeading: number = (sectionsRaw as []).findIndex(
-          (i: any) => (i as string).includes('References')
-        );
+        let indexReferencesHeading: number = (sectionsRaw as [
+
+        ]).findIndex((i: any) => (i as string).includes('References'));
 
         if (indexReferencesHeading !== -1) {
           (sectionsRaw as []).splice(indexReferencesHeading, 2);

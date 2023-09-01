@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MipsRoutingModule } from './mips-routing.module';
 import { ListComponent } from './components/list/list.component';
 import { MatTableModule } from '@angular/material/table';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { StatusComponent } from './components/status/status.component';
 import { SocialComponent } from './components/social/social.component';
@@ -28,11 +28,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { FilterListComponent } from './components/filter-list/filter-list.component';
 import { FilterListItemComponent } from './components/filter-list-item/filter-list-item.component';
 import { FilterListHostDirective } from './directives/filter-list-host.directive';
-import { SecurityContext } from '@angular/core';
 import { MdCheckboxComponent } from './components/md-checkbox/md-checkbox.component';
 import { MdCheckboxMobileComponent } from './components/md-checkbox-mobile/md-checkbox-mobile.component';
 import { SubproposalsComponent } from './components/subproposals/subproposals.component';
-import {OverlayModule} from '@angular/cdk/overlay';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { SideContentComponent } from './components/side-content/side-content.component';
 import { ReferencesComponent } from './components/references/references.component';
 import { OptionAutocompleteComponent } from './components/option-autocomplete/option-autocomplete.component';
@@ -42,7 +41,7 @@ import { AutocompleteDirective } from './directives/autocomplete.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from './pipes/filter.pipe';
 import { FeedbackDialogComponent } from './components/feedback/feedback-dialog/feedback-dialog.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ContenteditableValueAccessorModule } from '@tinkoff/angular-contenteditable-accessor';
 import { FormattingMdDirective } from './directives/formatting-md.directive';
 import { ListSubsetComponent } from './components/list/list-subset/list-subset.component';
@@ -66,7 +65,7 @@ import { LanguageDocumentComponent } from './components/language-document/langua
 import { ListMultipleQueriesComponent } from './components/list-multiple-queries/list-multiple-queries.component';
 import { NewsComponent } from './components/news/news.component';
 import { MdInformationComponent } from './components/md-information/md-information.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MipSectionsPipe } from './pipes/mip-sections.pipe';
 
 @NgModule({
@@ -118,7 +117,7 @@ import { MipSectionsPipe } from './pipes/mip-sections.pipe';
     ListMultipleQueriesComponent,
     MdInformationComponent,
     NewsComponent,
-    MipSectionsPipe
+    MipSectionsPipe,
   ],
   imports: [
     CommonModule,
@@ -131,7 +130,7 @@ import { MipSectionsPipe } from './pipes/mip-sections.pipe';
     MatIconModule,
     MatTooltipModule,
     MarkdownModule.forRoot({
-      sanitize: SecurityContext.NONE
+      sanitize: SecurityContext.NONE,
     }),
     OverlayModule,
     MatDialogModule,
@@ -144,13 +143,12 @@ import { MipSectionsPipe } from './pipes/mip-sections.pipe';
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
-
-  ]
+        deps: [HttpClient],
+      },
+    }),
+  ],
 })
-export class MipsModule { }
+export class MipsModule {}
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
