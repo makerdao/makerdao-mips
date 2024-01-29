@@ -9,7 +9,7 @@ services:
     volumes:
       - mongo:/var/lib/mongo
     ports:
-      - localhost:27018:27017
+      - 27018:27017
     environment: 
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
