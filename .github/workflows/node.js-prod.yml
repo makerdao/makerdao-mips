@@ -44,12 +44,11 @@ jobs:
     - uses: actions/checkout@v3
     - name: Copy file via scp
       uses: appleboy/scp-action@master
-      env:
-        HOST: ${{ secrets.SSH_HOST }}
-        USERNAME: ${{ secrets.SSH_USER }}
-        PORT: ${{ secrets.SSH_PORT }}
-        PASSWORD: ${{ secrets.SSH_PASS }}
       with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        port: ${{ secrets.SSH_PORT }}
+        password: ${{ secrets.SSH_PASS }}
         source: "./backend"
         target: "/var/warehouse/makerdao-mips"
 
@@ -61,10 +60,10 @@ jobs:
         MIP_GITHUB_REPOSITORY_OWNER: ${{ secrets.MIP_GITHUB_REPOSITORY_OWNER_PROD }}
         GIT_ACCESS_API_TOKEN: ${{ secrets.GIT_ACCESS_API_TOKEN }}
       with:
-        HOST: ${{ secrets.SSH_HOST }}
-        USERNAME: ${{ secrets.SSH_USER }}
-        PORT: ${{ secrets.SSH_PORT }}
-        PASSWORD: ${{ secrets.SSH_PASS }}
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        port: ${{ secrets.SSH_PORT }}
+        password: ${{ secrets.SSH_PASS }}
         script: | 
           cd /var/warehouse/makerdao-mips/backend
           pm2 stop dist/main.js
