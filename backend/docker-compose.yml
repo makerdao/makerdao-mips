@@ -4,13 +4,37 @@ volumes:
   mongo:
 
 services:
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - FOLDER_REPOSITORY_NAME=${FOLDER_REPOSITORY_NAME}
+      - FOLDER_PATTERN=${FOLDER_PATTERN}
+      - WEBHOOKS_SECRET_TOKEN=${WEBHOOKS_SECRET_TOKEN}
+      - GIT_ACCESS_API_TOKEN=${GIT_ACCESS_API_TOKEN}
+      - GITHUB_REPOSITORY_ID=${GITHUB_REPOSITORY_ID}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_REPOSITORY_OWNER=${GITHUB_REPOSITORY_OWNER}
+      - MIP_GITHUB_REPOSITORY=${MIP_GITHUB_REPOSITORY}
+      - MIP_GITHUB_REPOSITORY_OWNER=${MIP_GITHUB_REPOSITORY_OWNER}
+      - REPO_BRANCH=${REPO_BRANCH}
+      - REPO_PATH=${REPO_PATH}
+      - GITHUB_LINKS=${GITHUB_LINKS}
+      - GITHUB_URL_API_ENDPOINT=${GITHUB_URL_API_ENDPOINT}
+    depends_on:
+      - mongodb
+    restart: always
   mongodb:
     image: mongo:4.4.4-bionic
     volumes:
       - mongo:/var/lib/mongo
     ports:
-      - localhost:27018:27017
+      - 27017:27017
     environment: 
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-password}
     restart: always
