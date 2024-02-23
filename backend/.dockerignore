@@ -1,0 +1,13 @@
+node_modules/
+dist/
+test/
+mongo/
+*.rar
+
+.env
+.env example
+.eslintrc.js
+docker-compose.yml
+Dockerfile
+jest.config.js
+README.md

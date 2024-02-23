@@ -1,59 +1,32 @@
-FROM node:16.16.0-alpine3.16 as appbuild
-
+FROM node:18.8.0-alpine3.16 as appbuild
 WORKDIR /usr/src/backend
-
-ARG NODE_ENV
-ARG MONGODB_URI
-ARG FOLDER_REPOSITORY_NAME
-ARG FOLDER_PATTERN
-ARG WEBHOOKS_SECRET_TOKEN
-ARG GIT_ACCESS_API_TOKEN
-ARG GITHUB_REPOSITORY_ID
-ARG GITHUB_REPOSITORY
-ARG GITHUB_REPOSITORY_OWNER
-ARG MIP_GITHUB_REPOSITORY
-ARG MIP_GITHUB_REPOSITORY_OWNER
-ARG REPO_BRANCH
-ARG REPO_PATH
-ARG GITHUB_LINKS
-ARG GITHUB_URL_API_ENDPOINT
-
-ENV NODE_ENV=${NODE_ENV:-"development"}
-ENV MONGODB_URI=${MONGODB_URI}
-ENV FOLDER_REPOSITORY_NAME=${FOLDER_REPOSITORY_NAME}
-ENV FOLDER_PATTERN=${FOLDER_PATTERN}
-ENV WEBHOOKS_SECRET_TOKEN=${WEBHOOKS_SECRET_TOKEN}
-ENV GIT_ACCESS_API_TOKEN=${GIT_ACCESS_API_TOKEN}
-ENV GITHUB_REPOSITORY_ID=${GITHUB_REPOSITORY_ID}
-ENV GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
-ENV GITHUB_REPOSITORY_OWNER=${GITHUB_REPOSITORY_OWNER}
-ENV MIP_GITHUB_REPOSITORY=${MIP_GITHUB_REPOSITORY}
-ENV MIP_GITHUB_REPOSITORY_OWNER=${MIP_GITHUB_REPOSITORY_OWNER}
-ENV REPO_BRANCH=${REPO_BRANCH}
-ENV REPO_PATH=${REPO_PATH}
-ENV GITHUB_LINKS=${GITHUB_LINKS}
-ENV GITHUB_URL_API_ENDPOINT=${GITHUB_URL_API_ENDPOINT}
-
 COPY ./package*.json ./
 RUN npm install
-
 COPY . .
 RUN npm run build
 
-FROM node:16.16.0-alpine3.16
+FROM mongo:4.4.8-focal
 
-RUN apk add --no-cache git
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl gnupg software-properties-common git
+
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
 
 WORKDIR /usr/src/backend
-
-COPY --from=appbuild /usr/src/backend/package*.json ./
-RUN npm install --production
+COPY . .
 COPY --from=appbuild /usr/src/backend/dist ./dist
-
-RUN npm run pre-start
-RUN npx nestjs-command drop:db
-RUN npx nestjs-command parse:mips
+COPY --from=appbuild /usr/src/backend/package*.json ./
+RUN npm install
 
 EXPOSE 3000
 
-CMD yarn run start:prod
+CMD mongod --fork --logpath=/tmp/mongodb.log && \
+    npm run pre-start && \
+    npx nestjs-command drop:db && \
+    npx nestjs-command parse:mips && \
+    npm run start:prod
