@@ -8,6 +8,8 @@ RUN npm run build
 FROM mongo:7.0
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG REQUEST_GITHUB_URL_API_ENDPOINT
+ARG GIT_ACCESS_API_TOKEN
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
