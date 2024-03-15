@@ -1,0 +1,104 @@
+replicaCount: 1
+service:
+  enabled: true
+  name: mips-backend
+  port: 3000
+  type: ClusterIP
+  containerPort: 3000
+  tls:
+    enabled: true
+    issuerName: letsencrypt
+
+image:
+  repository: ${ECR_REGISTRY}/mips-backend-staging
+  pullPolicy: Always
+  tag: latest
+
+serviceAccount:
+  create: false
+
+ingress:
+  enabled: true
+  hosts:
+    - mips-api-staging.makerdao.com
+  annotations:
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+
+httpBasicAuth:
+  enabled: false
+  # usersList: "$${USERS_LIST}"
+
+# If enabled will create Traefik Middleware and apply to Ingress
+# to redirect http to https and www to non-www
+httpWwwRedirect:
+  enabled: false
+
+podAnnotations:
+  reloader.stakater.com/auto: "true"
+
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+env:
+  NODE_ENV:
+    type: kv
+    value: development
+  FOLDER_REPOSITORY_NAME:
+    type: kv
+    value: mips_repository
+  REPO_PATH:
+    type: kv
+    value: https://github.com/makerdao/mips.git
+  REPO_BRANCH:
+    type: kv
+    value: master
+  FOLDER_PATTERN:
+    type: kv
+    value: 'MIP*'
+  REQUEST_GITHUB_URL_API_ENDPOINT:
+    type: kv
+    value: https://api.github.com/graphql
+  MIP_GITHUB_REPOSITORY:
+    type: kv
+    value: mips
+  MIP_GITHUB_REPOSITORY_OWNER:
+    type: kv
+    value: makerdao
+  GITHUB_LINKS:
+    type: kv
+    value: https://github.com/makerdao/mips/blob/master
+  MONGODB_URI:
+    type: parameterStore
+    name: mongodb-uri
+    parameter_name: /eks/maker-staging/mips-backend/mongodb-uri
+  WEBHOOKS_SECRET_TOKEN:
+    type: parameterStore
+    name: webhooks-secret-token
+    parameter_name: /eks/maker-staging/mips-backend/webhooks-secret-token
+  GIT_ACCESS_API_TOKEN:
+    type: parameterStore
+    name: git-access-api-token
+    parameter_name: /eks/maker-staging/mips-backend/git-access-api-token
+  GITHUB_REPOSITORY_ID:
+    type: parameterStore
+    name: github-repository-id
+    parameter_name: /eks/maker-staging/mips-backend/github-repository-id
+
+externalSecrets:
+  clusterSecretStoreName: maker-staging
+
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  tcpSocket:
+    port: 3000
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  tcpSocket:
+    port: 3000
