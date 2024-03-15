@@ -65,9 +65,9 @@ jobs:
         LATEST_TAG: latest
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REQUEST_GITHUB_URL_API_ENDPOINT: ${{ secrets.REQUEST_GITHUB_URL_API_ENDPOINT }}
+        GIT_ACCESS_API_TOKEN: ${{ secrets.GIT_ACCESS_API_TOKEN }}
         MIP_GITHUB_REPOSITORY: ${{ secrets.MIP_GITHUB_REPOSITORY_DEV }}
         MIP_GITHUB_REPOSITORY_OWNER: ${{ secrets.MIP_GITHUB_REPOSITORY_OWNER_DEV }}
-        GIT_ACCESS_API_TOKEN: ${{ secrets.GIT_ACCESS_API_TOKEN }}
       run: |
         # Build Docker containers and push them to ECR ${{ env.AWS_ECR_NAME }}
         docker pull $ECR_REGISTRY/$AWS_ECR_NAME:$LATEST_TAG || true
@@ -75,6 +75,8 @@ jobs:
                      -t $ECR_REGISTRY/$AWS_ECR_NAME:$SHA_TAG \
                      -t $ECR_REGISTRY/$AWS_ECR_NAME:$LATEST_TAG \
                      -t $ECR_REGISTRY/$AWS_ECR_NAME:$ENVIRONMENT_TAG \
+                     --build-arg REQUEST_GITHUB_URL_API_ENDPOINT=$REQUEST_GITHUB_URL_API_ENDPOINT \
+                     --build-arg GIT_ACCESS_API_TOKEN=$GIT_ACCESS_API_TOKEN \
                      -f Dockerfile \
                      .
 
