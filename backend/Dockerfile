@@ -5,7 +5,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM mongo:7.0
+FROM mongo:4.4.8-focal
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG REQUEST_GITHUB_URL_API_ENDPOINT
