@@ -1,0 +1,39 @@
+version: "3.3"
+
+volumes: 
+  mongo:
+
+networks:
+  default:
+
+services:
+  backend:
+    build: 
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - FOLDER_REPOSITORY_NAME=${FOLDER_REPOSITORY_NAME}
+      - FOLDER_PATTERN=${FOLDER_PATTERN}
+      - WEBHOOKS_SECRET_TOKEN=${WEBHOOKS_SECRET_TOKEN}
+      - GIT_ACCESS_API_TOKEN=${GIT_ACCESS_API_TOKEN}
+      - GITHUB_REPOSITORY_ID=${GITHUB_REPOSITORY_ID}
+      - MIP_GITHUB_REPOSITORY=${MIP_GITHUB_REPOSITORY}
+      - MIP_GITHUB_REPOSITORY_OWNER=${MIP_GITHUB_REPOSITORY_OWNER}
+      - REPO_BRANCH=${REPO_BRANCH}
+      - REPO_PATH=${REPO_PATH}
+      - GITHUB_LINKS=${GITHUB_LINKS}
+    restart: no
+    volumes:
+      - mongo:/data/db
+
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
