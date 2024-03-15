@@ -59,6 +59,7 @@ jobs:
     - name: Build, tag, and push image to ECR
       id: build-image
       if: ${{ !contains(github.event.head_commit.message , '[skip build]') }}
+      working-directory: backend
       env:
         SHA_TAG: ${{ steps.vars.outputs.sha_short }}
         LATEST_TAG: latest
@@ -70,7 +71,7 @@ jobs:
                      -t $ECR_REGISTRY/$AWS_ECR_NAME:$SHA_TAG \
                      -t $ECR_REGISTRY/$AWS_ECR_NAME:$LATEST_TAG \
                      -t $ECR_REGISTRY/$AWS_ECR_NAME:$ENVIRONMENT_TAG \
-                     -f backend/Dockerfile \
+                     -f Dockerfile \
                      .
 
         docker push $ECR_REGISTRY/$AWS_ECR_NAME --all-tags
