@@ -48,10 +48,6 @@ env:
   NODE_ENV:
     type: kv
     value: development
-  MONGODB_URI:
-    type: parameterStore
-    name: mongodb-uri
-    parameter_name: /eks/maker-staging/mips-backend/mongodb-uri
   WEBHOOKS_SECRET_TOKEN:
     type: parameterStore
     name: webhooks-secret-token
