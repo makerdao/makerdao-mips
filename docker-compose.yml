@@ -1,8 +1,5 @@
 version: "3.3"
 
-volumes: 
-  mongo:
-
 networks:
   default:
 
@@ -26,8 +23,6 @@ services:
       - REPO_PATH=${REPO_PATH}
       - GITHUB_LINKS=${GITHUB_LINKS}
     restart: no
-    volumes:
-      - mongo:/data/db
 
   frontend:
     depends_on:
