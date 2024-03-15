@@ -4,7 +4,12 @@ WORKDIR /usr/src/app
 
 COPY . .
 RUN npm install
-RUN npm run build-prod
+# prod
+# RUN npm run build-prod
+
+# dev
+RUN npm run build
+
 
 FROM nginx:alpine
 
