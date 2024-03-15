@@ -78,7 +78,6 @@ jobs:
                      -t $ECR_REGISTRY/$AWS_ECR_NAME:$ENVIRONMENT_TAG \
                      --build-arg REQUEST_GITHUB_URL_API_ENDPOINT=$REQUEST_GITHUB_URL_API_ENDPOINT \
                      --build-arg GIT_ACCESS_API_TOKEN=$GIT_ACCESS_API_TOKEN \
-                     --build-arg MONGODB_URI=$MONGODB_URI \
                      -f Dockerfile \
                      .
 
