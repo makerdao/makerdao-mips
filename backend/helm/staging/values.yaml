@@ -48,6 +48,12 @@ env:
   NODE_ENV:
     type: kv
     value: development
+  MONGO_INITDB_ROOT_USERNAME:
+    type: kv
+    value: admin
+  MONGO_INITDB_ROOT_PASSWORD:
+    type: kv
+    value: password
   WEBHOOKS_SECRET_TOKEN:
     type: parameterStore
     name: webhooks-secret-token
