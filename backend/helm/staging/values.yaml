@@ -14,6 +14,12 @@ image:
   pullPolicy: Always
   tag: latest
 
+command:
+  - tail
+args:
+  - -f
+  - /dev/null
+
 serviceAccount:
   create: false
 
@@ -48,12 +54,6 @@ env:
   NODE_ENV:
     type: kv
     value: development
-  MONGO_INITDB_ROOT_USERNAME:
-    type: kv
-    value: admin
-  MONGO_INITDB_ROOT_PASSWORD:
-    type: kv
-    value: password
   WEBHOOKS_SECRET_TOKEN:
     type: parameterStore
     name: webhooks-secret-token
@@ -62,13 +62,13 @@ env:
 externalSecrets:
   clusterSecretStoreName: maker-staging
 
-livenessProbe:
-  initialDelaySeconds: 5
-  periodSeconds: 30
-  tcpSocket:
-    port: 3000
-readinessProbe:
-  initialDelaySeconds: 5
-  periodSeconds: 30
-  tcpSocket:
-    port: 3000
+# livenessProbe:
+#   initialDelaySeconds: 5
+#   periodSeconds: 30
+#   tcpSocket:
+#     port: 3000
+# readinessProbe:
+#   initialDelaySeconds: 5
+#   periodSeconds: 30
+#   tcpSocket:
+#     port: 3000
