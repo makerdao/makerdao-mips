@@ -62,13 +62,21 @@ env:
 externalSecrets:
   clusterSecretStoreName: maker-staging
 
-livenessProbe: {}
-  # initialDelaySeconds: 5
-  # periodSeconds: 30
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
   # tcpSocket:
   #   port: 3000
-readinessProbe: {}
-#   initialDelaySeconds: 5
-#   periodSeconds: 30
-#   tcpSocket:
-#     port: 3000
+  command:
+    - sh
+    - -c
+    - ps aux
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  command:
+    - sh
+    - -c
+    - ps aux
+  # tcpSocket:
+  #   port: 3000
