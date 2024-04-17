@@ -10,7 +10,7 @@ FROM mongo:4.4.8-focal
 ARG DEBIAN_FRONTEND=noninteractive
 ARG REQUEST_GITHUB_URL_API_ENDPOINT
 ARG GIT_ACCESS_API_TOKEN
-ENV MONGODB_URI=mongodb://localhost:27017/
+ENV MONGODB_URI=mongodb://127.0.0.1:27017/
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \

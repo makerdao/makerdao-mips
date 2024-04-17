@@ -14,12 +14,6 @@ image:
   pullPolicy: Always
   tag: latest
 
-command:
-  - tail
-args:
-  - -f
-  - /dev/null
-
 serviceAccount:
   create: false
 
@@ -65,20 +59,10 @@ externalSecrets:
 livenessProbe:
   initialDelaySeconds: 5
   periodSeconds: 30
-  # tcpSocket:
-  #   port: 3000
-  exec:
-    command:
-      - sh
-      - -c
-      - ps aux
+  tcpSocket:
+    port: 3000
 readinessProbe:
   initialDelaySeconds: 5
   periodSeconds: 30
-  exec:
-    command:
-      - sh
-      - -c
-      - ps aux
-  # tcpSocket:
-  #   port: 3000
+  tcpSocket:
+    port: 3000
