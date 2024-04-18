@@ -1,52 +1,86 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Build DEV Angular - Frontend
 
 on: 
   push:
-    branches: [ develop ]
+    branches: [ docker ]
     paths:
       - "frontend/**"
-  # pull_request:   
-  #   branches: [ develop ]    
-  #   paths:
-  #     - "frontend/**"
-  workflow_dispatch:
+      - ".github/workflows/angular-dev.yml"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
+    env:
+      REGION: us-east-2
+      CLUSTER_NAME: maker-staging
+      SERVICE_NAME: mips-frontend
+      AWS_ECR_NAME: mips-frontend-staging
+      ENVIRONMENT_TAG: staging
+      HELM_FILE: helm/staging/frontend.yaml
 
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: npm install and npm run build
-        run: |
-          npm i
-          npm run build --prod
-        working-directory: frontend
-      - name: Copy file via scp
-        uses: appleboy/scp-action@v0.1.3
-        env:
-          HOST: ${{ secrets.SSH_HOST }}
-          USERNAME: ${{ secrets.SSH_USER }}
-          PORT: ${{ secrets.SSH_PORT }}
-          PASSWORD: ${{ secrets.SSH_PASS }}
-        with:
-          source: "./frontend/dist"
-          target: "/var/warehouse/makerdao-mips-develop"
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.REGION }}
+
+    - name: Login to AWS ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Extract commit hash
+      id: vars
+      if: ${{ !contains(github.event.head_commit.message , '[skip build]') }}
+      shell: bash
+      run: |
+        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+    - name: Build, tag, and push image to ECR
+      id: build-image
+      if: ${{ !contains(github.event.head_commit.message , '[skip build]') }}
+      working-directory: frontend
+      env:
+        SHA_TAG: ${{ steps.vars.outputs.sha_short }}
+        LATEST_TAG: latest
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        # Build Docker containers and push them to ECR ${{ env.AWS_ECR_NAME }}
+        docker pull $ECR_REGISTRY/$AWS_ECR_NAME:$LATEST_TAG || true
+        docker build -t $AWS_ECR_NAME \
+                     -t $ECR_REGISTRY/$AWS_ECR_NAME:$SHA_TAG \
+                     -t $ECR_REGISTRY/$AWS_ECR_NAME:$LATEST_TAG \
+                     -t $ECR_REGISTRY/$AWS_ECR_NAME:$ENVIRONMENT_TAG \
+                     -f Dockerfile \
+                     .
+
+        docker push $ECR_REGISTRY/$AWS_ECR_NAME --all-tags
+
+    - name: Replace variables in the Helm values file
+      id: replace-vars
+      if: ${{ !contains(github.event.head_commit.message , '[skip deploy]') }}
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        # USERS_LIST: ${{ secrets.STAGING_USERS_LIST }}
+      run: |
+        sed -i 's/${ECR_REGISTRY}/'$ECR_REGISTRY/ $HELM_FILE
+        sed -i 's/${USERS_LIST}/'$USERS_LIST/ $HELM_FILE
+
+    - name: Deploying Service to Kubernetes with Helm
+      id: deploy
+      if: ${{ !contains(github.event.head_commit.message , '[skip deploy]') }}
+      uses: bitovi/github-actions-deploy-eks-helm@v1.2.8
+      with:
+        values: image.repository=${{ steps.login-ecr.outputs.registry }}/${{ env.AWS_ECR_NAME }},image.tag=${{ steps.vars.outputs.sha_short }}
+        cluster-name: ${{ env.CLUSTER_NAME }}
+        config-files: ${{ env.HELM_FILE }}
+        chart-path: techops-services/common
+        namespace: ${{ env.SERVICE_NAME }}
+        timeout: 5m0s
+        name: ${{ env.SERVICE_NAME }}
+        chart-repository: https://techops-services.github.io/helm-charts
+        version: 0.0.31
+        atomic: true
