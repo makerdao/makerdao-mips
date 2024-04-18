@@ -78,7 +78,7 @@ jobs:
         cluster-name: ${{ env.CLUSTER_NAME }}
         config-files: ${{ env.HELM_FILE }}
         chart-path: techops-services/common
-        namespace: ${{ env.SERVICE_NAME }}
+        namespace: mips
         timeout: 5m0s
         name: ${{ env.SERVICE_NAME }}
         chart-repository: https://techops-services.github.io/helm-charts
