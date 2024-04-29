@@ -84,10 +84,8 @@ jobs:
       if: ${{ !contains(github.event.head_commit.message , '[skip deploy]') }}
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        # USERS_LIST: ${{ secrets.STAGING_USERS_LIST }}
       run: |
         sed -i 's/${ECR_REGISTRY}/'$ECR_REGISTRY/ $HELM_FILE
-        sed -i 's/${USERS_LIST}/'$USERS_LIST/ $HELM_FILE
 
     - name: Deploying Service to Kubernetes with Helm
       id: deploy

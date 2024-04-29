@@ -5,10 +5,9 @@ networks:
 
 services:
   backend:
-    # build: 
-    #   context: backend
-    #   dockerfile: Dockerfile
-    image: 068992353948.dkr.ecr.us-east-2.amazonaws.com/mips-backend-staging
+    build: 
+      context: backend
+      dockerfile: Dockerfile
     platform: linux/amd64
     ports:
       - 3000:3000
