@@ -2,7 +2,7 @@ name: Build DEV Angular - Frontend
 
 on: 
   push:
-    branches: [ docker ]
+    branches: [ develop ]
     paths:
       - "frontend/**"
       - ".github/workflows/angular-dev.yml"

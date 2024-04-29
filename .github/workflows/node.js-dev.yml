@@ -2,7 +2,7 @@ name: Node.js develop CI - Backend
 
 on:
   push:
-    branches: [ docker ] 
+    branches: [ develop ] 
     paths:
         - "backend/**"
         - ".github/workflows/node.js-dev.yml"
