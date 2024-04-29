@@ -4,9 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3001',
-  //apiUrl: 'http://159.203.86.45:3001',
-  // apiUrl: "https://mips-api.makerdao.com",
+  // apiUrl: 'http://backend:3000',
+  apiUrl: "https://mips-api-staging.makerdao.com",
   repoUrl: 'https://github.com/makerdao/mips/blob/master',
   feedBackFormUrl: 'https://formspree.io/f/xyybvgej',
   githubURL: 'https://github.com/',
