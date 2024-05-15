@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGION: eu-central-1
-      CLUSTER_NAME: maker-prod
+      CLUSTER_NAME: maker-prod-eu
       SERVICE_NAME: mips-backend
       AWS_ECR_NAME: mips-backend-prod
       ENVIRONMENT_TAG: prod
