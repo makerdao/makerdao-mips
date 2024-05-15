@@ -20,7 +20,7 @@ serviceAccount:
 ingress:
   enabled: true
   hosts:
-    - mips-api-prod.makerdao.com
+    - mips-api.makerdao.com
   annotations:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 
