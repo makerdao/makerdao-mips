@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // apiUrl: 'http://backend:3000',
-  apiUrl: "https://mips-api.makerdao.com",
+  apiUrl: "https://mips-api-prod.makerdao.com",
   repoUrl: 'https://github.com/makerdao/mips/blob/master',
   feedBackFormUrl: 'https://formspree.io/f/xzbyjjnb',
   githubURL: 'https://github.com/',
