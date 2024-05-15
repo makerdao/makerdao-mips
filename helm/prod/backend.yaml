@@ -53,7 +53,7 @@ env:
     parameter_name: /eks/maker-prod-eu/mips-backend/webhooks-secret-token
 
 externalSecrets:
-  clusterSecretStoreName: maker-prod
+  clusterSecretStoreName: maker-prod-eu
 
 livenessProbe:
   initialDelaySeconds: 5
