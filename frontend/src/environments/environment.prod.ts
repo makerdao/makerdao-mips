@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://mips-api-prod.makerdao.com',
+  apiUrl: 'https://mips-api.makerdao.com',
   repoUrl: 'https://github.com/makerdao/mips/blob/master',
   feedBackFormUrl: 'https://formspree.io/f/xvodvpze',
   githubURL: 'https://github.com/',
