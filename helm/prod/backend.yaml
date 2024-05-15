@@ -50,7 +50,7 @@ env:
   WEBHOOKS_SECRET_TOKEN:
     type: parameterStore
     name: webhooks-secret-token
-    parameter_name: /eks/maker-prod/mips-backend/webhooks-secret-token
+    parameter_name: /eks/maker-prod-eu/mips-backend/webhooks-secret-token
 
 externalSecrets:
   clusterSecretStoreName: maker-prod
