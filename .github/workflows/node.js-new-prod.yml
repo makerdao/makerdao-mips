@@ -6,6 +6,7 @@ on:
     paths:
       - "backend/**"
       - ".github/workflows/node.js-new-prod.yml"
+      - "helm/prod/**"
 
 jobs:
   build-deploy:

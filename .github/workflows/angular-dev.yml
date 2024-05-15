@@ -6,6 +6,7 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/angular-dev.yml"
+      - "helm/staging/**"
 
 jobs:
   build:
