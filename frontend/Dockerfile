@@ -6,10 +6,8 @@ COPY . .
 
 RUN npm install
 
-# prod
-RUN npm run build-prod
-# dev
-# RUN npm run build
+ARG ENV=dev
+RUN if [ "$ENV" = "prod" ]; then npm run build-prod; else npm run build; fi
 
 FROM nginx:alpine
 
