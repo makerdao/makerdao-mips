@@ -2,11 +2,11 @@ name: Node.js Prod CI - Backend
 
 on:
   push:
-    branches: [ develop ] 
+    branches: [ main ] 
     paths:
       - "backend/**"
       - ".github/workflows/node.js-prod.yml"
-      - "helm/prod/**"
+      - "helm/prod/backend*"
 
 jobs:
   build-deploy:

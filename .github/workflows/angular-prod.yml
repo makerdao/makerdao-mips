@@ -2,11 +2,11 @@ name: Build Prod Angular - Frontend
 
 on: 
   push:
-    branches: [ develop ]
+    branches: [ main ]
     paths:
       - "frontend/**"
       - ".github/workflows/angular-prod.yml"
-      - "helm/prod/**"
+      - "helm/prod/frontend*"
 
 jobs:
   build:

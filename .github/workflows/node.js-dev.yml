@@ -6,7 +6,7 @@ on:
     paths:
       - "backend/**"
       - ".github/workflows/node.js-dev.yml"
-      - "helm/staging/**"
+      - "helm/staging/backend*"
 
 jobs:
   build-deploy:
