@@ -10,9 +10,7 @@ service:
     issuerName: letsencrypt
 
 image:
-  repository: ${ECR_REGISTRY}/mips-backend-prod
   pullPolicy: Always
-  tag: latest
 
 serviceAccount:
   create: false
@@ -54,7 +52,7 @@ env:
   GIT_ACCESS_API_TOKEN:
     type: parameterStore
     name: webhooks-secret-token
-    parameter_name: /eks/maker-staging/mips-backend/git-access-api-token
+    parameter_name: /eks/maker-prod-eu/mips-backend/git-access-api-token
 
 externalSecrets:
   clusterSecretStoreName: maker-prod-eu

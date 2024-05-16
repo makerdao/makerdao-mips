@@ -10,9 +10,7 @@ service:
     issuerName: letsencrypt
 
 image:
-  repository: ${ECR_REGISTRY}/mips-frontend-prod
   pullPolicy: Always
-  tag: latest
 
 serviceAccount:
   create: false

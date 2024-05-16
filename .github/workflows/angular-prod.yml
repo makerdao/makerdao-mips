@@ -2,7 +2,7 @@ name: Build Prod Angular - Frontend
 
 on: 
   push:
-    branches: [ main ]
+    branches: [ develop ]
     paths:
       - "frontend/**"
       - ".github/workflows/angular-prod.yml"
@@ -20,7 +20,7 @@ jobs:
       HELM_FILE: helm/prod/frontend.yaml
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -60,15 +60,6 @@ jobs:
                      .
 
         docker push $ECR_REGISTRY/$AWS_ECR_NAME --all-tags
-
-    - name: Replace variables in the Helm values file
-      id: replace-vars
-      if: ${{ !contains(github.event.head_commit.message , '[skip deploy]') }}
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: |
-        sed -i 's/${ECR_REGISTRY}/'$ECR_REGISTRY/ $HELM_FILE
-        sed -i 's/${USERS_LIST}/'$USERS_LIST/ $HELM_FILE
 
     - name: Deploying Service to Kubernetes with Helm
       id: deploy

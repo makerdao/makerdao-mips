@@ -2,7 +2,7 @@ name: Node.js Prod CI - Backend
 
 on:
   push:
-    branches: [ main ] 
+    branches: [ develop ] 
     paths:
       - "backend/**"
       - ".github/workflows/node.js-prod.yml"
@@ -21,7 +21,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Running the Test Suit
       env:
@@ -79,14 +79,6 @@ jobs:
                      .
 
         docker push $ECR_REGISTRY/$AWS_ECR_NAME --all-tags
-
-    - name: Replace variables in the Helm values file
-      id: replace-vars
-      if: ${{ !contains(github.event.head_commit.message , '[skip deploy]') }}
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: |
-        sed -i 's/${ECR_REGISTRY}/'$ECR_REGISTRY/ $HELM_FILE
 
     - name: Deploying Service to Kubernetes with Helm
       id: deploy
