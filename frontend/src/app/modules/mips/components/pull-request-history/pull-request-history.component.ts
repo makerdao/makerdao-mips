@@ -37,4 +37,8 @@ export class PullRequestHistoryComponent implements OnInit {
     window.location.href = this.pullrequest.url;
   }
 
+  getFilteredItems(): string {
+    return this.pullrequest.items.filter(item => item.author != null).slice(0, 3);
+  }
+
 }

@@ -1,0 +1,62 @@
+replicaCount: 1
+service:
+  enabled: true
+  name: mips-frontend
+  port: 8000
+  type: ClusterIP
+  containerPort: 80
+  tls:
+    enabled: true
+    issuerName: letsencrypt
+
+image:
+  pullPolicy: Always
+
+serviceAccount:
+  create: false
+
+ingress:
+  enabled: true
+  hosts:
+    - mips-staging.makerdao.com
+  annotations:
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+
+httpBasicAuth:
+  enabled: false
+  # usersList: "$${USERS_LIST}"
+
+# If enabled will create Traefik Middleware and apply to Ingress
+# to redirect http to https and www to non-www
+httpWwwRedirect:
+  enabled: false
+
+podAnnotations:
+  reloader.stakater.com/auto: "true"
+
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+env:
+  NODE_ENV:
+    type: kv
+    value: development
+
+externalSecrets:
+  clusterSecretStoreName: maker-staging
+
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  tcpSocket:
+    port: 80
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  tcpSocket:
+    port: 80

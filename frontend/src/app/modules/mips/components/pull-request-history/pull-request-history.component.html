@@ -7,7 +7,7 @@
     <span class="label">{{pullrequest.close}} {{'Closed'| translate}}</span>
   </div>
   <hr>
-  <div *ngFor="let item of pullrequest.items.slice(0, 3)">
+  <div *ngFor="let item of getFilteredItems()">
     <span class="row">
       <div class="info">{{item.title}} </div>
       <a href="{{item.url}}" target="_blank"><img class="open" src="../../../../../assets/images/open.svg" /></a>
