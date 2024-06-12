@@ -8,6 +8,10 @@ on:
       - ".github/workflows/node.js-prod.yml"
       - "helm/prod/backend*"
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
