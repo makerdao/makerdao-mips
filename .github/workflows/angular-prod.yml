@@ -30,7 +30,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ secrets.GA_OIDC_EKS_PROD }}
-        role-session-name: Mips
+        role-session-name: AngularProdMips
         aws-region: ${{ env.REGION }}
 
     - name: Login to AWS ECR
