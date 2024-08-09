@@ -24,7 +24,6 @@
 
 ## Description
 
-test
 
 ## Installation
 
