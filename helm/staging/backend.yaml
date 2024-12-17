@@ -36,11 +36,11 @@ podAnnotations:
 
 resources:
   limits:
-    cpu: 1
-    memory: 1Gi
+    cpu: 0
+    memory: 2Gi
   requests:
-    cpu: 250m
-    memory: 256Mi
+    cpu: 35m
+    memory: 500Mi
 
 env:
   NODE_ENV:
