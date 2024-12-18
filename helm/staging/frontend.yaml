@@ -36,7 +36,6 @@ podAnnotations:
 
 resources:
   limits:
-    cpu: "0"
     memory: 2Gi
   requests:
     cpu: 20m
