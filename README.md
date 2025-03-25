@@ -7,14 +7,14 @@
   * [Requirements](#requirements)
 * [Diagrams](#diagrams)
   * [High Level Diagram](#high-level-diagram)
-* [Command to parse MakerDAO mips repository manually](#command-to-parse-makerdao)
-* [Environment vars .env file](#environment-vars)
-* [Creating a personal access token (GIT_ACCESS_API_TOKEN)](#creating-personal-access-token)
+* [Command to parse MakerDAO mips repository manually](#command-to-parse-makerdao-mips-repository-manually)
+* [Environment vars .env file](#environment-vars-env-file)
+* [Creating a personal access token (GIT_ACCESS_API_TOKEN)](#creating-a-personal-access-token-git_access_api_token)
   * [Creating a token](#creating-a-token)
-  * [Further reading](#further-reading-token)
-* [Webhooks documentation (WEBHOOKS_SECRET_TOKEN equal to secret)](#webhooks-documentation)
+  * [Further reading](#further-reading-github)
+* [Webhooks documentation (WEBHOOKS_SECRET_TOKEN equal to secret)](#webhooks-documentation-webhooks_secret_token-equal-to-secret)
   * [Further reading](#further-reading-webhooks)
-* [Api URL. Documented with Swagger](#api-documented-swagger)
+* [Api URL. Documented with Swagger](#api-url-documented-with-swagger)
   * [Findall endpoint](#findall-endpoint)
   * [findall endpoint, search parameter](#findall-endpoint-search-parameter)
   * [findall endpoint, filter parameter](#findall-endpoint-filter-parameter)
@@ -23,9 +23,10 @@
   * [findall endpoint, page parameter](#findall-endpoint-page-parameter)
 * [Menu](#menu)
   * [Creating a menu](#creating-a-menu)
-* [Database](#db)
-  * [Introduction](#db-introduction)
-  * [Data Dictionary](#db-data-dictionary)
+* [Database](#database)
+  * [Data Dictionary](#data-dictionary)
+  * [Collections](#collections)
+  * [Fields](#fields)
 
 ## Introduction
 
@@ -142,7 +143,7 @@ Function that lists all mips.
 #### findall endpoint, search parameter
 
 In the search parameter, specify a string of words that the text operator parses and uses to query the text index. The text operator treats most punctuation in the string as delimiters, except a hyphen-minus (-) that negates term or an escaped double quotes \" that specifies a phrase.
-<https://docs.mongodb.com/manual/reference/operator/query/text/#search-field>
+<https://docs.mongodb.com/manual/reference/operator/query/text/#-search-field>
 
 ##### Examples of search (Ignore parenthesis)
 
