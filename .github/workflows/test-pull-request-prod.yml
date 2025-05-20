@@ -18,6 +18,10 @@ jobs:
       uses: actions/setup-node@v3
       with: 
         node-version: ${{ matrix.node-version }}
+    - name: Install libssl1.1
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libssl1.1
     - name: Running the Test Suit
       env:
         REQUEST_GITHUB_URL_API_ENDPOINT: ${{ secrets.REQUEST_GITHUB_URL_API_ENDPOINT }}
