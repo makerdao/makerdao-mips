@@ -2,8 +2,8 @@
 name: Node.js Test production CI
 
 on:
-  pull_request:
-    branches: [ main  ]
+  push:
+    branches: [ TECH-4502-fix-test-failure ]
 
 jobs:
   test:
