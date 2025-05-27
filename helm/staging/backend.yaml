@@ -35,11 +35,11 @@ podAnnotations:
   reloader.stakater.com/auto: "true"
 
 resources:
-  limits:
-    memory: 2Gi
   requests:
-    cpu: 35m
-    memory: 500Mi
+    memory: 350Mi
+    cpu: 15m
+  limits:
+    memory: 550Mi
 
 env:
   NODE_ENV:
