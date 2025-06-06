@@ -1,3 +1,4 @@
+
 <div
   class="logo"
   id="logo"
@@ -11,14 +12,10 @@
 >
   <div>
     <a (click)="clearFilterAndGoHome()" style="cursor: pointer;">
-      
-        <img *ngIf="!darkModeService.getDarkMode()" class="no-mobile" src="../../../assets/images/logo_desktop.svg" />
-        <img *ngIf="!darkModeService.getDarkMode()" class="mobile" src="../../../assets/images/logo_mobile.svg" />
-      
-      
-        <img *ngIf="darkModeService.getDarkMode()" class="no-mobile" src="../../../assets/images/logo_dark_desktop.svg" />
-        <img *ngIf="darkModeService.getDarkMode()" class="mobile" src="../../../assets/images/logo_dark_mobile.svg" />
-      
+      <img *ngIf="!darkModeService.getDarkMode()" class="no-mobile" src="../../../assets/images/logo_desktop.svg" />
+      <img *ngIf="!darkModeService.getDarkMode()" class="mobile" src="../../../assets/images/logo_mobile.svg" />
+      <img *ngIf="darkModeService.getDarkMode()" class="no-mobile" src="../../../assets/images/logo_dark_desktop.svg" />
+      <img *ngIf="darkModeService.getDarkMode()" class="mobile" src="../../../assets/images/logo_dark_mobile.svg" />
     </a>
   </div>
   <div class="menu-container">
@@ -83,4 +80,14 @@
       </svg>
     </button>
   </div>
+</div>
+
+<!-- Banner -->
+<div class="banner"
+  [ngClass]="{ 'banner-dark': darkModeService.getDarkMode() }"
+>
+  <p>
+    MakerDAO is now Sky — Explore the
+    <a href="https://sky-atlas.powerhouse.io" target="_blank">Sky Atlas</a> to discover the future of our ecosystem governance.
+  </p>
 </div>
