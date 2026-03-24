@@ -1,4 +1,4 @@
-name: Node.js Prod CI - Backend
+name: Node.js Prod US CI - Backend
 
 on:
   push:
