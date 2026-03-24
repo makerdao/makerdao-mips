@@ -5,7 +5,7 @@ on:
     branches: [ tech-6256-app-migration ]
     paths:
       - "frontend/**"
-      - ".github/workflows/angular-prod.yml"
+      - ".github/workflows/angular-prod-us.yml"
       - "helm/prod/frontend*"
 
 permissions:

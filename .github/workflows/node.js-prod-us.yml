@@ -5,7 +5,7 @@ on:
     branches: [ tech-6256-app-migration ] 
     paths:
       - "backend/**"
-      - ".github/workflows/node.js-prod.yml"
+      - ".github/workflows/node.js-prod-us.yml"
       - "helm/prod/backend*"
 
 permissions:
