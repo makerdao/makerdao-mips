@@ -46,7 +46,7 @@ env:
     value: production
 
 externalSecrets:
-  clusterSecretStoreName: maker-prod-eu
+  clusterSecretStoreName: maker-prod
 
 livenessProbe:
   initialDelaySeconds: 5
